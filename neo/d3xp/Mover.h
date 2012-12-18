@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -46,7 +46,7 @@ class idMover : public idEntity {
 public:
 	CLASS_PROTOTYPE( idMover );
 
-							idMover( void );
+	idMover( void );
 
 	void					Spawn( void );
 
@@ -118,7 +118,7 @@ protected:
 	void					Event_ClosePortal( void );
 	void					Event_PartBlocked( idEntity *blockingEntity );
 
-	void					MoveToPos( const idVec3 &pos);
+	void					MoveToPos( const idVec3 &pos );
 	void					UpdateMoveSound( moveStage_t stage );
 	void					UpdateRotationSound( moveStage_t stage );
 	void					SetGuiStates( const char *state );
@@ -157,7 +157,7 @@ private:
 	void					VectorForDir( float dir, idVec3 &vec );
 	idCurve_Spline<idVec3> *GetSpline( idEntity *splineEntity ) const;
 
-	void					Event_SetCallback( void );	
+	void					Event_SetCallback( void );
 	void					Event_TeamBlocked( idEntity *blockedPart, idEntity *blockingEntity );
 	void					Event_StopMoving( void );
 	void					Event_StopRotating( void );
@@ -199,7 +199,7 @@ class idSplinePath : public idEntity {
 public:
 	CLASS_PROTOTYPE( idSplinePath );
 
-							idSplinePath();
+	idSplinePath();
 
 	void					Spawn( void );
 };
@@ -215,7 +215,7 @@ class idElevator : public idMover {
 public:
 	CLASS_PROTOTYPE( idElevator );
 
-							idElevator( void );
+	idElevator( void );
 
 	void					Spawn();
 
@@ -224,7 +224,7 @@ public:
 
 	virtual bool			HandleSingleGuiCommand( idEntity *entityGui, idLexer *src );
 	void					Event_GotoFloor( int floor );
-	floorInfo_s *			GetFloorInfo( int floor );
+	floorInfo_s 			*GetFloorInfo( int floor );
 
 protected:
 	virtual void			DoneMoving( void );
@@ -250,7 +250,7 @@ private:
 	int						returnFloor;
 	int						lastTouchTime;
 
-	class idDoor *			GetDoor( const char *name );
+	class idDoor 			*GetDoor( const char *name );
 	void					Think( void );
 	void					OpenInnerDoor( void );
 	void					OpenFloorDoor( int floor );
@@ -288,8 +288,8 @@ class idMover_Binary : public idEntity {
 public:
 	CLASS_PROTOTYPE( idMover_Binary );
 
-							idMover_Binary();
-							~idMover_Binary();
+	idMover_Binary();
+	~idMover_Binary();
 
 	void					Spawn( void );
 
@@ -307,12 +307,16 @@ public:
 	void					Use_BinaryMover( idEntity *activator );
 	void					SetGuiStates( const char *state );
 	void					UpdateBuddies( int val );
-	idMover_Binary *		GetActivateChain( void ) const { return activateChain; }
-	idMover_Binary *		GetMoveMaster( void ) const { return moveMaster; }
+	idMover_Binary 		*GetActivateChain( void ) const {
+		return activateChain;
+	}
+	idMover_Binary 		*GetMoveMaster( void ) const {
+		return moveMaster;
+	}
 	void					BindTeam( idEntity *bindTo );
 	void					SetBlocked( bool b );
 	bool					IsBlocked( void );
-	idEntity *				GetActivator( void ) const;
+	idEntity 				*GetActivator( void ) const;
 
 	virtual void			WriteToSnapshot( idBitMsgDelta &msg ) const;
 	virtual void			ReadFromSnapshot( const idBitMsgDelta &msg );
@@ -323,8 +327,8 @@ protected:
 	idVec3					pos1;
 	idVec3					pos2;
 	moverState_t			moverState;
-	idMover_Binary *		moveMaster;
-	idMover_Binary *		activateChain;
+	idMover_Binary 		*moveMaster;
+	idMover_Binary 		*activateChain;
 	int						soundPos1;
 	int						sound1to2;
 	int						sound2to1;
@@ -355,7 +359,9 @@ protected:
 
 	void					UpdateMoverSound( moverState_t state );
 	void					SetMoverState( moverState_t newstate, int time );
-	moverState_t			GetMoverState( void ) const { return moverState; }
+	moverState_t			GetMoverState( void ) const {
+		return moverState;
+	}
 	void					FindGuiTargets( void );
 	void					SetGuiState( const char *key, const char *val ) const;
 
@@ -378,8 +384,8 @@ class idDoor : public idMover_Binary {
 public:
 	CLASS_PROTOTYPE( idDoor );
 
-							idDoor( void );
-							~idDoor( void );
+	idDoor( void );
+	~idDoor( void );
 
 	void					Spawn( void );
 
@@ -410,8 +416,8 @@ private:
 	bool					noTouch;
 	bool					aas_area_closed;
 	idStr					buddyStr;
-	idClipModel *			trigger;
-	idClipModel *			sndTrigger;
+	idClipModel 			*trigger;
+	idClipModel 			*sndTrigger;
 	int						nextSndTriggerTime;
 	idVec3					localTriggerOrigin;
 	idMat3					localTriggerAxis;
@@ -419,7 +425,7 @@ private:
 	int						removeItem;
 	idStr					syncLock;
 	int						normalAxisIndex;		// door faces X or Y for spectator teleports
-	idDoor *				companionDoor;
+	idDoor 				*companionDoor;
 
 	void					SetAASAreaState( bool closed );
 
@@ -448,8 +454,8 @@ class idPlat : public idMover_Binary {
 public:
 	CLASS_PROTOTYPE( idPlat );
 
-							idPlat( void );
-							~idPlat( void );
+	idPlat( void );
+	~idPlat( void );
 
 	void					Spawn( void );
 
@@ -461,7 +467,7 @@ public:
 	virtual void			PostBind( void );
 
 private:
-	idClipModel *			trigger;
+	idClipModel 			*trigger;
 	idVec3					localTriggerOrigin;
 	idMat3					localTriggerAxis;
 
@@ -486,10 +492,10 @@ class idMover_Periodic : public idEntity {
 public:
 	CLASS_PROTOTYPE( idMover_Periodic );
 
-							idMover_Periodic( void );
+	idMover_Periodic( void );
 
 	void					Spawn( void );
-	
+
 	void					Save( idSaveGame *savefile ) const;
 	void					Restore( idRestoreGame *savefile );
 
@@ -510,7 +516,7 @@ class idRotater : public idMover_Periodic {
 public:
 	CLASS_PROTOTYPE( idRotater );
 
-							idRotater( void );
+	idRotater( void );
 
 	void					Spawn( void );
 
@@ -527,7 +533,7 @@ class idBobber : public idMover_Periodic {
 public:
 	CLASS_PROTOTYPE( idBobber );
 
-							idBobber( void );
+	idBobber( void );
 
 	void					Spawn( void );
 
@@ -538,7 +544,7 @@ class idPendulum : public idMover_Periodic {
 public:
 	CLASS_PROTOTYPE( idPendulum );
 
-							idPendulum( void );
+	idPendulum( void );
 
 	void					Spawn( void );
 

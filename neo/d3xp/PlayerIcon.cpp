@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -32,11 +32,11 @@ If you have questions concerning this license or the applicable additional terms
 #include "Game_local.h"
 #include "PlayerIcon.h"
 
-static const char * iconKeys[ ICON_NONE ] = {
+static const char *iconKeys[ ICON_NONE ] = {
 	"mtr_icon_lag",
 	"mtr_icon_chat"
 #ifdef CTF
-	,"mtr_icon_redteam",
+	, "mtr_icon_redteam",
 	"mtr_icon_blueteam"
 #endif
 };

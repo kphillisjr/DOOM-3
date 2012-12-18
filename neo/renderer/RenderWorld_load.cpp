@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -83,7 +83,7 @@ void idRenderWorldLocal::FreeWorld() {
 		areaNodes = NULL;
 	}
 
-	// free all the inline idRenderModels 
+	// free all the inline idRenderModels
 	for ( i = 0 ; i < localModels.Num() ; i++ ) {
 		renderModelManager->RemoveModel( localModels[i] );
 		delete localModels[i];
@@ -142,7 +142,7 @@ idRenderModel *idRenderWorldLocal::ParseModel( idLexer *src ) {
 
 		surf.shader = declManager->FindMaterial( token );
 
-		((idMaterial*)surf.shader)->AddReference();
+		( ( idMaterial * )surf.shader )->AddReference();
 
 		tri = R_AllocStaticTriSurf();
 		surf.geometry = tri;
@@ -256,11 +256,11 @@ void idRenderWorldLocal::SetupAreaRefs() {
 	for ( i = 0 ; i < numPortalAreas ; i++ ) {
 		portalAreas[i].areaNum = i;
 		portalAreas[i].lightRefs.areaNext =
-		portalAreas[i].lightRefs.areaPrev =
-			&portalAreas[i].lightRefs;
+			portalAreas[i].lightRefs.areaPrev =
+				&portalAreas[i].lightRefs;
 		portalAreas[i].entityRefs.areaNext =
-		portalAreas[i].entityRefs.areaPrev =
-			&portalAreas[i].entityRefs;
+			portalAreas[i].entityRefs.areaPrev =
+				&portalAreas[i].entityRefs;
 	}
 }
 
@@ -279,20 +279,20 @@ void idRenderWorldLocal::ParseInterAreaPortals( idLexer *src ) {
 		src->Error( "R_ParseInterAreaPortals: bad numPortalAreas" );
 		return;
 	}
-	portalAreas = (portalArea_t *)R_ClearedStaticAlloc( numPortalAreas * sizeof( portalAreas[0] ) );
-	areaScreenRect = (idScreenRect *) R_ClearedStaticAlloc( numPortalAreas * sizeof( idScreenRect ) );
+	portalAreas = ( portalArea_t * )R_ClearedStaticAlloc( numPortalAreas * sizeof( portalAreas[0] ) );
+	areaScreenRect = ( idScreenRect * ) R_ClearedStaticAlloc( numPortalAreas * sizeof( idScreenRect ) );
 
 	// set the doubly linked lists
 	SetupAreaRefs();
 
 	numInterAreaPortals = src->ParseInt();
 	if ( numInterAreaPortals < 0 ) {
-		src->Error(  "R_ParseInterAreaPortals: bad numInterAreaPortals" );
+		src->Error( "R_ParseInterAreaPortals: bad numInterAreaPortals" );
 		return;
 	}
 
-	doublePortals = (doublePortal_t *)R_ClearedStaticAlloc( numInterAreaPortals * 
-		sizeof( doublePortals [0] ) );
+	doublePortals = ( doublePortal_t * )R_ClearedStaticAlloc( numInterAreaPortals *
+					sizeof( doublePortals [0] ) );
 
 	for ( i = 0 ; i < numInterAreaPortals ; i++ ) {
 		int		numPoints, a1, a2;
@@ -306,14 +306,14 @@ void idRenderWorldLocal::ParseInterAreaPortals( idLexer *src ) {
 		w = new idWinding( numPoints );
 		w->SetNumPoints( numPoints );
 		for ( j = 0 ; j < numPoints ; j++ ) {
-			src->Parse1DMatrix( 3, (*w)[j].ToFloatPtr() );
+			src->Parse1DMatrix( 3, ( *w )[j].ToFloatPtr() );
 			// no texture coordinates
-			(*w)[j][3] = 0;
-			(*w)[j][4] = 0;
+			( *w )[j][3] = 0;
+			( *w )[j][4] = 0;
 		}
 
 		// add the portal to a1
-		p = (portal_t *)R_ClearedStaticAlloc( sizeof( *p ) );
+		p = ( portal_t * )R_ClearedStaticAlloc( sizeof( *p ) );
 		p->intoArea = a2;
 		p->doublePortal = &doublePortals[i];
 		p->w = w;
@@ -325,7 +325,7 @@ void idRenderWorldLocal::ParseInterAreaPortals( idLexer *src ) {
 		doublePortals[i].portals[0] = p;
 
 		// reverse it for a2
-		p = (portal_t *)R_ClearedStaticAlloc( sizeof( *p ) );
+		p = ( portal_t * )R_ClearedStaticAlloc( sizeof( *p ) );
 		p->intoArea = a1;
 		p->doublePortal = &doublePortals[i];
 		p->w = w->Reverse();
@@ -354,7 +354,7 @@ void idRenderWorldLocal::ParseNodes( idLexer *src ) {
 	if ( numAreaNodes < 0 ) {
 		src->Error( "R_ParseNodes: bad numAreaNodes" );
 	}
-	areaNodes = (areaNode_t *)R_ClearedStaticAlloc( numAreaNodes * sizeof( areaNodes[0] ) );
+	areaNodes = ( areaNode_t * )R_ClearedStaticAlloc( numAreaNodes * sizeof( areaNodes[0] ) );
 
 	for ( i = 0 ; i < numAreaNodes ; i++ ) {
 		areaNode_t	*node;
@@ -414,15 +414,15 @@ Sets up for a single area world
 */
 void idRenderWorldLocal::ClearWorld() {
 	numPortalAreas = 1;
-	portalAreas = (portalArea_t *)R_ClearedStaticAlloc( sizeof( portalAreas[0] ) );
-	areaScreenRect = (idScreenRect *) R_ClearedStaticAlloc( sizeof( idScreenRect ) );
+	portalAreas = ( portalArea_t * )R_ClearedStaticAlloc( sizeof( portalAreas[0] ) );
+	areaScreenRect = ( idScreenRect * ) R_ClearedStaticAlloc( sizeof( idScreenRect ) );
 
 	SetupAreaRefs();
 
 	// even though we only have a single area, create a node
 	// that has both children pointing at it so we don't need to
 	//
-	areaNodes = (areaNode_t *)R_ClearedStaticAlloc( sizeof( areaNodes[0] ) );
+	areaNodes = ( areaNode_t * )R_ClearedStaticAlloc( sizeof( areaNodes[0] ) );
 	areaNodes[0].plane[3] = 1;
 	areaNodes[0].children[0] = -1;
 	areaNodes[0].children[1] = -1;
@@ -477,10 +477,10 @@ is still useful for displaying a bare model
 =================
 */
 bool idRenderWorldLocal::InitFromMap( const char *name ) {
-	idLexer *		src;
+	idLexer 		*src;
 	idToken			token;
 	idStr			filename;
-	idRenderModel *	lastModel;
+	idRenderModel 	*lastModel;
 
 	// if this is an empty world, initialize manually
 	if ( !name || !name[0] ) {
@@ -636,7 +636,7 @@ void idRenderWorldLocal::AddWorldModelEntities() {
 		// try and reuse a free spot
 		index = entityDefs.FindNull();
 		if ( index == -1 ) {
-			index = entityDefs.Append(def);
+			index = entityDefs.Append( def );
 		} else {
 			entityDefs[index] = def;
 		}
@@ -644,7 +644,7 @@ void idRenderWorldLocal::AddWorldModelEntities() {
 		def->index = index;
 		def->world = this;
 
-		def->parms.hModel = renderModelManager->FindModel( va("_area%i", i ) );
+		def->parms.hModel = renderModelManager->FindModel( va( "_area%i", i ) );
 		if ( def->parms.hModel->IsDefaultModel() || !def->parms.hModel->IsStaticWorldModel() ) {
 			common->Error( "idRenderWorldLocal::InitFromMap: bad area model lookup" );
 		}
@@ -670,9 +670,9 @@ void idRenderWorldLocal::AddWorldModelEntities() {
 		// in case an explicit shader is used on the world, we don't
 		// want it to have a 0 alpha or color
 		def->parms.shaderParms[0] =
-		def->parms.shaderParms[1] =
-		def->parms.shaderParms[2] =
-		def->parms.shaderParms[3] = 1;
+			def->parms.shaderParms[1] =
+				def->parms.shaderParms[2] =
+					def->parms.shaderParms[3] = 1;
 
 		AddEntityRefToArea( def, &portalAreas[i] );
 	}

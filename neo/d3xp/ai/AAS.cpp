@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -75,8 +75,7 @@ bool idAASLocal::Init( const idStr &mapName, unsigned int mapFileCRC ) {
 	if ( file && mapName.Icmp( file->GetName() ) == 0 && mapFileCRC == file->GetCRC() ) {
 		common->Printf( "Keeping %s\n", file->GetName() );
 		RemoveAllObstacles();
-	}
-	else {
+	} else {
 		Shutdown();
 
 		file = AASFileManager->LoadAAS( mapName, mapFileCRC );
@@ -163,7 +162,7 @@ int idAASLocal::BoundsReachableAreaNum( const idBounds &bounds, const int areaFl
 	if ( !file ) {
 		return 0;
 	}
-	
+
 	return file->BoundsReachableAreaNum( bounds, areaFlags, TFL_INVALID );
 }
 
@@ -253,9 +252,9 @@ void idAASLocal::GetEdgeVertexNumbers( int edgeNum, int verts[2] ) const {
 		verts[0] = verts[1] = 0;
 		return;
 	}
-	const int *v = file->GetEdge( abs(edgeNum) ).vertexNum;
-	verts[0] = v[INTSIGNBITSET(edgeNum)];
-	verts[1] = v[INTSIGNBITNOTSET(edgeNum)];
+	const int *v = file->GetEdge( abs( edgeNum ) ).vertexNum;
+	verts[0] = v[INTSIGNBITSET( edgeNum )];
+	verts[1] = v[INTSIGNBITNOTSET( edgeNum )];
 }
 
 /*
@@ -269,7 +268,7 @@ void idAASLocal::GetEdge( int edgeNum, idVec3 &start, idVec3 &end ) const {
 		end.Zero();
 		return;
 	}
-	const int *v = file->GetEdge( abs(edgeNum) ).vertexNum;
-	start = file->GetVertex( v[INTSIGNBITSET(edgeNum)] );
-	end = file->GetVertex( v[INTSIGNBITNOTSET(edgeNum)] );
+	const int *v = file->GetEdge( abs( edgeNum ) ).vertexNum;
+	start = file->GetVertex( v[INTSIGNBITSET( edgeNum )] );
+	end = file->GetVertex( v[INTSIGNBITNOTSET( edgeNum )] );
 }

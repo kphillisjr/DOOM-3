@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -38,14 +38,14 @@ class MaterialTreeView;
 class MaterialModifier {
 
 public:
-	MaterialModifier(MaterialDocManager* manager, const char* materialName);
+	MaterialModifier( MaterialDocManager *manager, const char *materialName );
 	virtual ~MaterialModifier() {};
 
 	virtual void			Undo() = 0;
 	virtual void			Redo() = 0;
 
 protected:
-	MaterialDocManager*		manager;
+	MaterialDocManager		*manager;
 	idStr					materialName;
 };
 
@@ -55,7 +55,7 @@ protected:
 class AttributeMaterialModifier : public MaterialModifier {
 
 public:
-	AttributeMaterialModifier(MaterialDocManager* manager, const char* materialName, int stage, const char* key);
+	AttributeMaterialModifier( MaterialDocManager *manager, const char *materialName, int stage, const char *key );
 	virtual ~AttributeMaterialModifier() {};
 
 	virtual void 			Undo() = 0;
@@ -72,7 +72,7 @@ protected:
 class AttributeMaterialModifierString : public AttributeMaterialModifier {
 
 public:
-	AttributeMaterialModifierString(MaterialDocManager* manager, const char* materialName, int stage, const char* key, const char* value, const char* oldValue);
+	AttributeMaterialModifierString( MaterialDocManager *manager, const char *materialName, int stage, const char *key, const char *value, const char *oldValue );
 	virtual ~AttributeMaterialModifierString() {};
 
 	virtual void 			Undo();
@@ -90,7 +90,7 @@ protected:
 class AttributeMaterialModifierBool : public AttributeMaterialModifier {
 
 public:
-	AttributeMaterialModifierBool(MaterialDocManager* manager, const char* materialName, int stage, const char* key, bool value, bool oldValue);
+	AttributeMaterialModifierBool( MaterialDocManager *manager, const char *materialName, int stage, const char *key, bool value, bool oldValue );
 	virtual ~AttributeMaterialModifierBool() {};
 
 	virtual void 			Undo();
@@ -108,7 +108,7 @@ protected:
 class StageMoveModifier : public MaterialModifier {
 
 public:
-	StageMoveModifier(MaterialDocManager* manager, const char* materialName, int from, int to);
+	StageMoveModifier( MaterialDocManager *manager, const char *materialName, int from, int to );
 	virtual ~StageMoveModifier() {};
 
 	virtual void 			Undo();
@@ -124,7 +124,7 @@ protected:
 */
 class StageDeleteModifier : public MaterialModifier {
 public:
-	StageDeleteModifier(MaterialDocManager* manager, const char* materialName, int stageNum, idDict stageData);
+	StageDeleteModifier( MaterialDocManager *manager, const char *materialName, int stageNum, idDict stageData );
 	virtual ~StageDeleteModifier() {};
 
 	virtual void 			Undo();
@@ -140,7 +140,7 @@ protected:
 */
 class StageInsertModifier : public MaterialModifier {
 public:
-	StageInsertModifier(MaterialDocManager* manager, const char* materialName, int stageNum, int stageType, const char* stageName);
+	StageInsertModifier( MaterialDocManager *manager, const char *materialName, int stageNum, int stageType, const char *stageName );
 	virtual ~StageInsertModifier() {};
 
 	virtual void			Undo();
@@ -149,7 +149,7 @@ public:
 protected:
 	int						stageNum;
 	int						stageType;
-	idStr					stageName;	
+	idStr					stageName;
 };
 
 /**
@@ -157,7 +157,7 @@ protected:
 */
 class AddMaterialModifier : public MaterialModifier {
 public:
-	AddMaterialModifier(MaterialDocManager* manager, const char* materialName, const char* materialFile);
+	AddMaterialModifier( MaterialDocManager *manager, const char *materialName, const char *materialFile );
 	virtual ~AddMaterialModifier() {};
 
 	virtual void			Undo();
@@ -172,14 +172,14 @@ protected:
 */
 class DeleteMaterialModifier : public MaterialModifier {
 public:
-	DeleteMaterialModifier(MaterialDocManager* manager, const char* materialName);
+	DeleteMaterialModifier( MaterialDocManager *manager, const char *materialName );
 	virtual ~DeleteMaterialModifier() {};
 
 	virtual void			Undo();
 	virtual void			Redo();
 
 protected:
-	
+
 };
 
 /**
@@ -187,7 +187,7 @@ protected:
 */
 class MoveMaterialModifier : public MaterialModifier {
 public:
-	MoveMaterialModifier(MaterialDocManager* manager, const char* materialName, const char* materialFile, const char* copyMaterial);
+	MoveMaterialModifier( MaterialDocManager *manager, const char *materialName, const char *materialFile, const char *copyMaterial );
 	virtual ~MoveMaterialModifier() {};
 
 	virtual void			Undo();
@@ -203,7 +203,7 @@ protected:
 */
 class RenameMaterialModifier : public MaterialModifier {
 public:
-	RenameMaterialModifier(MaterialDocManager* manager, const char* materialName, const char* oldName);
+	RenameMaterialModifier( MaterialDocManager *manager, const char *materialName, const char *oldName );
 	virtual ~RenameMaterialModifier() {};
 
 	virtual void			Undo();
@@ -218,14 +218,14 @@ protected:
 */
 class AddMaterialFolderModifier : public MaterialModifier {
 public:
-	AddMaterialFolderModifier(MaterialDocManager* manager, const char* materialName, MaterialTreeView* view, HTREEITEM item, HTREEITEM parent);
+	AddMaterialFolderModifier( MaterialDocManager *manager, const char *materialName, MaterialTreeView *view, HTREEITEM item, HTREEITEM parent );
 	virtual ~AddMaterialFolderModifier() {};
 
 	virtual void			Undo();
 	virtual void			Redo();
 
 protected:
-	MaterialTreeView*		view;
+	MaterialTreeView		*view;
 	HTREEITEM				item;
 	HTREEITEM				parent;
 };
@@ -235,14 +235,14 @@ protected:
 */
 class RenameMaterialFolderModifier : public MaterialModifier {
 public:
-	RenameMaterialFolderModifier(MaterialDocManager* manager, const char* materialName, MaterialTreeView* view, HTREEITEM item, const char* oldName);
+	RenameMaterialFolderModifier( MaterialDocManager *manager, const char *materialName, MaterialTreeView *view, HTREEITEM item, const char *oldName );
 	virtual ~RenameMaterialFolderModifier() {};
 
 	virtual void			Undo();
 	virtual void			Redo();
 
 protected:
-	MaterialTreeView*		view;
+	MaterialTreeView		*view;
 	HTREEITEM				item;
 	idStr					oldName;
 };
@@ -252,14 +252,14 @@ protected:
 */
 class DeleteMaterialFolderModifier : public MaterialModifier {
 public:
-	DeleteMaterialFolderModifier(MaterialDocManager* manager, const char* materialName, MaterialTreeView* view, HTREEITEM parent, idStrList* affectedMaterials);
+	DeleteMaterialFolderModifier( MaterialDocManager *manager, const char *materialName, MaterialTreeView *view, HTREEITEM parent, idStrList *affectedMaterials );
 	virtual ~DeleteMaterialFolderModifier() {};
 
 	virtual void			Undo();
 	virtual void			Redo();
 
 protected:
-	MaterialTreeView*		view;
+	MaterialTreeView		*view;
 	idStrList				affectedMaterials;
 
 	HTREEITEM				item;

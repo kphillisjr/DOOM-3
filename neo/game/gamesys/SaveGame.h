@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -39,8 +39,8 @@ const int INITIAL_RELEASE_BUILD_NUMBER = 1262;
 
 class idSaveGame {
 public:
-							idSaveGame( idFile *savefile );
-							~idSaveGame();
+	idSaveGame( idFile *savefile );
+	~idSaveGame();
 
 	void					Close( void );
 
@@ -89,7 +89,7 @@ public:
 	void					WriteBuildNumber( const int value );
 
 private:
-	idFile *				file;
+	idFile 				*file;
 
 	idList<const idClass *>	objects;
 
@@ -98,14 +98,14 @@ private:
 
 class idRestoreGame {
 public:
-							idRestoreGame( idFile *savefile );
-							~idRestoreGame();
+	idRestoreGame( idFile *savefile );
+	~idRestoreGame();
 
 	void					CreateObjects( void );
 	void					RestoreObjects( void );
 	void					DeleteObjects( void );
 
-	void					Error( const char *fmt, ... ) id_attribute((format(printf,2,3)));
+	void					Error( const char *fmt, ... ) id_attribute( ( format( printf, 2, 3 ) ) );
 
 	void					Read( void *buffer, int len );
 	void					ReadInt( int &value );
@@ -154,7 +154,7 @@ public:
 private:
 	int						buildNumber;
 
-	idFile *				file;
+	idFile 				*file;
 
 	idList<idClass *>		objects;
 

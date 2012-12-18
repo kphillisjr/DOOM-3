@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -64,7 +64,7 @@ typedef enum {
 
 class function_t {
 public:
-						function_t();
+	function_t();
 
 	size_t				Allocated( void ) const;
 	void				SetName( const char *name );
@@ -117,9 +117,9 @@ private:
 public:
 	idVarDef					*def;						// a def that points to this type
 
-						idTypeDef( const idTypeDef &other );
-						idTypeDef( etype_t etype, idVarDef *edef, const char *ename, int esize, idTypeDef *aux );
-	void				operator=( const idTypeDef& other );
+	idTypeDef( const idTypeDef &other );
+	idTypeDef( etype_t etype, idVarDef *edef, const char *ename, int esize, idTypeDef *aux );
+	void				operator=( const idTypeDef &other );
 	size_t				Allocated( void ) const;
 
 	bool				Inherits( const idTypeDef *basetype ) const;
@@ -135,7 +135,7 @@ public:
 	int					Size( void ) const;
 
 	idTypeDef			*SuperClass( void ) const;
-	
+
 	idTypeDef			*ReturnType( void ) const;
 	void				SetReturnType( idTypeDef *type );
 
@@ -167,12 +167,12 @@ In-game representation of objects in scripts.  Use the idScriptVariable template
 class idScriptObject {
 private:
 	idTypeDef					*type;
-	
+
 public:
 	byte						*data;
 
-								idScriptObject();
-								~idScriptObject();
+	idScriptObject();
+	~idScriptObject();
 
 	void						Save( idSaveGame *savefile ) const;			// archives object for save game file
 	void						Restore( idRestoreGame *savefile );			// unarchives object from save game file
@@ -206,12 +206,12 @@ private:
 	type				*data;
 
 public:
-						idScriptVariable();
+	idScriptVariable();
 	bool				IsLinked( void ) const;
 	void				Unlink( void );
 	void				LinkTo( idScriptObject &obj, const char *name );
 	idScriptVariable	&operator=( const returnType &value );
-						operator returnType() const;
+	operator returnType() const;
 };
 
 template<class type, etype_t etype, class returnType>
@@ -256,7 +256,7 @@ ID_INLINE idScriptVariable<type, etype, returnType>::operator returnType() const
 
 	// make sure we don't crash if we don't have a pointer
 	if ( data ) {
-		return ( const returnType )*data;
+		return ( const returnType ) * data;
 	} else {
 		// reasonably safe value
 		return ( const returnType )0;
@@ -328,7 +328,7 @@ class idVarDef {
 public:
 	int						num;
 	varEval_t				value;
-	idVarDef *				scope; 			// function, namespace, or object the var was defined in
+	idVarDef 				*scope; 			// function, namespace, or object the var was defined in
 	int						numUsers;		// number of users if this is a constant
 
 	typedef enum {
@@ -338,15 +338,21 @@ public:
 	initialized_t			initialized;
 
 public:
-							idVarDef( idTypeDef *typeptr = NULL );
-							~idVarDef();
+	idVarDef( idTypeDef *typeptr = NULL );
+	~idVarDef();
 
-	const char *			Name( void ) const;
-	const char *			GlobalName( void ) const;
+	const char 			*Name( void ) const;
+	const char 			*GlobalName( void ) const;
 
-	void					SetTypeDef( idTypeDef *_type ) { typeDef = _type; }
-	idTypeDef *				TypeDef( void ) const { return typeDef; }
-	etype_t					Type( void ) const { return ( typeDef != NULL ) ? typeDef->Type() : ev_void; }
+	void					SetTypeDef( idTypeDef *_type ) {
+		typeDef = _type;
+	}
+	idTypeDef 				*TypeDef( void ) const {
+		return typeDef;
+	}
+	etype_t					Type( void ) const {
+		return ( typeDef != NULL ) ? typeDef->Type() : ev_void;
+	}
 
 	int						DepthOfScope( const idVarDef *otherScope ) const;
 
@@ -355,14 +361,16 @@ public:
 	void					SetValue( const eval_t &value, bool constant );
 	void					SetString( const char *string, bool constant );
 
-	idVarDef *				Next( void ) const { return next; }		// next var def with same name
+	idVarDef 				*Next( void ) const {
+		return next;    // next var def with same name
+	}
 
 	void					PrintInfo( idFile *file, int instructionPointer ) const;
 
 private:
-	idTypeDef *				typeDef;
-	idVarDefName *			name;		// name of this var
-	idVarDef *				next;		// next var with the same name
+	idTypeDef 				*typeDef;
+	idVarDefName 			*name;		// name of this var
+	idVarDef 				*next;		// next var with the same name
 };
 
 /***********************************************************************
@@ -373,18 +381,27 @@ private:
 
 class idVarDefName {
 public:
-							idVarDefName( void ) { defs = NULL; }
-							idVarDefName( const char *n ) { name = n; defs = NULL; }
+	idVarDefName( void ) {
+		defs = NULL;
+	}
+	idVarDefName( const char *n ) {
+		name = n;
+		defs = NULL;
+	}
 
-	const char *			Name( void ) const { return name; }
-	idVarDef *				GetDefs( void ) const { return defs; }
+	const char 			*Name( void ) const {
+		return name;
+	}
+	idVarDef 				*GetDefs( void ) const {
+		return defs;
+	}
 
 	void					AddDef( idVarDef *def );
 	void					RemoveDef( idVarDef *def );
 
 private:
 	idStr					name;
-	idVarDef *				defs;
+	idVarDef 				*defs;
 };
 
 /***********************************************************************
@@ -453,9 +470,9 @@ private:
 
 	int											numVariables;
 	byte										variables[ MAX_GLOBALS ];
-	idStaticList<byte,MAX_GLOBALS>				variableDefaults;
-	idStaticList<function_t,MAX_FUNCS>			functions;
-	idStaticList<statement_t,MAX_STATEMENTS>	statements;
+	idStaticList<byte, MAX_GLOBALS>				variableDefaults;
+	idStaticList<function_t, MAX_FUNCS>			functions;
+	idStaticList<statement_t, MAX_STATEMENTS>	statements;
 	idList<idTypeDef *>							types;
 	idList<idVarDefName *>						varDefNames;
 	idHashIndex									varDefNameHash;
@@ -475,14 +492,14 @@ public:
 	idVarDef									*returnDef;
 	idVarDef									*returnStringDef;
 
-												idProgram();
-												~idProgram();
+	idProgram();
+	~idProgram();
 
 	// save games
 	void										Save( idSaveGame *savefile ) const;
 	bool										Restore( idRestoreGame *savefile );
 	int											CalculateChecksum( void ) const;		// Used to insure program code has not
-																						//    changed between savegames
+	//    changed between savegames
 
 	void										Startup( const char *defaultScript );
 	void										Restart( void );
@@ -522,7 +539,9 @@ public:
 
 	statement_t									*AllocStatement( void );
 	statement_t									&GetStatement( int index );
-	int											NumStatements( void ) { return statements.Num(); }
+	int											NumStatements( void ) {
+		return statements.Num();
+	}
 
 	int 										GetReturnedInteger( void );
 
@@ -531,8 +550,10 @@ public:
 	void										ReturnVector( idVec3 const &vec );
 	void										ReturnString( const char *string );
 	void										ReturnEntity( idEntity *ent );
-	
-	int											NumFilenames( void ) { return fileList.Num( ); }
+
+	int											NumFilenames( void ) {
+		return fileList.Num( );
+	}
 };
 
 /*

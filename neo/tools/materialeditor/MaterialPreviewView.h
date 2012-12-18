@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -37,11 +37,11 @@ public:
 	idGLDrawableView();
 	~idGLDrawableView();
 
-	virtual void setMedia(const char *name);
-	virtual void draw(int x, int y, int w, int h);
-	virtual void buttonUp(int button){}
-	virtual void buttonDown(int _button, float x, float y);
-	virtual void mouseMove(float x, float y);
+	virtual void setMedia( const char *name );
+	virtual void draw( int x, int y, int w, int h );
+	virtual void buttonUp( int button ) {}
+	virtual void buttonDown( int _button, float x, float y );
+	virtual void mouseMove( float x, float y );
 	virtual void Update() {};
 
 	void UpdateCamera( renderView_t *refdef );
@@ -101,18 +101,17 @@ protected:
 // ==================================================================
 // ==================================================================
 
-class MaterialPreviewView : public CView, public MaterialView
-{
-	DECLARE_DYNCREATE(MaterialPreviewView)
+class MaterialPreviewView : public CView, public MaterialView {
+	DECLARE_DYNCREATE( MaterialPreviewView )
 
 protected:
 	MaterialPreviewView();
 	virtual ~MaterialPreviewView();
 
 public:
-	virtual void OnDraw(CDC* pDC);      // overridden to draw this view
+	virtual void OnDraw( CDC *pDC );    // overridden to draw this view
 
-	void	MV_OnMaterialSelectionChange(MaterialDoc* pMaterial);
+	void	MV_OnMaterialSelectionChange( MaterialDoc *pMaterial );
 
 	void	OnModelChange( int modelId );
 	void	OnCustomModelChange( idStr modelName );
@@ -131,7 +130,7 @@ public:
 
 #ifdef _DEBUG
 	virtual void AssertValid() const;
-	virtual void Dump(CDumpContext& dc) const;
+	virtual void Dump( CDumpContext &dc ) const;
 #endif
 
 protected:
@@ -143,7 +142,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 
 public:
-	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
-	afx_msg void OnSize(UINT nType, int cx, int cy);
+	afx_msg int OnCreate( LPCREATESTRUCT lpCreateStruct );
+	afx_msg void OnSize( UINT nType, int cx, int cy );
 };
 

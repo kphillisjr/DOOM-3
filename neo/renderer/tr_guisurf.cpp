@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -54,7 +54,7 @@ void R_SurfaceToTextureAxis( const srfTriangles_t *tri, idVec3 &origin, idVec3 a
 	float		boundsOrg[2];
 	int			i, j;
 	float		v;
-	
+
 	// find the bounds of the texture
 	bounds[0][0] = bounds[0][1] = 999999;
 	bounds[1][0] = bounds[1][1] = -999999;
@@ -98,13 +98,13 @@ void R_SurfaceToTextureAxis( const srfTriangles_t *tri, idVec3 &origin, idVec3 a
 	}
 	inva = 1.0 / area;
 
-    axis[0][0] = (d0[0] * d1[4] - d0[4] * d1[0]) * inva;
-    axis[0][1] = (d0[1] * d1[4] - d0[4] * d1[1]) * inva;
-    axis[0][2] = (d0[2] * d1[4] - d0[4] * d1[2]) * inva;
-    
-    axis[1][0] = (d0[3] * d1[0] - d0[0] * d1[3]) * inva;
-    axis[1][1] = (d0[3] * d1[1] - d0[1] * d1[3]) * inva;
-    axis[1][2] = (d0[3] * d1[2] - d0[2] * d1[3]) * inva;
+	axis[0][0] = ( d0[0] * d1[4] - d0[4] * d1[0] ) * inva;
+	axis[0][1] = ( d0[1] * d1[4] - d0[4] * d1[1] ) * inva;
+	axis[0][2] = ( d0[2] * d1[4] - d0[4] * d1[2] ) * inva;
+
+	axis[1][0] = ( d0[3] * d1[0] - d0[0] * d1[3] ) * inva;
+	axis[1][1] = ( d0[3] * d1[1] - d0[1] * d1[3] ) * inva;
+	axis[1][2] = ( d0[3] * d1[2] - d0[2] * d1[3] ) * inva;
 
 	idPlane plane;
 	plane.FromPoints( a->xyz, b->xyz, c->xyz );
@@ -166,8 +166,8 @@ void R_RenderGuiSurf( idUserInterface *gui, drawSurf_t *drawSurf ) {
 	guiModelMatrix[11] = 0;
 	guiModelMatrix[15] = 1;
 
-	myGlMultMatrix( guiModelMatrix, drawSurf->space->modelMatrix, 
-			modelMatrix );
+	myGlMultMatrix( guiModelMatrix, drawSurf->space->modelMatrix,
+					modelMatrix );
 
 	tr.guiRecursionLevel++;
 
@@ -197,7 +197,7 @@ Should we also reload the map models?
 void R_ReloadGuis_f( const idCmdArgs &args ) {
 	bool all;
 
-	if ( !idStr::Icmp( args.Argv(1), "all" ) ) {
+	if ( !idStr::Icmp( args.Argv( 1 ), "all" ) ) {
 		all = true;
 		common->Printf( "Reloading all gui files...\n" );
 	} else {

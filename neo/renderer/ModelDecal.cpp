@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -117,14 +117,14 @@ bool idRenderModelDecal::CreateProjectionInfo( decalProjectionInfo_t &info, cons
 	// calculate the world space projection volume bounding planes, positive sides face outside the decal
 	if ( parallel ) {
 		for ( int i = 0; i < winding.GetNumPoints(); i++ ) {
-			idVec3 edge = winding[(i+1)%winding.GetNumPoints()].ToVec3() - winding[i].ToVec3();
+			idVec3 edge = winding[( i + 1 ) % winding.GetNumPoints()].ToVec3() - winding[i].ToVec3();
 			info.boundingPlanes[i].Normal().Cross( windingPlane.Normal(), edge );
 			info.boundingPlanes[i].Normalize();
 			info.boundingPlanes[i].FitThroughPoint( winding[i].ToVec3() );
 		}
 	} else {
 		for ( int i = 0; i < winding.GetNumPoints(); i++ ) {
-			info.boundingPlanes[i].FromPoints( projectionOrigin, winding[i].ToVec3(), winding[(i+1)%winding.GetNumPoints()].ToVec3() );
+			info.boundingPlanes[i].FromPoints( projectionOrigin, winding[i].ToVec3(), winding[( i + 1 ) % winding.GetNumPoints()].ToVec3() );
 		}
 	}
 	info.boundingPlanes[NUM_DECAL_BOUNDING_PLANES - 2] = windingPlane;
@@ -156,16 +156,16 @@ bool idRenderModelDecal::CreateProjectionInfo( decalProjectionInfo_t &info, cons
 	texArea = ( d0[3] * d1[4] ) - ( d0[4] * d1[3] );
 	inva = 1.0f / texArea;
 
-    temp[0] = ( d0[0] * d1[4] - d0[4] * d1[0] ) * inva;
-    temp[1] = ( d0[1] * d1[4] - d0[4] * d1[1] ) * inva;
-    temp[2] = ( d0[2] * d1[4] - d0[4] * d1[2] ) * inva;
+	temp[0] = ( d0[0] * d1[4] - d0[4] * d1[0] ) * inva;
+	temp[1] = ( d0[1] * d1[4] - d0[4] * d1[1] ) * inva;
+	temp[2] = ( d0[2] * d1[4] - d0[4] * d1[2] ) * inva;
 	len = temp.Normalize();
 	info.textureAxis[0].Normal() = temp * ( 1.0f / len );
 	info.textureAxis[0][3] = winding[0].s - ( winding[0].ToVec3() * info.textureAxis[0].Normal() );
 
-    temp[0] = ( d0[3] * d1[0] - d0[0] * d1[3] ) * inva;
-    temp[1] = ( d0[3] * d1[1] - d0[1] * d1[3] ) * inva;
-    temp[2] = ( d0[3] * d1[2] - d0[2] * d1[3] ) * inva;
+	temp[0] = ( d0[3] * d1[0] - d0[0] * d1[3] ) * inva;
+	temp[1] = ( d0[3] * d1[1] - d0[1] * d1[3] ) * inva;
+	temp[2] = ( d0[3] * d1[2] - d0[2] * d1[3] ) * inva;
 	len = temp.Normalize();
 	info.textureAxis[1].Normal() = temp * ( 1.0f / len );
 	info.textureAxis[1][3] = winding[0].t - ( winding[0].ToVec3() * info.textureAxis[1].Normal() );
@@ -213,7 +213,7 @@ void idRenderModelDecal::AddWinding( const idWinding &w, const idMaterial *decal
 
 	if ( ( material == NULL || material == decalMaterial ) &&
 			tri.numVerts + w.GetNumPoints() < MAX_DECAL_VERTS &&
-				tri.numIndexes + ( w.GetNumPoints() - 2 ) * 3 < MAX_DECAL_INDEXES ) {
+			tri.numIndexes + ( w.GetNumPoints() - 2 ) * 3 < MAX_DECAL_INDEXES ) {
 
 		material = decalMaterial;
 
@@ -251,8 +251,8 @@ void idRenderModelDecal::AddWinding( const idWinding &w, const idMaterial *decal
 			tri.indexes[tri.numIndexes + 1] = tri.numVerts + i - 1;
 			tri.indexes[tri.numIndexes + 2] = tri.numVerts + i;
 			indexStartTime[tri.numIndexes] =
-			indexStartTime[tri.numIndexes + 1] =
-			indexStartTime[tri.numIndexes + 2] = startTime;
+				indexStartTime[tri.numIndexes + 1] =
+					indexStartTime[tri.numIndexes + 2] = startTime;
 			tri.numIndexes += 3;
 		}
 		tri.numVerts += w.GetNumPoints();
@@ -316,16 +316,16 @@ void idRenderModelDecal::CreateDecal( const idRenderModel *model, const decalPro
 		}
 
 		// allocate memory for the cull bits
-		byte *cullBits = (byte *)_alloca16( stri->numVerts * sizeof( cullBits[0] ) );
+		byte *cullBits = ( byte * )_alloca16( stri->numVerts * sizeof( cullBits[0] ) );
 
 		// catagorize all points by the planes
 		SIMDProcessor->DecalPointCull( cullBits, localInfo.boundingPlanes, stri->verts, stri->numVerts );
 
 		// find triangles inside the projection volume
 		for ( int triNum = 0, index = 0; index < stri->numIndexes; index += 3, triNum++ ) {
-			int v1 = stri->indexes[index+0];
-			int v2 = stri->indexes[index+1];
-			int v3 = stri->indexes[index+2];
+			int v1 = stri->indexes[index + 0];
+			int v2 = stri->indexes[index + 1];
+			int v3 = stri->indexes[index + 2];
 
 			// skip triangles completely off one side
 			if ( cullBits[v1] & cullBits[v2] & cullBits[v3] ) {
@@ -343,7 +343,7 @@ void idRenderModelDecal::CreateDecal( const idRenderModel *model, const decalPro
 			fw.SetNumPoints( 3 );
 			if ( localInfo.parallel ) {
 				for ( int j = 0; j < 3; j++ ) {
-					fw[j] = stri->verts[stri->indexes[index+j]].xyz;
+					fw[j] = stri->verts[stri->indexes[index + j]].xyz;
 					fw[j].s = localInfo.textureAxis[0].Distance( fw[j].ToVec3() );
 					fw[j].t = localInfo.textureAxis[1].Distance( fw[j].ToVec3() );
 				}
@@ -352,7 +352,7 @@ void idRenderModelDecal::CreateDecal( const idRenderModel *model, const decalPro
 					idVec3 dir;
 					float scale;
 
-					fw[j] = stri->verts[stri->indexes[index+j]].xyz;
+					fw[j] = stri->verts[stri->indexes[index + j]].xyz;
 					dir = fw[j].ToVec3() - localInfo.projectionOrigin;
 					localInfo.boundingPlanes[NUM_DECAL_BOUNDING_PLANES - 1].RayIntersection( fw[j].ToVec3(), dir, scale );
 					dir = fw[j].ToVec3() + scale * dir;
@@ -405,7 +405,7 @@ idRenderModelDecal *idRenderModelDecal::RemoveFadedDecals( idRenderModelDecal *d
 		Free( decals );
 		return nextDecal;
 	}
-	
+
 	decalInfo = decals->material->GetDecalInfo();
 	minTime = time - ( decalInfo.stayTime + decalInfo.fadeTime );
 
@@ -415,8 +415,8 @@ idRenderModelDecal *idRenderModelDecal::RemoveFadedDecals( idRenderModelDecal *d
 			// keep this triangle
 			if ( newNumIndexes != i ) {
 				for ( j = 0; j < 3; j++ ) {
-					decals->tri.indexes[newNumIndexes+j] = decals->tri.indexes[i+j];
-					decals->indexStartTime[newNumIndexes+j] = decals->indexStartTime[i+j];
+					decals->tri.indexes[newNumIndexes + j] = decals->tri.indexes[i + j];
+					decals->indexStartTime[newNumIndexes + j] = decals->indexStartTime[i + j];
 				}
 			}
 			newNumIndexes += 3;
@@ -465,7 +465,7 @@ void idRenderModelDecal::AddDecalDrawSurf( viewEntity_t *space ) {
 	int i, j, maxTime;
 	float f;
 	decalInfo_t	decalInfo;
-	
+
 	if ( tri.numIndexes == 0 ) {
 		return;
 	}
@@ -487,10 +487,10 @@ void idRenderModelDecal::AddDecalDrawSurf( viewEntity_t *space ) {
 		}
 
 		deltaTime -= decalInfo.stayTime;
-		f = (float)deltaTime / decalInfo.fadeTime;
+		f = ( float )deltaTime / decalInfo.fadeTime;
 
 		for ( j = 0; j < 3; j++ ) {
-			int	ind = tri.indexes[i+j];
+			int	ind = tri.indexes[i + j];
 
 			for ( int k = 0; k < 4; k++ ) {
 				float fcolor = decalInfo.start[k] + ( decalInfo.end[k] - decalInfo.start[k] ) * f;
@@ -508,7 +508,7 @@ void idRenderModelDecal::AddDecalDrawSurf( viewEntity_t *space ) {
 	// copy the tri and indexes to temp heap memory,
 	// because if we are running multi-threaded, we wouldn't
 	// be able to reorganize the index list
-	srfTriangles_t *newTri = (srfTriangles_t *)R_FrameAlloc( sizeof( *newTri ) );
+	srfTriangles_t *newTri = ( srfTriangles_t * )R_FrameAlloc( sizeof( *newTri ) );
 	*newTri = tri;
 
 	// copy the current vertexes to temp vertex cache

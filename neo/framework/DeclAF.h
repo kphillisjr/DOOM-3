@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -55,7 +55,7 @@ typedef enum {
 	DECLAF_JOINTMOD_BOTH
 } declAFJointMod_t;
 
-typedef bool (*getJointTransform_t)( void *model, const idJointMat *frame, const char *jointName, idVec3 &origin, idMat3 &axis );
+typedef bool ( *getJointTransform_t )( void *model, const idJointMat *frame, const char *jointName, idVec3 &origin, idMat3 &axis );
 
 class idAFVector {
 public:
@@ -69,14 +69,18 @@ public:
 	idStr					joint2;
 
 public:
-							idAFVector( void );
+	idAFVector( void );
 
 	bool					Parse( idLexer &src );
 	bool					Finish( const char *fileName, const getJointTransform_t GetJointTransform, const idJointMat *frame, void *model ) const;
 	bool					Write( idFile *f ) const;
-	const char *			ToString( idStr &str, const int precision = 8 );
-	const idVec3 &			ToVec3( void ) const { return vec; }
-	idVec3 &				ToVec3( void ) { return vec; }
+	const char 			*ToString( idStr &str, const int precision = 8 );
+	const idVec3 			&ToVec3( void ) const {
+		return vec;
+	}
+	idVec3 				&ToVec3( void ) {
+		return vec;
+	}
 
 private:
 	mutable idVec3			vec;
@@ -141,11 +145,11 @@ public:
 class idDeclAF : public idDecl {
 	friend class idAFFileManager;
 public:
-							idDeclAF( void );
+	idDeclAF( void );
 	virtual					~idDeclAF( void );
 
 	virtual size_t			Size( void ) const;
-	virtual const char *	DefaultDefinition( void ) const;
+	virtual const char 	*DefaultDefinition( void ) const;
 	virtual bool			Parse( const char *text, const int textLength );
 	virtual void			FreeData( void );
 
@@ -162,10 +166,10 @@ public:
 	void					DeleteConstraint( const char *name );
 
 	static int				ContentsFromString( const char *str );
-	static const char *		ContentsToString( const int contents, idStr &str );
+	static const char 		*ContentsToString( const int contents, idStr &str );
 
 	static declAFJointMod_t	JointModFromString( const char *str );
-	static const char *		JointModToString( declAFJointMod_t jointMod );
+	static const char 		*JointModToString( declAFJointMod_t jointMod );
 
 public:
 	bool					modified;

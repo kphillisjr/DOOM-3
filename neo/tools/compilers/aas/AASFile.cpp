@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -48,8 +48,8 @@ Reachability_Write
 */
 bool Reachability_Write( idFile *fp, idReachability *reach ) {
 	fp->WriteFloatString( "\t\t%d %d (%f %f %f) (%f %f %f) %d %d",
-				(int) reach->travelType, (int) reach->toAreaNum, reach->start.x, reach->start.y, reach->start.z,
-				reach->end.x, reach->end.y, reach->end.z, reach->edgeNum, (int) reach->travelTime );
+						  ( int ) reach->travelType, ( int ) reach->toAreaNum, reach->start.x, reach->start.y, reach->start.z,
+						  reach->end.x, reach->end.y, reach->end.z, reach->edgeNum, ( int ) reach->travelTime );
 	return true;
 }
 
@@ -119,7 +119,7 @@ bool Reachability_Special_Read( idLexer &src, idReachability_Special *reach ) {
 	idToken key, value;
 
 	src.ExpectTokenString( "{" );
-	while( src.ReadToken( &key ) ) {
+	while ( src.ReadToken( &key ) ) {
 		if ( key == "}" ) {
 			return true;
 		}
@@ -234,7 +234,7 @@ bool idAASSettings::ParseBBoxes( idLexer &src ) {
 	if ( !src.ExpectTokenString( "{" ) ) {
 		return false;
 	}
-	while( src.ReadToken( &token ) ) {
+	while ( src.ReadToken( &token ) ) {
 		if ( token == "}" ) {
 			return true;
 		}
@@ -273,62 +273,75 @@ bool idAASSettings::FromParser( idLexer &src ) {
 		}
 
 		if ( token == "bboxes" ) {
-			if ( !ParseBBoxes( src ) ) { return false; }
-		}
-		else if ( token == "usePatches" ) {
-			if ( !ParseBool( src, usePatches ) ) { return false; }
-		}
-		else if ( token == "writeBrushMap" ) {
-			if ( !ParseBool( src, writeBrushMap ) ) { return false; }
-		}
-		else if ( token == "playerFlood" ) {
-			if ( !ParseBool( src, playerFlood ) ) { return false; }
-		}
-		else if ( token == "allowSwimReachabilities" ) {
-			if ( !ParseBool( src, allowSwimReachabilities ) ) { return false; }
-		}
-		else if ( token == "allowFlyReachabilities" ) {
-			if ( !ParseBool( src, allowFlyReachabilities ) ) { return false; }
-		}
-		else if ( token == "fileExtension" ) {
+			if ( !ParseBBoxes( src ) ) {
+				return false;
+			}
+		} else if ( token == "usePatches" ) {
+			if ( !ParseBool( src, usePatches ) ) {
+				return false;
+			}
+		} else if ( token == "writeBrushMap" ) {
+			if ( !ParseBool( src, writeBrushMap ) ) {
+				return false;
+			}
+		} else if ( token == "playerFlood" ) {
+			if ( !ParseBool( src, playerFlood ) ) {
+				return false;
+			}
+		} else if ( token == "allowSwimReachabilities" ) {
+			if ( !ParseBool( src, allowSwimReachabilities ) ) {
+				return false;
+			}
+		} else if ( token == "allowFlyReachabilities" ) {
+			if ( !ParseBool( src, allowFlyReachabilities ) ) {
+				return false;
+			}
+		} else if ( token == "fileExtension" ) {
 			src.ExpectTokenString( "=" );
 			src.ExpectTokenType( TT_STRING, 0, &token );
 			fileExtension = token;
-		}
-		else if ( token == "gravity" ) {
+		} else if ( token == "gravity" ) {
 			ParseVector( src, gravity );
 			gravityDir = gravity;
 			gravityValue = gravityDir.Normalize();
 			invGravityDir = -gravityDir;
-		}
-		else if ( token == "maxStepHeight" ) {
-			if ( !ParseFloat( src, maxStepHeight ) ) { return false; }
-		}
-		else if ( token == "maxBarrierHeight" ) {
-			if ( !ParseFloat( src, maxBarrierHeight ) ) { return false; }
-		}
-		else if ( token == "maxWaterJumpHeight" ) {
-			if ( !ParseFloat( src, maxWaterJumpHeight ) ) { return false; }
-		}
-		else if ( token == "maxFallHeight" ) {
-			if ( !ParseFloat( src, maxFallHeight ) ) { return false; }
-		}
-		else if ( token == "minFloorCos" ) {
-			if ( !ParseFloat( src, minFloorCos ) ) { return false; }
-		}
-		else if ( token == "tt_barrierJump" ) {
-			if ( !ParseInt( src, tt_barrierJump ) ) { return false; }
-		}
-		else if ( token == "tt_startCrouching" ) {
-			if ( !ParseInt( src, tt_startCrouching ) ) { return false; }
-		}
-		else if ( token == "tt_waterJump" ) {
-			if ( !ParseInt( src, tt_waterJump ) ) { return false; }
-		}
-		else if ( token == "tt_startWalkOffLedge" ) {
-			if ( !ParseInt( src, tt_startWalkOffLedge ) ) { return false; }
-		}
-		else {
+		} else if ( token == "maxStepHeight" ) {
+			if ( !ParseFloat( src, maxStepHeight ) ) {
+				return false;
+			}
+		} else if ( token == "maxBarrierHeight" ) {
+			if ( !ParseFloat( src, maxBarrierHeight ) ) {
+				return false;
+			}
+		} else if ( token == "maxWaterJumpHeight" ) {
+			if ( !ParseFloat( src, maxWaterJumpHeight ) ) {
+				return false;
+			}
+		} else if ( token == "maxFallHeight" ) {
+			if ( !ParseFloat( src, maxFallHeight ) ) {
+				return false;
+			}
+		} else if ( token == "minFloorCos" ) {
+			if ( !ParseFloat( src, minFloorCos ) ) {
+				return false;
+			}
+		} else if ( token == "tt_barrierJump" ) {
+			if ( !ParseInt( src, tt_barrierJump ) ) {
+				return false;
+			}
+		} else if ( token == "tt_startCrouching" ) {
+			if ( !ParseInt( src, tt_startCrouching ) ) {
+				return false;
+			}
+		} else if ( token == "tt_waterJump" ) {
+			if ( !ParseInt( src, tt_waterJump ) ) {
+				return false;
+			}
+		} else if ( token == "tt_startWalkOffLedge" ) {
+			if ( !ParseInt( src, tt_startWalkOffLedge ) ) {
+				return false;
+			}
+		} else {
 			src.Error( "invalid token '%s'", token.c_str() );
 		}
 	}
@@ -472,7 +485,7 @@ bool idAASSettings::WriteToFile( idFile *fp ) const {
 	fp->WriteFloatString( "\tbboxes\n\t{\n" );
 	for ( i = 0; i < numBoundingBoxes; i++ ) {
 		fp->WriteFloatString( "\t\t(%f %f %f)-(%f %f %f)\n", boundingBoxes[i][0].x, boundingBoxes[i][0].y,
-						boundingBoxes[i][0].z, boundingBoxes[i][1].x, boundingBoxes[i][1].y, boundingBoxes[i][1].z );
+							  boundingBoxes[i][0].z, boundingBoxes[i][1].x, boundingBoxes[i][1].y, boundingBoxes[i][1].z );
 	}
 	fp->WriteFloatString( "\t}\n" );
 	fp->WriteFloatString( "\tusePatches = %d\n", usePatches );
@@ -652,7 +665,7 @@ bool idAASFileLocal::Write( const idStr &fileName, unsigned int mapFileCRC ) {
 	aasFile->WriteFloatString( "planes %d {\n", planeList.Num() );
 	for ( i = 0; i < planeList.Num(); i++ ) {
 		aasFile->WriteFloatString( "\t%d ( %f %f %f %f )\n", i,
-				planeList[i].Normal().x, planeList[i].Normal().y, planeList[i].Normal().z, planeList[i].Dist() );
+								   planeList[i].Normal().x, planeList[i].Normal().y, planeList[i].Normal().z, planeList[i].Dist() );
 	}
 	aasFile->WriteFloatString( "}\n" );
 
@@ -681,7 +694,7 @@ bool idAASFileLocal::Write( const idStr &fileName, unsigned int mapFileCRC ) {
 	aasFile->WriteFloatString( "faces %d {\n", faces.Num() );
 	for ( i = 0; i < faces.Num(); i++ ) {
 		aasFile->WriteFloatString( "\t%d ( %d %d %d %d %d %d )\n", i, faces[i].planeNum, faces[i].flags,
-						faces[i].areas[0], faces[i].areas[1], faces[i].firstEdge, faces[i].numEdges );
+								   faces[i].areas[0], faces[i].areas[1], faces[i].firstEdge, faces[i].numEdges );
 	}
 	aasFile->WriteFloatString( "}\n" );
 
@@ -699,12 +712,12 @@ bool idAASFileLocal::Write( const idStr &fileName, unsigned int mapFileCRC ) {
 			num++;
 		}
 		aasFile->WriteFloatString( "\t%d ( %d %d %d %d %d %d ) %d {\n", i, areas[i].flags, areas[i].contents,
-						areas[i].firstFace, areas[i].numFaces, areas[i].cluster, areas[i].clusterAreaNum, num );
+								   areas[i].firstFace, areas[i].numFaces, areas[i].cluster, areas[i].clusterAreaNum, num );
 		for ( reach = areas[i].reach; reach; reach = reach->next ) {
 			Reachability_Write( aasFile, reach );
-			switch( reach->travelType ) {
+			switch ( reach->travelType ) {
 				case TFL_SPECIAL:
-					Reachability_Special_Write( aasFile, static_cast<idReachability_Special *>(reach) );
+					Reachability_Special_Write( aasFile, static_cast<idReachability_Special *>( reach ) );
 					break;
 			}
 			aasFile->WriteFloatString( "\n" );
@@ -724,7 +737,7 @@ bool idAASFileLocal::Write( const idStr &fileName, unsigned int mapFileCRC ) {
 	aasFile->WriteFloatString( "portals %d {\n", portals.Num() );
 	for ( i = 0; i < portals.Num(); i++ ) {
 		aasFile->WriteFloatString( "\t%d ( %d %d %d %d %d )\n", i, portals[i].areaNum, portals[i].clusters[0],
-						portals[i].clusters[1], portals[i].clusterAreaNum[0], portals[i].clusterAreaNum[1] );
+								   portals[i].clusters[1], portals[i].clusterAreaNum[0], portals[i].clusterAreaNum[1] );
 	}
 	aasFile->WriteFloatString( "}\n" );
 
@@ -739,7 +752,7 @@ bool idAASFileLocal::Write( const idStr &fileName, unsigned int mapFileCRC ) {
 	aasFile->WriteFloatString( "clusters %d {\n", clusters.Num() );
 	for ( i = 0; i < clusters.Num(); i++ ) {
 		aasFile->WriteFloatString( "\t%d ( %d %d %d %d )\n", i, clusters[i].numAreas, clusters[i].numReachableAreas,
-							clusters[i].firstPortal, clusters[i].numPortals );
+								   clusters[i].firstPortal, clusters[i].numPortals );
 	}
 	aasFile->WriteFloatString( "}\n" );
 
@@ -915,7 +928,7 @@ bool idAASFileLocal::ParseReachabilities( idLexer &src, int areaNum ) {
 	area->travelFlags = AreaContentsTravelFlags( areaNum );
 	for ( j = 0; j < num; j++ ) {
 		Reachability_Read( src, &reach );
-		switch( reach.travelType ) {
+		switch ( reach.travelType ) {
 			case TFL_SPECIAL:
 				newReach = special = new idReachability_Special();
 				Reachability_Special_Read( src, special );
@@ -1143,42 +1156,54 @@ bool idAASFileLocal::Load( const idStr &fileName, unsigned int mapFileCRC ) {
 		}
 
 		if ( token == "settings" ) {
-			if ( !settings.FromParser( src ) ) { return false; }
-		}
-		else if ( token == "planes" ) {
-			if ( !ParsePlanes( src ) ) { return false; }
-		}
-		else if ( token == "vertices" ) {
-			if ( !ParseVertices( src ) ) { return false; }
-		}
-		else if ( token == "edges" ) {
-			if ( !ParseEdges( src ) ) { return false; }
-		}
-		else if ( token == "edgeIndex" ) {
-			if ( !ParseIndex( src, edgeIndex ) ) { return false; }
-		}
-		else if ( token == "faces" ) {
-			if ( !ParseFaces( src ) ) { return false; }
-		}
-		else if ( token == "faceIndex" ) {
-			if ( !ParseIndex( src, faceIndex ) ) { return false; }
-		}
-		else if ( token == "areas" ) {
-			if ( !ParseAreas( src ) ) { return false; }
-		}
-		else if ( token == "nodes" ) {
-			if ( !ParseNodes( src ) ) { return false; }
-		}
-		else if ( token == "portals" ) {
-			if ( !ParsePortals( src ) ) { return false; }
-		}
-		else if ( token == "portalIndex" ) {
-			if ( !ParseIndex( src, portalIndex ) ) { return false; }
-		}
-		else if ( token == "clusters" ) {
-			if ( !ParseClusters( src ) ) { return false; }
-		}
-		else {
+			if ( !settings.FromParser( src ) ) {
+				return false;
+			}
+		} else if ( token == "planes" ) {
+			if ( !ParsePlanes( src ) ) {
+				return false;
+			}
+		} else if ( token == "vertices" ) {
+			if ( !ParseVertices( src ) ) {
+				return false;
+			}
+		} else if ( token == "edges" ) {
+			if ( !ParseEdges( src ) ) {
+				return false;
+			}
+		} else if ( token == "edgeIndex" ) {
+			if ( !ParseIndex( src, edgeIndex ) ) {
+				return false;
+			}
+		} else if ( token == "faces" ) {
+			if ( !ParseFaces( src ) ) {
+				return false;
+			}
+		} else if ( token == "faceIndex" ) {
+			if ( !ParseIndex( src, faceIndex ) ) {
+				return false;
+			}
+		} else if ( token == "areas" ) {
+			if ( !ParseAreas( src ) ) {
+				return false;
+			}
+		} else if ( token == "nodes" ) {
+			if ( !ParseNodes( src ) ) {
+				return false;
+			}
+		} else if ( token == "portals" ) {
+			if ( !ParsePortals( src ) ) {
+				return false;
+			}
+		} else if ( token == "portalIndex" ) {
+			if ( !ParseIndex( src, portalIndex ) ) {
+				return false;
+			}
+		} else if ( token == "clusters" ) {
+			if ( !ParseClusters( src ) ) {
+				return false;
+			}
+		} else {
 			src.Error( "idAASFileLocal::Load: bad token \"%s\"", token.c_str() );
 			return false;
 		}

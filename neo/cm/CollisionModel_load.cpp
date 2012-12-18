@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -52,14 +52,14 @@ If you have questions concerning this license or the applicable additional terms
 
 
 idCollisionModelManagerLocal	collisionModelManagerLocal;
-idCollisionModelManager *		collisionModelManager = &collisionModelManagerLocal;
+idCollisionModelManager 		*collisionModelManager = &collisionModelManagerLocal;
 
-cm_windingList_t *				cm_windingList;
-cm_windingList_t *				cm_outList;
-cm_windingList_t *				cm_tmpList;
+cm_windingList_t 				*cm_windingList;
+cm_windingList_t 				*cm_outList;
+cm_windingList_t 				*cm_tmpList;
 
-idHashIndex *					cm_vertexHash;
-idHashIndex *					cm_edgeHash;
+idHashIndex 					*cm_vertexHash;
+idHashIndex 					*cm_edgeHash;
 
 idBounds						cm_modelBounds;
 int								cm_vertexShift;
@@ -87,7 +87,7 @@ void idCollisionModelManagerLocal::ParseProcNodes( idLexer *src ) {
 	if ( numProcNodes < 0 ) {
 		src->Error( "ParseProcNodes: bad numProcNodes" );
 	}
-	procNodes = (cm_procNode_t *)Mem_ClearedAlloc( numProcNodes * sizeof( cm_procNode_t ) );
+	procNodes = ( cm_procNode_t * )Mem_ClearedAlloc( numProcNodes * sizeof( cm_procNode_t ) );
 
 	for ( i = 0; i < numProcNodes; i++ ) {
 		cm_procNode_t *node;
@@ -202,7 +202,7 @@ idCollisionModelManagerLocal::RemovePolygonReferences_r
 void idCollisionModelManagerLocal::RemovePolygonReferences_r( cm_node_t *node, cm_polygon_t *p ) {
 	cm_polygonRef_t *pref;
 
-	while( node ) {
+	while ( node ) {
 		for ( pref = node->polygons; pref; pref = pref->next ) {
 			if ( pref->p == p ) {
 				pref->p = NULL;
@@ -216,11 +216,9 @@ void idCollisionModelManagerLocal::RemovePolygonReferences_r( cm_node_t *node, c
 		}
 		if ( p->bounds[0][node->planeType] > node->planeDist ) {
 			node = node->children[0];
-		}
-		else if ( p->bounds[1][node->planeType] < node->planeDist ) {
+		} else if ( p->bounds[1][node->planeType] < node->planeDist ) {
 			node = node->children[1];
-		}
-		else {
+		} else {
 			RemovePolygonReferences_r( node->children[1], p );
 			node = node->children[0];
 		}
@@ -235,7 +233,7 @@ idCollisionModelManagerLocal::RemoveBrushReferences_r
 void idCollisionModelManagerLocal::RemoveBrushReferences_r( cm_node_t *node, cm_brush_t *b ) {
 	cm_brushRef_t *bref;
 
-	while( node ) {
+	while ( node ) {
 		for ( bref = node->brushes; bref; bref = bref->next ) {
 			if ( bref->b == b ) {
 				bref->b = NULL;
@@ -248,11 +246,9 @@ void idCollisionModelManagerLocal::RemoveBrushReferences_r( cm_node_t *node, cm_
 		}
 		if ( b->bounds[0][node->planeType] > node->planeDist ) {
 			node = node->children[0];
-		}
-		else if ( b->bounds[1][node->planeType] < node->planeDist ) {
+		} else if ( b->bounds[1][node->planeType] < node->planeDist ) {
 			node = node->children[1];
-		}
-		else {
+		} else {
 			RemoveBrushReferences_r( node->children[1], b );
 			node = node->children[0];
 		}
@@ -475,7 +471,7 @@ void idCollisionModelManagerLocal::CalculateEdgeNormals( cm_model_t *model, cm_n
 	int i, edgeNum;
 	idVec3 dir;
 
-	while( 1 ) {
+	while ( 1 ) {
 		for ( pref = node->polygons; pref; pref = pref->next ) {
 			p = pref->p;
 			// if we checked this polygon already
@@ -546,7 +542,7 @@ cm_model_t *idCollisionModelManagerLocal::AllocModel( void ) {
 	model->vertices = NULL;
 	model->maxEdges = 0;
 	model->numEdges = 0;
-	model->edges= NULL;
+	model->edges = NULL;
 	model->node = NULL;
 	model->nodeBlocks = NULL;
 	model->polygonRefBlocks = NULL;
@@ -554,11 +550,11 @@ cm_model_t *idCollisionModelManagerLocal::AllocModel( void ) {
 	model->polygonBlock = NULL;
 	model->brushBlock = NULL;
 	model->numPolygons = model->polygonMemory =
-	model->numBrushes = model->brushMemory =
-	model->numNodes = model->numBrushRefs =
-	model->numPolygonRefs = model->numInternalEdges =
-	model->numSharpEdges = model->numRemovedPolys =
-	model->numMergedPolys = model->usedMemory = 0;
+							 model->numBrushes = model->brushMemory =
+										 model->numNodes = model->numBrushRefs =
+												 model->numPolygonRefs = model->numInternalEdges =
+														 model->numSharpEdges = model->numRemovedPolys =
+																 model->numMergedPolys = model->usedMemory = 0;
 
 	return model;
 }
@@ -574,8 +570,8 @@ cm_node_t *idCollisionModelManagerLocal::AllocNode( cm_model_t *model, int block
 	cm_nodeBlock_t *nodeBlock;
 
 	if ( !model->nodeBlocks || !model->nodeBlocks->nextNode ) {
-		nodeBlock = (cm_nodeBlock_t *) Mem_ClearedAlloc( sizeof( cm_nodeBlock_t ) + blockSize * sizeof(cm_node_t) );
-		nodeBlock->nextNode = (cm_node_t *) ( ( (byte *) nodeBlock ) + sizeof( cm_nodeBlock_t ) );
+		nodeBlock = ( cm_nodeBlock_t * ) Mem_ClearedAlloc( sizeof( cm_nodeBlock_t ) + blockSize * sizeof( cm_node_t ) );
+		nodeBlock->nextNode = ( cm_node_t * )( ( ( byte * ) nodeBlock ) + sizeof( cm_nodeBlock_t ) );
 		nodeBlock->next = model->nodeBlocks;
 		model->nodeBlocks = nodeBlock;
 		node = nodeBlock->nextNode;
@@ -604,8 +600,8 @@ cm_polygonRef_t *idCollisionModelManagerLocal::AllocPolygonReference( cm_model_t
 	cm_polygonRefBlock_t *prefBlock;
 
 	if ( !model->polygonRefBlocks || !model->polygonRefBlocks->nextRef ) {
-		prefBlock = (cm_polygonRefBlock_t *) Mem_Alloc( sizeof( cm_polygonRefBlock_t ) + blockSize * sizeof(cm_polygonRef_t) );
-		prefBlock->nextRef = (cm_polygonRef_t *) ( ( (byte *) prefBlock ) + sizeof( cm_polygonRefBlock_t ) );
+		prefBlock = ( cm_polygonRefBlock_t * ) Mem_Alloc( sizeof( cm_polygonRefBlock_t ) + blockSize * sizeof( cm_polygonRef_t ) );
+		prefBlock->nextRef = ( cm_polygonRef_t * )( ( ( byte * ) prefBlock ) + sizeof( cm_polygonRefBlock_t ) );
 		prefBlock->next = model->polygonRefBlocks;
 		model->polygonRefBlocks = prefBlock;
 		pref = prefBlock->nextRef;
@@ -633,8 +629,8 @@ cm_brushRef_t *idCollisionModelManagerLocal::AllocBrushReference( cm_model_t *mo
 	cm_brushRefBlock_t *brefBlock;
 
 	if ( !model->brushRefBlocks || !model->brushRefBlocks->nextRef ) {
-		brefBlock = (cm_brushRefBlock_t *) Mem_Alloc( sizeof(cm_brushRefBlock_t) + blockSize * sizeof(cm_brushRef_t) );
-		brefBlock->nextRef = (cm_brushRef_t *) ( ( (byte *) brefBlock ) + sizeof(cm_brushRefBlock_t) );
+		brefBlock = ( cm_brushRefBlock_t * ) Mem_Alloc( sizeof( cm_brushRefBlock_t ) + blockSize * sizeof( cm_brushRef_t ) );
+		brefBlock->nextRef = ( cm_brushRef_t * )( ( ( byte * ) brefBlock ) + sizeof( cm_brushRefBlock_t ) );
 		brefBlock->next = model->brushRefBlocks;
 		model->brushRefBlocks = brefBlock;
 		bref = brefBlock->nextRef;
@@ -664,11 +660,11 @@ cm_polygon_t *idCollisionModelManagerLocal::AllocPolygon( cm_model_t *model, int
 	model->numPolygons++;
 	model->polygonMemory += size;
 	if ( model->polygonBlock && model->polygonBlock->bytesRemaining >= size ) {
-		poly = (cm_polygon_t *) model->polygonBlock->next;
+		poly = ( cm_polygon_t * ) model->polygonBlock->next;
 		model->polygonBlock->next += size;
 		model->polygonBlock->bytesRemaining -= size;
 	} else {
-		poly = (cm_polygon_t *) Mem_Alloc( size );
+		poly = ( cm_polygon_t * ) Mem_Alloc( size );
 	}
 	return poly;
 }
@@ -686,11 +682,11 @@ cm_brush_t *idCollisionModelManagerLocal::AllocBrush( cm_model_t *model, int num
 	model->numBrushes++;
 	model->brushMemory += size;
 	if ( model->brushBlock && model->brushBlock->bytesRemaining >= size ) {
-		brush = (cm_brush_t *) model->brushBlock->next;
+		brush = ( cm_brush_t * ) model->brushBlock->next;
 		model->brushBlock->next += size;
 		model->brushBlock->bytesRemaining -= size;
 	} else {
-		brush = (cm_brush_t *) Mem_Alloc( size );
+		brush = ( cm_brush_t * ) Mem_Alloc( size );
 	}
 	return brush;
 }
@@ -741,16 +737,16 @@ void idCollisionModelManagerLocal::SetupTrmModelStructure( void ) {
 	assert( models );
 	models[MAX_SUBMODELS] = model;
 	// create node to hold the collision data
-	node = (cm_node_t *) AllocNode( model, 1 );
+	node = ( cm_node_t * ) AllocNode( model, 1 );
 	node->planeType = -1;
 	model->node = node;
 	// allocate vertex and edge arrays
 	model->numVertices = 0;
 	model->maxVertices = MAX_TRACEMODEL_VERTS;
-	model->vertices = (cm_vertex_t *) Mem_ClearedAlloc( model->maxVertices * sizeof(cm_vertex_t) );
+	model->vertices = ( cm_vertex_t * ) Mem_ClearedAlloc( model->maxVertices * sizeof( cm_vertex_t ) );
 	model->numEdges = 0;
-	model->maxEdges = MAX_TRACEMODEL_EDGES+1;
-	model->edges = (cm_edge_t *) Mem_ClearedAlloc( model->maxEdges * sizeof(cm_edge_t) );
+	model->maxEdges = MAX_TRACEMODEL_EDGES + 1;
+	model->edges = ( cm_edge_t * ) Mem_ClearedAlloc( model->maxEdges * sizeof( cm_edge_t ) );
 	// create a material for the trace model polygons
 	trmMaterial = declManager->FindMaterial( "_tracemodel", false );
 	if ( !trmMaterial ) {
@@ -889,29 +885,23 @@ int idCollisionModelManagerLocal::R_ChoppedAwayByProcBSP( int nodeNum, idFixedWi
 		dist = node->plane.Normal() * origin + node->plane[3];
 		if ( dist > radius ) {
 			res = SIDE_FRONT;
-		}
-		else if ( dist < -radius ) {
+		} else if ( dist < -radius ) {
 			res = SIDE_BACK;
-		}
-		else {
+		} else {
 			res = w->Split( &back, node->plane, CHOP_EPSILON );
 		}
 		if ( res == SIDE_FRONT ) {
 			nodeNum = node->children[0];
-		}
-		else if ( res == SIDE_BACK ) {
+		} else if ( res == SIDE_BACK ) {
 			nodeNum = node->children[1];
-		}
-		else if ( res == SIDE_ON ) {
+		} else if ( res == SIDE_ON ) {
 			// continue with the side the winding faces
 			if ( node->plane.Normal() * normal > 0.0f ) {
 				nodeNum = node->children[0];
-			}
-			else {
+			} else {
 				nodeNum = node->children[1];
 			}
-		}
-		else {
+		} else {
 			// if either node is not solid
 			if ( node->children[0] < 0 || node->children[1] < 0 ) {
 				return false;
@@ -947,13 +937,13 @@ int idCollisionModelManagerLocal::ChoppedAwayByProcBSP( const idFixedWinding &w,
 		return false;
 	}
 	// don't chop if the polygon is not solid
-	if ( !(contents & CONTENTS_SOLID) ) {
+	if ( !( contents & CONTENTS_SOLID ) ) {
 		return false;
 	}
 	// make a local copy of the winding
 	neww = w;
 	neww.GetBounds( bounds );
-	origin = (bounds[1] - bounds[0]) * 0.5f;
+	origin = ( bounds[1] - bounds[0] ) * 0.5f;
 	radius = origin.Length() + CHOP_EPSILON;
 	origin = bounds[0] + origin;
 	//
@@ -986,19 +976,15 @@ void idCollisionModelManagerLocal::ChopWindingListWithBrush( cm_windingList_t *l
 		dist = plane.Distance( list->origin );
 		if ( dist > list->radius ) {
 			sidedness[i] = SIDE_FRONT;
-		}
-		else if ( dist < -list->radius ) {
+		} else if ( dist < -list->radius ) {
 			sidedness[i] = SIDE_BACK;
-		}
-		else {
+		} else {
 			sidedness[i] = list->bounds.PlaneSide( plane );
 			if ( sidedness[i] == PLANESIDE_FRONT ) {
 				sidedness[i] = SIDE_FRONT;
-			}
-			else if ( sidedness[i] == PLANESIDE_BACK ) {
+			} else if ( sidedness[i] == PLANESIDE_BACK ) {
 				sidedness[i] = SIDE_BACK;
-			}
-			else {
+			} else {
 				sidedness[i] = SIDE_CROSS;
 			}
 		}
@@ -1030,7 +1016,7 @@ void idCollisionModelManagerLocal::ChopWindingListWithBrush( cm_windingList_t *l
 				//			Z-fighting should not occur but what if there is a decal brush side
 				//			with exactly the same size as another brush side ?
 				// only leave windings on a brush if the winding plane and brush side plane face the same direction
-				if ( res == SIDE_ON && list->primitiveNum >= 0 && (list->normal * b->planes[planeNum].Normal()) > 0 ) {
+				if ( res == SIDE_ON && list->primitiveNum >= 0 && ( list->normal * b->planes[planeNum].Normal() ) > 0 ) {
 					// return because all windings in the list will be on this brush side plane
 					return;
 				}
@@ -1073,7 +1059,7 @@ void idCollisionModelManagerLocal::ChopWindingListWithBrush( cm_windingList_t *l
 						common->Warning( "idCollisionModelManagerLocal::ChopWindingWithBrush: primitive %d more than %d windings", list->primitiveNum, MAX_WINDING_LIST );
 						return;
 					}
-					cm_outList->w[cm_outList->numWindings+i] = cm_tmpList->w[i];
+					cm_outList->w[cm_outList->numWindings + i] = cm_tmpList->w[i];
 				}
 				// if only one winding left then we can't do any better
 				if ( bestNumWindings == 1 ) {
@@ -1106,7 +1092,7 @@ void idCollisionModelManagerLocal::R_ChopWindingListWithTreeBrushes( cm_windingL
 	cm_brushRef_t *bref;
 	cm_brush_t *b;
 
-	while( 1 ) {
+	while ( 1 ) {
 		for ( bref = node->brushes; bref; bref = bref->next ) {
 			b = bref->b;
 			// if we checked this brush already
@@ -1147,11 +1133,9 @@ void idCollisionModelManagerLocal::R_ChopWindingListWithTreeBrushes( cm_windingL
 		}
 		if ( list->bounds[0][node->planeType] > node->planeDist ) {
 			node = node->children[0];
-		}
-		else if ( list->bounds[1][node->planeType] < node->planeDist ) {
+		} else if ( list->bounds[1][node->planeType] < node->planeDist ) {
 			node = node->children[1];
-		}
-		else {
+		} else {
 			R_ChopWindingListWithTreeBrushes( list, node->children[1] );
 			if ( !list->numWindings ) {
 				return;
@@ -1176,10 +1160,10 @@ idFixedWinding *idCollisionModelManagerLocal::WindingOutsideBrushes( idFixedWind
 
 	cm_windingList->bounds.Clear();
 	for ( i = 0; i < w->GetNumPoints(); i++ ) {
-		cm_windingList->bounds.AddPoint( (*w)[i].ToVec3() );
+		cm_windingList->bounds.AddPoint( ( *w )[i].ToVec3() );
 	}
 
-	cm_windingList->origin = (cm_windingList->bounds[1] - cm_windingList->bounds[0]) * 0.5;
+	cm_windingList->origin = ( cm_windingList->bounds[1] - cm_windingList->bounds[0] ) * 0.5;
 	cm_windingList->radius = cm_windingList->origin.Length() + CHOP_EPSILON;
 	cm_windingList->origin = cm_windingList->bounds[0] + cm_windingList->origin;
 	cm_windingList->bounds[0] -= idVec3( CHOP_EPSILON, CHOP_EPSILON, CHOP_EPSILON );
@@ -1240,7 +1224,7 @@ void idCollisionModelManagerLocal::ReplacePolygons( cm_model_t *model, cm_node_t
 	cm_polygon_t *p;
 	bool linked;
 
-	while( 1 ) {
+	while ( 1 ) {
 		linked = false;
 		lastpref = NULL;
 		for ( pref = node->polygons; pref; pref = nextpref ) {
@@ -1253,20 +1237,17 @@ void idCollisionModelManagerLocal::ReplacePolygons( cm_model_t *model, cm_node_t
 				if ( linked ) {
 					if ( lastpref ) {
 						lastpref->next = nextpref;
-					}
-					else {
+					} else {
 						node->polygons = nextpref;
 					}
 					FreePolygonReference( pref );
 					model->numPolygonRefs--;
-				}
-				else {
+				} else {
 					pref->p = newp;
 					linked = true;
 					lastpref = pref;
 				}
-			}
-			else {
+			} else {
 				lastpref = pref;
 			}
 		}
@@ -1276,11 +1257,9 @@ void idCollisionModelManagerLocal::ReplacePolygons( cm_model_t *model, cm_node_t
 		}
 		if ( p1->bounds[0][node->planeType] > node->planeDist && p2->bounds[0][node->planeType] > node->planeDist ) {
 			node = node->children[0];
-		}
-		else if ( p1->bounds[1][node->planeType] < node->planeDist && p2->bounds[1][node->planeType] < node->planeDist ) {
+		} else if ( p1->bounds[1][node->planeType] < node->planeDist && p2->bounds[1][node->planeType] < node->planeDist ) {
 			node = node->children[1];
-		}
-		else {
+		} else {
 			ReplacePolygons( model, node->children[1], p1, p2, newp );
 			node = node->children[0];
 		}
@@ -1327,13 +1306,13 @@ cm_polygon_t *idCollisionModelManagerLocal::TryMergePolygons( cm_model_t *model,
 	// polygons with multiple shared edges probably never occur tho ;)
 	p1BeforeShare = p1AfterShare = p2BeforeShare = p2AfterShare = -1;
 	for ( i = 0; i < p1->numEdges; i++ ) {
-		nexti = (i+1)%p1->numEdges;
+		nexti = ( i + 1 ) % p1->numEdges;
 		for ( j = 0; j < p2->numEdges; j++ ) {
-			prevj = (j+p2->numEdges-1)%p2->numEdges;
+			prevj = ( j + p2->numEdges - 1 ) % p2->numEdges;
 			//
-			if ( abs(p1->edges[i]) != abs(p2->edges[j]) ) {
+			if ( abs( p1->edges[i] ) != abs( p2->edges[j] ) ) {
 				// if the next edge of p1 and the previous edge of p2 are the same
-				if ( abs(p1->edges[nexti]) == abs(p2->edges[prevj]) ) {
+				if ( abs( p1->edges[nexti] ) == abs( p2->edges[prevj] ) ) {
 					// if both polygons don't use the edge in the same direction
 					if ( p1->edges[nexti] != p2->edges[prevj] ) {
 						p1BeforeShare = i;
@@ -1345,7 +1324,7 @@ cm_polygon_t *idCollisionModelManagerLocal::TryMergePolygons( cm_model_t *model,
 			// if both polygons don't use the edge in the same direction
 			else if ( p1->edges[i] != p2->edges[j] ) {
 				// if the next edge of p1 and the previous edge of p2 are not the same
-				if ( abs(p1->edges[nexti]) != abs(p2->edges[prevj]) ) {
+				if ( abs( p1->edges[nexti] ) != abs( p2->edges[prevj] ) ) {
 					p1AfterShare = nexti;
 					p2BeforeShare = prevj;
 					break;
@@ -1359,47 +1338,47 @@ cm_polygon_t *idCollisionModelManagerLocal::TryMergePolygons( cm_model_t *model,
 
 	// check if the new polygon would still be convex
 	edgeNum = p1->edges[p1BeforeShare];
-	edge = model->edges + abs(edgeNum);
-	delta = model->vertices[edge->vertexNum[INTSIGNBITNOTSET(edgeNum)]].p - 
-					model->vertices[edge->vertexNum[INTSIGNBITSET(edgeNum)]].p;
+	edge = model->edges + abs( edgeNum );
+	delta = model->vertices[edge->vertexNum[INTSIGNBITNOTSET( edgeNum )]].p -
+			model->vertices[edge->vertexNum[INTSIGNBITSET( edgeNum )]].p;
 	normal = p1->plane.Normal().Cross( delta );
 	normal.Normalize();
 
 	edgeNum = p2->edges[p2AfterShare];
-	edge = model->edges + abs(edgeNum);
-	delta = model->vertices[edge->vertexNum[INTSIGNBITNOTSET(edgeNum)]].p -
-					model->vertices[edge->vertexNum[INTSIGNBITSET(edgeNum)]].p;
+	edge = model->edges + abs( edgeNum );
+	delta = model->vertices[edge->vertexNum[INTSIGNBITNOTSET( edgeNum )]].p -
+			model->vertices[edge->vertexNum[INTSIGNBITSET( edgeNum )]].p;
 
 	dot = delta * normal;
-	if (dot < -CONTINUOUS_EPSILON)
+	if ( dot < -CONTINUOUS_EPSILON )
 		return NULL;			// not a convex polygon
-	keep1 = (bool)(dot > CONTINUOUS_EPSILON);
+	keep1 = ( bool )( dot > CONTINUOUS_EPSILON );
 
 	edgeNum = p2->edges[p2BeforeShare];
-	edge = model->edges + abs(edgeNum);
-	delta = model->vertices[edge->vertexNum[INTSIGNBITNOTSET(edgeNum)]].p -
-					model->vertices[edge->vertexNum[INTSIGNBITSET(edgeNum)]].p;
+	edge = model->edges + abs( edgeNum );
+	delta = model->vertices[edge->vertexNum[INTSIGNBITNOTSET( edgeNum )]].p -
+			model->vertices[edge->vertexNum[INTSIGNBITSET( edgeNum )]].p;
 	normal = p1->plane.Normal().Cross( delta );
 	normal.Normalize();
 
 	edgeNum = p1->edges[p1AfterShare];
-	edge = model->edges + abs(edgeNum);
-	delta = model->vertices[edge->vertexNum[INTSIGNBITNOTSET(edgeNum)]].p -
-					model->vertices[edge->vertexNum[INTSIGNBITSET(edgeNum)]].p;
+	edge = model->edges + abs( edgeNum );
+	delta = model->vertices[edge->vertexNum[INTSIGNBITNOTSET( edgeNum )]].p -
+			model->vertices[edge->vertexNum[INTSIGNBITSET( edgeNum )]].p;
 
 	dot = delta * normal;
-	if (dot < -CONTINUOUS_EPSILON)
+	if ( dot < -CONTINUOUS_EPSILON )
 		return NULL;			// not a convex polygon
-	keep2 = (bool)(dot > CONTINUOUS_EPSILON);
+	keep2 = ( bool )( dot > CONTINUOUS_EPSILON );
 
 	newEdgeNum1 = newEdgeNum2 = 0;
 	// get new edges if we need to replace colinear ones
 	if ( !keep1 ) {
 		edgeNum1 = p1->edges[p1BeforeShare];
 		edgeNum2 = p2->edges[p2AfterShare];
-		GetEdge( model, model->vertices[model->edges[abs(edgeNum1)].vertexNum[INTSIGNBITSET(edgeNum1)]].p,
-					model->vertices[model->edges[abs(edgeNum2)].vertexNum[INTSIGNBITNOTSET(edgeNum2)]].p,
-						&newEdgeNum1, -1 );
+		GetEdge( model, model->vertices[model->edges[abs( edgeNum1 )].vertexNum[INTSIGNBITSET( edgeNum1 )]].p,
+				 model->vertices[model->edges[abs( edgeNum2 )].vertexNum[INTSIGNBITNOTSET( edgeNum2 )]].p,
+				 &newEdgeNum1, -1 );
 		if ( newEdgeNum1 == 0 ) {
 			keep1 = true;
 		}
@@ -1407,9 +1386,9 @@ cm_polygon_t *idCollisionModelManagerLocal::TryMergePolygons( cm_model_t *model,
 	if ( !keep2 ) {
 		edgeNum1 = p2->edges[p2BeforeShare];
 		edgeNum2 = p1->edges[p1AfterShare];
-		GetEdge( model, model->vertices[model->edges[abs(edgeNum1)].vertexNum[INTSIGNBITSET(edgeNum1)]].p,
-					model->vertices[model->edges[abs(edgeNum2)].vertexNum[INTSIGNBITNOTSET(edgeNum2)]].p,
-						&newEdgeNum2, -1 );
+		GetEdge( model, model->vertices[model->edges[abs( edgeNum1 )].vertexNum[INTSIGNBITSET( edgeNum1 )]].p,
+				 model->vertices[model->edges[abs( edgeNum2 )].vertexNum[INTSIGNBITNOTSET( edgeNum2 )]].p,
+				 &newEdgeNum2, -1 );
 		if ( newEdgeNum2 == 0 ) {
 			keep2 = true;
 		}
@@ -1420,15 +1399,14 @@ cm_polygon_t *idCollisionModelManagerLocal::TryMergePolygons( cm_model_t *model,
 		newEdges[newNumEdges++] = newEdgeNum2;
 	}
 	if ( p1AfterShare < p1BeforeShare ) {
-		for ( i = p1AfterShare + (!keep2); i <= p1BeforeShare - (!keep1); i++ ) {
+		for ( i = p1AfterShare + ( !keep2 ); i <= p1BeforeShare - ( !keep1 ); i++ ) {
 			newEdges[newNumEdges++] = p1->edges[i];
 		}
-	}
-	else {
-		for ( i = p1AfterShare + (!keep2); i < p1->numEdges; i++ ) {
+	} else {
+		for ( i = p1AfterShare + ( !keep2 ); i < p1->numEdges; i++ ) {
 			newEdges[newNumEdges++] = p1->edges[i];
 		}
-		for ( i = 0; i <= p1BeforeShare - (!keep1); i++ ) {
+		for ( i = 0; i <= p1BeforeShare - ( !keep1 ); i++ ) {
 			newEdges[newNumEdges++] = p1->edges[i];
 		}
 	}
@@ -1436,22 +1414,21 @@ cm_polygon_t *idCollisionModelManagerLocal::TryMergePolygons( cm_model_t *model,
 		newEdges[newNumEdges++] = newEdgeNum1;
 	}
 	if ( p2AfterShare < p2BeforeShare ) {
-		for ( i = p2AfterShare + (!keep1); i <= p2BeforeShare - (!keep2); i++ ) {
+		for ( i = p2AfterShare + ( !keep1 ); i <= p2BeforeShare - ( !keep2 ); i++ ) {
 			newEdges[newNumEdges++] = p2->edges[i];
 		}
-	}
-	else {
-		for ( i = p2AfterShare + (!keep1); i < p2->numEdges; i++ ) {
+	} else {
+		for ( i = p2AfterShare + ( !keep1 ); i < p2->numEdges; i++ ) {
 			newEdges[newNumEdges++] = p2->edges[i];
 		}
-		for ( i = 0; i <= p2BeforeShare - (!keep2); i++ ) {
+		for ( i = 0; i <= p2BeforeShare - ( !keep2 ); i++ ) {
 			newEdges[newNumEdges++] = p2->edges[i];
 		}
 	}
 
 	newp = AllocPolygon( model, newNumEdges );
-	memcpy( newp, p1, sizeof(cm_polygon_t) );
-	memcpy( newp->edges, newEdges, newNumEdges * sizeof(int) );
+	memcpy( newp, p1, sizeof( cm_polygon_t ) );
+	memcpy( newp->edges, newEdges, newNumEdges * sizeof( int ) );
 	newp->numEdges = newNumEdges;
 	newp->checkcount = 0;
 	// increase usage count for the edges of this polygon
@@ -1462,7 +1439,7 @@ cm_polygon_t *idCollisionModelManagerLocal::TryMergePolygons( cm_model_t *model,
 		if ( !keep2 && newp->edges[i] == newEdgeNum2 ) {
 			continue;
 		}
-		model->edges[abs(newp->edges[i])].numUsers++;
+		model->edges[abs( newp->edges[i] )].numUsers++;
 	}
 	// create new bounds from the merged polygons
 	newp->bounds = p1->bounds + p2->bounds;
@@ -1480,7 +1457,7 @@ bool idCollisionModelManagerLocal::MergePolygonWithTreePolygons( cm_model_t *mod
 	cm_polygonRef_t *pref;
 	cm_polygon_t *p, *newp;
 
-	while( 1 ) {
+	while ( 1 ) {
 		for ( pref = node->polygons; pref; pref = pref->next ) {
 			p = pref->p;
 			//
@@ -1496,10 +1473,10 @@ bool idCollisionModelManagerLocal::MergePolygonWithTreePolygons( cm_model_t *mod
 				ReplacePolygons( model, model->node, polygon, p, newp );
 				// decrease usage count for edges of both merged polygons
 				for ( i = 0; i < polygon->numEdges; i++ ) {
-					model->edges[abs(polygon->edges[i])].numUsers--;
+					model->edges[abs( polygon->edges[i] )].numUsers--;
 				}
 				for ( i = 0; i < p->numEdges; i++ ) {
-					model->edges[abs(p->edges[i])].numUsers--;
+					model->edges[abs( p->edges[i] )].numUsers--;
 				}
 				// free merged polygons
 				FreePolygon( model, polygon );
@@ -1514,11 +1491,9 @@ bool idCollisionModelManagerLocal::MergePolygonWithTreePolygons( cm_model_t *mod
 		}
 		if ( polygon->bounds[0][node->planeType] > node->planeDist ) {
 			node = node->children[0];
-		}
-		else if ( polygon->bounds[1][node->planeType] < node->planeDist ) {
+		} else if ( polygon->bounds[1][node->planeType] < node->planeDist ) {
 			node = node->children[1];
-		}
-		else {
+		} else {
 			if ( MergePolygonWithTreePolygons( model, node->children[1], polygon ) ) {
 				return true;
 			}
@@ -1540,7 +1515,7 @@ void idCollisionModelManagerLocal::MergeTreePolygons( cm_model_t *model, cm_node
 	cm_polygon_t *p;
 	bool merge;
 
-	while( 1 ) {
+	while ( 1 ) {
 		do {
 			merge = false;
 			for ( pref = node->polygons; pref; pref = pref->next ) {
@@ -1556,7 +1531,7 @@ void idCollisionModelManagerLocal::MergeTreePolygons( cm_model_t *model, cm_node
 					break;
 				}
 			}
-		} while (merge);
+		} while ( merge );
 		// if leaf node
 		if ( node->planeType == -1 ) {
 			break;
@@ -1600,12 +1575,12 @@ bool idCollisionModelManagerLocal::PointInsidePolygon( cm_model_t *model, cm_pol
 
 	for ( i = 0; i < p->numEdges; i++ ) {
 		edgeNum = p->edges[i];
-		edge = model->edges + abs(edgeNum);
+		edge = model->edges + abs( edgeNum );
 		//
-		v1 = &model->vertices[edge->vertexNum[INTSIGNBITSET(edgeNum)]].p;
-		v2 = &model->vertices[edge->vertexNum[INTSIGNBITNOTSET(edgeNum)]].p;
-		dir1 = (*v2) - (*v1);
-		vec = v - (*v1);
+		v1 = &model->vertices[edge->vertexNum[INTSIGNBITSET( edgeNum )]].p;
+		v2 = &model->vertices[edge->vertexNum[INTSIGNBITNOTSET( edgeNum )]].p;
+		dir1 = ( *v2 ) - ( *v1 );
+		vec = v - ( *v1 );
 		dir2 = dir1.Cross( p->plane.Normal() );
 		if ( vec * dir2 > VERTEX_EPSILON ) {
 			return false;
@@ -1639,22 +1614,22 @@ void idCollisionModelManagerLocal::FindInternalEdgesOnPolygon( cm_model_t *model
 	//
 	for ( i = 0; i < p1->numEdges; i++ ) {
 		edgeNum = p1->edges[i];
-		edge = model->edges + abs(edgeNum);
+		edge = model->edges + abs( edgeNum );
 		// if already an internal edge
 		if ( edge->internal ) {
 			continue;
 		}
 		//
-		v1 = &model->vertices[edge->vertexNum[INTSIGNBITSET(edgeNum)]].p;
-		v2 = &model->vertices[edge->vertexNum[INTSIGNBITNOTSET(edgeNum)]].p;
+		v1 = &model->vertices[edge->vertexNum[INTSIGNBITSET( edgeNum )]].p;
+		v2 = &model->vertices[edge->vertexNum[INTSIGNBITNOTSET( edgeNum )]].p;
 		// if either of the two vertices is outside the bounds of the other polygon
 		for ( k = 0; k < 3; k++ ) {
 			d = p2->bounds[1][k] + VERTEX_EPSILON;
-			if ( (*v1)[k] > d || (*v2)[k] > d ) {
+			if ( ( *v1 )[k] > d || ( *v2 )[k] > d ) {
 				break;
 			}
 			d = p2->bounds[0][k] - VERTEX_EPSILON;
-			if ( (*v1)[k] < d || (*v2)[k] < d ) {
+			if ( ( *v1 )[k] < d || ( *v2 )[k] < d ) {
 				break;
 			}
 		}
@@ -1662,9 +1637,9 @@ void idCollisionModelManagerLocal::FindInternalEdgesOnPolygon( cm_model_t *model
 			continue;
 		}
 		//
-		k = abs(edgeNum);
+		k = abs( edgeNum );
 		for ( j = 0; j < p2->numEdges; j++ ) {
-			if ( k == abs(p2->edges[j]) ) {
+			if ( k == abs( p2->edges[j] ) ) {
 				break;
 			}
 		}
@@ -1685,16 +1660,16 @@ void idCollisionModelManagerLocal::FindInternalEdgesOnPolygon( cm_model_t *model
 		else {
 			// both vertices should be on the plane of the other polygon
 			d = p2->plane.Distance( *v1 );
-			if ( idMath::Fabs(d) > VERTEX_EPSILON ) {
+			if ( idMath::Fabs( d ) > VERTEX_EPSILON ) {
 				continue;
 			}
 			d = p2->plane.Distance( *v2 );
-			if ( idMath::Fabs(d) > VERTEX_EPSILON ) {
+			if ( idMath::Fabs( d ) > VERTEX_EPSILON ) {
 				continue;
 			}
 		}
 		// the two polygon plane normals should face towards each other
-		dir1 = (*v2) - (*v1);
+		dir1 = ( *v2 ) - ( *v1 );
 		dir2 = p1->plane.Normal().Cross( dir1 );
 		if ( p2->plane.Normal() * dir2 < 0 ) {
 			//continue;
@@ -1729,7 +1704,7 @@ void idCollisionModelManagerLocal::FindInternalPolygonEdges( cm_model_t *model, 
 		return;
 	}
 
-	while( 1 ) {
+	while ( 1 ) {
 		for ( pref = node->polygons; pref; pref = pref->next ) {
 			p = pref->p;
 			//
@@ -1751,11 +1726,9 @@ void idCollisionModelManagerLocal::FindInternalPolygonEdges( cm_model_t *model, 
 		}
 		if ( polygon->bounds[0][node->planeType] > node->planeDist ) {
 			node = node->children[0];
-		}
-		else if ( polygon->bounds[1][node->planeType] < node->planeDist ) {
+		} else if ( polygon->bounds[1][node->planeType] < node->planeDist ) {
 			node = node->children[1];
-		}
-		else {
+		} else {
 			FindInternalPolygonEdges( model, node->children[1], polygon );
 			node = node->children[0];
 		}
@@ -1774,13 +1747,13 @@ void idCollisionModelManagerLocal::FindContainedEdges( cm_model_t *model, cm_pol
 
 	for ( i = 0; i < p->numEdges; i++ ) {
 		edgeNum = p->edges[i];
-		edge = model->edges + abs(edgeNum);
+		edge = model->edges + abs( edgeNum );
 		if ( edge->internal ) {
 			continue;
 		}
 		w.Clear();
-		w += model->vertices[edge->vertexNum[INTSIGNBITSET(edgeNum)]].p;
-		w += model->vertices[edge->vertexNum[INTSIGNBITNOTSET(edgeNum)]].p;
+		w += model->vertices[edge->vertexNum[INTSIGNBITSET( edgeNum )]].p;
+		w += model->vertices[edge->vertexNum[INTSIGNBITNOTSET( edgeNum )]].p;
 		if ( ChoppedAwayByProcBSP( w, p->plane, p->contents ) ) {
 			edge->internal = true;
 		}
@@ -1796,7 +1769,7 @@ void idCollisionModelManagerLocal::FindInternalEdges( cm_model_t *model, cm_node
 	cm_polygonRef_t *pref;
 	cm_polygon_t *p;
 
-	while( 1 ) {
+	while ( 1 ) {
 		for ( pref = node->polygons; pref; pref = pref->next ) {
 			p = pref->p;
 			// if we checked this polygon already
@@ -1845,20 +1818,20 @@ static int CM_FindSplitter( const cm_node_t *node, const idBounds &bounds, int *
 	}
 	// sort on largest axis
 	for ( i = 0; i < 2; i++ ) {
-		if ( size[i] < size[i+1] ) {
+		if ( size[i] < size[i + 1] ) {
 			t = size[i];
-			size[i] = size[i+1];
-			size[i+1] = t;
+			size[i] = size[i + 1];
+			size[i + 1] = t;
 			j = axis[i];
-			axis[i] = axis[i+1];
-			axis[i+1] = j;
+			axis[i] = axis[i + 1];
+			axis[i + 1] = j;
 			i = -1;
 		}
 	}
 	// if the node is too small for further splits
 	if ( size[0] < MIN_NODE_SIZE ) {
 		polyCount = 0;
-		for ( pref = node->polygons; pref; pref = pref->next) {
+		for ( pref = node->polygons; pref; pref = pref->next ) {
 			polyCount++;
 		}
 		if ( polyCount > MAX_NODE_POLYGONS ) {
@@ -1877,7 +1850,7 @@ static int CM_FindSplitter( const cm_node_t *node, const idBounds &bounds, int *
 		// find an axial splitter from the brush bounding boxes
 		// also try brushes from parent nodes
 		for ( n = node; n; n = n->parent ) {
-			for ( bref = n->brushes; bref; bref = bref->next) {
+			for ( bref = n->brushes; bref; bref = bref->next ) {
 				for ( j = 0; j < 2; j++ ) {
 					dist = bref->b->bounds[j][type];
 					// if the splitter is already used or outside node bounds
@@ -1885,7 +1858,7 @@ static int CM_FindSplitter( const cm_node_t *node, const idBounds &bounds, int *
 						continue;
 					}
 					// find the most centered splitter
-					t = abs((bounds[1][type] - dist) - (dist - bounds[0][type]));
+					t = abs( ( bounds[1][type] - dist ) - ( dist - bounds[0][type] ) );
 					if ( t < bestt ) {
 						bestt = t;
 						*planeType = type;
@@ -1897,7 +1870,7 @@ static int CM_FindSplitter( const cm_node_t *node, const idBounds &bounds, int *
 		// find an axial splitter from the polygon bounding boxes
 		// also try brushes from parent nodes
 		for ( n = node; n; n = n->parent ) {
-			for ( pref = n->polygons; pref; pref = pref->next) {
+			for ( pref = n->polygons; pref; pref = pref->next ) {
 				for ( j = 0; j < 2; j++ ) {
 					dist = pref->p->bounds[j][type];
 					// if the splitter is already used or outside node bounds
@@ -1905,7 +1878,7 @@ static int CM_FindSplitter( const cm_node_t *node, const idBounds &bounds, int *
 						continue;
 					}
 					// find the most centered splitter
-					t = abs((bounds[1][type] - dist) - (dist - bounds[0][type]));
+					t = abs( ( bounds[1][type] - dist ) - ( dist - bounds[0][type] ) );
 					if ( t < bestt ) {
 						bestt = t;
 						*planeType = type;
@@ -1921,8 +1894,8 @@ static int CM_FindSplitter( const cm_node_t *node, const idBounds &bounds, int *
 				return true;
 			}
 			// don't create splitters real close to the bounds
-			if ( bounds[1][type] - *planeDist > (MIN_NODE_SIZE*0.5f) &&
-				*planeDist - bounds[0][type] > (MIN_NODE_SIZE*0.5f) ) {
+			if ( bounds[1][type] - *planeDist > ( MIN_NODE_SIZE * 0.5f ) &&
+					*planeDist - bounds[0][type] > ( MIN_NODE_SIZE * 0.5f ) ) {
 				return true;
 			}
 		}
@@ -1936,7 +1909,7 @@ CM_R_InsideAllChildren
 ================
 */
 static int CM_R_InsideAllChildren( cm_node_t *node, const idBounds &bounds ) {
-	assert(node != NULL);
+	assert( node != NULL );
 	if ( node->planeType != -1 ) {
 		if ( bounds[0][node->planeType] >= node->planeDist ) {
 			return false;
@@ -1960,18 +1933,16 @@ idCollisionModelManagerLocal::R_FilterPolygonIntoTree
 ================
 */
 void idCollisionModelManagerLocal::R_FilterPolygonIntoTree( cm_model_t *model, cm_node_t *node, cm_polygonRef_t *pref, cm_polygon_t *p ) {
-	assert(node != NULL);
+	assert( node != NULL );
 	while ( node->planeType != -1 ) {
 		if ( CM_R_InsideAllChildren( node, p->bounds ) ) {
 			break;
 		}
 		if ( p->bounds[0][node->planeType] >= node->planeDist ) {
 			node = node->children[0];
-		}
-		else if ( p->bounds[1][node->planeType] <= node->planeDist ) {
+		} else if ( p->bounds[1][node->planeType] <= node->planeDist ) {
 			node = node->children[1];
-		}
-		else {
+		} else {
 			R_FilterPolygonIntoTree( model, node->children[1], NULL, p );
 			node = node->children[0];
 		}
@@ -1979,8 +1950,7 @@ void idCollisionModelManagerLocal::R_FilterPolygonIntoTree( cm_model_t *model, c
 	if ( pref ) {
 		pref->next = node->polygons;
 		node->polygons = pref;
-	}
-	else {
+	} else {
 		AddPolygonToNode( model, node, p );
 	}
 }
@@ -1991,18 +1961,16 @@ idCollisionModelManagerLocal::R_FilterBrushIntoTree
 ================
 */
 void idCollisionModelManagerLocal::R_FilterBrushIntoTree( cm_model_t *model, cm_node_t *node, cm_brushRef_t *pref, cm_brush_t *b ) {
-	assert(node != NULL);
+	assert( node != NULL );
 	while ( node->planeType != -1 ) {
 		if ( CM_R_InsideAllChildren( node, b->bounds ) ) {
 			break;
 		}
 		if ( b->bounds[0][node->planeType] >= node->planeDist ) {
 			node = node->children[0];
-		}
-		else if ( b->bounds[1][node->planeType] <= node->planeDist ) {
+		} else if ( b->bounds[1][node->planeType] <= node->planeDist ) {
 			node = node->children[1];
-		}
-		else {
+		} else {
 			R_FilterBrushIntoTree( model, node->children[1], NULL, b );
 			node = node->children[0];
 		}
@@ -2010,8 +1978,7 @@ void idCollisionModelManagerLocal::R_FilterBrushIntoTree( cm_model_t *model, cm_
 	if ( pref ) {
 		pref->next = node->brushes;
 		node->brushes = pref;
-	}
-	else {
+	} else {
 		AddBrushToNode( model, node, b );
 	}
 }
@@ -2038,12 +2005,12 @@ cm_node_t *idCollisionModelManagerLocal::R_CreateAxialBSPTree( cm_model_t *model
 	}
 	// create two child nodes
 	frontNode = AllocNode( model, NODE_BLOCK_SIZE_LARGE );
-	memset( frontNode, 0, sizeof(cm_node_t) );
+	memset( frontNode, 0, sizeof( cm_node_t ) );
 	frontNode->parent = node;
 	frontNode->planeType = -1;
 	//
 	backNode = AllocNode( model, NODE_BLOCK_SIZE_LARGE );
-	memset( backNode, 0, sizeof(cm_node_t) );
+	memset( backNode, 0, sizeof( cm_node_t ) );
 	backNode->parent = node;
 	backNode->planeType = -1;
 	//
@@ -2062,7 +2029,7 @@ cm_node_t *idCollisionModelManagerLocal::R_CreateAxialBSPTree( cm_model_t *model
 	// filter polygons and brushes down the tree if necesary
 	for ( n = node; n; n = n->parent ) {
 		prevpref = NULL;
-		for ( pref = n->polygons; pref; pref = nextpref) {
+		for ( pref = n->polygons; pref; pref = nextpref ) {
 			nextpref = pref->next;
 			// if polygon is not inside all children
 			if ( !CM_R_InsideAllChildren( n, pref->p->bounds ) ) {
@@ -2070,17 +2037,15 @@ cm_node_t *idCollisionModelManagerLocal::R_CreateAxialBSPTree( cm_model_t *model
 				R_FilterPolygonIntoTree( model, n, pref, pref->p );
 				if ( prevpref ) {
 					prevpref->next = nextpref;
-				}
-				else {
+				} else {
 					n->polygons = nextpref;
 				}
-			}
-			else {
+			} else {
 				prevpref = pref;
 			}
 		}
 		prevbref = NULL;
-		for ( bref = n->brushes; bref; bref = nextbref) {
+		for ( bref = n->brushes; bref; bref = nextbref ) {
 			nextbref = bref->next;
 			// if brush is not inside all children
 			if ( !CM_R_InsideAllChildren( n, bref->b->bounds ) ) {
@@ -2088,12 +2053,10 @@ cm_node_t *idCollisionModelManagerLocal::R_CreateAxialBSPTree( cm_model_t *model
 				R_FilterBrushIntoTree( model, n, bref, bref->b );
 				if ( prevbref ) {
 					prevbref->next = nextbref;
-				}
-				else {
+				} else {
 					n->brushes = nextbref;
 				}
-			}
-			else {
+			} else {
 				prevbref = bref;
 			}
 		}
@@ -2152,10 +2115,10 @@ cm_node_t *idCollisionModelManagerLocal::CreateAxialBSPTree( cm_model_t *model, 
 
 	// get head node bounds
 	bounds.Clear();
-	for ( pref = node->polygons; pref; pref = pref->next) {
+	for ( pref = node->polygons; pref; pref = pref->next ) {
 		bounds += pref->p->bounds;
 	}
-	for ( bref = node->brushes; bref; bref = bref->next) {
+	for ( bref = node->brushes; bref; bref = bref->next ) {
 		bounds += bref->b->bounds;
 	}
 
@@ -2233,13 +2196,12 @@ void idCollisionModelManagerLocal::ClearHash( idBounds &bounds ) {
 	if ( f > max ) {
 		max = f;
 	}
-	cm_vertexShift = (float) max / VERTEX_HASH_BOXSIZE;
-	for ( i = 0; (1<<i) < cm_vertexShift; i++ ) {
+	cm_vertexShift = ( float ) max / VERTEX_HASH_BOXSIZE;
+	for ( i = 0; ( 1 << i ) < cm_vertexShift; i++ ) {
 	}
 	if ( i == 0 ) {
 		cm_vertexShift = 1;
-	}
-	else {
+	} else {
 		cm_vertexShift = i;
 	}
 }
@@ -2249,7 +2211,7 @@ void idCollisionModelManagerLocal::ClearHash( idBounds &bounds ) {
 idCollisionModelManagerLocal::HashVec
 ================
 */
-ID_INLINE int idCollisionModelManagerLocal::HashVec(const idVec3 &vec) {
+ID_INLINE int idCollisionModelManagerLocal::HashVec( const idVec3 &vec ) {
 	/*
 	int x, y;
 
@@ -2262,10 +2224,10 @@ ID_INLINE int idCollisionModelManagerLocal::HashVec(const idVec3 &vec) {
 	*/
 	int x, y, z;
 
-	x = (((int) (vec[0] - cm_modelBounds[0].x + 0.5)) + 2) >> 2;
-	y = (((int) (vec[1] - cm_modelBounds[0].y + 0.5)) + 2) >> 2;
-	z = (((int) (vec[2] - cm_modelBounds[0].z + 0.5)) + 2) >> 2;
-	return (x + y * VERTEX_HASH_BOXSIZE + z) & (VERTEX_HASH_SIZE-1);
+	x = ( ( ( int )( vec[0] - cm_modelBounds[0].x + 0.5 ) ) + 2 ) >> 2;
+	y = ( ( ( int )( vec[1] - cm_modelBounds[0].y + 0.5 ) ) + 2 ) >> 2;
+	z = ( ( ( int )( vec[2] - cm_modelBounds[0].z + 0.5 ) ) + 2 ) >> 2;
+	return ( x + y * VERTEX_HASH_BOXSIZE + z ) & ( VERTEX_HASH_SIZE - 1 );
 }
 
 /*
@@ -2276,23 +2238,22 @@ idCollisionModelManagerLocal::GetVertex
 int idCollisionModelManagerLocal::GetVertex( cm_model_t *model, const idVec3 &v, int *vertexNum ) {
 	int i, hashKey, vn;
 	idVec3 vert, *p;
-	
-	for (i = 0; i < 3; i++) {
-		if ( idMath::Fabs(v[i] - idMath::Rint(v[i])) < INTEGRAL_EPSILON )
-			vert[i] = idMath::Rint(v[i]);
+
+	for ( i = 0; i < 3; i++ ) {
+		if ( idMath::Fabs( v[i] - idMath::Rint( v[i] ) ) < INTEGRAL_EPSILON )
+			vert[i] = idMath::Rint( v[i] );
 		else
 			vert[i] = v[i];
 	}
 
 	hashKey = HashVec( vert );
 
-	for (vn = cm_vertexHash->First( hashKey ); vn >= 0; vn = cm_vertexHash->Next( vn ) ) {
+	for ( vn = cm_vertexHash->First( hashKey ); vn >= 0; vn = cm_vertexHash->Next( vn ) ) {
 		p = &model->vertices[vn].p;
 		// first compare z-axis because hash is based on x-y plane
-		if (idMath::Fabs(vert[2] - (*p)[2]) < VERTEX_EPSILON &&
-			idMath::Fabs(vert[0] - (*p)[0]) < VERTEX_EPSILON &&
-			idMath::Fabs(vert[1] - (*p)[1]) < VERTEX_EPSILON )
-		{
+		if ( idMath::Fabs( vert[2] - ( *p )[2] ) < VERTEX_EPSILON &&
+				idMath::Fabs( vert[0] - ( *p )[0] ) < VERTEX_EPSILON &&
+				idMath::Fabs( vert[1] - ( *p )[1] ) < VERTEX_EPSILON ) {
 			*vertexNum = vn;
 			return true;
 		}
@@ -2302,10 +2263,10 @@ int idCollisionModelManagerLocal::GetVertex( cm_model_t *model, const idVec3 &v,
 		cm_vertex_t *oldVertices;
 
 		// resize vertex array
-		model->maxVertices = (float) model->maxVertices * 1.5f + 1;
+		model->maxVertices = ( float ) model->maxVertices * 1.5f + 1;
 		oldVertices = model->vertices;
-		model->vertices = (cm_vertex_t *) Mem_ClearedAlloc( model->maxVertices * sizeof(cm_vertex_t) );
-		memcpy( model->vertices, oldVertices, model->numVertices * sizeof(cm_vertex_t) );
+		model->vertices = ( cm_vertex_t * ) Mem_ClearedAlloc( model->maxVertices * sizeof( cm_vertex_t ) );
+		memcpy( model->vertices, oldVertices, model->numVertices * sizeof( cm_vertex_t ) );
 		Mem_Free( oldVertices );
 
 		cm_vertexHash->ResizeIndex( model->maxVertices );
@@ -2336,8 +2297,7 @@ int idCollisionModelManagerLocal::GetEdge( cm_model_t *model, const idVec3 &v1, 
 
 	if ( v1num != -1 ) {
 		found = 1;
-	}
-	else {
+	} else {
 		found = GetVertex( model, v1, &v1num );
 	}
 	found &= GetVertex( model, v2, &v2num );
@@ -2348,9 +2308,8 @@ int idCollisionModelManagerLocal::GetEdge( cm_model_t *model, const idVec3 &v1, 
 	}
 	hashKey = cm_edgeHash->GenerateKey( v1num, v2num );
 	// if both vertices where already stored
-	if (found) {
-		for (e = cm_edgeHash->First( hashKey ); e >= 0; e = cm_edgeHash->Next( e ) )
-		{
+	if ( found ) {
+		for ( e = cm_edgeHash->First( hashKey ); e >= 0; e = cm_edgeHash->Next( e ) ) {
 			// NOTE: only allow at most two users that use the edge in opposite direction
 			if ( model->edges[e].numUsers != 1 ) {
 				continue;
@@ -2383,10 +2342,10 @@ int idCollisionModelManagerLocal::GetEdge( cm_model_t *model, const idVec3 &v1, 
 		cm_edge_t *oldEdges;
 
 		// resize edge array
-		model->maxEdges = (float) model->maxEdges * 1.5f + 1;
+		model->maxEdges = ( float ) model->maxEdges * 1.5f + 1;
 		oldEdges = model->edges;
-		model->edges = (cm_edge_t *) Mem_ClearedAlloc( model->maxEdges * sizeof(cm_edge_t) );
-		memcpy( model->edges, oldEdges, model->numEdges * sizeof(cm_edge_t) );
+		model->edges = ( cm_edge_t * ) Mem_ClearedAlloc( model->maxEdges * sizeof( cm_edge_t ) );
+		memcpy( model->edges, oldEdges, model->numEdges * sizeof( cm_edge_t ) );
 		Mem_Free( oldEdges );
 
 		cm_edgeHash->ResizeIndex( model->maxEdges );
@@ -2426,10 +2385,10 @@ void idCollisionModelManagerLocal::CreatePolygon( cm_model_t *model, idFixedWind
 		if ( j >= w->GetNumPoints() ) {
 			j = 0;
 		}
-		GetEdge( model, (*w)[i].ToVec3(), (*w)[j].ToVec3(), &polyEdges[numPolyEdges], v1num );
+		GetEdge( model, ( *w )[i].ToVec3(), ( *w )[j].ToVec3(), &polyEdges[numPolyEdges], v1num );
 		if ( polyEdges[numPolyEdges] ) {
 			// last vertex of this edge is the first vertex of the next edge
-			v1num = model->edges[ abs(polyEdges[numPolyEdges]) ].vertexNum[ INTSIGNBITNOTSET(polyEdges[numPolyEdges]) ];
+			v1num = model->edges[ abs( polyEdges[numPolyEdges] ) ].vertexNum[ INTSIGNBITNOTSET( polyEdges[numPolyEdges] ) ];
 			// this edge is valid so keep it
 			numPolyEdges++;
 		}
@@ -2440,8 +2399,8 @@ void idCollisionModelManagerLocal::CreatePolygon( cm_model_t *model, idFixedWind
 	}
 	// the polygon is invalid if some edge is found twice
 	for ( i = 0; i < numPolyEdges; i++ ) {
-		for ( j = i+1; j < numPolyEdges; j++ ) {
-			if ( abs(polyEdges[i]) == abs(polyEdges[j]) ) {
+		for ( j = i + 1; j < numPolyEdges; j++ ) {
+			if ( abs( polyEdges[i] ) == abs( polyEdges[j] ) ) {
 				return;
 			}
 		}
@@ -2499,7 +2458,7 @@ void idCollisionModelManagerLocal::PolygonFromWinding( cm_model_t *model, idFixe
 	}
 
 	if ( w->IsHuge() ) {
-		common->Warning( "idCollisionModelManagerLocal::PolygonFromWinding: model %s primitive %d is degenerate", model->name.c_str(), abs(primitiveNum) );
+		common->Warning( "idCollisionModelManagerLocal::PolygonFromWinding: model %s primitive %d is degenerate", model->name.c_str(), abs( primitiveNum ) );
 		return;
 	}
 
@@ -2534,12 +2493,12 @@ void idCollisionModelManagerLocal::CreatePatchPolygons( cm_model_t *model, idSur
 
 			d1 = mesh[v2].xyz - mesh[v1].xyz;
 			d2 = mesh[v3].xyz - mesh[v1].xyz;
-			plane.SetNormal( d1.Cross(d2) );
+			plane.SetNormal( d1.Cross( d2 ) );
 			if ( plane.Normalize() != 0.0f ) {
 				plane.FitThroughPoint( mesh[v1].xyz );
 				dot = plane.Distance( mesh[v4].xyz );
 				// if we can turn it into a quad
-				if ( idMath::Fabs(dot) < 0.1f ) {
+				if ( idMath::Fabs( dot ) < 0.1f ) {
 					w.Clear();
 					w += mesh[v1].xyz;
 					w += mesh[v2].xyz;
@@ -2548,8 +2507,7 @@ void idCollisionModelManagerLocal::CreatePatchPolygons( cm_model_t *model, idSur
 
 					PolygonFromWinding( model, &w, plane, material, -primitiveNum );
 					continue;
-				}
-				else {
+				} else {
 					// create one of the triangles
 					w.Clear();
 					w += mesh[v1].xyz;
@@ -2562,7 +2520,7 @@ void idCollisionModelManagerLocal::CreatePatchPolygons( cm_model_t *model, idSur
 			// create the other triangle
 			d1 = mesh[v3].xyz - mesh[v1].xyz;
 			d2 = mesh[v4].xyz - mesh[v1].xyz;
-			plane.SetNormal( d1.Cross(d2) );
+			plane.SetNormal( d1.Cross( d2 ) );
 			if ( plane.Normalize() != 0.0f ) {
 				plane.FitThroughPoint( mesh[v1].xyz );
 
@@ -2588,19 +2546,19 @@ static void CM_EstimateVertsAndEdges( const idMapEntity *mapEnt, int *numVerts, 
 	*numVerts = *numEdges = 0;
 	for ( j = 0; j < mapEnt->GetNumPrimitives(); j++ ) {
 		const idMapPrimitive *mapPrim;
-		mapPrim = mapEnt->GetPrimitive(j);
+		mapPrim = mapEnt->GetPrimitive( j );
 		if ( mapPrim->GetType() == idMapPrimitive::TYPE_PATCH ) {
 			// assume maximum tesselation without adding verts
-			width = static_cast<const idMapPatch*>(mapPrim)->GetWidth();
-			height = static_cast<const idMapPatch*>(mapPrim)->GetHeight();
+			width = static_cast<const idMapPatch *>( mapPrim )->GetWidth();
+			height = static_cast<const idMapPatch *>( mapPrim )->GetHeight();
 			*numVerts += width * height;
-			*numEdges += (width-1) * height + width * (height-1) + (width-1) * (height-1);
+			*numEdges += ( width - 1 ) * height + width * ( height - 1 ) + ( width - 1 ) * ( height - 1 );
 			continue;
 		}
 		if ( mapPrim->GetType() == idMapPrimitive::TYPE_BRUSH ) {
 			// assume cylinder with a polygon with (numSides - 2) edges ontop and on the bottom
-			*numVerts += (static_cast<const idMapBrush*>(mapPrim)->GetNumSides() - 2) * 2;
-			*numEdges += (static_cast<const idMapBrush*>(mapPrim)->GetNumSides() - 2) * 3;
+			*numVerts += ( static_cast<const idMapBrush *>( mapPrim )->GetNumSides() - 2 ) * 2;
+			*numEdges += ( static_cast<const idMapBrush *>( mapPrim )->GetNumSides() - 2 ) * 3;
 			continue;
 		}
 	}
@@ -2649,15 +2607,15 @@ void idCollisionModelManagerLocal::ConvertBrushSides( cm_model_t *model, const i
 	const idMaterial *material;
 
 	// fix degenerate planes
-	planes = (idPlane *) _alloca16( mapBrush->GetNumSides() * sizeof( planes[0] ) );
+	planes = ( idPlane * ) _alloca16( mapBrush->GetNumSides() * sizeof( planes[0] ) );
 	for ( i = 0; i < mapBrush->GetNumSides(); i++ ) {
-		planes[i] = mapBrush->GetSide(i)->GetPlane();
+		planes[i] = mapBrush->GetSide( i )->GetPlane();
 		planes[i].FixDegeneracies( DEGENERATE_DIST_EPSILON );
 	}
 
 	// create a collision polygon for each brush side
 	for ( i = 0; i < mapBrush->GetNumSides(); i++ ) {
-		mapSide = mapBrush->GetSide(i);
+		mapSide = mapBrush->GetSide( i );
 		material = declManager->FindMaterial( mapSide->GetMaterial() );
 		if ( !( material->GetContentFlags() & CONTENTS_REMOVE_UTIL ) ) {
 			continue;
@@ -2694,16 +2652,16 @@ void idCollisionModelManagerLocal::ConvertBrush( cm_model_t *model, const idMapB
 	bounds.Clear();
 
 	// fix degenerate planes
-	planes = (idPlane *) _alloca16( mapBrush->GetNumSides() * sizeof( planes[0] ) );
+	planes = ( idPlane * ) _alloca16( mapBrush->GetNumSides() * sizeof( planes[0] ) );
 	for ( i = 0; i < mapBrush->GetNumSides(); i++ ) {
-		planes[i] = mapBrush->GetSide(i)->GetPlane();
+		planes[i] = mapBrush->GetSide( i )->GetPlane();
 		planes[i].FixDegeneracies( DEGENERATE_DIST_EPSILON );
 	}
 
 	// we are only getting the bounds for the brush so there's no need
 	// to create a winding for the last brush side
 	for ( i = 0; i < mapBrush->GetNumSides() - 1; i++ ) {
-		mapSide = mapBrush->GetSide(i);
+		mapSide = mapBrush->GetSide( i );
 		material = declManager->FindMaterial( mapSide->GetMaterial() );
 		contents |= ( material->GetContentFlags() & CONTENTS_REMOVE_UTIL );
 		w.BaseForPlane( -planes[i] );
@@ -2729,7 +2687,7 @@ void idCollisionModelManagerLocal::ConvertBrush( cm_model_t *model, const idMapB
 	brush->primitiveNum = primitiveNum;
 	brush->bounds = bounds;
 	brush->numPlanes = mapBrush->GetNumSides();
-	for (i = 0; i < mapBrush->GetNumSides(); i++) {
+	for ( i = 0; i < mapBrush->GetNumSides(); i++ ) {
 		brush->planes[i] = planes[i];
 	}
 	AddBrushToNode( model, model->node, brush );
@@ -2837,9 +2795,8 @@ void idCollisionModelManagerLocal::RemapEdges( cm_node_t *node, int *edgeRemap )
 			p->checkcount = checkCount;
 			for ( i = 0; i < p->numEdges; i++ ) {
 				if ( p->edges[i] < 0 ) {
-					p->edges[i] = -edgeRemap[ abs(p->edges[i]) ];
-				}
-				else {
+					p->edges[i] = -edgeRemap[ abs( p->edges[i] ) ];
+				} else {
 					p->edges[i] = edgeRemap[ p->edges[i] ];
 				}
 			}
@@ -2867,7 +2824,7 @@ void idCollisionModelManagerLocal::OptimizeArrays( cm_model_t *model ) {
 	cm_edge_t *oldEdges;
 	cm_vertex_t *oldVertices;
 
-	remap = (int *) Mem_ClearedAlloc( Max( model->numVertices, model->numEdges ) * sizeof( int ) );
+	remap = ( int * ) Mem_ClearedAlloc( Max( model->numVertices, model->numEdges ) * sizeof( int ) );
 	// get all used vertices
 	for ( i = 0; i < model->numEdges; i++ ) {
 		remap[ model->edges[i].vertexNum[0] ] = true;
@@ -2910,16 +2867,16 @@ void idCollisionModelManagerLocal::OptimizeArrays( cm_model_t *model ) {
 	// realloc vertices
 	oldVertices = model->vertices;
 	if ( oldVertices ) {
-		model->vertices = (cm_vertex_t *) Mem_ClearedAlloc( model->numVertices * sizeof(cm_vertex_t) );
-		memcpy( model->vertices, oldVertices, model->numVertices * sizeof(cm_vertex_t) );
+		model->vertices = ( cm_vertex_t * ) Mem_ClearedAlloc( model->numVertices * sizeof( cm_vertex_t ) );
+		memcpy( model->vertices, oldVertices, model->numVertices * sizeof( cm_vertex_t ) );
 		Mem_Free( oldVertices );
 	}
 
 	// realloc edges
 	oldEdges = model->edges;
 	if ( oldEdges ) {
-		model->edges = (cm_edge_t *) Mem_ClearedAlloc( model->numEdges * sizeof(cm_edge_t) );
-		memcpy( model->edges, oldEdges, model->numEdges * sizeof(cm_edge_t) );
+		model->edges = ( cm_edge_t * ) Mem_ClearedAlloc( model->numEdges * sizeof( cm_edge_t ) );
+		memcpy( model->edges, oldEdges, model->numEdges * sizeof( cm_edge_t ) );
 		Mem_Free( oldEdges );
 	}
 }
@@ -2950,13 +2907,13 @@ void idCollisionModelManagerLocal::FinishModel( cm_model_t *model ) {
 	// get model contents
 	model->contents = CM_GetNodeContents( model->node );
 	// total memory used by this model
-	model->usedMemory = model->numVertices * sizeof(cm_vertex_t) +
-						model->numEdges * sizeof(cm_edge_t) +
+	model->usedMemory = model->numVertices * sizeof( cm_vertex_t ) +
+						model->numEdges * sizeof( cm_edge_t ) +
 						model->polygonMemory +
 						model->brushMemory +
-						model->numNodes * sizeof(cm_node_t) +
-						model->numPolygonRefs * sizeof(cm_polygonRef_t) +
-						model->numBrushRefs * sizeof(cm_brushRef_t);
+						model->numNodes * sizeof( cm_node_t ) +
+						model->numPolygonRefs * sizeof( cm_polygonRef_t ) +
+						model->numBrushRefs * sizeof( cm_brushRef_t );
 }
 
 /*
@@ -3012,7 +2969,7 @@ cm_model_t *idCollisionModelManagerLocal::LoadRenderModel( const char *fileName 
 	for ( i = 0; i < renderModel->NumSurfaces(); i++ ) {
 		surf = renderModel->Surface( i );
 		// if this surface has no contents
-		if ( ! ( surf->shader->GetContentFlags() & CONTENTS_REMOVE_UTIL ) ) {
+		if ( !( surf->shader->GetContentFlags() & CONTENTS_REMOVE_UTIL ) ) {
 			continue;
 		}
 		// if the model has a collision surface and this surface is not a collision surface
@@ -3024,8 +2981,8 @@ cm_model_t *idCollisionModelManagerLocal::LoadRenderModel( const char *fileName 
 		model->maxEdges += surf->geometry->numIndexes;
 	}
 
-	model->vertices = (cm_vertex_t *) Mem_ClearedAlloc( model->maxVertices * sizeof(cm_vertex_t) );
-	model->edges = (cm_edge_t *) Mem_ClearedAlloc( model->maxEdges * sizeof(cm_edge_t) );
+	model->vertices = ( cm_vertex_t * ) Mem_ClearedAlloc( model->maxVertices * sizeof( cm_vertex_t ) );
+	model->edges = ( cm_edge_t * ) Mem_ClearedAlloc( model->maxEdges * sizeof( cm_edge_t ) );
 
 	// setup hash to speed up finding shared vertices and edges
 	SetupHash();
@@ -3038,7 +2995,7 @@ cm_model_t *idCollisionModelManagerLocal::LoadRenderModel( const char *fileName 
 	for ( i = 0; i < renderModel->NumSurfaces(); i++ ) {
 		surf = renderModel->Surface( i );
 		// if this surface has no contents
-		if ( ! ( surf->shader->GetContentFlags() & CONTENTS_REMOVE_UTIL ) ) {
+		if ( !( surf->shader->GetContentFlags() & CONTENTS_REMOVE_UTIL ) ) {
 			continue;
 		}
 		// if the model has a collision surface and this surface is not a collision surface
@@ -3096,8 +3053,7 @@ cm_model_t *idCollisionModelManagerLocal::CollisionModelForMapEntity( const idMa
 			if ( !numModels ) {
 				// first model is always the world
 				name = "worldMap";
-			}
-			else {
+			} else {
 				name = "unnamed inline model";
 			}
 		}
@@ -3109,8 +3065,8 @@ cm_model_t *idCollisionModelManagerLocal::CollisionModelForMapEntity( const idMa
 	CM_EstimateVertsAndEdges( mapEnt, &model->maxVertices, &model->maxEdges );
 	model->numVertices = 0;
 	model->numEdges = 0;
-	model->vertices = (cm_vertex_t *) Mem_ClearedAlloc( model->maxVertices * sizeof(cm_vertex_t) );
-	model->edges = (cm_edge_t *) Mem_ClearedAlloc( model->maxEdges * sizeof(cm_edge_t) );
+	model->vertices = ( cm_vertex_t * ) Mem_ClearedAlloc( model->maxVertices * sizeof( cm_vertex_t ) );
+	model->edges = ( cm_edge_t * ) Mem_ClearedAlloc( model->maxEdges * sizeof( cm_edge_t ) );
 
 	cm_vertexHash->ResizeIndex( model->maxVertices );
 	cm_edgeHash->ResizeIndex( model->maxEdges );
@@ -3122,9 +3078,9 @@ cm_model_t *idCollisionModelManagerLocal::CollisionModelForMapEntity( const idMa
 	for ( i = 0; i < mapEnt->GetNumPrimitives(); i++ ) {
 		idMapPrimitive	*mapPrim;
 
-		mapPrim = mapEnt->GetPrimitive(i);
+		mapPrim = mapEnt->GetPrimitive( i );
 		if ( mapPrim->GetType() == idMapPrimitive::TYPE_BRUSH ) {
-			ConvertBrush( model, static_cast<idMapBrush*>(mapPrim), i );
+			ConvertBrush( model, static_cast<idMapBrush *>( mapPrim ), i );
 			continue;
 		}
 	}
@@ -3152,13 +3108,13 @@ cm_model_t *idCollisionModelManagerLocal::CollisionModelForMapEntity( const idMa
 	for ( i = 0; i < mapEnt->GetNumPrimitives(); i++ ) {
 		idMapPrimitive	*mapPrim;
 
-		mapPrim = mapEnt->GetPrimitive(i);
+		mapPrim = mapEnt->GetPrimitive( i );
 		if ( mapPrim->GetType() == idMapPrimitive::TYPE_PATCH ) {
-			ConvertPatch( model, static_cast<idMapPatch*>(mapPrim), i );
+			ConvertPatch( model, static_cast<idMapPatch *>( mapPrim ), i );
 			continue;
 		}
 		if ( mapPrim->GetType() == idMapPrimitive::TYPE_BRUSH ) {
-			ConvertBrushSides( model, static_cast<idMapBrush*>(mapPrim), i );
+			ConvertBrushSides( model, static_cast<idMapBrush *>( mapPrim ), i );
 			continue;
 		}
 	}
@@ -3195,18 +3151,18 @@ idCollisionModelManagerLocal::PrintModelInfo
 ==================
 */
 void idCollisionModelManagerLocal::PrintModelInfo( const cm_model_t *model ) {
-	common->Printf( "%6i vertices (%i KB)\n", model->numVertices, (model->numVertices * sizeof(cm_vertex_t))>>10 );
-	common->Printf( "%6i edges (%i KB)\n", model->numEdges, (model->numEdges * sizeof(cm_edge_t))>>10 );
-	common->Printf( "%6i polygons (%i KB)\n", model->numPolygons, model->polygonMemory>>10 );
-	common->Printf( "%6i brushes (%i KB)\n", model->numBrushes, model->brushMemory>>10 );
-	common->Printf( "%6i nodes (%i KB)\n", model->numNodes, (model->numNodes * sizeof(cm_node_t))>>10 );
-	common->Printf( "%6i polygon refs (%i KB)\n", model->numPolygonRefs, (model->numPolygonRefs * sizeof(cm_polygonRef_t))>>10 );
-	common->Printf( "%6i brush refs (%i KB)\n", model->numBrushRefs, (model->numBrushRefs * sizeof(cm_brushRef_t))>>10 );
+	common->Printf( "%6i vertices (%i KB)\n", model->numVertices, ( model->numVertices * sizeof( cm_vertex_t ) ) >> 10 );
+	common->Printf( "%6i edges (%i KB)\n", model->numEdges, ( model->numEdges * sizeof( cm_edge_t ) ) >> 10 );
+	common->Printf( "%6i polygons (%i KB)\n", model->numPolygons, model->polygonMemory >> 10 );
+	common->Printf( "%6i brushes (%i KB)\n", model->numBrushes, model->brushMemory >> 10 );
+	common->Printf( "%6i nodes (%i KB)\n", model->numNodes, ( model->numNodes * sizeof( cm_node_t ) ) >> 10 );
+	common->Printf( "%6i polygon refs (%i KB)\n", model->numPolygonRefs, ( model->numPolygonRefs * sizeof( cm_polygonRef_t ) ) >> 10 );
+	common->Printf( "%6i brush refs (%i KB)\n", model->numBrushRefs, ( model->numBrushRefs * sizeof( cm_brushRef_t ) ) >> 10 );
 	common->Printf( "%6i internal edges\n", model->numInternalEdges );
 	common->Printf( "%6i sharp edges\n", model->numSharpEdges );
 	common->Printf( "%6i contained polygons removed\n", model->numRemovedPolys );
 	common->Printf( "%6i polygons merged\n", model->numMergedPolys );
-	common->Printf( "%6i KB total memory used\n", model->usedMemory>>10 );
+	common->Printf( "%6i KB total memory used\n", model->usedMemory >> 10 );
 }
 
 /*
@@ -3272,10 +3228,10 @@ void idCollisionModelManagerLocal::ListModels( void ) {
 
 	totalMemory = 0;
 	for ( i = 0; i < numModels; i++ ) {
-		common->Printf( "%4d: %5d KB   %s\n", i, (models[i]->usedMemory>>10), models[i]->name.c_str() );
+		common->Printf( "%4d: %5d KB   %s\n", i, ( models[i]->usedMemory >> 10 ), models[i]->name.c_str() );
 		totalMemory += models[i]->usedMemory;
 	}
-	common->Printf( "%4d KB in %d models\n", (totalMemory>>10), numModels );
+	common->Printf( "%4d KB in %d models\n", ( totalMemory >> 10 ), numModels );
 }
 
 /*
@@ -3301,7 +3257,7 @@ void idCollisionModelManagerLocal::BuildModels( const idMapFile *mapFile ) {
 
 		// convert brushes and patches to collision data
 		for ( i = 0; i < mapFile->GetNumEntities(); i++ ) {
-			mapEnt = mapFile->GetEntity(i);
+			mapEnt = mapFile->GetEntity( i );
 
 			if ( numModels >= MAX_SUBMODELS ) {
 				common->Error( "idCollisionModelManagerLocal::BuildModels: more than %d collision models", MAX_SUBMODELS );
@@ -3362,7 +3318,7 @@ void idCollisionModelManagerLocal::LoadMap( const idMapFile *mapFile ) {
 	// models
 	maxModels = MAX_SUBMODELS;
 	numModels = 0;
-	models = (cm_model_t **) Mem_ClearedAlloc( (maxModels+1) * sizeof(cm_model_t *) );
+	models = ( cm_model_t ** ) Mem_ClearedAlloc( ( maxModels + 1 ) * sizeof( cm_model_t * ) );
 
 	// setup hash to speed up finding shared vertices and edges
 	SetupHash();
@@ -3485,11 +3441,11 @@ bool idCollisionModelManagerLocal::GetModelPolygon( cmHandle_t model, int polygo
 		return false;
 	}
 
-	poly = *reinterpret_cast<cm_polygon_t **>(&polygonNum);
+	poly = *reinterpret_cast<cm_polygon_t **>( &polygonNum );
 	winding.Clear();
 	for ( i = 0; i < poly->numEdges; i++ ) {
 		edgeNum = poly->edges[i];
-		winding += models[model]->vertices[ models[model]->edges[abs(edgeNum)].vertexNum[INTSIGNBITSET(edgeNum)] ].p;
+		winding += models[model]->vertices[ models[model]->edges[abs( edgeNum )].vertexNum[INTSIGNBITSET( edgeNum )] ].p;
 	}
 
 	return true;
@@ -3591,7 +3547,7 @@ idCollisionModelManagerLocal::TrmFromModel
 ==================
 */
 bool idCollisionModelManagerLocal::TrmFromModel( const cm_model_t *model, idTraceModel &trm ) {
-	int i, j, numEdgeUsers[MAX_TRACEMODEL_EDGES+1];
+	int i, j, numEdgeUsers[MAX_TRACEMODEL_EDGES + 1];
 
 	// if the model has too many vertices to fit in a trace model
 	if ( model->numVertices > MAX_TRACEMODEL_VERTS ) {
@@ -3601,7 +3557,7 @@ bool idCollisionModelManagerLocal::TrmFromModel( const cm_model_t *model, idTrac
 	}
 
 	// plus one because the collision model accounts for the first unused edge
-	if ( model->numEdges > MAX_TRACEMODEL_EDGES+1 ) {
+	if ( model->numEdges > MAX_TRACEMODEL_EDGES + 1 ) {
 		common->Printf( "idCollisionModelManagerLocal::TrmFromModel: model %s has too many edges.\n", model->name.c_str() );
 		PrintModelInfo( model );
 		return false;
@@ -3637,7 +3593,7 @@ bool idCollisionModelManagerLocal::TrmFromModel( const cm_model_t *model, idTrac
 	trm.numEdges = model->numEdges - 1;
 
 	// each edge should be used exactly twice
-	memset( numEdgeUsers, 0, sizeof(numEdgeUsers) );
+	memset( numEdgeUsers, 0, sizeof( numEdgeUsers ) );
 	for ( i = 0; i < trm.numPolys; i++ ) {
 		for ( j = 0; j < trm.polys[i].numEdges; j++ ) {
 			numEdgeUsers[ abs( trm.polys[i].edges[j] ) ]++;

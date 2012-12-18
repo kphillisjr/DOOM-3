@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -43,33 +43,33 @@ class roqParam;
 class NSBitmapImageRep {
 public:
 
-						NSBitmapImageRep( void );
-						NSBitmapImageRep( const char *filename );
-						NSBitmapImageRep( int wide, int high );
-						~NSBitmapImageRep();
+	NSBitmapImageRep( void );
+	NSBitmapImageRep( const char *filename );
+	NSBitmapImageRep( int wide, int high );
+	~NSBitmapImageRep();
 
-	NSBitmapImageRep &	operator=( const NSBitmapImageRep &a );
-	
+	NSBitmapImageRep 	&operator=( const NSBitmapImageRep &a );
+
 	int					samplesPerPixel( void );
 	int					pixelsWide( void );
 	int					pixelsHigh( void );
-	byte *				bitmapData( void );
+	byte 				*bitmapData( void );
 	bool				hasAlpha( void );
 	bool				isPlanar( void );
-	
+
 private:
 
-	byte *				bmap;
+	byte 				*bmap;
 	int					width;
 	int					height;
 	ID_TIME_T				timestamp;
-	
+
 };
 
 class roq {
 public:
-						roq();
-						~roq();
+	roq();
+	~roq();
 
 	void				WriteLossless( void );
 	void				LoadAndDisplayImage( const char *filename );
@@ -80,7 +80,7 @@ public:
 	void				EncodeQuietly( bool which );
 	bool				IsQuiet( void );
 	bool				IsLastFrame( void );
-	NSBitmapImageRep *	CurrentImage( void );
+	NSBitmapImageRep 	*CurrentImage( void );
 	void				MarkQuadx( int xat, int yat, int size, float cerror, int choice );
 	void				WritePuzzleFrame( quadcel *pquad );
 	void				WriteFrame( quadcel *pquad );
@@ -91,7 +91,7 @@ public:
 	bool				ParamNoAlpha( void );
 	bool				SearchType( void );
 	bool				HasSound( void );
-	const char *		CurrentFilename( void );
+	const char 		*CurrentFilename( void );
 	int					NormalFrameSize( void );
 	int					FirstFrameSize( void );
 	bool				Scaleable( void );
@@ -103,21 +103,21 @@ private:
 	int					SizeFile( idFile *ftosize );
 	void				CloseRoQFile( void );
 	void				WriteCodeBookToStream( byte *codebook, int csize, word cflags );
-	
+
 	static	void		JPEGInitDestination( j_compress_ptr cinfo );
 	static	boolean		JPEGEmptyOutputBuffer( j_compress_ptr cinfo );
 	static	void		JPEGTermDestination( j_compress_ptr cinfo );
-	
+
 	void				JPEGStartCompress( j_compress_ptr cinfo, bool write_all_tables );
 	JDIMENSION			JPEGWriteScanlines( j_compress_ptr cinfo, JSAMPARRAY scanlines, JDIMENSION num_lines );
-	void				JPEGDest( j_compress_ptr cinfo, byte* outfile, int size );
-	void				JPEGSave( char * filename, int quality, int image_width, int image_height, unsigned char *image_buffer );
+	void				JPEGDest( j_compress_ptr cinfo, byte *outfile, int size );
+	void				JPEGSave( char *filename, int quality, int image_width, int image_height, unsigned char *image_buffer );
 
-	codec *				encoder;
-	roqParam *			paramFile;
+	codec 				*encoder;
+	roqParam 			*paramFile;
 
-	idFile *			RoQFile;
-	NSBitmapImageRep *	image;
+	idFile 			*RoQFile;
+	NSBitmapImageRep 	*image;
 	int					numQuadCels;
 	bool				quietMode;
 	bool				lastFrame;
@@ -130,6 +130,6 @@ private:
 
 };
 
-extern roq *theRoQ;				// current roq 
+extern roq *theRoQ;				// current roq
 
 #endif /* !__roq_h__ */

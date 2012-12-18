@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ If you have questions concerning this license or the applicable additional terms
 #include "../idlib/precompiled.h"
 #pragma hdrstop
 
-idCVar * idCVar::staticVars = NULL;
+idCVar *idCVar::staticVars = NULL;
 
 /*
 ===============================================================================
@@ -42,12 +42,12 @@ idCVar * idCVar::staticVars = NULL;
 class idInternalCVar : public idCVar {
 	friend class idCVarSystemLocal;
 public:
-							idInternalCVar( void );
-							idInternalCVar( const char *newName, const char *newValue, int newFlags );
-							idInternalCVar( const idCVar *cvar );
+	idInternalCVar( void );
+	idInternalCVar( const char *newName, const char *newValue, int newFlags );
+	idInternalCVar( const idCVar *cvar );
 	virtual					~idInternalCVar( void );
 
-	const char **			CopyValueStrings( const char **strings );
+	const char 			**CopyValueStrings( const char **strings );
 	void					Update( const idCVar *cvar );
 	void					UpdateValue( void );
 	void					UpdateCheat( void );
@@ -151,8 +151,8 @@ const char **idInternalCVar::CopyValueStrings( const char **strings ) {
 		totalLength += idStr::Length( strings[i] ) + 1;
 	}
 
-	ptr = (const char **) Mem_Alloc( ( i + 1 ) * sizeof( char * ) + totalLength );
-	str = (char *) (((byte *)ptr) + ( i + 1 ) * sizeof( char * ) );
+	ptr = ( const char ** ) Mem_Alloc( ( i + 1 ) * sizeof( char * ) + totalLength );
+	str = ( char * )( ( ( byte * )ptr ) + ( i + 1 ) * sizeof( char * ) );
 
 	for ( i = 0; strings[i] != NULL; i++ ) {
 		ptr[i] = str;
@@ -180,7 +180,7 @@ void idInternalCVar::Update( const idCVar *cvar ) {
 			if ( resetString.Icmp( cvar->GetString() ) != 0 ) {
 				common->Warning( "CVar '%s' declared multiple times with different initial value", nameString.c_str() );
 			}
-			if ( ( flags & (CVAR_BOOL|CVAR_INTEGER|CVAR_FLOAT) ) != ( cvar->GetFlags() & (CVAR_BOOL|CVAR_INTEGER|CVAR_FLOAT) ) ) {
+			if ( ( flags & ( CVAR_BOOL | CVAR_INTEGER | CVAR_FLOAT ) ) != ( cvar->GetFlags() & ( CVAR_BOOL | CVAR_INTEGER | CVAR_FLOAT ) ) ) {
 				common->Warning( "CVar '%s' declared multiple times with different type", nameString.c_str() );
 			}
 			if ( valueMin != cvar->GetMinValue() || valueMax != cvar->GetMaxValue() ) {
@@ -226,17 +226,17 @@ void idInternalCVar::UpdateValue( void ) {
 		integerValue = ( atoi( value ) != 0 );
 		floatValue = integerValue;
 		if ( idStr::Icmp( value, "0" ) != 0 && idStr::Icmp( value, "1" ) != 0 ) {
-			valueString = idStr( (bool)( integerValue != 0 ) );
+			valueString = idStr( ( bool )( integerValue != 0 ) );
 			value = valueString.c_str();
 		}
 	} else if ( flags & CVAR_INTEGER ) {
-		integerValue = (int)atoi( value );
+		integerValue = ( int )atoi( value );
 		if ( valueMin < valueMax ) {
 			if ( integerValue < valueMin ) {
-				integerValue = (int)valueMin;
+				integerValue = ( int )valueMin;
 				clamped = true;
 			} else if ( integerValue > valueMax ) {
-				integerValue = (int)valueMax;
+				integerValue = ( int )valueMax;
 				clamped = true;
 			}
 		}
@@ -244,9 +244,9 @@ void idInternalCVar::UpdateValue( void ) {
 			valueString = idStr( integerValue );
 			value = valueString.c_str();
 		}
-		floatValue = (float)integerValue;
+		floatValue = ( float )integerValue;
 	} else if ( flags & CVAR_FLOAT ) {
-		floatValue = (float)atof( value );
+		floatValue = ( float )atof( value );
 		if ( valueMin < valueMax ) {
 			if ( floatValue < valueMin ) {
 				floatValue = valueMin;
@@ -260,7 +260,7 @@ void idInternalCVar::UpdateValue( void ) {
 			valueString = idStr( floatValue );
 			value = valueString.c_str();
 		}
-		integerValue = (int)floatValue;
+		integerValue = ( int )floatValue;
 	} else {
 		if ( valueStrings && valueStrings[0] ) {
 			integerValue = 0;
@@ -272,10 +272,10 @@ void idInternalCVar::UpdateValue( void ) {
 			}
 			valueString = valueStrings[integerValue];
 			value = valueString.c_str();
-			floatValue = (float)integerValue;
+			floatValue = ( float )integerValue;
 		} else if ( valueString.Length() < 32 ) {
-			floatValue = (float)atof( value );
-			integerValue = (int)floatValue;
+			floatValue = ( float )atof( value );
+			integerValue = ( int )floatValue;
 		} else {
 			floatValue = 0.0f;
 			integerValue = 0;
@@ -309,7 +309,7 @@ void idInternalCVar::Set( const char *newValue, bool force, bool fromServer ) {
 			common->Printf( "%s is a synced over the network and cannot be changed on a multiplayer client.\n", nameString.c_str() );
 #if ID_ALLOW_CHEATS
 			common->Printf( "ID_ALLOW_CHEATS override!\n" );
-#else				
+#else
 			return;
 #endif
 		}
@@ -318,10 +318,10 @@ void idInternalCVar::Set( const char *newValue, bool force, bool fromServer ) {
 			common->Printf( "%s cannot be changed in multiplayer.\n", nameString.c_str() );
 #if ID_ALLOW_CHEATS
 			common->Printf( "ID_ALLOW_CHEATS override!\n" );
-#else				
+#else
 			return;
 #endif
-		}	
+		}
 	}
 
 	if ( !newValue ) {
@@ -419,7 +419,7 @@ void idInternalCVar::InternalSetFloat( const float newValue ) {
 
 class idCVarSystemLocal : public idCVarSystem {
 public:
-							idCVarSystemLocal( void );
+	idCVarSystemLocal( void );
 
 	virtual					~idCVarSystemLocal( void ) {}
 
@@ -429,22 +429,22 @@ public:
 
 	virtual void			Register( idCVar *cvar );
 
-	virtual idCVar *		Find( const char *name );
+	virtual idCVar 		*Find( const char *name );
 
 	virtual void			SetCVarString( const char *name, const char *value, int flags = 0 );
 	virtual void			SetCVarBool( const char *name, const bool value, int flags = 0 );
 	virtual void			SetCVarInteger( const char *name, const int value, int flags = 0 );
 	virtual void			SetCVarFloat( const char *name, const float value, int flags = 0 );
 
-	virtual const char *	GetCVarString( const char *name ) const;
+	virtual const char 	*GetCVarString( const char *name ) const;
 	virtual bool			GetCVarBool( const char *name ) const;
 	virtual int				GetCVarInteger( const char *name ) const;
 	virtual float			GetCVarFloat( const char *name ) const;
 
 	virtual bool			Command( const idCmdArgs &args );
 
-	virtual void			CommandCompletion( void(*callback)( const char *s ) );
-	virtual void			ArgCompletion( const char *cmdString, void(*callback)( const char *s ) );
+	virtual void			CommandCompletion( void( *callback )( const char *s ) );
+	virtual void			ArgCompletion( const char *cmdString, void( *callback )( const char *s ) );
 
 	virtual void			SetModifiedFlags( int flags );
 	virtual int				GetModifiedFlags( void ) const;
@@ -454,19 +454,19 @@ public:
 	virtual void			RemoveFlaggedAutoCompletion( int flags );
 	virtual void			WriteFlaggedVariables( int flags, const char *setCmd, idFile *f ) const;
 
-	virtual const idDict *	MoveCVarsToDict( int flags ) const;
+	virtual const idDict 	*MoveCVarsToDict( int flags ) const;
 	virtual void			SetCVarsFromDict( const idDict &dict );
 
 	void					RegisterInternal( idCVar *cvar );
-	idInternalCVar *		FindInternal( const char *name ) const;
+	idInternalCVar 		*FindInternal( const char *name ) const;
 	void					SetInternal( const char *name, const char *value, int flags );
 
 private:
 	bool					initialized;
-	idList<idInternalCVar*>	cvars;
+	idList<idInternalCVar *>	cvars;
 	idHashIndex				cvarHash;
 	int						modifiedFlags;
-							// use a static dictionary to MoveCVarsToDict can be used from game
+	// use a static dictionary to MoveCVarsToDict can be used from game
 	static idDict			moveCVarsToDict;
 
 
@@ -484,7 +484,7 @@ private:
 };
 
 idCVarSystemLocal			localCVarSystem;
-idCVarSystem *				cvarSystem = &localCVarSystem;
+idCVarSystem 				*cvarSystem = &localCVarSystem;
 
 idDict						idCVarSystemLocal::moveCVarsToDict;
 
@@ -499,17 +499,17 @@ const char *CreateColumn( const char *text, int columnWidth, const char *indent,
 	string.Clear();
 	for ( lastLine = i = 0; text[i] != '\0'; i++ ) {
 		if ( i - lastLine >= columnWidth || text[i] == '\n' ) {
-			while( i > 0 && text[i] > ' ' && text[i] != '/' && text[i] != ',' && text[i] != '\\' ) {
+			while ( i > 0 && text[i] > ' ' && text[i] != '/' && text[i] != ',' && text[i] != '\\' ) {
 				i--;
 			}
-			while( lastLine < i ) {
+			while ( lastLine < i ) {
 				string.Append( text[lastLine++] );
 			}
 			string.Append( indent );
 			lastLine++;
 		}
 	}
-	while( lastLine < i ) {
+	while ( lastLine < i ) {
 		string.Append( text[lastLine++] );
 	}
 	return string.c_str();
@@ -743,7 +743,7 @@ bool idCVarSystemLocal::Command( const idCmdArgs &args ) {
 	if ( args.Argc() == 1 ) {
 		// print the variable
 		common->Printf( "\"%s\" is:\"%s\"" S_COLOR_WHITE " default:\"%s\"\n",
-					internal->nameString.c_str(), internal->valueString.c_str(), internal->resetString.c_str() );
+						internal->nameString.c_str(), internal->valueString.c_str(), internal->resetString.c_str() );
 		if ( idStr::Length( internal->GetDescription() ) > 0 ) {
 			common->Printf( S_COLOR_WHITE "%s\n", internal->GetDescription() );
 		}
@@ -759,8 +759,8 @@ bool idCVarSystemLocal::Command( const idCmdArgs &args ) {
 idCVarSystemLocal::CommandCompletion
 ============
 */
-void idCVarSystemLocal::CommandCompletion( void(*callback)( const char *s ) ) {
-	for( int i = 0; i < cvars.Num(); i++ ) {
+void idCVarSystemLocal::CommandCompletion( void( *callback )( const char *s ) ) {
+	for ( int i = 0; i < cvars.Num(); i++ ) {
 		callback( cvars[i]->GetName() );
 	}
 }
@@ -770,12 +770,12 @@ void idCVarSystemLocal::CommandCompletion( void(*callback)( const char *s ) ) {
 idCVarSystemLocal::ArgCompletion
 ============
 */
-void idCVarSystemLocal::ArgCompletion( const char *cmdString, void(*callback)( const char *s ) ) {
+void idCVarSystemLocal::ArgCompletion( const char *cmdString, void( *callback )( const char *s ) ) {
 	idCmdArgs args;
 
 	args.TokenizeString( cmdString, false );
 
-	for( int i = 0; i < cvars.Num(); i++ ) {
+	for ( int i = 0; i < cvars.Num(); i++ ) {
 		if ( !cvars[i]->valueCompletion ) {
 			continue;
 		}
@@ -819,7 +819,7 @@ idCVarSystemLocal::ResetFlaggedVariables
 ============
 */
 void idCVarSystemLocal::ResetFlaggedVariables( int flags ) {
-	for( int i = 0; i < cvars.Num(); i++ ) {
+	for ( int i = 0; i < cvars.Num(); i++ ) {
 		idInternalCVar *cvar = cvars[i];
 		if ( cvar->GetFlags() & flags ) {
 			cvar->Set( NULL, true, true );
@@ -833,7 +833,7 @@ idCVarSystemLocal::RemoveFlaggedAutoCompletion
 ============
 */
 void idCVarSystemLocal::RemoveFlaggedAutoCompletion( int flags ) {
-	for( int i = 0; i < cvars.Num(); i++ ) {
+	for ( int i = 0; i < cvars.Num(); i++ ) {
 		idInternalCVar *cvar = cvars[i];
 		if ( cvar->GetFlags() & flags ) {
 			cvar->valueCompletion = NULL;
@@ -850,7 +850,7 @@ with the "flags" flag set to true.
 ============
 */
 void idCVarSystemLocal::WriteFlaggedVariables( int flags, const char *setCmd, idFile *f ) const {
-	for( int i = 0; i < cvars.Num(); i++ ) {
+	for ( int i = 0; i < cvars.Num(); i++ ) {
 		idInternalCVar *cvar = cvars[i];
 		if ( cvar->GetFlags() & flags ) {
 			f->Printf( "%s %s \"%s\"\n", setCmd, cvar->GetName(), cvar->GetString() );
@@ -863,9 +863,9 @@ void idCVarSystemLocal::WriteFlaggedVariables( int flags, const char *setCmd, id
 idCVarSystemLocal::MoveCVarsToDict
 ============
 */
-const idDict* idCVarSystemLocal::MoveCVarsToDict( int flags ) const {
+const idDict *idCVarSystemLocal::MoveCVarsToDict( int flags ) const {
 	moveCVarsToDict.Clear();
-	for( int i = 0; i < cvars.Num(); i++ ) {
+	for ( int i = 0; i < cvars.Num(); i++ ) {
 		idCVar *cvar = cvars[i];
 		if ( cvar->GetFlags() & flags ) {
 			moveCVarsToDict.Set( cvar->GetName(), cvar->GetString() );
@@ -882,7 +882,7 @@ idCVarSystemLocal::SetCVarsFromDict
 void idCVarSystemLocal::SetCVarsFromDict( const idDict &dict ) {
 	idInternalCVar *internal;
 
-	for( int i = 0; i < dict.GetNumKeyVals(); i++ ) {
+	for ( int i = 0; i < dict.GetNumKeyVals(); i++ ) {
 		const idKeyValue *kv = dict.GetKeyVal( i );
 		internal = FindInternal( kv->GetKey() );
 		if ( internal ) {
@@ -903,10 +903,10 @@ void idCVarSystemLocal::Toggle_f( const idCmdArgs &args ) {
 
 	argc = args.Argc();
 	if ( argc < 2 ) {
-		common->Printf ("usage:\n"
-			"   toggle <variable>  - toggles between 0 and 1\n"
-			"   toggle <variable> <value> - toggles between 0 and <value>\n"
-			"   toggle <variable> [string 1] [string 2]...[string n] - cycles through all strings\n");
+		common->Printf( "usage:\n"
+						"   toggle <variable>  - toggles between 0 and 1\n"
+						"   toggle <variable> <value> - toggles between 0 and <value>\n"
+						"   toggle <variable> [string 1] [string 2]...[string n] - cycles through all strings\n" );
 		return;
 	}
 
@@ -920,7 +920,7 @@ void idCVarSystemLocal::Toggle_f( const idCmdArgs &args ) {
 	if ( argc > 3 ) {
 		// cycle through multiple values
 		text = cvar->GetString();
-		for( i = 2; i < argc; i++ ) {
+		for ( i = 2; i < argc; i++ ) {
 			if ( !idStr::Icmp( text, args.Argv( i ) ) ) {
 				// point to next value
 				i++;
@@ -931,8 +931,8 @@ void idCVarSystemLocal::Toggle_f( const idCmdArgs &args ) {
 			i = 2;
 		}
 
-		common->Printf( "set %s = %s\n", args.Argv(1), args.Argv( i ) );
-		cvar->Set( va("%s", args.Argv( i ) ), false, false );
+		common->Printf( "set %s = %s\n", args.Argv( 1 ), args.Argv( i ) );
+		cvar->Set( va( "%s", args.Argv( i ) ), false, false );
 	} else {
 		// toggle between 0 and 1
 		current = cvar->GetFloat();
@@ -946,7 +946,7 @@ void idCVarSystemLocal::Toggle_f( const idCmdArgs &args ) {
 		} else {
 			current = 0.0f;
 		}
-		common->Printf( "set %s = %f\n", args.Argv(1), current );
+		common->Printf( "set %s = %f\n", args.Argv( 1 ), current );
 		cvar->Set( idStr( current ), false, false );
 	}
 }
@@ -960,7 +960,7 @@ void idCVarSystemLocal::Set_f( const idCmdArgs &args ) {
 	const char *str;
 
 	str = args.Args( 2, args.Argc() - 1 );
-	localCVarSystem.SetCVarString( args.Argv(1), str );
+	localCVarSystem.SetCVarString( args.Argv( 1 ), str );
 }
 
 /*
@@ -1040,7 +1040,7 @@ void idCVarSystemLocal::Reset_f( const idCmdArgs &args ) {
 	idInternalCVar *cvar;
 
 	if ( args.Argc() != 2 ) {
-		common->Printf ("usage: reset <variable>\n");
+		common->Printf( "usage: reset <variable>\n" );
 		return;
 	}
 	cvar = localCVarSystem.FindInternal( args.Argv( 1 ) );
@@ -1058,8 +1058,8 @@ idCVarSystemLocal::ListByFlags
 */
 // NOTE: the const wonkyness is required to make msvc happy
 template<>
-ID_INLINE int idListSortCompare( const idInternalCVar * const *a, const idInternalCVar * const *b ) {
-	return idStr::Icmp( (*a)->GetName(), (*b)->GetName() );
+ID_INLINE int idListSortCompare( const idInternalCVar *const *a, const idInternalCVar *const *b ) {
+	return idStr::Icmp( ( *a )->GetName(), ( *b )->GetName() );
 }
 
 void idCVarSystemLocal::ListByFlags( const idCmdArgs &args, cvarFlags_t flags ) {
@@ -1114,7 +1114,7 @@ void idCVarSystemLocal::ListByFlags( const idCmdArgs &args, cvarFlags_t flags ) 
 
 	cvarList.Sort();
 
-	switch( show ) {
+	switch ( show ) {
 		case SHOW_VALUE: {
 			for ( i = 0; i < cvarList.Num(); i++ ) {
 				cvar = cvarList[i];
@@ -1139,7 +1139,7 @@ void idCVarSystemLocal::ListByFlags( const idCmdArgs &args, cvarFlags_t flags ) 
 					common->Printf( FORMAT_STRING S_COLOR_CYAN "bool\n", cvar->GetName() );
 				} else if ( cvar->GetFlags() & CVAR_INTEGER ) {
 					if ( cvar->GetMinValue() < cvar->GetMaxValue() ) {
-						common->Printf( FORMAT_STRING S_COLOR_GREEN "int " S_COLOR_WHITE "[%d, %d]\n", cvar->GetName(), (int) cvar->GetMinValue(), (int) cvar->GetMaxValue() );
+						common->Printf( FORMAT_STRING S_COLOR_GREEN "int " S_COLOR_WHITE "[%d, %d]\n", cvar->GetName(), ( int ) cvar->GetMinValue(), ( int ) cvar->GetMaxValue() );
 					} else {
 						common->Printf( FORMAT_STRING S_COLOR_GREEN "int\n", cvar->GetName() );
 					}
@@ -1211,9 +1211,9 @@ void idCVarSystemLocal::ListByFlags( const idCmdArgs &args, cvarFlags_t flags ) 
 
 	common->Printf( "\n%i cvars listed\n\n", cvarList.Num() );
 	common->Printf(	"listCvar [search string]          = list cvar values\n"
-				"listCvar -help [search string]    = list cvar descriptions\n"
-				"listCvar -type [search string]    = list cvar types\n"
-				"listCvar -flags [search string]   = list cvar flags\n" );
+					"listCvar -help [search string]    = list cvar descriptions\n"
+					"listCvar -type [search string]    = list cvar types\n"
+					"listCvar -flags [search string]   = list cvar flags\n" );
 }
 
 /*

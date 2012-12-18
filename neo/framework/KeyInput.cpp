@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -39,12 +39,11 @@ typedef struct {
 static const char unnamedkeys[] = "*,-=./[\\]1234567890abcdefghijklmnopqrstuvwxyz";
 
 #if MACOS_X
-const char* OSX_GetLocalizedString( const char* );
+const char *OSX_GetLocalizedString( const char * );
 #endif
 
 // names not in this list can either be lowercase ascii, or '0xnn' hex sequences
-keyname_t keynames[] =
-{
+keyname_t keynames[] = {
 	{"TAB",				K_TAB,				"#str_07018"},
 	{"ENTER",			K_ENTER,			"#str_07019"},
 	{"ESCAPE",			K_ESCAPE,			"#str_07020"},
@@ -69,7 +68,7 @@ keyname_t keynames[] =
 	{"CAPSLOCK",		K_CAPSLOCK,			"#str_07034"},
 	{"SCROLL",			K_SCROLL,			"#str_07035"},
 	{"PRINTSCREEN",		K_PRINT_SCR,		"#str_07179"},
-	
+
 	{"F1", 				K_F1, 				"#str_07036"},
 	{"F2", 				K_F2, 				"#str_07037"},
 	{"F3", 				K_F3, 				"#str_07038"},
@@ -172,7 +171,7 @@ keyname_t keynames[] =
 	{"KP_EQUALS",		K_KP_EQUALS,		"#str_07127"},
 
 	{"PAUSE",			K_PAUSE,			"#str_07128"},
-	
+
 	{"SEMICOLON",		';',				"#str_07129"},	// because a raw semicolon separates commands
 	{"APOSTROPHE",		'\'',				"#str_07130"},	// because a raw apostrophe messes with parsing
 
@@ -185,7 +184,11 @@ static const int	MAX_KEYS = 256;
 
 class idKey {
 public:
-					idKey( void ) { down = false; repeats = 0; usercmdAction = 0; }
+	idKey( void ) {
+		down = false;
+		repeats = 0;
+		usercmdAction = 0;
+	}
 	bool			down;
 	int				repeats;		// if > 1, it is autorepeating
 	idStr			binding;
@@ -193,33 +196,33 @@ public:
 };
 
 bool		key_overstrikeMode = false;
-idKey *		keys = NULL;
+idKey 		*keys = NULL;
 
 #define ID_DOOM_LEGACY
 
 #ifdef ID_DOOM_LEGACY
 
-char *		cheatCodes[] = {
+char 		*cheatCodes[] = {
 	"iddqd",		// Invincibility
 	"idkfa",		// All weapons, keys, ammo, and 200% armor
 	"idfa",			// Reset ammunition
 	"idspispopd",	// Walk through walls
 	"idclip",		// Walk through walls
 	"idchoppers",	// Chainsaw
-/*
-	"idbeholds",	// Berserker strength
-	"idbeholdv",	// Temporary invincibility
-	"idbeholdi",	// Temporary invisibility
-	"idbeholda",	// Full automap
-	"idbeholdr",	// Anti-radiation suit
-	"idbeholdl",	// Light amplification visor
-	"idclev",		// Level select
-	"iddt",			// Toggle full map; full map and objects; normal map
-	"idmypos",		// Display coordinates and heading
-	"idmus",		// Change music to indicated level
-	"fhhall",		// Kill all enemies in level
-	"fhshh",		// Invisible to enemies until attack
-*/
+	/*
+		"idbeholds",	// Berserker strength
+		"idbeholdv",	// Temporary invincibility
+		"idbeholdi",	// Temporary invisibility
+		"idbeholda",	// Full automap
+		"idbeholdr",	// Anti-radiation suit
+		"idbeholdl",	// Light amplification visor
+		"idclev",		// Level select
+		"iddt",			// Toggle full map; full map and objects; normal map
+		"idmypos",		// Display coordinates and heading
+		"idmus",		// Change music to indicated level
+		"fhhall",		// Kill all enemies in level
+		"fhshh",		// Invisible to enemies until attack
+	*/
 	NULL
 };
 char		lastKeys[32];
@@ -232,11 +235,11 @@ int			lastKeyIndex;
 idKeyInput::ArgCompletion_KeyName
 ===================
 */
-void idKeyInput::ArgCompletion_KeyName( const idCmdArgs &args, void(*callback)( const char *s ) ) {
+void idKeyInput::ArgCompletion_KeyName( const idCmdArgs &args, void( *callback )( const char *s ) ) {
 	keyname_t *kn;
 	int i;
 
-	for( i = 0; i < sizeof( unnamedkeys ) - 1; i++ ) {
+	for ( i = 0; i < sizeof( unnamedkeys ) - 1; i++ ) {
 		callback( va( "%s %c", args.Argv( 0 ), unnamedkeys[ i ] ) );
 	}
 
@@ -290,18 +293,18 @@ to be configured even if they don't have defined names.
 */
 int idKeyInput::StringToKeyNum( const char *str ) {
 	keyname_t	*kn;
-	
+
 	if ( !str || !str[0] ) {
 		return -1;
 	}
 	if ( !str[1] ) {
-		return (unsigned char)(str[0]);
+		return ( unsigned char )( str[0] );
 	}
 
 	// check for hex code
 	if ( str[0] == '0' && str[1] == 'x' && strlen( str ) == 4 ) {
 		int		n1, n2;
-		
+
 		n1 = str[2];
 		if ( n1 >= '0' && n1 <= '9' ) {
 			n1 -= '0';
@@ -342,7 +345,7 @@ given keynum.
 ===================
 */
 const char *idKeyInput::KeyNumToString( int keynum, bool localized ) {
-	keyname_t	*kn;	
+	keyname_t	*kn;
 	static	char	tinystr[5];
 	int			i, j;
 
@@ -368,17 +371,18 @@ const char *idKeyInput::KeyNumToString( int keynum, bool localized ) {
 				return kn->name;
 			} else {
 #if MACOS_X
-				
+
 				switch ( kn->keynum ) {
-					case K_ENTER:		
-					case K_BACKSPACE:	
-					case K_ALT:			
+					case K_ENTER:
+					case K_BACKSPACE:
+					case K_ALT:
 					case K_INS:
 					case K_PRINT_SCR:
 						return OSX_GetLocalizedString( kn->name );
 						break;
 					default :
-						return common->GetLanguageDict()->GetString( kn->strId ); break;
+						return common->GetLanguageDict()->GetString( kn->strId );
+						break;
 				}
 #else
 				return common->GetLanguageDict()->GetString( kn->strId );
@@ -466,12 +470,12 @@ void Key_Unbind_f( const idCmdArgs &args ) {
 		common->Printf( "unbind <key> : remove commands from a key\n" );
 		return;
 	}
-	
-	b = idKeyInput::StringToKeyNum( args.Argv(1) );
+
+	b = idKeyInput::StringToKeyNum( args.Argv( 1 ) );
 	if ( b == -1 ) {
 		// If it wasn't a key, it could be a command
-		if ( !idKeyInput::UnbindBinding( args.Argv(1) ) ) {
-			common->Printf( "\"%s\" isn't a valid key\n", args.Argv(1) );
+		if ( !idKeyInput::UnbindBinding( args.Argv( 1 ) ) ) {
+			common->Printf( "\"%s\" isn't a valid key\n", args.Argv( 1 ) );
 		}
 	} else {
 		idKeyInput::SetBinding( b, "" );
@@ -485,7 +489,7 @@ Key_Unbindall_f
 */
 void Key_Unbindall_f( const idCmdArgs &args ) {
 	int		i;
-	
+
 	for ( i = 0; i < MAX_KEYS; i++ ) {
 		idKeyInput::SetBinding( i, "" );
 	}
@@ -499,34 +503,33 @@ Key_Bind_f
 void Key_Bind_f( const idCmdArgs &args ) {
 	int			i, c, b;
 	char		cmd[MAX_STRING_CHARS];
-	
+
 	c = args.Argc();
 
 	if ( c < 2 ) {
 		common->Printf( "bind <key> [command] : attach a command to a key\n" );
 		return;
 	}
-	b = idKeyInput::StringToKeyNum( args.Argv(1) );
+	b = idKeyInput::StringToKeyNum( args.Argv( 1 ) );
 	if ( b == -1 ) {
-		common->Printf( "\"%s\" isn't a valid key\n", args.Argv(1) );
+		common->Printf( "\"%s\" isn't a valid key\n", args.Argv( 1 ) );
 		return;
 	}
 
 	if ( c == 2 ) {
 		if ( keys[b].binding.Length() ) {
-			common->Printf( "\"%s\" = \"%s\"\n", args.Argv(1), keys[b].binding.c_str() );
-		}
-		else {
-			common->Printf( "\"%s\" is not bound\n", args.Argv(1) );
+			common->Printf( "\"%s\" = \"%s\"\n", args.Argv( 1 ), keys[b].binding.c_str() );
+		} else {
+			common->Printf( "\"%s\" is not bound\n", args.Argv( 1 ) );
 		}
 		return;
 	}
-	
+
 	// copy the rest of the command line
 	cmd[0] = 0;		// start out with a null string
 	for ( i = 2; i < c; i++ ) {
 		strcat( cmd, args.Argv( i ) );
-		if ( i != (c-1) ) {
+		if ( i != ( c - 1 ) ) {
 			strcat( cmd, " " );
 		}
 	}
@@ -614,7 +617,7 @@ const char *idKeyInput::KeysFromBinding( const char *bind ) {
 			if ( keys[i].binding.Icmp( bind ) == 0 ) {
 				if ( keyName[0] != '\0' ) {
 					idStr::Append( keyName, sizeof( keyName ), common->GetLanguageDict()->GetString( "#str_07183" ) );
-				} 
+				}
 				idStr::Append( keyName, sizeof( keyName ), KeyNumToString( i, true ) );
 			}
 		}
@@ -634,7 +637,7 @@ returns the binding for the localized name of the key
 */
 const char *idKeyInput::BindingFromKey( const char *key ) {
 	const int keyNum = idKeyInput::StringToKeyNum( key );
-	if ( keyNum<0 || keyNum >= MAX_KEYS ) {
+	if ( keyNum < 0 || keyNum >= MAX_KEYS ) {
 		return NULL;
 	}
 	return keys[keyNum].binding.c_str();

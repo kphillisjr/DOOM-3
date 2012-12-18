@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -325,7 +325,7 @@ void idCollisionModelManagerLocal::ParseVertices( idLexer *src, cm_model_t *mode
 	src->ExpectTokenString( "{" );
 	model->numVertices = src->ParseInt();
 	model->maxVertices = model->numVertices;
-	model->vertices = (cm_vertex_t *) Mem_Alloc( model->maxVertices * sizeof( cm_vertex_t ) );
+	model->vertices = ( cm_vertex_t * ) Mem_Alloc( model->maxVertices * sizeof( cm_vertex_t ) );
 	for ( i = 0; i < model->numVertices; i++ ) {
 		src->Parse1DMatrix( 3, model->vertices[i].p.ToFloatPtr() );
 		model->vertices[i].side = 0;
@@ -346,7 +346,7 @@ void idCollisionModelManagerLocal::ParseEdges( idLexer *src, cm_model_t *model )
 	src->ExpectTokenString( "{" );
 	model->numEdges = src->ParseInt();
 	model->maxEdges = model->numEdges;
-	model->edges = (cm_edge_t *) Mem_Alloc( model->maxEdges * sizeof( cm_edge_t ) );
+	model->edges = ( cm_edge_t * ) Mem_Alloc( model->maxEdges * sizeof( cm_edge_t ) );
 	for ( i = 0; i < model->numEdges; i++ ) {
 		src->ExpectTokenString( "(" );
 		model->edges[i].vertexNum[0] = src->ParseInt();
@@ -399,9 +399,9 @@ void idCollisionModelManagerLocal::ParsePolygons( idLexer *src, cm_model_t *mode
 	idToken token;
 
 	if ( src->CheckTokenType( TT_NUMBER, 0, &token ) ) {
-		model->polygonBlock = (cm_polygonBlock_t *) Mem_Alloc( sizeof( cm_polygonBlock_t ) + token.GetIntValue() );
+		model->polygonBlock = ( cm_polygonBlock_t * ) Mem_Alloc( sizeof( cm_polygonBlock_t ) + token.GetIntValue() );
 		model->polygonBlock->bytesRemaining = token.GetIntValue();
-		model->polygonBlock->next = ( (byte *) model->polygonBlock ) + sizeof( cm_polygonBlock_t );
+		model->polygonBlock->next = ( ( byte * ) model->polygonBlock ) + sizeof( cm_polygonBlock_t );
 	}
 
 	src->ExpectTokenString( "{" );
@@ -442,9 +442,9 @@ void idCollisionModelManagerLocal::ParseBrushes( idLexer *src, cm_model_t *model
 	idToken token;
 
 	if ( src->CheckTokenType( TT_NUMBER, 0, &token ) ) {
-		model->brushBlock = (cm_brushBlock_t *) Mem_Alloc( sizeof( cm_brushBlock_t ) + token.GetIntValue() );
+		model->brushBlock = ( cm_brushBlock_t * ) Mem_Alloc( sizeof( cm_brushBlock_t ) + token.GetIntValue() );
 		model->brushBlock->bytesRemaining = token.GetIntValue();
-		model->brushBlock->next = ( (byte *) model->brushBlock ) + sizeof( cm_brushBlock_t );
+		model->brushBlock->next = ( ( byte * ) model->brushBlock ) + sizeof( cm_brushBlock_t );
 	}
 
 	src->ExpectTokenString( "{" );
@@ -536,13 +536,13 @@ bool idCollisionModelManagerLocal::ParseCollisionModel( idLexer *src ) {
 	// get model contents
 	model->contents = CM_GetNodeContents( model->node );
 	// total memory used by this model
-	model->usedMemory = model->numVertices * sizeof(cm_vertex_t) +
-						model->numEdges * sizeof(cm_edge_t) +
+	model->usedMemory = model->numVertices * sizeof( cm_vertex_t ) +
+						model->numEdges * sizeof( cm_edge_t ) +
 						model->polygonMemory +
 						model->brushMemory +
-						model->numNodes * sizeof(cm_node_t) +
-						model->numPolygonRefs * sizeof(cm_polygonRef_t) +
-						model->numBrushRefs * sizeof(cm_brushRef_t);
+						model->numNodes * sizeof( cm_node_t ) +
+						model->numPolygonRefs * sizeof( cm_polygonRef_t ) +
+						model->numBrushRefs * sizeof( cm_brushRef_t );
 
 	return true;
 }

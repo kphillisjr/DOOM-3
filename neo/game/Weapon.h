@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -33,7 +33,7 @@ If you have questions concerning this license or the applicable additional terms
 ===============================================================================
 
 	Player Weapon
-	
+
 ===============================================================================
 */
 
@@ -60,13 +60,13 @@ class idWeapon : public idAnimatedEntity {
 public:
 	CLASS_PROTOTYPE( idWeapon );
 
-							idWeapon();
+	idWeapon();
 	virtual					~idWeapon();
 
 	// Init
 	void					Spawn( void );
 	void					SetOwner( idPlayer *owner );
-	idPlayer*				GetOwner( void );
+	idPlayer				*GetOwner( void );
 	virtual bool			ShouldConstructScriptObjectAtSpawn( void ) const;
 
 	static void				CacheWeapon( const char *weaponName );
@@ -82,7 +82,7 @@ public:
 	bool					IsWorldModelReady( void );
 
 	// GUIs
-	const char *			Icon( void ) const;
+	const char 			*Icon( void ) const;
 	void					UpdateGUI( void );
 
 	virtual void			SetModel( const char *modelname );
@@ -108,12 +108,12 @@ public:
 	bool					IsReloading( void ) const;
 	bool					IsHolstered( void ) const;
 	bool					ShowCrosshair( void ) const;
-	idEntity *				DropItem( const idVec3 &velocity, int activateDelay, int removeDelay, bool died );
+	idEntity 				*DropItem( const idVec3 &velocity, int activateDelay, int removeDelay, bool died );
 	bool					CanDrop( void ) const;
 	void					WeaponStolen( void );
 
 	// Script state management
-	virtual idThread *		ConstructScriptObject( void );
+	virtual idThread 		*ConstructScriptObject( void );
 	virtual void			DeconstructScriptObject( void );
 	void					SetState( const char *statename, int blendFrames );
 	void					UpdateScript( void );
@@ -163,7 +163,7 @@ private:
 	idScriptBool			WEAPON_RAISEWEAPON;
 	idScriptBool			WEAPON_LOWERWEAPON;
 	weaponStatus_t			status;
-	idThread *				thread;
+	idThread 				*thread;
 	idStr					state;
 	idStr					idealState;
 	int						animBlendFrames;
@@ -173,7 +173,7 @@ private:
 	// precreated projectile
 	idEntity				*projectileEnt;
 
-	idPlayer *				owner;
+	idPlayer 				*owner;
 	idEntityPtr<idAnimatedEntity>	worldModel;
 
 	// hiding (for GUIs and NPCs)
@@ -196,7 +196,7 @@ private:
 	// the view weapon render entity parms
 	idVec3					viewWeaponOrigin;
 	idMat3					viewWeaponAxis;
-	
+
 	// the muzzle bone's position, used for launching projectiles and trailing smoke
 	idVec3					muzzleOrigin;
 	idMat3					muzzleAxis;
@@ -206,8 +206,8 @@ private:
 	// weapon definition
 	// we maintain local copies of the projectile and brass dictionaries so they
 	// do not have to be copied across the DLL boundary when entities are spawned
-	const idDeclEntityDef *	weaponDef;
-	const idDeclEntityDef *	meleeDef;
+	const idDeclEntityDef 	*weaponDef;
+	const idDeclEntityDef 	*meleeDef;
 	idDict					projectileDict;
 	float					meleeDistance;
 	idStr					meleeDefName;
@@ -250,12 +250,12 @@ private:
 	int						ammoClip;
 	int						lowAmmo;			// if ammo in clip hits this threshold, snd_
 	bool					powerAmmo;			// true if the clip reduction is a factor of the power setting when
-												// a projectile is launched
+	// a projectile is launched
 	// mp client
 	bool					isFiring;
 
 	// zoom
-    int						zoomFov;			// variable zoom fov per weapon
+	int						zoomFov;			// variable zoom fov per weapon
 
 	// joints from models
 	jointHandle_t			barrelJointView;
@@ -269,28 +269,28 @@ private:
 	jointHandle_t			ejectJointWorld;
 
 	// sound
-	const idSoundShader *	sndHum;
+	const idSoundShader 	*sndHum;
 
 	// new style muzzle smokes
-	const idDeclParticle *	weaponSmoke;			// null if it doesn't smoke
+	const idDeclParticle 	*weaponSmoke;			// null if it doesn't smoke
 	int						weaponSmokeStartTime;	// set to gameLocal.time every weapon fire
 	bool					continuousSmoke;		// if smoke is continuous ( chainsaw )
-	const idDeclParticle *  strikeSmoke;			// striking something in melee
-	int						strikeSmokeStartTime;	// timing	
-	idVec3					strikePos;				// position of last melee strike	
+	const idDeclParticle   *strikeSmoke;			// striking something in melee
+	int						strikeSmokeStartTime;	// timing
+	idVec3					strikePos;				// position of last melee strike
 	idMat3					strikeAxis;				// axis of last melee strike
 	int						nextStrikeFx;			// used for sound and decal ( may use for strike smoke too )
 
 	// nozzle effects
 	bool					nozzleFx;			// does this use nozzle effects ( parm5 at rest, parm6 firing )
-										// this also assumes a nozzle light atm
+	// this also assumes a nozzle light atm
 	int						nozzleFxFade;		// time it takes to fade between the effects
 	int						lastAttack;			// last time an attack occured
 	renderLight_t			nozzleGlow;			// nozzle light
 	int						nozzleGlowHandle;	// handle for nozzle light
 
 	idVec3					nozzleGlowColor;	// color of the nozzle glow
-	const idMaterial *		nozzleGlowShader;	// shader for glow light
+	const idMaterial 		*nozzleGlowShader;	// shader for glow light
 	float					nozzleGlowRadius;	// radius of glow light
 
 	// weighting for viewmodel angles
@@ -358,7 +358,7 @@ ID_INLINE bool idWeapon::IsWorldModelReady( void ) {
 	return ( worldModel.GetEntity() != NULL );
 }
 
-ID_INLINE idPlayer* idWeapon::GetOwner( void ) {
+ID_INLINE idPlayer *idWeapon::GetOwner( void ) {
 	return owner;
 }
 

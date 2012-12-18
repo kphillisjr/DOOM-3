@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -48,11 +48,11 @@ const idEventDef EV_HideObjective( "<hideobjective>", "e" );
 const idEventDef EV_CamShot( "<camshot>" );
 
 CLASS_DECLARATION( idEntity, idItem )
-	EVENT( EV_DropToFloor,		idItem::Event_DropToFloor )
-	EVENT( EV_Touch,			idItem::Event_Touch )
-	EVENT( EV_Activate,			idItem::Event_Trigger )
-	EVENT( EV_RespawnItem,		idItem::Event_Respawn )
-	EVENT( EV_RespawnFx,		idItem::Event_RespawnFx )
+EVENT( EV_DropToFloor,		idItem::Event_DropToFloor )
+EVENT( EV_Touch,			idItem::Event_Touch )
+EVENT( EV_Activate,			idItem::Event_Trigger )
+EVENT( EV_RespawnItem,		idItem::Event_Respawn )
+EVENT( EV_RespawnFx,		idItem::Event_RespawnFx )
 END_CLASS
 
 
@@ -165,12 +165,12 @@ bool idItem::UpdateRenderEntity( renderEntity_s *renderEntity, const renderView_
 		}
 	}
 
-	// fade down after the last pulse finishes 
+	// fade down after the last pulse finishes
 	if ( !inView && cycle > lastCycle ) {
 		renderEntity->shaderParms[4] = 0.0f;
 	} else {
 		// pulse up in 1/4 second
-		cycle -= (int)cycle;
+		cycle -= ( int )cycle;
 		if ( cycle < 0.1f ) {
 			renderEntity->shaderParms[4] = cycle * 10.0f;
 		} else if ( cycle < 0.2f ) {
@@ -200,7 +200,7 @@ bool idItem::ModelCallback( renderEntity_t *renderEntity, const renderView_t *re
 		return false;
 	}
 
-	ent = static_cast<idItem *>(gameLocal.entities[ renderEntity->entityNum ]);
+	ent = static_cast<idItem *>( gameLocal.entities[ renderEntity->entityNum ] );
 	if ( !ent ) {
 		gameLocal.Error( "idItem::ModelCallback: callback with NULL game entity" );
 	}
@@ -224,7 +224,7 @@ void idItem::Think( void ) {
 			SetAngles( ang );
 
 			float scale = 0.005f + entityNumber * 0.00001f;
-			
+
 			org = orgOrigin;
 			org.z += 4.0f + cos( ( gameLocal.time + 2000 ) * scale ) * 4.0f;
 			SetOrigin( org );
@@ -269,7 +269,7 @@ idItem::Spawn
 */
 void idItem::Spawn( void ) {
 	idStr		giveTo;
-	idEntity *	ent;
+	idEntity 	*ent;
 	float		tsize;
 
 	if ( spawnArgs.GetBool( "dropToFloor" ) ) {
@@ -324,7 +324,7 @@ void idItem::GetAttributes( idDict &attributes ) {
 	int					i;
 	const idKeyValue	*arg;
 
-	for( i = 0; i < spawnArgs.GetNumKeyVals(); i++ ) {
+	for ( i = 0; i < spawnArgs.GetNumKeyVals(); i++ ) {
 		arg = spawnArgs.GetKeyVal( i );
 		if ( arg->GetKey().Left( 4 ) == "inv_" ) {
 			attributes.Set( arg->GetKey().Right( arg->GetKey().Length() - 4 ), arg->GetValue() );
@@ -344,8 +344,8 @@ bool idItem::GiveToPlayer( idPlayer *player ) {
 
 	if ( spawnArgs.GetBool( "inv_carry" ) ) {
 		return player->GiveInventoryItem( &spawnArgs );
-	} 
-	
+	}
+
 	return player->GiveItem( this );
 }
 
@@ -355,7 +355,7 @@ idItem::Pickup
 ================
 */
 bool idItem::Pickup( idPlayer *player ) {
-	
+
 	if ( !GiveToPlayer( player ) ) {
 		return false;
 	}
@@ -394,7 +394,7 @@ bool idItem::Pickup( idPlayer *player ) {
 		const char *sfx = spawnArgs.GetString( "fxRespawn" );
 		if ( sfx && *sfx ) {
 			PostEventSec( &EV_RespawnFx, respawn - 0.5f );
-		} 
+		}
 		PostEventSec( &EV_RespawnItem, respawn );
 	} else if ( !spawnArgs.GetBool( "inv_objective" ) && !no_respawn ) {
 		// give some time for the pickup sound to play
@@ -450,7 +450,7 @@ idItem::ClientReceiveEvent
 */
 bool idItem::ClientReceiveEvent( int event, int time, const idBitMsg &msg ) {
 
-	switch( event ) {
+	switch ( event ) {
 		case EVENT_PICKUP: {
 
 			// play pickup sound
@@ -512,7 +512,7 @@ void idItem::Event_Touch( idEntity *other, trace_t *trace ) {
 		return;
 	}
 
-	Pickup( static_cast<idPlayer *>(other) );
+	Pickup( static_cast<idPlayer *>( other ) );
 }
 
 /*
@@ -645,10 +645,10 @@ bool idItemPowerup::GiveToPlayer( idPlayer *player ) {
 */
 
 CLASS_DECLARATION( idItem, idObjective )
-	EVENT( EV_Activate,			idObjective::Event_Trigger )
-	EVENT( EV_HideObjective,	idObjective::Event_HideObjective )
-	EVENT( EV_GetPlayerPos,		idObjective::Event_GetPlayerPos )
-	EVENT( EV_CamShot,			idObjective::Event_CamShot )
+EVENT( EV_Activate,			idObjective::Event_Trigger )
+EVENT( EV_HideObjective,	idObjective::Event_HideObjective )
+EVENT( EV_GetPlayerPos,		idObjective::Event_GetPlayerPos )
+EVENT( EV_CamShot,			idObjective::Event_CamShot )
 END_CLASS
 
 /*
@@ -729,7 +729,7 @@ void idObjective::Event_Trigger( idEntity *activator ) {
 		//Pickup( player );
 
 		if ( spawnArgs.GetString( "inv_objective", NULL ) ) {
-	 		if ( player && player->hud ) {
+			if ( player && player->hud ) {
 				idStr shotName = gameLocal.GetMapName();
 				shotName.StripFileExtension();
 				shotName += "/";
@@ -742,9 +742,9 @@ void idObjective::Event_Trigger( idEntity *activator ) {
 				player->GiveObjective( spawnArgs.GetString( "objectivetitle" ), spawnArgs.GetString( "objectivetext" ), shotName );
 
 				// a tad slow but keeps from having to update all objectives in all maps with a name ptr
-				for( int i = 0; i < gameLocal.num_entities; i++ ) {
+				for ( int i = 0; i < gameLocal.num_entities; i++ ) {
 					if ( gameLocal.entities[ i ] && gameLocal.entities[ i ]->IsType( idObjectiveComplete::Type ) ) {
-						if ( idStr::Icmp( spawnArgs.GetString( "objectivetitle" ), gameLocal.entities[ i ]->spawnArgs.GetString( "objectivetitle" ) ) == 0 ){
+						if ( idStr::Icmp( spawnArgs.GetString( "objectivetitle" ), gameLocal.entities[ i ]->spawnArgs.GetString( "objectivetitle" ) ) == 0 ) {
 							gameLocal.entities[ i ]->spawnArgs.SetBool( "objEnabled", true );
 							break;
 						}
@@ -775,7 +775,7 @@ void idObjective::Event_GetPlayerPos() {
 idObjective::Event_HideObjective
 ================
 */
-void idObjective::Event_HideObjective(idEntity *e) {
+void idObjective::Event_HideObjective( idEntity *e ) {
 	idPlayer *player = gameLocal.GetLocalPlayer();
 	if ( player ) {
 		idVec3 v = player->GetPhysics()->GetOrigin() - playerPos;
@@ -836,7 +836,7 @@ END_CLASS
 idPDAItem::GiveToPlayer
 ================
 */
-bool idPDAItem::GiveToPlayer(idPlayer *player) {
+bool idPDAItem::GiveToPlayer( idPlayer *player ) {
 	const char *str = spawnArgs.GetString( "pda_name" );
 	if ( player ) {
 		player->GivePDA( str, &spawnArgs );
@@ -848,13 +848,13 @@ bool idPDAItem::GiveToPlayer(idPlayer *player) {
 ===============================================================================
 
   idMoveableItem
-	
+
 ===============================================================================
 */
 
 CLASS_DECLARATION( idItem, idMoveableItem )
-	EVENT( EV_DropToFloor,	idMoveableItem::Event_DropToFloor )
-	EVENT( EV_Gib,			idMoveableItem::Event_Gib )
+EVENT( EV_DropToFloor,	idMoveableItem::Event_DropToFloor )
+EVENT( EV_Gib,			idMoveableItem::Event_Gib )
 END_CLASS
 
 /*
@@ -885,7 +885,7 @@ idMoveableItem::Save
 ================
 */
 void idMoveableItem::Save( idSaveGame *savefile ) const {
-   	savefile->WriteStaticObject( physicsObj );
+	savefile->WriteStaticObject( physicsObj );
 
 	savefile->WriteClipModel( trigger );
 
@@ -985,7 +985,7 @@ void idMoveableItem::Think( void ) {
 		// update trigger position
 		trigger->Link( gameLocal.clip, this, 0, GetPhysics()->GetOrigin(), mat3_identity );
 	}
-	
+
 	if ( thinkFlags & TH_UPDATEPARTICLES ) {
 		if ( !gameLocal.smokeParticles->EmitSmoke( smoke, smokeTime, gameLocal.random.CRandomFloat(), GetPhysics()->GetOrigin(), GetPhysics()->GetAxis() ) ) {
 			smokeTime = 0;
@@ -1005,7 +1005,7 @@ bool idMoveableItem::Pickup( idPlayer *player ) {
 	bool ret = idItem::Pickup( player );
 	if ( ret ) {
 		trigger->SetContents( 0 );
-	} 
+	}
 	return ret;
 }
 
@@ -1194,7 +1194,7 @@ END_CLASS
 idMoveablePDAItem::GiveToPlayer
 ================
 */
-bool idMoveablePDAItem::GiveToPlayer(idPlayer *player) {
+bool idMoveablePDAItem::GiveToPlayer( idPlayer *player ) {
 	const char *str = spawnArgs.GetString( "pda_name" );
 	if ( player ) {
 		player->GivePDA( str, &spawnArgs );
@@ -1211,7 +1211,7 @@ bool idMoveablePDAItem::GiveToPlayer(idPlayer *player) {
 */
 
 CLASS_DECLARATION( idEntity, idItemRemover )
-	EVENT( EV_Activate,		idItemRemover::Event_Trigger )
+EVENT( EV_Activate,		idItemRemover::Event_Trigger )
 END_CLASS
 
 /*
@@ -1229,7 +1229,7 @@ idItemRemover::RemoveItem
 */
 void idItemRemover::RemoveItem( idPlayer *player ) {
 	const char *remove;
-	
+
 	remove = spawnArgs.GetString( "remove" );
 	player->RemoveInventoryItem( remove );
 }
@@ -1241,7 +1241,7 @@ idItemRemover::Event_Trigger
 */
 void idItemRemover::Event_Trigger( idEntity *activator ) {
 	if ( activator->IsType( idPlayer::Type ) ) {
-		RemoveItem( static_cast<idPlayer *>(activator) );
+		RemoveItem( static_cast<idPlayer *>( activator ) );
 	}
 }
 
@@ -1254,9 +1254,9 @@ void idItemRemover::Event_Trigger( idEntity *activator ) {
 */
 
 CLASS_DECLARATION( idItemRemover, idObjectiveComplete )
-	EVENT( EV_Activate,			idObjectiveComplete::Event_Trigger )
-	EVENT( EV_HideObjective,	idObjectiveComplete::Event_HideObjective )
-	EVENT( EV_GetPlayerPos,		idObjectiveComplete::Event_GetPlayerPos )
+EVENT( EV_Activate,			idObjectiveComplete::Event_Trigger )
+EVENT( EV_HideObjective,	idObjectiveComplete::Event_HideObjective )
+EVENT( EV_GetPlayerPos,		idObjectiveComplete::Event_GetPlayerPos )
 END_CLASS
 
 /*
@@ -1310,7 +1310,7 @@ void idObjectiveComplete::Event_Trigger( idEntity *activator ) {
 		RemoveItem( player );
 
 		if ( spawnArgs.GetString( "inv_objective", NULL ) ) {
-	 		if ( player->hud ) {
+			if ( player->hud ) {
 				player->hud->SetStateString( "objective", "2" );
 				player->hud->SetStateString( "objectivetext", spawnArgs.GetString( "objectivetext" ) );
 				player->hud->SetStateString( "objectivetitle", spawnArgs.GetString( "objectivetitle" ) );

@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -89,13 +89,13 @@ bool idFrustum::ProjectionBounds( const idBox &box, idBounds &projectionBounds )
 	// test the remaining edges of the bounds
 	for ( i = 0; i < 4; i++ ) {
 		p1 = i;
-		p2 = (i+1)&3;
+		p2 = ( i + 1 ) & 3;
 		AddLocalLineToProjectionBoundsUseCull( points[p1], points[p2], pointCull[p1], pointCull[p2], projectionBounds );
 	}
 
 	for ( i = 0; i < 4; i++ ) {
 		p1 = 4 + i;
-		p2 = 4 + ((i+1)&3);
+		p2 = 4 + ( ( i + 1 ) & 3 );
 		AddLocalLineToProjectionBoundsUseCull( points[p1], points[p2], pointCull[p1], pointCull[p2], projectionBounds );
 	}
 
@@ -109,30 +109,30 @@ bool idFrustum::ProjectionBounds( const idBox &box, idBounds &projectionBounds )
 		localScaled[2] *= dUp;
 
 		// test the outer edges of this frustum for intersection with the bounds
-		if ( (outside & 2) && (outside & 8) ) {
+		if ( ( outside & 2 ) && ( outside & 8 ) ) {
 			BoundsRayIntersection( bounds, localOrigin, localScaled[0] - localScaled[1] - localScaled[2], scale1, scale2 );
 			if ( scale1 <= scale2 && scale1 >= 0.0f ) {
 				projectionBounds.AddPoint( idVec3( scale1 * dFar, -1.0f, -1.0f ) );
 				projectionBounds.AddPoint( idVec3( scale2 * dFar, -1.0f, -1.0f ) );
 			}
 		}
-		if ( (outside & 2) && (outside & 4) ) {
+		if ( ( outside & 2 ) && ( outside & 4 ) ) {
 			BoundsRayIntersection( bounds, localOrigin, localScaled[0] - localScaled[1] + localScaled[2], scale1, scale2 );
-			if ( scale1 <= scale2 && scale1 >= 0.0f  ) {
+			if ( scale1 <= scale2 && scale1 >= 0.0f ) {
 				projectionBounds.AddPoint( idVec3( scale1 * dFar, -1.0f, 1.0f ) );
 				projectionBounds.AddPoint( idVec3( scale2 * dFar, -1.0f, 1.0f ) );
 			}
 		}
-		if ( (outside & 1) && (outside & 8) ) {
+		if ( ( outside & 1 ) && ( outside & 8 ) ) {
 			BoundsRayIntersection( bounds, localOrigin, localScaled[0] + localScaled[1] - localScaled[2], scale1, scale2 );
-			if ( scale1 <= scale2 && scale1 >= 0.0f  ) {
+			if ( scale1 <= scale2 && scale1 >= 0.0f ) {
 				projectionBounds.AddPoint( idVec3( scale1 * dFar, 1.0f, -1.0f ) );
 				projectionBounds.AddPoint( idVec3( scale2 * dFar, 1.0f, -1.0f ) );
 			}
 		}
-		if ( (outside & 1) && (outside & 2) ) {
+		if ( ( outside & 1 ) && ( outside & 2 ) ) {
 			BoundsRayIntersection( bounds, localOrigin, localScaled[0] + localScaled[1] + localScaled[2], scale1, scale2 );
-			if ( scale1 <= scale2 && scale1 >= 0.0f  ) {
+			if ( scale1 <= scale2 && scale1 >= 0.0f ) {
 				projectionBounds.AddPoint( idVec3( scale1 * dFar, 1.0f, 1.0f ) );
 				projectionBounds.AddPoint( idVec3( scale2 * dFar, 1.0f, 1.0f ) );
 			}

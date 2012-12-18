@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -87,9 +87,9 @@ public:
 	typedef int		cmp_t( const type *, const type * );
 	typedef type	new_t( void );
 
-					idList( int newgranularity = 16 );
-					idList( const idList<type> &other );
-					~idList<type>( void );
+	idList( int newgranularity = 16 );
+	idList( const idList<type> &other );
+	~idList<type>( void );
 
 	void			Clear( void );										// clear the list
 	int				Num( void ) const;									// returns number of elements in list
@@ -101,31 +101,31 @@ public:
 	size_t			Size( void ) const;									// returns total size of allocated memory including size of list type
 	size_t			MemoryUsed( void ) const;							// returns size of the used elements in the list
 
-	idList<type> &	operator=( const idList<type> &other );
-	const type &	operator[]( int index ) const;
-	type &			operator[]( int index );
+	idList<type> 	&operator=( const idList<type> &other );
+	const type 	&operator[]( int index ) const;
+	type 			&operator[]( int index );
 
 	void			Condense( void );									// resizes list to exactly the number of elements it contains
 	void			Resize( int newsize );								// resizes list to the given number of elements
-	void			Resize( int newsize, int newgranularity	 );			// resizes list and sets new granularity
+	void			Resize( int newsize, int newgranularity );			// resizes list and sets new granularity
 	void			SetNum( int newnum, bool resize = true );			// set number of elements in list and resize to exactly this number if necessary
-	void			AssureSize( int newSize);							// assure list has given number of elements, but leave them uninitialized
+	void			AssureSize( int newSize );							// assure list has given number of elements, but leave them uninitialized
 	void			AssureSize( int newSize, const type &initValue );	// assure list has given number of elements and initialize any new elements
 	void			AssureSizeAlloc( int newSize, new_t *allocator );	// assure the pointer list has the given number of elements and allocate any new elements
 
-	type *			Ptr( void );										// returns a pointer to the list
-	const type *	Ptr( void ) const;									// returns a pointer to the list
-	type &			Alloc( void );										// returns reference to a new data element at the end of the list
-	int				Append( const type & obj );							// append element
+	type 			*Ptr( void );										// returns a pointer to the list
+	const type 	*Ptr( void ) const;									// returns a pointer to the list
+	type 			&Alloc( void );										// returns reference to a new data element at the end of the list
+	int				Append( const type &obj );							// append element
 	int				Append( const idList<type> &other );				// append list
-	int				AddUnique( const type & obj );						// add unique element
-	int				Insert( const type & obj, int index = 0 );			// insert the element at the given index
-	int				FindIndex( const type & obj ) const;				// find the index for the given element
-	type *			Find( type const & obj ) const;						// find pointer to the given element
+	int				AddUnique( const type &obj );						// add unique element
+	int				Insert( const type &obj, int index = 0 );			// insert the element at the given index
+	int				FindIndex( const type &obj ) const;				// find the index for the given element
+	type 			*Find( type const &obj ) const;						// find pointer to the given element
 	int				FindNull( void ) const;								// find the index for the first NULL pointer in the list
 	int				IndexOf( const type *obj ) const;					// returns the index for the pointer to an element in the list
 	bool			RemoveIndex( int index );							// remove the element at the given index
-	bool			Remove( const type & obj );							// remove the element
+	bool			Remove( const type &obj );							// remove the element
 	void			Sort( cmp_t *compare = ( cmp_t * )&idListSortCompare<type> );
 	void			SortSubSection( int startIndex, int endIndex, cmp_t *compare = ( cmp_t * )&idListSortCompare<type> );
 	void			Swap( idList<type> &other );						// swap the contents of the lists
@@ -135,7 +135,7 @@ private:
 	int				num;
 	int				size;
 	int				granularity;
-	type *			list;
+	type 			*list;
 };
 
 /*
@@ -207,7 +207,7 @@ template< class type >
 ID_INLINE void idList<type>::DeleteContents( bool clear ) {
 	int i;
 
-	for( i = 0; i < num; i++ ) {
+	for ( i = 0; i < num; i++ ) {
 		delete list[ i ];
 		list[ i ] = NULL;
 	}
@@ -382,7 +382,7 @@ ID_INLINE void idList<type>::Resize( int newsize ) {
 
 	// copy the old list into our new one
 	list = new type[ size ];
-	for( i = 0; i < num; i++ ) {
+	for ( i = 0; i < num; i++ ) {
 		list[ i ] = temp[ i ];
 	}
 
@@ -424,7 +424,7 @@ ID_INLINE void idList<type>::Resize( int newsize, int newgranularity ) {
 
 	// copy the old list into our new one
 	list = new type[ size ];
-	for( i = 0; i < num; i++ ) {
+	for ( i = 0; i < num; i++ ) {
 		list[ i ] = temp[ i ];
 	}
 
@@ -515,7 +515,7 @@ ID_INLINE void idList<type>::AssureSizeAlloc( int newSize, new_t *allocator ) {
 		Resize( newSize );
 
 		for ( int i = num; i < newSize; i++ ) {
-			list[i] = (*allocator)();
+			list[i] = ( *allocator )();
 		}
 	}
 
@@ -541,7 +541,7 @@ ID_INLINE idList<type> &idList<type>::operator=( const idList<type> &other ) {
 
 	if ( size ) {
 		list = new type[ size ];
-		for( i = 0; i < num; i++ ) {
+		for ( i = 0; i < num; i++ ) {
 			list[ i ] = other.list[ i ];
 		}
 	}
@@ -643,7 +643,7 @@ Returns the index of the new element.
 ================
 */
 template< class type >
-ID_INLINE int idList<type>::Append( type const & obj ) {
+ID_INLINE int idList<type>::Append( type const &obj ) {
 	if ( !list ) {
 		Resize( granularity );
 	}
@@ -669,14 +669,14 @@ ID_INLINE int idList<type>::Append( type const & obj ) {
 ================
 idList<type>::Insert
 
-Increases the size of the list by at leat one element if necessary 
+Increases the size of the list by at leat one element if necessary
 and inserts the supplied data into it.
 
 Returns the index of the new element.
 ================
 */
 template< class type >
-ID_INLINE int idList<type>::Insert( type const & obj, int index ) {
+ID_INLINE int idList<type>::Insert( type const &obj, int index ) {
 	if ( !list ) {
 		Resize( granularity );
 	}
@@ -693,12 +693,11 @@ ID_INLINE int idList<type>::Insert( type const & obj, int index ) {
 
 	if ( index < 0 ) {
 		index = 0;
-	}
-	else if ( index > num ) {
+	} else if ( index > num ) {
 		index = num;
 	}
 	for ( int i = num; i > index; --i ) {
-		list[i] = list[i-1];
+		list[i] = list[i - 1];
 	}
 	num++;
 	list[index] = obj;
@@ -724,8 +723,8 @@ ID_INLINE int idList<type>::Append( const idList<type> &other ) {
 	}
 
 	int n = other.Num();
-	for (int i = 0; i < n; i++) {
-		Append(other[i]);
+	for ( int i = 0; i < n; i++ ) {
+		Append( other[i] );
 	}
 
 	return Num();
@@ -739,7 +738,7 @@ Adds the data to the list if it doesn't already exist.  Returns the index of the
 ================
 */
 template< class type >
-ID_INLINE int idList<type>::AddUnique( type const & obj ) {
+ID_INLINE int idList<type>::AddUnique( type const &obj ) {
 	int index;
 
 	index = FindIndex( obj );
@@ -758,10 +757,10 @@ Searches for the specified data in the list and returns it's index.  Returns -1 
 ================
 */
 template< class type >
-ID_INLINE int idList<type>::FindIndex( type const & obj ) const {
+ID_INLINE int idList<type>::FindIndex( type const &obj ) const {
 	int i;
 
-	for( i = 0; i < num; i++ ) {
+	for ( i = 0; i < num; i++ ) {
 		if ( list[ i ] == obj ) {
 			return i;
 		}
@@ -779,7 +778,7 @@ Searches for the specified data in the list and returns it's address. Returns NU
 ================
 */
 template< class type >
-ID_INLINE type *idList<type>::Find( type const & obj ) const {
+ID_INLINE type *idList<type>::Find( type const &obj ) const {
 	int i;
 
 	i = FindIndex( obj );
@@ -804,7 +803,7 @@ template< class type >
 ID_INLINE int idList<type>::FindNull( void ) const {
 	int i;
 
-	for( i = 0; i < num; i++ ) {
+	for ( i = 0; i < num; i++ ) {
 		if ( list[ i ] == NULL ) {
 			return i;
 		}
@@ -819,7 +818,7 @@ ID_INLINE int idList<type>::FindNull( void ) const {
 idList<type>::IndexOf
 
 Takes a pointer to an element in the list and returns the index of the element.
-This is NOT a guarantee that the object is really in the list. 
+This is NOT a guarantee that the object is really in the list.
 Function will assert in debug builds if pointer is outside the bounds of the list,
 but remains silent in release builds.
 ================
@@ -858,7 +857,7 @@ ID_INLINE bool idList<type>::RemoveIndex( int index ) {
 	}
 
 	num--;
-	for( i = index; i < num; i++ ) {
+	for ( i = index; i < num; i++ ) {
 		list[ i ] = list[ i + 1 ];
 	}
 
@@ -875,14 +874,14 @@ the element is not destroyed, so any memory used by it may not be freed until th
 ================
 */
 template< class type >
-ID_INLINE bool idList<type>::Remove( type const & obj ) {
+ID_INLINE bool idList<type>::Remove( type const &obj ) {
 	int index;
 
 	index = FindIndex( obj );
 	if ( index >= 0 ) {
 		return RemoveIndex( index );
 	}
-	
+
 	return false;
 }
 
@@ -899,9 +898,9 @@ ID_INLINE void idList<type>::Sort( cmp_t *compare ) {
 	if ( !list ) {
 		return;
 	}
-	typedef int cmp_c(const void *, const void *);
+	typedef int cmp_c( const void *, const void * );
 
-	cmp_c *vCompare = (cmp_c *)compare;
+	cmp_c *vCompare = ( cmp_c * )compare;
 	qsort( ( void * )list, ( size_t )num, sizeof( type ), vCompare );
 }
 
@@ -926,9 +925,9 @@ ID_INLINE void idList<type>::SortSubSection( int startIndex, int endIndex, cmp_t
 	if ( startIndex >= endIndex ) {
 		return;
 	}
-	typedef int cmp_c(const void *, const void *);
+	typedef int cmp_c( const void *, const void * );
 
-	cmp_c *vCompare = (cmp_c *)compare;
+	cmp_c *vCompare = ( cmp_c * )compare;
 	qsort( ( void * )( &list[startIndex] ), ( size_t )( endIndex - startIndex + 1 ), sizeof( type ), vCompare );
 }
 

@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -38,17 +38,17 @@ class idAudioHardwareOSS : public idAudioHardware {
 	unsigned int	m_speed;
 	void			*m_buffer;
 	int				m_buffer_size;
-	
-					// counting the loops through the dma buffer
+
+	// counting the loops through the dma buffer
 	int				m_loops;
-	
-					// how many chunks we have left to write in cases where we need to split
+
+	// how many chunks we have left to write in cases where we need to split
 	int				m_writeChunks;
-					// how many chunks we can write to the audio device without blocking
+	// how many chunks we can write to the audio device without blocking
 	int				m_freeWriteChunks;
-	
+
 public:
-	idAudioHardwareOSS() { 
+	idAudioHardwareOSS() {
 		m_audio_fd = 0;
 		m_sample_format = 0;
 		m_channels = 0;
@@ -64,17 +64,25 @@ public:
 	bool		Initialize( void );
 
 	// Linux driver doesn't support memory map API
-	bool		Lock( void **pDSLockedBuffer, ulong *dwDSLockedBufferSize ) { return false; }
-	bool		Unlock( void *pDSLockedBuffer, dword dwDSLockedBufferSize ) { return false; }
-	bool		GetCurrentPosition( ulong *pdwCurrentWriteCursor ) { return false; }
-	
+	bool		Lock( void **pDSLockedBuffer, ulong *dwDSLockedBufferSize ) {
+		return false;
+	}
+	bool		Unlock( void *pDSLockedBuffer, dword dwDSLockedBufferSize ) {
+		return false;
+	}
+	bool		GetCurrentPosition( ulong *pdwCurrentWriteCursor ) {
+		return false;
+	}
+
 	bool		Flush();
 	void		Write( bool flushing );
 
-	int			GetNumberOfSpeakers() { return m_channels; }
+	int			GetNumberOfSpeakers() {
+		return m_channels;
+	}
 	int			GetMixBufferSize();
-	short*		GetMixBuffer();
-		
+	short		*GetMixBuffer();
+
 private:
 	void		Release( bool bSilent = false );
 	void		InitFailed();
@@ -91,10 +99,10 @@ private:
 
 #define id_snd_pcm_hw_params_alloca(ptr) do { assert(ptr); *ptr = (snd_pcm_hw_params_t *) alloca(id_snd_pcm_hw_params_sizeof()); memset(*ptr, 0, id_snd_pcm_hw_params_sizeof()); } while (0)
 
-typedef const char * ( *pfn_snd_asoundlib_version )( void );
+typedef const char *( *pfn_snd_asoundlib_version )( void );
 typedef snd_pcm_sframes_t ( *pfn_snd_pcm_avail_update )( snd_pcm_t *pcm );
 typedef int ( *pfn_snd_pcm_close )( snd_pcm_t *pcm );
-typedef const char * ( *pfn_snd_strerror )( int errnum );
+typedef const char *( *pfn_snd_strerror )( int errnum );
 typedef int ( *pfn_snd_pcm_hw_params )( snd_pcm_t *pcm, snd_pcm_hw_params_t *params );
 typedef int ( *pfn_snd_pcm_hw_params_any )( snd_pcm_t *pcm, snd_pcm_hw_params_t *params );
 typedef int ( *pfn_snd_pcm_hw_params_get_buffer_size )( const snd_pcm_hw_params_t *params, snd_pcm_uframes_t *val );
@@ -125,35 +133,43 @@ private:
 	int					m_remainingFrames;
 
 	void				*m_handle;
-	
-public:
-						idAudioHardwareALSA() {
-							m_pcm_handle		= NULL;
-							m_channels			= 0;
-							m_buffer			= NULL;
-							m_buffer_size		= 0;
-							m_remainingFrames	= 0;
-							m_handle			= NULL;
-						}
-						virtual				~idAudioHardwareALSA();
 
-						// dlopen the lib ( check minimum version )
+public:
+	idAudioHardwareALSA() {
+		m_pcm_handle		= NULL;
+		m_channels			= 0;
+		m_buffer			= NULL;
+		m_buffer_size		= 0;
+		m_remainingFrames	= 0;
+		m_handle			= NULL;
+	}
+	virtual				~idAudioHardwareALSA();
+
+	// dlopen the lib ( check minimum version )
 	bool				DLOpen();
 
-    bool				Initialize( void );
+	bool				Initialize( void );
 
 
 	// Linux driver doesn't support memory map API
-	bool				Lock( void **pDSLockedBuffer, ulong *dwDSLockedBufferSize ) { return false; }
-	bool				Unlock( void *pDSLockedBuffer, dword dwDSLockedBufferSize ) { return false; }
-	bool				GetCurrentPosition( ulong *pdwCurrentWriteCursor ) { return false; }
-	
+	bool				Lock( void **pDSLockedBuffer, ulong *dwDSLockedBufferSize ) {
+		return false;
+	}
+	bool				Unlock( void *pDSLockedBuffer, dword dwDSLockedBufferSize ) {
+		return false;
+	}
+	bool				GetCurrentPosition( ulong *pdwCurrentWriteCursor ) {
+		return false;
+	}
+
 	bool				Flush();
 	void				Write( bool flushing );
 
-	int					GetNumberOfSpeakers( void ) { return m_channels; }
+	int					GetNumberOfSpeakers( void ) {
+		return m_channels;
+	}
 	int					GetMixBufferSize( void );
-	short*				GetMixBuffer( void );
+	short				*GetMixBuffer( void );
 
 private:
 	void				Release();

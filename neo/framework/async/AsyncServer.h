@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -47,8 +47,8 @@ const int AUTHORIZE_TIMEOUT				= 5000;
 // states for the server's authorization process
 typedef enum {
 	CDK_WAIT = 0,	// we are waiting for a confirm/deny from auth
-					// this is subject to timeout if we don't hear from auth
-					// or a permanent wait if auth said so
+	// this is subject to timeout if we don't hear from auth
+	// or a permanent wait if auth said so
 	CDK_OK,
 	CDK_ONLYLAN,
 	CDK_PUREWAIT,
@@ -130,7 +130,7 @@ typedef struct serverClient_s {
 
 class idAsyncServer {
 public:
-						idAsyncServer();
+	idAsyncServer();
 
 	bool				InitPort( void );
 	void				ClosePort( void );
@@ -140,8 +140,12 @@ public:
 
 	int					GetPort( void ) const;
 	netadr_t			GetBoundAdr( void ) const;
-	bool				IsActive( void ) const { return active; }
-	int					GetDelay( void ) const { return gameTimeResidual; }
+	bool				IsActive( void ) const {
+		return active;
+	}
+	int					GetDelay( void ) const {
+		return gameTimeResidual;
+	}
 	int					GetOutgoingRate( void ) const;
 	int					GetIncomingRate( void ) const;
 	bool				IsClientInGame( int clientNum ) const;
@@ -156,7 +160,9 @@ public:
 	float				GetClientIncomingPacketLoss( int clientNum ) const;
 	int					GetNumClients( void ) const;
 	int					GetNumIdleClients( void ) const;
-	int					GetLocalClientNum( void ) const { return localClientNum; }
+	int					GetLocalClientNum( void ) const {
+		return localClientNum;
+	}
 
 	void				RunFrame( void );
 	void				ProcessConnectionLessMessages( void );
@@ -197,7 +203,7 @@ private:
 	int					gameTimeResidual;			// left over time from previous frame
 
 	netadr_t			rconAddress;
-	
+
 	int					nextHeartbeatTime;
 	int					nextAsyncStatsTime;
 

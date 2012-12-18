@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -57,10 +57,10 @@ double Sys_ClockTicksPerSecond( void ) {
 void	Sys_Sleep( int msec ) {
 }
 
-void	Sys_CreateThread(  xthread_t function, void *parms, xthreadPriority priority, xthreadInfo& info ) {
+void	Sys_CreateThread( xthread_t function, void *parms, xthreadPriority priority, xthreadInfo &info ) {
 }
 
-void Sys_DestroyThread( xthreadInfo& info ) {
+void Sys_DestroyThread( xthreadInfo &info ) {
 }
 
 void	Sys_FlushCacheMemory( void *base, int bytes ) {
@@ -70,9 +70,9 @@ void Sys_Error( const char *error, ... ) {
 	va_list		argptr;
 	char		text[4096];
 
-	va_start (argptr, error);
-	vprintf (error, argptr);
-	va_end (argptr);
+	va_start( argptr, error );
+	vprintf( error, argptr );
+	va_end( argptr );
 	printf( "\n" );
 
 	exit( 1 );
@@ -114,7 +114,7 @@ void idTimer::InitBaseClockTicks( void ) const {
 
 //==========================================================
 
-void _glTexImage2D(GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid *pixels) {
+void _glTexImage2D( GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid *pixels ) {
 }
 
 
@@ -136,16 +136,15 @@ sysEvent_t	Sys_GetEvent( void ) {
 void	Sys_Mkdir( const char *path ) {
 }
 
-const char *Sys_DefaultCDPath(void) {
+const char *Sys_DefaultCDPath( void ) {
 	return "";
 }
 
-const char *Sys_DefaultBasePath(void) {
+const char *Sys_DefaultBasePath( void ) {
 	return "";
 }
 
-int Sys_ListFiles( const char *directory, const char *extension, idStrList &list )
-{
+int Sys_ListFiles( const char *directory, const char *extension, idStrList &list ) {
 	struct dirent *d;
 	DIR		*fdir;
 	bool dironly = false;
@@ -155,7 +154,7 @@ int Sys_ListFiles( const char *directory, const char *extension, idStrList &list
 
 	list.Clear();
 
-	if ( !extension)
+	if ( !extension )
 		extension = "";
 
 	if ( extension[0] == '/' && extension[1] == 0 ) {
@@ -164,30 +163,30 @@ int Sys_ListFiles( const char *directory, const char *extension, idStrList &list
 	}
 
 	// search
-	if ((fdir = opendir(directory)) == NULL) {
+	if ( ( fdir = opendir( directory ) ) == NULL ) {
 		return 0;
 	}
 
-	while ((d = readdir(fdir)) != NULL) {
-		idStr::snprintf( search, sizeof(search), "%s/%s", directory, d->d_name );
-		if (stat(search, &st) == -1)
+	while ( ( d = readdir( fdir ) ) != NULL ) {
+		idStr::snprintf( search, sizeof( search ), "%s/%s", directory, d->d_name );
+		if ( stat( search, &st ) == -1 )
 			continue;
-		if (!dironly) {
-		    idStr look(search);
-		    idStr ext;
-		    look.ExtractFileExtension( ext );
-		    if ( extension && extension[0] && ext.Icmp( &extension[1] ) != 0 ) {
-			continue;
-		    }
+		if ( !dironly ) {
+			idStr look( search );
+			idStr ext;
+			look.ExtractFileExtension( ext );
+			if ( extension && extension[0] && ext.Icmp( &extension[1] ) != 0 ) {
+				continue;
+			}
 		}
-		if ((dironly && !(st.st_mode & S_IFDIR)) ||
-			(!dironly && (st.st_mode & S_IFDIR)))
+		if ( ( dironly && !( st.st_mode & S_IFDIR ) ) ||
+				( !dironly && ( st.st_mode & S_IFDIR ) ) )
 			continue;
 
 		list.Append( d->d_name );
 	}
 
-	closedir(fdir);
+	closedir( fdir );
 
 	return list.Num();
 }
@@ -203,10 +202,10 @@ const char *Sys_NetAdrToString( const netadr_t a ) {
 	static char s[64];
 
 	if ( a.type == NA_LOOPBACK ) {
-		idStr::snPrintf( s, sizeof(s), "localhost" );
+		idStr::snPrintf( s, sizeof( s ), "localhost" );
 	} else if ( a.type == NA_IP ) {
-		idStr::snPrintf( s, sizeof(s), "%i.%i.%i.%i:%i",
-			a.ip[0], a.ip[1], a.ip[2], a.ip[3], BigShort(a.port) );
+		idStr::snPrintf( s, sizeof( s ), "%i.%i.%i.%i:%i",
+						 a.ip[0], a.ip[1], a.ip[2], a.ip[3], BigShort( a.port ) );
 	}
 	return s;
 }
@@ -226,7 +225,7 @@ int main( int argc, char **argv ) {
 	}
 	common->Init( cmdline );
 
-	while( 1 ) {
+	while ( 1 ) {
 		common->Async();
 		common->Frame();
 		frameNum++;

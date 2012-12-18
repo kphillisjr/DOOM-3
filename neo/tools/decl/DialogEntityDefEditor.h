@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -37,18 +37,18 @@ If you have questions concerning this license or the applicable additional terms
 
 class DialogEntityDefEditor : public CDialog {
 
-	DECLARE_DYNAMIC(DialogEntityDefEditor)
+	DECLARE_DYNAMIC( DialogEntityDefEditor )
 
 public:
-						DialogEntityDefEditor( CWnd* pParent = NULL );   // standard constructor
+	DialogEntityDefEditor( CWnd *pParent = NULL );   // standard constructor
 	virtual				~DialogEntityDefEditor();
 
 	void				LoadDecl( idDeclEntityDef *decl );
 
 	//{{AFX_VIRTUAL(DialogEntityDefEditor)
 	virtual BOOL		OnInitDialog();
-	virtual void		DoDataExchange( CDataExchange* pDX );    // DDX/DDV support
-	virtual BOOL		PreTranslateMessage( MSG* pMsg );
+	virtual void		DoDataExchange( CDataExchange *pDX );    // DDX/DDV support
+	virtual BOOL		PreTranslateMessage( MSG *pMsg );
 	//}}AFX_VIRTUAL
 
 protected:
@@ -56,11 +56,11 @@ protected:
 	afx_msg BOOL		OnToolTipNotify( UINT id, NMHDR *pNMHDR, LRESULT *pResult );
 	afx_msg void		OnSetFocus( CWnd *pOldWnd );
 	afx_msg void		OnDestroy();
-	afx_msg void		OnActivate( UINT nState, CWnd* pWndOther, BOOL bMinimized );
+	afx_msg void		OnActivate( UINT nState, CWnd *pWndOther, BOOL bMinimized );
 	afx_msg void		OnMove( int x, int y );
 	afx_msg void		OnSize( UINT nType, int cx, int cy );
 	afx_msg void		OnSizing( UINT nSide, LPRECT lpRect );
-    afx_msg LRESULT		OnFindDialogMessage( WPARAM wParam, LPARAM lParam );
+	afx_msg LRESULT		OnFindDialogMessage( WPARAM wParam, LPARAM lParam );
 	afx_msg void		OnEditChange();
 	afx_msg void		OnInheritChange();
 	afx_msg void		OnEnInputEdit( NMHDR *pNMHDR, LRESULT *pResult );
@@ -103,13 +103,13 @@ private:
 
 	HACCEL				m_hAccel;
 	CRect				initialRect;
-	idDeclEntityDef *	decl;
+	idDeclEntityDef 	*decl;
 	int					firstLine;
 
 private:
-	void				PopulateLists(idStr &declText);
-	void				SetInherit(idStr &inherit);
-	void				BuildDeclText(idStr &declText);
+	void				PopulateLists( idStr &declText );
+	void				SetInherit( idStr &inherit );
+	void				BuildDeclText( idStr &declText );
 	bool				TestDecl( const idStr &declText );
 	void				UpdateStatusBar( void );
 };

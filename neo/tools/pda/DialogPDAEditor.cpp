@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -48,17 +48,15 @@ If you have questions concerning this license or the applicable additional terms
 CDialogPDAEditor *g_PDAEditorDialog = NULL;
 
 
-CDialogPDAEditor::CDialogPDAEditor(CWnd* pParent /*=NULL*/)
-	: CDialog(CDialogPDAEditor::IDD, pParent)
-{
+CDialogPDAEditor::CDialogPDAEditor( CWnd *pParent /*=NULL*/ )
+	: CDialog( CDialogPDAEditor::IDD, pParent ) {
 	//{{AFX_DATA_INIT(CDialogPDAEditor)
 	//}}AFX_DATA_INIT
 }
 
 
-void CDialogPDAEditor::DoDataExchange(CDataExchange* pDX)
-{
-	CDialog::DoDataExchange(pDX);
+void CDialogPDAEditor::DoDataExchange( CDataExchange *pDX ) {
+	CDialog::DoDataExchange( pDX );
 	//{{AFX_DATA_MAP(CDialogPDAEditor)
 	DDX_Control( pDX, IDC_LIST_PDAS, pdaList );
 	DDX_Control( pDX, IDC_LIST_EMAIL, emailList );
@@ -77,7 +75,7 @@ void CDialogPDAEditor::DoDataExchange(CDataExchange* pDX)
 }
 
 
-BEGIN_MESSAGE_MAP(CDialogPDAEditor, CDialog)
+BEGIN_MESSAGE_MAP( CDialogPDAEditor, CDialog )
 	//{{AFX_MSG_MAP(CDialogPDAEditor)
 	ON_LBN_SELCHANGE( IDC_LIST_PDAS, OnSelChangePDA )
 	ON_BN_CLICKED( IDC_BUTTON_SAVE, OnBtnClickedSave )
@@ -103,7 +101,7 @@ void PDAEditorInit( const idDict *spawnArgs ) {
 
 	if ( renderSystem->IsFullScreen() ) {
 		common->Printf( "Cannot run the PDA editor in fullscreen mode.\n"
-					"Set r_fullscreen to 0 and vid_restart.\n" );
+						"Set r_fullscreen to 0 and vid_restart.\n" );
 		return;
 	}
 
@@ -113,12 +111,12 @@ void PDAEditorInit( const idDict *spawnArgs ) {
 	}
 
 	if ( g_PDAEditorDialog->GetSafeHwnd() == NULL ) {
-		g_PDAEditorDialog->Create(IDD_DIALOG_PDA_EDITOR);
-/*
-		// FIXME: restore position
-		CRect rct;
-		g_PDAEditorDialog->SetWindowPos( NULL, rct.left, rct.top, 0,0, SWP_NOSIZE );
-*/
+		g_PDAEditorDialog->Create( IDD_DIALOG_PDA_EDITOR );
+		/*
+				// FIXME: restore position
+				CRect rct;
+				g_PDAEditorDialog->SetWindowPos( NULL, rct.left, rct.top, 0,0, SWP_NOSIZE );
+		*/
 	}
 
 	idKeyInput::ClearStates();
@@ -141,7 +139,7 @@ void PDAEditorRun( void ) {
 	MSG *msg = &m_msgCur;
 #endif
 
-	while( ::PeekMessage(msg, NULL, NULL, NULL, PM_NOREMOVE) ) {
+	while ( ::PeekMessage( msg, NULL, NULL, NULL, PM_NOREMOVE ) ) {
 		// pump message
 		if ( !AfxGetApp()->PumpMessage() ) {
 		}
@@ -175,38 +173,34 @@ void CDialogPDAEditor::OnDestroy() {
 	return CDialog::OnDestroy();
 }
 
-BOOL CDialogPDAEditor::OnInitDialog() 
-{
+BOOL CDialogPDAEditor::OnInitDialog() {
 	CDialog::OnInitDialog();
-	
+
 	// Indicate the PDA dialog is opened
 	com_editors |= EDITOR_PDA;
 
 	PopulatePDAList();
 
 	return TRUE;  // return TRUE unless you set the focus to a control
-	              // EXCEPTION: OCX Property Pages should return FALSE
+	// EXCEPTION: OCX Property Pages should return FALSE
 }
 
-BOOL CDialogPDAEditor::PreTranslateMessage(MSG* pMsg)
-{
-	return CDialog::PreTranslateMessage(pMsg);
+BOOL CDialogPDAEditor::PreTranslateMessage( MSG *pMsg ) {
+	return CDialog::PreTranslateMessage( pMsg );
 }
 
-void CDialogPDAEditor::PopulatePDAList()
-{
+void CDialogPDAEditor::PopulatePDAList() {
 	pdaList.ResetContent();
 
 	int i;
-	int num = declManager->GetNumDecls(DECL_PDA);
-	for ( i=0; i < num; i++ ) {
-		const idDeclPDA *pda = dynamic_cast<const idDeclPDA *>( declManager->DeclByIndex(DECL_PDA, i) );
+	int num = declManager->GetNumDecls( DECL_PDA );
+	for ( i = 0; i < num; i++ ) {
+		const idDeclPDA *pda = dynamic_cast<const idDeclPDA *>( declManager->DeclByIndex( DECL_PDA, i ) );
 		pdaList.AddString( pda->GetName() );
 	}
 }
 
-void CDialogPDAEditor::OnSelChangePDA()
-{
+void CDialogPDAEditor::OnSelChangePDA() {
 	int i, num;
 
 	int index = pdaList.GetCurSel();
@@ -214,17 +208,17 @@ void CDialogPDAEditor::OnSelChangePDA()
 		return;
 	}
 
-	const idDeclPDA *pda = dynamic_cast<const idDeclPDA *>( declManager->DeclByIndex(DECL_PDA, index) );
+	const idDeclPDA *pda = dynamic_cast<const idDeclPDA *>( declManager->DeclByIndex( DECL_PDA, index ) );
 	if ( !pda ) {
 		return;
 	}
 
 	CString windowTitle;
-	windowTitle.Format("PDA Editor - %s", pda->GetName());
+	windowTitle.Format( "PDA Editor - %s", pda->GetName() );
 
 	idFile *file = fileSystem->OpenFileAppend( pda->GetFileName() );
 	if ( file ) {
-		fileSystem->CloseFile(file);
+		fileSystem->CloseFile( file );
 		saveButton.EnableWindow( true );
 	} else {
 		windowTitle += " [Read Only]";
@@ -235,19 +229,19 @@ void CDialogPDAEditor::OnSelChangePDA()
 
 	emailList.ResetContent();
 	num = pda->GetNumEmails();
-	for ( i=0; i < num; i++ ) {
+	for ( i = 0; i < num; i++ ) {
 		emailList.AddString( pda->GetEmailByIndex( i )->GetSubject() );
 	}
 
 	audioList.ResetContent();
 	num = pda->GetNumAudios();
-	for ( i=0; i < num; i++ ) {
+	for ( i = 0; i < num; i++ ) {
 		audioList.AddString( pda->GetAudioByIndex( i )->GetAudioName() );
 	}
 
 	videoList.ResetContent();
 	num = pda->GetNumVideos();
-	for ( i=0; i < num; i++ ) {
+	for ( i = 0; i < num; i++ ) {
 		videoList.AddString( pda->GetVideoByIndex( i )->GetVideoName() );
 	}
 
@@ -261,8 +255,7 @@ void CDialogPDAEditor::OnSelChangePDA()
 	UpdateData( FALSE );
 }
 
-void CDialogPDAEditor::OnBtnClickedSave()
-{
+void CDialogPDAEditor::OnBtnClickedSave() {
 	UpdateData();
 
 	int index = pdaList.GetCurSel();
@@ -270,15 +263,15 @@ void CDialogPDAEditor::OnBtnClickedSave()
 		return;
 	}
 
-	const idDeclPDA *pdaConst = dynamic_cast<const idDeclPDA *>( declManager->DeclByIndex(DECL_PDA, index) );
+	const idDeclPDA *pdaConst = dynamic_cast<const idDeclPDA *>( declManager->DeclByIndex( DECL_PDA, index ) );
 	if ( pdaConst ) {
-		idDeclPDA *pda = const_cast<idDeclPDA *>(pdaConst);
+		idDeclPDA *pda = const_cast<idDeclPDA *>( pdaConst );
 
 		CString declText = "\n";
 		declText += "pda ";
 		declText += pda->GetName();
 		declText += " {\n";
-	
+
 		declText += "\tname    \t\t\"" + shortName + "\"\n";
 		declText += "\tfullname\t\t\"" + fullName + "\"\n";
 		declText += "\ticon    \t\t\"\"\n";
@@ -289,19 +282,19 @@ void CDialogPDAEditor::OnBtnClickedSave()
 
 		for ( int i = 0; i < pda->GetNumEmails(); i++ ) {
 			declText += "\tpda_email\t\t\"";
-			declText += pda->GetEmailByIndex(i)->GetName();
+			declText += pda->GetEmailByIndex( i )->GetName();
 			declText += "\"\n";
 		}
 
 		for ( int i = 0; i < pda->GetNumAudios(); i++ ) {
 			declText += "\tpda_audio\t\t\"";
-			declText += pda->GetAudioByIndex(i)->GetName();
+			declText += pda->GetAudioByIndex( i )->GetName();
 			declText += "\"\n";
 		}
 
 		for ( int i = 0; i < pda->GetNumVideos(); i++ ) {
 			declText += "\tpda_video\t\t\"";
-			declText += pda->GetVideoByIndex(i)->GetName();
+			declText += pda->GetVideoByIndex( i )->GetName();
 			declText += "\"\n";
 		}
 
@@ -313,22 +306,22 @@ void CDialogPDAEditor::OnBtnClickedSave()
 	}
 }
 
-void CDialogPDAEditor::OnBtnClickedRandom()
-{
-	idnum.Format("%d-%02X", 1000+(rand()%8999), (rand()%255));
+void CDialogPDAEditor::OnBtnClickedRandom() {
+	idnum.Format( "%d-%02X", 1000 + ( rand() % 8999 ), ( rand() % 255 ) );
 	UpdateData( FALSE );
 }
 
-class CDialogPDAAdd : public CDialog
-{
+class CDialogPDAAdd : public CDialog {
 public:
-	CDialogPDAAdd() : CDialog(IDD_DIALOG_PDA_ADD) {}
+	CDialogPDAAdd() : CDialog( IDD_DIALOG_PDA_ADD ) {}
 	CString name;
-	void OnOK() { GetDlgItemText( IDC_EDIT1, name ); CDialog::OnOK(); }
+	void OnOK() {
+		GetDlgItemText( IDC_EDIT1, name );
+		CDialog::OnOK();
+	}
 };
 
-void CDialogPDAEditor::OnBtnClickedPDAAdd()
-{
+void CDialogPDAEditor::OnBtnClickedPDAAdd() {
 	CDialogPDAAdd dlg;
 	if ( dlg.DoModal() == IDOK ) {
 		dlg.name.MakeLower();
@@ -341,17 +334,15 @@ void CDialogPDAEditor::OnBtnClickedPDAAdd()
 	}
 }
 
-void CDialogPDAEditor::OnBtnClickedPDADel()
-{
+void CDialogPDAEditor::OnBtnClickedPDADel() {
 }
 
-void CDialogPDAEditor::OnBtnClickedEmailAdd()
-{
+void CDialogPDAEditor::OnBtnClickedEmailAdd() {
 	int index = pdaList.GetCurSel();
 	if ( index < 0 ) {
 		return;
 	}
-	const idDeclPDA *pda = dynamic_cast<const idDeclPDA *>( declManager->DeclByIndex(DECL_PDA, index) );
+	const idDeclPDA *pda = dynamic_cast<const idDeclPDA *>( declManager->DeclByIndex( DECL_PDA, index ) );
 
 	if ( pda ) {
 		CString name;
@@ -359,13 +350,13 @@ void CDialogPDAEditor::OnBtnClickedEmailAdd()
 		// Search for an unused name
 		int newIndex = pda->GetNumEmails();
 		do {
-			name.Format("%s_email_%d", pda->GetName(), newIndex++);
-		} while ( declManager->FindType(DECL_EMAIL, name, false) != NULL );
+			name.Format( "%s_email_%d", pda->GetName(), newIndex++ );
+		} while ( declManager->FindType( DECL_EMAIL, name, false ) != NULL );
 
 		CDialogPDAEditEmail addDlg;
-		addDlg.SetName(name);
+		addDlg.SetName( name );
 		if ( addDlg.DoModal() == IDOK ) {
-			idDeclEmail *email = static_cast<idDeclEmail *>(declManager->CreateNewDecl(DECL_EMAIL, name, pda->GetFileName()));
+			idDeclEmail *email = static_cast<idDeclEmail *>( declManager->CreateNewDecl( DECL_EMAIL, name, pda->GetFileName() ) );
 			email->SetText( addDlg.GetDeclText() );
 			email->ReplaceSourceFileText();
 			email->Invalidate();
@@ -373,7 +364,7 @@ void CDialogPDAEditor::OnBtnClickedEmailAdd()
 			pda->AddEmail( name );
 
 			// Get it again to reparse
-			const idDeclEmail *emailConst = static_cast<const idDeclEmail *>( declManager->FindType( DECL_EMAIL, name) );
+			const idDeclEmail *emailConst = static_cast<const idDeclEmail *>( declManager->FindType( DECL_EMAIL, name ) );
 			emailList.AddString( emailConst->GetSubject() );
 
 			// Save the pda to include this email in the list
@@ -383,13 +374,12 @@ void CDialogPDAEditor::OnBtnClickedEmailAdd()
 	}
 }
 
-void CDialogPDAEditor::OnBtnClickedEmailEdit()
-{
+void CDialogPDAEditor::OnBtnClickedEmailEdit() {
 	int index = pdaList.GetCurSel();
 	if ( index < 0 ) {
 		return;
 	}
-	const idDeclPDA *pda = dynamic_cast<const idDeclPDA *>( declManager->DeclByIndex(DECL_PDA, index) );
+	const idDeclPDA *pda = dynamic_cast<const idDeclPDA *>( declManager->DeclByIndex( DECL_PDA, index ) );
 
 	if ( pda ) {
 		index = emailList.GetCurSel();
@@ -414,48 +404,39 @@ void CDialogPDAEditor::OnBtnClickedEmailEdit()
 	}
 }
 
-void CDialogPDAEditor::OnBtnClickedEmailDel()
-{
+void CDialogPDAEditor::OnBtnClickedEmailDel() {
 }
 
-void CDialogPDAEditor::OnBtnClickedAudioAdd()
-{
+void CDialogPDAEditor::OnBtnClickedAudioAdd() {
 }
 
-void CDialogPDAEditor::OnBtnClickedAudioEdit()
-{
+void CDialogPDAEditor::OnBtnClickedAudioEdit() {
 }
 
-void CDialogPDAEditor::OnBtnClickedAudioDel()
-{
+void CDialogPDAEditor::OnBtnClickedAudioDel() {
 }
 
-void CDialogPDAEditor::OnBtnClickedVideoAdd()
-{
+void CDialogPDAEditor::OnBtnClickedVideoAdd() {
 }
 
-void CDialogPDAEditor::OnBtnClickedVideoEdit()
-{
+void CDialogPDAEditor::OnBtnClickedVideoEdit() {
 }
 
-void CDialogPDAEditor::OnBtnClickedVideoDel()
-{
+void CDialogPDAEditor::OnBtnClickedVideoDel() {
 }
 
 
 
 
-CDialogPDAEditEmail::CDialogPDAEditEmail(CWnd* pParent /*=NULL*/)
-	: CDialog(CDialogPDAEditEmail::IDD, pParent)
-{
+CDialogPDAEditEmail::CDialogPDAEditEmail( CWnd *pParent /*=NULL*/ )
+	: CDialog( CDialogPDAEditEmail::IDD, pParent ) {
 	//{{AFX_DATA_INIT(CDialogPDAEditEmail)
 	//}}AFX_DATA_INIT
 }
 
 
-void CDialogPDAEditEmail::DoDataExchange(CDataExchange* pDX)
-{
-	CDialog::DoDataExchange(pDX);
+void CDialogPDAEditEmail::DoDataExchange( CDataExchange *pDX ) {
+	CDialog::DoDataExchange( pDX );
 	//{{AFX_DATA_MAP(CDialogPDAEditEmail)
 	DDX_Text( pDX, IDC_EDIT_TO, to );
 	DDX_Text( pDX, IDC_EDIT_FROM, from );
@@ -466,7 +447,7 @@ void CDialogPDAEditEmail::DoDataExchange(CDataExchange* pDX)
 }
 
 
-BEGIN_MESSAGE_MAP(CDialogPDAEditEmail, CDialog)
+BEGIN_MESSAGE_MAP( CDialogPDAEditEmail, CDialog )
 	//{{AFX_MSG_MAP(CDialogPDAEditEmail)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
@@ -474,42 +455,38 @@ END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////////////////////
 // CDialogPDAEditor message handlers
 
-BOOL CDialogPDAEditEmail::OnInitDialog() 
-{
+BOOL CDialogPDAEditEmail::OnInitDialog() {
 	CDialog::OnInitDialog();
 
 	SetWindowText( "Editing Email: " + name );
 
 	return TRUE;  // return TRUE unless you set the focus to a control
-	              // EXCEPTION: OCX Property Pages should return FALSE
+	// EXCEPTION: OCX Property Pages should return FALSE
 }
 
-void CDialogPDAEditEmail::SetName( CString &_name )
-{
+void CDialogPDAEditEmail::SetName( CString &_name ) {
 	name = _name;
 }
 
-void CDialogPDAEditEmail::SetEmail( const idDeclEmail *email )
-{
+void CDialogPDAEditEmail::SetEmail( const idDeclEmail *email ) {
 	to = email->GetTo();
 	from = email->GetFrom();
 	date = email->GetDate();
 	subject = email->GetSubject();
 	body = email->GetBody();
-	body.Replace("\n", "\r\n");
+	body.Replace( "\n", "\r\n" );
 
 	name = email->GetName();
 
 	if ( IsWindow( m_hWnd ) ) {
-		UpdateData(FALSE);
+		UpdateData( FALSE );
 	}
 }
 
-CString CDialogPDAEditEmail::GetDeclText()
-{
+CString CDialogPDAEditEmail::GetDeclText() {
 	CString mungedBody = body;
-	mungedBody.Replace("\r\n\r\n", "\\n\\n\"\n\n\"");
-	mungedBody.Replace("\r\n", "\\n\"\n\"");
+	mungedBody.Replace( "\r\n\r\n", "\\n\\n\"\n\n\"" );
+	mungedBody.Replace( "\r\n", "\\n\"\n\"" );
 
 	CString declText;
 	declText += "\n";

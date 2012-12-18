@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -538,11 +538,11 @@ idPhysics_Static::ClipTranslation
 void idPhysics_Static::ClipTranslation( trace_t &results, const idVec3 &translation, const idClipModel *model ) const {
 	if ( model ) {
 		gameLocal.clip.TranslationModel( results, current.origin, current.origin + translation,
-			clipModel, current.axis, MASK_SOLID, model->Handle(), model->GetOrigin(), model->GetAxis() );
+										 clipModel, current.axis, MASK_SOLID, model->Handle(), model->GetOrigin(), model->GetAxis() );
 	} else {
 		gameLocal.clip.Translation( results, current.origin, current.origin + translation,
-			clipModel, current.axis, MASK_SOLID, self );
-	}	
+									clipModel, current.axis, MASK_SOLID, self );
+	}
 }
 
 /*
@@ -553,7 +553,7 @@ idPhysics_Static::ClipRotation
 void idPhysics_Static::ClipRotation( trace_t &results, const idRotation &rotation, const idClipModel *model ) const {
 	if ( model ) {
 		gameLocal.clip.RotationModel( results, current.origin, rotation,
-			clipModel, current.axis, MASK_SOLID, model->Handle(), model->GetOrigin(), model->GetAxis() );
+									  clipModel, current.axis, MASK_SOLID, model->Handle(), model->GetOrigin(), model->GetAxis() );
 	} else {
 		gameLocal.clip.Rotation( results, current.origin, rotation, clipModel, current.axis, MASK_SOLID, self );
 	}
@@ -568,7 +568,7 @@ int idPhysics_Static::ClipContents( const idClipModel *model ) const {
 	if ( clipModel ) {
 		if ( model ) {
 			return gameLocal.clip.ContentsModel( clipModel->GetOrigin(), clipModel, clipModel->GetAxis(), -1,
-				model->Handle(), model->GetOrigin(), model->GetAxis() );
+												 model->Handle(), model->GetOrigin(), model->GetAxis() );
 		} else {
 			return gameLocal.clip.Contents( clipModel->GetOrigin(), clipModel, clipModel->GetAxis(), -1, NULL );
 		}

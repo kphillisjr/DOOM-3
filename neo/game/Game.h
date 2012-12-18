@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -50,7 +50,7 @@ typedef struct {
 	int			stamina;
 	int			combat;
 	bool		syncNextGameFrame;					// used when cinematics are skipped to prevent session from simulating several game frames to
-													// keep the game time in sync with real time
+	// keep the game time in sync with real time
 } gameReturn_t;
 
 typedef enum {
@@ -85,10 +85,10 @@ public:
 	// Sets the user info for a client.
 	// if canModify is true, the game can modify the user info in the returned dictionary pointer, server will forward the change back
 	// canModify is never true on network client
-	virtual const idDict *		SetUserInfo( int clientNum, const idDict &userInfo, bool isClient, bool canModify ) = 0;
+	virtual const idDict 		*SetUserInfo( int clientNum, const idDict &userInfo, bool isClient, bool canModify ) = 0;
 
 	// Retrieve the game's userInfo dict for a client.
-	virtual const idDict *		GetUserInfo( int clientNum ) = 0;
+	virtual const idDict 		*GetUserInfo( int clientNum ) = 0;
 
 	// The game gets a chance to alter userinfo before they are emitted to server.
 	virtual void				ThrottleUserInfo( void ) = 0;
@@ -97,7 +97,7 @@ public:
 	virtual void				SetServerInfo( const idDict &serverInfo ) = 0;
 
 	// The session calls this before moving the single player game to a new level.
-	virtual const idDict &		GetPersistentPlayerInfo( int clientNum ) = 0;
+	virtual const idDict 		&GetPersistentPlayerInfo( int clientNum ) = 0;
 
 	// The session calls this right before a new level is loaded.
 	virtual void				SetPersistentPlayerInfo( int clientNum, const idDict &playerInfo ) = 0;
@@ -130,11 +130,11 @@ public:
 	virtual escReply_t			HandleESC( idUserInterface **gui ) = 0;
 
 	// get the games menu if appropriate ( multiplayer )
-	virtual idUserInterface *	StartMenu() = 0;
+	virtual idUserInterface 	*StartMenu() = 0;
 
 	// When the game is running it's own UI fullscreen, GUI commands are passed through here
 	// return NULL once the fullscreen UI mode should stop, or "main" to go to main menu
-	virtual const char *		HandleGuiCommands( const char *menuCommand ) = 0;
+	virtual const char 		*HandleGuiCommands( const char *menuCommand ) = 0;
 
 	// main menu commands not caught in the engine are passed here
 	virtual void				HandleMainMenuCommands( const char *menuCommand, idUserInterface *gui ) = 0;
@@ -179,7 +179,7 @@ public:
 	virtual void				SelectTimeGroup( int timeGroup ) = 0;
 	virtual int					GetTimeGroupTime( int timeGroup ) = 0;
 
-	virtual void				GetBestGameType( const char* map, const char* gametype, char buf[ MAX_STRING_CHARS ] ) = 0;
+	virtual void				GetBestGameType( const char *map, const char *gametype, char buf[ MAX_STRING_CHARS ] ) = 0;
 
 	// Returns a summary of stats for a given client
 	virtual void				GetClientStats( int clientNum, char *data, const int len ) = 0;
@@ -192,7 +192,7 @@ public:
 	virtual void				GetMapLoadingGUI( char gui[ MAX_STRING_CHARS ] ) = 0;
 };
 
-extern idGame *					game;
+extern idGame 					*game;
 
 
 /*
@@ -204,14 +204,14 @@ extern idGame *					game;
 */
 
 typedef struct {
-	idSoundEmitter *			referenceSound;	// this is the interface to the sound system, created
-												// with idSoundWorld::AllocSoundEmitter() when needed
+	idSoundEmitter 			*referenceSound;	// this is the interface to the sound system, created
+	// with idSoundWorld::AllocSoundEmitter() when needed
 	idVec3						origin;
 	int							listenerId;		// SSF_PRIVATE_SOUND only plays if == listenerId from PlaceListener
-												// no spatialization will be performed if == listenerID
-	const idSoundShader *		shader;			// this really shouldn't be here, it is a holdover from single channel behavior
+	// no spatialization will be performed if == listenerID
+	const idSoundShader 		*shader;			// this really shouldn't be here, it is a holdover from single channel behavior
 	float						diversity;		// 0.0 to 1.0 value used to select which
-												// samples in a multi-sample list from the shader are used
+	// samples in a multi-sample list from the shader are used
 	bool						waitfortrigger;	// don't start it at spawn time
 	soundShaderParms_t			parms;			// override volume, flags, etc
 } refSound_t;
@@ -238,24 +238,24 @@ public:
 	virtual void				ParseSpawnArgsToRefSound( const idDict *args, refSound_t *refSound );
 
 	// Animation system calls for non-game based skeletal rendering.
-	virtual idRenderModel *		ANIM_GetModelFromEntityDef( const char *classname );
+	virtual idRenderModel 		*ANIM_GetModelFromEntityDef( const char *classname );
 	virtual const idVec3 		&ANIM_GetModelOffsetFromEntityDef( const char *classname );
-	virtual idRenderModel *		ANIM_GetModelFromEntityDef( const idDict *args );
-	virtual idRenderModel *		ANIM_GetModelFromName( const char *modelName );
-	virtual const idMD5Anim *	ANIM_GetAnimFromEntityDef( const char *classname, const char *animname );
+	virtual idRenderModel 		*ANIM_GetModelFromEntityDef( const idDict *args );
+	virtual idRenderModel 		*ANIM_GetModelFromName( const char *modelName );
+	virtual const idMD5Anim 	*ANIM_GetAnimFromEntityDef( const char *classname, const char *animname );
 	virtual int					ANIM_GetNumAnimsFromEntityDef( const idDict *args );
-	virtual const char *		ANIM_GetAnimNameFromEntityDef( const idDict *args, int animNum );
-	virtual const idMD5Anim *	ANIM_GetAnim( const char *fileName );
+	virtual const char 		*ANIM_GetAnimNameFromEntityDef( const idDict *args, int animNum );
+	virtual const idMD5Anim 	*ANIM_GetAnim( const char *fileName );
 	virtual int					ANIM_GetLength( const idMD5Anim *anim );
 	virtual int					ANIM_GetNumFrames( const idMD5Anim *anim );
 	virtual void				ANIM_CreateAnimFrame( const idRenderModel *model, const idMD5Anim *anim, int numJoints, idJointMat *frame, int time, const idVec3 &offset, bool remove_origin_offset );
-	virtual idRenderModel *		ANIM_CreateMeshForAnim( idRenderModel *model, const char *classname, const char *animname, int frame, bool remove_origin_offset );
+	virtual idRenderModel 		*ANIM_CreateMeshForAnim( idRenderModel *model, const char *classname, const char *animname, int frame, bool remove_origin_offset );
 
 	// Articulated Figure calls for AF editor and Radiant.
 	virtual bool				AF_SpawnEntity( const char *fileName );
 	virtual void				AF_UpdateEntities( const char *fileName );
 	virtual void				AF_UndoChanges( void );
-	virtual idRenderModel *		AF_CreateMesh( const idDict &args, idVec3 &meshOrigin, idMat3 &meshAxis, bool &poseIsSet );
+	virtual idRenderModel 		*AF_CreateMesh( const idDict &args, idVec3 &meshOrigin, idMat3 &meshAxis, bool &poseIsSet );
 
 
 	// Entity selection.
@@ -267,10 +267,10 @@ public:
 	virtual void				TriggerSelected();
 
 	// Entity defs and spawning.
-	virtual const idDict *		FindEntityDefDict( const char *name, bool makeDefault = true ) const;
+	virtual const idDict 		*FindEntityDefDict( const char *name, bool makeDefault = true ) const;
 	virtual void				SpawnEntityDef( const idDict &args, idEntity **ent );
-	virtual idEntity *			FindEntity( const char *name ) const;
-	virtual const char *		GetUniqueEntityName( const char *classname ) const;
+	virtual idEntity 			*FindEntity( const char *name ) const;
+	virtual const char 		*GetUniqueEntityName( const char *classname ) const;
 
 	// Entity methods.
 	virtual void				EntityGetOrigin( idEntity *ent, idVec3 &org ) const;
@@ -278,7 +278,7 @@ public:
 	virtual void				EntitySetOrigin( idEntity *ent, const idVec3 &org );
 	virtual void				EntitySetAxis( idEntity *ent, const idMat3 &axis );
 	virtual void				EntityTranslate( idEntity *ent, const idVec3 &org );
-	virtual const idDict *		EntityGetSpawnArgs( idEntity *ent ) const;
+	virtual const idDict 		*EntityGetSpawnArgs( idEntity *ent ) const;
 	virtual void				EntityUpdateChangeableSpawnArgs( idEntity *ent, const idDict *dict );
 	virtual void				EntityChangeSpawnArgs( idEntity *ent, const idDict *newArgs );
 	virtual void				EntityUpdateVisuals( idEntity *ent );
@@ -295,7 +295,7 @@ public:
 	virtual void				PlayerGetEyePosition( idVec3 &org ) const;
 
 	// In game map editing support.
-	virtual const idDict *		MapGetEntityDict( const char *name ) const;
+	virtual const idDict 		*MapGetEntityDict( const char *name ) const;
 	virtual void				MapSave( const char *path = NULL ) const;
 	virtual void				MapSetEntityKeyVal( const char *name, const char *key, const char *val ) const ;
 	virtual void				MapCopyDictToEntity( const char *name, const idDict *dict ) const;
@@ -307,7 +307,7 @@ public:
 
 };
 
-extern idGameEdit *				gameEdit;
+extern idGameEdit 				*gameEdit;
 
 
 /*
@@ -323,32 +323,32 @@ const int GAME_API_VERSION		= 8;
 typedef struct {
 
 	int							version;				// API version
-	idSys *						sys;					// non-portable system services
-	idCommon *					common;					// common
-	idCmdSystem *				cmdSystem;				// console command system
-	idCVarSystem *				cvarSystem;				// console variable system
-	idFileSystem *				fileSystem;				// file system
-	idNetworkSystem *			networkSystem;			// network system
-	idRenderSystem *			renderSystem;			// render system
-	idSoundSystem *				soundSystem;			// sound system
-	idRenderModelManager *		renderModelManager;		// render model manager
-	idUserInterfaceManager *	uiManager;				// user interface manager
-	idDeclManager *				declManager;			// declaration manager
-	idAASFileManager *			AASFileManager;			// AAS file manager
-	idCollisionModelManager *	collisionModelManager;	// collision model manager
+	idSys 						*sys;					// non-portable system services
+	idCommon 					*common;					// common
+	idCmdSystem 				*cmdSystem;				// console command system
+	idCVarSystem 				*cvarSystem;				// console variable system
+	idFileSystem 				*fileSystem;				// file system
+	idNetworkSystem 			*networkSystem;			// network system
+	idRenderSystem 			*renderSystem;			// render system
+	idSoundSystem 				*soundSystem;			// sound system
+	idRenderModelManager 		*renderModelManager;		// render model manager
+	idUserInterfaceManager 	*uiManager;				// user interface manager
+	idDeclManager 				*declManager;			// declaration manager
+	idAASFileManager 			*AASFileManager;			// AAS file manager
+	idCollisionModelManager 	*collisionModelManager;	// collision model manager
 
 } gameImport_t;
 
 typedef struct {
 
 	int							version;				// API version
-	idGame *					game;					// interface to run the game
-	idGameEdit *				gameEdit;				// interface for in-game editing
+	idGame 					*game;					// interface to run the game
+	idGameEdit 				*gameEdit;				// interface for in-game editing
 
 } gameExport_t;
 
 extern "C" {
-typedef gameExport_t * (*GetGameAPI_t)( gameImport_t *import );
+	typedef gameExport_t *( *GetGameAPI_t )( gameImport_t *import );
 }
 
 #endif /* !__GAME_H__ */

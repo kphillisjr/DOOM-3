@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -56,8 +56,8 @@ static void AddTriListToArea( uEntity_t *e, mapTri_t *triList, int planeNum, int
 	area = &e->areas[areaNum];
 	for ( group = area->groups ; group ; group = group->nextGroup ) {
 		if ( group->material == triList->material
-			&& group->planeNum == planeNum
-			&& group->mergeGroup == triList->mergeGroup ) {
+				&& group->planeNum == planeNum
+				&& group->mergeGroup == triList->mergeGroup ) {
 			// check the texture vectors
 			for ( i = 0 ; i < 2 ; i++ ) {
 				for ( j = 0 ; j < 3 ; j++ ) {
@@ -82,7 +82,7 @@ static void AddTriListToArea( uEntity_t *e, mapTri_t *triList, int planeNum, int
 	}
 
 	if ( !group ) {
-		group = (optimizeGroup_t *)Mem_Alloc( sizeof( *group ) );
+		group = ( optimizeGroup_t * )Mem_Alloc( sizeof( *group ) );
 		memset( group, 0, sizeof( *group ) );
 		group->planeNum = planeNum;
 		group->mergeGroup = triList->mergeGroup;
@@ -125,16 +125,16 @@ static void TexVecForTri( textureVectors_t *texVec, mapTri_t *tri ) {
 	area = d0[3] * d1[4] - d0[4] * d1[3];
 	inva = 1.0 / area;
 
-    temp[0] = (d0[0] * d1[4] - d0[4] * d1[0]) * inva;
-    temp[1] = (d0[1] * d1[4] - d0[4] * d1[1]) * inva;
-    temp[2] = (d0[2] * d1[4] - d0[4] * d1[2]) * inva;
+	temp[0] = ( d0[0] * d1[4] - d0[4] * d1[0] ) * inva;
+	temp[1] = ( d0[1] * d1[4] - d0[4] * d1[1] ) * inva;
+	temp[2] = ( d0[2] * d1[4] - d0[4] * d1[2] ) * inva;
 	temp.Normalize();
 	texVec->v[0].ToVec3() = temp;
 	texVec->v[0][3] = tri->v[0].xyz * texVec->v[0].ToVec3() - tri->v[0].st[0];
 
-    temp[0] = (d0[3] * d1[0] - d0[0] * d1[3]) * inva;
-    temp[1] = (d0[3] * d1[1] - d0[1] * d1[3]) * inva;
-    temp[2] = (d0[3] * d1[2] - d0[2] * d1[3]) * inva;
+	temp[0] = ( d0[3] * d1[0] - d0[0] * d1[3] ) * inva;
+	temp[1] = ( d0[3] * d1[1] - d0[1] * d1[3] ) * inva;
+	temp[2] = ( d0[3] * d1[2] - d0[2] * d1[3] ) * inva;
 	temp.Normalize();
 	texVec->v[1].ToVec3() = temp;
 	texVec->v[1][3] = tri->v[0].xyz * texVec->v[0].ToVec3() - tri->v[0].st[1];
@@ -176,17 +176,17 @@ mapTri_t *TriListForSide( const side_t *s, const idWinding *w ) {
 		triList = NULL;
 		for ( i = 2 ; i < w->GetNumPoints() ; i++ ) {
 			tri = AllocTri();
-			tri->material = si;	
+			tri->material = si;
 			tri->next = triList;
 			triList = tri;
 
 			for ( j = 0 ; j < 3 ; j++ ) {
 				if ( j == 0 ) {
-					vec = &((*w)[0]).ToVec3();
+					vec = &( ( *w )[0] ).ToVec3();
 				} else if ( j == 1 ) {
-					vec = &((*w)[i-1]).ToVec3();
+					vec = &( ( *w )[i - 1] ).ToVec3();
 				} else {
-					vec = &((*w)[i]).ToVec3();
+					vec = &( ( *w )[i] ).ToVec3();
 				}
 
 				dv = tri->v + j;
@@ -198,7 +198,7 @@ mapTri_t *TriListForSide( const side_t *s, const idWinding *w ) {
 #else
 				VectorCopy( *vec, dv->xyz );
 #endif
-				
+
 				// calculate texture s/t from brush primitive texture matrix
 				dv->st[0] = DotProduct( dv->xyz, s->texVec.v[0] ) + s->texVec.v[0][3];
 				dv->st[1] = DotProduct( dv->xyz, s->texVec.v[1] ) + s->texVec.v[1][3];
@@ -218,7 +218,7 @@ mapTri_t *TriListForSide( const side_t *s, const idWinding *w ) {
 			idVec3	midPoint;
 
 			tri = AllocTri();
-			tri->material = si;	
+			tri->material = si;
 			tri->next = triList;
 			triList = tri;
 
@@ -227,15 +227,15 @@ mapTri_t *TriListForSide( const side_t *s, const idWinding *w ) {
 					vec = &midPoint;
 					midPoint = w->GetCenter();
 				} else if ( j == 1 ) {
-					vec = &((*w)[i]).ToVec3();
+					vec = &( ( *w )[i] ).ToVec3();
 				} else {
-					vec = &((*w)[(i+1)%w->GetNumPoints()]).ToVec3();
+					vec = &( ( *w )[( i + 1 ) % w->GetNumPoints()] ).ToVec3();
 				}
 
 				dv = tri->v + j;
 
 				VectorCopy( *vec, dv->xyz );
-				
+
 				// calculate texture s/t from brush primitive texture matrix
 				dv->st[0] = DotProduct( dv->xyz, s->texVec.v[0] ) + s->texVec.v[0][3];
 				dv->st[1] = DotProduct( dv->xyz, s->texVec.v[1] ) + s->texVec.v[1][3];
@@ -253,7 +253,7 @@ mapTri_t *TriListForSide( const side_t *s, const idWinding *w ) {
 	// merged into a single surface in the case of gui shaders, mirrors, and autosprites
 	if ( s->material->IsDiscrete() ) {
 		for ( tri = triList ; tri ; tri = tri->next ) {
-			tri->mergeGroup = (void *)s;
+			tri->mergeGroup = ( void * )s;
 		}
 	}
 
@@ -281,7 +281,7 @@ static void ClipSideByTree_r( idWinding *w, side_t *side, node_t *node ) {
 			ClipSideByTree_r( w, side, node->children[0] );
 			return;
 		}
-		if ( side->planenum == ( node->planenum ^ 1) ) {
+		if ( side->planenum == ( node->planenum ^ 1 ) ) {
 			ClipSideByTree_r( w, side, node->children[1] );
 			return;
 		}
@@ -299,8 +299,7 @@ static void ClipSideByTree_r( idWinding *w, side_t *side, node_t *node ) {
 	if ( !node->opaque ) {
 		if ( !side->visibleHull ) {
 			side->visibleHull = w->Copy();
-		}
-		else {
+		} else {
 			side->visibleHull->AddToConvexHull( w, dmapGlobals.mapPlanes[ side->planenum ].Normal() );
 		}
 	}
@@ -328,7 +327,7 @@ void ClipSidesByTree( uEntity_t *e ) {
 	side_t			*side;
 	primitive_t		*prim;
 
-	common->Printf( "----- ClipSidesByTree -----\n");
+	common->Printf( "----- ClipSidesByTree -----\n" );
 
 	for ( prim = e->primitives ; prim ; prim = prim->next ) {
 		b = prim->brush;
@@ -338,7 +337,7 @@ void ClipSidesByTree( uEntity_t *e ) {
 		}
 		for ( i = 0 ; i < b->numsides ; i++ ) {
 			side = &b->sides[i];
-			if ( !side->winding) {
+			if ( !side->winding ) {
 				continue;
 			}
 			w = side->winding->Copy();
@@ -430,7 +429,7 @@ static int CheckWindingInAreas_r( const idWinding *w, node_t *node ) {
 		if ( side->planenum == node->planenum ) {
 			return CheckWindingInAreas_r( w, node->children[0] );
 		}
-		if ( side->planenum == ( node->planenum ^ 1) ) {
+		if ( side->planenum == ( node->planenum ^ 1 ) ) {
 			return CheckWindingInAreas_r( w, node->children[1] );
 		}
 #endif
@@ -483,7 +482,7 @@ static void PutWindingIntoAreas_r( uEntity_t *e, const idWinding *w, side_t *sid
 			PutWindingIntoAreas_r( e, w, side, node->children[0] );
 			return;
 		}
-		if ( side->planenum == ( node->planenum ^ 1) ) {
+		if ( side->planenum == ( node->planenum ^ 1 ) ) {
 			PutWindingIntoAreas_r( e, w, side, node->children[1] );
 			return;
 		}
@@ -593,10 +592,10 @@ void PutPrimitivesInAreas( uEntity_t *e ) {
 	primitive_t		*prim;
 	mapTri_t		*tri;
 
-	common->Printf( "----- PutPrimitivesInAreas -----\n");
+	common->Printf( "----- PutPrimitivesInAreas -----\n" );
 
 	// allocate space for surface chains for each area
-	e->areas = (uArea_t *)Mem_Alloc( e->numAreas * sizeof( e->areas[0] ) );
+	e->areas = ( uArea_t * )Mem_Alloc( e->numAreas * sizeof( e->areas[0] ) );
 	memset( e->areas, 0, e->numAreas * sizeof( e->areas[0] ) );
 
 	// for each primitive, clip it to the non-solid leafs
@@ -653,7 +652,7 @@ void PutPrimitivesInAreas( uEntity_t *e ) {
 				} else {
 					axis.Identity();
 				}
-			}		
+			}
 
 			idVec3	origin = entity->mapEntity->epairs.GetVector( "origin" );
 
@@ -666,16 +665,16 @@ void PutPrimitivesInAreas( uEntity_t *e ) {
 				mapTri.material = surface->shader;
 				// don't let discretes (autosprites, etc) merge together
 				if ( mapTri.material->IsDiscrete() ) {
-					mapTri.mergeGroup = (void *)surface;
+					mapTri.mergeGroup = ( void * )surface;
 				}
 				for ( int j = 0 ; j < tri->numIndexes ; j += 3 ) {
 					for ( int k = 0 ; k < 3 ; k++ ) {
-						idVec3 v = tri->verts[tri->indexes[j+k]].xyz;
+						idVec3 v = tri->verts[tri->indexes[j + k]].xyz;
 
 						mapTri.v[k].xyz = v * axis + origin;
 
-						mapTri.v[k].normal = tri->verts[tri->indexes[j+k]].normal * axis;
-						mapTri.v[k].st = tri->verts[tri->indexes[j+k]].st;
+						mapTri.v[k].normal = tri->verts[tri->indexes[j + k]].normal * axis;
+						mapTri.v[k].st = tri->verts[tri->indexes[j + k]].st;
 					}
 					AddMapTriToAreas( &mapTri, e );
 				}
@@ -701,8 +700,8 @@ If clipping was required, the outside fragments will be planar clips, which
 will benefit from re-optimization.
 =================
 */
-static void ClipTriByLight( const mapLight_t *light, const mapTri_t *tri, 
-						   mapTri_t **in, mapTri_t **out ) {
+static void ClipTriByLight( const mapLight_t *light, const mapTri_t *tri,
+							mapTri_t **in, mapTri_t **out ) {
 	idWinding	*inside, *oldInside;
 	idWinding	*outside[6];
 	bool	hasOutside;
@@ -719,8 +718,7 @@ static void ClipTriByLight( const mapLight_t *light, const mapTri_t *tri,
 		if ( oldInside ) {
 			oldInside->Split( light->def.frustum[i], 0, &outside[i], &inside );
 			delete oldInside;
-		}
-		else {
+		} else {
 			outside[i] = NULL;
 		}
 		if ( outside[i] ) {
@@ -739,7 +737,7 @@ static void ClipTriByLight( const mapLight_t *light, const mapTri_t *tri,
 		}
 
 		*out = CopyMapTri( tri );
-		(*out)->next = NULL;
+		( *out )->next = NULL;
 
 		return;
 	}
@@ -751,7 +749,7 @@ static void ClipTriByLight( const mapLight_t *light, const mapTri_t *tri,
 		delete inside;
 
 		*in = CopyMapTri( tri );
-		(*in)->next = NULL;
+		( *in )->next = NULL;
 
 		return;
 	}
@@ -816,7 +814,7 @@ static void BuildLightShadows( uEntity_t *e, mapLight_t *light ) {
 	// if the light is no-shadows, don't add any surfaces
 	// to the beam tree at all
 	if ( !light->def.parms.noShadows
-		&& light->def.lightShader->LightCastsShadows() ) {
+			&& light->def.lightShader->LightCastsShadows() ) {
 		for ( i = 0 ; i < e->numAreas ; i++ ) {
 			for ( group = e->areas[i].groups ; group ; group = group->nextGroup ) {
 				// if the surface doesn't cast shadows, skip it
@@ -865,7 +863,7 @@ static void BuildLightShadows( uEntity_t *e, mapLight_t *light ) {
 					}
 				}
 				if ( !check ) {
-					check = (optimizeGroup_t *)Mem_Alloc( sizeof( *check ) );
+					check = ( optimizeGroup_t * )Mem_Alloc( sizeof( *check ) );
 					*check = *group;
 					check->triList = NULL;
 					check->nextGroup = shadowerGroups;
@@ -889,8 +887,8 @@ static void BuildLightShadows( uEntity_t *e, mapLight_t *light ) {
 
 	if ( light->shadowTris && hasPerforatedSurface ) {
 		// can't ever remove front faces, because we can see through some of them
-		light->shadowTris->numShadowIndexesNoCaps = light->shadowTris->numShadowIndexesNoFrontCaps = 
-			light->shadowTris->numIndexes;
+		light->shadowTris->numShadowIndexesNoCaps = light->shadowTris->numShadowIndexesNoFrontCaps =
+					light->shadowTris->numIndexes;
 	}
 
 	// we don't need the original shadower triangles for anything else
@@ -921,8 +919,8 @@ static void CarveGroupsByLight( uEntity_t *e, mapLight_t *light ) {
 			nextGroup = group->nextGroup;
 			// if the surface doesn't get lit, don't carve it up
 			if ( ( light->def.lightShader->IsFogLight() && !group->material->ReceivesFog() )
-				|| ( !light->def.lightShader->IsFogLight() && !group->material->ReceivesLighting() ) 
-				|| !group->bounds.IntersectsBounds( light->def.frustumTris->bounds ) ) {
+					|| ( !light->def.lightShader->IsFogLight() && !group->material->ReceivesLighting() )
+					|| !group->bounds.IntersectsBounds( light->def.frustumTris->bounds ) ) {
 
 				group->nextGroup = carvedGroups;
 				carvedGroups = group;
@@ -931,14 +929,14 @@ static void CarveGroupsByLight( uEntity_t *e, mapLight_t *light ) {
 
 			if ( group->numGroupLights == MAX_GROUP_LIGHTS ) {
 				common->Error( "MAX_GROUP_LIGHTS around %f %f %f",
-					 group->triList->v[0].xyz[0], group->triList->v[0].xyz[1], group->triList->v[0].xyz[2] );
+							   group->triList->v[0].xyz[0], group->triList->v[0].xyz[1], group->triList->v[0].xyz[2] );
 			}
 
 			// if the group doesn't face the light,
 			// it won't get carved at all
 			if ( !light->def.lightShader->LightEffectsBackSides() &&
-				!group->material->ReceivesLightingOnBackSides() &&
-				dmapGlobals.mapPlanes[ group->planeNum ].Distance( light->def.parms.origin ) <= 0  ) {
+					!group->material->ReceivesLightingOnBackSides() &&
+					dmapGlobals.mapPlanes[ group->planeNum ].Distance( light->def.parms.origin ) <= 0 ) {
 
 				group->nextGroup = carvedGroups;
 				carvedGroups = group;
@@ -958,7 +956,7 @@ static void CarveGroupsByLight( uEntity_t *e, mapLight_t *light ) {
 			}
 
 			if ( inside ) {
-				newGroup = (optimizeGroup_t *)Mem_Alloc( sizeof( *newGroup ) );
+				newGroup = ( optimizeGroup_t * )Mem_Alloc( sizeof( *newGroup ) );
 				*newGroup = *group;
 				newGroup->groupLights[newGroup->numGroupLights] = light;
 				newGroup->numGroupLights++;
@@ -968,7 +966,7 @@ static void CarveGroupsByLight( uEntity_t *e, mapLight_t *light ) {
 			}
 
 			if ( outside ) {
-				newGroup = (optimizeGroup_t *)Mem_Alloc( sizeof( *newGroup ) );
+				newGroup = ( optimizeGroup_t * )Mem_Alloc( sizeof( *newGroup ) );
 				*newGroup = *group;
 				newGroup->triList = outside;
 				newGroup->nextGroup = carvedGroups;
@@ -1002,7 +1000,7 @@ void Prelight( uEntity_t *e ) {
 	if ( dmapGlobals.entityNum != 0 ) {
 		return;
 	}
-	
+
 	if ( dmapGlobals.shadowOptLevel > 0 ) {
 		common->Printf( "----- BuildLightShadows -----\n" );
 		start = Sys_Milliseconds();

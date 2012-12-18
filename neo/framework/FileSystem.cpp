@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -32,20 +32,20 @@ If you have questions concerning this license or the applicable additional terms
 #include "Unzip.h"
 
 #ifdef WIN32
-	#include <io.h>	// for _read
+#include <io.h>	// for _read
 #else
-	#if !__MACH__ && __MWERKS__
-		#include <types.h>
-		#include <stat.h>
-	#else
-		#include <sys/types.h>
-		#include <sys/stat.h>
-	#endif
-	#include <unistd.h>
+#if !__MACH__ && __MWERKS__
+#include <types.h>
+#include <stat.h>
+#else
+#include <sys/types.h>
+#include <sys/stat.h>
+#endif
+#include <unistd.h>
 #endif
 
 #if ID_ENABLE_CURL
-	#include "../curl/include/curl/curl.h"
+#include "../curl/include/curl/curl.h"
 #endif
 
 /*
@@ -53,7 +53,7 @@ If you have questions concerning this license or the applicable additional terms
 
 DOOM FILESYSTEM
 
-All of Doom's data access is through a hierarchical file system, but the contents of 
+All of Doom's data access is through a hierarchical file system, but the contents of
 the file system can be transparently merged from several sources.
 
 A "relativePath" is a reference to game file data, which must include a terminating zero.
@@ -148,7 +148,7 @@ basedir / cddir / game combinations, but all other subsystems that rely on it
 
 "fs_caseSensitiveOS":
 This cvar is set on operating systems that use case sensitive filesystems (Linux and OSX)
-It is a common situation to have the media reference filenames, whereas the file on disc 
+It is a common situation to have the media reference filenames, whereas the file on disc
 only matches in a case-insensitive way. When "fs_caseSensitiveOS" is set, the filesystem
 will always do a case insensitive search.
 IMPORTANT: This only applies to files, and not to directories. There is no case-insensitive
@@ -169,17 +169,17 @@ for instance to base a mod of D3 + D3XP assets, fs_game mymod, fs_game_base d3xp
 
 
 
-// define to fix special-cases for GetPackStatus so that files that shipped in 
+// define to fix special-cases for GetPackStatus so that files that shipped in
 // the wrong place for Doom 3 don't break pure servers.
-#define DOOM3_PURE_SPECIAL_CASES	
+#define DOOM3_PURE_SPECIAL_CASES
 
-typedef bool (*pureExclusionFunc_t)( const struct pureExclusion_s &excl, int l, const idStr &name );
+typedef bool ( *pureExclusionFunc_t )( const struct pureExclusion_s &excl, int l, const idStr &name );
 
 typedef struct pureExclusion_s {
 	int					nameLen;
 	int					extLen;
-	const char *		name;
-	const char *		ext;
+	const char 		*name;
+	const char 		*ext;
 	pureExclusionFunc_t	func;
 } pureExclusion_t;
 
@@ -213,7 +213,7 @@ static pureExclusion_t pureExclusions[] = {
 	{ 0,	0,	NULL,											".lang",	excludeExtension },
 	{ 0,	0,	"sound/VO",										".ogg",		excludePathPrefixAndExtension },
 	{ 0,	0,	"sound/VO",										".wav",		excludePathPrefixAndExtension },
-#if	defined DOOM3_PURE_SPECIAL_CASES	
+#if	defined DOOM3_PURE_SPECIAL_CASES
 	// add any special-case files or paths for pure servers here
 	{ 0,	0,	"sound/ed/marscity/vo_intro_cutscene.ogg",		NULL,		excludeFullName },
 	{ 0,	0,	"sound/weapons/soulcube/energize_01.ogg",		NULL,		excludeFullName },
@@ -258,7 +258,7 @@ static idInitExclusions	initExclusions;
 typedef struct fileInPack_s {
 	idStr				name;						// name of the file
 	unsigned long		pos;						// file info position in zip
-	struct fileInPack_s * next;						// next file in the hash
+	struct fileInPack_s *next;						// next file in the hash
 } fileInPack_t;
 
 typedef enum {
@@ -302,8 +302,8 @@ typedef struct {
 } directory_t;
 
 typedef struct searchpath_s {
-	pack_t *			pack;						// only one of pack / dir will be non NULL
-	directory_t *		dir;
+	pack_t 			*pack;						// only one of pack / dir will be non NULL
+	directory_t 		*dir;
 	struct searchpath_s *next;
 } searchpath_t;
 
@@ -325,7 +325,7 @@ typedef struct searchpath_s {
 
 class idDEntry : public idStrList {
 public:
-						idDEntry() {}
+	idDEntry() {}
 	virtual				~idDEntry() {}
 
 	bool				Matches( const char *directory, const char *extension ) const;
@@ -339,7 +339,7 @@ private:
 
 class idFileSystemLocal : public idFileSystem {
 public:
-							idFileSystemLocal( void );
+	idFileSystemLocal( void );
 
 	virtual void			Init( void );
 	virtual void			StartBackgroundDownloadThread( void );
@@ -347,14 +347,14 @@ public:
 	virtual void			Shutdown( bool reloading );
 	virtual bool			IsInitialized( void ) const;
 	virtual bool			PerformingCopyFiles( void ) const;
-	virtual idModList *		ListMods( void );
+	virtual idModList 		*ListMods( void );
 	virtual void			FreeModList( idModList *modList );
-	virtual idFileList *	ListFiles( const char *relativePath, const char *extension, bool sort = false, bool fullRelativePath = false, const char* gamedir = NULL );
-	virtual idFileList *	ListFilesTree( const char *relativePath, const char *extension, bool sort = false, const char* gamedir = NULL );
+	virtual idFileList 	*ListFiles( const char *relativePath, const char *extension, bool sort = false, bool fullRelativePath = false, const char *gamedir = NULL );
+	virtual idFileList 	*ListFilesTree( const char *relativePath, const char *extension, bool sort = false, const char *gamedir = NULL );
 	virtual void			FreeFileList( idFileList *fileList );
-	virtual const char *	OSPathToRelativePath( const char *OSPath );
-	virtual const char *	RelativePathToOSPath( const char *relativePath, const char *basePath );
-	virtual const char *	BuildOSPath( const char *base, const char *game, const char *relativePath );
+	virtual const char 	*OSPathToRelativePath( const char *OSPath );
+	virtual const char 	*RelativePathToOSPath( const char *relativePath, const char *basePath );
+	virtual const char 	*BuildOSPath( const char *base, const char *game, const char *relativePath );
 	virtual void			CreateOSPath( const char *OSPath );
 	virtual bool			FileIsInPAK( const char *relativePath );
 	virtual void			UpdatePureServerChecksums( void );
@@ -367,30 +367,36 @@ public:
 	virtual int				ReadFile( const char *relativePath, void **buffer, ID_TIME_T *timestamp );
 	virtual void			FreeFile( void *buffer );
 	virtual int				WriteFile( const char *relativePath, const void *buffer, int size, const char *basePath = "fs_savepath" );
-	virtual void			RemoveFile( const char *relativePath );	
-	virtual idFile *		OpenFileReadFlags( const char *relativePath, int searchFlags, pack_t **foundInPak = NULL, bool allowCopyFiles = true, const char* gamedir = NULL );
-	virtual idFile *		OpenFileRead( const char *relativePath, bool allowCopyFiles = true, const char* gamedir = NULL );
-	virtual idFile *		OpenFileWrite( const char *relativePath, const char *basePath = "fs_savepath" );
-	virtual idFile *		OpenFileAppend( const char *relativePath, bool sync = false, const char *basePath = "fs_basepath"   );
-	virtual idFile *		OpenFileByMode( const char *relativePath, fsMode_t mode );
-	virtual idFile *		OpenExplicitFileRead( const char *OSPath );
-	virtual idFile *		OpenExplicitFileWrite( const char *OSPath );
+	virtual void			RemoveFile( const char *relativePath );
+	virtual idFile 		*OpenFileReadFlags( const char *relativePath, int searchFlags, pack_t **foundInPak = NULL, bool allowCopyFiles = true, const char *gamedir = NULL );
+	virtual idFile 		*OpenFileRead( const char *relativePath, bool allowCopyFiles = true, const char *gamedir = NULL );
+	virtual idFile 		*OpenFileWrite( const char *relativePath, const char *basePath = "fs_savepath" );
+	virtual idFile 		*OpenFileAppend( const char *relativePath, bool sync = false, const char *basePath = "fs_basepath" );
+	virtual idFile 		*OpenFileByMode( const char *relativePath, fsMode_t mode );
+	virtual idFile 		*OpenExplicitFileRead( const char *OSPath );
+	virtual idFile 		*OpenExplicitFileWrite( const char *OSPath );
 	virtual void			CloseFile( idFile *f );
 	virtual void			BackgroundDownload( backgroundDownload_t *bgl );
-	virtual void			ResetReadCount( void ) { readCount = 0; }
-	virtual void			AddToReadCount( int c ) { readCount += c; }
-	virtual int				GetReadCount( void ) { return readCount; }
+	virtual void			ResetReadCount( void ) {
+		readCount = 0;
+	}
+	virtual void			AddToReadCount( int c ) {
+		readCount += c;
+	}
+	virtual int				GetReadCount( void ) {
+		return readCount;
+	}
 	virtual void			FindDLL( const char *basename, char dllPath[ MAX_OSPATH ], bool updateChecksum );
 	virtual void			ClearDirCache( void );
 	virtual bool			HasD3XP( void );
 	virtual bool			RunningD3XP( void );
 	virtual void			CopyFile( const char *fromOSPath, const char *toOSPath );
 	virtual int				ValidateDownloadPakForChecksum( int checksum, char path[ MAX_STRING_CHARS ], bool isBinary );
-	virtual idFile *		MakeTemporaryFile( void );
+	virtual idFile 		*MakeTemporaryFile( void );
 	virtual int				AddZipFile( const char *path );
 	virtual findFile_t		FindFile( const char *path, bool scheduleAddons );
 	virtual int				GetNumMaps();
-	virtual const idDict *	GetMapDecl( int i );
+	virtual const idDict 	*GetMapDecl( int i );
 	virtual void			FindMapScreenshot( const char *path, char *buf, int len );
 	virtual bool			FilenameCompare( const char *s1, const char *s2 ) const;
 
@@ -403,7 +409,7 @@ public:
 private:
 	friend dword 			BackgroundDownloadThread( void *parms );
 
-	searchpath_t *			searchPaths;
+	searchpath_t 			*searchPaths;
 	int						readCount;			// total bytes read
 	int						loadCount;			// total files read
 	int						loadStack;			// total files in memory
@@ -425,7 +431,7 @@ private:
 	static idCVar			fs_caseSensitiveOS;
 	static idCVar			fs_searchAddons;
 
-	backgroundDownload_t *	backgroundDownloads;
+	backgroundDownload_t 	*backgroundDownloads;
 	backgroundDownload_t	defaultBackgroundDownload;
 	xthreadInfo				backgroundThread;
 
@@ -449,40 +455,40 @@ private:
 	void					ReplaceSeparators( idStr &path, char sep = PATHSEPERATOR_CHAR );
 	long					HashFileName( const char *fname ) const;
 	int						ListOSFiles( const char *directory, const char *extension, idStrList &list );
-	FILE *					OpenOSFile( const char *name, const char *mode, idStr *caseSensitiveName = NULL );
-	FILE *					OpenOSFileCorrectName( idStr &path, const char *mode );
+	FILE 					*OpenOSFile( const char *name, const char *mode, idStr *caseSensitiveName = NULL );
+	FILE 					*OpenOSFileCorrectName( idStr &path, const char *mode );
 	int						DirectFileLength( FILE *o );
 	void					CopyFile( idFile *src, const char *toOSPath );
 	int						AddUnique( const char *name, idStrList &list, idHashIndex &hashIndex ) const;
 	void					GetExtensionList( const char *extension, idStrList &extensionList ) const;
-	int						GetFileList( const char *relativePath, const idStrList &extensions, idStrList &list, idHashIndex &hashIndex, bool fullRelativePath, const char* gamedir = NULL );
+	int						GetFileList( const char *relativePath, const idStrList &extensions, idStrList &list, idHashIndex &hashIndex, bool fullRelativePath, const char *gamedir = NULL );
 
-	int						GetFileListTree( const char *relativePath, const idStrList &extensions, idStrList &list, idHashIndex &hashIndex, const char* gamedir = NULL );
-	pack_t *				LoadZipFile( const char *zipfile );
+	int						GetFileListTree( const char *relativePath, const idStrList &extensions, idStrList &list, idHashIndex &hashIndex, const char *gamedir = NULL );
+	pack_t 				*LoadZipFile( const char *zipfile );
 	void					AddGameDirectory( const char *path, const char *dir );
 	void					SetupGameDirectories( const char *gameName );
 	void					Startup( void );
 	void					SetRestrictions( void );
-							// some files can be obtained from directories without compromising si_pure
+	// some files can be obtained from directories without compromising si_pure
 	bool					FileAllowedFromDir( const char *path );
-							// searches all the paks, no pure check
-	pack_t *				GetPackForChecksum( int checksum, bool searchAddons = false );
-							// searches all the paks, no pure check
-	pack_t *				FindPakForFileChecksum( const char *relativePath, int fileChecksum, bool bReference );
-	idFile_InZip *			ReadFileFromZip( pack_t *pak, fileInPack_t *pakFile, const char *relativePath );
+	// searches all the paks, no pure check
+	pack_t 				*GetPackForChecksum( int checksum, bool searchAddons = false );
+	// searches all the paks, no pure check
+	pack_t 				*FindPakForFileChecksum( const char *relativePath, int fileChecksum, bool bReference );
+	idFile_InZip 			*ReadFileFromZip( pack_t *pak, fileInPack_t *pakFile, const char *relativePath );
 	int						GetFileChecksum( idFile *file );
 	pureStatus_t			GetPackStatus( pack_t *pak );
-	addonInfo_t *			ParseAddonDef( const char *buf, const int len );
+	addonInfo_t 			*ParseAddonDef( const char *buf, const int len );
 	void					FollowAddonDependencies( pack_t *pak );
 
 	static size_t			CurlWriteFunction( void *ptr, size_t size, size_t nmemb, void *stream );
-							// curl_progress_callback in curl.h
+	// curl_progress_callback in curl.h
 	static int				CurlProgressFunction( void *clientp, double dltotal, double dlnow, double ultotal, double ulnow );
 };
 
 idCVar	idFileSystemLocal::fs_restrict( "fs_restrict", "", CVAR_SYSTEM | CVAR_INIT | CVAR_BOOL, "" );
-idCVar	idFileSystemLocal::fs_debug( "fs_debug", "0", CVAR_SYSTEM | CVAR_INTEGER, "", 0, 2, idCmdSystem::ArgCompletion_Integer<0,2> );
-idCVar	idFileSystemLocal::fs_copyfiles( "fs_copyfiles", "0", CVAR_SYSTEM | CVAR_INIT | CVAR_INTEGER, "", 0, 4, idCmdSystem::ArgCompletion_Integer<0,3> );
+idCVar	idFileSystemLocal::fs_debug( "fs_debug", "0", CVAR_SYSTEM | CVAR_INTEGER, "", 0, 2, idCmdSystem::ArgCompletion_Integer<0, 2> );
+idCVar	idFileSystemLocal::fs_copyfiles( "fs_copyfiles", "0", CVAR_SYSTEM | CVAR_INIT | CVAR_INTEGER, "", 0, 4, idCmdSystem::ArgCompletion_Integer<0, 3> );
 idCVar	idFileSystemLocal::fs_basepath( "fs_basepath", "", CVAR_SYSTEM | CVAR_INIT, "" );
 idCVar	idFileSystemLocal::fs_savepath( "fs_savepath", "", CVAR_SYSTEM | CVAR_INIT, "" );
 idCVar	idFileSystemLocal::fs_cdpath( "fs_cdpath", "", CVAR_SYSTEM | CVAR_INIT, "" );
@@ -497,7 +503,7 @@ idCVar	idFileSystemLocal::fs_caseSensitiveOS( "fs_caseSensitiveOS", "1", CVAR_SY
 idCVar	idFileSystemLocal::fs_searchAddons( "fs_searchAddons", "0", CVAR_SYSTEM | CVAR_BOOL, "search all addon pk4s ( disables addon functionality )" );
 
 idFileSystemLocal	fileSystemLocal;
-idFileSystem *		fileSystem = &fileSystemLocal;
+idFileSystem 		*fileSystem = &fileSystemLocal;
 
 /*
 ================
@@ -532,7 +538,7 @@ long idFileSystemLocal::HashFileName( const char *fname ) const {
 
 	hash = 0;
 	i = 0;
-	while( fname[i] != '\0' ) {
+	while ( fname[i] != '\0' ) {
 		letter = idStr::ToLower( fname[i] );
 		if ( letter == '.' ) {
 			break;				// don't include extension
@@ -540,10 +546,10 @@ long idFileSystemLocal::HashFileName( const char *fname ) const {
 		if ( letter == '\\' ) {
 			letter = '/';		// damn path names
 		}
-		hash += (long)(letter) * (i+119);
+		hash += ( long )( letter ) * ( i + 119 );
 		i++;
 	}
-	hash &= (FILE_HASH_SIZE-1);
+	hash &= ( FILE_HASH_SIZE - 1 );
 	return hash;
 }
 
@@ -556,16 +562,16 @@ Ignore case and separator char distinctions
 */
 bool idFileSystemLocal::FilenameCompare( const char *s1, const char *s2 ) const {
 	int		c1, c2;
-	
+
 	do {
 		c1 = *s1++;
 		c2 = *s2++;
 
 		if ( c1 >= 'a' && c1 <= 'z' ) {
-			c1 -= ('a' - 'A');
+			c1 -= ( 'a' - 'A' );
 		}
 		if ( c2 >= 'a' && c2 <= 'z' ) {
-			c2 -= ('a' - 'A');
+			c2 -= ( 'a' - 'A' );
 		}
 
 		if ( c1 == '\\' || c1 == ':' ) {
@@ -574,12 +580,12 @@ bool idFileSystemLocal::FilenameCompare( const char *s1, const char *s2 ) const 
 		if ( c2 == '\\' || c2 == ':' ) {
 			c2 = '/';
 		}
-		
+
 		if ( c1 != c2 ) {
 			return true;		// strings not equal
 		}
-	} while( c1 );
-	
+	} while ( c1 );
+
 	return false;		// strings are equal
 }
 
@@ -596,10 +602,10 @@ FILE *idFileSystemLocal::OpenOSFile( const char *fileName, const char *mode, idS
 	idStrList list;
 
 #ifndef __MWERKS__
-#ifndef WIN32 
+#ifndef WIN32
 	// some systems will let you fopen a directory
 	struct stat buf;
-	if ( stat( fileName, &buf ) != -1 && !S_ISREG(buf.st_mode) ) {
+	if ( stat( fileName, &buf ) != -1 && !S_ISREG( buf.st_mode ) ) {
 		return NULL;
 	}
 #endif
@@ -612,7 +618,7 @@ FILE *idFileSystemLocal::OpenOSFile( const char *fileName, const char *mode, idS
 		if ( ListOSFiles( fpath, NULL, list ) == -1 ) {
 			return NULL;
 		}
-		
+
 		for ( i = 0; i < list.Num(); i++ ) {
 			entry = fpath + PATHSEPERATOR_CHAR + list[i];
 			if ( !entry.Icmp( fileName ) ) {
@@ -680,19 +686,19 @@ Creates any directories needed to store the given filename
 */
 void idFileSystemLocal::CreateOSPath( const char *OSPath ) {
 	char	*ofs;
-	
+
 	// make absolutely sure that it can't back up the path
 	// FIXME: what about c: ?
 	if ( strstr( OSPath, ".." ) || strstr( OSPath, "::" ) ) {
-#ifdef _DEBUG		
+#ifdef _DEBUG
 		common->DPrintf( "refusing to create relative path \"%s\"\n", OSPath );
 #endif
 		return;
 	}
 
 	idStr path( OSPath );
-	for( ofs = &path[ 1 ]; *ofs ; ofs++ ) {
-		if ( *ofs == PATHSEPERATOR_CHAR ) {	
+	for ( ofs = &path[ 1 ]; *ofs ; ofs++ ) {
+		if ( *ofs == PATHSEPERATOR_CHAR ) {
 			// create the directory
 			*ofs = 0;
 			Sys_Mkdir( path );
@@ -722,8 +728,8 @@ void idFileSystemLocal::CopyFile( const char *fromOSPath, const char *toOSPath )
 	len = ftell( f );
 	fseek( f, 0, SEEK_SET );
 
-	buf = (byte *)Mem_Alloc( len );
-	if ( fread( buf, 1, len, f ) != (unsigned int)len ) {
+	buf = ( byte * )Mem_Alloc( len );
+	if ( fread( buf, 1, len, f ) != ( unsigned int )len ) {
 		common->FatalError( "short read in idFileSystemLocal::CopyFile()\n" );
 	}
 	fclose( f );
@@ -735,7 +741,7 @@ void idFileSystemLocal::CopyFile( const char *fromOSPath, const char *toOSPath )
 		Mem_Free( buf );
 		return;
 	}
-	if ( fwrite( buf, 1, len, f ) != (unsigned int)len ) {
+	if ( fwrite( buf, 1, len, f ) != ( unsigned int )len ) {
 		common->FatalError( "short write in idFileSystemLocal::CopyFile()\n" );
 	}
 	fclose( f );
@@ -757,7 +763,7 @@ void idFileSystemLocal::CopyFile( idFile *src, const char *toOSPath ) {
 	len = src->Tell();
 	src->Seek( 0, FS_SEEK_SET );
 
-	buf = (byte *)Mem_Alloc( len );
+	buf = ( byte * )Mem_Alloc( len );
 	if ( src->Read( buf, len ) != len ) {
 		common->FatalError( "Short read in idFileSystemLocal::CopyFile()\n" );
 	}
@@ -769,7 +775,7 @@ void idFileSystemLocal::CopyFile( idFile *src, const char *toOSPath ) {
 		Mem_Free( buf );
 		return;
 	}
-	if ( fwrite( buf, 1, len, f ) != (unsigned int)len ) {
+	if ( fwrite( buf, 1, len, f ) != ( unsigned int )len ) {
 		common->FatalError( "Short write in idFileSystemLocal::CopyFile()\n" );
 	}
 	fclose( f );
@@ -786,7 +792,7 @@ Fix things up differently for win/unix/mac
 void idFileSystemLocal::ReplaceSeparators( idStr &path, char sep ) {
 	char *s;
 
-	for( s = &path[ 0 ]; *s ; s++ ) {
+	for ( s = &path[ 0 ]; *s ; s++ ) {
 		if ( *s == '/' || *s == '\\' ) {
 			*s = sep;
 		}
@@ -860,10 +866,10 @@ const char *idFileSystemLocal::OSPathToRelativePath( const char *OSPath ) {
 	// which won't match any of our drive letter based search paths
 	bool ignoreWarning = false;
 #ifdef ID_DEMO_BUILD
-	base = strstr( OSPath, BASE_GAMEDIR );	
+	base = strstr( OSPath, BASE_GAMEDIR );
 	idStr tempStr = OSPath;
 	tempStr.ToLower();
-	if ( ( strstr( tempStr, "//" ) || strstr( tempStr, "w:" ) ) && strstr( tempStr, "/doom/base/") ) {
+	if ( ( strstr( tempStr, "//" ) || strstr( tempStr, "w:" ) ) && strstr( tempStr, "/doom/base/" ) ) {
 		// will cause a warning but will load the file. ase models have
 		// hard coded doom/base/ in the material names
 		base = strstr( OSPath, "base" );
@@ -871,11 +877,11 @@ const char *idFileSystemLocal::OSPathToRelativePath( const char *OSPath ) {
 	}
 #else
 	// look for the first complete directory name
-	base = (char *)strstr( OSPath, BASE_GAMEDIR );
+	base = ( char * )strstr( OSPath, BASE_GAMEDIR );
 	while ( base ) {
 		char c1 = '\0', c2;
 		if ( base > OSPath ) {
-			c1 = *(base - 1);
+			c1 = *( base - 1 );
 		}
 		c2 = *( base + strlen( BASE_GAMEDIR ) );
 		if ( ( c1 == '/' || c1 == '\\' ) && ( c2 == '/' || c2 == '\\' ) ) {
@@ -895,11 +901,11 @@ const char *idFileSystemLocal::OSPathToRelativePath( const char *OSPath ) {
 			fsgame = fs_game_base.GetString();
 		}
 		if ( base == NULL && fsgame && strlen( fsgame ) ) {
-			base = (char *)strstr( OSPath, fsgame );
+			base = ( char * )strstr( OSPath, fsgame );
 			while ( base ) {
 				char c1 = '\0', c2;
 				if ( base > OSPath ) {
-					c1 = *(base - 1);
+					c1 = *( base - 1 );
 				}
 				c2 = *( base + strlen( fsgame ) );
 				if ( ( c1 == '/' || c1 == '\\' ) && ( c2 == '/' || c2 == '\\' ) ) {
@@ -991,7 +997,7 @@ bool idFileSystemLocal::FileIsInPAK( const char *relativePath ) {
 
 	// make absolutely sure that it can't back up the path.
 	// The searchpaths do guarantee that something will always
-	// be prepended, so we don't need to worry about "c:" or "//limbo" 
+	// be prepended, so we don't need to worry about "c:" or "//limbo"
 	if ( strstr( relativePath, ".." ) || strstr( relativePath, "::" ) ) {
 		return false;
 	}
@@ -1023,7 +1029,7 @@ bool idFileSystemLocal::FileIsInPAK( const char *relativePath ) {
 					return true;
 				}
 				pakFile = pakFile->next;
-			} while( pakFile != NULL );
+			} while ( pakFile != NULL );
 		}
 	}
 	return false;
@@ -1039,8 +1045,8 @@ timestamp can be NULL if not required
 ============
 */
 int idFileSystemLocal::ReadFile( const char *relativePath, void **buffer, ID_TIME_T *timestamp ) {
-	idFile *	f;
-	byte *		buf;
+	idFile 	*f;
+	byte 		*buf;
 	int			len;
 	bool		isConfig;
 
@@ -1079,7 +1085,7 @@ int idFileSystemLocal::ReadFile( const char *relativePath, void **buffer, ID_TIM
 				*buffer = NULL;
 				return -1;
 			}
-			buf = (byte *)Mem_ClearedAlloc(len+1);
+			buf = ( byte * )Mem_ClearedAlloc( len + 1 );
 			*buffer = buf;
 			r = eventLoop->com_journalDataFile->Read( buf, len );
 			if ( r != len ) {
@@ -1108,7 +1114,7 @@ int idFileSystemLocal::ReadFile( const char *relativePath, void **buffer, ID_TIM
 	if ( timestamp ) {
 		*timestamp = f->Timestamp();
 	}
-	
+
 	if ( !buffer ) {
 		CloseFile( f );
 		return len;
@@ -1117,7 +1123,7 @@ int idFileSystemLocal::ReadFile( const char *relativePath, void **buffer, ID_TIM
 	loadCount++;
 	loadStack++;
 
-	buf = (byte *)Mem_ClearedAlloc(len+1);
+	buf = ( byte * )Mem_ClearedAlloc( len + 1 );
 	*buffer = buf;
 
 	f->Read( buf, len );
@@ -1288,8 +1294,8 @@ idFileSystemLocal::LoadZipFile
 =================
 */
 pack_t *idFileSystemLocal::LoadZipFile( const char *zipfile ) {
-	fileInPack_t *	buildBuffer;
-	pack_t *		pack;
+	fileInPack_t 	*buildBuffer;
+	pack_t 		*pack;
 	unzFile			uf;
 	int				err;
 	unz_global_info gi;
@@ -1298,7 +1304,7 @@ pack_t *idFileSystemLocal::LoadZipFile( const char *zipfile ) {
 	int				i;
 	long			hash;
 	int				fs_numHeaderLongs;
-	int *			fs_headerLongs;
+	int 			*fs_headerLongs;
 	FILE			*f;
 	int				len;
 	int				confHash;
@@ -1323,7 +1329,7 @@ pack_t *idFileSystemLocal::LoadZipFile( const char *zipfile ) {
 
 	buildBuffer = new fileInPack_t[gi.number_entry];
 	pack = new pack_t;
-	for( i = 0; i < FILE_HASH_SIZE; i++ ) {
+	for ( i = 0; i < FILE_HASH_SIZE; i++ ) {
 		pack->hashTable[i] = NULL;
 	}
 
@@ -1341,10 +1347,10 @@ pack_t *idFileSystemLocal::LoadZipFile( const char *zipfile ) {
 
 	pack->length = len;
 
-	unzGoToFirstFile(uf);
-	fs_headerLongs = (int *)Mem_ClearedAlloc( gi.number_entry * sizeof(int) );
-	for ( i = 0; i < (int)gi.number_entry; i++ ) {
-		err = unzGetCurrentFileInfo( uf, &file_info, filename_inzip, sizeof(filename_inzip), NULL, 0, NULL, 0 );
+	unzGoToFirstFile( uf );
+	fs_headerLongs = ( int * )Mem_ClearedAlloc( gi.number_entry * sizeof( int ) );
+	for ( i = 0; i < ( int )gi.number_entry; i++ ) {
+		err = unzGetCurrentFileInfo( uf, &file_info, filename_inzip, sizeof( filename_inzip ), NULL, 0, NULL, 0 );
 		if ( err != UNZ_OK ) {
 			break;
 		}
@@ -1361,21 +1367,21 @@ pack_t *idFileSystemLocal::LoadZipFile( const char *zipfile ) {
 		buildBuffer[i].next = pack->hashTable[hash];
 		pack->hashTable[hash] = &buildBuffer[i];
 		// go to the next file in the zip
-		unzGoToNextFile(uf);
+		unzGoToNextFile( uf );
 	}
 
 	// check if this is an addon pak
 	pack->addon = false;
 	confHash = HashFileName( ADDON_CONFIG );
 	for ( pakFile = pack->hashTable[confHash]; pakFile; pakFile = pakFile->next ) {
-		if ( !FilenameCompare( pakFile->name, ADDON_CONFIG ) ) {			
-			pack->addon = true;			
+		if ( !FilenameCompare( pakFile->name, ADDON_CONFIG ) ) {
+			pack->addon = true;
 			idFile_InZip *file = ReadFileFromZip( pack, pakFile, ADDON_CONFIG );
 			// may be just an empty file if you don't bother about the mapDef
 			if ( file && file->Length() ) {
 				char *buf;
 				buf = new char[ file->Length() + 1 ];
-				file->Read( (void *)buf, file->Length() );
+				file->Read( ( void * )buf, file->Length() );
 				buf[ file->Length() ] = '\0';
 				pack->addon_info = ParseAddonDef( buf, file->Length() );
 				delete[] buf;
@@ -1457,7 +1463,7 @@ void idFileSystemLocal::GetExtensionList( const char *extension, idStrList &exte
 
 	l = idStr::Length( extension );
 	s = 0;
-	while( 1 ) {
+	while ( 1 ) {
 		e = idStr::FindChar( extension, '|', s, l );
 		if ( e != -1 ) {
 			extensionList.Append( idStr( extension, s, e ) );
@@ -1477,14 +1483,14 @@ Does not clear the list first so this can be used to progressively build a file 
 When 'sort' is true only the new files added to the list are sorted.
 ===============
 */
-int idFileSystemLocal::GetFileList( const char *relativePath, const idStrList &extensions, idStrList &list, idHashIndex &hashIndex, bool fullRelativePath, const char* gamedir ) {
-	searchpath_t *	search;
-	fileInPack_t *	buildBuffer;
+int idFileSystemLocal::GetFileList( const char *relativePath, const idStrList &extensions, idStrList &list, idHashIndex &hashIndex, bool fullRelativePath, const char *gamedir ) {
+	searchpath_t 	*search;
+	fileInPack_t 	*buildBuffer;
 	int				i, j;
 	int				pathLength;
 	int				length;
-	const char *	name;
-	pack_t *		pak;
+	const char 	*name;
+	pack_t 		*pak;
 	idStr			work;
 
 	if ( !searchPaths ) {
@@ -1504,10 +1510,10 @@ int idFileSystemLocal::GetFileList( const char *relativePath, const idStrList &e
 	}
 
 	// search through the path, one element at a time, adding to list
-	for( search = searchPaths; search != NULL; search = search->next ) {
+	for ( search = searchPaths; search != NULL; search = search->next ) {
 		if ( search->dir ) {
-			if(gamedir && strlen(gamedir)) {
-				if(search->dir->gamedir != gamedir) {
+			if ( gamedir && strlen( gamedir ) ) {
+				if ( search->dir->gamedir != gamedir ) {
 					continue;
 				}
 			}
@@ -1528,15 +1534,14 @@ int idFileSystemLocal::GetFileList( const char *relativePath, const idStrList &e
 					sysFiles.Remove( ".." );
 				}
 
-				for( j = 0; j < sysFiles.Num(); j++ ) {
+				for ( j = 0; j < sysFiles.Num(); j++ ) {
 					// unique the match
 					if ( fullRelativePath ) {
 						work = relativePath;
 						work += "/";
 						work += sysFiles[j];
 						AddUnique( work, list, hashIndex );
-					}
-					else {
+					} else {
 						AddUnique( sysFiles[j], list, hashIndex );
 					}
 				}
@@ -1554,7 +1559,7 @@ int idFileSystemLocal::GetFileList( const char *relativePath, const idStrList &e
 
 			pak = search->pack;
 			buildBuffer = pak->buildBuffer;
-			for( i = 0; i < pak->numfiles; i++ ) {
+			for ( i = 0; i < pak->numfiles; i++ ) {
 
 				length = buildBuffer[i].name.Length();
 
@@ -1570,19 +1575,19 @@ int idFileSystemLocal::GetFileList( const char *relativePath, const idStrList &e
 				if ( pathLength && idStr::Icmpn( name, relativePath, pathLength - 1 ) != 0 ) {
 					continue;
 				}
- 
+
 				// ensure we have a path, and not just a filename containing the path
 				if ( name[ pathLength ] == '\0' || name[pathLength - 1] != '/' ) {
 					continue;
 				}
- 
+
 				// make sure the file is not in a subdirectory
-				for ( j = pathLength; name[j+1] != '\0'; j++ ) {
+				for ( j = pathLength; name[j + 1] != '\0'; j++ ) {
 					if ( name[j] == '/' ) {
 						break;
 					}
 				}
-				if ( name[j+1] ) {
+				if ( name[j + 1] ) {
 					continue;
 				}
 
@@ -1620,7 +1625,7 @@ int idFileSystemLocal::GetFileList( const char *relativePath, const idStrList &e
 idFileSystemLocal::ListFiles
 ===============
 */
-idFileList *idFileSystemLocal::ListFiles( const char *relativePath, const char *extension, bool sort, bool fullRelativePath, const char* gamedir ) {
+idFileList *idFileSystemLocal::ListFiles( const char *relativePath, const char *extension, bool sort, bool fullRelativePath, const char *gamedir ) {
 	idHashIndex hashIndex( 4096, 4096 );
 	idStrList extensionList;
 
@@ -1643,7 +1648,7 @@ idFileList *idFileSystemLocal::ListFiles( const char *relativePath, const char *
 idFileSystemLocal::GetFileListTree
 ===============
 */
-int idFileSystemLocal::GetFileListTree( const char *relativePath, const idStrList &extensions, idStrList &list, idHashIndex &hashIndex, const char* gamedir ) {
+int idFileSystemLocal::GetFileListTree( const char *relativePath, const idStrList &extensions, idStrList &list, idHashIndex &hashIndex, const char *gamedir ) {
 	int i;
 	idStrList slash, folders( 128 );
 	idHashIndex folderHashIndex( 1024, 128 );
@@ -1655,7 +1660,7 @@ int idFileSystemLocal::GetFileListTree( const char *relativePath, const idStrLis
 		if ( folders[i][0] == '.' ) {
 			continue;
 		}
-		if ( folders[i].Icmp( relativePath ) == 0 ){
+		if ( folders[i].Icmp( relativePath ) == 0 ) {
 			continue;
 		}
 		GetFileListTree( folders[i], extensions, list, hashIndex, gamedir );
@@ -1672,7 +1677,7 @@ int idFileSystemLocal::GetFileListTree( const char *relativePath, const idStrLis
 idFileSystemLocal::ListFilesTree
 ===============
 */
-idFileList *idFileSystemLocal::ListFilesTree( const char *relativePath, const char *extension, bool sort, const char* gamedir ) {
+idFileList *idFileSystemLocal::ListFilesTree( const char *relativePath, const char *extension, bool sort, const char *gamedir ) {
 	idHashIndex hashIndex( 4096, 4096 );
 	idStrList extensionList;
 
@@ -1737,7 +1742,7 @@ idModList *idFileSystemLocal::ListMods( void ) {
 		dirs.Remove( "pb" );
 
 		// see if there are any pk4 files in each directory
-		for( i = 0; i < dirs.Num(); i++ ) {
+		for ( i = 0; i < dirs.Num(); i++ ) {
 			idStr gamepath = BuildOSPath( search[ isearch ], dirs[ i ], "" );
 			ListOSFiles( gamepath, ".pk4", pk4s );
 			if ( pk4s.Num() ) {
@@ -1750,7 +1755,7 @@ idModList *idFileSystemLocal::ListMods( void ) {
 			}
 		}
 	}
-	   
+
 	list->mods.Sort();
 
 	// read the descriptions for each mod - search all paths
@@ -1800,7 +1805,7 @@ void idFileSystemLocal::FreeModList( idModList *modList ) {
 idDEntry::Matches
 ===============
 */
-bool idDEntry::Matches(const char *directory, const char *extension) const {
+bool idDEntry::Matches( const char *directory, const char *extension ) const {
 	if ( !idDEntry::directory.Icmp( directory ) && !idDEntry::extension.Icmp( extension ) ) {
 		return true;
 	}
@@ -1815,7 +1820,7 @@ idDEntry::Init
 void idDEntry::Init( const char *directory, const char *extension, const idStrList &list ) {
 	idDEntry::directory = directory;
 	idDEntry::extension = extension;
-	idStrList::operator=(list);
+	idStrList::operator=( list );
 }
 
 /*
@@ -1850,8 +1855,8 @@ int	idFileSystemLocal::ListOSFiles( const char *directory, const char *extension
 
 	// try in cache
 	i = dir_cache_index - 1;
-	while( i >= dir_cache_index - dir_cache_count ) {
-		j = (i+MAX_CACHED_DIRS) % MAX_CACHED_DIRS;
+	while ( i >= dir_cache_index - dir_cache_count ) {
+		j = ( i + MAX_CACHED_DIRS ) % MAX_CACHED_DIRS;
 		if ( dir_cache[j].Matches( directory, extension ) ) {
 			if ( fs_debug.GetInteger() ) {
 				//common->Printf( "idFileSystemLocal::ListOSFiles: cache hit: %s\n", directory );
@@ -1864,7 +1869,7 @@ int	idFileSystemLocal::ListOSFiles( const char *directory, const char *extension
 
 	if ( fs_debug.GetInteger() ) {
 		//common->Printf( "idFileSystemLocal::ListOSFiles: cache miss: %s\n", directory );
-	}	
+	}
 
 	ret = Sys_ListFiles( directory, extension, list );
 
@@ -1874,7 +1879,7 @@ int	idFileSystemLocal::ListOSFiles( const char *directory, const char *extension
 
 	// push a new entry
 	dir_cache[dir_cache_index].Init( directory, extension, list );
-	dir_cache_index = (++dir_cache_index) % MAX_CACHED_DIRS;
+	dir_cache_index = ( ++dir_cache_index ) % MAX_CACHED_DIRS;
 	if ( dir_cache_count < MAX_CACHED_DIRS ) {
 		dir_cache_count++;
 	}
@@ -1901,8 +1906,7 @@ void idFileSystemLocal::Dir_f( const idCmdArgs &args ) {
 	if ( args.Argc() == 2 ) {
 		relativePath = args.Argv( 1 );
 		extension = "";
-	}
-	else {
+	} else {
 		relativePath = args.Argv( 1 );
 		extension = args.Argv( 2 );
 		if ( extension[0] != '.' ) {
@@ -1944,8 +1948,7 @@ void idFileSystemLocal::DirTree_f( const idCmdArgs &args ) {
 	if ( args.Argc() == 2 ) {
 		relativePath = args.Argv( 1 );
 		extension = "";
-	}
-	else {
+	} else {
 		relativePath = args.Argv( 1 );
 		extension = args.Argv( 2 );
 		if ( extension[0] != '.' ) {
@@ -2007,7 +2010,7 @@ void idFileSystemLocal::Path_f( const idCmdArgs &args ) {
 #if ID_FAKE_PURE
 	common->Printf( "Note: ID_FAKE_PURE is enabled\n" );
 #endif
-	for( i = 0; i < MAX_GAME_OS; i++ ) {
+	for ( i = 0; i < MAX_GAME_OS; i++ ) {
 		if ( fileSystemLocal.gamePakForOS[ i ] ) {
 			common->Printf( "OS %d - pak 0x%x\n", i, fileSystemLocal.gamePakForOS[ i ] );
 		}
@@ -2019,7 +2022,7 @@ void idFileSystemLocal::Path_f( const idCmdArgs &args ) {
 			common->Printf( "%s (%i files - 0x%x)\n", sp->pack->pakFilename.c_str(), sp->pack->numfiles, sp->pack->checksum );
 		} else {
 			common->Printf( "%s (%i files)\n", sp->pack->pakFilename.c_str(), sp->pack->numfiles );
-		}		
+		}
 	}
 }
 
@@ -2030,7 +2033,7 @@ idFileSystemLocal::GetOSMask
 */
 int idFileSystemLocal::GetOSMask( void ) {
 	int i, ret = 0;
-	for( i = 0; i < MAX_GAME_OS; i++ ) {
+	for ( i = 0; i < MAX_GAME_OS; i++ ) {
 		if ( fileSystemLocal.gamePakForOS[ i ] ) {
 			ret |= ( 1 << i );
 		}
@@ -2071,7 +2074,7 @@ Takes a text file and touches every file in it, use one file per line.
 ============
 */
 void idFileSystemLocal::TouchFileList_f( const idCmdArgs &args ) {
-	
+
 	if ( args.Argc() != 2 ) {
 		common->Printf( "Usage: touchFileList <filename>\n" );
 		return;
@@ -2079,11 +2082,11 @@ void idFileSystemLocal::TouchFileList_f( const idCmdArgs &args ) {
 
 	const char *buffer = NULL;
 	idParser src( LEXFL_NOFATALERRORS | LEXFL_NOSTRINGCONCAT | LEXFL_ALLOWMULTICHARLITERALS | LEXFL_ALLOWBACKSLASHSTRINGCONCAT );
-	if ( fileSystem->ReadFile( args.Argv( 1 ), ( void** )&buffer, NULL ) && buffer ) {
+	if ( fileSystem->ReadFile( args.Argv( 1 ), ( void ** )&buffer, NULL ) && buffer ) {
 		src.LoadMemory( buffer, strlen( buffer ), args.Argv( 1 ) );
 		if ( src.IsLoaded() ) {
 			idToken token;
-			while( src.ReadToken( &token ) ) {
+			while ( src.ReadToken( &token ) ) {
 				common->Printf( "%s\n", token.c_str() );
 				session->UpdateScreen();
 				idFile *f = fileSystemLocal.OpenFileRead( token );
@@ -2106,8 +2109,8 @@ Sets gameFolder, adds the directory to the head of the search paths, then loads 
 */
 void idFileSystemLocal::AddGameDirectory( const char *path, const char *dir ) {
 	int				i;
-	searchpath_t *	search;
-	pack_t *		pak;
+	searchpath_t 	*search;
+	pack_t 		*pak;
 	idStr			pakfile;
 	idStrList		pakfiles;
 
@@ -2249,14 +2252,14 @@ void idFileSystemLocal::Startup( void ) {
 
 	// fs_game_base override
 	if ( fs_game_base.GetString()[0] &&
-		 idStr::Icmp( fs_game_base.GetString(), BASE_GAMEDIR ) ) {
+			idStr::Icmp( fs_game_base.GetString(), BASE_GAMEDIR ) ) {
 		SetupGameDirectories( fs_game_base.GetString() );
 	}
 
 	// fs_game override
 	if ( fs_game.GetString()[0] &&
-		 idStr::Icmp( fs_game.GetString(), BASE_GAMEDIR ) &&
-		 idStr::Icmp( fs_game.GetString(), fs_game_base.GetString() ) ) {
+			idStr::Icmp( fs_game.GetString(), BASE_GAMEDIR ) &&
+			idStr::Icmp( fs_game.GetString(), fs_game_base.GetString() ) ) {
 		SetupGameDirectories( fs_game.GetString() );
 	}
 
@@ -2306,7 +2309,7 @@ void idFileSystemLocal::Startup( void ) {
 			paksearch->next = addonPaks;
 			addonPaks = paksearch;
 			common->Printf( "Addon pk4 %s with checksum 0x%x is on addon list\n",
-							pak->pakFilename.c_str(), pak->checksum );				
+							pak->pakFilename.c_str(), pak->checksum );
 		}
 	}
 
@@ -2494,7 +2497,7 @@ bool idFileSystemLocal::UpdateGamePakChecksums( void ) {
 				search->pack->binary = BINARY_YES;
 				confFile = ReadFileFromZip( search->pack, pakFile, BINARY_CONFIG );
 				buf = new char[ confFile->Length() + 1 ];
-				confFile->Read( (void *)buf, confFile->Length() );
+				confFile->Read( ( void * )buf, confFile->Length() );
 				buf[ confFile->Length() ] = '\0';
 				lexConf = new idLexer( buf, confFile->Length(), confFile->GetFullPath() );
 				while ( lexConf->ReadToken( &token ) ) {
@@ -2504,7 +2507,7 @@ bool idFileSystemLocal::UpdateGamePakChecksums( void ) {
 							if ( fs_debug.GetBool() ) {
 								common->Printf( "Adding game pak checksum for OS %d: %s 0x%x\n", id, confFile->GetFullPath(), search->pack->checksum );
 							}
- 							gamePakForOS[ id ] = search->pack->checksum;
+							gamePakForOS[ id ] = search->pack->checksum;
 						}
 					}
 				}
@@ -2523,7 +2526,7 @@ bool idFileSystemLocal::UpdateGamePakChecksums( void ) {
 	}
 
 	if ( !cvarSystem->GetCVarBool( "net_serverAllowServerMod" ) &&
-		gamePakChecksum != gamePakForOS[ BUILD_OS_ID ] ) {
+			gamePakChecksum != gamePakForOS[ BUILD_OS_ID ] ) {
 		common->Warning( "The current game code doesn't match pak files (net_serverAllowServerMod is off)" );
 		return false;
 	}
@@ -2536,7 +2539,7 @@ bool idFileSystemLocal::UpdateGamePakChecksums( void ) {
 idFileSystemLocal::GetPackForChecksum
 =====================
 */
-pack_t* idFileSystemLocal::GetPackForChecksum( int checksum, bool searchAddons ) {
+pack_t *idFileSystemLocal::GetPackForChecksum( int checksum, bool searchAddons ) {
 	searchpath_t	*search;
 	for ( search = searchPaths; search; search = search->next ) {
 		if ( !search->pack ) {
@@ -2642,7 +2645,7 @@ fsPureReply_t idFileSystemLocal::SetPureServerChecksums( const int pureChecksums
 	bool			canPrepend = true;
 	char			dllName[MAX_OSPATH];
 	int				dllHash;
-	fileInPack_t *	pakFile;
+	fileInPack_t 	*pakFile;
 
 	sys->DLL_GetFileName( "game", dllName, MAX_OSPATH );
 	dllHash = HashFileName( dllName );
@@ -2661,11 +2664,13 @@ fsPureReply_t idFileSystemLocal::SetPureServerChecksums( const int pureChecksums
 		// there was no pure lockdown yet - lock to what we already have
 		UpdatePureServerChecksums();
 	}
-	i = 0; j = 0;
+	i = 0;
+	j = 0;
 	while ( pureChecksums[ i ] ) {
 		if ( j < serverPaks.Num() && serverPaks[ j ]->checksum == pureChecksums[ i ] ) {
 			canPrepend = false; // once you start matching into the list there is no prepending anymore
-			i++; j++; // the pak is matched, is in the right order, continue..
+			i++;
+			j++; // the pak is matched, is in the right order, continue..
 		} else {
 			pack = GetPackForChecksum( pureChecksums[ i ], true );
 			if ( pack && pack->addon && !pack->addon_search ) {
@@ -2691,7 +2696,8 @@ fsPureReply_t idFileSystemLocal::SetPureServerChecksums( const int pureChecksums
 					}
 					// NOTE: there is a light possibility this adds at the end of the list if UpdatePureServerChecksums didn't set anything
 					serverPaks.Insert( pack, j );
-					i++; j++; // continue..
+					i++;
+					j++; // continue..
 				} else {
 					success = false;
 					if ( fs_debug.GetBool() ) {
@@ -2853,13 +2859,13 @@ void idFileSystemLocal::Init( void ) {
 
 #if !ID_ALLOW_D3XP
 	if ( fs_game.GetString()[0] && !idStr::Icmp( fs_game.GetString(), "d3xp" ) ) {
-		 fs_game.SetString( NULL );
+		fs_game.SetString( NULL );
 	}
 	if ( fs_game_base.GetString()[0] && !idStr::Icmp( fs_game_base.GetString(), "d3xp" ) ) {
-		  fs_game_base.SetString( NULL );
+		fs_game_base.SetString( NULL );
 	}
-#endif	
-	
+#endif
+
 	if ( fs_basepath.GetString()[0] == '\0' ) {
 		fs_basepath.SetString( Sys_DefaultBasePath() );
 	}
@@ -3003,21 +3009,21 @@ bool idFileSystemLocal::FileAllowedFromDir( const char *path ) {
 	l = strlen( path );
 
 	if ( !strcmp( path + l - 4, ".cfg" )		// for config files
-		|| !strcmp( path + l - 4, ".dat" )		// for journal files
-		|| !strcmp( path + l - 4, ".dll" )		// dynamic modules are handled a different way for pure
-		|| !strcmp( path + l - 3, ".so" )
-		|| ( l > 6 && !strcmp( path + l - 6, ".dylib" ) )
-		|| ( l > 10 && !strcmp( path + l - 10, ".scriptcfg" ) )	// configuration script, such as map cycle
+			|| !strcmp( path + l - 4, ".dat" )		// for journal files
+			|| !strcmp( path + l - 4, ".dll" )		// dynamic modules are handled a different way for pure
+			|| !strcmp( path + l - 3, ".so" )
+			|| ( l > 6 && !strcmp( path + l - 6, ".dylib" ) )
+			|| ( l > 10 && !strcmp( path + l - 10, ".scriptcfg" ) )	// configuration script, such as map cycle
 #if ID_PURE_ALLOWDDS
-		 || !strcmp( path + l - 4, ".dds" )
+			|| !strcmp( path + l - 4, ".dds" )
 #endif
-		 ) {
+	   ) {
 		// note: cd and xp keys, as well as config.spec are opened through an explicit OS path and don't hit this
 		return true;
 	}
 	// savegames
 	if ( strstr( path, "savegames" ) == path &&
-		( !strcmp( path + l - 4, ".tga" ) || !strcmp( path + l -4, ".txt" ) || !strcmp( path + l - 5, ".save" ) ) ) {
+			( !strcmp( path + l - 4, ".tga" ) || !strcmp( path + l - 4, ".txt" ) || !strcmp( path + l - 5, ".save" ) ) ) {
 		return true;
 	}
 	// screen shots
@@ -3025,13 +3031,13 @@ bool idFileSystemLocal::FileAllowedFromDir( const char *path ) {
 		return true;
 	}
 	// objective tgas
-	if ( strstr( path, "maps/game" ) == path && 
-		!strcmp( path + l - 4, ".tga" ) ) {
+	if ( strstr( path, "maps/game" ) == path &&
+			!strcmp( path + l - 4, ".tga" ) ) {
 		return true;
 	}
 	// splash screens extracted from addons
 	if ( strstr( path, "guis/assets/splash/addon" ) == path &&
-		 !strcmp( path + l -4, ".tga" ) ) {
+			!strcmp( path + l - 4, ".tga" ) ) {
 		return true;
 	}
 
@@ -3100,9 +3106,9 @@ pureStatus_t idFileSystemLocal::GetPackStatus( pack_t *pak ) {
 idFileSystemLocal::ReadFileFromZip
 ===========
 */
-idFile_InZip * idFileSystemLocal::ReadFileFromZip( pack_t *pak, fileInPack_t *pakFile, const char *relativePath ) {
-	unz_s *			zfi;
-	FILE *			fp;
+idFile_InZip *idFileSystemLocal::ReadFileFromZip( pack_t *pak, fileInPack_t *pakFile, const char *relativePath ) {
+	unz_s 			*zfi;
+	FILE 			*fp;
 	idFile_InZip *file = new idFile_InZip();
 
 	// open a new file on the pakfile
@@ -3112,13 +3118,13 @@ idFile_InZip * idFileSystemLocal::ReadFileFromZip( pack_t *pak, fileInPack_t *pa
 	}
 	file->name = relativePath;
 	file->fullPath = pak->pakFilename + "/" + relativePath;
-	zfi = (unz_s *)file->z;
+	zfi = ( unz_s * )file->z;
 	// in case the file was new
 	fp = zfi->file;
 	// set the file position in the zip file (also sets the current file info)
 	unzSetCurrentFileInfoPosition( pak->handle, pakFile->pos );
 	// copy the file info into the unzip structure
-	memcpy( zfi, pak->handle, sizeof(unz_s) );
+	memcpy( zfi, pak->handle, sizeof( unz_s ) );
 	// we copy this back into the structure
 	zfi->file = fp;
 	// open the file in the zip
@@ -3138,15 +3144,15 @@ Used for streaming data out of either a
 separate file or a ZIP file.
 ===========
 */
-idFile *idFileSystemLocal::OpenFileReadFlags( const char *relativePath, int searchFlags, pack_t **foundInPak, bool allowCopyFiles, const char* gamedir ) {
-	searchpath_t *	search;
+idFile *idFileSystemLocal::OpenFileReadFlags( const char *relativePath, int searchFlags, pack_t **foundInPak, bool allowCopyFiles, const char *gamedir ) {
+	searchpath_t 	*search;
 	idStr			netpath;
-	pack_t *		pak;
-	fileInPack_t *	pakFile;
-	directory_t *	dir;
+	pack_t 		*pak;
+	fileInPack_t 	*pakFile;
+	directory_t 	*dir;
 	long			hash;
-	FILE *			fp;
-	
+	FILE 			*fp;
+
 	if ( !searchPaths ) {
 		common->FatalError( "Filesystem call made without initialization\n" );
 	}
@@ -3166,11 +3172,11 @@ idFile *idFileSystemLocal::OpenFileReadFlags( const char *relativePath, int sear
 
 	// make absolutely sure that it can't back up the path.
 	// The searchpaths do guarantee that something will always
-	// be prepended, so we don't need to worry about "c:" or "//limbo" 
+	// be prepended, so we don't need to worry about "c:" or "//limbo"
 	if ( strstr( relativePath, ".." ) || strstr( relativePath, "::" ) ) {
 		return NULL;
 	}
-	
+
 	// edge case
 	if ( relativePath[0] == '\0' ) {
 		return NULL;
@@ -3178,7 +3184,7 @@ idFile *idFileSystemLocal::OpenFileReadFlags( const char *relativePath, int sear
 
 	// make sure the doomkey file is only readable by game at initialization
 	// any other time the key should only be accessed in memory using the provided functions
-	if( common->IsInitialized() && ( idStr::Icmp( relativePath, CDKEY_FILE ) == 0 || idStr::Icmp( relativePath, XPKEY_FILE ) == 0 ) ) {
+	if ( common->IsInitialized() && ( idStr::Icmp( relativePath, CDKEY_FILE ) == 0 || idStr::Icmp( relativePath, XPKEY_FILE ) == 0 ) ) {
 		return NULL;
 	}
 
@@ -3202,12 +3208,12 @@ idFile *idFileSystemLocal::OpenFileReadFlags( const char *relativePath, int sear
 
 			dir = search->dir;
 
-			if(gamedir && strlen(gamedir)) {
-				if(dir->gamedir != gamedir) {
+			if ( gamedir && strlen( gamedir ) ) {
+				if ( dir->gamedir != gamedir ) {
 					continue;
 				}
 			}
-			
+
 			netpath = BuildOSPath( dir->path, dir->gamedir, relativePath );
 			fp = OpenOSFileCorrectName( netpath, "rb" );
 			if ( !fp ) {
@@ -3372,11 +3378,11 @@ idFile *idFileSystemLocal::OpenFileReadFlags( const char *relativePath, int sear
 			}
 		}
 	}
-	
+
 	if ( fs_debug.GetInteger( ) ) {
 		common->Printf( "Can't find %s\n", relativePath );
 	}
-	
+
 	return NULL;
 }
 
@@ -3385,7 +3391,7 @@ idFile *idFileSystemLocal::OpenFileReadFlags( const char *relativePath, int sear
 idFileSystemLocal::OpenFileRead
 ===========
 */
-idFile *idFileSystemLocal::OpenFileRead( const char *relativePath, bool allowCopyFiles, const char* gamedir ) {
+idFile *idFileSystemLocal::OpenFileRead( const char *relativePath, bool allowCopyFiles, const char *gamedir ) {
 	return OpenFileReadFlags( relativePath, FSFLAG_SEARCH_DIRS | FSFLAG_SEARCH_PAKS, NULL, allowCopyFiles, gamedir );
 }
 
@@ -3590,15 +3596,15 @@ idFileSystemLocal::CurlWriteFunction
 =================
 */
 size_t idFileSystemLocal::CurlWriteFunction( void *ptr, size_t size, size_t nmemb, void *stream ) {
-	backgroundDownload_t *bgl = (backgroundDownload_t *)stream;
+	backgroundDownload_t *bgl = ( backgroundDownload_t * )stream;
 	if ( !bgl->f ) {
 		return size * nmemb;
 	}
-	#ifdef _WIN32
-		return _write( static_cast<idFile_Permanent*>(bgl->f)->GetFilePtr()->_file, ptr, size * nmemb );
-	#else
-		return fwrite( ptr, size, nmemb, static_cast<idFile_Permanent*>(bgl->f)->GetFilePtr() );
-	#endif
+#ifdef _WIN32
+	return _write( static_cast<idFile_Permanent *>( bgl->f )->GetFilePtr()->_file, ptr, size * nmemb );
+#else
+	return fwrite( ptr, size, nmemb, static_cast<idFile_Permanent *>( bgl->f )->GetFilePtr() );
+#endif
 }
 
 /*
@@ -3607,7 +3613,7 @@ idFileSystemLocal::CurlProgressFunction
 =================
 */
 int idFileSystemLocal::CurlProgressFunction( void *clientp, double dltotal, double dlnow, double ultotal, double ulnow ) {
-	backgroundDownload_t *bgl = (backgroundDownload_t *)clientp;
+	backgroundDownload_t *bgl = ( backgroundDownload_t * )clientp;
 	if ( bgl->url.status == DL_ABORTING ) {
 		return 1;
 	}
@@ -3624,7 +3630,7 @@ Reads part of a file from a background thread.
 ===================
 */
 dword BackgroundDownloadThread( void *parms ) {
-	while( 1 ) {
+	while ( 1 ) {
 		Sys_EnterCriticalSection();
 		backgroundDownload_t	*bgl = fileSystemLocal.backgroundDownloads;
 		if ( !bgl ) {
@@ -3640,11 +3646,11 @@ dword BackgroundDownloadThread( void *parms ) {
 
 		if ( bgl->opcode == DLTYPE_FILE ) {
 			// use the low level read function, because fread may allocate memory
-			#if defined(WIN32)
-				_read( static_cast<idFile_Permanent*>(bgl->f)->GetFilePtr()->_file, bgl->file.buffer, bgl->file.length );
-			#else
-				fread(  bgl->file.buffer, bgl->file.length, 1, static_cast<idFile_Permanent*>(bgl->f)->GetFilePtr() );
-			#endif
+#if defined(WIN32)
+			_read( static_cast<idFile_Permanent *>( bgl->f )->GetFilePtr()->_file, bgl->file.buffer, bgl->file.length );
+#else
+			fread( bgl->file.buffer, bgl->file.length, 1, static_cast<idFile_Permanent *>( bgl->f )->GetFilePtr() );
+#endif
 			bgl->completed = true;
 		} else {
 #if ID_ENABLE_CURL
@@ -3746,7 +3752,7 @@ idFileSystemLocal::StartBackgroundReadThread
 */
 void idFileSystemLocal::StartBackgroundDownloadThread() {
 	if ( !backgroundThread.threadHandle ) {
-		Sys_CreateThread( (xthread_t)BackgroundDownloadThread, NULL, THREAD_NORMAL, backgroundThread, "backgroundDownload", g_threads, &g_thread_count );
+		Sys_CreateThread( ( xthread_t )BackgroundDownloadThread, NULL, THREAD_NORMAL, backgroundThread, "backgroundDownload", g_threads, &g_thread_count );
 		if ( !backgroundThread.threadHandle ) {
 			common->Warning( "idFileSystemLocal::StartBackgroundDownloadThread: failed" );
 		}
@@ -3762,7 +3768,7 @@ idFileSystemLocal::BackgroundDownload
 */
 void idFileSystemLocal::BackgroundDownload( backgroundDownload_t *bgl ) {
 	if ( bgl->opcode == DLTYPE_FILE ) {
-		if ( dynamic_cast<idFile_Permanent *>(bgl->f) ) {
+		if ( dynamic_cast<idFile_Permanent *>( bgl->f ) ) {
 			// add the bgl to the background download list
 			Sys_EnterCriticalSection();
 			bgl->next = backgroundDownloads;
@@ -3847,7 +3853,7 @@ int idFileSystemLocal::GetFileChecksum( idFile *file ) {
 	file->Seek( 0, FS_SEEK_END );
 	len = file->Tell();
 	file->Seek( 0, FS_SEEK_SET );
-	buf = (byte *)Mem_Alloc( len );
+	buf = ( byte * )Mem_Alloc( len );
 	if ( file->Read( buf, len ) != len ) {
 		common->FatalError( "Short read in idFileSystemLocal::GetFileChecksum()\n" );
 	}
@@ -3868,7 +3874,7 @@ void idFileSystemLocal::FindDLL( const char *name, char _dllPath[ MAX_OSPATH ], 
 	int				dllHash;
 	pack_t			*inPak;
 	pack_t			*pak;
-	fileInPack_t	*pakFile;	
+	fileInPack_t	*pakFile;
 
 	sys->DLL_GetFileName( name, dllName, MAX_OSPATH );
 	dllHash = HashFileName( dllName );
@@ -3938,7 +3944,7 @@ void idFileSystemLocal::FindDLL( const char *name, char _dllPath[ MAX_OSPATH ], 
 						} else {
 							gameDLLChecksum = GetFileChecksum( dllFile );
 							updateChecksum = false;	// don't try again below
-						}						
+						}
 					}
 				}
 			}
@@ -3972,7 +3978,7 @@ void idFileSystemLocal::ClearDirCache( void ) {
 
 	dir_cache_index = 0;
 	dir_cache_count = 0;
-	for( i = 0; i < MAX_CACHED_DIRS; i++ ) {
+	for ( i = 0; i < MAX_CACHED_DIRS; i++ ) {
 		dir_cache[ i ].Clear();
 	}
 }
@@ -3992,7 +3998,7 @@ bool idFileSystemLocal::HasD3XP( void ) {
 	} else if ( d3xp == 1 ) {
 		return true;
 	}
-	
+
 #if 0
 	// check for a d3xp directory with a pk4 file
 	// copied over from ListMods - only looks in basepath
@@ -4033,11 +4039,11 @@ bool idFileSystemLocal::HasD3XP( void ) {
 	ListOSFiles( fs_basepath.GetString(), "/", dirs );
 	for ( i = 0; i < dirs.Num(); i++ ) {
 		if ( dirs[i].Icmp( "d3xp" ) == 0 ) {
-			
+
 			gamepath = BuildOSPath( fs_savepath.GetString(), dirs[ i ], "default.cfg" );
-			idFile* cfg = OpenExplicitFileRead(gamepath);
-			if(cfg) {
-				CloseFile(cfg);
+			idFile *cfg = OpenExplicitFileRead( gamepath );
+			if ( cfg ) {
+				CloseFile( cfg );
 				d3xp = 1;
 				return true;
 			}
@@ -4057,7 +4063,7 @@ bool idFileSystemLocal::RunningD3XP( void ) {
 	// TODO: mark the checksum of the gold XP and check for it being referenced ( for double mod support )
 	// a simple fs_game check should be enough for now..
 	if ( !idStr::Icmp( fs_game.GetString(), "d3xp" ) ||
-		 !idStr::Icmp( fs_game_base.GetString(), "d3xp" ) ) {
+			!idStr::Icmp( fs_game_base.GetString(), "d3xp" ) ) {
 		return true;
 	}
 	return false;
@@ -4068,7 +4074,7 @@ bool idFileSystemLocal::RunningD3XP( void ) {
 idFileSystemLocal::MakeTemporaryFile
 ===============
 */
-idFile * idFileSystemLocal::MakeTemporaryFile( void ) {
+idFile *idFileSystemLocal::MakeTemporaryFile( void ) {
 	FILE *f = tmpfile();
 	if ( !f ) {
 		common->Warning( "idFileSystem::MakeTemporaryFile failed: %s", strerror( errno ) );
@@ -4088,7 +4094,7 @@ idFile * idFileSystemLocal::MakeTemporaryFile( void ) {
 idFileSystemLocal::FindFile
 ===============
 */
- findFile_t idFileSystemLocal::FindFile( const char *path, bool scheduleAddons ) {
+findFile_t idFileSystemLocal::FindFile( const char *path, bool scheduleAddons ) {
 	pack_t *pak;
 	idFile *f = OpenFileReadFlags( path, FSFLAG_SEARCH_DIRS | FSFLAG_SEARCH_PAKS | FSFLAG_SEARCH_ADDONS, &pak );
 	if ( !f ) {
@@ -4100,7 +4106,7 @@ idFileSystemLocal::FindFile
 	}
 	// marking addons for inclusion on reload - may need to do that even when already in the search path
 	if ( scheduleAddons && pak->addon && addonChecksums.FindIndex( pak->checksum ) < 0 ) {
-		addonChecksums.Append( pak->checksum );			
+		addonChecksums.Append( pak->checksum );
 	}
 	// an addon that's not on search list yet? that will require a restart
 	if ( pak->addon && !pak->addon_search ) {
@@ -4121,7 +4127,7 @@ int idFileSystemLocal::GetNumMaps() {
 	int				i;
 	searchpath_t	*search = NULL;
 	int				ret = declManager->GetNumDecls( DECL_MAPDEF );
-	
+
 	// add to this all addon decls - coming from all addon packs ( searched or not )
 	for ( i = 0; i < 2; i++ ) {
 		if ( i == 0 ) {
@@ -4145,13 +4151,13 @@ idFileSystemLocal::GetMapDecl
 retrieve the decl dictionary, add a 'path' value
 ===============
 */
-const idDict * idFileSystemLocal::GetMapDecl( int idecl ) {
+const idDict *idFileSystemLocal::GetMapDecl( int idecl ) {
 	int 					i;
 	const idDecl			*mapDecl;
 	const idDeclEntityDef	*mapDef;
 	int						numdecls = declManager->GetNumDecls( DECL_MAPDEF );
 	searchpath_t			*search = NULL;
-	
+
 	if ( idecl < numdecls ) {
 		mapDecl = declManager->DeclByIndex( DECL_MAPDEF, idecl );
 		mapDef = static_cast<const idDeclEntityDef *>( mapDecl );
@@ -4196,7 +4202,7 @@ void idFileSystemLocal::FindMapScreenshot( const char *path, char *buf, int len 
 
 	mapname.StripPath();
 	mapname.StripFileExtension();
-	
+
 	idStr::snPrintf( buf, len, "guis/assets/splash/%s.tga", mapname.c_str() );
 	if ( ReadFile( buf, NULL, NULL ) == -1 ) {
 		// try to extract from an addon

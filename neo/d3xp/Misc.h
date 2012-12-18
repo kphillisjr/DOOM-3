@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -72,7 +72,7 @@ public:
 		EVENT_MAXEVENTS
 	};
 
-						idPlayerStart( void );
+	idPlayerStart( void );
 
 	void				Spawn( void );
 
@@ -97,7 +97,7 @@ private:
   Bind to a mover to have the mover activate a trigger as it moves.
   When target by triggers, activating the trigger will toggle the
   activator on and off. Check "start_off" to have it spawn disabled.
-	
+
 ===============================================================================
 */
 
@@ -153,7 +153,7 @@ class idDamagable : public idEntity {
 public:
 	CLASS_PROTOTYPE( idDamagable );
 
-						idDamagable( void );
+	idDamagable( void );
 
 	void				Save( idSaveGame *savefile ) const;
 	void				Restore( idRestoreGame *savefile );
@@ -212,8 +212,8 @@ public:
 	virtual void		Think( void );
 
 private:
-	idEntity *			ent1;
-	idEntity *			ent2;
+	idEntity 			*ent1;
+	idEntity 			*ent2;
 	int					id1;
 	int					id2;
 	idVec3				p1;
@@ -266,8 +266,8 @@ class idAnimated : public idAFEntity_Gibbable {
 public:
 	CLASS_PROTOTYPE( idAnimated );
 
-							idAnimated();
-							~idAnimated();
+	idAnimated();
+	~idAnimated();
 
 	void					Save( idSaveGame *savefile ) const;
 	void					Restore( idRestoreGame *savefile );
@@ -288,7 +288,7 @@ private:
 
 	void					PlayNextAnim( void );
 
-	void					Event_Activate( idEntity *activator );	
+	void					Event_Activate( idEntity *activator );
 	void					Event_Start( void );
 	void					Event_StartRagdoll( void );
 	void					Event_AnimDone( int animIndex );
@@ -314,7 +314,7 @@ class idStaticEntity : public idEntity {
 public:
 	CLASS_PROTOTYPE( idStaticEntity );
 
-						idStaticEntity( void );
+	idStaticEntity( void );
 
 	void				Save( idSaveGame *savefile ) const;
 	void				Restore( idRestoreGame *savefile );
@@ -354,7 +354,7 @@ class idFuncEmitter : public idStaticEntity {
 public:
 	CLASS_PROTOTYPE( idFuncEmitter );
 
-						idFuncEmitter( void );
+	idFuncEmitter( void );
 
 	void				Save( idSaveGame *savefile ) const;
 	void				Restore( idRestoreGame *savefile );
@@ -383,7 +383,7 @@ class idFuncSmoke : public idEntity {
 public:
 	CLASS_PROTOTYPE( idFuncSmoke );
 
-							idFuncSmoke();
+	idFuncSmoke();
 
 	void					Spawn( void );
 
@@ -395,7 +395,7 @@ public:
 
 private:
 	int						smokeTime;
-	const idDeclParticle *	smoke;
+	const idDeclParticle 	*smoke;
 	bool					restart;
 };
 
@@ -461,7 +461,7 @@ public:
 
 	void				Spawn( void );
 
-	const char *		GetLocation( void ) const;
+	const char 		*GetLocation( void ) const;
 
 private:
 };
@@ -479,14 +479,14 @@ class idVacuumSeparatorEntity : public idEntity {
 public:
 	CLASS_PROTOTYPE( idVacuumSeparatorEntity );
 
-						idVacuumSeparatorEntity( void );
+	idVacuumSeparatorEntity( void );
 
 	void				Spawn( void );
 
 	void				Save( idSaveGame *savefile ) const;
 	void				Restore( idRestoreGame *savefile );
 
-	void				Event_Activate( idEntity *activator );	
+	void				Event_Activate( idEntity *activator );
 
 private:
 	qhandle_t			portal;
@@ -514,7 +514,7 @@ class idBeam : public idEntity {
 public:
 	CLASS_PROTOTYPE( idBeam );
 
-						idBeam();
+	idBeam();
 
 	void				Spawn( void );
 
@@ -579,7 +579,7 @@ class idShaking : public idEntity {
 public:
 	CLASS_PROTOTYPE( idShaking );
 
-							idShaking();
+	idShaking();
 
 	void					Spawn( void );
 
@@ -606,8 +606,8 @@ private:
 class idEarthQuake : public idEntity {
 public:
 	CLASS_PROTOTYPE( idEarthQuake );
-			
-						idEarthQuake();
+
+	idEarthQuake();
 
 	void				Spawn( void );
 
@@ -641,8 +641,8 @@ private:
 class idFuncPortal : public idEntity {
 public:
 	CLASS_PROTOTYPE( idFuncPortal );
-			
-						idFuncPortal();
+
+	idFuncPortal();
 
 	void				Spawn( void );
 
@@ -667,8 +667,8 @@ private:
 class idFuncAASPortal : public idEntity {
 public:
 	CLASS_PROTOTYPE( idFuncAASPortal );
-			
-						idFuncAASPortal();
+
+	idFuncAASPortal();
 
 	void				Spawn( void );
 
@@ -692,8 +692,8 @@ private:
 class idFuncAASObstacle : public idEntity {
 public:
 	CLASS_PROTOTYPE( idFuncAASObstacle );
-			
-						idFuncAASObstacle();
+
+	idFuncAASObstacle();
 
 	void				Spawn( void );
 
@@ -719,7 +719,7 @@ class idFuncRadioChatter : public idEntity {
 public:
 	CLASS_PROTOTYPE( idFuncRadioChatter );
 
-						idFuncRadioChatter();
+	idFuncRadioChatter();
 
 	void				Spawn( void );
 
@@ -744,8 +744,8 @@ private:
 class idPhantomObjects : public idEntity {
 public:
 	CLASS_PROTOTYPE( idPhantomObjects );
-			
-						idPhantomObjects();
+
+	idPhantomObjects();
 
 	void				Spawn( void );
 
@@ -834,13 +834,13 @@ private:
 	int					harc;
 	int					varc;
 
-	void				Event_Touch( idEntity *other, trace_t *trace ); 
+	void				Event_Touch( idEntity *other, trace_t *trace );
 	void				Event_Activate( idEntity *activator );
 
 public:
 	bool				isMounted;
-	function_t	*		scriptFunction;
-	idPlayer *			mountedPlayer;
+	function_t			*scriptFunction;
+	idPlayer 			*mountedPlayer;
 };
 
 
@@ -857,7 +857,7 @@ public:
 private:
 
 	// The actual turret that moves with the player's view
-	idEntity	*		turret;
+	idEntity			*turret;
 
 	// the muzzle bone's position, used for launching projectiles and trailing smoke
 	idVec3				muzzleOrigin;
@@ -866,7 +866,7 @@ private:
 	float				weaponLastFireTime;
 	float				weaponFireDelay;
 
-	const idDict *		projectile;
+	const idDict 		*projectile;
 
 	const idSoundShader	*soundFireWeapon;
 

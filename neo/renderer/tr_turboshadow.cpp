@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -42,9 +42,9 @@ R_CreateVertexProgramTurboShadowVolume
 are dangling edges that are outside the light frustum still making planes?
 =====================
 */
-srfTriangles_t *R_CreateVertexProgramTurboShadowVolume( const idRenderEntityLocal *ent, 
-														const srfTriangles_t *tri, const idRenderLightLocal *light,
-														srfCullInfo_t &cullInfo ) {
+srfTriangles_t *R_CreateVertexProgramTurboShadowVolume( const idRenderEntityLocal *ent,
+		const srfTriangles_t *tri, const idRenderLightLocal *light,
+		srfCullInfo_t &cullInfo ) {
 	int		i, j;
 	srfTriangles_t	*newTri;
 	silEdge_t	*sil;
@@ -77,9 +77,9 @@ srfTriangles_t *R_CreateVertexProgramTurboShadowVolume( const idRenderEntityLoca
 		const byte *cullBits = cullInfo.cullBits;
 		for ( j = i = 0; i < tri->numIndexes; i += 3, j++ ) {
 			if ( !modifyFacing[j] ) {
-				int	i1 = indexes[i+0];
-				int	i2 = indexes[i+1];
-				int	i3 = indexes[i+2];
+				int	i1 = indexes[i + 0];
+				int	i2 = indexes[i + 1];
+				int	i3 = indexes[i + 2];
 				if ( cullBits[i1] & cullBits[i2] & cullBits[i3] ) {
 					modifyFacing[j] = 1;
 				} else {
@@ -105,7 +105,7 @@ srfTriangles_t *R_CreateVertexProgramTurboShadowVolume( const idRenderEntityLoca
 	glIndex_t *tempIndexes = newTri->indexes;
 	glIndex_t *shadowIndexes = newTri->indexes;
 #else
-	glIndex_t *tempIndexes = (glIndex_t *)_alloca16( tri->numSilEdges * 6 * sizeof( tempIndexes[0] ) );
+	glIndex_t *tempIndexes = ( glIndex_t * )_alloca16( tri->numSilEdges * 6 * sizeof( tempIndexes[0] ) );
 	glIndex_t *shadowIndexes = tempIndexes;
 #endif
 
@@ -163,13 +163,13 @@ srfTriangles_t *R_CreateVertexProgramTurboShadowVolume( const idRenderEntityLoca
 			continue;
 		}
 
-		int i0 = indexes[i+0] << 1;
+		int i0 = indexes[i + 0] << 1;
 		shadowIndexes[2] = i0;
 		shadowIndexes[3] = i0 ^ 1;
-		int i1 = indexes[i+1] << 1;
+		int i1 = indexes[i + 1] << 1;
 		shadowIndexes[1] = i1;
 		shadowIndexes[4] = i1 ^ 1;
-		int i2 = indexes[i+2] << 1;
+		int i2 = indexes[i + 2] << 1;
 		shadowIndexes[0] = i2;
 		shadowIndexes[5] = i2 ^ 1;
 
@@ -185,8 +185,8 @@ R_CreateTurboShadowVolume
 =====================
 */
 srfTriangles_t *R_CreateTurboShadowVolume( const idRenderEntityLocal *ent,
-											const srfTriangles_t *tri, const idRenderLightLocal *light,
-											srfCullInfo_t &cullInfo ) {
+		const srfTriangles_t *tri, const idRenderLightLocal *light,
+		srfCullInfo_t &cullInfo ) {
 	int		i, j;
 	idVec3	localLightOrigin;
 	srfTriangles_t	*newTri;
@@ -220,9 +220,9 @@ srfTriangles_t *R_CreateTurboShadowVolume( const idRenderEntityLocal *ent,
 		const byte *cullBits = cullInfo.cullBits;
 		for ( j = i = 0; i < tri->numIndexes; i += 3, j++ ) {
 			if ( !modifyFacing[j] ) {
-				int	i1 = indexes[i+0];
-				int	i2 = indexes[i+1];
-				int	i3 = indexes[i+2];
+				int	i1 = indexes[i + 0];
+				int	i2 = indexes[i + 1];
+				int	i3 = indexes[i + 2];
 				if ( cullBits[i1] & cullBits[i2] & cullBits[i3] ) {
 					modifyFacing[j] = 1;
 				} else {
@@ -243,12 +243,12 @@ srfTriangles_t *R_CreateTurboShadowVolume( const idRenderEntityLocal *ent,
 	R_AllocStaticTriSurfShadowVerts( newTri, tri->numVerts * 2 );
 	shadowCache_t *shadowVerts = newTri->shadowVertexes;
 #else
-	shadowCache_t *shadowVerts = (shadowCache_t *)_alloca16( tri->numVerts * 2 * sizeof( shadowVerts[0] ) );
+	shadowCache_t *shadowVerts = ( shadowCache_t * )_alloca16( tri->numVerts * 2 * sizeof( shadowVerts[0] ) );
 #endif
 
 	R_GlobalPointToLocal( ent->modelMatrix, light->globalLightOrigin, localLightOrigin );
 
-	int	*vertRemap = (int *)_alloca16( tri->numVerts * sizeof( vertRemap[0] ) );
+	int	*vertRemap = ( int * )_alloca16( tri->numVerts * sizeof( vertRemap[0] ) );
 
 	SIMDProcessor->Memset( vertRemap, -1, tri->numVerts * sizeof( vertRemap[0] ) );
 
@@ -258,9 +258,9 @@ srfTriangles_t *R_CreateTurboShadowVolume( const idRenderEntityLocal *ent,
 		}
 		// this may pull in some vertexes that are outside
 		// the frustum, because they connect to vertexes inside
-		vertRemap[tri->silIndexes[i+0]] = 0;
-		vertRemap[tri->silIndexes[i+1]] = 0;
-		vertRemap[tri->silIndexes[i+2]] = 0;
+		vertRemap[tri->silIndexes[i + 0]] = 0;
+		vertRemap[tri->silIndexes[i + 1]] = 0;
+		vertRemap[tri->silIndexes[i + 2]] = 0;
 	}
 
 	newTri->numVerts = SIMDProcessor->CreateShadowCache( &shadowVerts->xyz, vertRemap, localLightOrigin, tri->verts, tri->numVerts );
@@ -281,7 +281,7 @@ srfTriangles_t *R_CreateTurboShadowVolume( const idRenderEntityLocal *ent,
 	glIndex_t *tempIndexes = newTri->indexes;
 	glIndex_t *shadowIndexes = newTri->indexes;
 #else
-	glIndex_t *tempIndexes = (glIndex_t *)_alloca16( tri->numSilEdges * 6 * sizeof( tempIndexes[0] ) );
+	glIndex_t *tempIndexes = ( glIndex_t * )_alloca16( tri->numSilEdges * 6 * sizeof( tempIndexes[0] ) );
 	glIndex_t *shadowIndexes = tempIndexes;
 #endif
 
@@ -339,13 +339,13 @@ srfTriangles_t *R_CreateTurboShadowVolume( const idRenderEntityLocal *ent,
 			continue;
 		}
 
-		int i0 = vertRemap[indexes[i+0]];
+		int i0 = vertRemap[indexes[i + 0]];
 		shadowIndexes[2] = i0;
 		shadowIndexes[3] = i0 ^ 1;
-		int i1 = vertRemap[indexes[i+1]];
+		int i1 = vertRemap[indexes[i + 1]];
 		shadowIndexes[1] = i1;
 		shadowIndexes[4] = i1 ^ 1;
-		int i2 = vertRemap[indexes[i+2]];
+		int i2 = vertRemap[indexes[i + 2]];
 		shadowIndexes[0] = i2;
 		shadowIndexes[5] = i2 ^ 1;
 

@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -59,26 +59,25 @@ toolTip_t DialogAFConstraintHinge::toolTips[] = {
 	{ 0, NULL }
 };
 
-IMPLEMENT_DYNAMIC(DialogAFConstraintHinge, CDialog)
+IMPLEMENT_DYNAMIC( DialogAFConstraintHinge, CDialog )
 
 /*
 ================
 DialogAFConstraintHinge::DialogAFConstraintHinge
 ================
 */
-DialogAFConstraintHinge::DialogAFConstraintHinge(CWnd* pParent /*=NULL*/)
-	: CDialog(DialogAFConstraintHinge::IDD, pParent)
-	, m_anchor_x(0)
-	, m_anchor_y(0)
-	, m_anchor_z(0)
-	, m_axisPitch(0)
-	, m_axisYaw(0)
-	, m_limitAngle1(0)
-	, m_limitAngle2(30.0f)
-	, m_limitAngle3(0)
-	, constraint(NULL)
-	, file(NULL)
-{
+DialogAFConstraintHinge::DialogAFConstraintHinge( CWnd *pParent /*=NULL*/ )
+	: CDialog( DialogAFConstraintHinge::IDD, pParent )
+	, m_anchor_x( 0 )
+	, m_anchor_y( 0 )
+	, m_anchor_z( 0 )
+	, m_axisPitch( 0 )
+	, m_axisYaw( 0 )
+	, m_limitAngle1( 0 )
+	, m_limitAngle2( 30.0f )
+	, m_limitAngle3( 0 )
+	, constraint( NULL )
+	, file( NULL ) {
 	Create( IDD_DIALOG_AF_CONSTRAINT_HINGE, pParent );
 	EnableToolTips( TRUE );
 }
@@ -96,20 +95,20 @@ DialogAFConstraintHinge::~DialogAFConstraintHinge() {
 DialogAFConstraintHinge::DoDataExchange
 ================
 */
-void DialogAFConstraintHinge::DoDataExchange(CDataExchange* pDX) {
-	CDialog::DoDataExchange(pDX);
+void DialogAFConstraintHinge::DoDataExchange( CDataExchange *pDX ) {
+	CDialog::DoDataExchange( pDX );
 	//{{AFX_DATA_MAP(DialogAFConstraintHinge)
-	DDX_Control(pDX, IDC_COMBO_ANCHOR_JOINT, m_comboAnchorJoint);
-	DDX_Text(pDX, IDC_EDIT_ANCHOR_X, m_anchor_x);
-	DDX_Text(pDX, IDC_EDIT_ANCHOR_Y, m_anchor_y);
-	DDX_Text(pDX, IDC_EDIT_ANCHOR_Z, m_anchor_z);
-	DDX_Control(pDX, IDC_COMBO_HINGE_AXIS_JOINT1, m_comboAxisJoint1);
-	DDX_Control(pDX, IDC_COMBO_HINGE_AXIS_JOINT2, m_comboAxisJoint2);
-	DDX_Text(pDX, IDC_EDIT_HINGE_AXIS_PITCH, m_axisPitch);
-	DDX_Text(pDX, IDC_EDIT_HINGE_AXIS_YAW, m_axisYaw);
-	DDX_Text(pDX, IDC_EDIT_HINGE_LIMIT_ANGLE1, m_limitAngle1);
-	DDX_Text(pDX, IDC_EDIT_HINGE_LIMIT_ANGLE2, m_limitAngle2);
-	DDX_Text(pDX, IDC_EDIT_HINGE_LIMIT_ANGLE3, m_limitAngle3);
+	DDX_Control( pDX, IDC_COMBO_ANCHOR_JOINT, m_comboAnchorJoint );
+	DDX_Text( pDX, IDC_EDIT_ANCHOR_X, m_anchor_x );
+	DDX_Text( pDX, IDC_EDIT_ANCHOR_Y, m_anchor_y );
+	DDX_Text( pDX, IDC_EDIT_ANCHOR_Z, m_anchor_z );
+	DDX_Control( pDX, IDC_COMBO_HINGE_AXIS_JOINT1, m_comboAxisJoint1 );
+	DDX_Control( pDX, IDC_COMBO_HINGE_AXIS_JOINT2, m_comboAxisJoint2 );
+	DDX_Text( pDX, IDC_EDIT_HINGE_AXIS_PITCH, m_axisPitch );
+	DDX_Text( pDX, IDC_EDIT_HINGE_AXIS_YAW, m_axisYaw );
+	DDX_Text( pDX, IDC_EDIT_HINGE_LIMIT_ANGLE1, m_limitAngle1 );
+	DDX_Text( pDX, IDC_EDIT_HINGE_LIMIT_ANGLE2, m_limitAngle2 );
+	DDX_Text( pDX, IDC_EDIT_HINGE_LIMIT_ANGLE3, m_limitAngle3 );
 	//}}AFX_DATA_MAP
 }
 
@@ -134,7 +133,7 @@ void DialogAFConstraintHinge::InitJointLists( void ) {
 
 	int numJoints = model->NumJoints();
 	for ( int i = 0; i < numJoints; i++ ) {
-		const char *jointName = model->GetJointName( (jointHandle_t) i );
+		const char *jointName = model->GetJointName( ( jointHandle_t ) i );
 		m_comboAnchorJoint.AddString( jointName );
 		m_comboAxisJoint1.AddString( jointName );
 		m_comboAxisJoint2.AddString( jointName );
@@ -179,8 +178,7 @@ void DialogAFConstraintHinge::LoadConstraint( idDeclAF_Constraint *c ) {
 	m_anchor_z = constraint->anchor.ToVec3().z;
 	if ( constraint->anchor.type == idAFVector::VEC_JOINT ) {
 		i = IDC_RADIO_ANCHOR_JOINT;
-	}
-	else {
+	} else {
 		i = IDC_RADIO_ANCHOR_COORDINATES;
 	}
 	CheckRadioButton( IDC_RADIO_ANCHOR_JOINT, IDC_RADIO_ANCHOR_COORDINATES, i );
@@ -193,8 +191,7 @@ void DialogAFConstraintHinge::LoadConstraint( idDeclAF_Constraint *c ) {
 	m_axisYaw = angles.yaw;
 	if ( constraint->axis.type == idAFVector::VEC_BONEDIR ) {
 		i = IDC_RADIO_HINGE_AXIS_BONE;
-	}
-	else {
+	} else {
 		i = IDC_RADIO_HINGE_AXIS_ANGLES;
 		constraint->axis.type = idAFVector::VEC_COORDS;
 	}
@@ -203,8 +200,7 @@ void DialogAFConstraintHinge::LoadConstraint( idDeclAF_Constraint *c ) {
 	// hinge limit
 	if ( constraint->limit == idDeclAF_Constraint::LIMIT_CONE ) {
 		i = IDC_RADIO_HINGE_LIMIT_ANGLES;
-	}
-	else {
+	} else {
 		i = IDC_RADIO_HINGE_LIMIT_NONE;
 	}
 	CheckRadioButton( IDC_RADIO_HINGE_LIMIT_NONE, IDC_RADIO_HINGE_LIMIT_ANGLES, i );
@@ -243,8 +239,7 @@ void DialogAFConstraintHinge::SaveConstraint( void ) {
 		constraint->axis.joint1 = str;
 		s2 = GetSafeComboBoxSelection( &m_comboAxisJoint2, str, s1 );
 		constraint->axis.joint2 = str;
-	}
-	else {
+	} else {
 		constraint->axis.ToVec3() = idAngles( m_axisPitch, m_axisYaw, 0.0f ).ToForward();
 	}
 
@@ -273,40 +268,40 @@ void DialogAFConstraintHinge::UpdateFile( void ) {
 DialogAFConstraintHinge::OnToolHitTest
 ================
 */
-int DialogAFConstraintHinge::OnToolHitTest( CPoint point, TOOLINFO* pTI ) const {
+int DialogAFConstraintHinge::OnToolHitTest( CPoint point, TOOLINFO *pTI ) const {
 	CDialog::OnToolHitTest( point, pTI );
 	return DefaultOnToolHitTest( toolTips, this, point, pTI );
 }
 
 
-BEGIN_MESSAGE_MAP(DialogAFConstraintHinge, CDialog)
-	ON_NOTIFY_EX_RANGE(TTN_NEEDTEXTW, 0, 0xFFFF, OnToolTipNotify)
-	ON_NOTIFY_EX_RANGE(TTN_NEEDTEXTA, 0, 0xFFFF, OnToolTipNotify)
-	ON_BN_CLICKED(IDC_RADIO_ANCHOR_JOINT, OnBnClickedRadioAnchorJoint)
-	ON_BN_CLICKED(IDC_RADIO_ANCHOR_COORDINATES, OnBnClickedRadioAnchorCoordinates)
-	ON_CBN_SELCHANGE(IDC_COMBO_ANCHOR_JOINT, OnCbnSelchangeComboAnchorJoint)
-	ON_EN_CHANGE(IDC_EDIT_ANCHOR_X, OnEnChangeEditAnchorX)
-	ON_EN_CHANGE(IDC_EDIT_ANCHOR_Y, OnEnChangeEditAnchorY)
-	ON_EN_CHANGE(IDC_EDIT_ANCHOR_Z, OnEnChangeEditAnchorZ)
-	ON_NOTIFY(UDN_DELTAPOS, IDC_SPIN_ANCHOR_X, OnDeltaposSpinAnchorX)
-	ON_NOTIFY(UDN_DELTAPOS, IDC_SPIN_ANCHOR_Y, OnDeltaposSpinAnchorY)
-	ON_NOTIFY(UDN_DELTAPOS, IDC_SPIN_ANCHOR_Z, OnDeltaposSpinAnchorZ)
-	ON_BN_CLICKED(IDC_RADIO_HINGE_AXIS_BONE, OnBnClickedRadioHingeAxisBone)
-	ON_BN_CLICKED(IDC_RADIO_HINGE_AXIS_ANGLES, OnBnClickedRadioHingeAxisAngles)
-	ON_CBN_SELCHANGE(IDC_COMBO_HINGE_AXIS_JOINT1, OnCbnSelchangeComboHingeAxisJoint1)
-	ON_CBN_SELCHANGE(IDC_COMBO_HINGE_AXIS_JOINT2, OnCbnSelchangeComboHingeAxisJoint2)
-	ON_EN_CHANGE(IDC_EDIT_HINGE_AXIS_PITCH, OnEnChangeEditHingeAxisPitch)
-	ON_NOTIFY(UDN_DELTAPOS, IDC_SPIN_HINGE_AXIS_PITCH, OnDeltaposSpinHingeAxisPitch)
-	ON_EN_CHANGE(IDC_EDIT_HINGE_AXIS_YAW, OnEnChangeEditHingeAxisYaw)
-	ON_NOTIFY(UDN_DELTAPOS, IDC_SPIN_HINGE_AXIS_YAW, OnDeltaposSpinHingeAxisYaw)
-	ON_BN_CLICKED(IDC_RADIO_HINGE_LIMIT_NONE, OnBnClickedRadioHingeLimitNone)
-	ON_BN_CLICKED(IDC_RADIO_HINGE_LIMIT_ANGLES, OnBnClickedRadioHingeLimitAngles)
-	ON_EN_CHANGE(IDC_EDIT_HINGE_LIMIT_ANGLE1, OnEnChangeEditHingeLimitAngle1)
-	ON_NOTIFY(UDN_DELTAPOS, IDC_SPIN_HINGE_LIMIT_ANGLE1, OnDeltaposSpinHingeLimitAngle1)
-	ON_EN_CHANGE(IDC_EDIT_HINGE_LIMIT_ANGLE2, OnEnChangeEditHingeLimitAngle2)
-	ON_NOTIFY(UDN_DELTAPOS, IDC_SPIN_HINGE_LIMIT_ANGLE2, OnDeltaposSpinHingeLimitAngle2)
-	ON_EN_CHANGE(IDC_EDIT_HINGE_LIMIT_ANGLE3, OnEnChangeEditHingeLimitAngle3)
-	ON_NOTIFY(UDN_DELTAPOS, IDC_SPIN_HINGE_LIMIT_ANGLE3, OnDeltaposSpinHingeLimitAngle3)
+BEGIN_MESSAGE_MAP( DialogAFConstraintHinge, CDialog )
+	ON_NOTIFY_EX_RANGE( TTN_NEEDTEXTW, 0, 0xFFFF, OnToolTipNotify )
+	ON_NOTIFY_EX_RANGE( TTN_NEEDTEXTA, 0, 0xFFFF, OnToolTipNotify )
+	ON_BN_CLICKED( IDC_RADIO_ANCHOR_JOINT, OnBnClickedRadioAnchorJoint )
+	ON_BN_CLICKED( IDC_RADIO_ANCHOR_COORDINATES, OnBnClickedRadioAnchorCoordinates )
+	ON_CBN_SELCHANGE( IDC_COMBO_ANCHOR_JOINT, OnCbnSelchangeComboAnchorJoint )
+	ON_EN_CHANGE( IDC_EDIT_ANCHOR_X, OnEnChangeEditAnchorX )
+	ON_EN_CHANGE( IDC_EDIT_ANCHOR_Y, OnEnChangeEditAnchorY )
+	ON_EN_CHANGE( IDC_EDIT_ANCHOR_Z, OnEnChangeEditAnchorZ )
+	ON_NOTIFY( UDN_DELTAPOS, IDC_SPIN_ANCHOR_X, OnDeltaposSpinAnchorX )
+	ON_NOTIFY( UDN_DELTAPOS, IDC_SPIN_ANCHOR_Y, OnDeltaposSpinAnchorY )
+	ON_NOTIFY( UDN_DELTAPOS, IDC_SPIN_ANCHOR_Z, OnDeltaposSpinAnchorZ )
+	ON_BN_CLICKED( IDC_RADIO_HINGE_AXIS_BONE, OnBnClickedRadioHingeAxisBone )
+	ON_BN_CLICKED( IDC_RADIO_HINGE_AXIS_ANGLES, OnBnClickedRadioHingeAxisAngles )
+	ON_CBN_SELCHANGE( IDC_COMBO_HINGE_AXIS_JOINT1, OnCbnSelchangeComboHingeAxisJoint1 )
+	ON_CBN_SELCHANGE( IDC_COMBO_HINGE_AXIS_JOINT2, OnCbnSelchangeComboHingeAxisJoint2 )
+	ON_EN_CHANGE( IDC_EDIT_HINGE_AXIS_PITCH, OnEnChangeEditHingeAxisPitch )
+	ON_NOTIFY( UDN_DELTAPOS, IDC_SPIN_HINGE_AXIS_PITCH, OnDeltaposSpinHingeAxisPitch )
+	ON_EN_CHANGE( IDC_EDIT_HINGE_AXIS_YAW, OnEnChangeEditHingeAxisYaw )
+	ON_NOTIFY( UDN_DELTAPOS, IDC_SPIN_HINGE_AXIS_YAW, OnDeltaposSpinHingeAxisYaw )
+	ON_BN_CLICKED( IDC_RADIO_HINGE_LIMIT_NONE, OnBnClickedRadioHingeLimitNone )
+	ON_BN_CLICKED( IDC_RADIO_HINGE_LIMIT_ANGLES, OnBnClickedRadioHingeLimitAngles )
+	ON_EN_CHANGE( IDC_EDIT_HINGE_LIMIT_ANGLE1, OnEnChangeEditHingeLimitAngle1 )
+	ON_NOTIFY( UDN_DELTAPOS, IDC_SPIN_HINGE_LIMIT_ANGLE1, OnDeltaposSpinHingeLimitAngle1 )
+	ON_EN_CHANGE( IDC_EDIT_HINGE_LIMIT_ANGLE2, OnEnChangeEditHingeLimitAngle2 )
+	ON_NOTIFY( UDN_DELTAPOS, IDC_SPIN_HINGE_LIMIT_ANGLE2, OnDeltaposSpinHingeLimitAngle2 )
+	ON_EN_CHANGE( IDC_EDIT_HINGE_LIMIT_ANGLE3, OnEnChangeEditHingeLimitAngle3 )
+	ON_NOTIFY( UDN_DELTAPOS, IDC_SPIN_HINGE_LIMIT_ANGLE3, OnDeltaposSpinHingeLimitAngle3 )
 END_MESSAGE_MAP()
 
 
@@ -339,38 +334,34 @@ void DialogAFConstraintHinge::OnCbnSelchangeComboAnchorJoint() {
 }
 
 void DialogAFConstraintHinge::OnEnChangeEditAnchorX() {
-	if ( EditControlEnterHit( (CEdit *) GetDlgItem( IDC_EDIT_ANCHOR_X ) ) ) {
+	if ( EditControlEnterHit( ( CEdit * ) GetDlgItem( IDC_EDIT_ANCHOR_X ) ) ) {
 		UpdateFile();
-	}
-	else {
-		m_anchor_x = EditVerifyFloat( (CEdit *) GetDlgItem( IDC_EDIT_ANCHOR_X ) );
+	} else {
+		m_anchor_x = EditVerifyFloat( ( CEdit * ) GetDlgItem( IDC_EDIT_ANCHOR_X ) );
 	}
 }
 
 void DialogAFConstraintHinge::OnEnChangeEditAnchorY() {
-	if ( EditControlEnterHit( (CEdit *) GetDlgItem( IDC_EDIT_ANCHOR_Y ) ) ) {
+	if ( EditControlEnterHit( ( CEdit * ) GetDlgItem( IDC_EDIT_ANCHOR_Y ) ) ) {
 		UpdateFile();
-	}
-	else {
-		m_anchor_y = EditVerifyFloat( (CEdit *) GetDlgItem( IDC_EDIT_ANCHOR_Y ) );
+	} else {
+		m_anchor_y = EditVerifyFloat( ( CEdit * ) GetDlgItem( IDC_EDIT_ANCHOR_Y ) );
 	}
 }
 
 void DialogAFConstraintHinge::OnEnChangeEditAnchorZ() {
-	if ( EditControlEnterHit( (CEdit *) GetDlgItem( IDC_EDIT_ANCHOR_Z ) ) ) {
+	if ( EditControlEnterHit( ( CEdit * ) GetDlgItem( IDC_EDIT_ANCHOR_Z ) ) ) {
 		UpdateFile();
-	}
-	else {
-		m_anchor_z = EditVerifyFloat( (CEdit *) GetDlgItem( IDC_EDIT_ANCHOR_Z ) );
+	} else {
+		m_anchor_z = EditVerifyFloat( ( CEdit * ) GetDlgItem( IDC_EDIT_ANCHOR_Z ) );
 	}
 }
 
-void DialogAFConstraintHinge::OnDeltaposSpinAnchorX(NMHDR *pNMHDR, LRESULT *pResult) {
-	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>(pNMHDR);
+void DialogAFConstraintHinge::OnDeltaposSpinAnchorX( NMHDR *pNMHDR, LRESULT *pResult ) {
+	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>( pNMHDR );
 	if ( pNMUpDown->iDelta < 0 ) {
 		m_anchor_x += 1.0f;
-	}
-	else {
+	} else {
 		m_anchor_x -= 1.0f;
 	}
 	UpdateData( FALSE );
@@ -378,12 +369,11 @@ void DialogAFConstraintHinge::OnDeltaposSpinAnchorX(NMHDR *pNMHDR, LRESULT *pRes
 	*pResult = 0;
 }
 
-void DialogAFConstraintHinge::OnDeltaposSpinAnchorY(NMHDR *pNMHDR, LRESULT *pResult) {
-	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>(pNMHDR);
+void DialogAFConstraintHinge::OnDeltaposSpinAnchorY( NMHDR *pNMHDR, LRESULT *pResult ) {
+	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>( pNMHDR );
 	if ( pNMUpDown->iDelta < 0 ) {
 		m_anchor_y += 1.0f;
-	}
-	else {
+	} else {
 		m_anchor_y -= 1.0f;
 	}
 	UpdateData( FALSE );
@@ -391,12 +381,11 @@ void DialogAFConstraintHinge::OnDeltaposSpinAnchorY(NMHDR *pNMHDR, LRESULT *pRes
 	*pResult = 0;
 }
 
-void DialogAFConstraintHinge::OnDeltaposSpinAnchorZ(NMHDR *pNMHDR, LRESULT *pResult) {
-	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>(pNMHDR);
+void DialogAFConstraintHinge::OnDeltaposSpinAnchorZ( NMHDR *pNMHDR, LRESULT *pResult ) {
+	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>( pNMHDR );
 	if ( pNMUpDown->iDelta < 0 ) {
 		m_anchor_z += 1.0f;
-	}
-	else {
+	} else {
 		m_anchor_z -= 1.0f;
 	}
 	UpdateData( FALSE );
@@ -437,20 +426,18 @@ void DialogAFConstraintHinge::OnCbnSelchangeComboHingeAxisJoint2() {
 }
 
 void DialogAFConstraintHinge::OnEnChangeEditHingeAxisPitch() {
-	if ( EditControlEnterHit( (CEdit *) GetDlgItem( IDC_EDIT_HINGE_AXIS_PITCH ) ) ) {
+	if ( EditControlEnterHit( ( CEdit * ) GetDlgItem( IDC_EDIT_HINGE_AXIS_PITCH ) ) ) {
 		UpdateFile();
-	}
-	else {
-		m_axisPitch = EditVerifyFloat( (CEdit *) GetDlgItem( IDC_EDIT_HINGE_AXIS_PITCH ) );
+	} else {
+		m_axisPitch = EditVerifyFloat( ( CEdit * ) GetDlgItem( IDC_EDIT_HINGE_AXIS_PITCH ) );
 	}
 }
 
-void DialogAFConstraintHinge::OnDeltaposSpinHingeAxisPitch(NMHDR *pNMHDR, LRESULT *pResult) {
-	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>(pNMHDR);
+void DialogAFConstraintHinge::OnDeltaposSpinHingeAxisPitch( NMHDR *pNMHDR, LRESULT *pResult ) {
+	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>( pNMHDR );
 	if ( pNMUpDown->iDelta < 0 ) {
 		m_axisPitch += 1.0f;
-	}
-	else {
+	} else {
 		m_axisPitch -= 1.0f;
 	}
 	UpdateData( FALSE );
@@ -459,20 +446,18 @@ void DialogAFConstraintHinge::OnDeltaposSpinHingeAxisPitch(NMHDR *pNMHDR, LRESUL
 }
 
 void DialogAFConstraintHinge::OnEnChangeEditHingeAxisYaw() {
-	if ( EditControlEnterHit( (CEdit *) GetDlgItem( IDC_EDIT_HINGE_AXIS_YAW ) ) ) {
+	if ( EditControlEnterHit( ( CEdit * ) GetDlgItem( IDC_EDIT_HINGE_AXIS_YAW ) ) ) {
 		UpdateFile();
-	}
-	else {
-		m_axisYaw = EditVerifyFloat( (CEdit *) GetDlgItem( IDC_EDIT_HINGE_AXIS_YAW ) );
+	} else {
+		m_axisYaw = EditVerifyFloat( ( CEdit * ) GetDlgItem( IDC_EDIT_HINGE_AXIS_YAW ) );
 	}
 }
 
-void DialogAFConstraintHinge::OnDeltaposSpinHingeAxisYaw(NMHDR *pNMHDR, LRESULT *pResult) {
-	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>(pNMHDR);
+void DialogAFConstraintHinge::OnDeltaposSpinHingeAxisYaw( NMHDR *pNMHDR, LRESULT *pResult ) {
+	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>( pNMHDR );
 	if ( pNMUpDown->iDelta < 0 ) {
 		m_axisYaw += 1.0f;
-	}
-	else {
+	} else {
 		m_axisYaw -= 1.0f;
 	}
 	UpdateData( FALSE );
@@ -499,20 +484,18 @@ void DialogAFConstraintHinge::OnBnClickedRadioHingeLimitAngles() {
 }
 
 void DialogAFConstraintHinge::OnEnChangeEditHingeLimitAngle1() {
-	if ( EditControlEnterHit( (CEdit *) GetDlgItem( IDC_EDIT_HINGE_LIMIT_ANGLE1 ) ) ) {
+	if ( EditControlEnterHit( ( CEdit * ) GetDlgItem( IDC_EDIT_HINGE_LIMIT_ANGLE1 ) ) ) {
 		UpdateFile();
-	}
-	else {
-		m_limitAngle1 = EditVerifyFloat( (CEdit *) GetDlgItem( IDC_EDIT_HINGE_LIMIT_ANGLE1 ) );
+	} else {
+		m_limitAngle1 = EditVerifyFloat( ( CEdit * ) GetDlgItem( IDC_EDIT_HINGE_LIMIT_ANGLE1 ) );
 	}
 }
 
-void DialogAFConstraintHinge::OnDeltaposSpinHingeLimitAngle1(NMHDR *pNMHDR, LRESULT *pResult) {
-	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>(pNMHDR);
+void DialogAFConstraintHinge::OnDeltaposSpinHingeLimitAngle1( NMHDR *pNMHDR, LRESULT *pResult ) {
+	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>( pNMHDR );
 	if ( pNMUpDown->iDelta < 0 ) {
 		m_limitAngle1 += 1.0f;
-	}
-	else {
+	} else {
 		m_limitAngle1 -= 1.0f;
 	}
 	UpdateData( FALSE );
@@ -521,20 +504,18 @@ void DialogAFConstraintHinge::OnDeltaposSpinHingeLimitAngle1(NMHDR *pNMHDR, LRES
 }
 
 void DialogAFConstraintHinge::OnEnChangeEditHingeLimitAngle2() {
-	if ( EditControlEnterHit( (CEdit *) GetDlgItem( IDC_EDIT_HINGE_LIMIT_ANGLE2 ) ) ) {
+	if ( EditControlEnterHit( ( CEdit * ) GetDlgItem( IDC_EDIT_HINGE_LIMIT_ANGLE2 ) ) ) {
 		UpdateFile();
-	}
-	else {
-		m_limitAngle2 = EditVerifyFloat( (CEdit *) GetDlgItem( IDC_EDIT_HINGE_LIMIT_ANGLE2 ), false );
+	} else {
+		m_limitAngle2 = EditVerifyFloat( ( CEdit * ) GetDlgItem( IDC_EDIT_HINGE_LIMIT_ANGLE2 ), false );
 	}
 }
 
-void DialogAFConstraintHinge::OnDeltaposSpinHingeLimitAngle2(NMHDR *pNMHDR, LRESULT *pResult) {
-	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>(pNMHDR);
+void DialogAFConstraintHinge::OnDeltaposSpinHingeLimitAngle2( NMHDR *pNMHDR, LRESULT *pResult ) {
+	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>( pNMHDR );
 	if ( pNMUpDown->iDelta < 0 ) {
 		m_limitAngle2 += 1.0f;
-	}
-	else if ( m_limitAngle2 > 0.0f ) {
+	} else if ( m_limitAngle2 > 0.0f ) {
 		m_limitAngle2 -= 1.0f;
 	}
 	UpdateData( FALSE );
@@ -543,20 +524,18 @@ void DialogAFConstraintHinge::OnDeltaposSpinHingeLimitAngle2(NMHDR *pNMHDR, LRES
 }
 
 void DialogAFConstraintHinge::OnEnChangeEditHingeLimitAngle3() {
-	if ( EditControlEnterHit( (CEdit *) GetDlgItem( IDC_EDIT_HINGE_LIMIT_ANGLE3 ) ) ) {
+	if ( EditControlEnterHit( ( CEdit * ) GetDlgItem( IDC_EDIT_HINGE_LIMIT_ANGLE3 ) ) ) {
 		UpdateFile();
-	}
-	else {
-		m_limitAngle3 = EditVerifyFloat( (CEdit *) GetDlgItem( IDC_EDIT_HINGE_LIMIT_ANGLE3 ) );
+	} else {
+		m_limitAngle3 = EditVerifyFloat( ( CEdit * ) GetDlgItem( IDC_EDIT_HINGE_LIMIT_ANGLE3 ) );
 	}
 }
 
-void DialogAFConstraintHinge::OnDeltaposSpinHingeLimitAngle3(NMHDR *pNMHDR, LRESULT *pResult) {
-	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>(pNMHDR);
+void DialogAFConstraintHinge::OnDeltaposSpinHingeLimitAngle3( NMHDR *pNMHDR, LRESULT *pResult ) {
+	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>( pNMHDR );
 	if ( pNMUpDown->iDelta < 0 ) {
 		m_limitAngle3 += 1.0f;
-	}
-	else {
+	} else {
 		m_limitAngle3 -= 1.0f;
 	}
 	UpdateData( FALSE );

@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -73,7 +73,7 @@ typedef struct dominantTri_s {
 
 typedef struct lightingCache_s {
 	idVec3						localLightVector;		// this is the statically computed vector to the light
-														// in texture space for cards without vertex programs
+	// in texture space for cards without vertex programs
 } lightingCache_t;
 
 typedef struct shadowCache_s {
@@ -93,58 +93,58 @@ typedef struct srfTriangles_s {
 	bool						facePlanesCalculated;	// set when the face planes have been calculated
 	bool						perfectHull;			// true if there aren't any dangling edges
 	bool						deformedSurface;		// if true, indexes, silIndexes, mirrorVerts, and silEdges are
-														// pointers into the original surface, and should not be freed
+	// pointers into the original surface, and should not be freed
 
 	int							numVerts;				// number of vertices
-	idDrawVert *				verts;					// vertices, allocated with special allocator
+	idDrawVert 				*verts;					// vertices, allocated with special allocator
 
 	int							numIndexes;				// for shadows, this has both front and rear end caps and silhouette planes
-	glIndex_t *					indexes;				// indexes, allocated with special allocator
+	glIndex_t 					*indexes;				// indexes, allocated with special allocator
 
-	glIndex_t *					silIndexes;				// indexes changed to be the first vertex with same XYZ, ignoring normal and texcoords
+	glIndex_t 					*silIndexes;				// indexes changed to be the first vertex with same XYZ, ignoring normal and texcoords
 
 	int							numMirroredVerts;		// this many verts at the end of the vert list are tangent mirrors
-	int *						mirroredVerts;			// tri->mirroredVerts[0] is the mirror of tri->numVerts - tri->numMirroredVerts + 0
+	int 						*mirroredVerts;			// tri->mirroredVerts[0] is the mirror of tri->numVerts - tri->numMirroredVerts + 0
 
 	int							numDupVerts;			// number of duplicate vertexes
-	int *						dupVerts;				// pairs of the number of the first vertex and the number of the duplicate vertex
+	int 						*dupVerts;				// pairs of the number of the first vertex and the number of the duplicate vertex
 
 	int							numSilEdges;			// number of silhouette edges
-	silEdge_t *					silEdges;				// silhouette edges
+	silEdge_t 					*silEdges;				// silhouette edges
 
-	idPlane *					facePlanes;				// [numIndexes/3] plane equations
+	idPlane 					*facePlanes;				// [numIndexes/3] plane equations
 
-	dominantTri_t *				dominantTris;			// [numVerts] for deformed surface fast tangent calculation
+	dominantTri_t 				*dominantTris;			// [numVerts] for deformed surface fast tangent calculation
 
 	int							numShadowIndexesNoFrontCaps;	// shadow volumes with front caps omitted
 	int							numShadowIndexesNoCaps;			// shadow volumes with the front and rear caps omitted
 
 	int							shadowCapPlaneBits;		// bits 0-5 are set when that plane of the interacting light has triangles
-														// projected on it, which means that if the view is on the outside of that
-														// plane, we need to draw the rear caps of the shadow volume
-														// turboShadows will have SHADOW_CAP_INFINITE
+	// projected on it, which means that if the view is on the outside of that
+	// plane, we need to draw the rear caps of the shadow volume
+	// turboShadows will have SHADOW_CAP_INFINITE
 
-	shadowCache_t *				shadowVertexes;			// these will be copied to shadowCache when it is going to be drawn.
-														// these are NULL when vertex programs are available
+	shadowCache_t 				*shadowVertexes;			// these will be copied to shadowCache when it is going to be drawn.
+	// these are NULL when vertex programs are available
 
-	struct srfTriangles_s *		ambientSurface;			// for light interactions, point back at the original surface that generated
-														// the interaction, which we will get the ambientCache from
+	struct srfTriangles_s 		*ambientSurface;			// for light interactions, point back at the original surface that generated
+	// the interaction, which we will get the ambientCache from
 
-	struct srfTriangles_s *		nextDeferredFree;		// chain of tris to free next frame
+	struct srfTriangles_s 		*nextDeferredFree;		// chain of tris to free next frame
 
 	// data in vertex object space, not directly readable by the CPU
-	struct vertCache_s *		indexCache;				// int
-	struct vertCache_s *		ambientCache;			// idDrawVert
-	struct vertCache_s *		lightingCache;			// lightingCache_t
-	struct vertCache_s *		shadowCache;			// shadowCache_t
+	struct vertCache_s 		*indexCache;				// int
+	struct vertCache_s 		*ambientCache;			// idDrawVert
+	struct vertCache_s 		*lightingCache;			// lightingCache_t
+	struct vertCache_s 		*shadowCache;			// shadowCache_t
 } srfTriangles_t;
 
 typedef idList<srfTriangles_t *> idTriList;
 
 typedef struct modelSurface_s {
 	int							id;
-	const idMaterial *			shader;
-	srfTriangles_t *			geometry;
+	const idMaterial 			*shader;
+	srfTriangles_t 			*geometry;
 } modelSurface_t;
 
 typedef enum {
@@ -159,9 +159,11 @@ typedef enum {
 
 class idMD5Joint {
 public:
-								idMD5Joint() { parent = NULL; }
+	idMD5Joint() {
+		parent = NULL;
+	}
 	idStr						name;
-	const idMD5Joint *			parent;
+	const idMD5Joint 			*parent;
 };
 
 
@@ -199,7 +201,7 @@ public:
 	// which can regenerate the data with LoadModel()
 	virtual void				PurgeModel() = 0;
 
-	// resets any model information that needs to be reset on a same level load etc.. 
+	// resets any model information that needs to be reset on a same level load etc..
 	// currently only implemented for liquids
 	virtual void				Reset() = 0;
 
@@ -221,7 +223,7 @@ public:
 	virtual void				FreeVertexCache() = 0;
 
 	// returns the name of the model
-	virtual const char	*		Name() const = 0;
+	virtual const char			*Name() const = 0;
 
 	// prints a detailed report on the model for printModel
 	virtual void				Print() const = 0;
@@ -248,7 +250,7 @@ public:
 	// Allocates memory for srfTriangles_t::verts and srfTriangles_t::indexes
 	// The allocated memory is not initialized.
 	// srfTriangles_t::numVerts and srfTriangles_t::numIndexes are set to zero.
-	virtual srfTriangles_t *	AllocSurfaceTriangles( int numVerts, int numIndexes ) const = 0;
+	virtual srfTriangles_t 	*AllocSurfaceTriangles( int numVerts, int numIndexes ) const = 0;
 
 	// Frees surfaces triangles.
 	virtual void				FreeSurfaceTriangles( srfTriangles_t *tris ) const = 0;
@@ -257,7 +259,7 @@ public:
 	// the maximum number of edges.  This may be incorrect if a skin file
 	// remaps surfaces between shadow casting and non-shadow casting, or
 	// if some surfaces are noSelfShadow and others aren't
-	virtual srfTriangles_t	*	ShadowHull() const = 0;
+	virtual srfTriangles_t		*ShadowHull() const = 0;
 
 	// models of the form "_area*" may have a prelight shadow model associated with it
 	virtual bool				IsStaticWorldModel() const = 0;
@@ -286,22 +288,22 @@ public:
 	// The renderer will delete the returned dynamic model the next view
 	// This isn't const, because it may need to reload a purged model if it
 	// wasn't precached correctly.
-	virtual idRenderModel *		InstantiateDynamicModel( const struct renderEntity_s *ent, const struct viewDef_s *view, idRenderModel *cachedModel ) = 0;
+	virtual idRenderModel 		*InstantiateDynamicModel( const struct renderEntity_s *ent, const struct viewDef_s *view, idRenderModel *cachedModel ) = 0;
 
 	// Returns the number of joints or 0 if the model is not an MD5
 	virtual int					NumJoints( void ) const = 0;
 
 	// Returns the MD5 joints or NULL if the model is not an MD5
-	virtual const idMD5Joint *	GetJoints( void ) const = 0;
+	virtual const idMD5Joint 	*GetJoints( void ) const = 0;
 
 	// Returns the handle for the joint with the given name.
 	virtual jointHandle_t		GetJointHandle( const char *name ) const = 0;
 
 	// Returns the name for the joint with the given handle.
-	virtual const char *		GetJointName( jointHandle_t handle ) const = 0;
+	virtual const char 		*GetJointName( jointHandle_t handle ) const = 0;
 
 	// Returns the default animation pose or NULL if the model is not an MD5.
-	virtual const idJointQuat *	GetDefaultPose( void ) const = 0;
+	virtual const idJointQuat 	*GetDefaultPose( void ) const = 0;
 
 	// Returns number of the joint nearest to the given triangle.
 	virtual int					NearestJoint( int surfaceNum, int a, int c, int b ) const = 0;

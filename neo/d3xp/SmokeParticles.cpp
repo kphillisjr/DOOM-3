@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -59,10 +59,10 @@ void idSmokeParticles::Init( void ) {
 	}
 
 	// set up the free list
-	for ( int i = 0; i < MAX_SMOKE_PARTICLES-1; i++ ) {
-		smokes[i].next = &smokes[i+1];
+	for ( int i = 0; i < MAX_SMOKE_PARTICLES - 1; i++ ) {
+		smokes[i].next = &smokes[i + 1];
 	}
-	smokes[MAX_SMOKE_PARTICLES-1].next = NULL;
+	smokes[MAX_SMOKE_PARTICLES - 1].next = NULL;
 	freeSmokes = &smokes[0];
 	numActiveSmokes = 0;
 
@@ -84,8 +84,8 @@ void idSmokeParticles::Init( void ) {
 	renderEntity.noShadow = 1;
 
 	// huge bounds, so it will be present in every world area
-	renderEntity.bounds.AddPoint( idVec3(-100000, -100000, -100000) );
-	renderEntity.bounds.AddPoint( idVec3( 100000,  100000,  100000) );
+	renderEntity.bounds.AddPoint( idVec3( -100000, -100000, -100000 ) );
+	renderEntity.bounds.AddPoint( idVec3( 100000,  100000,  100000 ) );
 
 	renderEntity.callback = idSmokeParticles::ModelCallback;
 	// add to renderer list
@@ -133,13 +133,12 @@ void idSmokeParticles::FreeSmokes( void ) {
 			float frac;
 
 			if ( smoke->timeGroup ) {
-				frac = (float)( gameLocal.fast.time - smoke->privateStartTime ) / ( stage->particleLife * 1000 );
-			}
-			else {
-				frac = (float)( gameLocal.slow.time - smoke->privateStartTime ) / ( stage->particleLife * 1000 );
+				frac = ( float )( gameLocal.fast.time - smoke->privateStartTime ) / ( stage->particleLife * 1000 );
+			} else {
+				frac = ( float )( gameLocal.slow.time - smoke->privateStartTime ) / ( stage->particleLife * 1000 );
 			}
 #else
-			float frac = (float)( gameLocal.time - smoke->privateStartTime ) / ( stage->particleLife * 1000 );
+			float frac = ( float )( gameLocal.time - smoke->privateStartTime ) / ( stage->particleLife * 1000 );
 #endif
 			if ( frac >= 1.0f ) {
 				// remove the particle from the stage list
@@ -225,16 +224,16 @@ bool idSmokeParticles::EmitSmoke( const idDeclParticle *smoke, const int systemS
 			// if spawnBunching is 0, they will all come out at once
 			if ( gameLocal.time == systemStartTime ) {
 				prevCount = -1;
-				nowCount = stage->totalParticles-1;
+				nowCount = stage->totalParticles - 1;
 			} else {
 				prevCount = stage->totalParticles;
 			}
 		} else {
-			nowCount = floor( ( (float)deltaMsec / finalParticleTime ) * stage->totalParticles );
+			nowCount = floor( ( ( float )deltaMsec / finalParticleTime ) * stage->totalParticles );
 			if ( nowCount >= stage->totalParticles ) {
-				nowCount = stage->totalParticles-1;
+				nowCount = stage->totalParticles - 1;
 			}
-			prevCount = floor( ((float)( deltaMsec - gameLocal.msec /*_D3XP - FIX - was USERCMD_MSEC*/ ) / finalParticleTime) * stage->totalParticles );
+			prevCount = floor( ( ( float )( deltaMsec - gameLocal.msec /*_D3XP - FIX - was USERCMD_MSEC*/ ) / finalParticleTime ) * stage->totalParticles );
 			if ( prevCount < -1 ) {
 				prevCount = -1;
 			}
@@ -245,7 +244,7 @@ bool idSmokeParticles::EmitSmoke( const idDeclParticle *smoke, const int systemS
 			continue;
 		}
 
-		if ( nowCount < stage->totalParticles-1 ) {
+		if ( nowCount < stage->totalParticles - 1 ) {
 			// the system will need to emit particles next frame as well
 			continues = true;
 		}
@@ -346,11 +345,11 @@ bool idSmokeParticles::UpdateRenderEntity( renderEntity_s *renderEntity, const r
 
 		// just always draw the particles
 		tri->bounds[0][0] =
-		tri->bounds[0][1] =
-		tri->bounds[0][2] = -99999;
+			tri->bounds[0][1] =
+				tri->bounds[0][2] = -99999;
 		tri->bounds[1][0] =
-		tri->bounds[1][1] =
-		tri->bounds[1][2] = 99999;
+			tri->bounds[1][1] =
+				tri->bounds[1][2] = 99999;
 
 		tri->numVerts = 0;
 		for ( last = NULL, smoke = active->smokes; smoke; smoke = next ) {
@@ -358,13 +357,12 @@ bool idSmokeParticles::UpdateRenderEntity( renderEntity_s *renderEntity, const r
 
 #ifdef _D3XP
 			if ( smoke->timeGroup ) {
-				g.frac = (float)( gameLocal.fast.time - smoke->privateStartTime ) / (stage->particleLife * 1000);
-			}
-			else {
-				g.frac = (float)( gameLocal.time - smoke->privateStartTime ) / (stage->particleLife * 1000);
+				g.frac = ( float )( gameLocal.fast.time - smoke->privateStartTime ) / ( stage->particleLife * 1000 );
+			} else {
+				g.frac = ( float )( gameLocal.time - smoke->privateStartTime ) / ( stage->particleLife * 1000 );
 			}
 #else
-			g.frac = (float)( gameLocal.time - smoke->privateStartTime ) / (stage->particleLife * 1000);
+			g.frac = ( float )( gameLocal.time - smoke->privateStartTime ) / ( stage->particleLife * 1000 );
 #endif
 			if ( g.frac >= 1.0f ) {
 				// remove the particle from the stage list
@@ -411,12 +409,12 @@ bool idSmokeParticles::UpdateRenderEntity( renderEntity_s *renderEntity, const r
 			// build the index list
 			int	indexes = 0;
 			for ( int i = 0 ; i < tri->numVerts ; i += 4 ) {
-				tri->indexes[indexes+0] = i;
-				tri->indexes[indexes+1] = i+2;
-				tri->indexes[indexes+2] = i+3;
-				tri->indexes[indexes+3] = i;
-				tri->indexes[indexes+4] = i+3;
-				tri->indexes[indexes+5] = i+1;
+				tri->indexes[indexes + 0] = i;
+				tri->indexes[indexes + 1] = i + 2;
+				tri->indexes[indexes + 2] = i + 3;
+				tri->indexes[indexes + 3] = i;
+				tri->indexes[indexes + 4] = i + 3;
+				tri->indexes[indexes + 5] = i + 1;
 				indexes += 6;
 			}
 			tri->numIndexes = indexes;

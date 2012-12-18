@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -46,21 +46,21 @@ public:
 		MATERIAL_DEF_TYPE_FLOAT,
 		MATERIAL_DEF_TYPE_INT
 	};
-	
+
 	int					type;
 	idStr				dictName;
 	idStr				displayName;
 	idStr				displayInfo;
 	bool				quotes;
 	idHashTable<DWORD>	viewData;
-	
-public:
-	
-	MaterialDef(void);
-	virtual ~MaterialDef(void);
 
-	DWORD	GetViewData(const char* viewName);
-	void	SetViewData(const char* viewName, DWORD value);
+public:
+
+	MaterialDef( void );
+	virtual ~MaterialDef( void );
+
+	DWORD	GetViewData( const char *viewName );
+	void	SetViewData( const char *viewName, DWORD value );
 };
 
 /**
@@ -68,7 +68,7 @@ public:
 * are grouped together during the load process for use by the different view and
 * MaterialDoc.
 */
-typedef idList<MaterialDef*> MaterialDefList;
+typedef idList<MaterialDef *> MaterialDefList;
 
 /**
 * This class contains static utility functions that view and MaterialDoc use
@@ -90,13 +90,13 @@ public:
 	};
 
 	static void 				InitializeMaterialDefLists();
-	static void					InitializeMaterialDefList(idLexer* src, const char* typeName, MaterialDefList* list);
-	
+	static void					InitializeMaterialDefList( idLexer *src, const char *typeName, MaterialDefList *list );
+
 	static void					DestroyMaterialDefLists();
 
-	static MaterialDefList*		GetMaterialDefs(int type);
+	static MaterialDefList		*GetMaterialDefs( int type );
 
 
 protected:
-	static MaterialDefList		materialDefs[MATERIAL_DEF_NUM];	
+	static MaterialDefList		materialDefs[MATERIAL_DEF_NUM];
 };

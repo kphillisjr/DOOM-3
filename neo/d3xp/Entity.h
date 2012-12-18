@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -126,27 +126,27 @@ public:
 	int						dormantStart;			// time that the entity was first closed off from player
 	bool					cinematic;				// during cinematics, entity will only think if cinematic is set
 
-	renderView_t *			renderView;				// for camera views from this entity
-	idEntity *				cameraTarget;			// any remoteRenderMap shaders will use this
+	renderView_t 			*renderView;				// for camera views from this entity
+	idEntity 				*cameraTarget;			// any remoteRenderMap shaders will use this
 
 	idList< idEntityPtr<idEntity> >	targets;		// when this entity is activated these entities entity are activated
 
 	int						health;					// FIXME: do all objects really need health?
 
 	struct entityFlags_s {
-		bool				notarget			:1;	// if true never attack or target this entity
-		bool				noknockback			:1;	// if true no knockback from hits
-		bool				takedamage			:1;	// if true this entity can be damaged
-		bool				hidden				:1;	// if true this entity is not visible
-		bool				bindOrientated		:1;	// if true both the master orientation is used for binding
-		bool				solidForTeam		:1;	// if true this entity is considered solid when a physics team mate pushes entities
-		bool				forcePhysicsUpdate	:1;	// if true always update from the physics whether the object moved or not
-		bool				selected			:1;	// if true the entity is selected for editing
-		bool				neverDormant		:1;	// if true the entity never goes dormant
-		bool				isDormant			:1;	// if true the entity is dormant
-		bool				hasAwakened			:1;	// before a monster has been awakened the first time, use full PVS for dormant instead of area-connected
-		bool				networkSync			:1; // if true the entity is synchronized over the network
-		bool				grabbed				:1;	// if true object is currently being grabbed
+		bool				notarget			: 1;	// if true never attack or target this entity
+		bool				noknockback			: 1;	// if true no knockback from hits
+		bool				takedamage			: 1;	// if true this entity can be damaged
+		bool				hidden				: 1;	// if true this entity is not visible
+		bool				bindOrientated		: 1;	// if true both the master orientation is used for binding
+		bool				solidForTeam		: 1;	// if true this entity is considered solid when a physics team mate pushes entities
+		bool				forcePhysicsUpdate	: 1;	// if true always update from the physics whether the object moved or not
+		bool				selected			: 1;	// if true the entity is selected for editing
+		bool				neverDormant		: 1;	// if true the entity never goes dormant
+		bool				isDormant			: 1;	// if true the entity is dormant
+		bool				hasAwakened			: 1;	// before a monster has been awakened the first time, use full PVS for dormant instead of area-connected
+		bool				networkSync			: 1; // if true the entity is synchronized over the network
+		bool				grabbed				: 1;	// if true object is currently being grabbed
 	} fl;
 
 #ifdef _D3XP
@@ -156,7 +156,7 @@ public:
 
 	renderEntity_t			xrayEntity;
 	qhandle_t				xrayEntityHandle;
-	const idDeclSkin *		xraySkin;
+	const idDeclSkin 		*xraySkin;
 
 	void					DetermineTimeGroup( bool slowmo );
 
@@ -167,22 +167,22 @@ public:
 public:
 	ABSTRACT_PROTOTYPE( idEntity );
 
-							idEntity();
-							~idEntity();
+	idEntity();
+	~idEntity();
 
 	void					Spawn( void );
 
 	void					Save( idSaveGame *savefile ) const;
 	void					Restore( idRestoreGame *savefile );
 
-	const char *			GetEntityDefName( void ) const;
+	const char 			*GetEntityDefName( void ) const;
 	void					SetName( const char *name );
-	const char *			GetName( void ) const;
+	const char 			*GetName( void ) const;
 	virtual void			UpdateChangeableSpawnArgs( const idDict *source );
 
-							// clients generate views based on all the player specific options,
-							// cameras have custom code, and everything else just uses the axis orientation
-	virtual renderView_t *	GetRenderView();
+	// clients generate views based on all the player specific options,
+	// cameras have custom code, and everything else just uses the axis orientation
+	virtual renderView_t 	*GetRenderView();
 
 	// thinking
 	virtual void			Think( void );
@@ -200,7 +200,7 @@ public:
 	virtual int				GetModelDefHandle( void );
 	virtual void			SetModel( const char *modelname );
 	void					SetSkin( const idDeclSkin *skin );
-	const idDeclSkin *		GetSkin( void ) const;
+	const idDeclSkin 		*GetSkin( void ) const;
 	void					SetShaderParm( int parmnum, float value );
 	virtual void			SetColor( float red, float green, float blue );
 	virtual void			SetColor( const idVec3 &color );
@@ -217,7 +217,7 @@ public:
 	void					UpdateModelTransform( void );
 	virtual void			ProjectOverlay( const idVec3 &origin, const idVec3 &dir, float size, const char *material );
 	int						GetNumPVSAreas( void );
-	const int *				GetPVSAreas( void );
+	const int 				*GetPVSAreas( void );
 	void					ClearPVSAreas( void );
 	bool					PhysicsTeamInPVS( pvsHandle_t pvsHandle );
 
@@ -225,7 +225,7 @@ public:
 	virtual bool			UpdateAnimationControllers( void );
 	bool					UpdateRenderEntity( renderEntity_s *renderEntity, const renderView_t *renderView );
 	static bool				ModelCallback( renderEntity_s *renderEntity, const renderView_t *renderView );
-	virtual idAnimator *	GetAnimator( void );	// returns animator object used by this entity
+	virtual idAnimator 	*GetAnimator( void );	// returns animator object used by this entity
 
 	// sound
 	virtual bool			CanPlayChatterSounds( void ) const;
@@ -235,7 +235,7 @@ public:
 	void					SetSoundVolume( float volume );
 	void					UpdateSound( void );
 	int						GetListenerId( void ) const;
-	idSoundEmitter *		GetSoundEmitter( void ) const;
+	idSoundEmitter 		*GetSoundEmitter( void ) const;
 	void					FreeSoundEmitter( bool immediate );
 
 	// entity binding
@@ -251,11 +251,11 @@ public:
 	void					Unbind( void );
 	bool					IsBound( void ) const;
 	bool					IsBoundTo( idEntity *master ) const;
-	idEntity *				GetBindMaster( void ) const;
+	idEntity 				*GetBindMaster( void ) const;
 	jointHandle_t			GetBindJoint( void ) const;
 	int						GetBindBody( void ) const;
-	idEntity *				GetTeamMaster( void ) const;
-	idEntity *				GetNextTeamEntity( void ) const;
+	idEntity 				*GetTeamMaster( void ) const;
+	idEntity 				*GetNextTeamEntity( void ) const;
 	void					ConvertLocalToWorldTransform( idVec3 &offset, idMat3 &axis );
 	idVec3					GetLocalVector( const idVec3 &vec ) const;
 	idVec3					GetLocalCoordinates( const idVec3 &vec ) const;
@@ -265,62 +265,62 @@ public:
 	void					GetWorldVelocities( idVec3 &linearVelocity, idVec3 &angularVelocity ) const;
 
 	// physics
-							// set a new physics object to be used by this entity
+	// set a new physics object to be used by this entity
 	void					SetPhysics( idPhysics *phys );
-							// get the physics object used by this entity
-	idPhysics *				GetPhysics( void ) const;
-							// restore physics pointer for save games
+	// get the physics object used by this entity
+	idPhysics 				*GetPhysics( void ) const;
+	// restore physics pointer for save games
 	void					RestorePhysics( idPhysics *phys );
-							// run the physics for this entity
+	// run the physics for this entity
 	bool					RunPhysics( void );
-							// set the origin of the physics object (relative to bindMaster if not NULL)
+	// set the origin of the physics object (relative to bindMaster if not NULL)
 	void					SetOrigin( const idVec3 &org );
-							// set the axis of the physics object (relative to bindMaster if not NULL)
+	// set the axis of the physics object (relative to bindMaster if not NULL)
 	void					SetAxis( const idMat3 &axis );
-							// use angles to set the axis of the physics object (relative to bindMaster if not NULL)
+	// use angles to set the axis of the physics object (relative to bindMaster if not NULL)
 	void					SetAngles( const idAngles &ang );
-							// get the floor position underneath the physics object
+	// get the floor position underneath the physics object
 	bool					GetFloorPos( float max_dist, idVec3 &floorpos ) const;
-							// retrieves the transformation going from the physics origin/axis to the visual origin/axis
+	// retrieves the transformation going from the physics origin/axis to the visual origin/axis
 	virtual bool			GetPhysicsToVisualTransform( idVec3 &origin, idMat3 &axis );
-							// retrieves the transformation going from the physics origin/axis to the sound origin/axis
+	// retrieves the transformation going from the physics origin/axis to the sound origin/axis
 	virtual bool			GetPhysicsToSoundTransform( idVec3 &origin, idMat3 &axis );
-							// called from the physics object when colliding, should return true if the physics simulation should stop
+	// called from the physics object when colliding, should return true if the physics simulation should stop
 	virtual bool			Collide( const trace_t &collision, const idVec3 &velocity );
-							// retrieves impact information, 'ent' is the entity retrieving the info
+	// retrieves impact information, 'ent' is the entity retrieving the info
 	virtual void			GetImpactInfo( idEntity *ent, int id, const idVec3 &point, impactInfo_t *info );
-							// apply an impulse to the physics object, 'ent' is the entity applying the impulse
+	// apply an impulse to the physics object, 'ent' is the entity applying the impulse
 	virtual void			ApplyImpulse( idEntity *ent, int id, const idVec3 &point, const idVec3 &impulse );
-							// add a force to the physics object, 'ent' is the entity adding the force
+	// add a force to the physics object, 'ent' is the entity adding the force
 	virtual void			AddForce( idEntity *ent, int id, const idVec3 &point, const idVec3 &force );
-							// activate the physics object, 'ent' is the entity activating this entity
+	// activate the physics object, 'ent' is the entity activating this entity
 	virtual void			ActivatePhysics( idEntity *ent );
-							// returns true if the physics object is at rest
+	// returns true if the physics object is at rest
 	virtual bool			IsAtRest( void ) const;
-							// returns the time the physics object came to rest
+	// returns the time the physics object came to rest
 	virtual int				GetRestStartTime( void ) const;
-							// add a contact entity
+	// add a contact entity
 	virtual void			AddContactEntity( idEntity *ent );
-							// remove a touching entity
+	// remove a touching entity
 	virtual void			RemoveContactEntity( idEntity *ent );
 
 	// damage
-							// returns true if this entity can be damaged from the given origin
+	// returns true if this entity can be damaged from the given origin
 	virtual bool			CanDamage( const idVec3 &origin, idVec3 &damagePoint ) const;
-							// applies damage to this entity
+	// applies damage to this entity
 	virtual	void			Damage( idEntity *inflictor, idEntity *attacker, const idVec3 &dir, const char *damageDefName, const float damageScale, const int location );
-							// adds a damage effect like overlays, blood, sparks, debris etc.
+	// adds a damage effect like overlays, blood, sparks, debris etc.
 	virtual void			AddDamageEffect( const trace_t &collision, const idVec3 &velocity, const char *damageDefName );
-							// callback function for when another entity received damage from this entity.  damage can be adjusted and returned to the caller.
+	// callback function for when another entity received damage from this entity.  damage can be adjusted and returned to the caller.
 	virtual void			DamageFeedback( idEntity *victim, idEntity *inflictor, int &damage );
-							// notifies this entity that it is in pain
+	// notifies this entity that it is in pain
 	virtual bool			Pain( idEntity *inflictor, idEntity *attacker, int damage, const idVec3 &dir, int location );
-							// notifies this entity that is has been killed
+	// notifies this entity that is has been killed
 	virtual void			Killed( idEntity *inflictor, idEntity *attacker, int damage, const idVec3 &dir, int location );
 
 	// scripting
 	virtual bool			ShouldConstructScriptObjectAtSpawn( void ) const;
-	virtual idThread *		ConstructScriptObject( void );
+	virtual idThread 		*ConstructScriptObject( void );
 	virtual void			DeconstructScriptObject( void );
 	void					SetSignal( signalNum_t signalnum, idThread *thread, const function_t *function );
 	void					ClearSignal( idThread *thread, signalNum_t signalnum );
@@ -374,17 +374,17 @@ protected:
 
 private:
 	idPhysics_Static		defaultPhysicsObj;					// default physics object
-	idPhysics *				physics;							// physics used for this entity
-	idEntity *				bindMaster;							// entity bound to if unequal NULL
+	idPhysics 				*physics;							// physics used for this entity
+	idEntity 				*bindMaster;							// entity bound to if unequal NULL
 	jointHandle_t			bindJoint;							// joint bound to if unequal INVALID_JOINT
 	int						bindBody;							// body bound to if unequal -1
-	idEntity *				teamMaster;							// master of the physics team
-	idEntity *				teamChain;							// next entity in physics team
+	idEntity 				*teamMaster;							// master of the physics team
+	idEntity 				*teamChain;							// next entity in physics team
 
 	int						numPVSAreas;						// number of renderer areas the entity covers
 	int						PVSAreas[MAX_PVS_AREAS];			// numbers of the renderer areas the entity covers
 
-	signalList_t *			signals;
+	signalList_t 			*signals;
 
 	int						mpGUIState;							// local cache to avoid systematic SetStateInt
 
@@ -394,9 +394,9 @@ private:
 	bool					DoDormantTests( void );				// dormant == on the active list, but out of PVS
 
 	// physics
-							// initialize the default physics
+	// initialize the default physics
 	void					InitDefaultPhysics( const idVec3 &origin, const idMat3 &axis );
-							// update visual position from the physics
+	// update visual position from the physics
 	void					UpdateFromPhysics( bool moveBack );
 
 	// entity binding
@@ -472,11 +472,11 @@ private:
 	void					Event_CallFunction( const char *name );
 	void					Event_SetNeverDormant( int enable );
 #ifdef _D3XP
-	void					Event_SetGui( int guiNum, const char *guiName);
+	void					Event_SetGui( int guiNum, const char *guiName );
 	void					Event_PrecacheGui( const char *guiName );
-	void					Event_GetGuiParm(int guiNum, const char *key);
-	void					Event_GetGuiParmFloat(int guiNum, const char *key);
-	void					Event_GuiNamedEvent(int guiNum, const char *event);
+	void					Event_GetGuiParm( int guiNum, const char *key );
+	void					Event_GetGuiParmFloat( int guiNum, const char *key );
+	void					Event_GuiNamedEvent( int guiNum, const char *event );
 #endif
 };
 
@@ -484,7 +484,7 @@ private:
 ===============================================================================
 
 	Animated entity base class.
-	
+
 ===============================================================================
 */
 
@@ -493,16 +493,16 @@ typedef struct damageEffect_s {
 	idVec3					localOrigin;
 	idVec3					localNormal;
 	int						time;
-	const idDeclParticle*	type;
-	struct damageEffect_s *	next;
+	const idDeclParticle	*type;
+	struct damageEffect_s 	*next;
 } damageEffect_t;
 
 class idAnimatedEntity : public idEntity {
 public:
 	CLASS_PROTOTYPE( idAnimatedEntity );
 
-							idAnimatedEntity();
-							~idAnimatedEntity();
+	idAnimatedEntity();
+	~idAnimatedEntity();
 
 	void					Save( idSaveGame *savefile ) const;
 	void					Restore( idRestoreGame *savefile );
@@ -512,7 +512,7 @@ public:
 
 	void					UpdateAnimation( void );
 
-	virtual idAnimator *	GetAnimator( void );
+	virtual idAnimator 	*GetAnimator( void );
 	virtual void			SetModel( const char *modelname );
 
 	bool					GetJointWorldTransform( jointHandle_t jointHandle, int currentTime, idVec3 &offset, idMat3 &axis );
@@ -532,7 +532,7 @@ public:
 
 protected:
 	idAnimator				animator;
-	damageEffect_t *		damageEffects;
+	damageEffect_t 		*damageEffects;
 
 private:
 	void					Event_GetJointHandle( const char *jointname );
@@ -552,9 +552,9 @@ class SetTimeState {
 	bool					fast;
 
 public:
-							SetTimeState();
-							SetTimeState( int timeGroup );
-							~SetTimeState();
+	SetTimeState();
+	SetTimeState( int timeGroup );
+	~SetTimeState();
 
 	void					PushState( int timeGroup );
 };
@@ -578,24 +578,21 @@ ID_INLINE void SetTimeState::PushState( int timeGroup ) {
 		// determine previous fast setting
 		if ( gameLocal.time == gameLocal.slow.time ) {
 			previousFast = false;
-		}
-		else {
+		} else {
 			previousFast = true;
 		}
 
 		// determine new fast setting
 		if ( timeGroup ) {
 			fast = true;
-		}
-		else {
+		} else {
 			fast = false;
 		}
 
 		// set correct time
 		if ( fast ) {
 			gameLocal.fast.Get( gameLocal.time, gameLocal.previousTime, gameLocal.msec, gameLocal.framenum, gameLocal.realClientTime );
-		}
-		else {
+		} else {
 			gameLocal.slow.Get( gameLocal.time, gameLocal.previousTime, gameLocal.msec, gameLocal.framenum, gameLocal.realClientTime );
 		}
 	}
@@ -606,8 +603,7 @@ ID_INLINE SetTimeState::~SetTimeState() {
 		// set previous correct time
 		if ( previousFast ) {
 			gameLocal.fast.Get( gameLocal.time, gameLocal.previousTime, gameLocal.msec, gameLocal.framenum, gameLocal.realClientTime );
-		}
-		else {
+		} else {
 			gameLocal.slow.Get( gameLocal.time, gameLocal.previousTime, gameLocal.msec, gameLocal.framenum, gameLocal.realClientTime );
 		}
 	}

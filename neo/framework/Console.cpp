@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -29,8 +29,8 @@ If you have questions concerning this license or the applicable additional terms
 #include "../idlib/precompiled.h"
 #pragma hdrstop
 
-void SCR_DrawTextLeftAlign( float &y, const char *text, ... ) id_attribute((format(printf,2,3)));
-void SCR_DrawTextRightAlign( float &y, const char *text, ... ) id_attribute((format(printf,2,3)));
+void SCR_DrawTextLeftAlign( float &y, const char *text, ... ) id_attribute( ( format( printf, 2, 3 ) ) );
+void SCR_DrawTextRightAlign( float &y, const char *text, ... ) id_attribute( ( format( printf, 2, 3 ) ) );
 
 #define	LINE_WIDTH				78
 #define	NUM_CON_TIMES			4
@@ -61,7 +61,7 @@ public:
 
 	//============================
 
-	const idMaterial *	charSetShader;
+	const idMaterial 	*charSetShader;
 
 private:
 	void				KeyDownEvent( int key );
@@ -99,14 +99,14 @@ private:
 	int					vislines;		// in scanlines
 
 	int					times[NUM_CON_TIMES];	// cls.realtime time the line was generated
-									// for transparent notify lines
+	// for transparent notify lines
 	idVec4				color;
 
 	idEditField			historyEditLines[COMMAND_HISTORY];
 
 	int					nextHistoryLine;// the last line in the history buffer, not masked
 	int					historyLine;	// the line being displayed from history buffer
-									// will be <= nextHistoryLine
+	// will be <= nextHistoryLine
 
 	idEditField			consoleField;
 
@@ -114,8 +114,8 @@ private:
 	static idCVar		con_notifyTime;
 	static idCVar		con_noPrint;
 
-	const idMaterial *	whiteShader;
-	const idMaterial *	consoleShader;
+	const idMaterial 	*whiteShader;
+	const idMaterial 	*consoleShader;
 };
 
 static idConsoleLocal localConsole;
@@ -124,9 +124,9 @@ idConsole	*console = &localConsole;
 idCVar idConsoleLocal::con_speed( "con_speed", "3", CVAR_SYSTEM, "speed at which the console moves up and down" );
 idCVar idConsoleLocal::con_notifyTime( "con_notifyTime", "3", CVAR_SYSTEM, "time messages are displayed onscreen when console is pulled up" );
 #ifdef DEBUG
-idCVar idConsoleLocal::con_noPrint( "con_noPrint", "0", CVAR_BOOL|CVAR_SYSTEM|CVAR_NOCHEAT, "print on the console but not onscreen when console is pulled up" );
+idCVar idConsoleLocal::con_noPrint( "con_noPrint", "0", CVAR_BOOL | CVAR_SYSTEM | CVAR_NOCHEAT, "print on the console but not onscreen when console is pulled up" );
 #else
-idCVar idConsoleLocal::con_noPrint( "con_noPrint", "1", CVAR_BOOL|CVAR_SYSTEM|CVAR_NOCHEAT, "print on the console but not onscreen when console is pulled up" );
+idCVar idConsoleLocal::con_noPrint( "con_noPrint", "1", CVAR_BOOL | CVAR_SYSTEM | CVAR_NOCHEAT, "print on the console but not onscreen when console is pulled up" );
 #endif
 
 
@@ -206,12 +206,12 @@ float SCR_DrawFPS( float y ) {
 			total = 1;
 		}
 		fps = 10000 * FPS_FRAMES / total;
-		fps = (fps + 5)/10;
+		fps = ( fps + 5 ) / 10;
 
 		s = va( "%ifps", fps );
 		w = strlen( s ) * BIGCHAR_WIDTH;
 
-		renderSystem->DrawBigStringExt( 635 - w, idMath::FtoiFast( y ) + 2, s, colorWhite, true, localConsole.charSetShader);
+		renderSystem->DrawBigStringExt( 635 - w, idMath::FtoiFast( y ) + 2, s, colorWhite, true, localConsole.charSetShader );
 	}
 
 	return y + BIGCHAR_HEIGHT + 4;
@@ -224,12 +224,12 @@ SCR_DrawMemoryUsage
 */
 float SCR_DrawMemoryUsage( float y ) {
 	memoryStats_t allocs, frees;
-	
+
 	Mem_GetStats( allocs );
-	SCR_DrawTextRightAlign( y, "total allocated memory: %4d, %4dkB", allocs.num, allocs.totalSize>>10 );
+	SCR_DrawTextRightAlign( y, "total allocated memory: %4d, %4dkB", allocs.num, allocs.totalSize >> 10 );
 
 	Mem_GetFrameStats( allocs, frees );
-	SCR_DrawTextRightAlign( y, "frame alloc: %4d, %4dkB  frame free: %4d, %4dkB", allocs.num, allocs.totalSize>>10, frees.num, frees.totalSize>>10 );
+	SCR_DrawTextRightAlign( y, "frame alloc: %4d, %4dkB  frame free: %4d, %4dkB", allocs.num, allocs.totalSize >> 10, frees.num, frees.totalSize >> 10 );
 
 	Mem_ClearFrameStats();
 
@@ -260,7 +260,7 @@ float SCR_DrawAsyncStats( float y ) {
 
 			if ( outgoingRate != -1 && incomingRate != -1 ) {
 				SCR_DrawTextRightAlign( y, "client %d: out rate = %d B/s (% -2.1f%%), in rate = %d B/s (% -2.1f%%)",
-											i, outgoingRate, outgoingCompression, incomingRate, incomingCompression );
+										i, outgoingRate, outgoingCompression, incomingRate, incomingCompression );
 			}
 		}
 
@@ -277,11 +277,11 @@ float SCR_DrawAsyncStats( float y ) {
 
 		if ( outgoingRate != -1 && incomingRate != -1 ) {
 			SCR_DrawTextRightAlign( y, "out rate = %d B/s (% -2.1f%%), in rate = %d B/s (% -2.1f%%)",
-										outgoingRate, outgoingCompression, incomingRate, incomingCompression );
+									outgoingRate, outgoingCompression, incomingRate, incomingCompression );
 		}
 
 		SCR_DrawTextRightAlign( y, "packet loss = %d%%, client prediction = %d",
-									(int)idAsyncNetwork::client.GetIncomingPacketLoss(), idAsyncNetwork::client.GetPrediction() );
+								( int )idAsyncNetwork::client.GetIncomingPacketLoss(), idAsyncNetwork::client.GetPrediction() );
 
 		SCR_DrawTextRightAlign( y, "predicted frames: %d", idAsyncNetwork::client.GetPredictedFrames() );
 
@@ -301,7 +301,7 @@ float SCR_DrawSoundDecoders( float y ) {
 
 	index = -1;
 	numActiveDecoders = 0;
-	while( ( index = soundSystem->GetSoundDecoderInfo( index, decoderInfo ) ) != -1 ) {
+	while ( ( index = soundSystem->GetSoundDecoderInfo( index, decoderInfo ) ) != -1 ) {
 		int localTime = decoderInfo.current44kHzTime - decoderInfo.start44kHzTime;
 		int sampleTime = decoderInfo.num44kHzSamples / decoderInfo.numChannels;
 		int percent;
@@ -342,8 +342,8 @@ static void Con_Dump_f( const idCmdArgs &args ) {
 		return;
 	}
 
-	idStr fileName = args.Argv(1);
-	fileName.DefaultFileExtension(".txt");
+	idStr fileName = args.Argv( 1 );
+	fileName.DefaultFileExtension( ".txt" );
 
 	common->Printf( "Dumped console text to %s.\n", fileName.c_str() );
 
@@ -443,7 +443,7 @@ void idConsoleLocal::Clear() {
 	int		i;
 
 	for ( i = 0 ; i < CON_TEXTSIZE ; i++ ) {
-		text[i] = (idStr::ColorIndex(C_COLOR_CYAN)<<8) | ' ';
+		text[i] = ( idStr::ColorIndex( C_COLOR_CYAN ) << 8 ) | ' ';
 	}
 
 	Bottom();		// go to end
@@ -458,7 +458,7 @@ Save the console contents out to a file
 */
 void idConsoleLocal::Dump( const char *fileName ) {
 	int		l, x, i;
-	short *	line;
+	short 	*line;
 	idFile *f;
 	char	buffer[LINE_WIDTH + 3];
 
@@ -473,8 +473,7 @@ void idConsoleLocal::Dump( const char *fileName ) {
 	if ( l < 0 ) {
 		l = 0;
 	}
-	for ( ; l <= current ; l++ )
-	{
+	for ( ; l <= current ; l++ ) {
 		line = text + ( l % TOTAL_LINES ) * LINE_WIDTH;
 		for ( x = 0; x < LINE_WIDTH; x++ )
 			if ( ( line[x] & 0xff ) > ' ' )
@@ -486,19 +485,19 @@ void idConsoleLocal::Dump( const char *fileName ) {
 	// write the remaining lines
 	for ( ; l <= current; l++ ) {
 		line = text + ( l % TOTAL_LINES ) * LINE_WIDTH;
-		for( i = 0; i < LINE_WIDTH; i++ ) {
+		for ( i = 0; i < LINE_WIDTH; i++ ) {
 			buffer[i] = line[i] & 0xff;
 		}
-		for ( x = LINE_WIDTH-1; x >= 0; x-- ) {
+		for ( x = LINE_WIDTH - 1; x >= 0; x-- ) {
 			if ( buffer[x] <= ' ' ) {
 				buffer[x] = 0;
 			} else {
 				break;
 			}
 		}
-		buffer[x+1] = '\r';
-		buffer[x+2] = '\n';
-		buffer[x+3] = 0;
+		buffer[x + 1] = '\r';
+		buffer[x + 2] = '\n';
+		buffer[x + 3] = 0;
 		f->Write( buffer, strlen( buffer ) );
 	}
 
@@ -564,7 +563,7 @@ Handles history and console scrollback
 ====================
 */
 void idConsoleLocal::KeyDownEvent( int key ) {
-	
+
 	// Execute F key bindings
 	if ( key >= K_F1 && key <= K_F12 ) {
 		idKeyInput::ExecKeyBinding( key );
@@ -580,7 +579,7 @@ void idConsoleLocal::KeyDownEvent( int key ) {
 	// enter finishes the line
 	if ( key == K_ENTER || key == K_KP_ENTER ) {
 
-		common->Printf ( "]%s\n", consoleField.GetBuffer() );
+		common->Printf( "]%s\n", consoleField.GetBuffer() );
 
 		cmdSystem->BufferCommandText( CMD_EXEC_APPEND, consoleField.GetBuffer() );	// valid command
 		cmdSystem->BufferCommandText( CMD_EXEC_APPEND, "\n" );
@@ -594,7 +593,7 @@ void idConsoleLocal::KeyDownEvent( int key ) {
 		consoleField.SetWidthInChars( LINE_WIDTH );
 
 		session->UpdateScreen();// force an update, because the command
-								// may take some time
+		// may take some time
 		return;
 	}
 
@@ -608,7 +607,7 @@ void idConsoleLocal::KeyDownEvent( int key ) {
 	// command history (ctrl-p ctrl-n for unix style)
 
 	if ( ( key == K_UPARROW ) ||
-		 ( ( tolower(key) == 'p' ) && idKeyInput::IsDown( K_CTRL ) ) ) {
+			( ( tolower( key ) == 'p' ) && idKeyInput::IsDown( K_CTRL ) ) ) {
 		if ( nextHistoryLine - historyLine < COMMAND_HISTORY && historyLine > 0 ) {
 			historyLine--;
 		}
@@ -617,7 +616,7 @@ void idConsoleLocal::KeyDownEvent( int key ) {
 	}
 
 	if ( ( key == K_DOWNARROW ) ||
-		 ( ( tolower( key ) == 'n' ) && idKeyInput::IsDown( K_CTRL ) ) ) {
+			( ( tolower( key ) == 'n' ) && idKeyInput::IsDown( K_CTRL ) ) ) {
 		if ( historyLine == nextHistoryLine ) {
 			return;
 		}
@@ -674,7 +673,7 @@ deals with scrolling text because we don't have key repeat
 ==============
 */
 void idConsoleLocal::Scroll( ) {
-	if (lastKeyEvent == -1 || (lastKeyEvent+200) > eventLoop->Milliseconds()) {
+	if ( lastKeyEvent == -1 || ( lastKeyEvent + 200 ) > eventLoop->Milliseconds() ) {
 		return;
 	}
 	// console scrolling
@@ -834,7 +833,7 @@ void idConsoleLocal::Linefeed() {
 	}
 	current++;
 	for ( i = 0; i < LINE_WIDTH; i++ ) {
-		text[(current%TOTAL_LINES)*LINE_WIDTH+i] = (idStr::ColorIndex(C_COLOR_CYAN)<<8) | ' ';
+		text[( current % TOTAL_LINES )*LINE_WIDTH + i] = ( idStr::ColorIndex( C_COLOR_CYAN ) << 8 ) | ' ';
 	}
 }
 
@@ -854,19 +853,19 @@ void idConsoleLocal::Print( const char *txt ) {
 #ifdef ID_ALLOW_TOOLS
 	RadiantPrint( txt );
 
-	if( com_editors & EDITOR_MATERIAL ) {
-		MaterialEditorPrintConsole(txt);
+	if ( com_editors & EDITOR_MATERIAL ) {
+		MaterialEditorPrintConsole( txt );
 	}
 #endif
 
 	color = idStr::ColorIndex( C_COLOR_CYAN );
 
-	while ( (c = *(const unsigned char*)txt) != 0 ) {
+	while ( ( c = *( const unsigned char * )txt ) != 0 ) {
 		if ( idStr::IsColor( txt ) ) {
-			if ( *(txt+1) == C_COLOR_DEFAULT ) {
+			if ( *( txt + 1 ) == C_COLOR_DEFAULT ) {
 				color = idStr::ColorIndex( C_COLOR_CYAN );
 			} else {
-				color = idStr::ColorIndex( *(txt+1) );
+				color = idStr::ColorIndex( *( txt + 1 ) );
 			}
 			txt += 2;
 			continue;
@@ -876,29 +875,29 @@ void idConsoleLocal::Print( const char *txt ) {
 
 		// if we are about to print a new word, check to see
 		// if we should wrap to the new line
-		if ( c > ' ' && ( x == 0 || text[y*LINE_WIDTH+x-1] <= ' ' ) ) {
+		if ( c > ' ' && ( x == 0 || text[y * LINE_WIDTH + x - 1] <= ' ' ) ) {
 			// count word length
-			for (l=0 ; l< LINE_WIDTH ; l++) {
-				if ( txt[l] <= ' ') {
+			for ( l = 0 ; l < LINE_WIDTH ; l++ ) {
+				if ( txt[l] <= ' ' ) {
 					break;
 				}
 			}
 
 			// word wrap
-			if (l != LINE_WIDTH && (x + l >= LINE_WIDTH) ) {
+			if ( l != LINE_WIDTH && ( x + l >= LINE_WIDTH ) ) {
 				Linefeed();
 			}
 		}
 
 		txt++;
 
-		switch( c ) {
+		switch ( c ) {
 			case '\n':
-				Linefeed ();
+				Linefeed();
 				break;
 			case '\t':
 				do {
-					text[y*LINE_WIDTH+x] = (color << 8) | ' ';
+					text[y * LINE_WIDTH + x] = ( color << 8 ) | ' ';
 					x++;
 					if ( x >= LINE_WIDTH ) {
 						Linefeed();
@@ -910,7 +909,7 @@ void idConsoleLocal::Print( const char *txt ) {
 				x = 0;
 				break;
 			default:	// display character and advance
-				text[y*LINE_WIDTH+x] = (color << 8) | c;
+				text[y * LINE_WIDTH + x] = ( color << 8 ) | c;
 				x++;
 				if ( x >= LINE_WIDTH ) {
 					Linefeed();
@@ -956,7 +955,7 @@ void idConsoleLocal::DrawInput() {
 			renderSystem->SetColor4( .8f, .2f, .2f, .45f );
 
 			renderSystem->DrawStretchPic( 2 * SMALLCHAR_WIDTH + consoleField.GetAutoCompleteLength() * SMALLCHAR_WIDTH,
-							y + 2, autoCompleteLength * SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT - 2, 0, 0, 0, 0, whiteShader );
+										  y + 2, autoCompleteLength * SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT - 2, 0, 0, 0, 0, whiteShader );
 
 		}
 	}
@@ -965,7 +964,7 @@ void idConsoleLocal::DrawInput() {
 
 	renderSystem->DrawSmallChar( 1 * SMALLCHAR_WIDTH, y, ']', localConsole.charSetShader );
 
-	consoleField.Draw(2 * SMALLCHAR_WIDTH, y, SCREEN_WIDTH - 3 * SMALLCHAR_WIDTH, true, charSetShader );
+	consoleField.Draw( 2 * SMALLCHAR_WIDTH, y, SCREEN_WIDTH - 3 * SMALLCHAR_WIDTH, true, charSetShader );
 }
 
 
@@ -991,7 +990,7 @@ void idConsoleLocal::DrawNotify() {
 	renderSystem->SetColor( idStr::ColorForIndex( currentColor ) );
 
 	v = 0;
-	for ( i = current-NUM_CON_TIMES+1; i <= current; i++ ) {
+	for ( i = current - NUM_CON_TIMES + 1; i <= current; i++ ) {
 		if ( i < 0 ) {
 			continue;
 		}
@@ -1003,17 +1002,17 @@ void idConsoleLocal::DrawNotify() {
 		if ( time > con_notifyTime.GetFloat() * 1000 ) {
 			continue;
 		}
-		text_p = text + (i % TOTAL_LINES)*LINE_WIDTH;
-		
+		text_p = text + ( i % TOTAL_LINES ) * LINE_WIDTH;
+
 		for ( x = 0; x < LINE_WIDTH; x++ ) {
 			if ( ( text_p[x] & 0xff ) == ' ' ) {
 				continue;
 			}
-			if ( idStr::ColorIndex(text_p[x]>>8) != currentColor ) {
-				currentColor = idStr::ColorIndex(text_p[x]>>8);
+			if ( idStr::ColorIndex( text_p[x] >> 8 ) != currentColor ) {
+				currentColor = idStr::ColorIndex( text_p[x] >> 8 );
 				renderSystem->SetColor( idStr::ColorForIndex( currentColor ) );
 			}
-			renderSystem->DrawSmallChar( (x+1)*SMALLCHAR_WIDTH, v, text_p[x] & 0xff, localConsole.charSetShader );
+			renderSystem->DrawSmallChar( ( x + 1 )*SMALLCHAR_WIDTH, v, text_p[x] & 0xff, localConsole.charSetShader );
 		}
 
 		v += SMALLCHAR_HEIGHT;
@@ -1063,33 +1062,33 @@ void idConsoleLocal::DrawSolidConsole( float frac ) {
 
 	renderSystem->SetColor( idStr::ColorForIndex( C_COLOR_CYAN ) );
 
-	idStr version = va("%s.%i", ENGINE_VERSION, BUILD_NUMBER);
+	idStr version = va( "%s.%i", ENGINE_VERSION, BUILD_NUMBER );
 	i = version.Length();
 
 	for ( x = 0; x < i; x++ ) {
-		renderSystem->DrawSmallChar( SCREEN_WIDTH - ( i - x ) * SMALLCHAR_WIDTH, 
-			(lines-(SMALLCHAR_HEIGHT+SMALLCHAR_HEIGHT/2)), version[x], localConsole.charSetShader );
+		renderSystem->DrawSmallChar( SCREEN_WIDTH - ( i - x ) * SMALLCHAR_WIDTH,
+									 ( lines - ( SMALLCHAR_HEIGHT + SMALLCHAR_HEIGHT / 2 ) ), version[x], localConsole.charSetShader );
 
 	}
 
 
 	// draw the text
 	vislines = lines;
-	rows = (lines-SMALLCHAR_WIDTH)/SMALLCHAR_WIDTH;		// rows of text to draw
+	rows = ( lines - SMALLCHAR_WIDTH ) / SMALLCHAR_WIDTH;		// rows of text to draw
 
-	y = lines - (SMALLCHAR_HEIGHT*3);
+	y = lines - ( SMALLCHAR_HEIGHT * 3 );
 
 	// draw from the bottom up
 	if ( display != current ) {
 		// draw arrows to show the buffer is backscrolled
 		renderSystem->SetColor( idStr::ColorForIndex( C_COLOR_CYAN ) );
 		for ( x = 0; x < LINE_WIDTH; x += 4 ) {
-			renderSystem->DrawSmallChar( (x+1)*SMALLCHAR_WIDTH, idMath::FtoiFast( y ), '^', localConsole.charSetShader );
+			renderSystem->DrawSmallChar( ( x + 1 )*SMALLCHAR_WIDTH, idMath::FtoiFast( y ), '^', localConsole.charSetShader );
 		}
 		y -= SMALLCHAR_HEIGHT;
 		rows--;
 	}
-	
+
 	row = display;
 
 	if ( x == 0 ) {
@@ -1105,21 +1104,21 @@ void idConsoleLocal::DrawSolidConsole( float frac ) {
 		}
 		if ( current - row >= TOTAL_LINES ) {
 			// past scrollback wrap point
-			continue;	
+			continue;
 		}
 
-		text_p = text + (row % TOTAL_LINES)*LINE_WIDTH;
+		text_p = text + ( row % TOTAL_LINES ) * LINE_WIDTH;
 
 		for ( x = 0; x < LINE_WIDTH; x++ ) {
 			if ( ( text_p[x] & 0xff ) == ' ' ) {
 				continue;
 			}
 
-			if ( idStr::ColorIndex(text_p[x]>>8) != currentColor ) {
-				currentColor = idStr::ColorIndex(text_p[x]>>8);
+			if ( idStr::ColorIndex( text_p[x] >> 8 ) != currentColor ) {
+				currentColor = idStr::ColorIndex( text_p[x] >> 8 );
 				renderSystem->SetColor( idStr::ColorForIndex( currentColor ) );
 			}
-			renderSystem->DrawSmallChar( (x+1)*SMALLCHAR_WIDTH, idMath::FtoiFast( y ), text_p[x] & 0xff, localConsole.charSetShader );
+			renderSystem->DrawSmallChar( ( x + 1 )*SMALLCHAR_WIDTH, idMath::FtoiFast( y ), text_p[x] & 0xff, localConsole.charSetShader );
 		}
 	}
 
@@ -1145,7 +1144,7 @@ void	idConsoleLocal::Draw( bool forceFullScreen ) {
 	}
 
 	if ( forceFullScreen ) {
-		// if we are forced full screen because of a disconnect, 
+		// if we are forced full screen because of a disconnect,
 		// we want the console closed when we go back to a session state
 		Close();
 		// we are however catching keyboard input

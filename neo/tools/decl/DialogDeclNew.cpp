@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -53,18 +53,17 @@ toolTip_t DialogDeclNew::toolTips[] = {
 };
 
 
-IMPLEMENT_DYNAMIC(DialogDeclNew, CDialog)
+IMPLEMENT_DYNAMIC( DialogDeclNew, CDialog )
 
 /*
 ================
 DialogDeclNew::DialogDeclNew
 ================
 */
-DialogDeclNew::DialogDeclNew( CWnd* pParent /*=NULL*/ )
-	: CDialog(DialogDeclNew::IDD, pParent)
-	, declTree(NULL)
-	, newDecl(NULL)
-{
+DialogDeclNew::DialogDeclNew( CWnd *pParent /*=NULL*/ )
+	: CDialog( DialogDeclNew::IDD, pParent )
+	, declTree( NULL )
+	, newDecl( NULL ) {
 }
 
 /*
@@ -80,15 +79,15 @@ DialogDeclNew::~DialogDeclNew() {
 DialogDeclNew::DoDataExchange
 ================
 */
-void DialogDeclNew::DoDataExchange(CDataExchange* pDX) {
-	CDialog::DoDataExchange(pDX);
+void DialogDeclNew::DoDataExchange( CDataExchange *pDX ) {
+	CDialog::DoDataExchange( pDX );
 	//{{AFX_DATA_MAP(DialogDeclNew)
-	DDX_Control(pDX, IDC_DECLNEW_COMBO_NEW_TYPE, typeList);
-	DDX_Control(pDX, IDC_DECLNEW_EDIT_NEW_NAME, nameEdit);
-	DDX_Control(pDX, IDC_DECLNEW_EDIT_NEW_FILE, fileEdit);
-	DDX_Control(pDX, IDC_DECLNEW_BUTTON_NEW_FILE, fileButton);
-	DDX_Control(pDX, IDOK, okButton);
-	DDX_Control(pDX, IDCANCEL, cancelButton);
+	DDX_Control( pDX, IDC_DECLNEW_COMBO_NEW_TYPE, typeList );
+	DDX_Control( pDX, IDC_DECLNEW_EDIT_NEW_NAME, nameEdit );
+	DDX_Control( pDX, IDC_DECLNEW_EDIT_NEW_FILE, fileEdit );
+	DDX_Control( pDX, IDC_DECLNEW_BUTTON_NEW_FILE, fileButton );
+	DDX_Control( pDX, IDOK, okButton );
+	DDX_Control( pDX, IDCANCEL, cancelButton );
 	//}}AFX_DATA_MAP
 }
 
@@ -102,7 +101,7 @@ void DialogDeclNew::InitTypeList( void ) {
 
 	typeList.ResetContent();
 	for ( i = 0; i < declManager->GetNumDeclTypes(); i++ ) {
-		typeList.AddString( declManager->GetDeclNameFromType( (declType_t)i ) );
+		typeList.AddString( declManager->GetDeclNameFromType( ( declType_t )i ) );
 	}
 }
 
@@ -124,19 +123,19 @@ BOOL DialogDeclNew::OnInitDialog()  {
 	EnableToolTips( TRUE );
 
 	return TRUE;  // return TRUE unless you set the focus to a control
-	              // EXCEPTION: OCX Property Pages should return FALSE
+	// EXCEPTION: OCX Property Pages should return FALSE
 }
 
 
-BEGIN_MESSAGE_MAP(DialogDeclNew, CDialog)
-	ON_NOTIFY_EX_RANGE(TTN_NEEDTEXTW, 0, 0xFFFF, OnToolTipNotify)
-	ON_NOTIFY_EX_RANGE(TTN_NEEDTEXTA, 0, 0xFFFF, OnToolTipNotify)
+BEGIN_MESSAGE_MAP( DialogDeclNew, CDialog )
+	ON_NOTIFY_EX_RANGE( TTN_NEEDTEXTW, 0, 0xFFFF, OnToolTipNotify )
+	ON_NOTIFY_EX_RANGE( TTN_NEEDTEXTA, 0, 0xFFFF, OnToolTipNotify )
 	ON_WM_DESTROY()
 	ON_WM_ACTIVATE()
 	ON_WM_SETFOCUS()
-	ON_BN_CLICKED(IDC_DECLNEW_BUTTON_NEW_FILE, OnBnClickedFile)
-	ON_BN_CLICKED(IDOK, OnBnClickedOk)
-	ON_BN_CLICKED(IDCANCEL, OnBnClickedCancel)
+	ON_BN_CLICKED( IDC_DECLNEW_BUTTON_NEW_FILE, OnBnClickedFile )
+	ON_BN_CLICKED( IDOK, OnBnClickedOk )
+	ON_BN_CLICKED( IDCANCEL, OnBnClickedCancel )
 END_MESSAGE_MAP()
 
 
@@ -199,17 +198,47 @@ void DialogDeclNew::OnBnClickedFile() {
 		return;
 	}
 
-	switch( type ) {
-		case DECL_TABLE:		folder = "materials";	ext = "(*.mtr)|*.mtr|(*.*)|*.*||";					break;
-		case DECL_MATERIAL:		folder = "materials";	ext = "(*.mtr)|*.mtr|(*.*)|*.*||";					break;
-		case DECL_SKIN:			folder = "skins";		ext = "(*.skin)|*.skin|(*.*)|*.*||";				break;
-		case DECL_SOUND:		folder = "sound";		ext = "(*.sndshd|*.sndshd|(*.*)|*.*||";				break;
-		case DECL_ENTITYDEF:	folder = "def";			ext = "(*.def)|*.def|(*.decl)|*.decl|(*.*)|*.*||";	break;
-		case DECL_MODELDEF:		folder = "def";			ext = "(*.def)|*.def|(*.*)|*.*||";					break;
-		case DECL_FX:			folder = "fx";			ext = "(*.fx)|*.fx|(*.*)|*.*||";					break;
-		case DECL_PARTICLE:		folder = "particles";	ext = "(*.prt)|*.prt|(*.*)|*.*||";					break;
-		case DECL_AF:			folder = "af";			ext = "(*.af)|*.af|(*.*)|*.*||";					break;
-		default:				folder = "def";			ext = "(*.decl)|*.decl|(*.*)|*.*||";				break;
+	switch ( type ) {
+		case DECL_TABLE:
+			folder = "materials";
+			ext = "(*.mtr)|*.mtr|(*.*)|*.*||";
+			break;
+		case DECL_MATERIAL:
+			folder = "materials";
+			ext = "(*.mtr)|*.mtr|(*.*)|*.*||";
+			break;
+		case DECL_SKIN:
+			folder = "skins";
+			ext = "(*.skin)|*.skin|(*.*)|*.*||";
+			break;
+		case DECL_SOUND:
+			folder = "sound";
+			ext = "(*.sndshd|*.sndshd|(*.*)|*.*||";
+			break;
+		case DECL_ENTITYDEF:
+			folder = "def";
+			ext = "(*.def)|*.def|(*.decl)|*.decl|(*.*)|*.*||";
+			break;
+		case DECL_MODELDEF:
+			folder = "def";
+			ext = "(*.def)|*.def|(*.*)|*.*||";
+			break;
+		case DECL_FX:
+			folder = "fx";
+			ext = "(*.fx)|*.fx|(*.*)|*.*||";
+			break;
+		case DECL_PARTICLE:
+			folder = "particles";
+			ext = "(*.prt)|*.prt|(*.*)|*.*||";
+			break;
+		case DECL_AF:
+			folder = "af";
+			ext = "(*.af)|*.af|(*.*)|*.*||";
+			break;
+		default:
+			folder = "def";
+			ext = "(*.decl)|*.decl|(*.*)|*.*||";
+			break;
 	}
 
 	path = fileSystem->RelativePathToOSPath( folder );

@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -380,7 +380,7 @@ bool idMsgChannel::ReadMessageData( idBitMsg &out, const idBitMsg &msg ) {
 	reliableAcknowledge = out.ReadLong();
 
 	// remove acknowledged reliable messages
-	while( reliableSend.GetFirst() <= reliableAcknowledge ) {
+	while ( reliableSend.GetFirst() <= reliableAcknowledge ) {
 		if ( !reliableSend.Get( NULL, reliableMessageSize ) ) {
 			break;
 		}
@@ -388,7 +388,7 @@ bool idMsgChannel::ReadMessageData( idBitMsg &out, const idBitMsg &msg ) {
 
 	// read reliable messages
 	reliableMessageSize = out.ReadShort();
-	while( reliableMessageSize != 0 ) {
+	while ( reliableMessageSize != 0 ) {
 		if ( reliableMessageSize <= 0 || reliableMessageSize > out.GetSize() - out.GetReadCount() ) {
 			common->Printf( "%s: bad reliable message\n", Sys_NetAdrToString( remoteAddress ) );
 			return false;
@@ -593,7 +593,7 @@ bool idMsgChannel::Process( const netadr_t from, int time, idBitMsg &msg, int &s
 	//
 	// dropped packets don't keep this message from being used
 	//
-	dropped = sequence - (incomingSequence+1);
+	dropped = sequence - ( incomingSequence + 1 );
 	if ( dropped > 0 ) {
 		if ( net_channelShowDrop.GetBool() || net_channelShowPackets.GetBool() ) {
 			common->Printf( "%s: dropped %i packets at %i\n", Sys_NetAdrToString( remoteAddress ), dropped, sequence );

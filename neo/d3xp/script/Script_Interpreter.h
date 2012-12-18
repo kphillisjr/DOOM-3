@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -80,7 +80,7 @@ public:
 	bool				terminateOnExit;
 	bool				debug;
 
-						idInterpreter();
+	idInterpreter();
 
 	// save games
 	void				Save( idSaveGame *savefile ) const;				// archives object for save game file
@@ -93,8 +93,8 @@ public:
 	int					CurrentLine( void ) const;
 	const char			*CurrentFile( void ) const;
 
-	void				Error( char *fmt, ... ) const id_attribute((format(printf,2,3)));
-	void				Warning( char *fmt, ... ) const id_attribute((format(printf,2,3)));
+	void				Error( char *fmt, ... ) const id_attribute( ( format( printf, 2, 3 ) ) );
+	void				Warning( char *fmt, ... ) const id_attribute( ( format( printf, 2, 3 ) ) );
 	void				DisplayInfo( void ) const;
 
 	bool				BeginMultiFrameEvent( idEntity *ent, const idEventDef *event );
@@ -231,7 +231,7 @@ ID_INLINE varEval_t idInterpreter::GetVariable( idVarDef *def ) {
 idInterpreter::GetEntity
 ================
 */
-ID_INLINE idEntity *idInterpreter::GetEntity( int entnum ) const{
+ID_INLINE idEntity *idInterpreter::GetEntity( int entnum ) const {
 	assert( entnum <= MAX_GENTITIES );
 	if ( ( entnum > 0 ) && ( entnum <= MAX_GENTITIES ) ) {
 		return gameLocal.entities[ entnum - 1 ];

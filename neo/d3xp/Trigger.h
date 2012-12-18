@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -46,10 +46,10 @@ public:
 
 	static void			DrawDebugInfo( void );
 
-						idTrigger();
+	idTrigger();
 	void				Spawn( void );
 
-	const function_t *	GetScriptFunction( void ) const;
+	const function_t 	*GetScriptFunction( void ) const;
 
 	void				Save( idSaveGame *savefile ) const;
 	void				Restore( idRestoreGame *savefile );
@@ -63,7 +63,7 @@ protected:
 	void				Event_Enable( void );
 	void				Event_Disable( void );
 
-	const function_t *	scriptFunction;
+	const function_t 	*scriptFunction;
 };
 
 
@@ -79,18 +79,18 @@ class idTrigger_Multi : public idTrigger {
 public:
 	CLASS_PROTOTYPE( idTrigger_Multi );
 
-						idTrigger_Multi( void );
+	idTrigger_Multi( void );
 
 	void				Spawn( void );
 
 	void				Save( idSaveGame *savefile ) const;
 	void				Restore( idRestoreGame *savefile );
 
-#ifdef CTF    
+#ifdef CTF
 protected:
 #else
 private:
-#endif    
+#endif
 
 	float				wait;
 	float				random;
@@ -124,7 +124,7 @@ class idTrigger_EntityName : public idTrigger {
 public:
 	CLASS_PROTOTYPE( idTrigger_EntityName );
 
-						idTrigger_EntityName( void );
+	idTrigger_EntityName( void );
 
 	void				Save( idSaveGame *savefile ) const;
 	void				Restore( idRestoreGame *savefile );
@@ -158,7 +158,7 @@ class idTrigger_Timer : public idTrigger {
 public:
 	CLASS_PROTOTYPE( idTrigger_Timer );
 
-						idTrigger_Timer( void );
+	idTrigger_Timer( void );
 
 	void				Save( idSaveGame *savefile ) const;
 	void				Restore( idRestoreGame *savefile );
@@ -193,7 +193,7 @@ class idTrigger_Count : public idTrigger {
 public:
 	CLASS_PROTOTYPE( idTrigger_Count );
 
-						idTrigger_Count( void );
+	idTrigger_Count( void );
 
 	void				Save( idSaveGame *savefile ) const;
 	void				Restore( idRestoreGame *savefile );
@@ -222,7 +222,7 @@ class idTrigger_Hurt : public idTrigger {
 public:
 	CLASS_PROTOTYPE( idTrigger_Hurt );
 
-						idTrigger_Hurt( void );
+	idTrigger_Hurt( void );
 
 	void				Save( idSaveGame *savefile ) const;
 	void				Restore( idRestoreGame *savefile );
@@ -270,7 +270,7 @@ public:
 
 	CLASS_PROTOTYPE( idTrigger_Touch );
 
-						idTrigger_Touch( void );
+	idTrigger_Touch( void );
 
 	void				Spawn( void );
 	virtual void		Think( void );
@@ -284,7 +284,7 @@ public:
 	void				TouchEntities( void );
 
 private:
-	idClipModel *		clipModel;
+	idClipModel 		*clipModel;
 
 	void				Event_Trigger( idEntity *activator );
 };
@@ -301,14 +301,14 @@ class idTrigger_Flag : public idTrigger_Multi {
 public:
 	CLASS_PROTOTYPE( idTrigger_Flag );
 
-						idTrigger_Flag( void );
+	idTrigger_Flag( void );
 	void				Spawn( void );
 
 private:
 	int					team;
 	bool				player;			// flag must be attached/carried by player
 
-	const idEventDef *	eventFlag;
+	const idEventDef 	*eventFlag;
 
 	void				Event_Touch( idEntity *other, trace_t *trace );
 };

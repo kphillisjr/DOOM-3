@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -33,7 +33,7 @@ If you have questions concerning this license or the applicable additional terms
 
 // _D3XP : rename all gameLocal.time to gameLocal.slow.time for merge!
 
-// a mover will update any gui entities in it's target list with 
+// a mover will update any gui entities in it's target list with
 // a key/val pair of "mover" "state" from below.. guis can represent
 // realtime info like this
 // binary only
@@ -92,45 +92,45 @@ const idEventDef EV_IsMoving( "isMoving", NULL, 'd' );
 const idEventDef EV_IsRotating( "isRotating", NULL, 'd' );
 
 CLASS_DECLARATION( idEntity, idMover )
-	EVENT( EV_FindGuiTargets,		idMover::Event_FindGuiTargets )
-	EVENT( EV_Thread_SetCallback,	idMover::Event_SetCallback )
-	EVENT( EV_TeamBlocked,			idMover::Event_TeamBlocked )
-	EVENT( EV_PartBlocked,			idMover::Event_PartBlocked )
-	EVENT( EV_ReachedPos,			idMover::Event_UpdateMove )
-	EVENT( EV_ReachedAng,			idMover::Event_UpdateRotation )
-	EVENT( EV_PostRestore,			idMover::Event_PostRestore )
-	EVENT( EV_StopMoving,			idMover::Event_StopMoving )
-	EVENT( EV_StopRotating,			idMover::Event_StopRotating )
-	EVENT( EV_Speed,				idMover::Event_SetMoveSpeed )
-	EVENT( EV_Time,					idMover::Event_SetMoveTime )
-	EVENT( EV_AccelTime,			idMover::Event_SetAccellerationTime )
-	EVENT( EV_DecelTime,			idMover::Event_SetDecelerationTime )
-	EVENT( EV_MoveTo,				idMover::Event_MoveTo )
-	EVENT( EV_MoveToPos,			idMover::Event_MoveToPos )
-	EVENT( EV_Move,					idMover::Event_MoveDir )
-	EVENT( EV_MoveAccelerateTo,		idMover::Event_MoveAccelerateTo )
-	EVENT( EV_MoveDecelerateTo,		idMover::Event_MoveDecelerateTo )
-	EVENT( EV_RotateDownTo,			idMover::Event_RotateDownTo )
-	EVENT( EV_RotateUpTo,			idMover::Event_RotateUpTo )
-	EVENT( EV_RotateTo,				idMover::Event_RotateTo )
-	EVENT( EV_Rotate,				idMover::Event_Rotate )
-	EVENT( EV_RotateOnce,			idMover::Event_RotateOnce )
-	EVENT( EV_Bob,					idMover::Event_Bob )
-	EVENT( EV_Sway,					idMover::Event_Sway )
-	EVENT( EV_Mover_OpenPortal,		idMover::Event_OpenPortal )
-	EVENT( EV_Mover_ClosePortal,	idMover::Event_ClosePortal )
-	EVENT( EV_AccelSound,			idMover::Event_SetAccelSound )
-	EVENT( EV_DecelSound,			idMover::Event_SetDecelSound )
-	EVENT( EV_MoveSound,			idMover::Event_SetMoveSound )
-	EVENT( EV_Mover_InitGuiTargets,	idMover::Event_InitGuiTargets )
-	EVENT( EV_EnableSplineAngles,	idMover::Event_EnableSplineAngles )
-	EVENT( EV_DisableSplineAngles,	idMover::Event_DisableSplineAngles )
-	EVENT( EV_RemoveInitialSplineAngles, idMover::Event_RemoveInitialSplineAngles )
-	EVENT( EV_StartSpline,			idMover::Event_StartSpline )
-	EVENT( EV_StopSpline,			idMover::Event_StopSpline )
-	EVENT( EV_Activate,				idMover::Event_Activate )
-	EVENT( EV_IsMoving,				idMover::Event_IsMoving )
-	EVENT( EV_IsRotating,			idMover::Event_IsRotating )
+EVENT( EV_FindGuiTargets,		idMover::Event_FindGuiTargets )
+EVENT( EV_Thread_SetCallback,	idMover::Event_SetCallback )
+EVENT( EV_TeamBlocked,			idMover::Event_TeamBlocked )
+EVENT( EV_PartBlocked,			idMover::Event_PartBlocked )
+EVENT( EV_ReachedPos,			idMover::Event_UpdateMove )
+EVENT( EV_ReachedAng,			idMover::Event_UpdateRotation )
+EVENT( EV_PostRestore,			idMover::Event_PostRestore )
+EVENT( EV_StopMoving,			idMover::Event_StopMoving )
+EVENT( EV_StopRotating,			idMover::Event_StopRotating )
+EVENT( EV_Speed,				idMover::Event_SetMoveSpeed )
+EVENT( EV_Time,					idMover::Event_SetMoveTime )
+EVENT( EV_AccelTime,			idMover::Event_SetAccellerationTime )
+EVENT( EV_DecelTime,			idMover::Event_SetDecelerationTime )
+EVENT( EV_MoveTo,				idMover::Event_MoveTo )
+EVENT( EV_MoveToPos,			idMover::Event_MoveToPos )
+EVENT( EV_Move,					idMover::Event_MoveDir )
+EVENT( EV_MoveAccelerateTo,		idMover::Event_MoveAccelerateTo )
+EVENT( EV_MoveDecelerateTo,		idMover::Event_MoveDecelerateTo )
+EVENT( EV_RotateDownTo,			idMover::Event_RotateDownTo )
+EVENT( EV_RotateUpTo,			idMover::Event_RotateUpTo )
+EVENT( EV_RotateTo,				idMover::Event_RotateTo )
+EVENT( EV_Rotate,				idMover::Event_Rotate )
+EVENT( EV_RotateOnce,			idMover::Event_RotateOnce )
+EVENT( EV_Bob,					idMover::Event_Bob )
+EVENT( EV_Sway,					idMover::Event_Sway )
+EVENT( EV_Mover_OpenPortal,		idMover::Event_OpenPortal )
+EVENT( EV_Mover_ClosePortal,	idMover::Event_ClosePortal )
+EVENT( EV_AccelSound,			idMover::Event_SetAccelSound )
+EVENT( EV_DecelSound,			idMover::Event_SetDecelSound )
+EVENT( EV_MoveSound,			idMover::Event_SetMoveSound )
+EVENT( EV_Mover_InitGuiTargets,	idMover::Event_InitGuiTargets )
+EVENT( EV_EnableSplineAngles,	idMover::Event_EnableSplineAngles )
+EVENT( EV_DisableSplineAngles,	idMover::Event_DisableSplineAngles )
+EVENT( EV_RemoveInitialSplineAngles, idMover::Event_RemoveInitialSplineAngles )
+EVENT( EV_StartSpline,			idMover::Event_StartSpline )
+EVENT( EV_StopSpline,			idMover::Event_StopSpline )
+EVENT( EV_Activate,				idMover::Event_Activate )
+EVENT( EV_IsMoving,				idMover::Event_IsMoving )
+EVENT( EV_IsRotating,			idMover::Event_IsRotating )
 END_CLASS
 
 /*
@@ -174,7 +174,7 @@ void idMover::Save( idSaveGame *savefile ) const {
 	savefile->WriteInt( move.movetime );
 	savefile->WriteInt( move.deceleration );
 	savefile->WriteVec3( move.dir );
-	
+
 	savefile->WriteInt( rot.stage );
 	savefile->WriteInt( rot.acceleration );
 	savefile->WriteInt( rot.movetime );
@@ -182,7 +182,7 @@ void idMover::Save( idSaveGame *savefile ) const {
 	savefile->WriteFloat( rot.rot.pitch );
 	savefile->WriteFloat( rot.rot.yaw );
 	savefile->WriteFloat( rot.rot.roll );
-	
+
 	savefile->WriteInt( move_thread );
 	savefile->WriteInt( rotate_thread );
 
@@ -206,7 +206,7 @@ void idMover::Save( idSaveGame *savefile ) const {
 	}
 
 	savefile->WriteInt( guiTargets.Num() );
-	for( i = 0; i < guiTargets.Num(); i++ ) {
+	for ( i = 0; i < guiTargets.Num(); i++ ) {
 		guiTargets[ i ].Save( savefile );
 	}
 
@@ -219,7 +219,7 @@ void idMover::Save( idSaveGame *savefile ) const {
 		savefile->WriteInt( spline->GetTime( spline->GetNumValues() - 1 ) - spline->GetTime( 0 ) );
 		savefile->WriteInt( physicsObj.GetSplineAcceleration() );
 		savefile->WriteInt( physicsObj.GetSplineDeceleration() );
-		savefile->WriteInt( (int)physicsObj.UsingSplineAngles() );
+		savefile->WriteInt( ( int )physicsObj.UsingSplineAngles() );
 
 	} else {
 		savefile->WriteBool( false );
@@ -238,20 +238,20 @@ void idMover::Restore( idRestoreGame *savefile ) {
 	savefile->ReadStaticObject( physicsObj );
 	RestorePhysics( &physicsObj );
 
-	savefile->ReadInt( (int&)move.stage );
+	savefile->ReadInt( ( int & )move.stage );
 	savefile->ReadInt( move.acceleration );
 	savefile->ReadInt( move.movetime );
 	savefile->ReadInt( move.deceleration );
 	savefile->ReadVec3( move.dir );
-	
-	savefile->ReadInt( (int&)rot.stage );
+
+	savefile->ReadInt( ( int & )rot.stage );
 	savefile->ReadInt( rot.acceleration );
 	savefile->ReadInt( rot.movetime );
 	savefile->ReadInt( rot.deceleration );
 	savefile->ReadFloat( rot.rot.pitch );
 	savefile->ReadFloat( rot.rot.yaw );
 	savefile->ReadFloat( rot.rot.roll );
-	
+
 	savefile->ReadInt( move_thread );
 	savefile->ReadInt( rotate_thread );
 
@@ -266,7 +266,7 @@ void idMover::Restore( idRestoreGame *savefile ) {
 	savefile->ReadInt( acceltime );
 	savefile->ReadBool( stopRotation );
 	savefile->ReadBool( useSplineAngles );
-	savefile->ReadInt( (int &)lastCommand );
+	savefile->ReadInt( ( int & )lastCommand );
 	savefile->ReadFloat( damage );
 
 	savefile->ReadInt( areaPortal );
@@ -279,7 +279,7 @@ void idMover::Restore( idRestoreGame *savefile ) {
 	guiTargets.Clear();
 	savefile->ReadInt( num );
 	guiTargets.SetNum( num );
-	for( i = 0; i < num; i++ ) {
+	for ( i = 0; i < num; i++ ) {
 		guiTargets[ i ].Restore( savefile );
 	}
 
@@ -299,7 +299,7 @@ void idMover::Restore( idRestoreGame *savefile ) {
 		savefile->ReadInt( useAngles );
 
 		PostEventMS( &EV_PostRestore, 0, starttime, totaltime, accel, decel, useAngles );
-	} 
+	}
 }
 
 /*
@@ -442,79 +442,79 @@ idMover::VectorForDir
 void idMover::VectorForDir( float angle, idVec3 &vec ) {
 	idAngles ang;
 
-	switch( ( int )angle ) {
-	case DIR_UP :
-		vec.Set( 0, 0, 1 );
-		break;
+	switch ( ( int )angle ) {
+		case DIR_UP :
+			vec.Set( 0, 0, 1 );
+			break;
 
-	case DIR_DOWN :
-		vec.Set( 0, 0, -1 );
-		break;
+		case DIR_DOWN :
+			vec.Set( 0, 0, -1 );
+			break;
 
-	case DIR_LEFT :
-		physicsObj.GetLocalAngles( ang );
-		ang.pitch	= 0;
-		ang.roll	= 0;
-		ang.yaw		+= 90;
-		vec			= ang.ToForward();
-		break;
+		case DIR_LEFT :
+			physicsObj.GetLocalAngles( ang );
+			ang.pitch	= 0;
+			ang.roll	= 0;
+			ang.yaw		+= 90;
+			vec			= ang.ToForward();
+			break;
 
-	case DIR_RIGHT :
-		physicsObj.GetLocalAngles( ang );
-		ang.pitch	= 0;
-		ang.roll	= 0;
-		ang.yaw		-= 90;
-		vec			= ang.ToForward();
-		break;
+		case DIR_RIGHT :
+			physicsObj.GetLocalAngles( ang );
+			ang.pitch	= 0;
+			ang.roll	= 0;
+			ang.yaw		-= 90;
+			vec			= ang.ToForward();
+			break;
 
-	case DIR_FORWARD :
-		physicsObj.GetLocalAngles( ang );
-		ang.pitch	= 0;
-		ang.roll	= 0;
-		vec			= ang.ToForward();
-		break;
+		case DIR_FORWARD :
+			physicsObj.GetLocalAngles( ang );
+			ang.pitch	= 0;
+			ang.roll	= 0;
+			vec			= ang.ToForward();
+			break;
 
-	case DIR_BACK :
-		physicsObj.GetLocalAngles( ang );
-		ang.pitch	= 0;
-		ang.roll	= 0;
-		ang.yaw		+= 180;
-		vec			= ang.ToForward();
-		break;
+		case DIR_BACK :
+			physicsObj.GetLocalAngles( ang );
+			ang.pitch	= 0;
+			ang.roll	= 0;
+			ang.yaw		+= 180;
+			vec			= ang.ToForward();
+			break;
 
-	case DIR_REL_UP :
-		vec.Set( 0, 0, 1 );
-		break;
+		case DIR_REL_UP :
+			vec.Set( 0, 0, 1 );
+			break;
 
-	case DIR_REL_DOWN :
-		vec.Set( 0, 0, -1 );
-		break;
+		case DIR_REL_DOWN :
+			vec.Set( 0, 0, -1 );
+			break;
 
-	case DIR_REL_LEFT :
-		physicsObj.GetLocalAngles( ang );
-		ang.ToVectors( NULL, &vec );
-		vec *= -1;
-		break;
+		case DIR_REL_LEFT :
+			physicsObj.GetLocalAngles( ang );
+			ang.ToVectors( NULL, &vec );
+			vec *= -1;
+			break;
 
-	case DIR_REL_RIGHT :
-		physicsObj.GetLocalAngles( ang );
-		ang.ToVectors( NULL, &vec );
-		break;
+		case DIR_REL_RIGHT :
+			physicsObj.GetLocalAngles( ang );
+			ang.ToVectors( NULL, &vec );
+			break;
 
-	case DIR_REL_FORWARD :
-		physicsObj.GetLocalAngles( ang );
-		vec = ang.ToForward();
-		break;
+		case DIR_REL_FORWARD :
+			physicsObj.GetLocalAngles( ang );
+			vec = ang.ToForward();
+			break;
 
-	case DIR_REL_BACK :
-		physicsObj.GetLocalAngles( ang );
-		vec = ang.ToForward() * -1;
-		break;
+		case DIR_REL_BACK :
+			physicsObj.GetLocalAngles( ang );
+			vec = ang.ToForward() * -1;
+			break;
 
-	default:
-		ang.Set( 0, angle, 0 );
-		vec = GetWorldVector( ang.ToForward() );
-		break;
+		default:
+			ang.Set( 0, angle, 0 );
+			vec = GetWorldVector( ang.ToForward() );
+			break;
 	}
 }
 
@@ -524,7 +524,7 @@ idMover::FindGuiTargets
 ================
 */
 void idMover::FindGuiTargets( void ) {
-   	gameLocal.GetTargets( spawnArgs, guiTargets, "guiTarget" );
+	gameLocal.GetTargets( spawnArgs, guiTargets, "guiTarget" );
 }
 
 /*
@@ -536,7 +536,7 @@ key/val will be set to any renderEntity->gui's on the list
 */
 void idMover::SetGuiState( const char *key, const char *val ) const {
 	gameLocal.Printf( "Setting %s to %s\n", key, val );
-	for( int i = 0; i < guiTargets.Num(); i++ ) {
+	for ( int i = 0; i < guiTargets.Num(); i++ ) {
 		idEntity *ent = guiTargets[ i ].GetEntity();
 		if ( ent ) {
 			for ( int j = 0; j < MAX_RENDERENTITY_GUI; j++ ) {
@@ -589,7 +589,7 @@ void idMover::Event_InitGuiTargets( void ) {
 /***********************************************************************
 
 	Translation control functions
-	
+
 ***********************************************************************/
 
 /*
@@ -627,7 +627,7 @@ idMover::UpdateMoveSound
 ================
 */
 void idMover::UpdateMoveSound( moveStage_t stage ) {
-	switch( stage ) {
+	switch ( stage ) {
 		case ACCELERATION_STAGE: {
 			StartSound( "snd_accel", SND_CHANNEL_BODY2, 0, false, NULL );
 			StartSound( "snd_move", SND_CHANNEL_BODY, 0, false, NULL );
@@ -661,7 +661,7 @@ void idMover::Event_UpdateMove( void ) {
 
 	UpdateMoveSound( move.stage );
 
-	switch( move.stage ) {
+	switch ( move.stage ) {
 		case ACCELERATION_STAGE: {
 			physicsObj.SetLinearExtrapolation( EXTRAPOLATION_ACCELLINEAR, gameLocal.slow.time, move.acceleration, org, move.dir, vec3_origin );
 			if ( move.movetime > 0 ) {
@@ -768,7 +768,7 @@ void idMover::BeginMove( idThread *thread ) {
 		dt = move_time - at;
 	}
 
-	move_delta = move_delta * ( 1000.0f / ( (float) move_time - ( at + dt ) * 0.5f ) );
+	move_delta = move_delta * ( 1000.0f / ( ( float ) move_time - ( at + dt ) * 0.5f ) );
 
 	move.stage			= stage;
 	move.acceleration	= at;
@@ -782,7 +782,7 @@ void idMover::BeginMove( idThread *thread ) {
 /***********************************************************************
 
 	Rotation control functions
-	
+
 ***********************************************************************/
 
 /*
@@ -815,7 +815,7 @@ idMover::UpdateRotationSound
 ================
 */
 void idMover::UpdateRotationSound( moveStage_t stage ) {
-	switch( stage ) {
+	switch ( stage ) {
 		case ACCELERATION_STAGE: {
 			StartSound( "snd_accel", SND_CHANNEL_BODY2, 0, false, NULL );
 			StartSound( "snd_move", SND_CHANNEL_BODY, 0, false, NULL );
@@ -849,7 +849,7 @@ void idMover::Event_UpdateRotation( void ) {
 
 	UpdateRotationSound( rot.stage );
 
-	switch( rot.stage ) {
+	switch ( rot.stage ) {
 		case ACCELERATION_STAGE: {
 			physicsObj.SetAngularExtrapolation( EXTRAPOLATION_ACCELLINEAR, gameLocal.slow.time, rot.acceleration, ang, rot.rot, ang_zero );
 			if ( rot.movetime > 0 ) {
@@ -863,7 +863,7 @@ void idMover::Event_UpdateRotation( void ) {
 		}
 		case LINEAR_STAGE: {
 			if ( !stopRotation && !rot.deceleration ) {
-				physicsObj.SetAngularExtrapolation( extrapolation_t(EXTRAPOLATION_LINEAR|EXTRAPOLATION_NOSTOP), gameLocal.slow.time, rot.movetime, ang, rot.rot, ang_zero );
+				physicsObj.SetAngularExtrapolation( extrapolation_t( EXTRAPOLATION_LINEAR | EXTRAPOLATION_NOSTOP ), gameLocal.slow.time, rot.movetime, ang, rot.rot, ang_zero );
 			} else {
 				physicsObj.SetAngularExtrapolation( EXTRAPOLATION_LINEAR, gameLocal.slow.time, rot.movetime, ang, rot.rot, ang_zero );
 			}
@@ -889,7 +889,7 @@ void idMover::Event_UpdateRotation( void ) {
 				stopRotation = false;
 			} else if ( physicsObj.GetAngularExtrapolationType() == EXTRAPOLATION_ACCELLINEAR ) {
 				// keep our angular velocity constant
-				physicsObj.SetAngularExtrapolation( extrapolation_t(EXTRAPOLATION_LINEAR|EXTRAPOLATION_NOSTOP), gameLocal.slow.time, 0, ang, rot.rot, ang_zero );
+				physicsObj.SetAngularExtrapolation( extrapolation_t( EXTRAPOLATION_LINEAR | EXTRAPOLATION_NOSTOP ), gameLocal.slow.time, 0, ang, rot.rot, ang_zero );
 			}
 
 			if ( g_debugMover.GetBool() ) {
@@ -961,7 +961,7 @@ void idMover::BeginRotation( idThread *thread, bool stopwhendone ) {
 		dt = move_time - at;
 	}
 
-	angle_delta = angle_delta * ( 1000.0f / ( (float) move_time - ( at + dt ) * 0.5f ) );
+	angle_delta = angle_delta * ( 1000.0f / ( ( float ) move_time - ( at + dt ) * 0.5f ) );
 
 	stopRotation = stopwhendone || ( dt != 0 );
 
@@ -977,8 +977,8 @@ void idMover::BeginRotation( idThread *thread, bool stopwhendone ) {
 
 /***********************************************************************
 
-	Script callable routines  
-	
+	Script callable routines
+
 ***********************************************************************/
 
 /*
@@ -1294,7 +1294,7 @@ void idMover::Event_Bob( float speed, float phase, idVec3 &depth ) {
 	idVec3 org;
 
 	physicsObj.GetLocalOrigin( org );
-	physicsObj.SetLinearExtrapolation( extrapolation_t(EXTRAPOLATION_DECELSINE|EXTRAPOLATION_NOSTOP), speed * 1000 * phase, speed * 500, org, depth * 2.0f, vec3_origin );
+	physicsObj.SetLinearExtrapolation( extrapolation_t( EXTRAPOLATION_DECELSINE | EXTRAPOLATION_NOSTOP ), speed * 1000 * phase, speed * 500, org, depth * 2.0f, vec3_origin );
 }
 
 /*
@@ -1307,10 +1307,10 @@ void idMover::Event_Sway( float speed, float phase, idAngles &depth ) {
 	float duration;
 
 	physicsObj.GetLocalAngles( ang );
-	assert ( speed > 0.0f );
+	assert( speed > 0.0f );
 	duration = idMath::Sqrt( depth[0] * depth[0] + depth[1] * depth[1] + depth[2] * depth[2] ) / speed;
 	angSpeed = depth / ( duration * idMath::SQRT_1OVER2 );
-	physicsObj.SetAngularExtrapolation( extrapolation_t(EXTRAPOLATION_DECELSINE|EXTRAPOLATION_NOSTOP), duration * 1000.0f * phase, duration * 1000.0f, ang, angSpeed, ang_zero );
+	physicsObj.SetAngularExtrapolation( extrapolation_t( EXTRAPOLATION_DECELSINE | EXTRAPOLATION_NOSTOP ), duration * 1000.0f * phase, duration * 1000.0f, ang, angSpeed, ang_zero );
 }
 
 /*
@@ -1509,8 +1509,8 @@ void idMover::ReadFromSnapshot( const idBitMsgDelta &msg ) {
 	moveStage_t oldRotStage = rot.stage;
 
 	physicsObj.ReadFromSnapshot( msg );
-	move.stage = (moveStage_t) msg.ReadBits( 3 );
-	rot.stage = (moveStage_t) msg.ReadBits( 3 );
+	move.stage = ( moveStage_t ) msg.ReadBits( 3 );
+	rot.stage = ( moveStage_t ) msg.ReadBits( 3 );
 	ReadBindFromSnapshot( msg );
 	ReadGUIFromSnapshot( msg );
 
@@ -1577,14 +1577,14 @@ const idEventDef EV_SetGuiStates( "setGuiStates" );
 #endif
 
 CLASS_DECLARATION( idMover, idElevator )
-	EVENT( EV_Activate,				idElevator::Event_Activate )
-	EVENT( EV_TeamBlocked,			idElevator::Event_TeamBlocked )
-	EVENT( EV_PartBlocked,			idElevator::Event_PartBlocked )
-	EVENT( EV_PostArrival,			idElevator::Event_PostFloorArrival )
-	EVENT( EV_GotoFloor,			idElevator::Event_GotoFloor )
-	EVENT( EV_Touch,				idElevator::Event_Touch )
+EVENT( EV_Activate,				idElevator::Event_Activate )
+EVENT( EV_TeamBlocked,			idElevator::Event_TeamBlocked )
+EVENT( EV_PartBlocked,			idElevator::Event_PartBlocked )
+EVENT( EV_PostArrival,			idElevator::Event_PostFloorArrival )
+EVENT( EV_GotoFloor,			idElevator::Event_GotoFloor )
+EVENT( EV_Touch,				idElevator::Event_Touch )
 #ifdef _D3XP
-	EVENT( EV_SetGuiStates,			idElevator::Event_SetGuiStates )
+EVENT( EV_SetGuiStates,			idElevator::Event_SetGuiStates )
 #endif
 END_CLASS
 
@@ -1613,7 +1613,7 @@ idElevator::Save
 void idElevator::Save( idSaveGame *savefile ) const {
 	int i;
 
-	savefile->WriteInt( (int)state );
+	savefile->WriteInt( ( int )state );
 
 	savefile->WriteInt( floorInfo.Num() );
 	for ( i = 0; i < floorInfo.Num(); i++ ) {
@@ -1639,7 +1639,7 @@ idElevator::Restore
 void idElevator::Restore( idRestoreGame *savefile ) {
 	int i, num;
 
-	savefile->ReadInt( (int &)state );
+	savefile->ReadInt( ( int & )state );
 
 	savefile->ReadInt( num );
 	for ( i = 0; i < num; i++ ) {
@@ -1673,14 +1673,14 @@ void idElevator::Spawn( void ) {
 	lastFloor = 0;
 	currentFloor = 0;
 	pendingFloor = spawnArgs.GetInt( "floor", "1" );
-	SetGuiStates( ( pendingFloor == 1 ) ? guiBinaryMoverStates[0] : guiBinaryMoverStates[1]);
+	SetGuiStates( ( pendingFloor == 1 ) ? guiBinaryMoverStates[0] : guiBinaryMoverStates[1] );
 
 	returnTime = spawnArgs.GetFloat( "returnTime" );
 	returnFloor = spawnArgs.GetInt( "returnFloor" );
 
 	len1 = strlen( "floorPos_" );
 	const idKeyValue *kv = spawnArgs.MatchPrefix( "floorPos_", NULL );
-	while( kv ) {
+	while ( kv ) {
 		str = kv->GetKey().Right( kv->GetKey().Length() - len1 );
 		floorInfo_s fi;
 		fi.floor = atoi( str );
@@ -1702,7 +1702,7 @@ idElevator::Event_Touch
 ===============
 */
 void idElevator::Event_Touch( idEntity *other, trace_t *trace ) {
-	
+
 	if ( gameLocal.slow.time < lastTouchTime + 2000 ) {
 		return;
 	}
@@ -1764,7 +1764,7 @@ void idElevator::Think( void ) {
 				MoveToPos( fi->pos );
 			}
 		}
-	} 
+	}
 	RunPhysics();
 	Present();
 }
@@ -1794,7 +1794,7 @@ void idElevator::Event_TeamBlocked( idEntity *blockedEntity, idEntity *blockingE
 		idDoor *blocked = static_cast<idDoor *>( blockedEntity );
 		idDoor *door = GetDoor( spawnArgs.GetString( "innerdoor" ) );
 		if ( door && blocked->GetMoveMaster() == door->GetMoveMaster() ) {
-			door->SetBlocked(true);
+			door->SetBlocked( true );
 			OpenInnerDoor();
 			OpenFloorDoor( currentFloor );
 		}
@@ -1917,7 +1917,7 @@ void idElevator::BeginMove( idThread *thread ) {
 	CloseAllDoors();
 	DisableAllDoors();
 	const idKeyValue *kv = spawnArgs.MatchPrefix( "statusGui" );
-	while( kv ) {
+	while ( kv ) {
 		idEntity *ent = gameLocal.FindEntity( kv->GetValue() );
 		if ( ent ) {
 			for ( int j = 0; j < MAX_RENDERENTITY_GUI; j++ ) {
@@ -1948,11 +1948,11 @@ idDoor *idElevator::GetDoor( const char *name ) {
 	if ( name && *name ) {
 		ent = gameLocal.FindEntity( name );
 		if ( ent && ent->IsType( idDoor::Type ) ) {
-			doorEnt = static_cast<idDoor*>( ent );
+			doorEnt = static_cast<idDoor *>( ent );
 			master = doorEnt->GetMoveMaster();
 			if ( master != doorEnt ) {
 				if ( master->IsType( idDoor::Type ) ) {
-					doorEnt = static_cast<idDoor*>( master );
+					doorEnt = static_cast<idDoor *>( master );
 				} else {
 					doorEnt = NULL;
 				}
@@ -1993,7 +1993,7 @@ void idElevator::DoneMoving( void ) {
 	idMover::DoneMoving();
 	EnableProperDoors();
 	const idKeyValue *kv = spawnArgs.MatchPrefix( "statusGui" );
-	while( kv ) {
+	while ( kv ) {
 		idEntity *ent = gameLocal.FindEntity( kv->GetValue() );
 		if ( ent ) {
 			for ( int j = 0; j < MAX_RENDERENTITY_GUI; j++ ) {
@@ -2088,17 +2088,17 @@ const idEventDef EV_Mover_Enable( "enable", NULL );
 const idEventDef EV_Mover_Disable( "disable", NULL );
 
 CLASS_DECLARATION( idEntity, idMover_Binary )
-	EVENT( EV_FindGuiTargets,			idMover_Binary::Event_FindGuiTargets )
-	EVENT( EV_Thread_SetCallback,		idMover_Binary::Event_SetCallback )
-	EVENT( EV_Mover_ReturnToPos1,		idMover_Binary::Event_ReturnToPos1 )
-	EVENT( EV_Activate,					idMover_Binary::Event_Use_BinaryMover )
-	EVENT( EV_ReachedPos,				idMover_Binary::Event_Reached_BinaryMover )
-	EVENT( EV_Mover_MatchTeam,			idMover_Binary::Event_MatchActivateTeam )
-	EVENT( EV_Mover_Enable,				idMover_Binary::Event_Enable )
-	EVENT( EV_Mover_Disable,			idMover_Binary::Event_Disable )
-	EVENT( EV_Mover_OpenPortal,			idMover_Binary::Event_OpenPortal )
-	EVENT( EV_Mover_ClosePortal,		idMover_Binary::Event_ClosePortal )
-	EVENT( EV_Mover_InitGuiTargets,		idMover_Binary::Event_InitGuiTargets )
+EVENT( EV_FindGuiTargets,			idMover_Binary::Event_FindGuiTargets )
+EVENT( EV_Thread_SetCallback,		idMover_Binary::Event_SetCallback )
+EVENT( EV_Mover_ReturnToPos1,		idMover_Binary::Event_ReturnToPos1 )
+EVENT( EV_Activate,					idMover_Binary::Event_Use_BinaryMover )
+EVENT( EV_ReachedPos,				idMover_Binary::Event_Reached_BinaryMover )
+EVENT( EV_Mover_MatchTeam,			idMover_Binary::Event_MatchActivateTeam )
+EVENT( EV_Mover_Enable,				idMover_Binary::Event_Enable )
+EVENT( EV_Mover_Disable,			idMover_Binary::Event_Disable )
+EVENT( EV_Mover_OpenPortal,			idMover_Binary::Event_OpenPortal )
+EVENT( EV_Mover_ClosePortal,		idMover_Binary::Event_ClosePortal )
+EVENT( EV_Mover_InitGuiTargets,		idMover_Binary::Event_InitGuiTargets )
 END_CLASS
 
 /*
@@ -2150,8 +2150,7 @@ idMover_Binary::~idMover_Binary() {
 		for ( mover = moveMaster; mover; mover = mover->activateChain ) {
 			mover->moveMaster = this->activateChain;
 		}
-	}
-	else {
+	} else {
 		// remove mover from the activate chain
 		for ( mover = moveMaster; mover; mover = mover->activateChain ) {
 			if ( mover->activateChain == this ) {
@@ -2172,7 +2171,7 @@ void idMover_Binary::Save( idSaveGame *savefile ) const {
 
 	savefile->WriteVec3( pos1 );
 	savefile->WriteVec3( pos2 );
-	savefile->WriteInt( (moverState_t)moverState );
+	savefile->WriteInt( ( moverState_t )moverState );
 
 	savefile->WriteObject( moveMaster );
 	savefile->WriteObject( activateChain );
@@ -2216,7 +2215,7 @@ void idMover_Binary::Save( idSaveGame *savefile ) const {
 #endif
 
 	savefile->WriteInt( guiTargets.Num() );
-	for( i = 0; i < guiTargets.Num(); i++ ) {
+	for ( i = 0; i < guiTargets.Num(); i++ ) {
 		guiTargets[ i ].Save( savefile );
 	}
 }
@@ -2232,7 +2231,7 @@ void idMover_Binary::Restore( idRestoreGame *savefile ) {
 
 	savefile->ReadVec3( pos1 );
 	savefile->ReadVec3( pos2 );
-	savefile->ReadInt( (int &)moverState );
+	savefile->ReadInt( ( int & )moverState );
 
 	savefile->ReadObject( reinterpret_cast<idClass *&>( moveMaster ) );
 	savefile->ReadObject( reinterpret_cast<idClass *&>( activateChain ) );
@@ -2282,7 +2281,7 @@ void idMover_Binary::Restore( idRestoreGame *savefile ) {
 	guiTargets.Clear();
 	savefile->ReadInt( num );
 	guiTargets.SetNum( num );
-	for( i = 0; i < num; i++ ) {
+	for ( i = 0; i < num; i++ ) {
 		guiTargets[ i ].Restore( savefile );
 	}
 }
@@ -2312,7 +2311,7 @@ void idMover_Binary::Spawn( void ) {
 	spawnArgs.GetInt( "updateStatus", "0", updateStatus );
 
 	const idKeyValue *kv = spawnArgs.MatchPrefix( "buddy", NULL );
-	while( kv ) {
+	while ( kv ) {
 		buddies.Append( kv->GetValue() );
 		kv = spawnArgs.MatchPrefix( "buddy", kv );
 	}
@@ -2324,8 +2323,8 @@ void idMover_Binary::Spawn( void ) {
 		ent = this;
 	} else {
 		// find the first entity spawned on this team (which could be us)
-		for( ent = gameLocal.spawnedEntities.Next(); ent != NULL; ent = ent->spawnNode.Next() ) {
-			if ( ent->IsType( idMover_Binary::Type ) && !idStr::Icmp( static_cast<idMover_Binary *>(ent)->team.c_str(), temp ) ) {
+		for ( ent = gameLocal.spawnedEntities.Next(); ent != NULL; ent = ent->spawnNode.Next() ) {
+			if ( ent->IsType( idMover_Binary::Type ) && !idStr::Icmp( static_cast<idMover_Binary *>( ent )->team.c_str(), temp ) ) {
 				break;
 			}
 		}
@@ -2333,7 +2332,7 @@ void idMover_Binary::Spawn( void ) {
 			ent = this;
 		}
 	}
-	moveMaster = static_cast<idMover_Binary *>(ent);
+	moveMaster = static_cast<idMover_Binary *>( ent );
 
 	// create a physics team for the binary mover parts
 	if ( ent != this ) {
@@ -2419,7 +2418,7 @@ idMover_Binary::UpdateMoverSound
 */
 void idMover_Binary::UpdateMoverSound( moverState_t state ) {
 	if ( moveMaster == this ) {
-		switch( state ) {
+		switch ( state ) {
 			case MOVER_POS1:
 				break;
 			case MOVER_POS2:
@@ -2448,7 +2447,7 @@ void idMover_Binary::SetMoverState( moverState_t newstate, int time ) {
 	UpdateMoverSound( newstate );
 
 	stateStartTime = time;
-	switch( moverState ) {
+	switch ( moverState ) {
 		case MOVER_POS1: {
 			Signal( SIG_MOVER_POS1 );
 			physicsObj.SetLinearExtrapolation( EXTRAPOLATION_NONE, time, 0, pos1, vec3_origin, vec3_origin );
@@ -2520,7 +2519,7 @@ void idMover_Binary::Event_MatchActivateTeam( moverState_t newstate, int time ) 
 ================
 idMover_Binary::BindTeam
 
-All entities in a mover team will be bound 
+All entities in a mover team will be bound
 ================
 */
 void idMover_Binary::BindTeam( idEntity *bindTo ) {
@@ -2654,11 +2653,11 @@ void idMover_Binary::Event_Reached_BinaryMover( void ) {
 			// return to pos1 after a delay
 			PostEventSec( &EV_Mover_ReturnToPos1, wait );
 		}
-		
+
 		// fire targets
 		ActivateTargets( moveMaster->GetActivator() );
-		
-		SetBlocked(false);
+
+		SetBlocked( false );
 	} else if ( moverState == MOVER_2TO1 ) {
 		// reached pos1
 		idThread::ObjectMoveDone( move_thread, this );
@@ -2678,7 +2677,7 @@ void idMover_Binary::Event_Reached_BinaryMover( void ) {
 		if ( enabled && wait >= 0 && spawnArgs.GetBool( "continuous" ) ) {
 			PostEventSec( &EV_Activate, wait, this );
 		}
-		SetBlocked(false);
+		SetBlocked( false );
 	} else {
 		gameLocal.Error( "Event_Reached_BinaryMover: bad moverState" );
 	}
@@ -2787,7 +2786,7 @@ void idMover_Binary::UpdateBuddies( int val ) {
 	int i, c;
 
 	if ( updateStatus == 2 ) {
-		 c = buddies.Num();
+		c = buddies.Num();
 		for ( i = 0; i < c; i++ ) {
 			idEntity *buddy = gameLocal.FindEntity( buddies[i] );
 			if ( buddy ) {
@@ -2809,7 +2808,7 @@ void idMover_Binary::SetGuiStates( const char *state ) {
 	}
 
 	idMover_Binary *mb = activateChain;
-	while( mb ) {
+	while ( mb ) {
 		if ( mb->guiTargets.Num() ) {
 			mb->SetGuiState( "movestate", state );
 		}
@@ -2911,7 +2910,7 @@ idMover_Binary::FindGuiTargets
 ================
 */
 void idMover_Binary::FindGuiTargets( void ) {
-   	gameLocal.GetTargets( spawnArgs, guiTargets, "guiTarget" );
+	gameLocal.GetTargets( spawnArgs, guiTargets, "guiTarget" );
 }
 
 /*
@@ -2924,7 +2923,7 @@ key/val will be set to any renderEntity->gui's on the list
 void idMover_Binary::SetGuiState( const char *key, const char *val ) const {
 	int i;
 
-	for( i = 0; i < guiTargets.Num(); i++ ) {
+	for ( i = 0; i < guiTargets.Num(); i++ ) {
 		idEntity *ent = guiTargets[ i ].GetEntity();
 		if ( ent ) {
 			for ( int j = 0; j < MAX_RENDERENTITY_GUI; j++ ) {
@@ -3034,7 +3033,7 @@ void idMover_Binary::SetBlocked( bool b ) {
 		slave->blocked = b;
 		if ( b ) {
 			const idKeyValue *kv = slave->spawnArgs.MatchPrefix( "triggerBlocked" );
-			while( kv ) {
+			while ( kv ) {
 				idEntity *ent = gameLocal.FindEntity( kv->GetValue() );
 				if ( ent ) {
 					ent->PostEventMS( &EV_Activate, 0, moveMaster->GetActivator() );
@@ -3083,7 +3082,7 @@ void idMover_Binary::ReadFromSnapshot( const idBitMsgDelta &msg ) {
 	moverState_t oldMoverState = moverState;
 
 	physicsObj.ReadFromSnapshot( msg );
-	moverState = (moverState_t) msg.ReadBits( 3 );
+	moverState = ( moverState_t ) msg.ReadBits( 3 );
 	ReadBindFromSnapshot( msg );
 
 	if ( msg.HasChanged() ) {
@@ -3125,22 +3124,22 @@ const idEventDef EV_Door_IsOpen( "isOpen", NULL, 'f' );
 const idEventDef EV_Door_IsLocked( "isLocked", NULL, 'f' );
 
 CLASS_DECLARATION( idMover_Binary, idDoor )
-	EVENT( EV_TeamBlocked,				idDoor::Event_TeamBlocked )
-	EVENT( EV_PartBlocked,				idDoor::Event_PartBlocked )
-	EVENT( EV_Touch,					idDoor::Event_Touch )
-	EVENT( EV_Activate,					idDoor::Event_Activate )
-	EVENT( EV_Door_StartOpen,			idDoor::Event_StartOpen )
-	EVENT( EV_Door_SpawnDoorTrigger,	idDoor::Event_SpawnDoorTrigger )
-	EVENT( EV_Door_SpawnSoundTrigger,	idDoor::Event_SpawnSoundTrigger )
-	EVENT( EV_Door_Open,				idDoor::Event_Open )
-	EVENT( EV_Door_Close,				idDoor::Event_Close )
-	EVENT( EV_Door_Lock,				idDoor::Event_Lock )
-	EVENT( EV_Door_IsOpen,				idDoor::Event_IsOpen )
-	EVENT( EV_Door_IsLocked,			idDoor::Event_Locked )
-	EVENT( EV_ReachedPos,				idDoor::Event_Reached_BinaryMover )
-	EVENT( EV_SpectatorTouch,			idDoor::Event_SpectatorTouch )
-	EVENT( EV_Mover_OpenPortal,			idDoor::Event_OpenPortal )
-	EVENT( EV_Mover_ClosePortal,		idDoor::Event_ClosePortal )
+EVENT( EV_TeamBlocked,				idDoor::Event_TeamBlocked )
+EVENT( EV_PartBlocked,				idDoor::Event_PartBlocked )
+EVENT( EV_Touch,					idDoor::Event_Touch )
+EVENT( EV_Activate,					idDoor::Event_Activate )
+EVENT( EV_Door_StartOpen,			idDoor::Event_StartOpen )
+EVENT( EV_Door_SpawnDoorTrigger,	idDoor::Event_SpawnDoorTrigger )
+EVENT( EV_Door_SpawnSoundTrigger,	idDoor::Event_SpawnSoundTrigger )
+EVENT( EV_Door_Open,				idDoor::Event_Open )
+EVENT( EV_Door_Close,				idDoor::Event_Close )
+EVENT( EV_Door_Lock,				idDoor::Event_Lock )
+EVENT( EV_Door_IsOpen,				idDoor::Event_IsOpen )
+EVENT( EV_Door_IsLocked,			idDoor::Event_Locked )
+EVENT( EV_ReachedPos,				idDoor::Event_Reached_BinaryMover )
+EVENT( EV_SpectatorTouch,			idDoor::Event_SpectatorTouch )
+EVENT( EV_Mover_OpenPortal,			idDoor::Event_OpenPortal )
+EVENT( EV_Mover_ClosePortal,		idDoor::Event_ClosePortal )
 END_CLASS
 
 /*
@@ -3309,7 +3308,7 @@ void idDoor::Spawn( void ) {
 	// if "start_open", reverse position 1 and 2
 	if ( start_open ) {
 		// post it after EV_SpawnBind
-		PostEventMS( &EV_Door_StartOpen, 1 );		
+		PostEventMS( &EV_Door_StartOpen, 1 );
 	}
 
 	if ( spawnArgs.GetFloat( "time", "1", time ) ) {
@@ -3418,7 +3417,7 @@ idDoor::SetAASAreaState
 */
 void idDoor::SetAASAreaState( bool closed ) {
 	aas_area_closed = closed;
-	gameLocal.SetAASAreaState( physicsObj.GetAbsBounds(), AREACONTENTS_CLUSTERPORTAL|AREACONTENTS_OBSTACLE, closed );
+	gameLocal.SetAASAreaState( physicsObj.GetAbsBounds(), AREACONTENTS_CLUSTERPORTAL | AREACONTENTS_OBSTACLE, closed );
 }
 
 /*
@@ -3534,7 +3533,7 @@ void idDoor::Use( idEntity *other, idEntity *activator ) {
 		}
 		ActivateTargets( activator );
 		Use_BinaryMover( activator );
-	} 
+	}
 }
 
 /*
@@ -3564,7 +3563,7 @@ void idDoor::Lock( int f ) {
 	idMover_Binary *other;
 
 	// lock all the doors on the team
-	for( other = moveMaster; other != NULL; other = other->GetActivateChain() ) {
+	for ( other = moveMaster; other != NULL; other = other->GetActivateChain() ) {
 		if ( other->IsType( idDoor::Type ) ) {
 			idDoor *door = static_cast<idDoor *>( other );
 			if ( other == moveMaster ) {
@@ -3625,7 +3624,7 @@ idDoor::AllowPlayerOnly
 ================
 */
 bool idDoor::AllowPlayerOnly( idEntity *ent ) {
-	if ( playerOnly && !ent->IsType(idPlayer::Type) ) {
+	if ( playerOnly && !ent->IsType( idPlayer::Type ) ) {
 		return false;
 	}
 
@@ -3647,9 +3646,9 @@ void idDoor::CalcTriggerBounds( float size, idBounds &bounds ) {
 
 	// find the bounds of everything on the team
 	bounds = GetPhysics()->GetAbsBounds();
-	
+
 	fl.takedamage = true;
-	for( other = activateChain; other != NULL; other = other->GetActivateChain() ) {
+	for ( other = activateChain; other != NULL; other = other->GetActivateChain() ) {
 		if ( other->IsType( idDoor::Type ) ) {
 			// find the bounds of everything on the team
 			bounds.AddBounds( other->GetPhysics()->GetAbsBounds() );
@@ -3717,7 +3716,7 @@ void idDoor::Event_SpawnDoorTrigger( void ) {
 
 	// check if any of the doors are marked as toggled
 	toggle = false;
-	for( other = moveMaster; other != NULL; other = other->GetActivateChain() ) {
+	for ( other = moveMaster; other != NULL; other = other->GetActivateChain() ) {
 		if ( other->IsType( idDoor::Type ) && other->spawnArgs.GetBool( "toggle" ) ) {
 			toggle = true;
 			break;
@@ -3726,7 +3725,7 @@ void idDoor::Event_SpawnDoorTrigger( void ) {
 
 	if ( toggle ) {
 		// mark them all as toggled
-		for( other = moveMaster; other != NULL; other = other->GetActivateChain() ) {
+		for ( other = moveMaster; other != NULL; other = other->GetActivateChain() ) {
 			if ( other->IsType( idDoor::Type ) ) {
 				other->spawnArgs.Set( "toggle", "1" );
 			}
@@ -3785,7 +3784,7 @@ void idDoor::Event_Reached_BinaryMover( void ) {
 	if ( moverState == MOVER_2TO1 ) {
 		SetBlocked( false );
 		const idKeyValue *kv = spawnArgs.MatchPrefix( "triggerClosed" );
-		while( kv ) {
+		while ( kv ) {
 			idEntity *ent = gameLocal.FindEntity( kv->GetValue() );
 			if ( ent ) {
 				ent->PostEventMS( &EV_Activate, 0, moveMaster->GetActivator() );
@@ -3794,7 +3793,7 @@ void idDoor::Event_Reached_BinaryMover( void ) {
 		}
 	} else if ( moverState == MOVER_1TO2 ) {
 		const idKeyValue *kv = spawnArgs.MatchPrefix( "triggerOpened" );
-		while( kv ) {
+		while ( kv ) {
 			idEntity *ent = gameLocal.FindEntity( kv->GetValue() );
 			if ( ent ) {
 				ent->PostEventMS( &EV_Activate, 0, moveMaster->GetActivator() );
@@ -3938,13 +3937,13 @@ void idDoor::Event_Activate( idEntity *activator ) {
 		}
 	}
 
-  	if ( syncLock.Length() ) {
+	if ( syncLock.Length() ) {
 		idEntity *sync = gameLocal.FindEntity( syncLock );
 		if ( sync && sync->IsType( idDoor::Type ) ) {
 			if ( static_cast<idDoor *>( sync )->IsOpen() ) {
-  				return;
-  			}
-  		}
+				return;
+			}
+		}
 	}
 
 	ActivateTargets( activator );
@@ -4000,7 +3999,7 @@ idDoor::Event_Locked
 ================
 */
 void idDoor::Event_Locked( void ) {
-	idThread::ReturnFloat( spawnArgs.GetInt("locked") );
+	idThread::ReturnFloat( spawnArgs.GetInt( "locked" ) );
 }
 
 /*
@@ -4059,9 +4058,9 @@ idPlat
 */
 
 CLASS_DECLARATION( idMover_Binary, idPlat )
-	EVENT( EV_Touch,			idPlat::Event_Touch )
-	EVENT( EV_TeamBlocked,		idPlat::Event_TeamBlocked )
-	EVENT( EV_PartBlocked,		idPlat::Event_PartBlocked )
+EVENT( EV_Touch,			idPlat::Event_Touch )
+EVENT( EV_TeamBlocked,		idPlat::Event_TeamBlocked )
+EVENT( EV_PartBlocked,		idPlat::Event_PartBlocked )
 END_CLASS
 
 /*
@@ -4246,7 +4245,7 @@ void idPlat::SpawnPlatTrigger( idVec3 &pos ) {
 		tmin[1] = ( bounds[0][1] + bounds[1][1] ) * 0.5f;
 		tmax[1] = tmin[1] + 1;
 	}
-	
+
 	trigger = new idClipModel( idTraceModel( idBounds( tmin, tmax ) ) );
 	trigger->Link( gameLocal.clip, this, 255, GetPhysics()->GetOrigin(), mat3_identity );
 	trigger->SetContents( CONTENTS_TRIGGER );
@@ -4298,8 +4297,8 @@ idMover_Periodic
 */
 
 CLASS_DECLARATION( idEntity, idMover_Periodic )
-	EVENT( EV_TeamBlocked,		idMover_Periodic::Event_TeamBlocked )
-	EVENT( EV_PartBlocked,		idMover_Periodic::Event_PartBlocked )
+EVENT( EV_TeamBlocked,		idMover_Periodic::Event_TeamBlocked )
+EVENT( EV_PartBlocked,		idMover_Periodic::Event_PartBlocked )
 END_CLASS
 
 /*
@@ -4413,7 +4412,7 @@ idRotater
 */
 
 CLASS_DECLARATION( idMover_Periodic, idRotater )
-	EVENT( EV_Activate,			idRotater::Event_Activate )
+EVENT( EV_Activate,			idRotater::Event_Activate )
 END_CLASS
 
 /*
@@ -4440,7 +4439,7 @@ void idRotater::Spawn( void ) {
 		physicsObj.SetPusher( 0 );
 	}
 	physicsObj.SetLinearExtrapolation( EXTRAPOLATION_NONE, gameLocal.slow.time, 0, GetPhysics()->GetOrigin(), vec3_origin, vec3_origin );
-	physicsObj.SetAngularExtrapolation( extrapolation_t(EXTRAPOLATION_LINEAR|EXTRAPOLATION_NOSTOP), gameLocal.slow.time, 0, GetPhysics()->GetAxis().ToAngles(), ang_zero, ang_zero );
+	physicsObj.SetAngularExtrapolation( extrapolation_t( EXTRAPOLATION_LINEAR | EXTRAPOLATION_NOSTOP ), gameLocal.slow.time, 0, GetPhysics()->GetAxis().ToAngles(), ang_zero, ang_zero );
 	SetPhysics( &physicsObj );
 
 	if ( spawnArgs.GetBool( "start_on" ) ) {
@@ -4486,7 +4485,7 @@ void idRotater::Event_Activate( idEntity *activator ) {
 		spawnArgs.GetFloat( "speed", "100", speed );
 		spawnArgs.GetBool( "x_axis", "0", x_axis );
 		spawnArgs.GetBool( "y_axis", "0", y_axis );
-		
+
 		// set the axis of rotation
 		if ( x_axis ) {
 			delta[2] = speed;
@@ -4499,7 +4498,7 @@ void idRotater::Event_Activate( idEntity *activator ) {
 		spawnArgs.Set( "rotate", "0" );
 	}
 
-	physicsObj.SetAngularExtrapolation( extrapolation_t(EXTRAPOLATION_LINEAR|EXTRAPOLATION_NOSTOP), gameLocal.slow.time, 0, physicsObj.GetAxis().ToAngles(), delta, ang_zero );
+	physicsObj.SetAngularExtrapolation( extrapolation_t( EXTRAPOLATION_LINEAR | EXTRAPOLATION_NOSTOP ), gameLocal.slow.time, 0, physicsObj.GetAxis().ToAngles(), delta, ang_zero );
 }
 
 
@@ -4559,7 +4558,7 @@ void idBobber::Spawn( void ) {
 	if ( !spawnArgs.GetBool( "nopush" ) ) {
 		physicsObj.SetPusher( 0 );
 	}
-	physicsObj.SetLinearExtrapolation( extrapolation_t(EXTRAPOLATION_DECELSINE|EXTRAPOLATION_NOSTOP), phase * 1000, speed * 500, GetPhysics()->GetOrigin(), delta * 2.0f, vec3_origin );
+	physicsObj.SetLinearExtrapolation( extrapolation_t( EXTRAPOLATION_DECELSINE | EXTRAPOLATION_NOSTOP ), phase * 1000, speed * 500, GetPhysics()->GetOrigin(), delta * 2.0f, vec3_origin );
 	SetPhysics( &physicsObj );
 }
 
@@ -4620,7 +4619,7 @@ void idPendulum::Spawn( void ) {
 		physicsObj.SetPusher( 0 );
 	}
 	physicsObj.SetLinearExtrapolation( EXTRAPOLATION_NONE, 0, 0, GetPhysics()->GetOrigin(), vec3_origin, vec3_origin );
-	physicsObj.SetAngularExtrapolation( extrapolation_t(EXTRAPOLATION_DECELSINE|EXTRAPOLATION_NOSTOP), phase * 1000, 500/freq, GetPhysics()->GetAxis().ToAngles(), idAngles( 0, 0, speed * 2.0f ), ang_zero );
+	physicsObj.SetAngularExtrapolation( extrapolation_t( EXTRAPOLATION_DECELSINE | EXTRAPOLATION_NOSTOP ), phase * 1000, 500 / freq, GetPhysics()->GetAxis().ToAngles(), idAngles( 0, 0, speed * 2.0f ), ang_zero );
 	SetPhysics( &physicsObj );
 }
 
@@ -4674,7 +4673,7 @@ idRiser::Event_Activate
 */
 void idRiser::Event_Activate( idEntity *activator ) {
 
-	if ( !IsHidden() && spawnArgs.GetBool("hide")  ) {
+	if ( !IsHidden() && spawnArgs.GetBool( "hide" ) ) {
 		Hide();
 	} else {
 		Show();

@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -70,18 +70,17 @@ toolTip_t DialogDeclBrowser::toolTips[] = {
 static DialogDeclBrowser *g_DeclDialog = NULL;
 
 
-IMPLEMENT_DYNAMIC(DialogDeclBrowser, CDialog)
+IMPLEMENT_DYNAMIC( DialogDeclBrowser, CDialog )
 
 /*
 ================
 DialogDeclBrowser::DialogDeclBrowser
 ================
 */
-DialogDeclBrowser::DialogDeclBrowser( CWnd* pParent /*=NULL*/ )
-	: CDialog(DialogDeclBrowser::IDD, pParent)
-	, m_pchTip(NULL)
-	, m_pwchTip(NULL)
-{
+DialogDeclBrowser::DialogDeclBrowser( CWnd *pParent /*=NULL*/ )
+	: CDialog( DialogDeclBrowser::IDD, pParent )
+	, m_pchTip( NULL )
+	, m_pwchTip( NULL ) {
 }
 
 /*
@@ -99,19 +98,19 @@ DialogDeclBrowser::~DialogDeclBrowser() {
 DialogDeclBrowser::DoDataExchange
 ================
 */
-void DialogDeclBrowser::DoDataExchange(CDataExchange* pDX) {
-	CDialog::DoDataExchange(pDX);
+void DialogDeclBrowser::DoDataExchange( CDataExchange *pDX ) {
+	CDialog::DoDataExchange( pDX );
 	//{{AFX_DATA_MAP(DialogDeclBrowser)
-	DDX_Control(pDX, IDC_DECLBROWSER_TREE, declTree);
-	DDX_Control(pDX, IDC_DECLBROWSER_STATIC_SEARCH_NAMES, findNameStatic);
-	DDX_Control(pDX, IDC_DECLBROWSER_STATIC_SEARCH_TEXT, findTextStatic);
-	DDX_Control(pDX, IDC_DECLBROWSER_EDIT_SEARCH_NAMES, findNameEdit);
-	DDX_Control(pDX, IDC_DECLBROWSER_EDIT_SEARCH_TEXT, findTextEdit);
-	DDX_Control(pDX, IDC_DECLBROWSER_BUTTON_FIND, findButton);
-	DDX_Control(pDX, IDC_DECLBROWSER_BUTTON_EDIT, editButton);
-	DDX_Control(pDX, IDC_DECLBROWSER_BUTTON_NEW, newButton);
-	DDX_Control(pDX, IDC_DECLBROWSER_BUTTON_RELOAD, reloadButton);
-	DDX_Control(pDX, IDCANCEL, cancelButton);
+	DDX_Control( pDX, IDC_DECLBROWSER_TREE, declTree );
+	DDX_Control( pDX, IDC_DECLBROWSER_STATIC_SEARCH_NAMES, findNameStatic );
+	DDX_Control( pDX, IDC_DECLBROWSER_STATIC_SEARCH_TEXT, findTextStatic );
+	DDX_Control( pDX, IDC_DECLBROWSER_EDIT_SEARCH_NAMES, findNameEdit );
+	DDX_Control( pDX, IDC_DECLBROWSER_EDIT_SEARCH_TEXT, findTextEdit );
+	DDX_Control( pDX, IDC_DECLBROWSER_BUTTON_FIND, findButton );
+	DDX_Control( pDX, IDC_DECLBROWSER_BUTTON_EDIT, editButton );
+	DDX_Control( pDX, IDC_DECLBROWSER_BUTTON_NEW, newButton );
+	DDX_Control( pDX, IDC_DECLBROWSER_BUTTON_RELOAD, reloadButton );
+	DDX_Control( pDX, IDCANCEL, cancelButton );
 	//}}AFX_DATA_MAP
 }
 
@@ -122,12 +121,12 @@ DialogDeclBrowser::AddDeclTypeToTree
 */
 template< class type >
 int idListDeclSortCompare( const type *a, const type *b ) {
-	return idStr::IcmpPath( (*a)->GetName(), (*b)->GetName() );
+	return idStr::IcmpPath( ( *a )->GetName(), ( *b )->GetName() );
 }
 
 void DialogDeclBrowser::AddDeclTypeToTree( declType_t type, const char *root, CPathTreeCtrl &tree ) {
 	int i;
-	idList<const idDecl*> decls;
+	idList<const idDecl *> decls;
 	idPathTreeStack stack;
 	idStr rootStr, declName;
 
@@ -142,11 +141,11 @@ void DialogDeclBrowser::AddDeclTypeToTree( declType_t type, const char *root, CP
 
 	stack.PushRoot( NULL );
 
-	for ( i = 0; i < decls.Num(); i++) {
+	for ( i = 0; i < decls.Num(); i++ ) {
 		declName = rootStr + decls[i]->GetName();
 
 		declName.BackSlashesToSlashes();
-		declName.Strip(' ');
+		declName.Strip( ' ' );
 
 		tree.AddPathToTree( declName, GetIdFromTypeAndIndex( type, decls[i]->Index() ), stack );
 	}
@@ -167,7 +166,7 @@ void DialogDeclBrowser::AddScriptsToTree( CPathTreeCtrl &tree ) {
 
 	stack.PushRoot( NULL );
 
-	for ( i = 0; i < files->GetNumFiles(); i++) {
+	for ( i = 0; i < files->GetNumFiles(); i++ ) {
 		scriptName = files->GetFile( i );
 
 		scriptName.BackSlashesToSlashes();
@@ -194,7 +193,7 @@ void DialogDeclBrowser::AddGUIsToTree( CPathTreeCtrl &tree ) {
 
 	stack.PushRoot( NULL );
 
-	for ( i = 0; i < files->GetNumFiles(); i++) {
+	for ( i = 0; i < files->GetNumFiles(); i++ ) {
 		scriptName = files->GetFile( i );
 
 		scriptName.BackSlashesToSlashes();
@@ -218,7 +217,7 @@ void DialogDeclBrowser::InitBaseDeclTree( void ) {
 	baseDeclTree.DeleteAllItems();
 
 	for ( i = 0; i < declManager->GetNumDeclTypes(); i++ ) {
-		AddDeclTypeToTree( (declType_t)i, declManager->GetDeclNameFromType( (declType_t)i ), baseDeclTree );
+		AddDeclTypeToTree( ( declType_t )i, declManager->GetDeclNameFromType( ( declType_t )i ), baseDeclTree );
 	}
 
 	AddScriptsToTree( baseDeclTree );
@@ -235,7 +234,7 @@ void DialogDeclBrowser::GetDeclName( HTREEITEM item, idStr &typeName, idStr &dec
 	idStr itemName;
 
 	declName.Clear();
-	for( parent = declTree.GetParentItem( item ); parent; parent = declTree.GetParentItem( parent ) ) {
+	for ( parent = declTree.GetParentItem( item ); parent; parent = declTree.GetParentItem( parent ) ) {
 		itemName = declTree.GetItemText( item );
 		declName = itemName + "/" + declName;
 		item = parent;
@@ -302,7 +301,7 @@ void DialogDeclBrowser::EditSelected( void ) const {
 	type = GetTypeFromId( id );
 	index = GetIndexFromId( id );
 
-	switch( type ) {
+	switch ( type ) {
 		case DECL_AF: {
 			decl = declManager->DeclByIndex( type, index, false );
 			spawnArgs.Set( "articulatedFigure", decl->GetName() );
@@ -352,7 +351,7 @@ DeclBrowserCompareDecl
 ================
 */
 bool DeclBrowserCompareDecl( void *data, HTREEITEM item, const char *name ) {
-	return reinterpret_cast<DialogDeclBrowser *>(data)->CompareDecl( item, name );
+	return reinterpret_cast<DialogDeclBrowser *>( data )->CompareDecl( item, name );
 }
 
 /*
@@ -382,7 +381,7 @@ bool DialogDeclBrowser::CompareDecl( HTREEITEM item, const char *name ) const {
 			if ( fileSystem->ReadFile( idStr( name ) + ( ( type == DECLTYPE_SCRIPT ) ? ".script" : ".gui" ), &buffer ) == -1 ) {
 				return false;
 			}
-			text = (char *) buffer;
+			text = ( char * ) buffer;
 			fileSystem->FreeFile( buffer );
 			if ( text.Find( findTextString, false ) == -1 ) {
 				return false;
@@ -390,7 +389,7 @@ bool DialogDeclBrowser::CompareDecl( HTREEITEM item, const char *name ) const {
 		} else {
 			// search for the text in the decl
 			const idDecl *decl = declManager->DeclByIndex( type, index, false );
-			char *declText = (char *)_alloca( ( decl->GetTextLength() + 1 ) * sizeof( char ) );
+			char *declText = ( char * )_alloca( ( decl->GetTextLength() + 1 ) * sizeof( char ) );
 			decl->GetText( declText );
 			if ( idStr::FindText( declText, findTextString, false ) == -1 ) {
 				return false;
@@ -433,7 +432,7 @@ BOOL DialogDeclBrowser::OnInitDialog()  {
 	EnableToolTips( TRUE );
 
 	return TRUE;  // return TRUE unless you set the focus to a control
-	              // EXCEPTION: OCX Property Pages should return FALSE
+	// EXCEPTION: OCX Property Pages should return FALSE
 }
 
 /*
@@ -445,7 +444,7 @@ void DeclBrowserInit( const idDict *spawnArgs ) {
 
 	if ( renderSystem->IsFullScreen() ) {
 		common->Printf( "Cannot run the declaration editor in fullscreen mode.\n"
-					"Set r_fullscreen to 0 and vid_restart.\n" );
+						"Set r_fullscreen to 0 and vid_restart.\n" );
 		return;
 	}
 
@@ -454,13 +453,13 @@ void DeclBrowserInit( const idDict *spawnArgs ) {
 		g_DeclDialog = new DialogDeclBrowser();
 	}
 
-	if ( g_DeclDialog->GetSafeHwnd() == NULL) {
+	if ( g_DeclDialog->GetSafeHwnd() == NULL ) {
 		g_DeclDialog->Create( IDD_DIALOG_DECLBROWSER );
-/*
-		// FIXME: restore position
-		CRect rct;
-		g_DeclDialog->SetWindowPos( NULL, rct.left, rct.top, 0, 0, SWP_NOSIZE );
-*/
+		/*
+				// FIXME: restore position
+				CRect rct;
+				g_DeclDialog->SetWindowPos( NULL, rct.left, rct.top, 0, 0, SWP_NOSIZE );
+		*/
 	}
 
 	idKeyInput::ClearStates();
@@ -484,7 +483,7 @@ void DeclBrowserRun( void ) {
 	MSG *msg = &m_msgCur;
 #endif
 
-	while( ::PeekMessage(msg, NULL, NULL, NULL, PM_NOREMOVE) ) {
+	while ( ::PeekMessage( msg, NULL, NULL, NULL, PM_NOREMOVE ) ) {
 		// pump message
 		if ( !AfxGetApp()->PumpMessage() ) {
 		}
@@ -522,23 +521,23 @@ void DialogDeclBrowser::ReloadDeclarations( void ) {
 	OnBnClickedFind();
 }
 
-BEGIN_MESSAGE_MAP(DialogDeclBrowser, CDialog)
-	ON_NOTIFY_EX_RANGE(TTN_NEEDTEXTW, 0, 0xFFFF, OnToolTipNotify)
-	ON_NOTIFY_EX_RANGE(TTN_NEEDTEXTA, 0, 0xFFFF, OnToolTipNotify)
+BEGIN_MESSAGE_MAP( DialogDeclBrowser, CDialog )
+	ON_NOTIFY_EX_RANGE( TTN_NEEDTEXTW, 0, 0xFFFF, OnToolTipNotify )
+	ON_NOTIFY_EX_RANGE( TTN_NEEDTEXTA, 0, 0xFFFF, OnToolTipNotify )
 	ON_WM_DESTROY()
 	ON_WM_ACTIVATE()
 	ON_WM_MOVE()
 	ON_WM_SIZE()
 	ON_WM_SIZING()
 	ON_WM_SETFOCUS()
-	ON_NOTIFY(TVN_SELCHANGED, IDC_DECLBROWSER_TREE, OnTreeSelChanged)
-	ON_NOTIFY(NM_DBLCLK, IDC_DECLBROWSER_TREE, OnTreeDblclk)
-	ON_BN_CLICKED(IDC_DECLBROWSER_BUTTON_FIND, OnBnClickedFind)
-	ON_BN_CLICKED(IDC_DECLBROWSER_BUTTON_EDIT, OnBnClickedEdit)
-	ON_BN_CLICKED(IDC_DECLBROWSER_BUTTON_NEW, OnBnClickedNew)
-	ON_BN_CLICKED(IDC_DECLBROWSER_BUTTON_RELOAD, OnBnClickedReload)
-	ON_BN_CLICKED(IDOK, OnBnClickedOk)
-	ON_BN_CLICKED(IDCANCEL, OnBnClickedCancel)
+	ON_NOTIFY( TVN_SELCHANGED, IDC_DECLBROWSER_TREE, OnTreeSelChanged )
+	ON_NOTIFY( NM_DBLCLK, IDC_DECLBROWSER_TREE, OnTreeDblclk )
+	ON_BN_CLICKED( IDC_DECLBROWSER_BUTTON_FIND, OnBnClickedFind )
+	ON_BN_CLICKED( IDC_DECLBROWSER_BUTTON_EDIT, OnBnClickedEdit )
+	ON_BN_CLICKED( IDC_DECLBROWSER_BUTTON_NEW, OnBnClickedNew )
+	ON_BN_CLICKED( IDC_DECLBROWSER_BUTTON_RELOAD, OnBnClickedReload )
+	ON_BN_CLICKED( IDOK, OnBnClickedOk )
+	ON_BN_CLICKED( IDCANCEL, OnBnClickedCancel )
 END_MESSAGE_MAP()
 
 // DialogDeclBrowser message handlers
@@ -559,12 +558,12 @@ DialogDeclBrowser::OnToolTipNotify
 */
 BOOL DialogDeclBrowser::OnToolTipNotify( UINT id, NMHDR *pNMHDR, LRESULT *pResult ) {
 	// need to handle both ANSI and UNICODE versions of the message
-	TOOLTIPTEXTA* pTTTA = (TOOLTIPTEXTA*)pNMHDR;
-	TOOLTIPTEXTW* pTTTW = (TOOLTIPTEXTW*)pNMHDR;
+	TOOLTIPTEXTA *pTTTA = ( TOOLTIPTEXTA * )pNMHDR;
+	TOOLTIPTEXTW *pTTTW = ( TOOLTIPTEXTW * )pNMHDR;
 
 	if ( pNMHDR->hwndFrom == declTree.GetSafeHwnd() ) {
 		CString toolTip;
-		const idDecl *decl = GetDeclFromTreeItem( (HTREEITEM) pNMHDR->idFrom );
+		const idDecl *decl = GetDeclFromTreeItem( ( HTREEITEM ) pNMHDR->idFrom );
 
 		if ( !decl ) {
 			return FALSE;
@@ -573,28 +572,28 @@ BOOL DialogDeclBrowser::OnToolTipNotify( UINT id, NMHDR *pNMHDR, LRESULT *pResul
 		toolTip = va( "%s, line: %d", decl->GetFileName(), decl->GetLineNum() );
 
 #ifndef _UNICODE
-		if( pNMHDR->code == TTN_NEEDTEXTA ) {
+		if ( pNMHDR->code == TTN_NEEDTEXTA ) {
 			delete m_pchTip;
 			m_pchTip = new TCHAR[toolTip.GetLength() + 2];
 			lstrcpyn( m_pchTip, toolTip, toolTip.GetLength() + 1 );
-			pTTTW->lpszText = (WCHAR*)m_pchTip;
+			pTTTW->lpszText = ( WCHAR * )m_pchTip;
 		} else {
 			delete m_pwchTip;
 			m_pwchTip = new WCHAR[toolTip.GetLength() + 2];
 			_mbstowcsz( m_pwchTip, toolTip, toolTip.GetLength() + 1 );
-			pTTTW->lpszText = (WCHAR*)m_pwchTip;
+			pTTTW->lpszText = ( WCHAR * )m_pwchTip;
 		}
 #else
-		if( pNMHDR->code == TTN_NEEDTEXTA ) {
+		if ( pNMHDR->code == TTN_NEEDTEXTA ) {
 			delete m_pchTip;
 			m_pchTip = new TCHAR[toolTip.GetLength() + 2];
 			_wcstombsz( m_pchTip, toolTip, toolTip.GetLength() + 1 );
-			pTTTA->lpszText = (LPTSTR)m_pchTip;
+			pTTTA->lpszText = ( LPTSTR )m_pchTip;
 		} else {
 			delete m_pwchTip;
 			m_pwchTip = new WCHAR[toolTip.GetLength() + 2];
 			lstrcpyn( m_pwchTip, toolTip, toolTip.GetLength() + 1 );
-			pTTTA->lpszText = (LPTSTR) m_pwchTip;
+			pTTTA->lpszText = ( LPTSTR ) m_pwchTip;
 		}
 #endif
 		return TRUE;
@@ -806,8 +805,8 @@ void DialogDeclBrowser::OnSizing( UINT nSide, LPRECT lpRect ) {
 DialogDeclBrowser::OnTreeSelChanged
 ================
 */
-void DialogDeclBrowser::OnTreeSelChanged( NMHDR* pNMHDR, LRESULT* pResult ) {
-	LV_KEYDOWN* pLVKeyDow = (LV_KEYDOWN*)pNMHDR;
+void DialogDeclBrowser::OnTreeSelChanged( NMHDR *pNMHDR, LRESULT *pResult ) {
+	LV_KEYDOWN *pLVKeyDow = ( LV_KEYDOWN * )pNMHDR;
 
 	const idDecl *decl = GetSelectedDecl();
 	if ( decl ) {
@@ -851,7 +850,7 @@ void DialogDeclBrowser::OnBnClickedFind() {
 	findTextEdit.GetWindowText( windowText );
 	findTextString = windowText;
 	findTextString.Strip( ' ' );
-	
+
 	numListedDecls = baseDeclTree.SearchTree( DeclBrowserCompareDecl, this, declTree );
 
 	statusBar.SetWindowText( va( "%d decls listed", numListedDecls ) );

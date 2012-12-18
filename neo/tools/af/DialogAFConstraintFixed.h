@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -31,10 +31,10 @@ If you have questions concerning this license or the applicable additional terms
 
 class DialogAFConstraintFixed : public CDialog {
 
-	DECLARE_DYNAMIC(DialogAFConstraintFixed)
+	DECLARE_DYNAMIC( DialogAFConstraintFixed )
 
 public:
-						DialogAFConstraintFixed(CWnd* pParent = NULL);   // standard constructor
+	DialogAFConstraintFixed( CWnd *pParent = NULL ); // standard constructor
 	virtual				~DialogAFConstraintFixed();
 	void				LoadFile( idDeclAF *af );
 	void				SaveFile( void );
@@ -42,18 +42,18 @@ public:
 	void				SaveConstraint( void );
 	void				UpdateFile( void );
 
-						enum { IDD = IDD_DIALOG_AF_CONSTRAINT_FIXED };
+	enum { IDD = IDD_DIALOG_AF_CONSTRAINT_FIXED };
 
 protected:
-	virtual void		DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	virtual int			OnToolHitTest( CPoint point, TOOLINFO* pTI ) const;
+	virtual void		DoDataExchange( CDataExchange *pDX );  // DDX/DDV support
+	virtual int			OnToolHitTest( CPoint point, TOOLINFO *pTI ) const;
 	afx_msg BOOL		OnToolTipNotify( UINT id, NMHDR *pNMHDR, LRESULT *pResult );
 
 	DECLARE_MESSAGE_MAP()
 
 private:
-	idDeclAF *			file;
-	idDeclAF_Constraint*constraint;
+	idDeclAF 			*file;
+	idDeclAF_Constraint *constraint;
 
 	//{{AFX_DATA(DialogAFConstraintHinge)
 	//}}AFX_DATA

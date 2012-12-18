@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -51,8 +51,8 @@ const idEventDef AI_Vagary_ChooseObjectToThrow( "vagary_ChooseObjectToThrow", "v
 const idEventDef AI_Vagary_ThrowObjectAtEnemy( "vagary_ThrowObjectAtEnemy", "ef" );
 
 CLASS_DECLARATION( idAI, idAI_Vagary )
-	EVENT( AI_Vagary_ChooseObjectToThrow,	idAI_Vagary::Event_ChooseObjectToThrow )
-	EVENT( AI_Vagary_ThrowObjectAtEnemy,	idAI_Vagary::Event_ThrowObjectAtEnemy )
+EVENT( AI_Vagary_ChooseObjectToThrow,	idAI_Vagary::Event_ChooseObjectToThrow )
+EVENT( AI_Vagary_ThrowObjectAtEnemy,	idAI_Vagary::Event_ThrowObjectAtEnemy )
 END_CLASS
 
 /*
@@ -61,8 +61,8 @@ idAI_Vagary::Event_ChooseObjectToThrow
 ================
 */
 void idAI_Vagary::Event_ChooseObjectToThrow( const idVec3 &mins, const idVec3 &maxs, float speed, float minDist, float offset ) {
-	idEntity *	ent;
-	idEntity *	entityList[ MAX_GENTITIES ];
+	idEntity 	*ent;
+	idEntity 	*entityList[ MAX_GENTITIES ];
 	int			numListedEntities;
 	int			i, index;
 	float		dist;
@@ -108,10 +108,10 @@ void idAI_Vagary::Event_ChooseObjectToThrow( const idVec3 &mins, const idVec3 &m
 			continue;
 		}
 
-		if ( PredictTrajectory( entPhys->GetOrigin() + offsetVec, enemyEyePos, speed, entPhys->GetGravity(), 
-			entPhys->GetClipModel(), entPhys->GetClipMask(), MAX_WORLD_SIZE, NULL, enemyEnt, ai_debugTrajectory.GetBool() ? 4000 : 0, vel ) ) {
+		if ( PredictTrajectory( entPhys->GetOrigin() + offsetVec, enemyEyePos, speed, entPhys->GetGravity(),
+								entPhys->GetClipModel(), entPhys->GetClipMask(), MAX_WORLD_SIZE, NULL, enemyEnt, ai_debugTrajectory.GetBool() ? 4000 : 0, vel ) ) {
 			idThread::ReturnEntity( ent );
-            return;
+			return;
 		}
 	}
 
@@ -133,15 +133,15 @@ void idAI_Vagary::Event_ThrowObjectAtEnemy( idEntity *ent, float speed ) {
 	if ( !enemyEnt ) {
 		vel = ( viewAxis[ 0 ] * physicsObj.GetGravityAxis() ) * speed;
 	} else {
-		PredictTrajectory( entPhys->GetOrigin(), lastVisibleEnemyPos + lastVisibleEnemyEyeOffset, speed, entPhys->GetGravity(), 
-			entPhys->GetClipModel(), entPhys->GetClipMask(), MAX_WORLD_SIZE, NULL, enemyEnt, ai_debugTrajectory.GetBool() ? 4000 : 0, vel );
+		PredictTrajectory( entPhys->GetOrigin(), lastVisibleEnemyPos + lastVisibleEnemyEyeOffset, speed, entPhys->GetGravity(),
+						   entPhys->GetClipModel(), entPhys->GetClipMask(), MAX_WORLD_SIZE, NULL, enemyEnt, ai_debugTrajectory.GetBool() ? 4000 : 0, vel );
 		vel *= speed;
 	}
 
 	entPhys->SetLinearVelocity( vel );
 
 	if ( ent->IsType( idMoveable::Type ) ) {
-		idMoveable *ment = static_cast<idMoveable*>( ent );
+		idMoveable *ment = static_cast<idMoveable *>( ent );
 		ment->EnableDamage( true, 2.5f );
 	}
 }

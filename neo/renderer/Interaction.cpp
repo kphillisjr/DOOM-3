@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -64,13 +64,13 @@ void R_CalcInteractionFacing( const idRenderEntityLocal *ent, const srfTriangles
 	int numFaces = tri->numIndexes / 3;
 
 	if ( !tri->facePlanes || !tri->facePlanesCalculated ) {
-		R_DeriveFacePlanes( const_cast<srfTriangles_t *>(tri) );
+		R_DeriveFacePlanes( const_cast<srfTriangles_t *>( tri ) );
 	}
 
-	cullInfo.facing = (byte *) R_StaticAlloc( ( numFaces + 1 ) * sizeof( cullInfo.facing[0] ) );
+	cullInfo.facing = ( byte * ) R_StaticAlloc( ( numFaces + 1 ) * sizeof( cullInfo.facing[0] ) );
 
 	// calculate back face culling
-	float *planeSide = (float *) _alloca16( numFaces * sizeof( float ) );
+	float *planeSide = ( float * ) _alloca16( numFaces * sizeof( float ) );
 
 	// exact geometric cull against face
 	SIMDProcessor->Dot( planeSide, localLightOrigin, tri->facePlanes, numFaces );
@@ -105,7 +105,7 @@ void R_CalcInteractionCullBits( const idRenderEntityLocal *ent, const srfTriangl
 
 		// get front bits for the whole surface
 		if ( tri->bounds.PlaneDistance( cullInfo.localClipPlanes[i] ) >= LIGHT_CLIP_EPSILON ) {
-			frontBits |= 1<<i;
+			frontBits |= 1 << i;
 		}
 	}
 
@@ -115,10 +115,10 @@ void R_CalcInteractionCullBits( const idRenderEntityLocal *ent, const srfTriangl
 		return;
 	}
 
-	cullInfo.cullBits = (byte *) R_StaticAlloc( tri->numVerts * sizeof( cullInfo.cullBits[0] ) );
+	cullInfo.cullBits = ( byte * ) R_StaticAlloc( tri->numVerts * sizeof( cullInfo.cullBits[0] ) );
 	SIMDProcessor->Memset( cullInfo.cullBits, 0, tri->numVerts * sizeof( cullInfo.cullBits[0] ) );
 
-	float *planeSide = (float *) _alloca16( tri->numVerts * sizeof( float ) );
+	float *planeSide = ( float * ) _alloca16( tri->numVerts * sizeof( float ) );
 
 	for ( i = 0; i < 6; i++ ) {
 		// if completely infront of this clipping plane
@@ -177,7 +177,7 @@ static int R_ChopWinding( clipTri_t clipTris[2], int inNum, const idPlane plane 
 	bool	front;
 
 	in = &clipTris[inNum];
-	out = &clipTris[inNum^1];
+	out = &clipTris[inNum ^ 1];
 	counts[0] = counts[1] = counts[2] = 0;
 
 	// determine sides for each point
@@ -213,24 +213,24 @@ static int R_ChopWinding( clipTri_t clipTris[2], int inNum, const idPlane plane 
 	out->numVerts = 0;
 	for ( i = 0 ; i < in->numVerts ; i++ ) {
 		idVec3 &p1 = in->verts[i];
-		
+
 		if ( sides[i] == SIDE_FRONT ) {
 			out->verts[out->numVerts] = p1;
 			out->numVerts++;
 		}
 
-		if ( sides[i+1] == sides[i] ) {
+		if ( sides[i + 1] == sides[i] ) {
 			continue;
 		}
-			
+
 		// generate a split point
-		idVec3 &p2 = in->verts[i+1];
-		
-		dot = dists[i] / ( dists[i] - dists[i+1] );
+		idVec3 &p2 = in->verts[i + 1];
+
+		dot = dists[i] / ( dists[i] - dists[i + 1] );
 		for ( j = 0; j < 3; j++ ) {
 			mid[j] = p1[j] + dot * ( p2[j] - p1[j] );
 		}
-			
+
 		out->verts[out->numVerts] = mid;
 
 		out->numVerts++;
@@ -277,9 +277,9 @@ The resulting surface will be a subset of the original triangles,
 it will never clip triangles, but it may cull on a per-triangle basis.
 ====================
 */
-static srfTriangles_t *R_CreateLightTris( const idRenderEntityLocal *ent, 
-									 const srfTriangles_t *tri, const idRenderLightLocal *light,
-									 const idMaterial *shader, srfCullInfo_t &cullInfo ) {
+static srfTriangles_t *R_CreateLightTris( const idRenderEntityLocal *ent,
+		const srfTriangles_t *tri, const idRenderLightLocal *light,
+		const idMaterial *shader, srfCullInfo_t &cullInfo ) {
 	int			i;
 	int			numIndexes;
 	glIndex_t	*indexes;
@@ -300,7 +300,7 @@ static srfTriangles_t *R_CreateLightTris( const idRenderEntityLocal *ent,
 	// it is debatable if non-shadowing lights should light back faces. we aren't at the moment
 	if ( r_lightAllBackFaces.GetBool() || light->lightShader->LightEffectsBackSides()
 			|| shader->ReceivesLightingOnBackSides()
-				|| ent->parms.noSelfShadow || ent->parms.noShadow  ) {
+			|| ent->parms.noSelfShadow || ent->parms.noShadow ) {
 		includeBackFaces = true;
 	} else {
 		includeBackFaces = false;
@@ -310,7 +310,7 @@ static srfTriangles_t *R_CreateLightTris( const idRenderEntityLocal *ent,
 	newTri = R_AllocStaticTriSurf();
 
 	// save a reference to the original surface
-	newTri->ambientSurface = const_cast<srfTriangles_t *>(tri);
+	newTri->ambientSurface = const_cast<srfTriangles_t *>( tri );
 
 	// the light surface references the verts of the ambient surface
 	newTri->numVerts = tri->numVerts;
@@ -348,9 +348,9 @@ static srfTriangles_t *R_CreateLightTris( const idRenderEntityLocal *ent,
 					c_backfaced++;
 					continue;
 				}
-				indexes[numIndexes+0] = tri->indexes[i+0];
-				indexes[numIndexes+1] = tri->indexes[i+1];
-				indexes[numIndexes+2] = tri->indexes[i+2];
+				indexes[numIndexes + 0] = tri->indexes[i + 0];
+				indexes[numIndexes + 1] = tri->indexes[i + 1];
+				indexes[numIndexes + 2] = tri->indexes[i + 2];
 				numIndexes += 3;
 			}
 
@@ -384,9 +384,9 @@ static srfTriangles_t *R_CreateLightTris( const idRenderEntityLocal *ent,
 				}
 			}
 
-			i1 = tri->indexes[i+0];
-			i2 = tri->indexes[i+1];
-			i3 = tri->indexes[i+2];
+			i1 = tri->indexes[i + 0];
+			i2 = tri->indexes[i + 1];
+			i3 = tri->indexes[i + 2];
 
 			// fast cull outside the frustum
 			// if all three points are off one plane side, it definately isn't visible
@@ -407,9 +407,9 @@ static srfTriangles_t *R_CreateLightTris( const idRenderEntityLocal *ent,
 			}
 
 			// add to the list
-			indexes[numIndexes+0] = i1;
-			indexes[numIndexes+1] = i2;
-			indexes[numIndexes+2] = i3;
+			indexes[numIndexes + 0] = i1;
+			indexes[numIndexes + 1] = i2;
+			indexes[numIndexes + 2] = i3;
 			numIndexes += 3;
 		}
 
@@ -821,8 +821,8 @@ The results of this are cached and valid until the light or entity change.
 ====================
 */
 void idInteraction::CreateInteraction( const idRenderModel *model ) {
-	const idMaterial *	lightShader = lightDef->lightShader;
-	const idMaterial*	shader;
+	const idMaterial 	*lightShader = lightDef->lightShader;
+	const idMaterial	*shader;
 	bool				interactionGenerated;
 	idBounds			bounds;
 
@@ -850,7 +850,7 @@ void idInteraction::CreateInteraction( const idRenderModel *model ) {
 	// create slots for each of the model's surfaces
 	//
 	numSurfaces = model->NumSurfaces();
-	surfaces = (surfaceInteraction_t *)R_ClearedStaticAlloc( sizeof( *surfaces ) * numSurfaces );
+	surfaces = ( surfaceInteraction_t * )R_ClearedStaticAlloc( sizeof( *surfaces ) * numSurfaces );
 
 	interactionGenerated = false;
 
@@ -858,7 +858,7 @@ void idInteraction::CreateInteraction( const idRenderModel *model ) {
 	for ( int c = 0 ; c < model->NumSurfaces() ; c++ ) {
 		const modelSurface_t	*surf;
 		srfTriangles_t	*tri;
-	
+
 		surf = model->Surface( c );
 
 		tri = surf->geometry;
@@ -946,7 +946,7 @@ we can draw it without caps in zpass mode
 ======================
 */
 static bool R_PotentiallyInsideInfiniteShadow( const srfTriangles_t *occluder,
-											  const idVec3 &localView, const idVec3 &localLight ) {
+		const idVec3 &localView, const idVec3 &localLight ) {
 	idBounds	exp;
 
 	// expand the bounds to account for the near clip plane, because the
@@ -1022,8 +1022,8 @@ instantiate the dynamic model to find out
 ==================
 */
 void idInteraction::AddActiveInteraction( void ) {
-	viewLight_t *	vLight;
-	viewEntity_t *	vEntity;
+	viewLight_t 	*vLight;
+	viewEntity_t 	*vEntity;
 	idScreenRect	shadowScissor;
 	idScreenRect	lightScissor;
 	idVec3			localLightOrigin;
@@ -1038,7 +1038,7 @@ void idInteraction::AddActiveInteraction( void ) {
 		// use the entity scissor rectangle
 		shadowScissor = vEntity->scissorRect;
 
-	// culling does not seem to be worth it for static world models
+		// culling does not seem to be worth it for static world models
 	} else if ( entityDef->parms.hModel->IsStaticWorldModel() ) {
 
 		// use the light scissor rectangle
@@ -1157,14 +1157,14 @@ void idInteraction::AddActiveInteraction( void ) {
 					// there will only be localSurfaces if the light casts shadows and
 					// there are surfaces with NOSELFSHADOW
 					if ( sint->shader->Coverage() == MC_TRANSLUCENT ) {
-						R_LinkLightSurf( &vLight->translucentInteractions, lightTris, 
-							vEntity, lightDef, shader, lightScissor, false );
-					} else if ( !lightDef->parms.noShadows && sint->shader->TestMaterialFlag(MF_NOSELFSHADOW) ) {
-						R_LinkLightSurf( &vLight->localInteractions, lightTris, 
-							vEntity, lightDef, shader, lightScissor, false );
+						R_LinkLightSurf( &vLight->translucentInteractions, lightTris,
+										 vEntity, lightDef, shader, lightScissor, false );
+					} else if ( !lightDef->parms.noShadows && sint->shader->TestMaterialFlag( MF_NOSELFSHADOW ) ) {
+						R_LinkLightSurf( &vLight->localInteractions, lightTris,
+										 vEntity, lightDef, shader, lightScissor, false );
 					} else {
-						R_LinkLightSurf( &vLight->globalInteractions, lightTris, 
-							vEntity, lightDef, shader, lightScissor, false );
+						R_LinkLightSurf( &vLight->globalInteractions, lightTris,
+										 vEntity, lightDef, shader, lightScissor, false );
 					}
 				}
 			}
@@ -1175,15 +1175,15 @@ void idInteraction::AddActiveInteraction( void ) {
 		// the shadows will always have to be added, unless we can tell they
 		// are from a surface in an unconnected area
 		if ( shadowTris ) {
-			
+
 			// check for view specific shadow suppression (player shadows, etc)
 			if ( !r_skipSuppress.GetBool() ) {
 				if ( entityDef->parms.suppressShadowInViewID &&
-					entityDef->parms.suppressShadowInViewID == tr.viewDef->renderView.viewID ) {
+						entityDef->parms.suppressShadowInViewID == tr.viewDef->renderView.viewID ) {
 					continue;
 				}
 				if ( entityDef->parms.suppressShadowInLightID &&
-					entityDef->parms.suppressShadowInLightID == lightDef->parms.lightId ) {
+						entityDef->parms.suppressShadowInLightID == lightDef->parms.lightId ) {
 					continue;
 				}
 			}
@@ -1234,10 +1234,10 @@ void idInteraction::AddActiveInteraction( void ) {
 
 			if ( sint->shader->TestMaterialFlag( MF_NOSELFSHADOW ) ) {
 				R_LinkLightSurf( &vLight->localShadows,
-					shadowTris, vEntity, lightDef, NULL, shadowScissor, inside );
+								 shadowTris, vEntity, lightDef, NULL, shadowScissor, inside );
 			} else {
 				R_LinkLightSurf( &vLight->globalShadows,
-					shadowTris, vEntity, lightDef, NULL, shadowScissor, inside );
+								 shadowTris, vEntity, lightDef, NULL, shadowScissor, inside );
 			}
 		}
 	}

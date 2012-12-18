@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -210,7 +210,7 @@ class idTarget_FadeEntity : public idTarget {
 public:
 	CLASS_PROTOTYPE( idTarget_FadeEntity );
 
-						idTarget_FadeEntity( void );
+	idTarget_FadeEntity( void );
 
 	void				Save( idSaveGame *savefile ) const;
 	void				Restore( idRestoreGame *savefile );
@@ -325,7 +325,7 @@ class idTarget_SetInfluence : public idTarget {
 public:
 	CLASS_PROTOTYPE( idTarget_SetInfluence );
 
-						idTarget_SetInfluence( void );
+	idTarget_SetInfluence( void );
 
 	void				Save( idSaveGame *savefile ) const;
 	void				Restore( idRestoreGame *savefile );
@@ -349,7 +349,7 @@ private:
 	float				delay;
 	idStr				flashInSound;
 	idStr				flashOutSound;
-	idEntity *			switchToCamera;
+	idEntity 			*switchToCamera;
 	idInterpolate<float>fovSetting;
 	bool				soundFaded;
 	bool				restoreOnTrigger;
@@ -475,7 +475,7 @@ class idTarget_Tip : public idTarget {
 public:
 	CLASS_PROTOTYPE( idTarget_Tip );
 
-						idTarget_Tip( void );
+	idTarget_Tip( void );
 
 	void				Spawn( void );
 

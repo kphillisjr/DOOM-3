@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -57,10 +57,10 @@ idLedge::idLedge( const idVec3 &v1, const idVec3 &v2, const idVec3 &gravityDir, 
 	end = v2;
 	node = n;
 	numPlanes = 4;
-	planes[0].SetNormal( (v1 - v2).Cross( gravityDir ) );
+	planes[0].SetNormal( ( v1 - v2 ).Cross( gravityDir ) );
 	planes[0].Normalize();
 	planes[0].FitThroughPoint( v1 );
-	planes[1].SetNormal( (v1 - v2).Cross( planes[0].Normal() ) );
+	planes[1].SetNormal( ( v1 - v2 ).Cross( planes[0].Normal() ) );
 	planes[1].Normalize();
 	planes[1].FitThroughPoint( v1 );
 	planes[2].SetNormal( v1 - v2 );
@@ -105,7 +105,7 @@ void idLedge::CreateBevels( const idVec3 &gravityDir ) {
 	size = bounds[1] - bounds[0];
 
 	// plane through ledge
-	planes[0].SetNormal( (start - end).Cross( gravityDir ) );
+	planes[0].SetNormal( ( start - end ).Cross( gravityDir ) );
 	planes[0].Normalize();
 	planes[0].FitThroughPoint( start );
 	// axial bevels at start and end point
@@ -113,8 +113,8 @@ void idLedge::CreateBevels( const idVec3 &gravityDir ) {
 	normal = vec3_origin;
 	normal[i] = 1.0f;
 	j = end[i] > start[i];
-	planes[1+j].SetNormal( normal );
-	planes[1+!j].SetNormal( -normal );
+	planes[1 + j].SetNormal( normal );
+	planes[1 + !j].SetNormal( -normal );
 	planes[1].FitThroughPoint( start );
 	planes[2].FitThroughPoint( end );
 	numExpandedPlanes = 3;
@@ -123,22 +123,22 @@ void idLedge::CreateBevels( const idVec3 &gravityDir ) {
 		normal = vec3_origin;
 		normal[!i] = 1.0f;
 		j = end[!i] > start[!i];
-		planes[3+j].SetNormal( normal );
-		planes[3+!j].SetNormal( -normal );
+		planes[3 + j].SetNormal( normal );
+		planes[3 + !j].SetNormal( -normal );
 		planes[3].FitThroughPoint( start );
 		planes[4].FitThroughPoint( end );
 		numExpandedPlanes = 5;
 	}
 	// opposite of first
-	planes[numExpandedPlanes+0] = -planes[0];
+	planes[numExpandedPlanes + 0] = -planes[0];
 	// number of planes used for splitting
 	numSplitPlanes = numExpandedPlanes + 1;
 	// top plane
-	planes[numSplitPlanes+0].SetNormal( (start - end).Cross( planes[0].Normal() ) );
-	planes[numSplitPlanes+0].Normalize();
-	planes[numSplitPlanes+0].FitThroughPoint( start );
+	planes[numSplitPlanes + 0].SetNormal( ( start - end ).Cross( planes[0].Normal() ) );
+	planes[numSplitPlanes + 0].Normalize();
+	planes[numSplitPlanes + 0].FitThroughPoint( start );
 	// bottom plane
-	planes[numSplitPlanes+1] = -planes[numSplitPlanes+0];
+	planes[numSplitPlanes + 1] = -planes[numSplitPlanes + 0];
 	// total number of planes
 	numPlanes = numSplitPlanes + 2;
 }
@@ -157,8 +157,7 @@ void idLedge::Expand( const idBounds &bounds, float maxStepHeight ) {
 		for ( j = 0; j < 3; j++ ) {
 			if ( planes[i].Normal()[j] > 0.0f ) {
 				v[j] = bounds[0][j];
-			}
-			else {
+			} else {
 				v[j] = bounds[1][j];
 			}
 		}
@@ -166,8 +165,8 @@ void idLedge::Expand( const idBounds &bounds, float maxStepHeight ) {
 		planes[i].SetDist( planes[i].Dist() + v * -planes[i].Normal() );
 	}
 
-	planes[numSplitPlanes+0].SetDist( planes[numSplitPlanes+0].Dist() + maxStepHeight );
-	planes[numSplitPlanes+1].SetDist( planes[numSplitPlanes+1].Dist() + 1.0f );
+	planes[numSplitPlanes + 0].SetDist( planes[numSplitPlanes + 0].Dist() + maxStepHeight );
+	planes[numSplitPlanes + 1].SetDist( planes[numSplitPlanes + 1].Dist() + 1.0f );
 }
 
 /*
@@ -219,10 +218,10 @@ void idAASBuild::LedgeSubdivFlood_r( idBrushBSPNode *node, const idLedge *ledge 
 
 	// if this is not already a ledge area
 	if ( !( node->GetFlags() & AREA_LEDGE ) ) {
-		for ( p1 = node->GetPortals(); p1; p1 = p1->Next(s1) ) {
-			s1 = (p1->GetNode(1) == node);
+		for ( p1 = node->GetPortals(); p1; p1 = p1->Next( s1 ) ) {
+			s1 = ( p1->GetNode( 1 ) == node );
 
-			if ( !(p1->GetFlags() & FACE_FLOOR) ) {
+			if ( !( p1->GetFlags() & FACE_FLOOR ) ) {
 				continue;
 			}
 
@@ -242,8 +241,8 @@ void idAASBuild::LedgeSubdivFlood_r( idBrushBSPNode *node, const idLedge *ledge 
 				}
 				numLedgeSubdivisions++;
 				DisplayRealTimeString( "\r%6d", numLedgeSubdivisions );
-				node->GetChild(0)->SetFlag( NODE_VISITED );
-				LedgeSubdivFlood_r( node->GetChild(1), ledge );
+				node->GetChild( 0 )->SetFlag( NODE_VISITED );
+				LedgeSubdivFlood_r( node->GetChild( 1 ), ledge );
 				return;
 			}
 
@@ -255,8 +254,8 @@ void idAASBuild::LedgeSubdivFlood_r( idBrushBSPNode *node, const idLedge *ledge 
 	node->SetFlag( NODE_VISITED );
 
 	// get all nodes we might need to flood into
-	for ( p1 = node->GetPortals(); p1; p1 = p1->Next(s1) ) {
-		s1 = (p1->GetNode(1) == node);
+	for ( p1 = node->GetPortals(); p1; p1 = p1->Next( s1 ) ) {
+		s1 = ( p1->GetNode( 1 ) == node );
 
 		if ( p1->GetNode( !s1 )->GetContents() & AREACONTENTS_SOLID ) {
 			continue;
@@ -290,12 +289,12 @@ void idAASBuild::LedgeSubdivLeafNodes_r( idBrushBSPNode *node, const idLedge *le
 	if ( !node ) {
 		return;
 	}
-	if ( !node->GetChild(0) && !node->GetChild(1) ) {
+	if ( !node->GetChild( 0 ) && !node->GetChild( 1 ) ) {
 		LedgeSubdivFlood_r( node, ledge );
 		return;
 	}
-	LedgeSubdivLeafNodes_r( node->GetChild(0), ledge );
-	LedgeSubdivLeafNodes_r( node->GetChild(1), ledge );
+	LedgeSubdivLeafNodes_r( node->GetChild( 0 ), ledge );
+	LedgeSubdivLeafNodes_r( node->GetChild( 1 ), ledge );
 }
 
 /*
@@ -351,37 +350,31 @@ bool idAASBuild::IsLedgeSide_r( idBrushBSPNode *node, idFixedWinding *w, const i
 		return false;
 	}
 
-	while ( node->GetChild(0) && node->GetChild(1) ) {
+	while ( node->GetChild( 0 ) && node->GetChild( 1 ) ) {
 		dist = node->GetPlane().Distance( origin );
 		if ( dist > radius ) {
 			res = SIDE_FRONT;
-		}
-		else if ( dist < -radius ) {
+		} else if ( dist < -radius ) {
 			res = SIDE_BACK;
-		}
-		else {
+		} else {
 			res = w->Split( &back, node->GetPlane(), LEDGE_EPSILON );
 		}
 		if ( res == SIDE_FRONT ) {
-			node = node->GetChild(0);
-		}
-		else if ( res == SIDE_BACK ) {
-			node = node->GetChild(1);
-		}
-		else if ( res == SIDE_ON ) {
+			node = node->GetChild( 0 );
+		} else if ( res == SIDE_BACK ) {
+			node = node->GetChild( 1 );
+		} else if ( res == SIDE_ON ) {
 			// continue with the side the winding faces
 			if ( node->GetPlane().Normal() * normal > 0.0f ) {
-				node = node->GetChild(0);
+				node = node->GetChild( 0 );
+			} else {
+				node = node->GetChild( 1 );
 			}
-			else {
-				node = node->GetChild(1);
-			}
-		}
-		else {
-			if ( IsLedgeSide_r( node->GetChild(1), &back, plane, normal, origin, radius ) ) {
+		} else {
+			if ( IsLedgeSide_r( node->GetChild( 1 ), &back, plane, normal, origin, radius ) ) {
 				return true;
 			}
-			node = node->GetChild(0);
+			node = node->GetChild( 0 );
 		}
 	}
 
@@ -390,7 +383,7 @@ bool idAASBuild::IsLedgeSide_r( idBrushBSPNode *node, idFixedWinding *w, const i
 	}
 
 	for ( i = 0; i < w->GetNumPoints(); i++ ) {
-		if ( plane.Distance( (*w)[i].ToVec3() ) > 0.0f ) {
+		if ( plane.Distance( ( *w )[i].ToVec3() ) > 0.0f ) {
 			return true;
 		}
 	}
@@ -423,7 +416,7 @@ void idAASBuild::AddLedge( const idVec3 &v1, const idVec3 &v2, idBrushBSPNode *n
 		}
 
 		if ( !ledgeList[i].PointBetweenBounds( v1 ) &&
-			!ledgeList[i].PointBetweenBounds( v2 ) ) {
+				!ledgeList[i].PointBetweenBounds( v2 ) ) {
 			continue;
 		}
 
@@ -431,11 +424,10 @@ void idAASBuild::AddLedge( const idVec3 &v1, const idVec3 &v2, idBrushBSPNode *n
 			ledgeList[i].AddPoint( v1 );
 			ledgeList[i].AddPoint( v2 );
 			merged = i;
-		}
-		else {
+		} else {
 			ledgeList[merged].AddPoint( ledgeList[i].start );
 			ledgeList[merged].AddPoint( ledgeList[i].end );
-			ledgeList.RemoveIndex(i);
+			ledgeList.RemoveIndex( i );
 			break;
 		}
 	}
@@ -461,27 +453,26 @@ void idAASBuild::FindLeafNodeLedges( idBrushBSPNode *root, idBrushBSPNode *node 
 	idPlane plane;
 	float radius;
 
-	for ( p1 = node->GetPortals(); p1; p1 = p1->Next(s1) ) {
-		s1 = (p1->GetNode(1) == node);
+	for ( p1 = node->GetPortals(); p1; p1 = p1->Next( s1 ) ) {
+		s1 = ( p1->GetNode( 1 ) == node );
 
-		if ( !(p1->GetFlags() & FACE_FLOOR) ) {
+		if ( !( p1->GetFlags() & FACE_FLOOR ) ) {
 			continue;
 		}
 
 		if ( s1 ) {
 			plane = p1->GetPlane();
 			w = p1->GetWinding()->Reverse();
-		}
-		else {
+		} else {
 			plane = -p1->GetPlane();
 			w = p1->GetWinding();
 		}
 
 		for ( i = 0; i < w->GetNumPoints(); i++ ) {
 
-			v1 = (*w)[i].ToVec3();
-			v2 = (*w)[(i+1)%w->GetNumPoints()].ToVec3();
-			normal = (v2 - v1).Cross( aasSettings->gravityDir );
+			v1 = ( *w )[i].ToVec3();
+			v2 = ( *w )[( i + 1 ) % w->GetNumPoints()].ToVec3();
+			normal = ( v2 - v1 ).Cross( aasSettings->gravityDir );
 			if ( normal.Normalize() < 0.5f ) {
 				continue;
 			}
@@ -493,7 +484,7 @@ void idAASBuild::FindLeafNodeLedges( idBrushBSPNode *root, idBrushBSPNode *node 
 			winding += winding[0].ToVec3() + ( aasSettings->maxStepHeight + 1.0f ) * aasSettings->gravityDir;
 
 			winding.GetBounds( bounds );
-			origin = (bounds[1] - bounds[0]) * 0.5f;
+			origin = ( bounds[1] - bounds[0] ) * 0.5f;
 			radius = origin.Length() + LEDGE_EPSILON;
 			origin = bounds[0] + origin;
 
@@ -526,7 +517,7 @@ void idAASBuild::FindLedges_r( idBrushBSPNode *root, idBrushBSPNode *node ) {
 		return;
 	}
 
-	if ( !node->GetChild(0) && !node->GetChild(1) ) {
+	if ( !node->GetChild( 0 ) && !node->GetChild( 1 ) ) {
 		if ( node->GetFlags() & NODE_VISITED ) {
 			return;
 		}
@@ -535,8 +526,8 @@ void idAASBuild::FindLedges_r( idBrushBSPNode *root, idBrushBSPNode *node ) {
 		return;
 	}
 
-	FindLedges_r( root, node->GetChild(0) );
-	FindLedges_r( root, node->GetChild(1) );
+	FindLedges_r( root, node->GetChild( 0 ) );
+	FindLedges_r( root, node->GetChild( 1 ) );
 }
 
 /*

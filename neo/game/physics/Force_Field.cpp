@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -68,7 +68,7 @@ idForce_Field::Save
 */
 void idForce_Field::Save( idSaveGame *savefile ) const {
 	savefile->WriteInt( type );
-	savefile->WriteInt( applyType);
+	savefile->WriteInt( applyType );
 	savefile->WriteFloat( magnitude );
 	savefile->WriteVec3( dir );
 	savefile->WriteFloat( randomTorque );
@@ -83,8 +83,8 @@ idForce_Field::Restore
 ================
 */
 void idForce_Field::Restore( idRestoreGame *savefile ) {
-	savefile->ReadInt( (int &)type );
-	savefile->ReadInt( (int &)applyType);
+	savefile->ReadInt( ( int & )type );
+	savefile->ReadInt( ( int & )applyType );
 	savefile->ReadFloat( magnitude );
 	savefile->ReadVec3( dir );
 	savefile->ReadFloat( randomTorque );
@@ -173,7 +173,7 @@ void idForce_Field::Evaluate( int time ) {
 		if ( !entity ) {
 			continue;
 		}
-		
+
 		idPhysics *physics = entity->GetPhysics();
 
 		if ( playerOnly ) {
@@ -187,11 +187,11 @@ void idForce_Field::Evaluate( int time ) {
 		}
 
 		if ( !gameLocal.clip.ContentsModel( cm->GetOrigin(), cm, cm->GetAxis(), -1,
-									clipModel->Handle(), clipModel->GetOrigin(), clipModel->GetAxis() ) ) {
+											clipModel->Handle(), clipModel->GetOrigin(), clipModel->GetAxis() ) ) {
 			continue;
 		}
 
-		switch( type ) {
+		switch ( type ) {
 			case FORCEFIELD_UNIFORM: {
 				force = dir;
 				break;
@@ -221,12 +221,11 @@ void idForce_Field::Evaluate( int time ) {
 			}
 		}
 
-		switch( applyType ) {
+		switch ( applyType ) {
 			case FORCEFIELD_APPLY_FORCE: {
 				if ( randomTorque != 0.0f ) {
 					entity->AddForce( gameLocal.world, cm->GetId(), cm->GetOrigin() + torque.Cross( dir ) * randomTorque, dir * magnitude );
-				}
-				else {
+				} else {
 					entity->AddForce( gameLocal.world, cm->GetId(), cm->GetOrigin(), force * magnitude );
 				}
 				break;
@@ -235,15 +234,14 @@ void idForce_Field::Evaluate( int time ) {
 				physics->SetLinearVelocity( force * magnitude, cm->GetId() );
 				if ( randomTorque != 0.0f ) {
 					angularVelocity = physics->GetAngularVelocity( cm->GetId() );
-					physics->SetAngularVelocity( 0.5f * (angularVelocity + torque * randomTorque), cm->GetId() );
+					physics->SetAngularVelocity( 0.5f * ( angularVelocity + torque * randomTorque ), cm->GetId() );
 				}
 				break;
 			}
 			case FORCEFIELD_APPLY_IMPULSE: {
 				if ( randomTorque != 0.0f ) {
 					entity->ApplyImpulse( gameLocal.world, cm->GetId(), cm->GetOrigin() + torque.Cross( dir ) * randomTorque, dir * magnitude );
-				}
-				else {
+				} else {
 					entity->ApplyImpulse( gameLocal.world, cm->GetId(), cm->GetOrigin(), force * magnitude );
 				}
 				break;

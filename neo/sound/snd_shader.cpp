@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -97,11 +97,11 @@ bool idSoundShader::SetDefaultText( void ) {
 	// if there exists a wav file with the same name
 	if ( 1 ) { //fileSystem->ReadFile( wavname, NULL ) != -1 ) {
 		char generated[2048];
-		idStr::snPrintf( generated, sizeof( generated ), 
-						"sound %s // IMPLICITLY GENERATED\n"
-						"{\n"
-						"%s\n"
-						"}\n", GetName(), wavname.c_str() );
+		idStr::snPrintf( generated, sizeof( generated ),
+						 "sound %s // IMPLICITLY GENERATED\n"
+						 "{\n"
+						 "%s\n"
+						 "}\n", GetName(), wavname.c_str() );
 		SetText( generated );
 		return true;
 	} else {
@@ -117,7 +117,7 @@ DefaultDefinition
 const char *idSoundShader::DefaultDefinition() const {
 	return
 		"{\n"
-	"\t"	"_default.wav\n"
+		"\t"	"_default.wav\n"
 		"}";
 }
 
@@ -164,7 +164,7 @@ bool idSoundShader::ParseShader( idLexer &src ) {
 	speakerMask = 0;
 	altSound = NULL;
 
-	for( i = 0; i < SOUND_MAX_LIST_WAVS; i++ ) {
+	for ( i = 0; i < SOUND_MAX_LIST_WAVS; i++ ) {
 		leadins[i] = NULL;
 		entries[i] = NULL;
 	}
@@ -231,27 +231,27 @@ bool idSoundShader::ParseShader( idLexer &src ) {
 		}
 		// speaker mask
 		else if ( !token.Icmp( "mask_center" ) ) {
-			speakerMask |= 1<<SPEAKER_CENTER;
+			speakerMask |= 1 << SPEAKER_CENTER;
 		}
 		// speaker mask
 		else if ( !token.Icmp( "mask_left" ) ) {
-			speakerMask |= 1<<SPEAKER_LEFT;
+			speakerMask |= 1 << SPEAKER_LEFT;
 		}
 		// speaker mask
 		else if ( !token.Icmp( "mask_right" ) ) {
-			speakerMask |= 1<<SPEAKER_RIGHT;
+			speakerMask |= 1 << SPEAKER_RIGHT;
 		}
 		// speaker mask
 		else if ( !token.Icmp( "mask_backright" ) ) {
-			speakerMask |= 1<<SPEAKER_BACKRIGHT;
+			speakerMask |= 1 << SPEAKER_BACKRIGHT;
 		}
 		// speaker mask
 		else if ( !token.Icmp( "mask_backleft" ) ) {
-			speakerMask |= 1<<SPEAKER_BACKLEFT;
+			speakerMask |= 1 << SPEAKER_BACKLEFT;
 		}
 		// speaker mask
 		else if ( !token.Icmp( "mask_lfe" ) ) {
-			speakerMask |= 1<<SPEAKER_LFE;
+			speakerMask |= 1 << SPEAKER_LFE;
 		}
 		// soundClass
 		else if ( !token.Icmp( "soundClass" ) ) {
@@ -281,7 +281,7 @@ bool idSoundShader::ParseShader( idLexer &src ) {
 			parms.soundShaderFlags |= SSF_NO_FLICKER;
 		}
 		// plain
-		else if ( !token.Icmp( "plain" ) ) {	
+		else if ( !token.Icmp( "plain" ) ) {
 			// no longer supported
 		}
 		// looping
@@ -352,7 +352,7 @@ bool idSoundShader::ParseShader( idLexer &src ) {
 							token = work;
 						}
 					}
-				} 					
+				}
 				entries[ numEntries ] = soundSystemLocal.soundCache->FindSound( token.c_str(), onDemand );
 				numEntries++;
 			}
@@ -381,14 +381,14 @@ bool idSoundShader::CheckShakesAndOgg( void ) const {
 	for ( i = 0; i < numLeadins; i++ ) {
 		if ( leadins[ i ]->objectInfo.wFormatTag == WAVE_FORMAT_TAG_OGG ) {
 			common->Warning( "sound shader '%s' has shakes and uses OGG file '%s'",
-								GetName(), leadins[ i ]->name.c_str() );
+							 GetName(), leadins[ i ]->name.c_str() );
 			ret = true;
 		}
 	}
 	for ( i = 0; i < numEntries; i++ ) {
 		if ( entries[ i ]->objectInfo.wFormatTag == WAVE_FORMAT_TAG_OGG ) {
 			common->Warning( "sound shader '%s' has shakes and uses OGG file '%s'",
-								GetName(), entries[ i ]->name.c_str() );
+							 GetName(), entries[ i ]->name.c_str() );
 			ret = true;
 		}
 	}
@@ -407,18 +407,18 @@ void idSoundShader::List() const {
 	if ( idStr::Icmp( GetDescription(), "<no description>" ) != 0 ) {
 		common->Printf( "      description: %s\n", GetDescription() );
 	}
-	for( int k = 0; k < numLeadins ; k++ ) {
+	for ( int k = 0; k < numLeadins ; k++ ) {
 		const idSoundSample *objectp = leadins[k];
 		if ( objectp ) {
-			common->Printf( "      %5dms %4dKb %s (LEADIN)\n", soundSystemLocal.SamplesToMilliseconds(objectp->LengthIn44kHzSamples()), (objectp->objectMemSize/1024)
-				,objectp->name.c_str() );
+			common->Printf( "      %5dms %4dKb %s (LEADIN)\n", soundSystemLocal.SamplesToMilliseconds( objectp->LengthIn44kHzSamples() ), ( objectp->objectMemSize / 1024 )
+							, objectp->name.c_str() );
 		}
 	}
-	for( int k = 0; k < numEntries; k++ ) {
+	for ( int k = 0; k < numEntries; k++ ) {
 		const idSoundSample *objectp = entries[k];
 		if ( objectp ) {
-			common->Printf( "      %5dms %4dKb %s\n", soundSystemLocal.SamplesToMilliseconds(objectp->LengthIn44kHzSamples()), (objectp->objectMemSize/1024)
-				,objectp->name.c_str() );
+			common->Printf( "      %5dms %4dKb %s\n", soundSystemLocal.SamplesToMilliseconds( objectp->LengthIn44kHzSamples() ), ( objectp->objectMemSize / 1024 )
+							, objectp->name.c_str() );
 		}
 	}
 }

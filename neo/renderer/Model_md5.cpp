@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -116,7 +116,7 @@ void idMD5Mesh::ParseMesh( idLexer &parser, int numJoints, const idJointMat *joi
 	parser.ReadToken( &token );
 	shaderName = token;
 
-    shader = declManager->FindMaterial( shaderName );
+	shader = declManager->FindMaterial( shaderName );
 
 	//
 	// parse texture coordinates
@@ -133,7 +133,7 @@ void idMD5Mesh::ParseMesh( idLexer &parser, int numJoints, const idJointMat *joi
 
 	numWeights = 0;
 	maxweight = 0;
-	for( i = 0; i < texCoords.Num(); i++ ) {
+	for ( i = 0; i < texCoords.Num(); i++ ) {
 		parser.ExpectTokenString( "vert" );
 		parser.ParseInt();
 
@@ -163,7 +163,7 @@ void idMD5Mesh::ParseMesh( idLexer &parser, int numJoints, const idJointMat *joi
 
 	tris.SetNum( count * 3 );
 	numTris = count;
-	for( i = 0; i < count; i++ ) {
+	for ( i = 0; i < count; i++ ) {
 		parser.ExpectTokenString( "tri" );
 		parser.ParseInt();
 
@@ -187,7 +187,7 @@ void idMD5Mesh::ParseMesh( idLexer &parser, int numJoints, const idJointMat *joi
 
 	tempWeights.SetNum( count );
 
-	for( i = 0; i < count; i++ ) {
+	for ( i = 0; i < count; i++ ) {
 		parser.ExpectTokenString( "weight" );
 		parser.ParseInt();
 
@@ -203,14 +203,14 @@ void idMD5Mesh::ParseMesh( idLexer &parser, int numJoints, const idJointMat *joi
 	}
 
 	// create pre-scaled weights and an index for the vertex/joint lookup
-	scaledWeights = (idVec4 *) Mem_Alloc16( numWeights * sizeof( scaledWeights[0] ) );
-	weightIndex = (int *) Mem_Alloc16( numWeights * 2 * sizeof( weightIndex[0] ) );
+	scaledWeights = ( idVec4 * ) Mem_Alloc16( numWeights * sizeof( scaledWeights[0] ) );
+	weightIndex = ( int * ) Mem_Alloc16( numWeights * 2 * sizeof( weightIndex[0] ) );
 	memset( weightIndex, 0, numWeights * 2 * sizeof( weightIndex[0] ) );
 
 	count = 0;
-	for( i = 0; i < texCoords.Num(); i++ ) {
+	for ( i = 0; i < texCoords.Num(); i++ ) {
 		num = firstWeightForVertex[i];
-		for( j = 0; j < numWeightsForVertex[i]; j++, num++, count++ ) {
+		for ( j = 0; j < numWeightsForVertex[i]; j++, num++, count++ ) {
 			scaledWeights[count].ToVec3() = tempWeights[num].offset * tempWeights[num].jointWeight;
 			scaledWeights[count].w = tempWeights[num].jointWeight;
 			weightIndex[count * 2 + 0] = tempWeights[num].joint * sizeof( idJointMat );
@@ -229,14 +229,14 @@ void idMD5Mesh::ParseMesh( idLexer &parser, int numJoints, const idJointMat *joi
 	c_numWeights += numWeights;
 	c_numWeightJoints++;
 	for ( i = 0; i < numWeights; i++ ) {
-		c_numWeightJoints += weightIndex[i*2+1];
+		c_numWeightJoints += weightIndex[i * 2 + 1];
 	}
 
 	//
 	// build the information that will be common to all animations of this mesh:
 	// silhouette edge connectivity and normal / tangent generation information
 	//
-	idDrawVert *verts = (idDrawVert *) _alloca16( texCoords.Num() * sizeof( idDrawVert ) );
+	idDrawVert *verts = ( idDrawVert * ) _alloca16( texCoords.Num() * sizeof( idDrawVert ) );
 	for ( i = 0; i < texCoords.Num(); i++ ) {
 		verts[i].Clear();
 		verts[i].st = texCoords[i];
@@ -262,7 +262,7 @@ Special transform to make the mesh seem fat or skinny.  May be used for zombie d
 ====================
 */
 void idMD5Mesh::TransformScaledVerts( idDrawVert *verts, const idJointMat *entJoints, float scale ) {
-	idVec4 *scaledWeights = (idVec4 *) _alloca16( numWeights * sizeof( scaledWeights[0] ) );
+	idVec4 *scaledWeights = ( idVec4 * ) _alloca16( numWeights * sizeof( scaledWeights[0] ) );
 	SIMDProcessor->Mul( scaledWeights[0].ToFloatPtr(), scale, scaledWeights[0].ToFloatPtr(), numWeights * 4 );
 	SIMDProcessor->TransformVerts( verts, texCoords.Num(), entJoints, scaledWeights, weightIndex, numWeights );
 }
@@ -353,7 +353,7 @@ idMD5Mesh::CalcBounds
 */
 idBounds idMD5Mesh::CalcBounds( const idJointMat *entJoints ) {
 	idBounds	bounds;
-	idDrawVert *verts = (idDrawVert *) _alloca16( texCoords.Num() * sizeof( idDrawVert ) );
+	idDrawVert *verts = ( idDrawVert * ) _alloca16( texCoords.Num() * sizeof( idDrawVert ) );
 
 	TransformVerts( verts, entJoints );
 
@@ -384,18 +384,18 @@ int idMD5Mesh::NearestJoint( int a, int b, int c ) const {
 	}
 
 	// find the first weight for this vertex
- 	weightVertNum = 0;
-	for( i = 0; weightVertNum < vertNum; i++ ) {
-		weightVertNum += weightIndex[i*2+1];
+	weightVertNum = 0;
+	for ( i = 0; weightVertNum < vertNum; i++ ) {
+		weightVertNum += weightIndex[i * 2 + 1];
 	}
 
 	// get the joint for the largest weight
 	bestWeight = scaledWeights[i].w;
-	bestJoint = weightIndex[i*2+0] / sizeof( idJointMat );
-	for( ; weightIndex[i*2+1] == 0; i++ ) {
+	bestJoint = weightIndex[i * 2 + 0] / sizeof( idJointMat );
+	for ( ; weightIndex[i * 2 + 1] == 0; i++ ) {
 		if ( scaledWeights[i].w > bestWeight ) {
 			bestWeight = scaledWeights[i].w;
-			bestJoint = weightIndex[i*2+0] / sizeof( idJointMat );
+			bestJoint = weightIndex[i * 2 + 0] / sizeof( idJointMat );
 		}
 	}
 	return bestJoint;
@@ -547,7 +547,7 @@ void idRenderModelMD5::LoadModel() {
 	parser.ExpectTokenString( "{" );
 	pose = defaultPose.Ptr();
 	joint = joints.Ptr();
-	for( i = 0; i < joints.Num(); i++, joint++, pose++ ) {
+	for ( i = 0; i < joints.Num(); i++, joint++, pose++ ) {
 		ParseJoint( parser, joint, pose );
 		poseMat3[ i ].SetRotation( pose->q.ToMat3() );
 		poseMat3[ i ].SetTranslation( pose->t );
@@ -559,7 +559,7 @@ void idRenderModelMD5::LoadModel() {
 	}
 	parser.ExpectTokenString( "}" );
 
-	for( i = 0; i < meshes.Num(); i++ ) {
+	for ( i = 0; i < meshes.Num(); i++ ) {
 		parser.ExpectTokenString( "mesh" );
 		meshes[ i ].ParseMesh( parser, defaultPose.Num(), poseMat3 );
 	}
@@ -589,12 +589,12 @@ void idRenderModelMD5::Print() const {
 	int	totalVerts = 0;
 	int	totalTris = 0;
 	int	totalWeights = 0;
-	for( mesh = meshes.Ptr(), i = 0; i < meshes.Num(); i++, mesh++ ) {
+	for ( mesh = meshes.Ptr(), i = 0; i < meshes.Num(); i++, mesh++ ) {
 		totalVerts += mesh->NumVerts();
 		totalTris += mesh->NumTris();
 		totalWeights += mesh->NumWeights();
 		common->Printf( "%2i: %5i %5i %7i %s\n", i, mesh->NumVerts(), mesh->NumTris(), mesh->NumWeights(), mesh->shader->GetName() );
-	}	
+	}
 	common->Printf( "-----\n" );
 	common->Printf( "%4i verts.\n", totalVerts );
 	common->Printf( "%4i tris.\n", totalTris );
@@ -613,11 +613,11 @@ void idRenderModelMD5::List() const {
 	int			totalTris = 0;
 	int			totalVerts = 0;
 
-	for( mesh = meshes.Ptr(), i = 0; i < meshes.Num(); i++, mesh++ ) {
+	for ( mesh = meshes.Ptr(), i = 0; i < meshes.Num(); i++, mesh++ ) {
 		totalTris += mesh->numTris;
 		totalVerts += mesh->NumVerts();
 	}
-	common->Printf( " %4ik %3i %4i %4i %s(MD5)", Memory()/1024, meshes.Num(), totalVerts, totalTris, Name() );
+	common->Printf( " %4ik %3i %4i %4i %s(MD5)", Memory() / 1024, meshes.Num(), totalVerts, totalTris, Name() );
 
 	if ( defaulted ) {
 		common->Printf( " (DEFAULTED)" );
@@ -636,7 +636,7 @@ void idRenderModelMD5::CalculateBounds( const idJointMat *entJoints ) {
 	idMD5Mesh	*mesh;
 
 	bounds.Clear();
-	for( mesh = meshes.Ptr(), i = 0; i < meshes.Num(); i++, mesh++ ) {
+	for ( mesh = meshes.Ptr(), i = 0; i < meshes.Num(); i++, mesh++ ) {
 		bounds.AddBounds( mesh->CalcBounds( entJoints ) );
 	}
 }
@@ -682,8 +682,8 @@ void idRenderModelMD5::DrawJoints( const renderEntity_t *ent, const struct viewD
 
 	num = ent->numJoints;
 	joint = ent->joints;
-	md5Joint = joints.Ptr();	
-	for( i = 0; i < num; i++, joint++, md5Joint++ ) {
+	md5Joint = joints.Ptr();
+	for ( i = 0; i < num; i++, joint++, md5Joint++ ) {
 		pos = ent->origin + joint->ToVec3() * ent->axis;
 		if ( md5Joint->parent ) {
 			parentNum = md5Joint->parent - joints.Ptr();
@@ -707,7 +707,7 @@ void idRenderModelMD5::DrawJoints( const renderEntity_t *ent, const struct viewD
 		scale = r_jointNameScale.GetFloat();
 		joint = ent->joints;
 		num = ent->numJoints;
-		for( i = 0; i < num; i++, joint++ ) {
+		for ( i = 0; i < num; i++, joint++ ) {
 			pos = ent->origin + joint->ToVec3() * ent->axis;
 			session->rw->DrawText( joints[ i ].name, pos + offset, scale, colorWhite, view->renderView.viewaxis, 1 );
 		}
@@ -747,9 +747,9 @@ idRenderModel *idRenderModelMD5::InstantiateDynamicModel( const struct renderEnt
 	tr.pc.c_generateMd5++;
 
 	if ( cachedModel ) {
-		assert( dynamic_cast<idRenderModelStatic *>(cachedModel) != NULL );
+		assert( dynamic_cast<idRenderModelStatic *>( cachedModel ) != NULL );
 		assert( idStr::Icmp( cachedModel->Name(), MD5_SnapshotName ) == 0 );
-		staticModel = static_cast<idRenderModelStatic *>(cachedModel);
+		staticModel = static_cast<idRenderModelStatic *>( cachedModel );
 	} else {
 		staticModel = new idRenderModelStatic;
 		staticModel->InitEmpty( MD5_SnapshotName );
@@ -771,13 +771,13 @@ idRenderModel *idRenderModelMD5::InstantiateDynamicModel( const struct renderEnt
 	}
 
 	// create all the surfaces
-	for( mesh = meshes.Ptr(), i = 0; i < meshes.Num(); i++, mesh++ ) {
+	for ( mesh = meshes.Ptr(), i = 0; i < meshes.Num(); i++, mesh++ ) {
 		// avoid deforming the surface if it will be a nodraw due to a skin remapping
 		// FIXME: may have to still deform clipping hulls
 		const idMaterial *shader = mesh->shader;
-		
+
 		shader = R_RemapShaderBySkin( shader, ent->customSkin, ent->customShader );
-		
+
 		if ( !shader || ( !shader->IsDrawn() && !shader->SurfaceCastsShadow() ) ) {
 			staticModel->DeleteSurfaceWithId( i );
 			mesh->surfaceNum = -1;
@@ -854,9 +854,9 @@ idRenderModelMD5::GetJointHandle
 jointHandle_t idRenderModelMD5::GetJointHandle( const char *name ) const {
 	const idMD5Joint *joint;
 	int	i;
-	
+
 	joint = joints.Ptr();
-	for( i = 0; i < joints.Num(); i++, joint++ ) {
+	for ( i = 0; i < joints.Num(); i++, joint++ ) {
 		if ( idStr::Icmp( joint->name.c_str(), name ) == 0 ) {
 			return ( jointHandle_t )i;
 		}
@@ -912,7 +912,7 @@ void idRenderModelMD5::TouchData() {
 	idMD5Mesh	*mesh;
 	int			i;
 
-	for( mesh = meshes.Ptr(), i = 0; i < meshes.Num(); i++, mesh++ ) {
+	for ( mesh = meshes.Ptr(), i = 0; i < meshes.Num(); i++, mesh++ ) {
 		declManager->FindMaterial( mesh->shader->GetName() );
 	}
 }

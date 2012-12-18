@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -109,16 +109,16 @@ idODE_Midpoint::~Evaluate
 */
 float idODE_Midpoint::Evaluate( const float *state, float *newState, float t0, float t1 ) {
 	double delta, halfDelta;
-    int i;
+	int i;
 
 	delta = t1 - t0;
 	halfDelta = delta * 0.5;
-    // first step
+	// first step
 	derive( t0, userData, state, derivatives );
 	for ( i = 0; i < dimension; i++ ) {
 		tmpState[i] = state[i] + halfDelta * derivatives[i];
 	}
-    // second step
+	// second step
 	derive( t0 + halfDelta, userData, tmpState, derivatives );
 
 	for ( i = 0; i < dimension; i++ ) {
@@ -191,9 +191,9 @@ float idODE_RK4::Evaluate( const float *state, float *newState, float t0, float 
 	// fourth step
 	derive( t0 + delta, userData, tmpState, d4 );
 
-	sixthDelta = delta * (1.0/6.0);
+	sixthDelta = delta * ( 1.0 / 6.0 );
 	for ( i = 0; i < dimension; i++ ) {
-		newState[i] = state[i] + sixthDelta * (d1[i] + 2.0 * (d2[i] + d3[i]) + d4[i]);
+		newState[i] = state[i] + sixthDelta * ( d1[i] + 2.0 * ( d2[i] + d3[i] ) + d4[i] );
 	}
 	return delta;
 }
@@ -282,9 +282,9 @@ float idODE_RK4Adaptive::Evaluate( const float *state, float *newState, float t0
 		// fourth step of first half delta
 		derive( t0 + halfDelta, userData, tmpState, d4 );
 
-		sixthDelta = halfDelta * (1.0/6.0);
+		sixthDelta = halfDelta * ( 1.0 / 6.0 );
 		for ( i = 0; i < dimension; i++ ) {
-			tmpState[i] = state[i] + sixthDelta * (d1[i] + 2.0 * (d2[i] + d3[i]) + d4[i]);
+			tmpState[i] = state[i] + sixthDelta * ( d1[i] + 2.0 * ( d2[i] + d3[i] ) + d4[i] );
 		}
 
 		// first step of second half delta
@@ -305,9 +305,9 @@ float idODE_RK4Adaptive::Evaluate( const float *state, float *newState, float t0
 		// fourth step of second half delta
 		derive( t0 + delta, userData, tmpState, d4 );
 
-		sixthDelta = halfDelta * (1.0/6.0);
+		sixthDelta = halfDelta * ( 1.0 / 6.0 );
 		for ( i = 0; i < dimension; i++ ) {
-			newState[i] = state[i] + sixthDelta * (d1[i] + 2.0 * (d2[i] + d3[i]) + d4[i]);
+			newState[i] = state[i] + sixthDelta * ( d1[i] + 2.0 * ( d2[i] + d3[i] ) + d4[i] );
 		}
 
 		// first step of full delta
@@ -327,22 +327,22 @@ float idODE_RK4Adaptive::Evaluate( const float *state, float *newState, float t0
 		// fourth step of full delta
 		derive( t0 + delta, userData, tmpState, d4 );
 
-		sixthDelta = delta * (1.0/6.0);
+		sixthDelta = delta * ( 1.0 / 6.0 );
 		for ( i = 0; i < dimension; i++ ) {
-			tmpState[i] = state[i] + sixthDelta * (d1[i] + 2.0 * (d2[i] + d3[i]) + d4[i]);
+			tmpState[i] = state[i] + sixthDelta * ( d1[i] + 2.0 * ( d2[i] + d3[i] ) + d4[i] );
 		}
 
 		// get max estimated error
-        max = 0.0;
+		max = 0.0;
 		for ( i = 0; i < dimension; i++ ) {
-			error = idMath::Fabs( (newState[i] - tmpState[i]) / (delta * d1[i] + 1e-10) );
+			error = idMath::Fabs( ( newState[i] - tmpState[i] ) / ( delta * d1[i] + 1e-10 ) );
 			if ( error > max ) {
 				max = error;
 			}
-        }
+		}
 		error = max / maxError;
 
-        if ( error <= 1.0f ) {
+		if ( error <= 1.0f ) {
 			return delta * 4.0;
 		}
 		if ( delta <= 1e-7 ) {

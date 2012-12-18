@@ -11,35 +11,33 @@
 
 ///////////////////////////////////////////////////////////
 // Class definitions.
-class idSoundEffect
-{
+class idSoundEffect {
 public:
 	idSoundEffect() {
 	};
-	~idSoundEffect() { 
+	~idSoundEffect() {
 		if ( data && datasize ) {
 			Mem_Free( data );
 			data = NULL;
 		}
 	}
-	
+
 	idStr name;
 	int datasize;
 	void *data;
 };
 
-class idEFXFile
-{
+class idEFXFile {
 private:
 
 protected:
-    // Protected data members.
+	// Protected data members.
 
 public:
-    // Public data members.
+	// Public data members.
 
 private:
-    
+
 public:
 	idEFXFile();
 	~idEFXFile();

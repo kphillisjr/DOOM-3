@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -44,8 +44,8 @@ class idMoveable : public idEntity {
 public:
 	CLASS_PROTOTYPE( idMoveable );
 
-							idMoveable( void );
-							~idMoveable( void );
+	idMoveable( void );
+	~idMoveable( void );
 
 	void					Spawn( void );
 
@@ -81,7 +81,7 @@ protected:
 	int						nextDamageTime;			// next time the movable can hurt the player
 	int						nextSoundTime;			// next time the moveable can make a sound
 
-	const idMaterial *		GetRenderModelMaterial( void ) const;
+	const idMaterial 		*GetRenderModelMaterial( void ) const;
 	void					BecomeNonSolid( void );
 	void					InitInitialSpline( int startTime );
 	bool					FollowInitialSplinePath( void );
@@ -107,7 +107,7 @@ class idBarrel : public idMoveable {
 
 public:
 	CLASS_PROTOTYPE( idBarrel );
-							idBarrel();
+	idBarrel();
 
 	void					Spawn( void );
 
@@ -143,8 +143,8 @@ class idExplodingBarrel : public idBarrel {
 public:
 	CLASS_PROTOTYPE( idExplodingBarrel );
 
-							idExplodingBarrel();
-							~idExplodingBarrel();
+	idExplodingBarrel();
+	~idExplodingBarrel();
 
 	void					Spawn( void );
 
@@ -152,8 +152,8 @@ public:
 	void					Restore( idRestoreGame *savefile );
 
 	virtual void			Think( void );
-	virtual void			Damage( idEntity *inflictor, idEntity *attacker, const idVec3 &dir, 
-								const char *damageDefName, const float damageScale, const int location );
+	virtual void			Damage( idEntity *inflictor, idEntity *attacker, const idVec3 &dir,
+									const char *damageDefName, const float damageScale, const int location );
 	virtual void			Killed( idEntity *inflictor, idEntity *attacker, int damage, const idVec3 &dir, int location );
 
 	virtual void			WriteToSnapshot( idBitMsgDelta &msg ) const;

@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -38,12 +38,12 @@ If you have questions concerning this license or the applicable additional terms
 */
 
 typedef struct commandDef_s {
-	struct commandDef_s *	next;
-	char *					name;
+	struct commandDef_s 	*next;
+	char 					*name;
 	cmdFunction_t			function;
 	argCompletion_t			argCompletion;
 	int						flags;
-	char *					description;
+	char 					*description;
 } commandDef_t;
 
 
@@ -56,27 +56,31 @@ public:
 	virtual void			RemoveCommand( const char *cmdName );
 	virtual void			RemoveFlaggedCommands( int flags );
 
-	virtual void			CommandCompletion( void(*callback)( const char *s ) );
-	virtual void			ArgCompletion( const char *cmdString, void(*callback)( const char *s ) );
+	virtual void			CommandCompletion( void( *callback )( const char *s ) );
+	virtual void			ArgCompletion( const char *cmdString, void( *callback )( const char *s ) );
 
 	virtual void			BufferCommandText( cmdExecution_t exec, const char *text );
 	virtual void			ExecuteCommandBuffer( void );
 
-	virtual void			ArgCompletion_FolderExtension( const idCmdArgs &args, void(*callback)( const char *s ), const char *folder, bool stripFolder, ... );
-	virtual void			ArgCompletion_DeclName( const idCmdArgs &args, void(*callback)( const char *s ), int type );
+	virtual void			ArgCompletion_FolderExtension( const idCmdArgs &args, void( *callback )( const char *s ), const char *folder, bool stripFolder, ... );
+	virtual void			ArgCompletion_DeclName( const idCmdArgs &args, void( *callback )( const char *s ), int type );
 
 	virtual void			BufferCommandArgs( cmdExecution_t exec, const idCmdArgs &args );
 
 	virtual void			SetupReloadEngine( const idCmdArgs &args );
 	virtual bool			PostReloadEngine( void );
 
-	void					SetWait( int numFrames ) { wait = numFrames; }
-	commandDef_t *			GetCommands( void ) const { return commands; }
+	void					SetWait( int numFrames ) {
+		wait = numFrames;
+	}
+	commandDef_t 			*GetCommands( void ) const {
+		return commands;
+	}
 
 private:
 	static const int		MAX_CMD_BUFFER = 0x10000;
 
-	commandDef_t *			commands;
+	commandDef_t 			*commands;
 
 	int						wait;
 	int						textLength;
@@ -91,7 +95,7 @@ private:
 	// a command stored to be executed after a reloadEngine and all associated commands have been processed
 	idCmdArgs				postReload;
 
-private:	
+private:
 	void					ExecuteTokenizedString( const idCmdArgs &args );
 	void					ExecuteCommandText( const char *text );
 	void					InsertCommandText( const char *text );
@@ -113,7 +117,7 @@ private:
 };
 
 idCmdSystemLocal			cmdSystemLocal;
-idCmdSystem *				cmdSystem = &cmdSystemLocal;
+idCmdSystem 				*cmdSystem = &cmdSystemLocal;
 
 
 /*
@@ -123,8 +127,8 @@ idCmdSystemLocal::ListByFlags
 */
 // NOTE: the const wonkyness is required to make msvc happy
 template<>
-ID_INLINE int idListSortCompare( const commandDef_t * const *a, const commandDef_t * const *b ) {
-	return idStr::Icmp( (*a)->name, (*b)->name );
+ID_INLINE int idListSortCompare( const commandDef_t *const *a, const commandDef_t *const *b ) {
+	return idStr::Icmp( ( *a )->name, ( *b )->name );
 }
 
 void idCmdSystemLocal::ListByFlags( const idCmdArgs &args, cmdFlags_t flags ) {
@@ -222,24 +226,24 @@ idCmdSystemLocal::Exec_f
 ===============
 */
 void idCmdSystemLocal::Exec_f( const idCmdArgs &args ) {
-	char *	f;
+	char 	*f;
 	int		len;
 	idStr	filename;
 
-	if ( args.Argc () != 2 ) {
+	if ( args.Argc() != 2 ) {
 		common->Printf( "exec <filename> : execute a script file\n" );
 		return;
 	}
 
-	filename = args.Argv(1);
+	filename = args.Argv( 1 );
 	filename.DefaultFileExtension( ".cfg" );
-	len = fileSystem->ReadFile( filename, reinterpret_cast<void **>(&f), NULL );
+	len = fileSystem->ReadFile( filename, reinterpret_cast<void **>( &f ), NULL );
 	if ( !f ) {
-		common->Printf( "couldn't exec %s\n", args.Argv(1) );
+		common->Printf( "couldn't exec %s\n", args.Argv( 1 ) );
 		return;
 	}
-	common->Printf( "execing %s\n", args.Argv(1) );
-	
+	common->Printf( "execing %s\n", args.Argv( 1 ) );
+
 	cmdSystemLocal.BufferCommandText( CMD_EXEC_INSERT, f );
 
 	fileSystem->FreeFile( f );
@@ -255,7 +259,7 @@ Inserts the current value of a cvar as command text
 void idCmdSystemLocal::Vstr_f( const idCmdArgs &args ) {
 	const char *v;
 
-	if ( args.Argc () != 2 ) {
+	if ( args.Argc() != 2 ) {
 		common->Printf( "vstr <variablename> : execute a variable command\n" );
 		return;
 	}
@@ -274,7 +278,7 @@ Just prints the rest of the line to the console
 */
 void idCmdSystemLocal::Echo_f( const idCmdArgs &args ) {
 	int		i;
-	
+
 	for ( i = 1; i < args.Argc(); i++ ) {
 		common->Printf( "%s ", args.Argv( i ) );
 	}
@@ -307,7 +311,7 @@ void idCmdSystemLocal::Parse_f( const idCmdArgs &args ) {
 	int		i;
 
 	for ( i = 0; i < args.Argc(); i++ ) {
-		common->Printf( "%i: %s\n", i, args.Argv(i) );
+		common->Printf( "%i: %s\n", i, args.Argv( i ) );
 	}
 }
 
@@ -363,7 +367,7 @@ idCmdSystemLocal::AddCommand
 */
 void idCmdSystemLocal::AddCommand( const char *cmdName, cmdFunction_t function, int flags, const char *description, argCompletion_t argCompletion ) {
 	commandDef_t *cmd;
-	
+
 	// fail if the command already exists
 	for ( cmd = commands; cmd; cmd = cmd->next ) {
 		if ( idStr::Cmp( cmdName, cmd->name ) == 0 ) {
@@ -429,9 +433,9 @@ void idCmdSystemLocal::RemoveFlaggedCommands( int flags ) {
 idCmdSystemLocal::CommandCompletion
 ============
 */
-void idCmdSystemLocal::CommandCompletion( void(*callback)( const char *s ) ) {
+void idCmdSystemLocal::CommandCompletion( void( *callback )( const char *s ) ) {
 	commandDef_t *cmd;
-	
+
 	for ( cmd = commands; cmd; cmd = cmd->next ) {
 		callback( cmd->name );
 	}
@@ -442,7 +446,7 @@ void idCmdSystemLocal::CommandCompletion( void(*callback)( const char *s ) ) {
 idCmdSystemLocal::ArgCompletion
 ============
 */
-void idCmdSystemLocal::ArgCompletion( const char *cmdString, void(*callback)( const char *s ) ) {
+void idCmdSystemLocal::ArgCompletion( const char *cmdString, void( *callback )( const char *s ) ) {
 	commandDef_t *cmd;
 	idCmdArgs args;
 
@@ -464,15 +468,15 @@ void idCmdSystemLocal::ArgCompletion( const char *cmdString, void(*callback)( co
 idCmdSystemLocal::ExecuteTokenizedString
 ============
 */
-void idCmdSystemLocal::ExecuteTokenizedString( const idCmdArgs &args ) {	
+void idCmdSystemLocal::ExecuteTokenizedString( const idCmdArgs &args ) {
 	commandDef_t *cmd, **prev;
-	
+
 	// execute the command line
 	if ( !args.Argc() ) {
 		return;		// no tokens
 	}
 
-	// check registered command functions	
+	// check registered command functions
 	for ( prev = &commands; *prev; prev = &cmd->next ) {
 		cmd = *prev;
 		if ( idStr::Icmp( args.Argv( 0 ), cmd->name ) == 0 ) {
@@ -482,7 +486,7 @@ void idCmdSystemLocal::ExecuteTokenizedString( const idCmdArgs &args ) {
 			cmd->next = commands;
 			commands = cmd;
 
-			if ( ( cmd->flags & (CMD_FL_CHEAT|CMD_FL_TOOL) ) && session && session->IsMultiplayer() && !cvarSystem->GetCVarBool( "net_allowCheats" ) ) {
+			if ( ( cmd->flags & ( CMD_FL_CHEAT | CMD_FL_TOOL ) ) && session && session->IsMultiplayer() && !cvarSystem->GetCVarBool( "net_allowCheats" ) ) {
 				common->Printf( "Command '%s' not valid in multiplayer mode.\n", cmd->name );
 				return;
 			}
@@ -495,7 +499,7 @@ void idCmdSystemLocal::ExecuteTokenizedString( const idCmdArgs &args ) {
 			return;
 		}
 	}
-	
+
 	// check cvars
 	if ( cvarSystem->Command( args ) ) {
 		return;
@@ -511,7 +515,7 @@ idCmdSystemLocal::ExecuteCommandText
 Tokenizes, then executes.
 ============
 */
-void idCmdSystemLocal::ExecuteCommandText( const char *text ) {	
+void idCmdSystemLocal::ExecuteCommandText( const char *text ) {
 	ExecuteTokenizedString( idCmdArgs( text, false ) );
 }
 
@@ -528,7 +532,7 @@ void idCmdSystemLocal::InsertCommandText( const char *text ) {
 	int		i;
 
 	len = strlen( text ) + 1;
-	if ( len + textLength > (int)sizeof( textBuf ) ) {
+	if ( len + textLength > ( int )sizeof( textBuf ) ) {
 		common->Printf( "idCmdSystemLocal::InsertText: buffer overflow\n" );
 		return;
 	}
@@ -556,10 +560,10 @@ Adds command text at the end of the buffer, does NOT add a final \n
 */
 void idCmdSystemLocal::AppendCommandText( const char *text ) {
 	int l;
-	
+
 	l = strlen( text );
 
-	if ( textLength + l >= (int)sizeof( textBuf ) ) {
+	if ( textLength + l >= ( int )sizeof( textBuf ) ) {
 		common->Printf( "idCmdSystemLocal::AppendText: buffer overflow\n" );
 		return;
 	}
@@ -573,7 +577,7 @@ idCmdSystemLocal::BufferCommandText
 ============
 */
 void idCmdSystemLocal::BufferCommandText( cmdExecution_t exec, const char *text ) {
-	switch( exec ) {
+	switch ( exec ) {
 		case CMD_EXEC_NOW: {
 			ExecuteCommandText( text );
 			break;
@@ -621,11 +625,11 @@ idCmdSystemLocal::ExecuteCommandBuffer
 */
 void idCmdSystemLocal::ExecuteCommandBuffer( void ) {
 	int			i;
-	char *		text;
+	char 		*text;
 	int			quotes;
 	idCmdArgs	args;
 
-	while( textLength ) {
+	while ( textLength ) {
 
 		if ( wait )	{
 			// skip out while text still remains in buffer, leaving it for next frame
@@ -634,7 +638,7 @@ void idCmdSystemLocal::ExecuteCommandBuffer( void ) {
 		}
 
 		// find a \n or ; line break
-		text = (char *)textBuf;
+		text = ( char * )textBuf;
 
 		quotes = 0;
 		for ( i = 0; i < textLength; i++ ) {
@@ -648,7 +652,7 @@ void idCmdSystemLocal::ExecuteCommandBuffer( void ) {
 				break;
 			}
 		}
-			
+
 		text[i] = 0;
 
 		if ( !idStr::Cmp( text, "_execTokenized" ) ) {
@@ -667,7 +671,7 @@ void idCmdSystemLocal::ExecuteCommandBuffer( void ) {
 		} else {
 			i++;
 			textLength -= i;
-			memmove( text, text+i, textLength );
+			memmove( text, text + i, textLength );
 		}
 
 		// execute the command line that we have already tokenized
@@ -680,7 +684,7 @@ void idCmdSystemLocal::ExecuteCommandBuffer( void ) {
 idCmdSystemLocal::ArgCompletion_FolderExtension
 ============
 */
-void idCmdSystemLocal::ArgCompletion_FolderExtension( const idCmdArgs &args, void(*callback)( const char *s ), const char *folder, bool stripFolder, ... ) {
+void idCmdSystemLocal::ArgCompletion_FolderExtension( const idCmdArgs &args, void( *callback )( const char *s ), const char *folder, bool stripFolder, ... ) {
 	int i;
 	idStr string;
 	const char *extension;
@@ -746,15 +750,15 @@ void idCmdSystemLocal::ArgCompletion_FolderExtension( const idCmdArgs &args, voi
 idCmdSystemLocal::ArgCompletion_DeclName
 ============
 */
-void idCmdSystemLocal::ArgCompletion_DeclName( const idCmdArgs &args, void(*callback)( const char *s ), int type ) {
+void idCmdSystemLocal::ArgCompletion_DeclName( const idCmdArgs &args, void( *callback )( const char *s ), int type ) {
 	int i, num;
 
 	if ( declManager == NULL ) {
 		return;
 	}
-	num = declManager->GetNumDecls( (declType_t)type );
+	num = declManager->GetNumDecls( ( declType_t )type );
 	for ( i = 0; i < num; i++ ) {
-		callback( idStr( args.Argv( 0 ) ) + " " + declManager->DeclByIndex( (declType_t)type, i , false )->GetName() );
+		callback( idStr( args.Argv( 0 ) ) + " " + declManager->DeclByIndex( ( declType_t )type, i , false )->GetName() );
 	}
 }
 

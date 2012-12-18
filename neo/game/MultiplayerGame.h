@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -48,10 +48,10 @@ typedef enum {
 } gameType_t;
 
 typedef enum {
-		PLAYER_VOTE_NONE,
-		PLAYER_VOTE_NO,
-		PLAYER_VOTE_YES,
-		PLAYER_VOTE_WAIT	// mark a player allowed to vote
+	PLAYER_VOTE_NONE,
+	PLAYER_VOTE_NO,
+	PLAYER_VOTE_YES,
+	PLAYER_VOTE_WAIT	// mark a player allowed to vote
 } playerVote_t;
 
 typedef struct mpPlayerState_s {
@@ -95,7 +95,7 @@ typedef enum {
 class idMultiplayerGame {
 public:
 
-					idMultiplayerGame();
+	idMultiplayerGame();
 
 	void			Shutdown( void );
 
@@ -108,7 +108,7 @@ public:
 	// checks rules and updates state of the mp game
 	void			Run( void );
 
-	// draws mp hud, scoredboard, etc.. 
+	// draws mp hud, scoredboard, etc..
 	bool			Draw( int clientNum );
 
 	// updates a player vote
@@ -117,11 +117,11 @@ public:
 	// updates frag counts and potentially ends the match in sudden death
 	void			PlayerDeath( idPlayer *dead, idPlayer *killer, bool telefrag );
 
-	void			AddChatLine( const char *fmt, ... ) id_attribute((format(printf,2,3)));
+	void			AddChatLine( const char *fmt, ... ) id_attribute( ( format( printf, 2, 3 ) ) );
 
 	void			UpdateMainGui( void );
-	idUserInterface*StartMenu( void );
-	const char*		HandleGuiCommands( const char *menuCommand );
+	idUserInterface *StartMenu( void );
+	const char		*HandleGuiCommands( const char *menuCommand );
 	void			SetMenuSkin( void );
 
 	void			WriteToSnapshot( idBitMsgDelta &msg ) const;
@@ -214,7 +214,7 @@ public:
 	void			ProcessVoiceChat( int clientNum, bool team, int index );
 
 	void			Precache( void );
-	
+
 	// throttle UI switch rates
 	void			ThrottleUserInfo( void );
 	void			ToggleSpectate( void );
@@ -249,7 +249,7 @@ private:
 
 	mpPlayerState_t	playerState[ MAX_CLIENTS ];
 
-											// keep track of clients which are willingly in spectator mode
+	// keep track of clients which are willingly in spectator mode
 
 	// vote vars
 	vote_flags_t	vote;					// active vote or VOTE_NONE
@@ -295,7 +295,7 @@ private:
 
 	// rankings are used by UpdateScoreboard and UpdateHud
 	int				numRankedPlayers;		// ranked players, others may be empty slots or spectators
-	idPlayer *		rankedPlayers[MAX_CLIENTS];
+	idPlayer 		*rankedPlayers[MAX_CLIENTS];
 
 	bool			pureReady;				// defaults to false, set to true once server game is running with pure checksums
 	int				fragLimitTimeout;
@@ -312,15 +312,15 @@ private:
 	// updates the passed gui with current score information
 	void			UpdateRankColor( idUserInterface *gui, const char *mask, int i, const idVec3 &vec );
 	void			UpdateScoreboard( idUserInterface *scoreBoard, idPlayer *player );
-	
+
 	void			ClearGuis( void );
 	void			DrawScoreBoard( idPlayer *player );
 	void			UpdateHud( idPlayer *player, idUserInterface *hud );
 	bool			Warmup( void );
 	void			CheckVote( void );
 	bool			AllPlayersReady( void );
-	idPlayer *		FragLimitHit( void );
-	idPlayer *		FragLeader( void );
+	idPlayer 		*FragLimitHit( void );
+	idPlayer 		*FragLeader( void );
 	bool			TimeLimitHit( void );
 	void			NewState( gameState_t news, idPlayer *player = NULL );
 	void			UpdateWinsLosses( idPlayer *winner );
@@ -329,7 +329,7 @@ private:
 	void			CycleTourneyPlayers( void );
 	// walk through the tourneyRank to build a wait list for the clients
 	void			UpdateTourneyLine( void );
-	const char *	GameTime( void );
+	const char 	*GameTime( void );
 	void			Clear( void );
 	bool			EnoughClientsToPlay( void );
 	void			ClearChatData( void );

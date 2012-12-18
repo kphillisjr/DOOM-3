@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -42,7 +42,7 @@ void idSurface_Polytope::FromPlanes( const idPlane *planes, const int numPlanes 
 	idFixedWinding w;
 	idDrawVert newVert;
 
-	windingVerts = (int *) _alloca( MAX_POINTS_ON_WINDING * sizeof( int ) );
+	windingVerts = ( int * ) _alloca( MAX_POINTS_ON_WINDING * sizeof( int ) );
 	memset( &newVert, 0, sizeof( newVert ) );
 
 	for ( i = 0; i < numPlanes; i++ ) {
@@ -76,7 +76,7 @@ void idSurface_Polytope::FromPlanes( const idPlane *planes, const int numPlanes 
 
 		for ( j = 2; j < w.GetNumPoints(); j++ ) {
 			indexes.Append( windingVerts[0] );
-			indexes.Append( windingVerts[j-1] );
+			indexes.Append( windingVerts[j - 1] );
 			indexes.Append( windingVerts[j] );
 		}
 	}
@@ -106,19 +106,19 @@ void idSurface_Polytope::SetupTetrahedron( const idBounds &bounds ) {
 	verts[2].xyz = center + idVec3( -c1 * scale.x, c2 * scale.y, c3 * scale.z );
 	verts[3].xyz = center + idVec3( -c1 * scale.x, -c2 * scale.y, c3 * scale.z );
 
-	indexes.SetNum( 4*3 );
-	indexes[0*3+0] = 0;
-	indexes[0*3+1] = 1;
-	indexes[0*3+2] = 2;
-	indexes[1*3+0] = 0;
-	indexes[1*3+1] = 2;
-	indexes[1*3+2] = 3;
-	indexes[2*3+0] = 0;
-	indexes[2*3+1] = 3;
-	indexes[2*3+2] = 1;
-	indexes[3*3+0] = 1;
-	indexes[3*3+1] = 3;
-	indexes[3*3+2] = 2;
+	indexes.SetNum( 4 * 3 );
+	indexes[0 * 3 + 0] = 0;
+	indexes[0 * 3 + 1] = 1;
+	indexes[0 * 3 + 2] = 2;
+	indexes[1 * 3 + 0] = 0;
+	indexes[1 * 3 + 1] = 2;
+	indexes[1 * 3 + 2] = 3;
+	indexes[2 * 3 + 0] = 0;
+	indexes[2 * 3 + 1] = 3;
+	indexes[2 * 3 + 2] = 1;
+	indexes[3 * 3 + 0] = 1;
+	indexes[3 * 3 + 1] = 3;
+	indexes[3 * 3 + 2] = 2;
 
 	GenerateEdgeIndexes();
 }
@@ -136,51 +136,51 @@ void idSurface_Polytope::SetupHexahedron( const idBounds &bounds ) {
 
 	verts.SetNum( 8 );
 	verts[0].xyz = center + idVec3( -scale.x, -scale.y, -scale.z );
-	verts[1].xyz = center + idVec3(  scale.x, -scale.y, -scale.z );
-	verts[2].xyz = center + idVec3(  scale.x,  scale.y, -scale.z );
+	verts[1].xyz = center + idVec3( scale.x, -scale.y, -scale.z );
+	verts[2].xyz = center + idVec3( scale.x,  scale.y, -scale.z );
 	verts[3].xyz = center + idVec3( -scale.x,  scale.y, -scale.z );
 	verts[4].xyz = center + idVec3( -scale.x, -scale.y,  scale.z );
-	verts[5].xyz = center + idVec3(  scale.x, -scale.y,  scale.z );
-	verts[6].xyz = center + idVec3(  scale.x,  scale.y,  scale.z );
+	verts[5].xyz = center + idVec3( scale.x, -scale.y,  scale.z );
+	verts[6].xyz = center + idVec3( scale.x,  scale.y,  scale.z );
 	verts[7].xyz = center + idVec3( -scale.x,  scale.y,  scale.z );
 
-	indexes.SetNum( 12*3 );
-	indexes[ 0*3+0] = 0;
-	indexes[ 0*3+1] = 3;
-	indexes[ 0*3+2] = 2;
-	indexes[ 1*3+0] = 0;
-	indexes[ 1*3+1] = 2;
-	indexes[ 1*3+2] = 1;
-	indexes[ 2*3+0] = 0;
-	indexes[ 2*3+1] = 1;
-	indexes[ 2*3+2] = 5;
-	indexes[ 3*3+0] = 0;
-	indexes[ 3*3+1] = 5;
-	indexes[ 3*3+2] = 4;
-	indexes[ 4*3+0] = 0;
-	indexes[ 4*3+1] = 4;
-	indexes[ 4*3+2] = 7;
-	indexes[ 5*3+0] = 0;
-	indexes[ 5*3+1] = 7;
-	indexes[ 5*3+2] = 3;
-	indexes[ 6*3+0] = 6;
-	indexes[ 6*3+1] = 5;
-	indexes[ 6*3+2] = 1;
-	indexes[ 7*3+0] = 6;
-	indexes[ 7*3+1] = 1;
-	indexes[ 7*3+2] = 2;
-	indexes[ 8*3+0] = 6;
-	indexes[ 8*3+1] = 2;
-	indexes[ 8*3+2] = 3;
-	indexes[ 9*3+0] = 6;
-	indexes[ 9*3+1] = 3;
-	indexes[ 9*3+2] = 7;
-	indexes[10*3+0] = 6;
-	indexes[10*3+1] = 7;
-	indexes[10*3+2] = 4;
-	indexes[11*3+0] = 6;
-	indexes[11*3+1] = 4;
-	indexes[11*3+2] = 5;
+	indexes.SetNum( 12 * 3 );
+	indexes[ 0 * 3 + 0] = 0;
+	indexes[ 0 * 3 + 1] = 3;
+	indexes[ 0 * 3 + 2] = 2;
+	indexes[ 1 * 3 + 0] = 0;
+	indexes[ 1 * 3 + 1] = 2;
+	indexes[ 1 * 3 + 2] = 1;
+	indexes[ 2 * 3 + 0] = 0;
+	indexes[ 2 * 3 + 1] = 1;
+	indexes[ 2 * 3 + 2] = 5;
+	indexes[ 3 * 3 + 0] = 0;
+	indexes[ 3 * 3 + 1] = 5;
+	indexes[ 3 * 3 + 2] = 4;
+	indexes[ 4 * 3 + 0] = 0;
+	indexes[ 4 * 3 + 1] = 4;
+	indexes[ 4 * 3 + 2] = 7;
+	indexes[ 5 * 3 + 0] = 0;
+	indexes[ 5 * 3 + 1] = 7;
+	indexes[ 5 * 3 + 2] = 3;
+	indexes[ 6 * 3 + 0] = 6;
+	indexes[ 6 * 3 + 1] = 5;
+	indexes[ 6 * 3 + 2] = 1;
+	indexes[ 7 * 3 + 0] = 6;
+	indexes[ 7 * 3 + 1] = 1;
+	indexes[ 7 * 3 + 2] = 2;
+	indexes[ 8 * 3 + 0] = 6;
+	indexes[ 8 * 3 + 1] = 2;
+	indexes[ 8 * 3 + 2] = 3;
+	indexes[ 9 * 3 + 0] = 6;
+	indexes[ 9 * 3 + 1] = 3;
+	indexes[ 9 * 3 + 2] = 7;
+	indexes[10 * 3 + 0] = 6;
+	indexes[10 * 3 + 1] = 7;
+	indexes[10 * 3 + 2] = 4;
+	indexes[11 * 3 + 0] = 6;
+	indexes[11 * 3 + 1] = 4;
+	indexes[11 * 3 + 2] = 5;
 
 	GenerateEdgeIndexes();
 }
@@ -197,38 +197,38 @@ void idSurface_Polytope::SetupOctahedron( const idBounds &bounds ) {
 	scale = bounds[1] - center;
 
 	verts.SetNum( 6 );
-	verts[0].xyz = center + idVec3(  scale.x, 0.0f, 0.0f );
+	verts[0].xyz = center + idVec3( scale.x, 0.0f, 0.0f );
 	verts[1].xyz = center + idVec3( -scale.x, 0.0f, 0.0f );
 	verts[2].xyz = center + idVec3( 0.0f,  scale.y, 0.0f );
 	verts[3].xyz = center + idVec3( 0.0f, -scale.y, 0.0f );
 	verts[4].xyz = center + idVec3( 0.0f, 0.0f,  scale.z );
 	verts[5].xyz = center + idVec3( 0.0f, 0.0f, -scale.z );
 
-	indexes.SetNum( 8*3 );
-	indexes[0*3+0] = 4;
-	indexes[0*3+1] = 0;
-	indexes[0*3+2] = 2;
-	indexes[1*3+0] = 4;
-	indexes[1*3+1] = 2;
-	indexes[1*3+2] = 1;
-	indexes[2*3+0] = 4;
-	indexes[2*3+1] = 1;
-	indexes[2*3+2] = 3;
-	indexes[3*3+0] = 4;
-	indexes[3*3+1] = 3;
-	indexes[3*3+2] = 0;
-	indexes[4*3+0] = 5;
-	indexes[4*3+1] = 2;
-	indexes[4*3+2] = 0;
-	indexes[5*3+0] = 5;
-	indexes[5*3+1] = 1;
-	indexes[5*3+2] = 2;
-	indexes[6*3+0] = 5;
-	indexes[6*3+1] = 3;
-	indexes[6*3+2] = 1;
-	indexes[7*3+0] = 5;
-	indexes[7*3+1] = 0;
-	indexes[7*3+2] = 3;
+	indexes.SetNum( 8 * 3 );
+	indexes[0 * 3 + 0] = 4;
+	indexes[0 * 3 + 1] = 0;
+	indexes[0 * 3 + 2] = 2;
+	indexes[1 * 3 + 0] = 4;
+	indexes[1 * 3 + 1] = 2;
+	indexes[1 * 3 + 2] = 1;
+	indexes[2 * 3 + 0] = 4;
+	indexes[2 * 3 + 1] = 1;
+	indexes[2 * 3 + 2] = 3;
+	indexes[3 * 3 + 0] = 4;
+	indexes[3 * 3 + 1] = 3;
+	indexes[3 * 3 + 2] = 0;
+	indexes[4 * 3 + 0] = 5;
+	indexes[4 * 3 + 1] = 2;
+	indexes[4 * 3 + 2] = 0;
+	indexes[5 * 3 + 0] = 5;
+	indexes[5 * 3 + 1] = 1;
+	indexes[5 * 3 + 2] = 2;
+	indexes[6 * 3 + 0] = 5;
+	indexes[6 * 3 + 1] = 3;
+	indexes[6 * 3 + 2] = 1;
+	indexes[7 * 3 + 0] = 5;
+	indexes[7 * 3 + 1] = 0;
+	indexes[7 * 3 + 2] = 3;
 
 	GenerateEdgeIndexes();
 }
@@ -276,8 +276,8 @@ int idSurface_Polytope::SplitPolytope( const idPlane &plane, const float epsilon
 	idSurface_Polytope *polytopeSurfaces[2], *surf;
 	int *onPlaneEdges[2];
 
-	onPlaneEdges[0] = (int *) _alloca( indexes.Num() / 3 * sizeof( int ) );
-	onPlaneEdges[1] = (int *) _alloca( indexes.Num() / 3 * sizeof( int ) );
+	onPlaneEdges[0] = ( int * ) _alloca( indexes.Num() / 3 * sizeof( int ) );
+	onPlaneEdges[1] = ( int * ) _alloca( indexes.Num() / 3 * sizeof( int ) );
 
 	side = Split( plane, epsilon, &surface[0], &surface[1], onPlaneEdges[0], onPlaneEdges[1] );
 
@@ -306,14 +306,14 @@ int idSurface_Polytope::SplitPolytope( const idPlane &plane, const float epsilon
 		surf = polytopeSurfaces[s];
 
 		edgeNum = surf->edgeIndexes[onPlaneEdges[s][0]];
-		v0 = surf->edges[abs(edgeNum)].verts[INTSIGNBITSET(edgeNum)];
-		v1 = surf->edges[abs(edgeNum)].verts[INTSIGNBITNOTSET(edgeNum)];
+		v0 = surf->edges[abs( edgeNum )].verts[INTSIGNBITSET( edgeNum )];
+		v1 = surf->edges[abs( edgeNum )].verts[INTSIGNBITNOTSET( edgeNum )];
 
 		for ( i = 1; onPlaneEdges[s][i] >= 0; i++ ) {
-			for ( j = i+1; onPlaneEdges[s][j] >= 0; j++ ) {
+			for ( j = i + 1; onPlaneEdges[s][j] >= 0; j++ ) {
 				edgeNum = surf->edgeIndexes[onPlaneEdges[s][j]];
-				if ( v1 == surf->edges[abs(edgeNum)].verts[INTSIGNBITSET(edgeNum)] ) {
-					v1 = surf->edges[abs(edgeNum)].verts[INTSIGNBITNOTSET(edgeNum)];
+				if ( v1 == surf->edges[abs( edgeNum )].verts[INTSIGNBITSET( edgeNum )] ) {
+					v1 = surf->edges[abs( edgeNum )].verts[INTSIGNBITNOTSET( edgeNum )];
 					idSwap( onPlaneEdges[s][i], onPlaneEdges[s][j] );
 					break;
 				}
@@ -322,8 +322,8 @@ int idSurface_Polytope::SplitPolytope( const idPlane &plane, const float epsilon
 
 		for ( i = 2; onPlaneEdges[s][i] >= 0; i++ ) {
 			edgeNum = surf->edgeIndexes[onPlaneEdges[s][i]];
-			v1 = surf->edges[abs(edgeNum)].verts[INTSIGNBITNOTSET(edgeNum)];
-			v2 = surf->edges[abs(edgeNum)].verts[INTSIGNBITSET(edgeNum)];
+			v1 = surf->edges[abs( edgeNum )].verts[INTSIGNBITNOTSET( edgeNum )];
+			v2 = surf->edges[abs( edgeNum )].verts[INTSIGNBITSET( edgeNum )];
 			surf->indexes.Append( v0 );
 			surf->indexes.Append( v1 );
 			surf->indexes.Append( v2 );

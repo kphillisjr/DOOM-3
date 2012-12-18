@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -149,7 +149,7 @@ void idBitMsg::WriteBits( int value, int numBits ) {
 	}
 
 	// write the bits
-	while( numBits ) {
+	while ( numBits ) {
 		if ( writeBit == 0 ) {
 			writeData[curSize] = 0;
 			curSize++;
@@ -184,7 +184,7 @@ void idBitMsg::WriteString( const char *s, int maxLength, bool make7Bit ) {
 			l = maxLength - 1;
 		}
 		dataPtr = GetByteSpace( l + 1 );
-		bytePtr = reinterpret_cast<const byte *>(s);
+		bytePtr = reinterpret_cast<const byte *>( s );
 		if ( make7Bit ) {
 			for ( i = 0; i < l; i++ ) {
 				if ( bytePtr[i] > 127 ) {
@@ -395,7 +395,7 @@ int idBitMsg::ReadBits( int numBits ) const {
 			readCount++;
 		}
 		get = 8 - readBit;
-		if ( get > (numBits - valueBits) ) {
+		if ( get > ( numBits - valueBits ) ) {
 			get = numBits - valueBits;
 		}
 		fraction = readData[readCount - 1];
@@ -423,10 +423,10 @@ idBitMsg::ReadString
 */
 int idBitMsg::ReadString( char *buffer, int bufferSize ) const {
 	int	l, c;
-	
+
 	ReadByteAlign();
 	l = 0;
-	while( 1 ) {
+	while ( 1 ) {
 		c = ReadByte();
 		if ( c <= 0 || c >= 255 ) {
 			break;
@@ -444,7 +444,7 @@ int idBitMsg::ReadString( char *buffer, int bufferSize ) const {
 			l++;
 		}
 	}
-	
+
 	buffer[l] = 0;
 	return l;
 }
@@ -482,7 +482,7 @@ idBitMsg::ReadNetadr
 */
 void idBitMsg::ReadNetadr( netadr_t *adr ) const {
 	int i;
- 
+
 	adr->type = NA_IP;
 	for ( i = 0; i < 4; i++ ) {
 		adr->ip[ i ] = ReadByte();
@@ -566,13 +566,13 @@ bool idBitMsg::ReadDeltaDict( idDict &dict, const idDict *base ) const {
 		dict.Clear();
 	}
 
-	while( ReadString( key, sizeof( key ) ) != 0 ) {
+	while ( ReadString( key, sizeof( key ) ) != 0 ) {
 		ReadString( value, sizeof( value ) );
 		dict.Set( key, value );
 		changed = true;
 	}
 
-	while( ReadString( key, sizeof( key ) ) != 0 ) {
+	while ( ReadString( key, sizeof( key ) ) != 0 ) {
 		dict.Delete( key );
 		changed = true;
 	}

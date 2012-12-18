@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -55,19 +55,19 @@ class idLedge {
 public:
 	idVec3					start;
 	idVec3					end;
-	idBrushBSPNode *		node;
+	idBrushBSPNode 		*node;
 	int						numExpandedPlanes;
 	int						numSplitPlanes;
 	int						numPlanes;
 	idPlane					planes[8];
 
 public:
-							idLedge( void );
-							idLedge( const idVec3 &v1, const idVec3 &v2, const idVec3 &gravityDir, idBrushBSPNode *n );
+	idLedge( void );
+	idLedge( const idVec3 &v1, const idVec3 &v2, const idVec3 &gravityDir, idBrushBSPNode *n );
 	void					AddPoint( const idVec3 &v );
 	void					CreateBevels( const idVec3 &gravityDir );
 	void					Expand( const idBounds &bounds, float maxStepHeight );
-	idWinding *				ChopWinding( const idWinding *winding ) const;
+	idWinding 				*ChopWinding( const idWinding *winding ) const;
 	bool					PointBetweenBounds( const idVec3 &v ) const;
 };
 
@@ -75,22 +75,22 @@ public:
 class idAASBuild {
 
 public:
-							idAASBuild( void );
-							~idAASBuild( void );
+	idAASBuild( void );
+	~idAASBuild( void );
 	bool					Build( const idStr &fileName, const idAASSettings *settings );
 	bool					BuildReachability( const idStr &fileName, const idAASSettings *settings );
 	void					Shutdown( void );
 
 private:
-	const idAASSettings *	aasSettings;
-	idAASFileLocal *		file;
-	aasProcNode_t *			procNodes;
+	const idAASSettings 	*aasSettings;
+	idAASFileLocal 		*file;
+	aasProcNode_t 			*procNodes;
 	int						numProcNodes;
 	int						numGravitationalSubdivisions;
 	int						numMergedLeafNodes;
 	int						numLedgeSubdivisions;
 	idList<idLedge>			ledgeList;
-	idBrushMap *			ledgeMap;
+	idBrushMap 			*ledgeMap;
 
 private:	// map loading
 	void					ParseProcNodes( idLexer *src );
@@ -102,7 +102,7 @@ private:	// map loading
 	idBrushList				AddBrushesForMapBrush( const idMapBrush *mapBrush, const idVec3 &origin, const idMat3 &axis, int entityNum, int primitiveNum, idBrushList brushList );
 	idBrushList				AddBrushesForMapPatch( const idMapPatch *mapPatch, const idVec3 &origin, const idMat3 &axis, int entityNum, int primitiveNum, idBrushList brushList );
 	idBrushList				AddBrushesForMapEntity( const idMapEntity *mapEnt, int entityNum, idBrushList brushList );
-	idBrushList				AddBrushesForMapFile( const idMapFile * mapFile, idBrushList brushList );
+	idBrushList				AddBrushesForMapFile( const idMapFile *mapFile, idBrushList brushList );
 	bool					CheckForEntities( const idMapFile *mapFile, idStrList &entityClassNames ) const;
 	void					ChangeMultipleBoundingBoxContents_r( idBrushBSPNode *node, int mask );
 

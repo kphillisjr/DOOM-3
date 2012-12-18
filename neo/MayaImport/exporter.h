@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -65,17 +65,38 @@ private:
 	idStrList			tokens;
 
 public:
-						idTokenizer()			{ Clear(); };
-	void				Clear( void )			{ currentToken = 0;	tokens.Clear(); };
+	idTokenizer()			{
+		Clear();
+	};
+	void				Clear( void )			{
+		currentToken = 0;
+		tokens.Clear();
+	};
 
 	int					SetTokens( const char *buffer );
 	const char			*NextToken( const char *errorstring = NULL );
 
-	bool				TokenAvailable( void )	{ return currentToken < tokens.Num(); };
-	int					Num( void ) 			{ return tokens.Num(); };
-	void				UnGetToken( void )		{ if ( currentToken > 0 ) { currentToken--; } };
-	const char			*GetToken( int index )	{ if ( ( index >= 0 ) && ( index < tokens.Num() ) ) { return tokens[ index ]; } else { return NULL; } };
-	const char			*CurrentToken( void )	{ return GetToken( currentToken ); };
+	bool				TokenAvailable( void )	{
+		return currentToken < tokens.Num();
+	};
+	int					Num( void ) 			{
+		return tokens.Num();
+	};
+	void				UnGetToken( void )		{
+		if ( currentToken > 0 ) {
+			currentToken--;
+		}
+	};
+	const char			*GetToken( int index )	{
+		if ( ( index >= 0 ) && ( index < tokens.Num() ) ) {
+			return tokens[ index ];
+		} else {
+			return NULL;
+		}
+	};
+	const char			*CurrentToken( void )	{
+		return GetToken( currentToken );
+	};
 };
 
 /*
@@ -101,10 +122,10 @@ public:
 class idExportOptions {
 private:
 	idTokenizer				tokens;
-							
+
 	void					Reset( const char *commandline );
-							
-public:						
+
+public:
 	idStr					commandLine;
 	idStr					src;
 	idStr					dest;
@@ -132,9 +153,9 @@ public:
 	float					rotate;
 	float					jointThreshold;
 	int						cycleStart;
-							
-							idExportOptions( const char *commandline, const char *ospath );
-							
+
+	idExportOptions( const char *commandline, const char *ospath );
+
 	bool					jointInExportGroup( const char *jointname );
 };
 
@@ -154,15 +175,15 @@ public:
 	int							index;
 	int							exportNum;
 	bool						keep;
-								
+
 	float						scale;
 	float						invscale;
-								
+
 	MFnDagNode					*dagnode;
 
 	idHierarchy<idExportJoint>	mayaNode;
 	idHierarchy<idExportJoint>	exportNode;
-							
+
 	idVec3						t;
 	idMat3						wm;
 
@@ -176,8 +197,8 @@ public:
 	int							firstComponent;
 	jointFrame_t				baseFrame;
 	int							depth;
-								
-								idExportJoint();
+
+	idExportJoint();
 	idExportJoint				&operator=( const idExportJoint &other );
 };
 
@@ -281,23 +302,23 @@ typedef struct md3Tag_s {
 ** XyzNormals		sizeof( md3XyzNormal_t ) * numVerts * numFrames
 */
 typedef struct {
-	int			ident;				// 
-				
+	int			ident;				//
+
 	char		name[MAX_Q3PATH];	// polyset name
-				
+
 	int			flags;
 	int			numFrames;			// all surfaces in a model should have the same
-				
+
 	int			numShaders;			// all surfaces in a model should have the same
 	int			numVerts;
-				
+
 	int			numTriangles;
 	int			ofsTriangles;
-				
+
 	int			ofsShaders;			// offset from start of md3Surface_t
 	int			ofsSt;				// texture coords are common for all frames
 	int			ofsXyzNormals;		// numVerts * numFrames
-				
+
 	int			ofsEnd;				// next surface follows
 } md3Surface_t;
 
@@ -328,7 +349,7 @@ typedef struct {
 	int			flags;
 
 	int			numFrames;
-	int			numTags;			
+	int			numTags;
 	int			numSurfaces;
 
 	int			numSkins;
@@ -361,7 +382,9 @@ public:
 	idList<exportWeight_t>		weights;
 	idList<exportUV_t>			uv;
 
-								idExportMesh() { keep = true; };
+	idExportMesh() {
+		keep = true;
+	};
 	void						ShareVerts( void );
 	void						GetBounds( idBounds &bounds ) const;
 	void						Merge( idExportMesh *mesh );
@@ -385,15 +408,15 @@ public:
 	idList<cameraFrame_t>		camera;
 	idList<idBounds>			bounds;
 	idList<jointFrame_t>		jointFrames;
-	idList<jointFrame_t	*>		frames;
+	idList<jointFrame_t *>		frames;
 	int							frameRate;
 	int							numFrames;
 	int							skipjoints;
-	int							export_joints;								
+	int							export_joints;
 	idList<idExportMesh *>		meshes;
 
-								idExportModel();
-								~idExportModel();
+	idExportModel();
+	~idExportModel();
 	idExportJoint				*FindJointReal( const char *name );
 	idExportJoint				*FindJoint( const char *name );
 	bool						WriteMesh( const char *filename, idExportOptions &options );
@@ -424,13 +447,13 @@ private:
 	void					GetBindPose( MObject &jointNode, idExportJoint *joint, float scale );
 	void					GetLocalTransform( idExportJoint *joint, idVec3 &pos, idMat3 &mat );
 	void					GetWorldTransform( idExportJoint *joint, idVec3 &pos, idMat3 &mat, float scale );
-	
+
 	void					CreateJoints( float scale );
 	void					PruneJoints( idStrList &keepjoints, idStr &prefix );
 	void					RenameJoints( idList<idNamePair> &renamejoints, idStr &prefix );
 	bool					RemapParents( idList<idNamePair> &remapjoints );
 
-	MObject					FindShader( MObject& setNode );
+	MObject					FindShader( MObject &setNode );
 	void					GetTextureForMesh( idExportMesh *mesh, MFnDagNode &dagNode );
 
 	idExportMesh			*CopyMesh( MFnSkinCluster &skinCluster, float scale );
@@ -449,8 +472,8 @@ private:
 	void					CreateAnimation( idMat3 &align );
 
 public:
-							idMayaExport( idExportOptions &exportOptions ) : options( exportOptions ) { };
-							~idMayaExport();
+	idMayaExport( idExportOptions &exportOptions ) : options( exportOptions ) { };
+	~idMayaExport();
 
 	void					ConvertModel( void );
 	void					ConvertToMD3( void );

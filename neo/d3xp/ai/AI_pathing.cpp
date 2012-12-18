@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -60,7 +60,7 @@ const int 	MAX_OBSTACLE_PATH			= 64;
 typedef struct obstacle_s {
 	idVec2				bounds[2];
 	idWinding2D			winding;
-	idEntity *			entity;
+	idEntity 			*entity;
 } obstacle_t;
 
 typedef struct pathNode_s {
@@ -71,9 +71,9 @@ typedef struct pathNode_s {
 	int					obstacle;
 	int					edgeNum;
 	int					numNodes;
-	struct pathNode_s *	parent;
-	struct pathNode_s *	children[2];
-	struct pathNode_s *	next;
+	struct pathNode_s 	*parent;
+	struct pathNode_s 	*children[2];
+	struct pathNode_s 	*next;
 	void				Init();
 } pathNode_t;
 
@@ -101,7 +101,7 @@ bool LineIntersectsPath( const idVec2 &start, const idVec2 &end, const pathNode_
 
 	plane1 = idWinding2D::Plane2DFromPoints( start, end );
 	d0 = plane1.x * node->pos.x + plane1.y * node->pos.y + plane1.z;
-	while( node->parent ) {
+	while ( node->parent ) {
 		d1 = plane1.x * node->parent->pos.x + plane1.y * node->parent->pos.y + plane1.z;
 		if ( FLOATSIGNBITSET( d0 ) ^ FLOATSIGNBITSET( d1 ) ) {
 			plane2 = idWinding2D::Plane2DFromPoints( node->pos, node->parent->pos );
@@ -172,7 +172,7 @@ void GetPointOutsideObstacles( const obstacle_t *obstacles, const int numObstacl
 	bestd = idMath::INFINITY;
 	bestEdgeNum = 0;
 	for ( i = 0; i < w.GetNumPoints(); i++ ) {
-		plane = idWinding2D::Plane2DFromPoints( w[(i+1)%w.GetNumPoints()], w[i], true );
+		plane = idWinding2D::Plane2DFromPoints( w[( i + 1 ) % w.GetNumPoints()], w[i], true );
 		d = plane.x * point.x + plane.y * point.y + plane.z;
 		if ( d < bestd ) {
 			bestd = d;
@@ -197,8 +197,8 @@ void GetPointOutsideObstacles( const obstacle_t *obstacles, const int numObstacl
 		return;
 	}
 
-	queue = (int *) _alloca( numObstacles * sizeof( queue[0] ) );
-	obstacleVisited = (bool *) _alloca( numObstacles * sizeof( obstacleVisited[0] ) );
+	queue = ( int * ) _alloca( numObstacles * sizeof( queue[0] ) );
+	obstacleVisited = ( bool * ) _alloca( numObstacles * sizeof( obstacleVisited[0] ) );
 
 	queueStart = 0;
 	queueEnd = 1;
@@ -230,7 +230,7 @@ void GetPointOutsideObstacles( const obstacle_t *obstacles, const int numObstacl
 			w2.Expand( 0.2f );
 
 			for ( k = 0; k < w1.GetNumPoints(); k++ ) {
-				dir = w1[(k+1)%w1.GetNumPoints()] - w1[k];
+				dir = w1[( k + 1 ) % w1.GetNumPoints()] - w1[k];
 				if ( !w2.RayIntersection( w1[k], dir, scale[0], scale[1], edgeNums ) ) {
 					continue;
 				}
@@ -260,7 +260,7 @@ void GetPointOutsideObstacles( const obstacle_t *obstacles, const int numObstacl
 			return;
 		}
 	}
-	gameLocal.Warning( "GetPointOutsideObstacles: no valid point found" ); 
+	gameLocal.Warning( "GetPointOutsideObstacles: no valid point found" );
 }
 
 /*
@@ -276,8 +276,8 @@ bool GetFirstBlockingObstacle( const obstacle_t *obstacles, int numObstacles, in
 	// get bounds for the current movement delta
 	bounds[0] = startPos - idVec2( CM_BOX_EPSILON, CM_BOX_EPSILON );
 	bounds[1] = startPos + idVec2( CM_BOX_EPSILON, CM_BOX_EPSILON );
-	bounds[FLOATSIGNBITNOTSET(delta.x)].x += delta.x;
-	bounds[FLOATSIGNBITNOTSET(delta.y)].y += delta.y;
+	bounds[FLOATSIGNBITNOTSET( delta.x )].x += delta.x;
+	bounds[FLOATSIGNBITNOTSET( delta.y )].y += delta.y;
 
 	// test for obstacles blocking the path
 	blockingScale = idMath::INFINITY;
@@ -392,7 +392,7 @@ int GetObstacles( const idPhysics *physics, const idAAS *aas, const idEntity *ig
 				silVerts[j].z = startPos.z;
 			}
 			for ( j = 0; j < numVerts; j++ ) {
-				gameRenderWorld->DebugArrow( colorWhite, silVerts[j], silVerts[(j+1)%numVerts], 4 );
+				gameRenderWorld->DebugArrow( colorWhite, silVerts[j], silVerts[( j + 1 ) % numVerts], 4 );
 			}
 		}
 
@@ -425,15 +425,15 @@ int GetObstacles( const idPhysics *physics, const idAAS *aas, const idEntity *ig
 		lastEdgeNormal.Zero();
 		nextVerts[0] = nextVerts[1] = 0;
 		for ( i = 0; i < numWallEdges && numObstacles < MAX_OBSTACLES; i++ ) {
-            aas->GetEdge( wallEdges[i], start, end );
+			aas->GetEdge( wallEdges[i], start, end );
 			aas->GetEdgeVertexNumbers( wallEdges[i], verts );
 			edgeDir = end.ToVec2() - start.ToVec2();
 			edgeDir.Normalize();
 			edgeNormal.x = edgeDir.y;
 			edgeNormal.y = -edgeDir.x;
-			if ( i < numWallEdges-1 ) {
-				aas->GetEdge( wallEdges[i+1], nextStart, nextEnd );
-				aas->GetEdgeVertexNumbers( wallEdges[i+1], nextVerts );
+			if ( i < numWallEdges - 1 ) {
+				aas->GetEdge( wallEdges[i + 1], nextStart, nextEnd );
+				aas->GetEdgeVertexNumbers( wallEdges[i + 1], nextVerts );
 				nextEdgeDir = nextEnd.ToVec2() - nextStart.ToVec2();
 				nextEdgeDir.Normalize();
 				nextEdgeNormal.x = nextEdgeDir.y;
@@ -473,7 +473,7 @@ int GetObstacles( const idPhysics *physics, const idAAS *aas, const idEntity *ig
 				silVerts[j].z = startPos.z;
 			}
 			for ( j = 0; j < obstacle.winding.GetNumPoints(); j++ ) {
-				gameRenderWorld->DebugArrow( colorGreen, silVerts[j], silVerts[(j+1)%obstacle.winding.GetNumPoints()], 4 );
+				gameRenderWorld->DebugArrow( colorGreen, silVerts[j], silVerts[( j + 1 ) % obstacle.winding.GetNumPoints()], 4 );
 			}
 		}
 	}
@@ -534,7 +534,7 @@ bool GetPathNodeDelta( pathNode_t *node, const obstacle_t *obstacles, const idVe
 	numPoints = obstacles[node->obstacle].winding.GetNumPoints();
 
 	// get delta along the current edge
-	while( 1 ) {
+	while ( 1 ) {
 		edgeNum = ( node->edgeNum + node->dir ) % numPoints;
 		node->delta = obstacles[node->obstacle].winding[edgeNum] - node->pos;
 		if ( node->delta.LengthSqr() > 0.01f ) {
@@ -700,7 +700,7 @@ void PrunePathTree( pathNode_t *root, const idVec2 &seekPos ) {
 	pathNode_t *node, *lastNode, *n, *bestNode;
 
 	node = root;
-	while( node ) {
+	while ( node ) {
 
 		node->dist = ( seekPos - node->pos ).LengthSqr();
 
@@ -771,8 +771,8 @@ int OptimizePath( const pathNode_t *root, const pathNode_t *leafNode, const obst
 			// get bounds for the current movement delta
 			bounds[0] = curPos - idVec2( CM_BOX_EPSILON, CM_BOX_EPSILON );
 			bounds[1] = curPos + idVec2( CM_BOX_EPSILON, CM_BOX_EPSILON );
-			bounds[FLOATSIGNBITNOTSET(curDelta.x)].x += curDelta.x;
-			bounds[FLOATSIGNBITNOTSET(curDelta.y)].y += curDelta.y;
+			bounds[FLOATSIGNBITNOTSET( curDelta.x )].x += curDelta.x;
+			bounds[FLOATSIGNBITNOTSET( curDelta.y )].y += curDelta.y;
 
 			// test if the shortcut intersects with any obstacles
 			for ( i = 0; i < numObstacles; i++ ) {
@@ -812,8 +812,8 @@ float PathLength( idVec2 optimizedPath[MAX_OBSTACLE_PATH], int numPathPoints, co
 
 	// calculate the path length
 	pathLength = 0.0f;
-	for ( i = 0; i < numPathPoints-1; i++ ) {
-		pathLength += ( optimizedPath[i+1] - optimizedPath[i] ).LengthFast();
+	for ( i = 0; i < numPathPoints - 1; i++ ) {
+		pathLength += ( optimizedPath[i + 1] - optimizedPath[i] ).LengthFast();
 	}
 
 	// add penalty if this path does not go in the current direction
@@ -848,7 +848,7 @@ bool FindOptimalPath( const pathNode_t *root, const obstacle_t *obstacles, int n
 	bestPathLength = idMath::INFINITY;
 
 	node = root;
-	while( node ) {
+	while ( node ) {
 
 		pathToGoalExists |= ( node->dist < 0.1f );
 
@@ -905,9 +905,9 @@ bool FindOptimalPath( const pathNode_t *root, const obstacle_t *obstacles, int n
 		idVec3 start, end;
 		start.z = end.z = height + 4.0f;
 		numPathPoints = OptimizePath( root, bestNode, obstacles, numObstacles, optimizedPath );
-		for ( i = 0; i < numPathPoints-1; i++ ) {
+		for ( i = 0; i < numPathPoints - 1; i++ ) {
 			start.ToVec2() = optimizedPath[i];
-			end.ToVec2() = optimizedPath[i+1];
+			end.ToVec2() = optimizedPath[i + 1];
 			gameRenderWorld->DebugArrow( colorCyan, start, end, 1 );
 		}
 	}
@@ -946,7 +946,7 @@ bool idAI::FindPathAroundObstacles( const idPhysics *physics, const idAAS *aas, 
 	bounds[1].z = 32.0f;
 
 	// get the AAS area number and a valid point inside that area
-	areaNum = aas->PointReachableAreaNum( path.startPosOutsideObstacles, bounds, (AREA_REACHABLE_WALK|AREA_REACHABLE_FLY) );
+	areaNum = aas->PointReachableAreaNum( path.startPosOutsideObstacles, bounds, ( AREA_REACHABLE_WALK | AREA_REACHABLE_FLY ) );
 	aas->PushPointIntoAreaNum( areaNum, path.startPosOutsideObstacles );
 
 	// get all the nearby obstacles
@@ -1019,7 +1019,7 @@ typedef struct pathTrace_s {
 	float					fraction;
 	idVec3					endPos;
 	idVec3					normal;
-	const idEntity *		blockingEntity;
+	const idEntity 		*blockingEntity;
 } pathTrace_t;
 
 /*
@@ -1152,7 +1152,7 @@ bool idAI::PredictPath( const idEntity *ent, const idAAS *aas, const idVec3 &sta
 	curFrameTime = frameTime;
 	for ( i = 0; i < numFrames; i++ ) {
 
-		if ( i == numFrames-1 ) {
+		if ( i == numFrames - 1 ) {
 			curFrameTime = totalTime - i * curFrameTime;
 		}
 
@@ -1184,8 +1184,8 @@ bool idAI::PredictPath( const idEntity *ent, const idAAS *aas, const idVec3 &sta
 					}
 
 					// if not moved any further than without stepping up, or if not on a floor surface
-					if ( (lastEnd - start).LengthSqr() > (trace.endPos - start).LengthSqr() - 0.1f ||
-								( trace.normal * invGravityDir ) < minFloorCos ) {
+					if ( ( lastEnd - start ).LengthSqr() > ( trace.endPos - start ).LengthSqr() - 0.1f ||
+							( trace.normal * invGravityDir ) < minFloorCos ) {
 						if ( stopEvent & SE_BLOCKED ) {
 							path.endPos = lastEnd;
 							path.endEvent = SE_BLOCKED;
@@ -1236,8 +1236,8 @@ bool idAI::PredictPath( const idEntity *ent, const idAAS *aas, const idVec3 &sta
 
 			if ( stopEvent & SE_BLOCKED ) {
 				// if going backwards
-				if ( (curVelocity - gravityDir * curVelocity * gravityDir ) *
-						(velocity - gravityDir * velocity * gravityDir) < 0.0f ) {
+				if ( ( curVelocity - gravityDir * curVelocity * gravityDir ) *
+						( velocity - gravityDir * velocity * gravityDir ) < 0.0f ) {
 					path.endPos = curStart;
 					path.endEvent = SE_BLOCKED;
 
@@ -1338,7 +1338,7 @@ static float HeightForTrajectory( const idVec3 &start, float zVel, float gravity
 	t = zVel / gravity;
 	// maximum height of projectile
 	maxHeight = start.z - 0.5f * gravity * ( t * t );
-	
+
 	return maxHeight;
 }
 
@@ -1367,15 +1367,15 @@ bool idAI::TestTrajectory( const idVec3 &start, const idVec3 &end, float zVel, f
 		numSegments = 4;
 		// point in the middle between top and start
 		t2 = ( time - t ) * 0.5f;
-		points[1].ToVec2() = start.ToVec2() + (end.ToVec2() - start.ToVec2()) * ( t2 / time );
+		points[1].ToVec2() = start.ToVec2() + ( end.ToVec2() - start.ToVec2() ) * ( t2 / time );
 		points[1].z = start.z + t2 * zVel + 0.5f * gravity * t2 * t2;
 		// top of parabolic
 		t2 = time - t;
-		points[2].ToVec2() = start.ToVec2() + (end.ToVec2() - start.ToVec2()) * ( t2 / time );
+		points[2].ToVec2() = start.ToVec2() + ( end.ToVec2() - start.ToVec2() ) * ( t2 / time );
 		points[2].z = start.z + t2 * zVel + 0.5f * gravity * t2 * t2;
 		// point in the middel between top and end
 		t2 = time - t * 0.5f;
-		points[3].ToVec2() = start.ToVec2() + (end.ToVec2() - start.ToVec2()) * ( t2 / time );
+		points[3].ToVec2() = start.ToVec2() + ( end.ToVec2() - start.ToVec2() ) * ( t2 / time );
 		points[3].z = start.z + t2 * zVel + 0.5f * gravity * t2 * t2;
 	} else {
 		numSegments = 2;
@@ -1390,7 +1390,7 @@ bool idAI::TestTrajectory( const idVec3 &start, const idVec3 &end, float zVel, f
 
 	if ( drawtime ) {
 		for ( i = 0; i < numSegments; i++ ) {
-			gameRenderWorld->DebugLine( colorRed, points[i], points[i+1], drawtime );
+			gameRenderWorld->DebugLine( colorRed, points[i], points[i + 1], drawtime );
 		}
 	}
 
@@ -1404,7 +1404,7 @@ bool idAI::TestTrajectory( const idVec3 &start, const idVec3 &end, float zVel, f
 
 	result = true;
 	for ( i = 0; i < numSegments; i++ ) {
-		gameLocal.clip.Translation( trace, points[i], points[i+1], clip, mat3_identity, clipmask, ignore );
+		gameLocal.clip.Translation( trace, points[i], points[i + 1], clip, mat3_identity, clipmask, ignore );
 		if ( trace.fraction < 1.0f ) {
 			if ( gameLocal.GetTraceEntity( trace ) == targetEntity ) {
 				result = true;
@@ -1483,8 +1483,12 @@ bool idAI::PredictTrajectory( const idVec3 &firePos, const idVec3 &target, float
 	// make sure the first angle is the smallest
 	if ( n == 2 ) {
 		if ( ballistics[1].angle < ballistics[0].angle ) {
-			a = ballistics[0].angle; ballistics[0].angle = ballistics[1].angle; ballistics[1].angle = a;
-			t = ballistics[0].time; ballistics[0].time = ballistics[1].time; ballistics[1].time = t;
+			a = ballistics[0].angle;
+			ballistics[0].angle = ballistics[1].angle;
+			ballistics[1].angle = a;
+			t = ballistics[0].time;
+			ballistics[0].time = ballistics[1].time;
+			ballistics[1].time = t;
 		}
 	}
 

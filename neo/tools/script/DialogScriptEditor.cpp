@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -63,20 +63,19 @@ toolTip_t DialogScriptEditor::toolTips[] = {
 };
 
 
-IMPLEMENT_DYNAMIC(DialogScriptEditor, CDialog)
+IMPLEMENT_DYNAMIC( DialogScriptEditor, CDialog )
 
 /*
 ================
 DialogScriptEditor::DialogScriptEditor
 ================
 */
-DialogScriptEditor::DialogScriptEditor( CWnd* pParent /*=NULL*/ )
-	: CDialog(DialogScriptEditor::IDD, pParent)
-	, findDlg(NULL)
-	, matchCase(false)
-	, matchWholeWords(false)
-	, firstLine(0)
-{
+DialogScriptEditor::DialogScriptEditor( CWnd *pParent /*=NULL*/ )
+	: CDialog( DialogScriptEditor::IDD, pParent )
+	, findDlg( NULL )
+	, matchCase( false )
+	, matchWholeWords( false )
+	, firstLine( 0 ) {
 }
 
 /*
@@ -92,12 +91,12 @@ DialogScriptEditor::~DialogScriptEditor() {
 DialogScriptEditor::DoDataExchange
 ================
 */
-void DialogScriptEditor::DoDataExchange(CDataExchange* pDX) {
-	CDialog::DoDataExchange(pDX);
+void DialogScriptEditor::DoDataExchange( CDataExchange *pDX ) {
+	CDialog::DoDataExchange( pDX );
 	//{{AFX_DATA_MAP(DialogScriptEditor)
-	DDX_Control(pDX, IDC_SCRIPTEDITOR_EDIT_TEXT, scriptEdit);
-	DDX_Control(pDX, IDOK, okButton);
-	DDX_Control(pDX, IDCANCEL, cancelButton);
+	DDX_Control( pDX, IDC_SCRIPTEDITOR_EDIT_TEXT, scriptEdit );
+	DDX_Control( pDX, IDOK, okButton );
+	DDX_Control( pDX, IDCANCEL, cancelButton );
 	//}}AFX_DATA_MAP
 }
 
@@ -106,13 +105,13 @@ void DialogScriptEditor::DoDataExchange(CDataExchange* pDX) {
 DialogScriptEditor::PreTranslateMessage
 ================
 */
-BOOL DialogScriptEditor::PreTranslateMessage( MSG* pMsg ) {
+BOOL DialogScriptEditor::PreTranslateMessage( MSG *pMsg ) {
 	if ( WM_KEYFIRST <= pMsg->message && pMsg->message <= WM_KEYLAST ) {
 		if ( m_hAccel && ::TranslateAccelerator( m_hWnd, m_hAccel, pMsg ) ) {
 			return TRUE;
 		}
 	}
-	return CWnd::PreTranslateMessage(pMsg);
+	return CWnd::PreTranslateMessage( pMsg );
 }
 
 /*
@@ -145,7 +144,7 @@ void DialogScriptEditor::InitScriptEvents( void ) {
 
 	scriptEvents.Clear();
 
-	while( src.ReadToken( &token ) ) {
+	while ( src.ReadToken( &token ) ) {
 		if ( token == "scriptEvent" ) {
 
 			src.GetLastWhiteSpace( whiteSpace );
@@ -169,7 +168,7 @@ void DialogScriptEditor::InitScriptEvents( void ) {
 			src.ExpectTokenString( "(" );
 
 			info.parms += " " + info.name + "(";
-			while( src.ReadToken( &token ) && token != ";" ) {
+			while ( src.ReadToken( &token ) && token != ";" ) {
 				info.parms.Append( " " + token );
 			}
 
@@ -239,7 +238,7 @@ void DialogScriptEditor::OpenFile( const char *fileName ) {
 	idStr( fileName ).ExtractFileExtension( extension );
 
 	if ( extension.Icmp( "script" ) == 0 ) {
-        InitScriptEvents();
+		InitScriptEvents();
 		scriptEdit.SetCaseSensitive( true );
 		scriptEdit.LoadKeyWordsFromFile( "editors/script.def" );
 		scriptEdit.SetObjectMemberCallback( GetScriptEvents );
@@ -253,7 +252,7 @@ void DialogScriptEditor::OpenFile( const char *fileName ) {
 	if ( fileSystem->ReadFile( fileName, &buffer ) == -1 ) {
 		return;
 	}
-	scriptText = (char *) buffer;
+	scriptText = ( char * ) buffer;
 	fileSystem->FreeFile( buffer );
 
 	this->fileName = fileName;
@@ -265,7 +264,7 @@ void DialogScriptEditor::OpenFile( const char *fileName ) {
 
 	scriptEdit.SetText( scriptText );
 
-	for( const char *ptr = scriptText.c_str(); *ptr; ptr++ ) {
+	for ( const char *ptr = scriptText.c_str(); *ptr; ptr++ ) {
 		if ( *ptr == '\r' ) {
 			if ( numCharsPerLine > maxCharsPerLine ) {
 				maxCharsPerLine = numCharsPerLine;
@@ -284,7 +283,7 @@ void DialogScriptEditor::OpenFile( const char *fileName ) {
 	rect.left = initialRect.left;
 	rect.right = rect.left + maxCharsPerLine * FONT_WIDTH + 32;
 	rect.top = initialRect.top;
-	rect.bottom = rect.top + numLines * (FONT_HEIGHT+8) + 24 + 56;
+	rect.bottom = rect.top + numLines * ( FONT_HEIGHT + 8 ) + 24 + 56;
 	if ( rect.right < initialRect.right ) {
 		rect.right = initialRect.right;
 	} else if ( rect.right - rect.left > 1024 ) {
@@ -334,27 +333,27 @@ BOOL DialogScriptEditor::OnInitDialog()  {
 	UpdateStatusBar();
 
 	return FALSE; // return TRUE unless you set the focus to a control
-	              // EXCEPTION: OCX Property Pages should return FALSE
+	// EXCEPTION: OCX Property Pages should return FALSE
 }
 
-BEGIN_MESSAGE_MAP(DialogScriptEditor, CDialog)
-	ON_NOTIFY_EX_RANGE(TTN_NEEDTEXTW, 0, 0xFFFF, OnToolTipNotify)
-	ON_NOTIFY_EX_RANGE(TTN_NEEDTEXTA, 0, 0xFFFF, OnToolTipNotify)
+BEGIN_MESSAGE_MAP( DialogScriptEditor, CDialog )
+	ON_NOTIFY_EX_RANGE( TTN_NEEDTEXTW, 0, 0xFFFF, OnToolTipNotify )
+	ON_NOTIFY_EX_RANGE( TTN_NEEDTEXTA, 0, 0xFFFF, OnToolTipNotify )
 	ON_WM_DESTROY()
 	ON_WM_ACTIVATE()
 	ON_WM_MOVE()
 	ON_WM_SIZE()
 	ON_WM_SIZING()
 	ON_WM_SETFOCUS()
-	ON_COMMAND(ID_EDIT_FIND, OnEditFind)
-	ON_COMMAND(ID_EDIT_REPLACE, OnEditReplace)
-	ON_COMMAND(ID_SCRIPTEDITOR_FIND_NEXT, OnEditFindNext)
-	ON_COMMAND(ID_SCRIPTEDITOR_GOTOLINE, OnEditGoToLine)
-	ON_REGISTERED_MESSAGE(FindDialogMessage, OnFindDialogMessage)
-	ON_NOTIFY(EN_CHANGE, IDC_SCRIPTEDITOR_EDIT_TEXT, OnEnChangeEdit)
-	ON_NOTIFY(EN_MSGFILTER, IDC_SCRIPTEDITOR_EDIT_TEXT, OnEnInputEdit)
-	ON_BN_CLICKED(IDOK, OnBnClickedOk)
-	ON_BN_CLICKED(IDCANCEL, OnBnClickedCancel)
+	ON_COMMAND( ID_EDIT_FIND, OnEditFind )
+	ON_COMMAND( ID_EDIT_REPLACE, OnEditReplace )
+	ON_COMMAND( ID_SCRIPTEDITOR_FIND_NEXT, OnEditFindNext )
+	ON_COMMAND( ID_SCRIPTEDITOR_GOTOLINE, OnEditGoToLine )
+	ON_REGISTERED_MESSAGE( FindDialogMessage, OnFindDialogMessage )
+	ON_NOTIFY( EN_CHANGE, IDC_SCRIPTEDITOR_EDIT_TEXT, OnEnChangeEdit )
+	ON_NOTIFY( EN_MSGFILTER, IDC_SCRIPTEDITOR_EDIT_TEXT, OnEnInputEdit )
+	ON_BN_CLICKED( IDOK, OnBnClickedOk )
+	ON_BN_CLICKED( IDCANCEL, OnBnClickedCancel )
 END_MESSAGE_MAP()
 
 /*
@@ -366,7 +365,7 @@ void ScriptEditorInit( const idDict *spawnArgs ) {
 
 	if ( renderSystem->IsFullScreen() ) {
 		common->Printf( "Cannot run the script editor in fullscreen mode.\n"
-					"Set r_fullscreen to 0 and vid_restart.\n" );
+						"Set r_fullscreen to 0 and vid_restart.\n" );
 		return;
 	}
 
@@ -375,13 +374,13 @@ void ScriptEditorInit( const idDict *spawnArgs ) {
 		g_ScriptDialog = new DialogScriptEditor();
 	}
 
-	if ( g_ScriptDialog->GetSafeHwnd() == NULL) {
+	if ( g_ScriptDialog->GetSafeHwnd() == NULL ) {
 		g_ScriptDialog->Create( IDD_DIALOG_SCRIPTEDITOR );
-/*
-		// FIXME: restore position
-		CRect rct;
-		g_ScriptDialog->SetWindowPos( NULL, rct.left, rct.top, 0, 0, SWP_NOSIZE );
-*/
+		/*
+				// FIXME: restore position
+				CRect rct;
+				g_ScriptDialog->SetWindowPos( NULL, rct.left, rct.top, 0, 0, SWP_NOSIZE );
+		*/
 	}
 
 	idKeyInput::ClearStates();
@@ -405,7 +404,7 @@ void ScriptEditorRun( void ) {
 	MSG *msg = &m_msgCur;
 #endif
 
-	while( ::PeekMessage(msg, NULL, NULL, NULL, PM_NOREMOVE) ) {
+	while ( ::PeekMessage( msg, NULL, NULL, NULL, PM_NOREMOVE ) ) {
 		// pump message
 		if ( !AfxGetApp()->PumpMessage() ) {
 		}
@@ -651,18 +650,18 @@ LRESULT DialogScriptEditor::OnFindDialogMessage( WPARAM wParam, LPARAM lParam ) 
 	}
 
 	if ( findDlg->IsTerminating() ) {
-        findDlg = NULL;
-        return 0;
-    }
+		findDlg = NULL;
+		return 0;
+	}
 
-	if( findDlg->FindNext() ) {
+	if ( findDlg->FindNext() ) {
 		findStr = findDlg->GetFindString();
 		matchCase = findDlg->MatchCase() != FALSE;
 		matchWholeWords = findDlg->MatchWholeWord() != FALSE;
 		searchForward = findDlg->SearchDown() != FALSE;
 
 		OnEditFindNext();
-    }
+	}
 
 	if ( findDlg->ReplaceCurrent() ) {
 		long selStart, selEnd;
@@ -707,7 +706,7 @@ DialogScriptEditor::OnEnInputEdit
 ================
 */
 void DialogScriptEditor::OnEnInputEdit( NMHDR *pNMHDR, LRESULT *pResult ) {
-	MSGFILTER *msgFilter = (MSGFILTER *)pNMHDR;
+	MSGFILTER *msgFilter = ( MSGFILTER * )pNMHDR;
 
 	if ( msgFilter->msg != 512 && msgFilter->msg != 33 ) {
 		UpdateStatusBar();

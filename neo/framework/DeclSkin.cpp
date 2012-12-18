@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -63,7 +63,7 @@ bool idDeclSkin::Parse( const char *text, const int textLength ) {
 
 	associatedModels.Clear();
 
-	while (1) {
+	while ( 1 ) {
 		if ( !src.ReadToken( &token ) ) {
 			break;
 		}
@@ -110,10 +110,10 @@ bool idDeclSkin::SetDefaultText( void ) {
 		char generated[2048];
 
 		idStr::snPrintf( generated, sizeof( generated ),
-						"skin %s // IMPLICITLY GENERATED\n"
-						"{\n"
-						"_default %s\n"
-						"}\n", GetName(), GetName() );
+						 "skin %s // IMPLICITLY GENERATED\n"
+						 "{\n"
+						 "_default %s\n"
+						 "}\n", GetName(), GetName() );
 		SetText( generated );
 		return true;
 	} else {
@@ -129,7 +129,7 @@ idDeclSkin::DefaultDefinition
 const char *idDeclSkin::DefaultDefinition( void ) const {
 	return
 		"{\n"
-	"\t"	"\"*\"\t\"_default\"\n"
+		"\t"	"\"*\"\t\"_default\"\n"
 		"}";
 }
 
@@ -138,8 +138,8 @@ const char *idDeclSkin::DefaultDefinition( void ) const {
 idDeclSkin::GetNumModelAssociations
 ================
 */
-const int idDeclSkin::GetNumModelAssociations(void ) const {
-	return associatedModels.Num(); 
+const int idDeclSkin::GetNumModelAssociations( void ) const {
+	return associatedModels.Num();
 }
 
 /*

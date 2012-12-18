@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@ If you have questions concerning this license or the applicable additional terms
 
 class CLightInfo {
 public:
-				CLightInfo();
+	CLightInfo();
 
 	bool		pointLight;
 	float		fallOff;
@@ -57,7 +57,7 @@ public:
 	float		strobeSpeed;
 	bool		rotate;
 	float		rotateSpeed;
-	
+
 	idVec3		lightRadius;
 	bool		castShadows;
 	bool		castSpecular;
@@ -70,8 +70,8 @@ public:
 	void		DefaultPoint();
 	void		FromDict( const idDict *e );
 	void		ToDict( idDict *e );
-    void		ToDictFromDifferences( idDict *e, const idDict *differences );
-    void		ToDictWriteAllInfo( idDict *e );
+	void		ToDictFromDifferences( idDict *e, const idDict *differences );
+	void		ToDictWriteAllInfo( idDict *e );
 };
 
 /////////////////////////////////////////////////////////////////////////////
@@ -79,8 +79,8 @@ public:
 
 class CLightDlg : public CDialog {
 public:
-					CLightDlg(CWnd* pParent = NULL);   // standard constructor
-					~CLightDlg();
+	CLightDlg( CWnd *pParent = NULL ); // standard constructor
+	~CLightDlg();
 
 	void			UpdateDialogFromLightInfo( void );
 	void			UpdateDialog( bool updateChecks );
@@ -131,17 +131,17 @@ public:
 	float	m_centerX;
 	float	m_centerY;
 	float	m_centerZ;
-    BOOL    m_bIsParallel;
+	BOOL    m_bIsParallel;
 	//}}AFX_DATA
 
 
 // Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CLightDlg)
-	public:
+public:
 	virtual BOOL DestroyWindow();
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+protected:
+	virtual void DoDataExchange( CDataExchange *pDX );  // DDX/DDV support
 	//}}AFX_VIRTUAL
 
 // Implementation
@@ -165,11 +165,11 @@ protected:
 	afx_msg void OnCheckRotate();
 	afx_msg void OnCheckStrobe();
 	virtual void OnCancel();
-	afx_msg HBRUSH OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor);
+	afx_msg HBRUSH OnCtlColor( CDC *pDC, CWnd *pWnd, UINT nCtlColor );
 	afx_msg void OnSelchangeComboTexture();
 	afx_msg void OnCheckCenter();
 	afx_msg void OnCheckParallel();
-    afx_msg void OnApplyDifferences();
+	afx_msg void OnApplyDifferences();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 
@@ -177,9 +177,9 @@ private:
 	CBitmap					colorBitmap;
 	CBitmap					fogBitmap;
 	CLightInfo				lightInfo;
-    CLightInfo				lightInfoOriginal;
+	CLightInfo				lightInfoOriginal;
 	idVec3					color;
-	idGLDrawableMaterial *	m_drawMaterial;
+	idGLDrawableMaterial 	*m_drawMaterial;
 };
 
 //{{AFX_INSERT_LOCATION}}

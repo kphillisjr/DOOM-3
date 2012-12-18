@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -33,7 +33,7 @@ If you have questions concerning this license or the applicable additional terms
 ===============================================================================
 
 	Player entity.
-	
+
 ===============================================================================
 */
 
@@ -55,7 +55,7 @@ const int	FOCUS_GUI_TIME = 500;
 const int MAX_WEAPONS = 16;
 
 const int DEAD_HEARTRATE = 0;			// fall to as you die
-const int LOWHEALTH_HEARTRATE_ADJ = 20; // 
+const int LOWHEALTH_HEARTRATE_ADJ = 20; //
 const int DYING_HEARTRATE = 30;			// used for volumen calc when dying/dead
 const int BASE_HEARTRATE = 70;			// default
 const int ZEROSTAMINA_HEARTRATE = 115;  // no stamina
@@ -87,7 +87,7 @@ struct idLevelTriggerInfo {
 
 // powerups - the "type" in item .def must match
 enum {
-	BERSERK = 0, 
+	BERSERK = 0,
 	INVISIBILITY,
 	MEGAHEALTH,
 	ADRENALINE,
@@ -150,8 +150,12 @@ public:
 
 	idList<idLevelTriggerInfo> levelTriggers;
 
-							idInventory() { Clear(); }
-							~idInventory() { Clear(); }
+	idInventory() {
+		Clear();
+	}
+	~idInventory() {
+		Clear();
+	}
 
 	// save games
 	void					Save( idSaveGame *savefile ) const;					// archives object for save game file
@@ -166,9 +170,9 @@ public:
 	void					Drop( const idDict &spawnArgs, const char *weapon_classname, int weapon_index );
 	ammo_t					AmmoIndexForAmmoClass( const char *ammo_classname ) const;
 	int						MaxAmmoForAmmoClass( idPlayer *owner, const char *ammo_classname ) const;
-	int						WeaponIndexForAmmoClass( const idDict & spawnArgs, const char *ammo_classname ) const;
+	int						WeaponIndexForAmmoClass( const idDict &spawnArgs, const char *ammo_classname ) const;
 	ammo_t					AmmoIndexForWeaponClass( const char *weapon_classname, int *ammoRequired );
-	const char *			AmmoPickupNameForIndex( ammo_t ammonum ) const;
+	const char 			*AmmoPickupNameForIndex( ammo_t ammonum ) const;
 	void					AddPickupName( const char *name, const char *icon );
 
 	int						HasAmmo( ammo_t type, int amount );
@@ -249,8 +253,8 @@ public:
 	idInventory				inventory;
 
 	idEntityPtr<idWeapon>	weapon;
-	idUserInterface *		hud;				// MP: is NULL if not local player
-	idUserInterface *		objectiveSystem;
+	idUserInterface 		*hud;				// MP: is NULL if not local player
+	idUserInterface 		*objectiveSystem;
 	bool					objectiveSystemOpen;
 
 	int						weapon_soulcube;
@@ -318,7 +322,7 @@ public:
 public:
 	CLASS_PROTOTYPE( idPlayer );
 
-							idPlayer();
+	idPlayer();
 	virtual					~idPlayer();
 
 	void					Spawn( void );
@@ -346,7 +350,7 @@ public:
 	void					SetLevelTrigger( const char *levelName, const char *triggerName );
 
 	bool					UserInfoChanged( bool canModify );
-	idDict *				GetUserInfo( void );
+	idDict 				*GetUserInfo( void );
 	bool					BalanceTDM( void );
 
 	void					CacheWeapons( void );
@@ -359,7 +363,7 @@ public:
 	void					UpdateConditions( void );
 	void					SetViewAngles( const idAngles &angles );
 
-							// delta view angles to allow movers to rotate the view of the player
+	// delta view angles to allow movers to rotate the view of the player
 	void					UpdateDeltaViewAngles( const idAngles &angles );
 
 	virtual bool			Collide( const trace_t &collision, const idVec3 &velocity );
@@ -367,18 +371,18 @@ public:
 	virtual void			GetAASLocation( idAAS *aas, idVec3 &pos, int &areaNum ) const;
 	virtual void			GetAIAimTargets( const idVec3 &lastSightPos, idVec3 &headPos, idVec3 &chestPos );
 	virtual void			DamageFeedback( idEntity *victim, idEntity *inflictor, int &damage );
-	void					CalcDamagePoints(  idEntity *inflictor, idEntity *attacker, const idDict *damageDef,
-							   const float damageScale, const int location, int *health, int *armor );
+	void					CalcDamagePoints( idEntity *inflictor, idEntity *attacker, const idDict *damageDef,
+			const float damageScale, const int location, int *health, int *armor );
 	virtual	void			Damage( idEntity *inflictor, idEntity *attacker, const idVec3 &dir, const char *damageDefName, const float damageScale, const int location );
 
-							// use exitEntityNum to specify a teleport with private camera view and delayed exit
+	// use exitEntityNum to specify a teleport with private camera view and delayed exit
 	virtual void			Teleport( const idVec3 &origin, const idAngles &angles, idEntity *destination );
 
 	void					Kill( bool delayRespawn, bool nodamage );
 	virtual void			Killed( idEntity *inflictor, idEntity *attacker, int damage, const idVec3 &dir, int location );
-	void					StartFxOnBone(const char *fx, const char *bone);
+	void					StartFxOnBone( const char *fx, const char *bone );
 
-	renderView_t *			GetRenderView( void );
+	renderView_t 			*GetRenderView( void );
 	void					CalculateRenderView( void );	// called every tic by player code
 	void					CalculateFirstPersonView( void );
 
@@ -397,12 +401,12 @@ public:
 	bool					GiveItem( idItem *item );
 	void					GiveItem( const char *name );
 	void					GiveHealthPool( float amt );
-	
+
 	bool					GiveInventoryItem( idDict *item );
 	void					RemoveInventoryItem( idDict *item );
 	bool					GiveInventoryItem( const char *name );
 	void					RemoveInventoryItem( const char *name );
-	idDict *				FindInventoryItem( const char *name );
+	idDict 				*FindInventoryItem( const char *name );
 
 	void					GivePDA( const char *pdaName, idDict *item );
 	void					GiveVideo( const char *videoName, idDict *item );
@@ -443,7 +447,9 @@ public:
 	void					UpdateAir( void );
 
 	virtual bool			HandleSingleGuiCommand( idEntity *entityGui, idLexer *src );
-	bool					GuiActive( void ) { return focusGUIent != NULL; }
+	bool					GuiActive( void ) {
+		return focusGUIent != NULL;
+	}
 
 	void					PerformImpulse( int impulse );
 	void					Spectate( bool spectate );
@@ -451,15 +457,19 @@ public:
 	void					ToggleScoreboard( void );
 	void					RouteGuiMouse( idUserInterface *gui );
 	void					UpdateHud( void );
-	const idDeclPDA *		GetPDA( void ) const;
-	const idDeclVideo *		GetVideo( int index );
+	const idDeclPDA 		*GetPDA( void ) const;
+	const idDeclVideo 		*GetVideo( int index );
 	void					SetInfluenceFov( float fov );
 	void					SetInfluenceView( const char *mtr, const char *skinname, float radius, idEntity *ent );
 	void					SetInfluenceLevel( int level );
-	int						GetInfluenceLevel( void ) { return influenceActive; };
+	int						GetInfluenceLevel( void ) {
+		return influenceActive;
+	};
 	void					SetPrivateCameraView( idCamera *camView );
-	idCamera *				GetPrivateCameraView( void ) const { return privateCameraView; }
-	void					StartFxFov( float duration  );
+	idCamera 				*GetPrivateCameraView( void ) const {
+		return privateCameraView;
+	}
+	void					StartFxFov( float duration );
 	void					UpdateHudWeapon( bool flashWeapon = true );
 	void					UpdateHudStats( idUserInterface *hud );
 	void					UpdateHudAmmo( idUserInterface *hud );
@@ -468,7 +478,9 @@ public:
 	void					StopAudioLog( void );
 	void					ShowTip( const char *title, const char *tip, bool autoHide );
 	void					HideTip( void );
-	bool					IsTipVisible( void ) { return tipUp; };
+	bool					IsTipVisible( void ) {
+		return tipUp;
+	};
 	void					ShowObjective( const char *obj );
 	void					HideObjective( void );
 
@@ -488,9 +500,15 @@ public:
 	bool					IsRespawning( void );
 	bool					IsInTeleport( void );
 
-	idEntity				*GetInfluenceEntity( void ) { return influenceEntity; };
-	const idMaterial		*GetInfluenceMaterial( void ) { return influenceMaterial; };
-	float					GetInfluenceRadius( void ) { return influenceRadius; };
+	idEntity				*GetInfluenceEntity( void ) {
+		return influenceEntity;
+	};
+	const idMaterial		*GetInfluenceMaterial( void ) {
+		return influenceMaterial;
+	};
+	float					GetInfluenceRadius( void ) {
+		return influenceRadius;
+	};
 
 	// server side work for in/out of spectate. takes care of spawning it into the world as well
 	void					ServerSpectate( bool spectate );
@@ -544,8 +562,8 @@ private:
 	bool					weaponEnabled;
 	bool					showWeaponViewModel;
 
-	const idDeclSkin *		skin;
-	const idDeclSkin *		powerUpSkin;
+	const idDeclSkin 		*skin;
+	const idDeclSkin 		*powerUpSkin;
 	idStr					baseSkinName;
 
 	int						numProjectilesFired;	// number of projectiles fired
@@ -565,12 +583,12 @@ private:
 
 	float					influenceFov;
 	int						influenceActive;		// level of influence.. 1 == no gun or hud .. 2 == 1 + no movement
-	idEntity *				influenceEntity;
-	const idMaterial *		influenceMaterial;
+	idEntity 				*influenceEntity;
+	const idMaterial 		*influenceMaterial;
 	float					influenceRadius;
-	const idDeclSkin *		influenceSkin;
+	const idDeclSkin 		*influenceSkin;
 
-	idCamera *				privateCameraView;
+	idCamera 				*privateCameraView;
 
 	static const int		NUM_LOGGED_VIEW_ANGLES = 64;		// for weapon turning angle offsets
 	idAngles				loggedViewAngles[NUM_LOGGED_VIEW_ANGLES];	// [gameLocal.framenum&(LOGGED_VIEW_ANGLES-1)]
@@ -579,14 +597,14 @@ private:
 	int						currentLoggedAccel;
 
 	// if there is a focusGUIent, the attack button will be changed into mouse clicks
-	idEntity *				focusGUIent;
-	idUserInterface *		focusUI;				// focusGUIent->renderEntity.gui, gui2, or gui3
-	idAI *					focusCharacter;
+	idEntity 				*focusGUIent;
+	idUserInterface 		*focusUI;				// focusGUIent->renderEntity.gui, gui2, or gui3
+	idAI 					*focusCharacter;
 	int						talkCursor;				// show the state of the focusCharacter (0 == can't talk/dead, 1 == ready to talk, 2 == busy talking)
 	int						focusTime;
-	idAFEntity_Vehicle *	focusVehicle;
-	idUserInterface *		cursor;
-	
+	idAFEntity_Vehicle 	*focusVehicle;
+	idUserInterface 		*cursor;
+
 	// full screen guis track mouse movements directly
 	int						oldMouseX;
 	int						oldMouseY;
@@ -657,7 +675,7 @@ private:
 	void					ClearFocus( void );
 	void					UpdateFocus( void );
 	void					UpdateLocation( void );
-	idUserInterface *		ActiveGui( void );
+	idUserInterface 		*ActiveGui( void );
 	void					UpdatePDAInfo( bool updatePDASel );
 	int						AddGuiPDAData( const declType_t dataType, const char *listName, const idDeclPDA *src, idUserInterface *gui );
 	void					ExtractEmailInfo( const idStr &email, const char *scan, idStr &out );
@@ -693,7 +711,7 @@ ID_INLINE bool idPlayer::IsRespawning( void ) {
 	return respawning;
 }
 
-ID_INLINE idPhysics* idPlayer::GetPlayerPhysics( void ) {
+ID_INLINE idPhysics *idPlayer::GetPlayerPhysics( void ) {
 	return &physicsObj;
 }
 

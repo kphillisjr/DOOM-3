@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -117,35 +117,34 @@ toolTip_t DialogAFBody::toolTips[] = {
 	{ 0, NULL }
 };
 
-IMPLEMENT_DYNAMIC(DialogAFBody, CDialog)
+IMPLEMENT_DYNAMIC( DialogAFBody, CDialog )
 
 /*
 ================
 DialogAFBody::DialogAFBody
 ================
 */
-DialogAFBody::DialogAFBody( CWnd* pParent /*=NULL*/ )
-	: CDialog(DialogAFBody::IDD, pParent)
-	, constraintDlg(NULL)
-	, numJoints(0)
-	, cm_length(0)
-	, cm_height(0)
-	, cm_width(0)
-	, cm_density(0)
-	, cm_numSides(3)
-	, cm_origin_x(0)
-	, cm_origin_y(0)
-	, cm_origin_z(0)
-	, cm_angles_pitch(0)
-	, cm_angles_yaw(0)
-	, cm_angles_roll(0)
-	, m_selfCollision(false)
-	, m_linearFriction(0)
-	, m_angularFriction(0)
-	, m_contactFriction(0)
-	, file(NULL)
-	, body(NULL)
-{
+DialogAFBody::DialogAFBody( CWnd *pParent /*=NULL*/ )
+	: CDialog( DialogAFBody::IDD, pParent )
+	, constraintDlg( NULL )
+	, numJoints( 0 )
+	, cm_length( 0 )
+	, cm_height( 0 )
+	, cm_width( 0 )
+	, cm_density( 0 )
+	, cm_numSides( 3 )
+	, cm_origin_x( 0 )
+	, cm_origin_y( 0 )
+	, cm_origin_z( 0 )
+	, cm_angles_pitch( 0 )
+	, cm_angles_yaw( 0 )
+	, cm_angles_roll( 0 )
+	, m_selfCollision( false )
+	, m_linearFriction( 0 )
+	, m_angularFriction( 0 )
+	, m_contactFriction( 0 )
+	, file( NULL )
+	, body( NULL ) {
 	Create( IDD_DIALOG_AF_BODY, pParent );
 	EnableToolTips( TRUE );
 }
@@ -163,38 +162,38 @@ DialogAFBody::~DialogAFBody() {
 DialogAFBody::DoDataExchange
 ================
 */
-void DialogAFBody::DoDataExchange( CDataExchange* pDX ) {
+void DialogAFBody::DoDataExchange( CDataExchange *pDX ) {
 	CDialog::DoDataExchange( pDX );
 	//{{AFX_DATA_MAP(DialogAFBody)
-	DDX_Control(pDX, IDC_COMBO_BODIES, bodyList);
-	DDX_Control(pDX, IDC_COMBO_CM_TYPE, cm_comboType);
-	DDX_Text(pDX, IDC_EDIT_CM_LENGTH, cm_length);
-	DDX_Text(pDX, IDC_EDIT_CM_HEIGHT, cm_height);
-	DDX_Text(pDX, IDC_EDIT_CM_WIDTH, cm_width);
-	DDX_Text(pDX, IDC_EDIT_CM_NUMSIDES, cm_numSides);
-	DDX_Control(pDX, IDC_COMBO_BONE_JOINT1, cm_comboBoneJoint1 );
-	DDX_Control(pDX, IDC_COMBO_BONE_JOINT2, cm_comboBoneJoint2 );
-	DDX_Text(pDX, IDC_EDIT_CM_DENSITY, cm_density);
-	DDX_Control(pDX, IDC_EDIT_CM_INERTIASCALE, cm_inertiaScale);
-	DDX_Text(pDX, IDC_EDIT_AF_VECTOR_X, cm_origin_x);
-	DDX_Text(pDX, IDC_EDIT_AF_VECTOR_Y, cm_origin_y);
-	DDX_Text(pDX, IDC_EDIT_AF_VECTOR_Z, cm_origin_z);
-	DDX_Control(pDX, IDC_COMBO_ORIGIN_BONECENTER_JOINT1, cm_originBoneCenterJoint1);
-	DDX_Control(pDX, IDC_COMBO_ORIGIN_BONECENTER_JOINT2, cm_originBoneCenterJoint2);
-	DDX_Control(pDX, IDC_COMBO_ORIGIN_JOINT, cm_originJoint);
-	DDX_Text(pDX, IDC_EDIT_ANGLES_PITCH, cm_angles_pitch);
-	DDX_Text(pDX, IDC_EDIT_ANGLES_YAW, cm_angles_yaw);
-	DDX_Text(pDX, IDC_EDIT_ANGLES_ROLL, cm_angles_roll);
-	DDX_Check(pDX, IDC_CHECK_SELFCOLLISION, m_selfCollision);
-	DDX_Control(pDX, IDC_EDIT_CONTENTS, m_editContents);
-	DDX_Control(pDX, IDC_EDIT_CLIPMASK, m_editClipMask);
-	DDX_Text(pDX, IDC_EDIT_LINEARFRICTION, m_linearFriction);
-	DDX_Text(pDX, IDC_EDIT_ANGULARFRICTION, m_angularFriction);
-	DDX_Text(pDX, IDC_EDIT_CONTACTFRICTION, m_contactFriction);
-	DDX_Control(pDX, IDC_EDIT_FRICTIONDIRECTION, m_frictionDirection);
-	DDX_Control(pDX, IDC_EDIT_CONTACTMOTORDIRECTION, m_contactMotorDirection);
-	DDX_Control(pDX, IDC_COMBO_MODIFIEDJOINT, m_comboModifiedJoint);
-	DDX_Control(pDX, IDC_EDIT_CONTAINEDJOINTS, m_editContainedJoints);
+	DDX_Control( pDX, IDC_COMBO_BODIES, bodyList );
+	DDX_Control( pDX, IDC_COMBO_CM_TYPE, cm_comboType );
+	DDX_Text( pDX, IDC_EDIT_CM_LENGTH, cm_length );
+	DDX_Text( pDX, IDC_EDIT_CM_HEIGHT, cm_height );
+	DDX_Text( pDX, IDC_EDIT_CM_WIDTH, cm_width );
+	DDX_Text( pDX, IDC_EDIT_CM_NUMSIDES, cm_numSides );
+	DDX_Control( pDX, IDC_COMBO_BONE_JOINT1, cm_comboBoneJoint1 );
+	DDX_Control( pDX, IDC_COMBO_BONE_JOINT2, cm_comboBoneJoint2 );
+	DDX_Text( pDX, IDC_EDIT_CM_DENSITY, cm_density );
+	DDX_Control( pDX, IDC_EDIT_CM_INERTIASCALE, cm_inertiaScale );
+	DDX_Text( pDX, IDC_EDIT_AF_VECTOR_X, cm_origin_x );
+	DDX_Text( pDX, IDC_EDIT_AF_VECTOR_Y, cm_origin_y );
+	DDX_Text( pDX, IDC_EDIT_AF_VECTOR_Z, cm_origin_z );
+	DDX_Control( pDX, IDC_COMBO_ORIGIN_BONECENTER_JOINT1, cm_originBoneCenterJoint1 );
+	DDX_Control( pDX, IDC_COMBO_ORIGIN_BONECENTER_JOINT2, cm_originBoneCenterJoint2 );
+	DDX_Control( pDX, IDC_COMBO_ORIGIN_JOINT, cm_originJoint );
+	DDX_Text( pDX, IDC_EDIT_ANGLES_PITCH, cm_angles_pitch );
+	DDX_Text( pDX, IDC_EDIT_ANGLES_YAW, cm_angles_yaw );
+	DDX_Text( pDX, IDC_EDIT_ANGLES_ROLL, cm_angles_roll );
+	DDX_Check( pDX, IDC_CHECK_SELFCOLLISION, m_selfCollision );
+	DDX_Control( pDX, IDC_EDIT_CONTENTS, m_editContents );
+	DDX_Control( pDX, IDC_EDIT_CLIPMASK, m_editClipMask );
+	DDX_Text( pDX, IDC_EDIT_LINEARFRICTION, m_linearFriction );
+	DDX_Text( pDX, IDC_EDIT_ANGULARFRICTION, m_angularFriction );
+	DDX_Text( pDX, IDC_EDIT_CONTACTFRICTION, m_contactFriction );
+	DDX_Control( pDX, IDC_EDIT_FRICTIONDIRECTION, m_frictionDirection );
+	DDX_Control( pDX, IDC_EDIT_CONTACTMOTORDIRECTION, m_contactMotorDirection );
+	DDX_Control( pDX, IDC_COMBO_MODIFIEDJOINT, m_comboModifiedJoint );
+	DDX_Control( pDX, IDC_EDIT_CONTAINEDJOINTS, m_editContainedJoints );
 	//}}AFX_DATA_MAP
 }
 
@@ -248,7 +247,7 @@ void DialogAFBody::InitJointLists( void ) {
 
 	numJoints = model->NumJoints();
 	for ( int i = 0; i < numJoints; i++ ) {
-		const char *jointName = model->GetJointName( (jointHandle_t) i );
+		const char *jointName = model->GetJointName( ( jointHandle_t ) i );
 		cm_comboBoneJoint1.AddString( jointName );
 		cm_comboBoneJoint2.AddString( jointName );
 		cm_originBoneCenterJoint1.AddString( jointName );
@@ -277,10 +276,9 @@ void DialogAFBody::InitCollisionModelType( void ) {
 		GetDlgItem( IDC_STATIC_CM_LENGTH )->SetWindowText( "Joint 1" );
 		GetDlgItem( IDC_STATIC_CM_HEIGHT )->SetWindowText( "Joint 2" );
 		CheckRadioButton( IDC_RADIO_ORIGIN_COORDINATES,
-							IDC_RADIO_ORIGIN_JOINT,
-								IDC_RADIO_ORIGIN_BONECENTER );
-	}
-	else {
+						  IDC_RADIO_ORIGIN_JOINT,
+						  IDC_RADIO_ORIGIN_BONECENTER );
+	} else {
 		showBone = SW_HIDE;
 		showOther = SW_SHOW;
 		enableOther = true;
@@ -325,8 +323,7 @@ void DialogAFBody::InitCollisionModelType( void ) {
 	if ( type == TRM_CONE || type == TRM_CYLINDER ) {
 		GetDlgItem( IDC_EDIT_CM_NUMSIDES )->EnableWindow( true );
 		GetDlgItem( IDC_SPIN_CM_NUMSIDES )->EnableWindow( true );
-	}
-	else {
+	} else {
 		GetDlgItem( IDC_EDIT_CM_NUMSIDES )->EnableWindow( false );
 		GetDlgItem( IDC_SPIN_CM_NUMSIDES )->EnableWindow( false );
 	}
@@ -354,7 +351,7 @@ void DialogAFBody::InitModifiedJointList( void ) {
 
 	numJoints = model->NumJoints();
 	for ( i = 0; i < numJoints; i++ ) {
-		const char *jointName = model->GetJointName( (jointHandle_t) i );
+		const char *jointName = model->GetJointName( ( jointHandle_t ) i );
 		for ( j = 0; j < file->bodies.Num(); j++ ) {
 			if ( file->bodies[j] == body ) {
 				continue;
@@ -389,12 +386,10 @@ void DialogAFBody::InitModifiedJointList( void ) {
 			// if there is another body which modifies the "origin" joint
 			if ( i < file->bodies.Num() ) {
 				GetDlgItem( IDC_COMBO_MODIFIEDJOINT )->EnableWindow( true );
-			}
-			else {
+			} else {
 				GetDlgItem( IDC_COMBO_MODIFIEDJOINT )->EnableWindow( false );
 			}
-		}
-		else {
+		} else {
 			GetDlgItem( IDC_COMBO_MODIFIEDJOINT )->EnableWindow( true );
 		}
 	}
@@ -408,16 +403,14 @@ DialogAFBody::InitNewRenameDeleteButtons
 void DialogAFBody::InitNewRenameDeleteButtons( void ) {
 	if ( file && numJoints > file->bodies.Num() ) {
 		GetDlgItem( IDC_BUTTON_NEWBODY )->EnableWindow( true );
-	}
-	else {
+	} else {
 		GetDlgItem( IDC_BUTTON_NEWBODY )->EnableWindow( false );
 	}
 
 	if ( file && bodyList.GetCount() >= 1 ) {
 		GetDlgItem( IDC_BUTTON_RENAMEBODY )->EnableWindow( true );
 		GetDlgItem( IDC_BUTTON_DELETEBODY )->EnableWindow( true );
-	}
-	else {
+	} else {
 		GetDlgItem( IDC_BUTTON_RENAMEBODY )->EnableWindow( false );
 		GetDlgItem( IDC_BUTTON_DELETEBODY )->EnableWindow( false );
 	}
@@ -476,8 +469,7 @@ void DialogAFBody::LoadBody( const char *name ) {
 		cm_length = cm_height = 20.0f;
 		s1 = SetSafeComboBoxSelection( &cm_originBoneCenterJoint1, body->v1.joint1.c_str(), -1 );
 		s2 = SetSafeComboBoxSelection( &cm_originBoneCenterJoint2, body->v2.joint1.c_str(), s1 );
-	}
-	else {
+	} else {
 		cm_length = body->v2.ToVec3().x - body->v1.ToVec3().x;
 		cm_height = body->v2.ToVec3().z - body->v1.ToVec3().z;
 		cm_width = body->v2.ToVec3().y - body->v1.ToVec3().y;
@@ -492,11 +484,9 @@ void DialogAFBody::LoadBody( const char *name ) {
 		cm_angles_roll = body->angles.roll;
 		if ( body->origin.type == idAFVector::VEC_BONECENTER ) {
 			i = IDC_RADIO_ORIGIN_BONECENTER;
-		}
-		else if ( body->origin.type == idAFVector::VEC_JOINT ) {
+		} else if ( body->origin.type == idAFVector::VEC_JOINT ) {
 			i = IDC_RADIO_ORIGIN_JOINT;
-		}
-		else {
+		} else {
 			i = IDC_RADIO_ORIGIN_COORDINATES;
 		}
 		CheckRadioButton( IDC_RADIO_ORIGIN_COORDINATES, IDC_RADIO_ORIGIN_JOINT, i );
@@ -505,8 +495,7 @@ void DialogAFBody::LoadBody( const char *name ) {
 	cm_density = body->density;
 	if ( body->inertiaScale == mat3_identity ) {
 		cm_inertiaScale.SetWindowText( "none" );
-	}
-	else {
+	} else {
 		cm_inertiaScale.SetWindowText( body->inertiaScale.ToString( 1 ) );
 	}
 
@@ -610,8 +599,7 @@ void DialogAFBody::SaveBody( void ) {
 		if ( body->origin.type == idAFVector::VEC_JOINT ) {
 			s1 = GetSafeComboBoxSelection( &cm_originJoint, str, -1 );
 			body->origin.joint1 = str;
-		}
-		else {
+		} else {
 			s1 = GetSafeComboBoxSelection( &cm_originBoneCenterJoint1, str, -1 );
 			body->origin.joint1 = str;
 		}
@@ -699,7 +687,7 @@ BOOL DialogAFBody::OnInitDialog()  {
 	InitNewRenameDeleteButtons();
 
 	return TRUE;  // return TRUE unless you set the focus to a control
-	              // EXCEPTION: OCX Property Pages should return FALSE
+	// EXCEPTION: OCX Property Pages should return FALSE
 }
 
 /*
@@ -707,67 +695,67 @@ BOOL DialogAFBody::OnInitDialog()  {
 DialogAFBody::OnToolHitTest
 ================
 */
-int DialogAFBody::OnToolHitTest( CPoint point, TOOLINFO* pTI ) const {
+int DialogAFBody::OnToolHitTest( CPoint point, TOOLINFO *pTI ) const {
 	CDialog::OnToolHitTest( point, pTI );
 	return DefaultOnToolHitTest( toolTips, this, point, pTI );
 }
 
-BEGIN_MESSAGE_MAP(DialogAFBody, CDialog)
-	ON_NOTIFY_EX_RANGE(TTN_NEEDTEXTW, 0, 0xFFFF, OnToolTipNotify)
-	ON_NOTIFY_EX_RANGE(TTN_NEEDTEXTA, 0, 0xFFFF, OnToolTipNotify)
+BEGIN_MESSAGE_MAP( DialogAFBody, CDialog )
+	ON_NOTIFY_EX_RANGE( TTN_NEEDTEXTW, 0, 0xFFFF, OnToolTipNotify )
+	ON_NOTIFY_EX_RANGE( TTN_NEEDTEXTA, 0, 0xFFFF, OnToolTipNotify )
 	ON_WM_SHOWWINDOW()
-	ON_CBN_SELCHANGE(IDC_COMBO_BODIES, OnCbnSelchangeComboBodies)
-	ON_BN_CLICKED(IDC_BUTTON_NEWBODY, OnBnClickedButtonNewbody)
-	ON_BN_CLICKED(IDC_BUTTON_RENAMEBODY, OnBnClickedButtonRenamebody)
-	ON_BN_CLICKED(IDC_BUTTON_DELETEBODY, OnBnClickedButtonDeletebody)
-	ON_CBN_SELCHANGE(IDC_COMBO_CM_TYPE, OnCbnSelchangeComboCmType)
-	ON_EN_CHANGE(IDC_EDIT_CM_LENGTH, OnEnChangeEditCmLength)
-	ON_EN_CHANGE(IDC_EDIT_CM_HEIGHT, OnEnChangeEditCmHeight)
-	ON_EN_CHANGE(IDC_EDIT_CM_WIDTH, OnEnChangeEditCmWidth)
-	ON_EN_CHANGE(IDC_EDIT_CM_NUMSIDES, OnEnChangeEditCmNumsides)
-	ON_CBN_SELCHANGE(IDC_COMBO_BONE_JOINT1, OnCbnSelchangeComboBoneJoint1)
-	ON_CBN_SELCHANGE(IDC_COMBO_BONE_JOINT2, OnCbnSelchangeComboBoneJoint2)
-	ON_EN_CHANGE(IDC_EDIT_CM_DENSITY, OnEnChangeEditCmDensity)
-	ON_EN_CHANGE(IDC_EDIT_CM_INERTIASCALE, OnEnChangeEditCmInertiascale)
-	ON_NOTIFY(UDN_DELTAPOS, IDC_SPIN_CM_LENGTH, OnDeltaposSpinCmLength)
-	ON_NOTIFY(UDN_DELTAPOS, IDC_SPIN_CM_HEIGHT, OnDeltaposSpinCmHeight)
-	ON_NOTIFY(UDN_DELTAPOS, IDC_SPIN_CM_WIDTH, OnDeltaposSpinCmWidth)
-	ON_NOTIFY(UDN_DELTAPOS, IDC_SPIN_CM_NUMSIDES, OnDeltaposSpinCmNumsides)
-	ON_NOTIFY(UDN_DELTAPOS, IDC_SPIN_CM_DENSITY, OnDeltaposSpinCmDensity)
-	ON_BN_CLICKED(IDC_RADIO_ORIGIN_COORDINATES, OnBnClickedRadioOriginCoordinates)
-	ON_BN_CLICKED(IDC_RADIO_ORIGIN_BONECENTER, OnBnClickedRadioOriginBonecenter)
-	ON_BN_CLICKED(IDC_RADIO_ORIGIN_JOINT, OnBnClickedRadioOriginJoint)
-	ON_EN_CHANGE(IDC_EDIT_AF_VECTOR_X, OnEnChangeEditAfVectorX)
-	ON_EN_CHANGE(IDC_EDIT_AF_VECTOR_Y, OnEnChangeEditAfVectorY)
-	ON_EN_CHANGE(IDC_EDIT_AF_VECTOR_Z, OnEnChangeEditAfVectorZ)
-	ON_CBN_SELCHANGE(IDC_COMBO_ORIGIN_BONECENTER_JOINT1, OnOnCbnSelchangeComboOriginBoneCenterJoint1)
-	ON_CBN_SELCHANGE(IDC_COMBO_ORIGIN_BONECENTER_JOINT2, OnOnCbnSelchangeComboOriginBoneCenterJoint2)
-	ON_CBN_SELCHANGE(IDC_COMBO_ORIGIN_JOINT, OnOnCbnSelchangeComboOriginJoint)
-	ON_EN_CHANGE(IDC_EDIT_ANGLES_PITCH, OnEnChangeEditAnglesPitch)
-	ON_EN_CHANGE(IDC_EDIT_ANGLES_YAW, OnEnChangeEditAnglesYaw)
-	ON_EN_CHANGE(IDC_EDIT_ANGLES_ROLL, OnEnChangeEditAnglesRoll)
-	ON_NOTIFY(UDN_DELTAPOS, IDC_SPIN_AF_VECTOR_X, OnDeltaposSpinAfVectorX)
-	ON_NOTIFY(UDN_DELTAPOS, IDC_SPIN_AF_VECTOR_Y, OnDeltaposSpinAfVectorY)
-	ON_NOTIFY(UDN_DELTAPOS, IDC_SPIN_AF_VECTOR_Z, OnDeltaposSpinAfVectorZ)
-	ON_NOTIFY(UDN_DELTAPOS, IDC_SPIN_ANGLES_PITCH, OnDeltaposSpinAnglesPitch)
-	ON_NOTIFY(UDN_DELTAPOS, IDC_SPIN_ANGLES_YAW, OnDeltaposSpinAnglesYaw)
-	ON_NOTIFY(UDN_DELTAPOS, IDC_SPIN_ANGLES_ROLL, OnDeltaposSpinAnglesRoll)
-	ON_BN_CLICKED(IDC_CHECK_SELFCOLLISION, OnBnClickedCheckSelfcollision)
-	ON_EN_CHANGE(IDC_EDIT_CONTENTS, OnEnChangeEditContents)
-	ON_EN_CHANGE(IDC_EDIT_CLIPMASK, OnEnChangeEditClipmask)
-	ON_EN_CHANGE(IDC_EDIT_LINEARFRICTION, OnEnChangeEditLinearfriction)
-	ON_NOTIFY(UDN_DELTAPOS, IDC_SPIN_LINEARFRICTION, OnDeltaposSpinLinearfriction)
-	ON_EN_CHANGE(IDC_EDIT_ANGULARFRICTION, OnEnChangeEditAngularfriction)
-	ON_NOTIFY(UDN_DELTAPOS, IDC_SPIN_ANGULARFRICTION, OnDeltaposSpinAngularfriction)
-	ON_EN_CHANGE(IDC_EDIT_CONTACTFRICTION, OnEnChangeEditContactfriction)
-	ON_NOTIFY(UDN_DELTAPOS, IDC_SPIN_CONTACTFRICTION, OnDeltaposSpinContactfriction)
-	ON_EN_CHANGE(IDC_EDIT_FRICTIONDIRECTION, OnEnChangeEditFrictionDirection)
-	ON_EN_CHANGE(IDC_EDIT_CONTACTMOTORDIRECTION, OnEnChangeEditContactMotorDirection)
-	ON_CBN_SELCHANGE(IDC_COMBO_MODIFIEDJOINT, OnCbnSelchangeComboModifiedjoint)
-	ON_BN_CLICKED(IDC_RADIO_MODIFY_ORIENTATION, OnBnClickedRadioModifyOrientation)
-	ON_BN_CLICKED(IDC_RADIO_MODIFY_POSITION, OnBnClickedRadioModifyPosition)
-	ON_BN_CLICKED(IDC_RADIO_MODIFY_BOTH, OnBnClickedRadioModifyBoth)
-	ON_EN_CHANGE(IDC_EDIT_CONTAINEDJOINTS, OnEnChangeEditContainedjoints)
+	ON_CBN_SELCHANGE( IDC_COMBO_BODIES, OnCbnSelchangeComboBodies )
+	ON_BN_CLICKED( IDC_BUTTON_NEWBODY, OnBnClickedButtonNewbody )
+	ON_BN_CLICKED( IDC_BUTTON_RENAMEBODY, OnBnClickedButtonRenamebody )
+	ON_BN_CLICKED( IDC_BUTTON_DELETEBODY, OnBnClickedButtonDeletebody )
+	ON_CBN_SELCHANGE( IDC_COMBO_CM_TYPE, OnCbnSelchangeComboCmType )
+	ON_EN_CHANGE( IDC_EDIT_CM_LENGTH, OnEnChangeEditCmLength )
+	ON_EN_CHANGE( IDC_EDIT_CM_HEIGHT, OnEnChangeEditCmHeight )
+	ON_EN_CHANGE( IDC_EDIT_CM_WIDTH, OnEnChangeEditCmWidth )
+	ON_EN_CHANGE( IDC_EDIT_CM_NUMSIDES, OnEnChangeEditCmNumsides )
+	ON_CBN_SELCHANGE( IDC_COMBO_BONE_JOINT1, OnCbnSelchangeComboBoneJoint1 )
+	ON_CBN_SELCHANGE( IDC_COMBO_BONE_JOINT2, OnCbnSelchangeComboBoneJoint2 )
+	ON_EN_CHANGE( IDC_EDIT_CM_DENSITY, OnEnChangeEditCmDensity )
+	ON_EN_CHANGE( IDC_EDIT_CM_INERTIASCALE, OnEnChangeEditCmInertiascale )
+	ON_NOTIFY( UDN_DELTAPOS, IDC_SPIN_CM_LENGTH, OnDeltaposSpinCmLength )
+	ON_NOTIFY( UDN_DELTAPOS, IDC_SPIN_CM_HEIGHT, OnDeltaposSpinCmHeight )
+	ON_NOTIFY( UDN_DELTAPOS, IDC_SPIN_CM_WIDTH, OnDeltaposSpinCmWidth )
+	ON_NOTIFY( UDN_DELTAPOS, IDC_SPIN_CM_NUMSIDES, OnDeltaposSpinCmNumsides )
+	ON_NOTIFY( UDN_DELTAPOS, IDC_SPIN_CM_DENSITY, OnDeltaposSpinCmDensity )
+	ON_BN_CLICKED( IDC_RADIO_ORIGIN_COORDINATES, OnBnClickedRadioOriginCoordinates )
+	ON_BN_CLICKED( IDC_RADIO_ORIGIN_BONECENTER, OnBnClickedRadioOriginBonecenter )
+	ON_BN_CLICKED( IDC_RADIO_ORIGIN_JOINT, OnBnClickedRadioOriginJoint )
+	ON_EN_CHANGE( IDC_EDIT_AF_VECTOR_X, OnEnChangeEditAfVectorX )
+	ON_EN_CHANGE( IDC_EDIT_AF_VECTOR_Y, OnEnChangeEditAfVectorY )
+	ON_EN_CHANGE( IDC_EDIT_AF_VECTOR_Z, OnEnChangeEditAfVectorZ )
+	ON_CBN_SELCHANGE( IDC_COMBO_ORIGIN_BONECENTER_JOINT1, OnOnCbnSelchangeComboOriginBoneCenterJoint1 )
+	ON_CBN_SELCHANGE( IDC_COMBO_ORIGIN_BONECENTER_JOINT2, OnOnCbnSelchangeComboOriginBoneCenterJoint2 )
+	ON_CBN_SELCHANGE( IDC_COMBO_ORIGIN_JOINT, OnOnCbnSelchangeComboOriginJoint )
+	ON_EN_CHANGE( IDC_EDIT_ANGLES_PITCH, OnEnChangeEditAnglesPitch )
+	ON_EN_CHANGE( IDC_EDIT_ANGLES_YAW, OnEnChangeEditAnglesYaw )
+	ON_EN_CHANGE( IDC_EDIT_ANGLES_ROLL, OnEnChangeEditAnglesRoll )
+	ON_NOTIFY( UDN_DELTAPOS, IDC_SPIN_AF_VECTOR_X, OnDeltaposSpinAfVectorX )
+	ON_NOTIFY( UDN_DELTAPOS, IDC_SPIN_AF_VECTOR_Y, OnDeltaposSpinAfVectorY )
+	ON_NOTIFY( UDN_DELTAPOS, IDC_SPIN_AF_VECTOR_Z, OnDeltaposSpinAfVectorZ )
+	ON_NOTIFY( UDN_DELTAPOS, IDC_SPIN_ANGLES_PITCH, OnDeltaposSpinAnglesPitch )
+	ON_NOTIFY( UDN_DELTAPOS, IDC_SPIN_ANGLES_YAW, OnDeltaposSpinAnglesYaw )
+	ON_NOTIFY( UDN_DELTAPOS, IDC_SPIN_ANGLES_ROLL, OnDeltaposSpinAnglesRoll )
+	ON_BN_CLICKED( IDC_CHECK_SELFCOLLISION, OnBnClickedCheckSelfcollision )
+	ON_EN_CHANGE( IDC_EDIT_CONTENTS, OnEnChangeEditContents )
+	ON_EN_CHANGE( IDC_EDIT_CLIPMASK, OnEnChangeEditClipmask )
+	ON_EN_CHANGE( IDC_EDIT_LINEARFRICTION, OnEnChangeEditLinearfriction )
+	ON_NOTIFY( UDN_DELTAPOS, IDC_SPIN_LINEARFRICTION, OnDeltaposSpinLinearfriction )
+	ON_EN_CHANGE( IDC_EDIT_ANGULARFRICTION, OnEnChangeEditAngularfriction )
+	ON_NOTIFY( UDN_DELTAPOS, IDC_SPIN_ANGULARFRICTION, OnDeltaposSpinAngularfriction )
+	ON_EN_CHANGE( IDC_EDIT_CONTACTFRICTION, OnEnChangeEditContactfriction )
+	ON_NOTIFY( UDN_DELTAPOS, IDC_SPIN_CONTACTFRICTION, OnDeltaposSpinContactfriction )
+	ON_EN_CHANGE( IDC_EDIT_FRICTIONDIRECTION, OnEnChangeEditFrictionDirection )
+	ON_EN_CHANGE( IDC_EDIT_CONTACTMOTORDIRECTION, OnEnChangeEditContactMotorDirection )
+	ON_CBN_SELCHANGE( IDC_COMBO_MODIFIEDJOINT, OnCbnSelchangeComboModifiedjoint )
+	ON_BN_CLICKED( IDC_RADIO_MODIFY_ORIENTATION, OnBnClickedRadioModifyOrientation )
+	ON_BN_CLICKED( IDC_RADIO_MODIFY_POSITION, OnBnClickedRadioModifyPosition )
+	ON_BN_CLICKED( IDC_RADIO_MODIFY_BOTH, OnBnClickedRadioModifyBoth )
+	ON_EN_CHANGE( IDC_EDIT_CONTAINEDJOINTS, OnEnChangeEditContainedjoints )
 END_MESSAGE_MAP()
 
 
@@ -890,21 +878,19 @@ void DialogAFBody::ValidateCollisionModelLength( bool update ) {
 }
 
 void DialogAFBody::OnEnChangeEditCmLength() {
-	if ( EditControlEnterHit( (CEdit *) GetDlgItem( IDC_EDIT_CM_LENGTH ) ) ) {
+	if ( EditControlEnterHit( ( CEdit * ) GetDlgItem( IDC_EDIT_CM_LENGTH ) ) ) {
 		ValidateCollisionModelLength( false );
 		UpdateFile();
-	}
-	else {
-		cm_length = EditVerifyFloat( (CEdit *) GetDlgItem( IDC_EDIT_CM_LENGTH ), false );
+	} else {
+		cm_length = EditVerifyFloat( ( CEdit * ) GetDlgItem( IDC_EDIT_CM_LENGTH ), false );
 	}
 }
 
-void DialogAFBody::OnDeltaposSpinCmLength(NMHDR *pNMHDR, LRESULT *pResult) {
-	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>(pNMHDR);
+void DialogAFBody::OnDeltaposSpinCmLength( NMHDR *pNMHDR, LRESULT *pResult ) {
+	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>( pNMHDR );
 	if ( pNMUpDown->iDelta < 0 ) {
 		cm_length += 1.0f;
-	}
-	else if ( cm_length >= 2.0f ) {
+	} else if ( cm_length >= 2.0f ) {
 		cm_length -= 1.0f;
 	}
 	ValidateCollisionModelLength( true );
@@ -923,21 +909,19 @@ void DialogAFBody::ValidateCollisionModelHeight( bool update ) {
 }
 
 void DialogAFBody::OnEnChangeEditCmHeight() {
-	if ( EditControlEnterHit( (CEdit *) GetDlgItem( IDC_EDIT_CM_HEIGHT ) ) ) {
+	if ( EditControlEnterHit( ( CEdit * ) GetDlgItem( IDC_EDIT_CM_HEIGHT ) ) ) {
 		ValidateCollisionModelHeight( false );
 		UpdateFile();
-	}
-	else {
-		cm_height = EditVerifyFloat( (CEdit *) GetDlgItem( IDC_EDIT_CM_HEIGHT ), false );
+	} else {
+		cm_height = EditVerifyFloat( ( CEdit * ) GetDlgItem( IDC_EDIT_CM_HEIGHT ), false );
 	}
 }
 
-void DialogAFBody::OnDeltaposSpinCmHeight(NMHDR *pNMHDR, LRESULT *pResult) {
-	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>(pNMHDR);
+void DialogAFBody::OnDeltaposSpinCmHeight( NMHDR *pNMHDR, LRESULT *pResult ) {
+	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>( pNMHDR );
 	if ( pNMUpDown->iDelta < 0 ) {
 		cm_height += 1.0f;
-	}
-	else if ( cm_height >= 2.0f ) {
+	} else if ( cm_height >= 2.0f ) {
 		cm_height -= 1.0f;
 	}
 	ValidateCollisionModelHeight( true );
@@ -956,21 +940,19 @@ void DialogAFBody::ValidateCollisionModelWidth( bool update ) {
 }
 
 void DialogAFBody::OnEnChangeEditCmWidth() {
-	if ( EditControlEnterHit( (CEdit *) GetDlgItem( IDC_EDIT_CM_WIDTH ) ) ) {
+	if ( EditControlEnterHit( ( CEdit * ) GetDlgItem( IDC_EDIT_CM_WIDTH ) ) ) {
 		ValidateCollisionModelWidth( false );
 		UpdateFile();
-	}
-	else {
-		cm_width = EditVerifyFloat( (CEdit *) GetDlgItem( IDC_EDIT_CM_WIDTH ), false );
+	} else {
+		cm_width = EditVerifyFloat( ( CEdit * ) GetDlgItem( IDC_EDIT_CM_WIDTH ), false );
 	}
 }
 
-void DialogAFBody::OnDeltaposSpinCmWidth(NMHDR *pNMHDR, LRESULT *pResult) {
-	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>(pNMHDR);
+void DialogAFBody::OnDeltaposSpinCmWidth( NMHDR *pNMHDR, LRESULT *pResult ) {
+	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>( pNMHDR );
 	if ( pNMUpDown->iDelta < 0 ) {
 		cm_width += 1.0f;
-	}
-	else if ( cm_width >= 2.0f ) {
+	} else if ( cm_width >= 2.0f ) {
 		cm_width -= 1.0f;
 	}
 	ValidateCollisionModelWidth( true );
@@ -979,12 +961,11 @@ void DialogAFBody::OnDeltaposSpinCmWidth(NMHDR *pNMHDR, LRESULT *pResult) {
 }
 
 void DialogAFBody::ValidateCollisionModelNumSides( bool update ) {
-	cm_numSides = (int) cm_numSides;
+	cm_numSides = ( int ) cm_numSides;
 	if ( cm_numSides < 3 ) {
 		cm_numSides = 3;
 		update = true;
-	}
-	else if ( cm_numSides > 10 ) {
+	} else if ( cm_numSides > 10 ) {
 		cm_numSides = 10;
 		update = true;
 	}
@@ -994,18 +975,17 @@ void DialogAFBody::ValidateCollisionModelNumSides( bool update ) {
 }
 
 void DialogAFBody::OnEnChangeEditCmNumsides() {
-	if ( EditControlEnterHit( (CEdit *) GetDlgItem( IDC_EDIT_CM_NUMSIDES ) ) ) {
+	if ( EditControlEnterHit( ( CEdit * ) GetDlgItem( IDC_EDIT_CM_NUMSIDES ) ) ) {
 		ValidateCollisionModelNumSides( false );
 		UpdateFile();
 	}
 }
 
-void DialogAFBody::OnDeltaposSpinCmNumsides(NMHDR *pNMHDR, LRESULT *pResult) {
-	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>(pNMHDR);
+void DialogAFBody::OnDeltaposSpinCmNumsides( NMHDR *pNMHDR, LRESULT *pResult ) {
+	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>( pNMHDR );
 	if ( pNMUpDown->iDelta < 0 ) {
 		cm_numSides += 1;
-	}
-	else if ( cm_numSides > 3 ) {
+	} else if ( cm_numSides > 3 ) {
 		cm_numSides -= 1;
 	}
 	ValidateCollisionModelNumSides( true );
@@ -1038,25 +1018,24 @@ void DialogAFBody::ValidateCollisionModelDensity( bool update ) {
 }
 
 void DialogAFBody::OnEnChangeEditCmDensity() {
-	if ( EditControlEnterHit( (CEdit *) GetDlgItem( IDC_EDIT_CM_DENSITY ) ) ) {
+	if ( EditControlEnterHit( ( CEdit * ) GetDlgItem( IDC_EDIT_CM_DENSITY ) ) ) {
 		ValidateCollisionModelDensity( false );
 		UpdateFile();
-	}
-	else {
-		cm_density = EditVerifyFloat( (CEdit *) GetDlgItem( IDC_EDIT_CM_DENSITY ), false );
+	} else {
+		cm_density = EditVerifyFloat( ( CEdit * ) GetDlgItem( IDC_EDIT_CM_DENSITY ), false );
 	}
 }
 
-void DialogAFBody::OnDeltaposSpinCmDensity(NMHDR *pNMHDR, LRESULT *pResult) {
-	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>(pNMHDR);
-	cm_density = EditSpinFloat( (CEdit *)GetDlgItem( IDC_EDIT_CM_DENSITY ), pNMUpDown->iDelta < 0 );
+void DialogAFBody::OnDeltaposSpinCmDensity( NMHDR *pNMHDR, LRESULT *pResult ) {
+	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>( pNMHDR );
+	cm_density = EditSpinFloat( ( CEdit * )GetDlgItem( IDC_EDIT_CM_DENSITY ), pNMUpDown->iDelta < 0 );
 	ValidateCollisionModelDensity( false );
 	UpdateFile();
 	*pResult = 0;
 }
 
 void DialogAFBody::OnEnChangeEditCmInertiascale() {
-	if ( EditControlEnterHit( (CEdit *) GetDlgItem( IDC_EDIT_CM_INERTIASCALE ) ) ) {
+	if ( EditControlEnterHit( ( CEdit * ) GetDlgItem( IDC_EDIT_CM_INERTIASCALE ) ) ) {
 		UpdateFile();
 	}
 }
@@ -1089,20 +1068,18 @@ void DialogAFBody::OnBnClickedRadioOriginJoint() {
 }
 
 void DialogAFBody::OnEnChangeEditAfVectorX() {
-	if ( EditControlEnterHit( (CEdit *) GetDlgItem( IDC_EDIT_AF_VECTOR_X ) ) ) {
+	if ( EditControlEnterHit( ( CEdit * ) GetDlgItem( IDC_EDIT_AF_VECTOR_X ) ) ) {
 		UpdateFile();
-	}
-	else {
-		cm_origin_x = EditVerifyFloat( (CEdit *) GetDlgItem( IDC_EDIT_AF_VECTOR_X ) );
+	} else {
+		cm_origin_x = EditVerifyFloat( ( CEdit * ) GetDlgItem( IDC_EDIT_AF_VECTOR_X ) );
 	}
 }
 
-void DialogAFBody::OnDeltaposSpinAfVectorX(NMHDR *pNMHDR, LRESULT *pResult) {
-	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>(pNMHDR);
+void DialogAFBody::OnDeltaposSpinAfVectorX( NMHDR *pNMHDR, LRESULT *pResult ) {
+	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>( pNMHDR );
 	if ( pNMUpDown->iDelta < 0 ) {
 		cm_origin_x += 1;
-	}
-	else {
+	} else {
 		cm_origin_x -= 1;
 	}
 	UpdateData( FALSE );
@@ -1111,20 +1088,18 @@ void DialogAFBody::OnDeltaposSpinAfVectorX(NMHDR *pNMHDR, LRESULT *pResult) {
 }
 
 void DialogAFBody::OnEnChangeEditAfVectorY() {
-	if ( EditControlEnterHit( (CEdit *) GetDlgItem( IDC_EDIT_AF_VECTOR_Y ) ) ) {
+	if ( EditControlEnterHit( ( CEdit * ) GetDlgItem( IDC_EDIT_AF_VECTOR_Y ) ) ) {
 		UpdateFile();
-	}
-	else {
-		cm_origin_y = EditVerifyFloat( (CEdit *) GetDlgItem( IDC_EDIT_AF_VECTOR_Y ) );
+	} else {
+		cm_origin_y = EditVerifyFloat( ( CEdit * ) GetDlgItem( IDC_EDIT_AF_VECTOR_Y ) );
 	}
 }
 
-void DialogAFBody::OnDeltaposSpinAfVectorY(NMHDR *pNMHDR, LRESULT *pResult) {
-	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>(pNMHDR);
+void DialogAFBody::OnDeltaposSpinAfVectorY( NMHDR *pNMHDR, LRESULT *pResult ) {
+	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>( pNMHDR );
 	if ( pNMUpDown->iDelta < 0 ) {
 		cm_origin_y += 1;
-	}
-	else {
+	} else {
 		cm_origin_y -= 1;
 	}
 	UpdateData( FALSE );
@@ -1133,20 +1108,18 @@ void DialogAFBody::OnDeltaposSpinAfVectorY(NMHDR *pNMHDR, LRESULT *pResult) {
 }
 
 void DialogAFBody::OnEnChangeEditAfVectorZ() {
-	if ( EditControlEnterHit( (CEdit *) GetDlgItem( IDC_EDIT_AF_VECTOR_Z ) ) ) {
+	if ( EditControlEnterHit( ( CEdit * ) GetDlgItem( IDC_EDIT_AF_VECTOR_Z ) ) ) {
 		UpdateFile();
-	}
-	else {
-		cm_origin_z = EditVerifyFloat( (CEdit *) GetDlgItem( IDC_EDIT_AF_VECTOR_Z ) );
+	} else {
+		cm_origin_z = EditVerifyFloat( ( CEdit * ) GetDlgItem( IDC_EDIT_AF_VECTOR_Z ) );
 	}
 }
 
-void DialogAFBody::OnDeltaposSpinAfVectorZ(NMHDR *pNMHDR, LRESULT *pResult) {
-	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>(pNMHDR);
+void DialogAFBody::OnDeltaposSpinAfVectorZ( NMHDR *pNMHDR, LRESULT *pResult ) {
+	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>( pNMHDR );
 	if ( pNMUpDown->iDelta < 0 ) {
 		cm_origin_z += 1;
-	}
-	else {
+	} else {
 		cm_origin_z -= 1;
 	}
 	UpdateData( FALSE );
@@ -1173,20 +1146,18 @@ void DialogAFBody::OnOnCbnSelchangeComboOriginJoint() {
 }
 
 void DialogAFBody::OnEnChangeEditAnglesPitch() {
-	if ( EditControlEnterHit( (CEdit *) GetDlgItem( IDC_EDIT_ANGLES_PITCH ) ) ) {
+	if ( EditControlEnterHit( ( CEdit * ) GetDlgItem( IDC_EDIT_ANGLES_PITCH ) ) ) {
 		UpdateFile();
-	}
-	else {
-		cm_angles_pitch = EditVerifyFloat( (CEdit *) GetDlgItem( IDC_EDIT_ANGLES_PITCH ) );
+	} else {
+		cm_angles_pitch = EditVerifyFloat( ( CEdit * ) GetDlgItem( IDC_EDIT_ANGLES_PITCH ) );
 	}
 }
 
-void DialogAFBody::OnDeltaposSpinAnglesPitch(NMHDR *pNMHDR, LRESULT *pResult) {
-	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>(pNMHDR);
+void DialogAFBody::OnDeltaposSpinAnglesPitch( NMHDR *pNMHDR, LRESULT *pResult ) {
+	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>( pNMHDR );
 	if ( pNMUpDown->iDelta < 0 ) {
 		cm_angles_pitch += 1;
-	}
-	else {
+	} else {
 		cm_angles_pitch -= 1;
 	}
 	cm_angles_pitch = idMath::AngleNormalize360( cm_angles_pitch );
@@ -1196,20 +1167,18 @@ void DialogAFBody::OnDeltaposSpinAnglesPitch(NMHDR *pNMHDR, LRESULT *pResult) {
 }
 
 void DialogAFBody::OnEnChangeEditAnglesYaw() {
-	if ( EditControlEnterHit( (CEdit *) GetDlgItem( IDC_EDIT_ANGLES_YAW ) ) ) {
+	if ( EditControlEnterHit( ( CEdit * ) GetDlgItem( IDC_EDIT_ANGLES_YAW ) ) ) {
 		UpdateFile();
-	}
-	else {
-		cm_angles_yaw = EditVerifyFloat( (CEdit *) GetDlgItem( IDC_EDIT_ANGLES_YAW ) );
+	} else {
+		cm_angles_yaw = EditVerifyFloat( ( CEdit * ) GetDlgItem( IDC_EDIT_ANGLES_YAW ) );
 	}
 }
 
-void DialogAFBody::OnDeltaposSpinAnglesYaw(NMHDR *pNMHDR, LRESULT *pResult) {
-	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>(pNMHDR);
+void DialogAFBody::OnDeltaposSpinAnglesYaw( NMHDR *pNMHDR, LRESULT *pResult ) {
+	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>( pNMHDR );
 	if ( pNMUpDown->iDelta < 0 ) {
 		cm_angles_yaw += 1;
-	}
-	else {
+	} else {
 		cm_angles_yaw -= 1;
 	}
 	cm_angles_yaw = idMath::AngleNormalize360( cm_angles_yaw );
@@ -1219,20 +1188,18 @@ void DialogAFBody::OnDeltaposSpinAnglesYaw(NMHDR *pNMHDR, LRESULT *pResult) {
 }
 
 void DialogAFBody::OnEnChangeEditAnglesRoll() {
-	if ( EditControlEnterHit( (CEdit *) GetDlgItem( IDC_EDIT_ANGLES_ROLL ) ) ) {
+	if ( EditControlEnterHit( ( CEdit * ) GetDlgItem( IDC_EDIT_ANGLES_ROLL ) ) ) {
 		UpdateFile();
-	}
-	else {
-		cm_angles_roll = EditVerifyFloat( (CEdit *) GetDlgItem( IDC_EDIT_ANGLES_ROLL ) );
+	} else {
+		cm_angles_roll = EditVerifyFloat( ( CEdit * ) GetDlgItem( IDC_EDIT_ANGLES_ROLL ) );
 	}
 }
 
-void DialogAFBody::OnDeltaposSpinAnglesRoll(NMHDR *pNMHDR, LRESULT *pResult) {
-	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>(pNMHDR);
+void DialogAFBody::OnDeltaposSpinAnglesRoll( NMHDR *pNMHDR, LRESULT *pResult ) {
+	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>( pNMHDR );
 	if ( pNMUpDown->iDelta < 0 ) {
 		cm_angles_roll += 1;
-	}
-	else {
+	} else {
 		cm_angles_roll -= 1;
 	}
 	cm_angles_roll = idMath::AngleNormalize360( cm_angles_roll );
@@ -1258,61 +1225,58 @@ void DialogAFBody::OnEnChangeEditClipmask() {
 }
 
 void DialogAFBody::OnEnChangeEditLinearfriction() {
-	if ( EditControlEnterHit( (CEdit *) GetDlgItem( IDC_EDIT_LINEARFRICTION ) ) ) {
+	if ( EditControlEnterHit( ( CEdit * ) GetDlgItem( IDC_EDIT_LINEARFRICTION ) ) ) {
 		UpdateFile();
-	}
-	else {
-		m_linearFriction = EditVerifyFloat( (CEdit *) GetDlgItem( IDC_EDIT_LINEARFRICTION ), false );
+	} else {
+		m_linearFriction = EditVerifyFloat( ( CEdit * ) GetDlgItem( IDC_EDIT_LINEARFRICTION ), false );
 	}
 }
 
-void DialogAFBody::OnDeltaposSpinLinearfriction(NMHDR *pNMHDR, LRESULT *pResult) {
-	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>(pNMHDR);
-	m_linearFriction = EditSpinFloat( (CEdit *)GetDlgItem( IDC_EDIT_LINEARFRICTION ), pNMUpDown->iDelta < 0 );
+void DialogAFBody::OnDeltaposSpinLinearfriction( NMHDR *pNMHDR, LRESULT *pResult ) {
+	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>( pNMHDR );
+	m_linearFriction = EditSpinFloat( ( CEdit * )GetDlgItem( IDC_EDIT_LINEARFRICTION ), pNMUpDown->iDelta < 0 );
 	UpdateFile();
 	*pResult = 0;
 }
 
 void DialogAFBody::OnEnChangeEditAngularfriction() {
-	if ( EditControlEnterHit( (CEdit *) GetDlgItem( IDC_EDIT_ANGULARFRICTION ) ) ) {
+	if ( EditControlEnterHit( ( CEdit * ) GetDlgItem( IDC_EDIT_ANGULARFRICTION ) ) ) {
 		UpdateFile();
-	}
-	else {
-		m_angularFriction = EditVerifyFloat( (CEdit *) GetDlgItem( IDC_EDIT_ANGULARFRICTION ), false );
+	} else {
+		m_angularFriction = EditVerifyFloat( ( CEdit * ) GetDlgItem( IDC_EDIT_ANGULARFRICTION ), false );
 	}
 }
 
-void DialogAFBody::OnDeltaposSpinAngularfriction(NMHDR *pNMHDR, LRESULT *pResult) {
-	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>(pNMHDR);
-	m_angularFriction = EditSpinFloat( (CEdit *)GetDlgItem( IDC_EDIT_ANGULARFRICTION ), pNMUpDown->iDelta < 0 );
+void DialogAFBody::OnDeltaposSpinAngularfriction( NMHDR *pNMHDR, LRESULT *pResult ) {
+	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>( pNMHDR );
+	m_angularFriction = EditSpinFloat( ( CEdit * )GetDlgItem( IDC_EDIT_ANGULARFRICTION ), pNMUpDown->iDelta < 0 );
 	UpdateFile();
 	*pResult = 0;
 }
 
 void DialogAFBody::OnEnChangeEditContactfriction() {
-	if ( EditControlEnterHit( (CEdit *) GetDlgItem( IDC_EDIT_CONTACTFRICTION ) ) ) {
+	if ( EditControlEnterHit( ( CEdit * ) GetDlgItem( IDC_EDIT_CONTACTFRICTION ) ) ) {
 		UpdateFile();
-	}
-	else {
-		m_contactFriction = EditVerifyFloat( (CEdit *) GetDlgItem( IDC_EDIT_CONTACTFRICTION ), false );
+	} else {
+		m_contactFriction = EditVerifyFloat( ( CEdit * ) GetDlgItem( IDC_EDIT_CONTACTFRICTION ), false );
 	}
 }
 
-void DialogAFBody::OnDeltaposSpinContactfriction(NMHDR *pNMHDR, LRESULT *pResult) {
-	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>(pNMHDR);
-	m_contactFriction = EditSpinFloat( (CEdit *)GetDlgItem( IDC_EDIT_CONTACTFRICTION ), pNMUpDown->iDelta < 0 );
+void DialogAFBody::OnDeltaposSpinContactfriction( NMHDR *pNMHDR, LRESULT *pResult ) {
+	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>( pNMHDR );
+	m_contactFriction = EditSpinFloat( ( CEdit * )GetDlgItem( IDC_EDIT_CONTACTFRICTION ), pNMUpDown->iDelta < 0 );
 	UpdateFile();
 	*pResult = 0;
 }
 
 void DialogAFBody::OnEnChangeEditFrictionDirection() {
-	if ( EditControlEnterHit( (CEdit *) GetDlgItem( IDC_EDIT_FRICTIONDIRECTION ) ) ) {
+	if ( EditControlEnterHit( ( CEdit * ) GetDlgItem( IDC_EDIT_FRICTIONDIRECTION ) ) ) {
 		UpdateFile();
 	}
 }
 
 void DialogAFBody::OnEnChangeEditContactMotorDirection() {
-	if ( EditControlEnterHit( (CEdit *) GetDlgItem( IDC_EDIT_CONTACTMOTORDIRECTION ) ) ) {
+	if ( EditControlEnterHit( ( CEdit * ) GetDlgItem( IDC_EDIT_CONTACTMOTORDIRECTION ) ) ) {
 		UpdateFile();
 	}
 }

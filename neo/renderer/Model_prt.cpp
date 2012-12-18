@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -97,10 +97,10 @@ idRenderModel *idRenderModelPrt::InstantiateDynamicModel( const struct renderEnt
 
 	if ( cachedModel != NULL ) {
 
-		assert( dynamic_cast<idRenderModelStatic *>(cachedModel) != NULL );
+		assert( dynamic_cast<idRenderModelStatic *>( cachedModel ) != NULL );
 		assert( idStr::Icmp( cachedModel->Name(), parametricParticle_SnapshotName ) == 0 );
 
-		staticModel = static_cast<idRenderModelStatic *>(cachedModel);
+		staticModel = static_cast<idRenderModelStatic *>( cachedModel );
 
 	} else {
 
@@ -136,8 +136,8 @@ idRenderModel *idRenderModelPrt::InstantiateDynamicModel( const struct renderEnt
 		int	inCycleTime = stageAge - stageCycle * stage->cycleMsec;
 
 		// some particles will be in this cycle, some will be in the previous cycle
-		steppingRandom.SetSeed( (( stageCycle << 10 ) & idRandom::MAX_RAND) ^ (int)( renderEntity->shaderParms[SHADERPARM_DIVERSITY] * idRandom::MAX_RAND )  );
-		steppingRandom2.SetSeed( (( (stageCycle-1) << 10 ) & idRandom::MAX_RAND) ^ (int)( renderEntity->shaderParms[SHADERPARM_DIVERSITY] * idRandom::MAX_RAND )  );
+		steppingRandom.SetSeed( ( ( stageCycle << 10 ) & idRandom::MAX_RAND ) ^ ( int )( renderEntity->shaderParms[SHADERPARM_DIVERSITY] * idRandom::MAX_RAND ) );
+		steppingRandom2.SetSeed( ( ( ( stageCycle - 1 ) << 10 ) & idRandom::MAX_RAND ) ^ ( int )( renderEntity->shaderParms[SHADERPARM_DIVERSITY] * idRandom::MAX_RAND ) );
 
 		int	count = stage->totalParticles * stage->NumQuadsPerParticle();
 
@@ -167,7 +167,7 @@ idRenderModel *idRenderModelPrt::InstantiateDynamicModel( const struct renderEnt
 			steppingRandom.RandomInt();
 			steppingRandom2.RandomInt();
 
-			// calculate local age for this index 
+			// calculate local age for this index
 			int	bunchOffset = stage->particleLife * 1000 * stage->spawnBunching * index / stage->totalParticles;
 
 			int particleAge = stageAge - bunchOffset;
@@ -189,14 +189,14 @@ idRenderModel *idRenderModelPrt::InstantiateDynamicModel( const struct renderEnt
 
 			int	inCycleTime = particleAge - particleCycle * stage->cycleMsec;
 
-			if ( renderEntity->shaderParms[SHADERPARM_PARTICLE_STOPTIME] && 
-				g.renderView->time - inCycleTime >= renderEntity->shaderParms[SHADERPARM_PARTICLE_STOPTIME]*1000 ) {
+			if ( renderEntity->shaderParms[SHADERPARM_PARTICLE_STOPTIME] &&
+					g.renderView->time - inCycleTime >= renderEntity->shaderParms[SHADERPARM_PARTICLE_STOPTIME] * 1000 ) {
 				// don't fire any more particles
 				continue;
 			}
 
 			// supress particles before or after the age clamp
-			g.frac = (float)inCycleTime / ( stage->particleLife * 1000 );
+			g.frac = ( float )inCycleTime / ( stage->particleLife * 1000 );
 			if ( g.frac < 0.0f ) {
 				// yet to be spawned
 				continue;
@@ -222,12 +222,12 @@ idRenderModel *idRenderModelPrt::InstantiateDynamicModel( const struct renderEnt
 		int	numIndexes = 0;
 		glIndex_t *indexes = surf->geometry->indexes;
 		for ( int i = 0; i < numVerts; i += 4 ) {
-			indexes[numIndexes+0] = i;
-			indexes[numIndexes+1] = i+2;
-			indexes[numIndexes+2] = i+3;
-			indexes[numIndexes+3] = i;
-			indexes[numIndexes+4] = i+3;
-			indexes[numIndexes+5] = i+1;
+			indexes[numIndexes + 0] = i;
+			indexes[numIndexes + 1] = i + 2;
+			indexes[numIndexes + 2] = i + 3;
+			indexes[numIndexes + 3] = i;
+			indexes[numIndexes + 4] = i + 3;
+			indexes[numIndexes + 5] = i + 1;
 			numIndexes += 6;
 		}
 

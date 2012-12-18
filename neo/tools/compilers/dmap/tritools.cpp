@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -45,7 +45,7 @@ AllocTri
 mapTri_t	*AllocTri( void ) {
 	mapTri_t	*tri;
 
-	tri = (mapTri_t *)Mem_Alloc( sizeof( *tri ) );
+	tri = ( mapTri_t * )Mem_Alloc( sizeof( *tri ) );
 	memset( tri, 0, sizeof( *tri ) );
 	return tri;
 }
@@ -72,7 +72,7 @@ mapTri_t	*MergeTriLists( mapTri_t *a, mapTri_t *b ) {
 
 	prev = &a;
 	while ( *prev ) {
-		prev = &(*prev)->next;
+		prev = &( *prev )->next;
 	}
 
 	*prev = b;
@@ -143,7 +143,7 @@ CopyMapTri
 mapTri_t	*CopyMapTri( const mapTri_t *tri ) {
 	mapTri_t		*t;
 
-	t = (mapTri_t *)Mem_Alloc( sizeof( *t ) );
+	t = ( mapTri_t * )Mem_Alloc( sizeof( *t ) );
 	*t = *tri;
 
 	return t;
@@ -252,9 +252,9 @@ idWinding *WindingForTri( const mapTri_t *tri ) {
 
 	w = new idWinding( 3 );
 	w->SetNumPoints( 3 );
-	VectorCopy( tri->v[0].xyz, (*w)[0] );
-	VectorCopy( tri->v[1].xyz, (*w)[1] );
-	VectorCopy( tri->v[2].xyz, (*w)[2] );
+	VectorCopy( tri->v[0].xyz, ( *w )[0] );
+	VectorCopy( tri->v[1].xyz, ( *w )[1] );
+	VectorCopy( tri->v[2].xyz, ( *w )[2] );
 
 	return w;
 }
@@ -277,21 +277,21 @@ void		TriVertsFromOriginal( mapTri_t *tri, const mapTri_t *original ) {
 
 	for ( i = 0 ; i < 3 ; i++ ) {
 		float	a, b, c;
-	
+
 		// find the barycentric coordinates
 		a = idWinding::TriangleArea( tri->v[i].xyz, original->v[1].xyz, original->v[2].xyz ) / denom;
 		b = idWinding::TriangleArea( tri->v[i].xyz, original->v[2].xyz, original->v[0].xyz ) / denom;
 		c = idWinding::TriangleArea( tri->v[i].xyz, original->v[0].xyz, original->v[1].xyz ) / denom;
 
 		// regenerate the interpolated values
-		tri->v[i].st[0] = a * original->v[0].st[0] 
-			 + b * original->v[1].st[0] + c * original->v[2].st[0];
-		tri->v[i].st[1] = a * original->v[0].st[1] 
-			 + b * original->v[1].st[1] + c * original->v[2].st[1];
+		tri->v[i].st[0] = a * original->v[0].st[0]
+						  + b * original->v[1].st[0] + c * original->v[2].st[0];
+		tri->v[i].st[1] = a * original->v[0].st[1]
+						  + b * original->v[1].st[1] + c * original->v[2].st[1];
 
 		for ( j = 0 ; j < 3 ; j++ ) {
-			tri->v[i].normal[j] = a * original->v[0].normal[j] 
-				 + b * original->v[1].normal[j] + c * original->v[2].normal[j];
+			tri->v[i].normal[j] = a * original->v[0].normal[j]
+								  + b * original->v[1].normal[j] + c * original->v[2].normal[j];
 		}
 		tri->v[i].normal.Normalize();
 	}
@@ -330,11 +330,11 @@ mapTri_t *WindingToTriList( const idWinding *w, const mapTri_t *originalTri ) {
 
 		for ( j = 0 ; j < 3 ; j++ ) {
 			if ( j == 0 ) {
-				vec = &((*w)[0]).ToVec3();
+				vec = &( ( *w )[0] ).ToVec3();
 			} else if ( j == 1 ) {
-				vec = &((*w)[i-1]).ToVec3();
+				vec = &( ( *w )[i - 1] ).ToVec3();
 			} else {
-				vec = &((*w)[i]).ToVec3();
+				vec = &( ( *w )[i] ).ToVec3();
 			}
 
 			VectorCopy( *vec, tri->v[j].xyz );
@@ -353,8 +353,8 @@ mapTri_t *WindingToTriList( const idWinding *w, const mapTri_t *originalTri ) {
 ClipTriList
 ==================
 */
-void	ClipTriList( const mapTri_t *list, const idPlane &plane, float epsilon, 
-						mapTri_t **front, mapTri_t **back ) {
+void	ClipTriList( const mapTri_t *list, const idPlane &plane, float epsilon,
+					 mapTri_t **front, mapTri_t **back ) {
 	const mapTri_t *tri;
 	mapTri_t		*newList;
 	idWinding		*w, *frontW, *backW;

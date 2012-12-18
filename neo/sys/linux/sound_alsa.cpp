@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -42,7 +42,7 @@ idAudioHardwareALSA::DLOpen
 */
 bool idAudioHardwareALSA::DLOpen( void ) {
 	const char *version;
-	
+
 	if ( m_handle ) {
 		return true;
 	}
@@ -57,26 +57,26 @@ bool idAudioHardwareALSA::DLOpen( void ) {
 		common->Printf( "dlsym(\"snd_asoundlib_version\") failed: %s\n", dlerror() );
 		common->Warning( "please consider upgrading alsa to a more recent version." );
 	} else {
-		version = id_snd_asoundlib_version();	
+		version = id_snd_asoundlib_version();
 		common->Printf( "asoundlib version: %s\n", version );
 	}
 	// dlsym the symbols
-	ALSA_DLSYM(snd_pcm_avail_update);
-	ALSA_DLSYM(snd_pcm_close);
-	ALSA_DLSYM(snd_pcm_hw_params);
-	ALSA_DLSYM(snd_pcm_hw_params_any);
-	ALSA_DLSYM(snd_pcm_hw_params_get_buffer_size);
-	ALSA_DLSYM(snd_pcm_hw_params_set_access);
-	ALSA_DLSYM(snd_pcm_hw_params_set_buffer_size_min);
-	ALSA_DLSYM(snd_pcm_hw_params_set_channels);
-	ALSA_DLSYM(snd_pcm_hw_params_set_format);
-	ALSA_DLSYM(snd_pcm_hw_params_set_rate);
-	ALSA_DLSYM(snd_pcm_hw_params_sizeof);
-	ALSA_DLSYM(snd_pcm_open);
-	ALSA_DLSYM(snd_pcm_prepare);
-	ALSA_DLSYM(snd_pcm_state);
-	ALSA_DLSYM(snd_pcm_writei);
-	ALSA_DLSYM(snd_strerror);
+	ALSA_DLSYM( snd_pcm_avail_update );
+	ALSA_DLSYM( snd_pcm_close );
+	ALSA_DLSYM( snd_pcm_hw_params );
+	ALSA_DLSYM( snd_pcm_hw_params_any );
+	ALSA_DLSYM( snd_pcm_hw_params_get_buffer_size );
+	ALSA_DLSYM( snd_pcm_hw_params_set_access );
+	ALSA_DLSYM( snd_pcm_hw_params_set_buffer_size_min );
+	ALSA_DLSYM( snd_pcm_hw_params_set_channels );
+	ALSA_DLSYM( snd_pcm_hw_params_set_format );
+	ALSA_DLSYM( snd_pcm_hw_params_set_rate );
+	ALSA_DLSYM( snd_pcm_hw_params_sizeof );
+	ALSA_DLSYM( snd_pcm_open );
+	ALSA_DLSYM( snd_pcm_prepare );
+	ALSA_DLSYM( snd_pcm_state );
+	ALSA_DLSYM( snd_pcm_writei );
+	ALSA_DLSYM( snd_strerror );
 	return true;
 }
 
@@ -105,8 +105,8 @@ void idAudioHardwareALSA::Release() {
 /*
 =================
 idAudioHardwareALSA::InitFailed
-=================	
-*/	
+=================
+*/
 void idAudioHardwareALSA::InitFailed() {
 	Release();
 	cvarSystem->SetCVarBool( "s_noSound", true );
@@ -121,7 +121,7 @@ idAudioHardwareALSA::Initialize
 */
 bool idAudioHardwareALSA::Initialize( void ) {
 	int err;
-	
+
 	common->Printf( "------ Alsa Sound Initialization -----\n" );
 	if ( !DLOpen() ) {
 		InitFailed();
@@ -230,7 +230,7 @@ bool idAudioHardwareALSA::Initialize( void ) {
 	snd_pcm_state_t curstate = id_snd_pcm_state( m_pcm_handle );
 	assert( curstate == SND_PCM_STATE_PREPARED );
 #endif
-	
+
 	common->Printf( "--------------------------------------\n" );
 	return true;
 }
@@ -250,7 +250,7 @@ idAudioHardwareALSA::~idAudioHardwareALSA() {
 =================
 idAudioHardwareALSA::GetMixBufferSize
 =================
-*/	
+*/
 int idAudioHardwareALSA::GetMixBufferSize() {
 	return m_buffer_size;
 }
@@ -259,9 +259,9 @@ int idAudioHardwareALSA::GetMixBufferSize() {
 =================
 idAudioHardwareALSA::GetMixBuffer
 =================
-*/	
-short* idAudioHardwareALSA::GetMixBuffer() {
-	return (short *)m_buffer;
+*/
+short *idAudioHardwareALSA::GetMixBuffer() {
+	return ( short * )m_buffer;
 }
 
 /*
@@ -304,8 +304,8 @@ void idAudioHardwareALSA::Write( bool flushing ) {
 		return;
 	}
 	// write the max frames you can in one shot - we need to write it all out in Flush() calls before the next Write() happens
-	int pos = (int)m_buffer + ( MIXBUFFER_SAMPLES - m_remainingFrames ) * m_channels * 2;
-	snd_pcm_sframes_t frames = id_snd_pcm_writei( m_pcm_handle, (void*)pos, m_remainingFrames );
+	int pos = ( int )m_buffer + ( MIXBUFFER_SAMPLES - m_remainingFrames ) * m_channels * 2;
+	snd_pcm_sframes_t frames = id_snd_pcm_writei( m_pcm_handle, ( void * )pos, m_remainingFrames );
 	if ( frames < 0 ) {
 		if ( frames != -EAGAIN ) {
 			Sys_Printf( "snd_pcm_writei %d frames failed: %s\n", m_remainingFrames, id_snd_strerror( frames ) );

@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -50,27 +50,27 @@ idSurface::Split
 =================
 */
 int idSurface::Split( const idPlane &plane, const float epsilon, idSurface **front, idSurface **back, int *frontOnPlaneEdges, int *backOnPlaneEdges ) const {
-	float *			dists;
+	float 			*dists;
 	float			f;
-	byte *			sides;
+	byte 			*sides;
 	int				counts[3];
-	int *			edgeSplitVertex;
+	int 			*edgeSplitVertex;
 	int				numEdgeSplitVertexes;
-	int *			vertexRemap[2];
+	int 			*vertexRemap[2];
 	int				vertexIndexNum[2][2];
-	int *			vertexCopyIndex[2];
-	int *			indexPtr[2];
+	int 			*vertexCopyIndex[2];
+	int 			*indexPtr[2];
 	int				indexNum[2];
-	int *			index;
-	int *			onPlaneEdges[2];
+	int 			*index;
+	int 			*onPlaneEdges[2];
 	int				numOnPlaneEdges[2];
 	int				maxOnPlaneEdges;
 	int				i;
-	idSurface *		surface[2];
+	idSurface 		*surface[2];
 	idDrawVert		v;
 
-	dists = (float *) _alloca( verts.Num() * sizeof( float ) );
-	sides = (byte *) _alloca( verts.Num() * sizeof( byte ) );
+	dists = ( float * ) _alloca( verts.Num() * sizeof( float ) );
+	sides = ( byte * ) _alloca( verts.Num() * sizeof( byte ) );
 
 	counts[0] = counts[1] = counts[2] = 0;
 
@@ -86,7 +86,7 @@ int idSurface::Split( const idPlane &plane, const float epsilon, idSurface **fro
 		}
 		counts[sides[i]]++;
 	}
-	
+
 	*front = *back = NULL;
 
 	// if coplanar, put on the front side if the normals match
@@ -116,7 +116,7 @@ int idSurface::Split( const idPlane &plane, const float epsilon, idSurface **fro
 	*front = surface[0] = new idSurface();
 	*back = surface[1] = new idSurface();
 
-	edgeSplitVertex = (int *) _alloca( edges.Num() * sizeof( int ) );
+	edgeSplitVertex = ( int * ) _alloca( edges.Num() * sizeof( int ) );
 	numEdgeSplitVertexes = 0;
 
 	maxOnPlaneEdges = 4 * counts[SIDE_ON];
@@ -147,13 +147,13 @@ int idSurface::Split( const idPlane &plane, const float epsilon, idSurface **fro
 	surface[1]->indexes.Resize( ( ( counts[SIDE_BACK] + counts[SIDE_ON] ) * 2 ) + ( numEdgeSplitVertexes * 4 ) );
 
 	// allocate indexes to construct the triangle indexes for the front and back surface
-	vertexRemap[0] = (int *) _alloca( verts.Num() * sizeof( int ) );
+	vertexRemap[0] = ( int * ) _alloca( verts.Num() * sizeof( int ) );
 	memset( vertexRemap[0], -1, verts.Num() * sizeof( int ) );
-	vertexRemap[1] = (int *) _alloca( verts.Num() * sizeof( int ) );
+	vertexRemap[1] = ( int * ) _alloca( verts.Num() * sizeof( int ) );
 	memset( vertexRemap[1], -1, verts.Num() * sizeof( int ) );
 
-	vertexCopyIndex[0] = (int *) _alloca( ( numEdgeSplitVertexes + verts.Num() ) * sizeof( int ) );
-	vertexCopyIndex[1] = (int *) _alloca( ( numEdgeSplitVertexes + verts.Num() ) * sizeof( int ) );
+	vertexCopyIndex[0] = ( int * ) _alloca( ( numEdgeSplitVertexes + verts.Num() ) * sizeof( int ) );
+	vertexCopyIndex[1] = ( int * ) _alloca( ( numEdgeSplitVertexes + verts.Num() ) * sizeof( int ) );
 
 	vertexIndexNum[0][0] = vertexIndexNum[1][0] = 0;
 	vertexIndexNum[0][1] = vertexIndexNum[1][1] = numEdgeSplitVertexes;
@@ -165,23 +165,23 @@ int idSurface::Split( const idPlane &plane, const float epsilon, idSurface **fro
 
 	maxOnPlaneEdges += 4 * numEdgeSplitVertexes;
 	// allocate one more in case no triangles are actually split which may happen for a disconnected surface
-	onPlaneEdges[0] = (int *) _alloca( ( maxOnPlaneEdges + 1 ) * sizeof( int ) );
-	onPlaneEdges[1] = (int *) _alloca( ( maxOnPlaneEdges + 1 ) * sizeof( int ) );
+	onPlaneEdges[0] = ( int * ) _alloca( ( maxOnPlaneEdges + 1 ) * sizeof( int ) );
+	onPlaneEdges[1] = ( int * ) _alloca( ( maxOnPlaneEdges + 1 ) * sizeof( int ) );
 	numOnPlaneEdges[0] = numOnPlaneEdges[1] = 0;
 
 	// split surface triangles
 	for ( i = 0; i < edgeIndexes.Num(); i += 3 ) {
 		int e0, e1, e2, v0, v1, v2, s, n;
 
-		e0 = abs( edgeIndexes[i+0] );
-		e1 = abs( edgeIndexes[i+1] );
-		e2 = abs( edgeIndexes[i+2] );
+		e0 = abs( edgeIndexes[i + 0] );
+		e1 = abs( edgeIndexes[i + 1] );
+		e2 = abs( edgeIndexes[i + 2] );
 
-		v0 = indexes[i+0];
-		v1 = indexes[i+1];
-		v2 = indexes[i+2];
+		v0 = indexes[i + 0];
+		v1 = indexes[i + 1];
+		v2 = indexes[i + 2];
 
-		switch( ( INTSIGNBITSET( edgeSplitVertex[e0] ) | ( INTSIGNBITSET( edgeSplitVertex[e1] ) << 1 ) | ( INTSIGNBITSET( edgeSplitVertex[e2] ) << 2 ) ) ^ 7 ) {
+		switch ( ( INTSIGNBITSET( edgeSplitVertex[e0] ) | ( INTSIGNBITSET( edgeSplitVertex[e1] ) << 1 ) | ( INTSIGNBITSET( edgeSplitVertex[e2] ) << 2 ) ) ^ 7 ) {
 			case 0: {	// no edges split
 				if ( ( sides[v0] & sides[v1] & sides[v2] ) & SIDE_ON ) {
 					// coplanar
@@ -193,9 +193,9 @@ int idSurface::Split( const idPlane &plane, const float epsilon, idSurface **fro
 				n = indexNum[s];
 				onPlaneEdges[s][numOnPlaneEdges[s]] = n;
 				numOnPlaneEdges[s] += ( sides[v0] & sides[v1] ) >> 1;
-				onPlaneEdges[s][numOnPlaneEdges[s]] = n+1;
+				onPlaneEdges[s][numOnPlaneEdges[s]] = n + 1;
 				numOnPlaneEdges[s] += ( sides[v1] & sides[v2] ) >> 1;
-				onPlaneEdges[s][numOnPlaneEdges[s]] = n+2;
+				onPlaneEdges[s][numOnPlaneEdges[s]] = n + 2;
 				numOnPlaneEdges[s] += ( sides[v2] & sides[v0] ) >> 1;
 				index = indexPtr[s];
 				index[n++] = UpdateVertexIndex( vertexIndexNum[s], vertexRemap[s], vertexCopyIndex[s], v0 );
@@ -368,24 +368,24 @@ idSurface::ClipInPlace
 =================
 */
 bool idSurface::ClipInPlace( const idPlane &plane, const float epsilon, const bool keepOn ) {
-	float *			dists;
+	float 			*dists;
 	float			f;
-	byte *			sides;
+	byte 			*sides;
 	int				counts[3];
 	int				i;
-	int *			edgeSplitVertex;
-	int *			vertexRemap;
+	int 			*edgeSplitVertex;
+	int 			*vertexRemap;
 	int				vertexIndexNum[2];
-	int *			vertexCopyIndex;
-	int *			indexPtr;
+	int 			*vertexCopyIndex;
+	int 			*indexPtr;
 	int				indexNum;
 	int				numEdgeSplitVertexes;
 	idDrawVert		v;
 	idList<idDrawVert> newVerts;
 	idList<int>		newIndexes;
 
-	dists = (float *) _alloca( verts.Num() * sizeof( float ) );
-	sides = (byte *) _alloca( verts.Num() * sizeof( byte ) );
+	dists = ( float * ) _alloca( verts.Num() * sizeof( float ) );
+	sides = ( byte * ) _alloca( verts.Num() * sizeof( byte ) );
 
 	counts[0] = counts[1] = counts[2] = 0;
 
@@ -401,7 +401,7 @@ bool idSurface::ClipInPlace( const idPlane &plane, const float epsilon, const bo
 		}
 		counts[sides[i]]++;
 	}
-	
+
 	// if coplanar, put on the front side if the normals match
 	if ( !counts[SIDE_FRONT] && !counts[SIDE_BACK] ) {
 
@@ -423,7 +423,7 @@ bool idSurface::ClipInPlace( const idPlane &plane, const float epsilon, const bo
 		return true;
 	}
 
-	edgeSplitVertex = (int *) _alloca( edges.Num() * sizeof( int ) );
+	edgeSplitVertex = ( int * ) _alloca( edges.Num() * sizeof( int ) );
 	numEdgeSplitVertexes = 0;
 
 	counts[SIDE_FRONT] = counts[SIDE_BACK] = 0;
@@ -436,7 +436,7 @@ bool idSurface::ClipInPlace( const idPlane &plane, const float epsilon, const bo
 		// if both vertexes are on the same side or one is on the clipping plane
 		if ( !( sides[v0] ^ sides[v1] ) || ( ( sides[v0] | sides[v1] ) & SIDE_ON ) ) {
 			edgeSplitVertex[i] = -1;
-			counts[(sides[v0]|sides[v1]) & SIDE_BACK]++;
+			counts[( sides[v0] | sides[v1] ) & SIDE_BACK]++;
 		} else {
 			f = dists[v0] / ( dists[v0] - dists[v1] );
 			v.LerpAll( verts[v0], verts[v1], f );
@@ -450,10 +450,10 @@ bool idSurface::ClipInPlace( const idPlane &plane, const float epsilon, const bo
 	newIndexes.Resize( ( counts[SIDE_FRONT] << 1 ) + ( numEdgeSplitVertexes << 2 ) );
 
 	// allocate indexes to construct the triangle indexes for the front and back surface
-	vertexRemap = (int *) _alloca( verts.Num() * sizeof( int ) );
+	vertexRemap = ( int * ) _alloca( verts.Num() * sizeof( int ) );
 	memset( vertexRemap, -1, verts.Num() * sizeof( int ) );
 
-	vertexCopyIndex = (int *) _alloca( ( numEdgeSplitVertexes + verts.Num() ) * sizeof( int ) );
+	vertexCopyIndex = ( int * ) _alloca( ( numEdgeSplitVertexes + verts.Num() ) * sizeof( int ) );
 
 	vertexIndexNum[0] = 0;
 	vertexIndexNum[1] = numEdgeSplitVertexes;
@@ -465,15 +465,15 @@ bool idSurface::ClipInPlace( const idPlane &plane, const float epsilon, const bo
 	for ( i = 0; i < edgeIndexes.Num(); i += 3 ) {
 		int e0, e1, e2, v0, v1, v2;
 
-		e0 = abs( edgeIndexes[i+0] );
-		e1 = abs( edgeIndexes[i+1] );
-		e2 = abs( edgeIndexes[i+2] );
+		e0 = abs( edgeIndexes[i + 0] );
+		e1 = abs( edgeIndexes[i + 1] );
+		e2 = abs( edgeIndexes[i + 2] );
 
-		v0 = indexes[i+0];
-		v1 = indexes[i+1];
-		v2 = indexes[i+2];
+		v0 = indexes[i + 0];
+		v1 = indexes[i + 1];
+		v2 = indexes[i + 2];
 
-		switch( ( INTSIGNBITSET( edgeSplitVertex[e0] ) | ( INTSIGNBITSET( edgeSplitVertex[e1] ) << 1 ) | ( INTSIGNBITSET( edgeSplitVertex[e2] ) << 2 ) ) ^ 7 ) {
+		switch ( ( INTSIGNBITSET( edgeSplitVertex[e0] ) | ( INTSIGNBITSET( edgeSplitVertex[e1] ) << 1 ) | ( INTSIGNBITSET( edgeSplitVertex[e2] ) << 2 ) ) ^ 7 ) {
 			case 0: {	// no edges split
 				if ( ( sides[v0] | sides[v1] | sides[v2] ) & SIDE_BACK ) {
 					break;
@@ -608,9 +608,9 @@ bool idSurface::IsConnected( void ) const {
 
 	numIslands = 0;
 	numTris = indexes.Num() / 3;
-	islandNum = (int *) _alloca16( numTris * sizeof( int ) );
+	islandNum = ( int * ) _alloca16( numTris * sizeof( int ) );
 	memset( islandNum, -1, numTris * sizeof( int ) );
-	queue = (int *) _alloca16( numTris * sizeof( int ) );
+	queue = ( int * ) _alloca16( numTris * sizeof( int ) );
 
 	for ( i = 0; i < numTris; i++ ) {
 
@@ -618,7 +618,7 @@ bool idSurface::IsConnected( void ) const {
 			continue;
 		}
 
-        queueStart = 0;
+		queueStart = 0;
 		queueEnd = 1;
 		queue[0] = i;
 		islandNum[i] = numIslands;
@@ -630,7 +630,7 @@ bool idSurface::IsConnected( void ) const {
 			for ( j = 0; j < 3; j++ ) {
 
 				edgeNum = index[j];
-				nextTri = edges[abs(edgeNum)].tris[INTSIGNBITNOTSET(edgeNum)];
+				nextTri = edges[abs( edgeNum )].tris[INTSIGNBITNOTSET( edgeNum )];
 
 				if ( nextTri == -1 ) {
 					continue;
@@ -680,7 +680,7 @@ bool idSurface::IsPolytope( const float epsilon ) const {
 	}
 
 	for ( i = 0; i < indexes.Num(); i += 3 ) {
-		plane.FromPoints( verts[indexes[i+0]].xyz, verts[indexes[i+1]].xyz, verts[indexes[i+2]].xyz );
+		plane.FromPoints( verts[indexes[i + 0]].xyz, verts[indexes[i + 1]].xyz, verts[indexes[i + 2]].xyz );
 
 		for ( j = 0; j < verts.Num(); j++ ) {
 			if ( plane.Side( verts[j].xyz, epsilon ) == SIDE_FRONT ) {
@@ -746,8 +746,7 @@ int idSurface::PlaneSide( const idPlane &plane, const float epsilon ) const {
 			}
 			back = true;
 			continue;
-		}
-		else if ( d > epsilon ) {
+		} else if ( d > epsilon ) {
 			if ( back ) {
 				return SIDE_CROSS;
 			}
@@ -789,7 +788,7 @@ bool idSurface::RayIntersection( const idVec3 &start, const idVec3 &dir, float &
 	idPluecker rayPl, pl;
 	idPlane plane;
 
-	sidedness = (byte *)_alloca( edges.Num() * sizeof(byte) );
+	sidedness = ( byte * )_alloca( edges.Num() * sizeof( byte ) );
 	scale = idMath::INFINITY;
 
 	rayPl.FromRay( start, dir );
@@ -803,21 +802,21 @@ bool idSurface::RayIntersection( const idVec3 &start, const idVec3 &dir, float &
 
 	// test triangles
 	for ( i = 0; i < edgeIndexes.Num(); i += 3 ) {
-		i0 = edgeIndexes[i+0];
-		i1 = edgeIndexes[i+1];
-		i2 = edgeIndexes[i+2];
-		s0 = sidedness[abs(i0)] ^ INTSIGNBITSET( i0 );
-		s1 = sidedness[abs(i1)] ^ INTSIGNBITSET( i1 );
-		s2 = sidedness[abs(i2)] ^ INTSIGNBITSET( i2 );
+		i0 = edgeIndexes[i + 0];
+		i1 = edgeIndexes[i + 1];
+		i2 = edgeIndexes[i + 2];
+		s0 = sidedness[abs( i0 )] ^ INTSIGNBITSET( i0 );
+		s1 = sidedness[abs( i1 )] ^ INTSIGNBITSET( i1 );
+		s2 = sidedness[abs( i2 )] ^ INTSIGNBITSET( i2 );
 
 		if ( s0 & s1 & s2 ) {
-			plane.FromPoints( verts[indexes[i+0]].xyz, verts[indexes[i+1]].xyz, verts[indexes[i+2]].xyz );
+			plane.FromPoints( verts[indexes[i + 0]].xyz, verts[indexes[i + 1]].xyz, verts[indexes[i + 2]].xyz );
 			plane.RayIntersection( start, dir, s );
 			if ( idMath::Fabs( s ) < idMath::Fabs( scale ) ) {
 				scale = s;
 			}
-		} else if ( !backFaceCull && !(s0 | s1 | s2) ) {
-			plane.FromPoints( verts[indexes[i+0]].xyz, verts[indexes[i+1]].xyz, verts[indexes[i+2]].xyz );
+		} else if ( !backFaceCull && !( s0 | s1 | s2 ) ) {
+			plane.FromPoints( verts[indexes[i + 0]].xyz, verts[indexes[i + 1]].xyz, verts[indexes[i + 2]].xyz );
 			plane.RayIntersection( start, dir, s );
 			if ( idMath::Fabs( s ) < idMath::Fabs( scale ) ) {
 				scale = s;
@@ -843,9 +842,9 @@ void idSurface::GenerateEdgeIndexes( void ) {
 	int *index, *vertexEdges, *edgeChain;
 	surfaceEdge_t e[3];
 
-	vertexEdges = (int *) _alloca16( verts.Num() * sizeof( int ) );
+	vertexEdges = ( int * ) _alloca16( verts.Num() * sizeof( int ) );
 	memset( vertexEdges, -1, verts.Num() * sizeof( int ) );
-	edgeChain = (int *) _alloca16( indexes.Num() * sizeof( int ) );
+	edgeChain = ( int * ) _alloca16( indexes.Num() * sizeof( int ) );
 
 	edgeIndexes.SetNum( indexes.Num(), true );
 
@@ -862,15 +861,15 @@ void idSurface::GenerateEdgeIndexes( void ) {
 		i1 = index[1];
 		i2 = index[2];
 		// setup edges each with smallest vertex number first
-		s = INTSIGNBITSET(i1 - i0);
+		s = INTSIGNBITSET( i1 - i0 );
 		e[0].verts[0] = index[s];
-		e[0].verts[1] = index[s^1];
-		s = INTSIGNBITSET(i2 - i1) + 1;
+		e[0].verts[1] = index[s ^ 1];
+		s = INTSIGNBITSET( i2 - i1 ) + 1;
 		e[1].verts[0] = index[s];
-		e[1].verts[1] = index[s^3];
-		s = INTSIGNBITSET(i2 - i0) << 1;
+		e[1].verts[1] = index[s ^ 3];
+		s = INTSIGNBITSET( i2 - i0 ) << 1;
 		e[2].verts[0] = index[s];
-		e[2].verts[1] = index[s^2];
+		e[2].verts[1] = index[s ^ 2];
 		// get edges
 		for ( j = 0; j < 3; j++ ) {
 			v0 = e[j].verts[0];
@@ -891,11 +890,11 @@ void idSurface::GenerateEdgeIndexes( void ) {
 			if ( index[j] == v0 ) {
 				assert( edges[edgeNum].tris[0] == -1 ); // edge may not be shared by more than two triangles
 				edges[edgeNum].tris[0] = i;
-				edgeIndexes[i+j] = edgeNum;
+				edgeIndexes[i + j] = edgeNum;
 			} else {
 				assert( edges[edgeNum].tris[1] == -1 ); // edge may not be shared by more than two triangles
 				edges[edgeNum].tris[1] = i;
-				edgeIndexes[i+j] = -edgeNum;
+				edgeIndexes[i + j] = -edgeNum;
 			}
 		}
 	}

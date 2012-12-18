@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -48,7 +48,7 @@ typedef struct pvsHandle_s {
 
 typedef struct pvsCurrent_s {
 	pvsHandle_t			handle;		// current pvs handle
-	byte *				pvs;		// current pvs bit string
+	byte 				*pvs;		// current pvs bit string
 } pvsCurrent_t;
 
 #define MAX_CURRENT_PVS		8		// must be a power of 2
@@ -62,30 +62,30 @@ typedef enum {
 
 class idPVS {
 public:
-						idPVS( void );
-						~idPVS( void );
-						// setup for the current map
+	idPVS( void );
+	~idPVS( void );
+	// setup for the current map
 	void				Init( void );
 	void				Shutdown( void );
-						// get the area(s) the source is in
+	// get the area(s) the source is in
 	int					GetPVSArea( const idVec3 &point ) const;		// returns the area number
 	int					GetPVSAreas( const idBounds &bounds, int *areas, int maxAreas ) const;	// returns number of areas
-						// setup current PVS for the source
+	// setup current PVS for the source
 	pvsHandle_t			SetupCurrentPVS( const idVec3 &source, const pvsType_t type = PVS_NORMAL ) const;
 	pvsHandle_t			SetupCurrentPVS( const idBounds &source, const pvsType_t type = PVS_NORMAL ) const;
 	pvsHandle_t			SetupCurrentPVS( const int sourceArea, const pvsType_t type = PVS_NORMAL ) const;
 	pvsHandle_t			SetupCurrentPVS( const int *sourceAreas, const int numSourceAreas, const pvsType_t type = PVS_NORMAL ) const;
 	pvsHandle_t			MergeCurrentPVS( pvsHandle_t pvs1, pvsHandle_t pvs2 ) const;
 	void				FreeCurrentPVS( pvsHandle_t handle ) const;
-						// returns true if the target is within the current PVS
+	// returns true if the target is within the current PVS
 	bool				InCurrentPVS( const pvsHandle_t handle, const idVec3 &target ) const;
 	bool				InCurrentPVS( const pvsHandle_t handle, const idBounds &target ) const;
 	bool				InCurrentPVS( const pvsHandle_t handle, const int targetArea ) const;
 	bool				InCurrentPVS( const pvsHandle_t handle, const int *targetAreas, int numTargetAreas ) const;
-						// draw all portals that are within the PVS of the source
+	// draw all portals that are within the PVS of the source
 	void				DrawPVS( const idVec3 &source, const pvsType_t type = PVS_NORMAL ) const;
 	void				DrawPVS( const idBounds &source, const pvsType_t type = PVS_NORMAL ) const;
-						// visualize the PVS the handle points to
+	// visualize the PVS the handle points to
 	void				DrawCurrentPVS( const pvsHandle_t handle, const idVec3 &source ) const;
 
 #if ASYNC_WRITE_PVS
@@ -100,18 +100,18 @@ public:
 private:
 	int					numAreas;
 	int					numPortals;
-	bool *				connectedAreas;
-	int *				areaQueue;
-	byte *				areaPVS;
-						// current PVS for a specific source possibly taking portal states (open/closed) into account
+	bool 				*connectedAreas;
+	int 				*areaQueue;
+	byte 				*areaPVS;
+	// current PVS for a specific source possibly taking portal states (open/closed) into account
 	mutable pvsCurrent_t currentPVS[MAX_CURRENT_PVS];
-						// used to create PVS
+	// used to create PVS
 	int					portalVisBytes;
 	int					portalVisLongs;
 	int					areaVisBytes;
 	int					areaVisLongs;
 	struct pvsPortal_s *pvsPortals;
-	struct pvsArea_s *	pvsAreas;
+	struct pvsArea_s 	*pvsAreas;
 
 private:
 	int					GetPortalCount( void ) const;
@@ -120,7 +120,7 @@ private:
 	void				CopyPortalPVSToMightSee( void ) const;
 	void				FloodFrontPortalPVS_r( struct pvsPortal_s *portal, int areaNum ) const;
 	void				FrontPortalPVS( void ) const;
-	struct pvsStack_s *	FloodPassagePVS_r( struct pvsPortal_s *source, const struct pvsPortal_s *portal, struct pvsStack_s *prevStack ) const;
+	struct pvsStack_s 	*FloodPassagePVS_r( struct pvsPortal_s *source, const struct pvsPortal_s *portal, struct pvsStack_s *prevStack ) const;
 	void				PassagePVS( void ) const;
 	void				AddPassageBoundaries( const idWinding &source, const idWinding &pass, bool flipClip, idPlane *bounds, int &numBounds, int maxBounds ) const;
 	void				CreatePassages( void ) const;

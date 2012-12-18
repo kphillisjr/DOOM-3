@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -43,7 +43,7 @@ bool ProcessModel( uEntity_t *e, bool floodFill ) {
 
 	// build a bsp tree using all of the sides
 	// of all of the structural brushes
-	faces = MakeStructuralBspFaceList ( e->primitives );
+	faces = MakeStructuralBspFaceList( e->primitives );
 	e->tree = FaceBSP( faces );
 
 	// create portals at every leaf intersection
@@ -59,9 +59,9 @@ bool ProcessModel( uEntity_t *e, bool floodFill ) {
 			// set the outside leafs to opaque
 			FillOutside( e );
 		} else {
-			common->Printf ( "**********************\n" );
+			common->Printf( "**********************\n" );
 			common->Warning( "******* leaked *******" );
-			common->Printf ( "**********************\n" );
+			common->Printf( "**********************\n" );
 			LeakFile( e->tree );
 			// bail out here.  If someone really wants to
 			// process a map that leaks, they should use
@@ -124,7 +124,7 @@ bool ProcessModels( void ) {
 		common->Printf( "############### entity %i ###############\n", dmapGlobals.entityNum );
 
 		// if we leaked, stop without any more processing
-		if ( !ProcessModel( entity, (bool)(dmapGlobals.entityNum == 0 ) ) ) {
+		if ( !ProcessModel( entity, ( bool )( dmapGlobals.entityNum == 0 ) ) ) {
 			return false;
 		}
 
@@ -147,13 +147,13 @@ DmapHelp
 */
 void DmapHelp( void ) {
 	common->Printf(
-		
-	"Usage: dmap [options] mapfile\n"
-	"Options:\n"
-	"noCurves          = don't process curves\n"
-	"noCM              = don't create collision map\n"
-	"noAAS             = don't create AAS files\n"
-	
+
+		"Usage: dmap [options] mapfile\n"
+		"Options:\n"
+		"noCurves          = don't process curves\n"
+		"noCM              = don't create collision map\n"
+		"noAAS             = don't create AAS files\n"
+
 	);
 }
 
@@ -211,7 +211,7 @@ void Dmap( const idCmdArgs &args ) {
 		return;
 	}
 
-	common->Printf("---- dmap ----\n");
+	common->Printf( "---- dmap ----\n" );
 
 	dmapGlobals.fullCarve = true;
 	dmapGlobals.shadowOptLevel = SO_MERGE_SURFACES;		// create shadows by merging all surfaces, but no super optimization
@@ -224,7 +224,7 @@ void Dmap( const idCmdArgs &args ) {
 	for ( i = 1 ; i < args.Argc() ; i++ ) {
 		const char *s;
 
-		s = args.Argv(i);
+		s = args.Argv( i );
 		if ( s[0] == '-' ) {
 			s++;
 			if ( s[0] == '\0' ) {
@@ -232,7 +232,7 @@ void Dmap( const idCmdArgs &args ) {
 			}
 		}
 
-		if ( !idStr::Icmp( s,"glview" ) ) {
+		if ( !idStr::Icmp( s, "glview" ) ) {
 			dmapGlobals.glview = true;
 		} else if ( !idStr::Icmp( s, "v" ) ) {
 			common->Printf( "verbose = true\n" );
@@ -253,10 +253,10 @@ void Dmap( const idCmdArgs &args ) {
 			common->Printf( "noOptimize = true\n" );
 			dmapGlobals.noOptimize = true;
 		} else if ( !idStr::Icmp( s, "verboseentities" ) ) {
-			common->Printf( "verboseentities = true\n");
+			common->Printf( "verboseentities = true\n" );
 			dmapGlobals.verboseentities = true;
 		} else if ( !idStr::Icmp( s, "noCurves" ) ) {
-			common->Printf( "noCurves = true\n");
+			common->Printf( "noCurves = true\n" );
 			dmapGlobals.noCurves = true;
 		} else if ( !idStr::Icmp( s, "noModels" ) ) {
 			common->Printf( "noModels = true\n" );
@@ -268,15 +268,15 @@ void Dmap( const idCmdArgs &args ) {
 			common->Printf( "noCarve = true\n" );
 			dmapGlobals.fullCarve = false;
 		} else if ( !idStr::Icmp( s, "shadowOpt" ) ) {
-			dmapGlobals.shadowOptLevel = (shadowOptLevel_t)atoi( args.Argv( i+1 ) );
-			common->Printf( "shadowOpt = %i\n",dmapGlobals.shadowOptLevel );
+			dmapGlobals.shadowOptLevel = ( shadowOptLevel_t )atoi( args.Argv( i + 1 ) );
+			common->Printf( "shadowOpt = %i\n", dmapGlobals.shadowOptLevel );
 			i += 1;
 		} else if ( !idStr::Icmp( s, "noTjunc" ) ) {
 			// triangle optimization won't work properly without tjunction fixing
-			common->Printf ("noTJunc = true\n" );
+			common->Printf( "noTJunc = true\n" );
 			dmapGlobals.noTJunc = true;
 			dmapGlobals.noOptimize = true;
-			common->Printf ("forcing noOptimize = true\n" );
+			common->Printf( "forcing noOptimize = true\n" );
 		} else if ( !idStr::Icmp( s, "noCM" ) ) {
 			noCM = true;
 			common->Printf( "noCM = true\n" );
@@ -296,7 +296,7 @@ void Dmap( const idCmdArgs &args ) {
 		common->Error( "usage: dmap [options] mapfile" );
 	}
 
-	passedName = args.Argv(i);		// may have an extension
+	passedName = args.Argv( i );		// may have an extension
 	passedName.BackSlashesToSlashes();
 	if ( passedName.Icmpn( "maps/", 4 ) != 0 ) {
 		passedName = "maps/" + passedName;
@@ -304,7 +304,7 @@ void Dmap( const idCmdArgs &args ) {
 
 	idStr stripped = passedName;
 	stripped.StripFileExtension();
-	idStr::Copynz( dmapGlobals.mapFileBase, stripped, sizeof(dmapGlobals.mapFileBase) );
+	idStr::Copynz( dmapGlobals.mapFileBase, stripped, sizeof( dmapGlobals.mapFileBase ) );
 
 	bool region = false;
 	// if this isn't a regioned map, delete the last saved region map

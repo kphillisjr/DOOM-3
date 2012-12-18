@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -51,20 +51,20 @@ const idEventDef EV_Light_FadeOut( "fadeOutLight", "f" );
 const idEventDef EV_Light_FadeIn( "fadeInLight", "f" );
 
 CLASS_DECLARATION( idEntity, idLight )
-	EVENT( EV_Light_SetShader,		idLight::Event_SetShader )
-	EVENT( EV_Light_GetLightParm,	idLight::Event_GetLightParm )
-	EVENT( EV_Light_SetLightParm,	idLight::Event_SetLightParm )
-	EVENT( EV_Light_SetLightParms,	idLight::Event_SetLightParms )
-	EVENT( EV_Light_SetRadiusXYZ,	idLight::Event_SetRadiusXYZ )
-	EVENT( EV_Light_SetRadius,		idLight::Event_SetRadius )
-	EVENT( EV_Hide,					idLight::Event_Hide )
-	EVENT( EV_Show,					idLight::Event_Show )
-	EVENT( EV_Light_On,				idLight::Event_On )
-	EVENT( EV_Light_Off,			idLight::Event_Off )
-	EVENT( EV_Activate,				idLight::Event_ToggleOnOff )
-	EVENT( EV_PostSpawn,			idLight::Event_SetSoundHandles )
-	EVENT( EV_Light_FadeOut,		idLight::Event_FadeOut )
-	EVENT( EV_Light_FadeIn,			idLight::Event_FadeIn )
+EVENT( EV_Light_SetShader,		idLight::Event_SetShader )
+EVENT( EV_Light_GetLightParm,	idLight::Event_GetLightParm )
+EVENT( EV_Light_SetLightParm,	idLight::Event_SetLightParm )
+EVENT( EV_Light_SetLightParms,	idLight::Event_SetLightParms )
+EVENT( EV_Light_SetRadiusXYZ,	idLight::Event_SetRadiusXYZ )
+EVENT( EV_Light_SetRadius,		idLight::Event_SetRadius )
+EVENT( EV_Hide,					idLight::Event_Hide )
+EVENT( EV_Show,					idLight::Event_Show )
+EVENT( EV_Light_On,				idLight::Event_On )
+EVENT( EV_Light_Off,			idLight::Event_Off )
+EVENT( EV_Activate,				idLight::Event_ToggleOnOff )
+EVENT( EV_PostSpawn,			idLight::Event_SetSoundHandles )
+EVENT( EV_Light_FadeOut,		idLight::Event_FadeOut )
+EVENT( EV_Light_FadeIn,			idLight::Event_FadeIn )
 END_CLASS
 
 
@@ -84,7 +84,7 @@ void idGameEdit::ParseSpawnArgsToRenderLight( const idDict *args, renderLight_t 
 
 	memset( renderLight, 0, sizeof( *renderLight ) );
 
-	if (!args->GetVector("light_origin", "", renderLight->origin)) {
+	if ( !args->GetVector( "light_origin", "", renderLight->origin ) ) {
 		args->GetVector( "origin", "", renderLight->origin );
 	}
 
@@ -99,7 +99,7 @@ void idGameEdit::ParseSpawnArgsToRenderLight( const idDict *args, renderLight_t 
 	// we should have all of the target/right/up or none of them
 	if ( ( gotTarget || gotUp || gotRight ) != ( gotTarget && gotUp && gotRight ) ) {
 		gameLocal.Printf( "Light at (%f,%f,%f) has bad target info\n",
-			renderLight->origin[0], renderLight->origin[1], renderLight->origin[2] );
+						  renderLight->origin[0], renderLight->origin[1], renderLight->origin[2] );
 		return;
 	}
 
@@ -110,7 +110,7 @@ void idGameEdit::ParseSpawnArgsToRenderLight( const idDict *args, renderLight_t 
 		args->GetVector( "light_center", "0 0 0", renderLight->lightCenter );
 
 		// create a point light
-		if (!args->GetVector( "light_radius", "300 300 300", renderLight->lightRadius ) ) {
+		if ( !args->GetVector( "light_radius", "300 300 300", renderLight->lightRadius ) ) {
 			float radius;
 
 			args->GetFloat( "light", "300", radius );
@@ -123,10 +123,10 @@ void idGameEdit::ParseSpawnArgsToRenderLight( const idDict *args, renderLight_t 
 	idMat3 mat;
 	if ( !args->GetMatrix( "light_rotation", "1 0 0 0 1 0 0 0 1", mat ) ) {
 		if ( !args->GetMatrix( "rotation", "1 0 0 0 1 0 0 0 1", mat ) ) {
-	   		args->GetFloat( "angle", "0", angles[ 1 ] );
-   			angles[ 0 ] = 0;
+			args->GetFloat( "angle", "0", angles[ 1 ] );
+			angles[ 0 ] = 0;
 			angles[ 1 ] = idMath::AngleNormalize360( angles[ 1 ] );
-	   		angles[ 2 ] = 0;
+			angles[ 2 ] = 0;
 			mat = angles.ToMat3();
 		}
 	}
@@ -228,7 +228,7 @@ archives object for save game file
 */
 void idLight::Save( idSaveGame *savefile ) const {
 	savefile->WriteRenderLight( renderLight );
-	
+
 	savefile->WriteBool( renderLight.prelightModel != NULL );
 
 	savefile->WriteVec3( localLightOrigin );
@@ -357,12 +357,12 @@ void idLight::Spawn( void ) {
 	}
 
 #ifdef CTF
-    // Midnight CTF
-    if ( gameLocal.mpGame.IsGametypeFlagBased() && gameLocal.serverInfo.GetBool("si_midnight") && !spawnArgs.GetBool("midnight_override") ) {
-        Off();
-    }
+	// Midnight CTF
+	if ( gameLocal.mpGame.IsGametypeFlagBased() && gameLocal.serverInfo.GetBool( "si_midnight" ) && !spawnArgs.GetBool( "midnight_override" ) ) {
+		Off();
+	}
 #endif
-    
+
 	health = spawnArgs.GetInt( "health", "0" );
 	spawnArgs.GetString( "broken", "", brokenModel );
 	spawnArgs.GetBool( "break", "0", breakOnTrigger );
@@ -390,7 +390,7 @@ void idLight::Spawn( void ) {
 			int	pos;
 
 			needBroken = false;
-		
+
 			pos = model.Find( "." );
 			if ( pos < 0 ) {
 				pos = model.Length();
@@ -403,7 +403,7 @@ void idLight::Spawn( void ) {
 				brokenModel += &model[ pos ];
 			}
 		}
-	
+
 		// make sure the model gets cached
 		if ( !renderModelManager->CheckModel( brokenModel ) ) {
 			if ( needBroken ) {
@@ -414,7 +414,7 @@ void idLight::Spawn( void ) {
 		}
 
 		GetPhysics()->SetContents( spawnArgs.GetBool( "nonsolid" ) ? 0 : CONTENTS_SOLID );
-	
+
 		// make sure the collision model gets cached
 		idClipModel::CheckModel( brokenModel );
 	}
@@ -439,7 +439,7 @@ void idLight::SetLightLevel( void ) {
 	renderLight.shaderParms[ SHADERPARM_GREEN ]	= color[ 1 ];
 	renderLight.shaderParms[ SHADERPARM_BLUE ]	= color[ 2 ];
 	renderEntity.shaderParms[ SHADERPARM_RED ]	= color[ 0 ];
-	renderEntity.shaderParms[ SHADERPARM_GREEN ]= color[ 1 ];
+	renderEntity.shaderParms[ SHADERPARM_GREEN ] = color[ 1 ];
 	renderEntity.shaderParms[ SHADERPARM_BLUE ]	= color[ 2 ];
 	PresentLightDefChange();
 	PresentModelDefChange();
@@ -667,7 +667,7 @@ void idLight::BecomeBroken( idEntity *activator ) {
 
 	}
 
-		ActivateTargets( activator );
+	ActivateTargets( activator );
 
 	// offset the start time of the shader to sync it to the game time
 	renderEntity.shaderParms[ SHADERPARM_TIMEOFFSET ] = -MS2SEC( gameLocal.time );
@@ -751,8 +751,7 @@ void idLight::Present( void ) {
 	if ( lightParent ) {
 		renderLight.referenceSound = lightParent->GetSoundEmitter();
 		renderEntity.referenceSound = lightParent->GetSoundEmitter();
-	}
-	else {
+	} else {
 		renderLight.referenceSound = refSound.referenceSound;
 		renderEntity.referenceSound = refSound.referenceSound;
 	}
@@ -818,7 +817,7 @@ idLight::SaveState
 void idLight::SaveState( idDict *args ) {
 	int i, c = spawnArgs.GetNumKeyVals();
 	for ( i = 0; i < c; i++ ) {
-		const idKeyValue *pv = spawnArgs.GetKeyVal(i);
+		const idKeyValue *pv = spawnArgs.GetKeyVal( i );
 		if ( pv->GetKey().Find( "editor_", false ) >= 0 || pv->GetKey().Find( "parse_", false ) >= 0 ) {
 			continue;
 		}
@@ -959,13 +958,11 @@ void idLight::Event_ToggleOnOff( idEntity *activator ) {
 
 	if ( !currentLevel ) {
 		On();
-	}
-	else {
+	} else {
 		currentLevel--;
 		if ( !currentLevel ) {
 			Off();
-		}
-		else {
+		} else {
 			SetLightLevel();
 		}
 	}
@@ -989,7 +986,7 @@ void idLight::Event_SetSoundHandles( void ) {
 	for ( i = 0; i < targets.Num(); i++ ) {
 		targetEnt = targets[ i ].GetEntity();
 		if ( targetEnt && targetEnt->IsType( idLight::Type ) ) {
-			idLight	*light = static_cast<idLight*>(targetEnt);
+			idLight	*light = static_cast<idLight *>( targetEnt );
 			light->lightParent = this;
 
 			// explicitly delete any sounds on the entity
@@ -1045,12 +1042,12 @@ void idLight::WriteToSnapshot( idBitMsgDelta &msg ) const {
 	msg.WriteLong( PackColor( baseColor ) );
 	// msg.WriteBits( lightParent.GetEntityNum(), GENTITYNUM_BITS );
 
-/*	// only helps prediction
-	msg.WriteLong( PackColor( fadeFrom ) );
-	msg.WriteLong( PackColor( fadeTo ) );
-	msg.WriteLong( fadeStart );
-	msg.WriteLong( fadeEnd );
-*/
+	/*	// only helps prediction
+		msg.WriteLong( PackColor( fadeFrom ) );
+		msg.WriteLong( PackColor( fadeTo ) );
+		msg.WriteLong( fadeStart );
+		msg.WriteLong( fadeEnd );
+	*/
 
 	// FIXME: send renderLight.shader
 	msg.WriteFloat( renderLight.lightRadius[0], 5, 10 );
@@ -1095,14 +1092,14 @@ void idLight::ReadFromSnapshot( const idBitMsgDelta &msg ) {
 		}
 	}
 	UnpackColor( msg.ReadLong(), baseColor );
-	// lightParentEntityNum = msg.ReadBits( GENTITYNUM_BITS );	
+	// lightParentEntityNum = msg.ReadBits( GENTITYNUM_BITS );
 
-/*	// only helps prediction
-	UnpackColor( msg.ReadLong(), fadeFrom );
-	UnpackColor( msg.ReadLong(), fadeTo );
-	fadeStart = msg.ReadLong();
-	fadeEnd = msg.ReadLong();
-*/
+	/*	// only helps prediction
+		UnpackColor( msg.ReadLong(), fadeFrom );
+		UnpackColor( msg.ReadLong(), fadeTo );
+		fadeStart = msg.ReadLong();
+		fadeEnd = msg.ReadLong();
+	*/
 
 	// FIXME: read renderLight.shader
 	renderLight.lightRadius[0] = msg.ReadFloat( 5, 10 );
@@ -1139,7 +1136,7 @@ idLight::ClientReceiveEvent
 */
 bool idLight::ClientReceiveEvent( int event, int time, const idBitMsg &msg ) {
 
-	switch( event ) {
+	switch ( event ) {
 		case EVENT_BECOMEBROKEN: {
 			BecomeBroken( NULL );
 			return true;

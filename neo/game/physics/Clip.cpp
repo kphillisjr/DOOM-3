@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -37,16 +37,16 @@ If you have questions concerning this license or the applicable additional terms
 typedef struct clipSector_s {
 	int						axis;		// -1 = leaf node
 	float					dist;
-	struct clipSector_s *	children[2];
-	struct clipLink_s *		clipLinks;
+	struct clipSector_s 	*children[2];
+	struct clipLink_s 		*clipLinks;
 } clipSector_t;
 
 typedef struct clipLink_s {
-	idClipModel *			clipModel;
-	struct clipSector_s *	sector;
-	struct clipLink_s *		prevInSector;
-	struct clipLink_s *		nextInSector;
-	struct clipLink_s *		nextLink;
+	idClipModel 			*clipModel;
+	struct clipSector_s 	*sector;
+	struct clipLink_s 		*prevInSector;
+	struct clipLink_s 		*nextInSector;
+	struct clipLink_s 		*nextLink;
 } clipLink_t;
 
 typedef struct trmCache_s {
@@ -70,9 +70,9 @@ idBlockAlloc<clipLink_t, 1024>	clipLinkAllocator;
 ===============================================================
 */
 
-static idList<trmCache_s*>		traceModelCache;
+static idList<trmCache_s *>		traceModelCache;
 static idHashIndex				traceModelHash;
-	
+
 /*
 ===============
 idClipModel::ClearTraceModelCache
@@ -162,7 +162,7 @@ void idClipModel::SaveTraceModels( idSaveGame *savefile ) {
 	savefile->WriteInt( traceModelCache.Num() );
 	for ( i = 0; i < traceModelCache.Num(); i++ ) {
 		trmCache_t *entry = traceModelCache[i];
-		
+
 		savefile->WriteTraceModel( entry->trm );
 		savefile->WriteFloat( entry->volume );
 		savefile->WriteVec3( entry->centerOfMass );
@@ -185,7 +185,7 @@ void idClipModel::RestoreTraceModels( idRestoreGame *savefile ) {
 
 	for ( i = 0; i < num; i++ ) {
 		trmCache_t *entry = new trmCache_t;
-		
+
 		savefile->ReadTraceModel( entry->trm );
 
 		savefile->ReadFloat( entry->volume );
@@ -513,7 +513,7 @@ idClipModel::Link_r
 void idClipModel::Link_r( struct clipSector_s *node ) {
 	clipLink_t *link;
 
-	while( node->axis != -1 ) {
+	while ( node->axis != -1 ) {
 		if ( absBounds[0][node->axis] > node->dist ) {
 			node = node->children[0];
 		} else if ( absBounds[1][node->axis] < node->dist ) {
@@ -667,11 +667,11 @@ clipSector_t *idClip::CreateClipSectors_r( const int depth, const idBounds &boun
 
 	front = bounds;
 	back = bounds;
-	
+
 	front[0][anode->axis] = back[1][anode->axis] = anode->dist;
-	
-	anode->children[0] = CreateClipSectors_r( depth+1, front, maxSector );
-	anode->children[1] = CreateClipSectors_r( depth+1, back, maxSector );
+
+	anode->children[0] = CreateClipSectors_r( depth + 1, front, maxSector );
+	anode->children[1] = CreateClipSectors_r( depth + 1, back, maxSector );
 
 	return anode;
 }
@@ -739,14 +739,14 @@ idClip::ClipModelsTouchingBounds_r
 typedef struct listParms_s {
 	idBounds		bounds;
 	int				contentMask;
-	idClipModel	**	list;
+	idClipModel		**list;
 	int				count;
 	int				maxCount;
 } listParms_t;
 
 void idClip::ClipModelsTouchingBounds_r( const struct clipSector_s *node, listParms_t &parms ) const {
 
-	while( node->axis != -1 ) {
+	while ( node->axis != -1 ) {
 		if ( parms.bounds[0][node->axis] > node->dist ) {
 			node = node->children[0];
 		} else if ( parms.bounds[1][node->axis] < node->dist ) {
@@ -988,7 +988,7 @@ idClip::TranslationEntities
 ============
 */
 void idClip::TranslationEntities( trace_t &results, const idVec3 &start, const idVec3 &end,
-						const idClipModel *mdl, const idMat3 &trmAxis, int contentMask, const idEntity *passEntity ) {
+								  const idClipModel *mdl, const idMat3 &trmAxis, int contentMask, const idEntity *passEntity ) {
 	int i, num;
 	idClipModel *touch, *clipModelList[MAX_GENTITIES];
 	idBounds traceBounds;
@@ -1029,7 +1029,7 @@ void idClip::TranslationEntities( trace_t &results, const idVec3 &start, const i
 		} else {
 			idClip::numTranslations++;
 			collisionModelManager->Translation( &trace, start, end, trm, trmAxis, contentMask,
-									touch->Handle(), touch->origin, touch->axis );
+												touch->Handle(), touch->origin, touch->axis );
 		}
 
 		if ( trace.fraction < results.fraction ) {
@@ -1049,7 +1049,7 @@ idClip::Translation
 ============
 */
 bool idClip::Translation( trace_t &results, const idVec3 &start, const idVec3 &end,
-						const idClipModel *mdl, const idMat3 &trmAxis, int contentMask, const idEntity *passEntity ) {
+						  const idClipModel *mdl, const idMat3 &trmAxis, int contentMask, const idEntity *passEntity ) {
 	int i, num;
 	idClipModel *touch, *clipModelList[MAX_GENTITIES];
 	idBounds traceBounds;
@@ -1101,7 +1101,7 @@ bool idClip::Translation( trace_t &results, const idVec3 &start, const idVec3 &e
 		} else {
 			idClip::numTranslations++;
 			collisionModelManager->Translation( &trace, start, end, trm, trmAxis, contentMask,
-									touch->Handle(), touch->origin, touch->axis );
+												touch->Handle(), touch->origin, touch->axis );
 		}
 
 		if ( trace.fraction < results.fraction ) {
@@ -1123,7 +1123,7 @@ idClip::Rotation
 ============
 */
 bool idClip::Rotation( trace_t &results, const idVec3 &start, const idRotation &rotation,
-					const idClipModel *mdl, const idMat3 &trmAxis, int contentMask, const idEntity *passEntity ) {
+					   const idClipModel *mdl, const idMat3 &trmAxis, int contentMask, const idEntity *passEntity ) {
 	int i, num;
 	idClipModel *touch, *clipModelList[MAX_GENTITIES];
 	idBounds traceBounds;
@@ -1169,7 +1169,7 @@ bool idClip::Rotation( trace_t &results, const idVec3 &start, const idRotation &
 
 		idClip::numRotations++;
 		collisionModelManager->Rotation( &trace, start, rotation, trm, trmAxis, contentMask,
-							touch->Handle(), touch->origin, touch->axis );
+										 touch->Handle(), touch->origin, touch->axis );
 
 		if ( trace.fraction < results.fraction ) {
 			results = trace;
@@ -1190,7 +1190,7 @@ idClip::Motion
 ============
 */
 bool idClip::Motion( trace_t &results, const idVec3 &start, const idVec3 &end, const idRotation &rotation,
-					const idClipModel *mdl, const idMat3 &trmAxis, int contentMask, const idEntity *passEntity ) {
+					 const idClipModel *mdl, const idMat3 &trmAxis, int contentMask, const idEntity *passEntity ) {
 	int i, num;
 	idClipModel *touch, *clipModelList[MAX_GENTITIES];
 	idVec3 dir, endPosition;
@@ -1246,8 +1246,7 @@ bool idClip::Motion( trace_t &results, const idVec3 &start, const idVec3 &end, c
 		for ( i = 0; i < 3; i++ ) {
 			if ( dir[i] < 0.0f ) {
 				traceBounds[0][i] += dir[i];
-			}
-			else {
+			} else {
 				traceBounds[1][i] += dir[i];
 			}
 		}
@@ -1267,7 +1266,7 @@ bool idClip::Motion( trace_t &results, const idVec3 &start, const idVec3 &end, c
 			} else {
 				idClip::numTranslations++;
 				collisionModelManager->Translation( &trace, start, end, trm, trmAxis, contentMask,
-										touch->Handle(), touch->origin, touch->axis );
+													touch->Handle(), touch->origin, touch->axis );
 			}
 
 			if ( trace.fraction < translationalTrace.fraction ) {
@@ -1320,7 +1319,7 @@ bool idClip::Motion( trace_t &results, const idVec3 &start, const idVec3 &end, c
 
 			idClip::numRotations++;
 			collisionModelManager->Rotation( &trace, endPosition, endRotation, trm, trmAxis, contentMask,
-								touch->Handle(), touch->origin, touch->axis );
+											 touch->Handle(), touch->origin, touch->axis );
 
 			if ( trace.fraction < rotationalTrace.fraction ) {
 				rotationalTrace = trace;
@@ -1351,7 +1350,7 @@ idClip::Contacts
 ============
 */
 int idClip::Contacts( contactInfo_t *contacts, const int maxContacts, const idVec3 &start, const idVec6 &dir, const float depth,
-					 const idClipModel *mdl, const idMat3 &trmAxis, int contentMask, const idEntity *passEntity ) {
+					  const idClipModel *mdl, const idMat3 &trmAxis, int contentMask, const idEntity *passEntity ) {
 	int i, j, num, n, numContacts;
 	idClipModel *touch, *clipModelList[MAX_GENTITIES];
 	idBounds traceBounds;
@@ -1399,8 +1398,8 @@ int idClip::Contacts( contactInfo_t *contacts, const int maxContacts, const idVe
 
 		idClip::numContacts++;
 		n = collisionModelManager->Contacts( contacts + numContacts, maxContacts - numContacts,
-								start, dir, depth, trm, trmAxis, contentMask,
-									touch->Handle(), touch->origin, touch->axis );
+											 start, dir, depth, trm, trmAxis, contentMask,
+											 touch->Handle(), touch->origin, touch->axis );
 
 		for ( j = 0; j < n; j++ ) {
 			contacts[numContacts].entityNum = touch->entity->entityNumber;
@@ -1486,8 +1485,8 @@ idClip::TranslationModel
 ============
 */
 void idClip::TranslationModel( trace_t &results, const idVec3 &start, const idVec3 &end,
-					const idClipModel *mdl, const idMat3 &trmAxis, int contentMask,
-					cmHandle_t model, const idVec3 &modelOrigin, const idMat3 &modelAxis ) {
+							   const idClipModel *mdl, const idMat3 &trmAxis, int contentMask,
+							   cmHandle_t model, const idVec3 &modelOrigin, const idMat3 &modelAxis ) {
 	const idTraceModel *trm = TraceModelForClipModel( mdl );
 	idClip::numTranslations++;
 	collisionModelManager->Translation( &results, start, end, trm, trmAxis, contentMask, model, modelOrigin, modelAxis );
@@ -1499,8 +1498,8 @@ idClip::RotationModel
 ============
 */
 void idClip::RotationModel( trace_t &results, const idVec3 &start, const idRotation &rotation,
-					const idClipModel *mdl, const idMat3 &trmAxis, int contentMask,
-					cmHandle_t model, const idVec3 &modelOrigin, const idMat3 &modelAxis ) {
+							const idClipModel *mdl, const idMat3 &trmAxis, int contentMask,
+							cmHandle_t model, const idVec3 &modelOrigin, const idMat3 &modelAxis ) {
 	const idTraceModel *trm = TraceModelForClipModel( mdl );
 	idClip::numRotations++;
 	collisionModelManager->Rotation( &results, start, rotation, trm, trmAxis, contentMask, model, modelOrigin, modelAxis );
@@ -1512,8 +1511,8 @@ idClip::ContactsModel
 ============
 */
 int idClip::ContactsModel( contactInfo_t *contacts, const int maxContacts, const idVec3 &start, const idVec6 &dir, const float depth,
-					const idClipModel *mdl, const idMat3 &trmAxis, int contentMask,
-					cmHandle_t model, const idVec3 &modelOrigin, const idMat3 &modelAxis ) {
+						   const idClipModel *mdl, const idMat3 &trmAxis, int contentMask,
+						   cmHandle_t model, const idVec3 &modelOrigin, const idMat3 &modelAxis ) {
 	const idTraceModel *trm = TraceModelForClipModel( mdl );
 	idClip::numContacts++;
 	return collisionModelManager->Contacts( contacts, maxContacts, start, dir, depth, trm, trmAxis, contentMask, model, modelOrigin, modelAxis );
@@ -1525,8 +1524,8 @@ idClip::ContentsModel
 ============
 */
 int idClip::ContentsModel( const idVec3 &start,
-					const idClipModel *mdl, const idMat3 &trmAxis, int contentMask,
-					cmHandle_t model, const idVec3 &modelOrigin, const idMat3 &modelAxis ) {
+						   const idClipModel *mdl, const idMat3 &trmAxis, int contentMask,
+						   cmHandle_t model, const idVec3 &modelOrigin, const idMat3 &modelAxis ) {
 	const idTraceModel *trm = TraceModelForClipModel( mdl );
 	idClip::numContents++;
 	return collisionModelManager->Contents( start, trm, trmAxis, contentMask, model, modelOrigin, modelAxis );
@@ -1560,7 +1559,7 @@ bool idClip::GetModelContactFeature( const contactInfo_t &contact, const idClipM
 
 	// if contact with a collision model
 	if ( handle != -1 ) {
-		switch( contact.type ) {
+		switch ( contact.type ) {
 			case CONTACT_EDGE: {
 				// the model contact feature is a collision model edge
 				collisionModelManager->GetModelEdge( handle, contact.modelFeature, start, end );
@@ -1600,7 +1599,7 @@ idClip::PrintStatistics
 */
 void idClip::PrintStatistics( void ) {
 	gameLocal.Printf( "t = %-3d, r = %-3d, m = %-3d, render = %-3d, contents = %-3d, contacts = %-3d\n",
-					numTranslations, numRotations, numMotions, numRenderModelTraces, numContents, numContacts );
+					  numTranslations, numRotations, numMotions, numRenderModelTraces, numContents, numContacts );
 	numRotations = numTranslations = numMotions = numRenderModelTraces = numContents = numContacts = 0;
 }
 
@@ -1654,7 +1653,7 @@ bool idClip::DrawModelContactFeature( const contactInfo_t &contact, const idClip
 		gameRenderWorld->DebugLine( colorWhite, winding[0].ToVec3() - 1.0f * axis[2], winding[0].ToVec3() + 1.0f * axis[2], lifetime );
 	} else {
 		for ( i = 0; i < winding.GetNumPoints(); i++ ) {
-			gameRenderWorld->DebugLine( colorCyan, winding[i].ToVec3(), winding[(i+1)%winding.GetNumPoints()].ToVec3(), lifetime );
+			gameRenderWorld->DebugLine( colorCyan, winding[i].ToVec3(), winding[( i + 1 ) % winding.GetNumPoints()].ToVec3(), lifetime );
 		}
 	}
 

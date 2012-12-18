@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -52,7 +52,7 @@ typedef struct portalStack_s {
 	idScreenRect	rect;
 
 	int			numPortalPlanes;
-	idPlane		portalPlanes[MAX_PORTAL_PLANES+1];
+	idPlane		portalPlanes[MAX_PORTAL_PLANES + 1];
 	// positive side is outside the visible frustum
 } portalStack_t;
 
@@ -74,7 +74,7 @@ idScreenRect idRenderWorldLocal::ScreenRectFromWinding( const idWinding *w, view
 
 	r.Clear();
 	for ( i = 0 ; i < w->GetNumPoints() ; i++ ) {
-		R_LocalPointToGlobal( space->modelMatrix, (*w)[i].ToVec3(), v );
+		R_LocalPointToGlobal( space->modelMatrix, ( *w )[i].ToVec3(), v );
 		R_GlobalToNormalizedDeviceCoordinates( v, ndc );
 
 		windowX = 0.5f * ( 1.0f + ndc[0] ) * ( tr.viewDef->viewport.x2 - tr.viewDef->viewport.x1 );
@@ -106,12 +106,12 @@ bool idRenderWorldLocal::PortalIsFoggedOut( const portal_t *p ) {
 
 	// find the current density of the fog
 	const idMaterial	*lightShader = ldef->lightShader;
-	int		size = sizeof( float ) *lightShader->GetNumRegisters();
-	float	*regs =(float *)_alloca( size );
+	int		size = sizeof( float ) * lightShader->GetNumRegisters();
+	float	*regs = ( float * )_alloca( size );
 
 	lightShader->EvaluateRegisters( regs, ldef->parms.shaderParms, tr.viewDef, ldef->parms.referenceSound );
 
-	const shaderStage_t	*stage = lightShader->GetStage(0);
+	const shaderStage_t	*stage = lightShader->GetStage( 0 );
 
 	float alpha = regs[ stage->color.registers[3] ];
 
@@ -135,7 +135,7 @@ bool idRenderWorldLocal::PortalIsFoggedOut( const portal_t *p ) {
 	for ( i = 0 ; i < w->GetNumPoints() ; i++ ) {
 		float	d;
 
-		d = forward.Distance( (*w)[i].ToVec3() );
+		d = forward.Distance( ( *w )[i].ToVec3() );
 		if ( d < 0.5f ) {
 			return false;		// a point not clipped off
 		}
@@ -149,11 +149,11 @@ bool idRenderWorldLocal::PortalIsFoggedOut( const portal_t *p ) {
 FloodViewThroughArea_r
 ===================
 */
-void idRenderWorldLocal::FloodViewThroughArea_r( const idVec3 origin, int areaNum, 
-								 const struct portalStack_s *ps ) {
-	portal_t*		p;
+void idRenderWorldLocal::FloodViewThroughArea_r( const idVec3 origin, int areaNum,
+		const struct portalStack_s *ps ) {
+	portal_t		*p;
 	float			d;
-	portalArea_t *	area;
+	portalArea_t 	*area;
 	const portalStack_t	*check;
 	portalStack_t	newStack;
 	int				i, j;
@@ -231,7 +231,7 @@ void idRenderWorldLocal::FloodViewThroughArea_r( const idVec3 origin, int areaNu
 		// find the screen pixel bounding box of the remaining portal
 		// so we can scissor things outside it
 		newStack.rect = ScreenRectFromWinding( &w, &tr.identitySpace );
-		
+
 		// slop might have spread it a pixel outside, so trim it back
 		newStack.rect.Intersect( ps->rect );
 
@@ -245,7 +245,7 @@ void idRenderWorldLocal::FloodViewThroughArea_r( const idVec3 origin, int areaNu
 
 		newStack.numPortalPlanes = 0;
 		for ( i = 0; i < addPlanes; i++ ) {
-			j = i+1;
+			j = i + 1;
 			if ( j == w.GetNumPoints() ) {
 				j = 0;
 			}
@@ -296,7 +296,7 @@ void idRenderWorldLocal::FlowViewThroughPortals( const idVec3 origin, int numPla
 	ps.numPortalPlanes = numPlanes;
 	ps.rect = tr.viewDef->scissor;
 
-	if ( tr.viewDef->areaNum < 0 ){
+	if ( tr.viewDef->areaNum < 0 ) {
 
 		for ( i = 0; i < numPortalAreas; i++ ) {
 			areaScreenRect[i] = tr.viewDef->scissor;
@@ -325,11 +325,11 @@ void idRenderWorldLocal::FlowViewThroughPortals( const idVec3 origin, int numPla
 FloodLightThroughArea_r
 ===================
 */
-void idRenderWorldLocal::FloodLightThroughArea_r( idRenderLightLocal *light, int areaNum, 
-								 const struct portalStack_s *ps ) {
-	portal_t*		p;
+void idRenderWorldLocal::FloodLightThroughArea_r( idRenderLightLocal *light, int areaNum,
+		const struct portalStack_s *ps ) {
+	portal_t		*p;
 	float			d;
-	portalArea_t *	area;
+	portalArea_t 	*area;
 	const portalStack_t	*check, *firstPortalStack;
 	portalStack_t	newStack;
 	int				i, j;
@@ -340,7 +340,7 @@ void idRenderWorldLocal::FloodLightThroughArea_r( idRenderLightLocal *light, int
 	area = &portalAreas[ areaNum ];
 
 	// add an areaRef
-	AddLightRefToArea( light, area );	
+	AddLightRefToArea( light, area );
 
 	// go through all the portals
 	for ( p = area->portals; p; p = p->next ) {
@@ -408,7 +408,7 @@ void idRenderWorldLocal::FloodLightThroughArea_r( idRenderLightLocal *light, int
 
 		newStack.numPortalPlanes = 0;
 		for ( i = 0; i < addPlanes; i++ ) {
-			j = i+1;
+			j = i + 1;
 			if ( j == w.GetNumPoints() ) {
 				j = 0;
 			}
@@ -573,7 +573,7 @@ bool idRenderWorldLocal::CullEntityByPortals( const idRenderEntityLocal *entity,
 	// we have determined all the lights that may effect it,
 	// which optimizes cache usage
 	if ( R_CullLocalBox( entity->referenceBounds, entity->modelMatrix,
-							ps->numPortalPlanes, ps->portalPlanes ) ) {
+						 ps->numPortalPlanes, ps->portalPlanes ) ) {
 		return true;
 	}
 
@@ -585,7 +585,7 @@ bool idRenderWorldLocal::CullEntityByPortals( const idRenderEntityLocal *entity,
 AddAreaEntityRefs
 
 Any models that are visible through the current portalStack will
-have their scissor 
+have their scissor
 ===================
 */
 void idRenderWorldLocal::AddAreaEntityRefs( int areaNum, const portalStack_t *ps ) {
@@ -614,7 +614,7 @@ void idRenderWorldLocal::AddAreaEntityRefs( int areaNum, const portalStack_t *ps
 					&& entity->parms.suppressSurfaceInViewID == tr.viewDef->renderView.viewID ) {
 				continue;
 			}
-			if ( entity->parms.allowSurfaceInViewID 
+			if ( entity->parms.allowSurfaceInViewID
 					&& entity->parms.allowSurfaceInViewID != tr.viewDef->renderView.viewID ) {
 				continue;
 			}
@@ -740,7 +740,7 @@ void idRenderWorldLocal::AddAreaLightRefs( int areaNum, const portalStack_t *ps 
 		// a light that doesn't cast shadows will still light even if it is behind a door
 		if ( r_useLightCulling.GetInteger() >= 3 &&
 				!light->parms.noShadows && light->lightShader->LightCastsShadows()
-					&& light->areaNum != -1 && !tr.viewDef->connectedAreas[ light->areaNum ] ) {
+				&& light->areaNum != -1 && !tr.viewDef->connectedAreas[ light->areaNum ] ) {
 			continue;
 		}
 
@@ -794,7 +794,7 @@ void idRenderWorldLocal::BuildConnectedAreas_r( int areaNum ) {
 	// flood through all non-blocked portals
 	area = &portalAreas[ areaNum ];
 	for ( portal = area->portals ; portal ; portal = portal->next ) {
-		if ( !(portal->doublePortal->blockingBits & PS_BLOCK_VIEW) ) {
+		if ( !( portal->doublePortal->blockingBits & PS_BLOCK_VIEW ) ) {
 			BuildConnectedAreas_r( portal->intoArea );
 		}
 	}
@@ -810,8 +810,8 @@ This is only valid for a given view, not all views in a frame
 void idRenderWorldLocal::BuildConnectedAreas( void ) {
 	int		i;
 
-	tr.viewDef->connectedAreas = (bool *)R_FrameAlloc( numPortalAreas
-		* sizeof( tr.viewDef->connectedAreas[0] ) );
+	tr.viewDef->connectedAreas = ( bool * )R_FrameAlloc( numPortalAreas
+								 * sizeof( tr.viewDef->connectedAreas[0] ) );
 
 	// if we are outside the world, we can see all areas
 	if ( tr.viewDef->areaNum == -1 ) {
@@ -917,7 +917,7 @@ qhandle_t idRenderWorldLocal::FindPortal( const idBounds &b ) const {
 
 		wb.Clear();
 		for ( j = 0 ; j < w->GetNumPoints() ; j++ ) {
-			wb.AddPoint( (*w)[j].ToVec3() );
+			wb.AddPoint( ( *w )[j].ToVec3() );
 		}
 		if ( wb.IntersectsBounds( b ) ) {
 			return i + 1;
@@ -939,7 +939,7 @@ void	idRenderWorldLocal::FloodConnectedAreas( portalArea_t *area, int portalAttr
 	area->connectedAreaNum[portalAttributeIndex] = connectedAreaNum;
 
 	for ( portal_t *p = area->portals ; p ; p = p->next ) {
-		if ( !(p->doublePortal->blockingBits & (1<<portalAttributeIndex) ) ) {
+		if ( !( p->doublePortal->blockingBits & ( 1 << portalAttributeIndex ) ) ) {
 			FloodConnectedAreas( &portalAreas[p->intoArea], portalAttributeIndex );
 		}
 	}
@@ -961,14 +961,14 @@ bool	idRenderWorldLocal::AreasAreConnected( int areaNum1, int areaNum2, portalCo
 
 	int	attribute = 0;
 
-	int	intConnection = (int)connection;
+	int	intConnection = ( int )connection;
 
 	while ( intConnection > 1 ) {
 		attribute++;
 		intConnection >>= 1;
 	}
-	if ( attribute >= NUM_PORTAL_ATTRIBUTES || ( 1 << attribute ) != (int)connection ) {
-		common->Error( "idRenderWorldLocal::AreasAreConnected: bad connection number: %i\n", (int)connection );
+	if ( attribute >= NUM_PORTAL_ATTRIBUTES || ( 1 << attribute ) != ( int )connection ) {
+		common->Error( "idRenderWorldLocal::AreasAreConnected: bad connection number: %i\n", ( int )connection );
 	}
 
 	return portalAreas[areaNum1].connectedAreaNum[attribute] == portalAreas[areaNum2].connectedAreaNum[attribute];
@@ -990,18 +990,18 @@ void		idRenderWorldLocal::SetPortalState( qhandle_t portal, int blockTypes ) {
 	if ( portal < 1 || portal > numInterAreaPortals ) {
 		common->Error( "SetPortalState: bad portal number %i", portal );
 	}
-	int	old = doublePortals[portal-1].blockingBits;
+	int	old = doublePortals[portal - 1].blockingBits;
 	if ( old == blockTypes ) {
 		return;
 	}
-	doublePortals[portal-1].blockingBits = blockTypes;
+	doublePortals[portal - 1].blockingBits = blockTypes;
 
 	// leave the connectedAreaGroup the same on one side,
 	// then flood fill from the other side with a new number for each changed attribute
 	for ( int i = 0 ; i < NUM_PORTAL_ATTRIBUTES ; i++ ) {
 		if ( ( old ^ blockTypes ) & ( 1 << i ) ) {
 			connectedAreaNum++;
-			FloodConnectedAreas( &portalAreas[doublePortals[portal-1].portals[1]->intoArea], i );
+			FloodConnectedAreas( &portalAreas[doublePortals[portal - 1].portals[1]->intoArea], i );
 		}
 	}
 
@@ -1027,7 +1027,7 @@ int		idRenderWorldLocal::GetPortalState( qhandle_t portal ) {
 		common->Error( "GetPortalState: bad portal number %i", portal );
 	}
 
-	return doublePortals[portal-1].blockingBits;
+	return doublePortals[portal - 1].blockingBits;
 }
 
 /*
@@ -1065,7 +1065,7 @@ void idRenderWorldLocal::ShowPortals() {
 
 			qglBegin( GL_LINE_LOOP );
 			for ( j = 0 ; j < w->GetNumPoints() ; j++ ) {
-				qglVertex3fv( (*w)[j].ToFloatPtr() );
+				qglVertex3fv( ( *w )[j].ToFloatPtr() );
 			}
 			qglEnd();
 		}

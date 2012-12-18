@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -37,35 +37,35 @@ If you have questions concerning this license or the applicable additional terms
 
 
 bool idEditWindow::ParseInternalVar( const char *_name, idParser *src ) {
-	if ( idStr::Icmp( _name, "maxchars" ) == 0) {
+	if ( idStr::Icmp( _name, "maxchars" ) == 0 ) {
 		maxChars = src->ParseInt();
 		return true;
 	}
-	if ( idStr::Icmp( _name, "numeric" ) == 0) {
+	if ( idStr::Icmp( _name, "numeric" ) == 0 ) {
 		numeric = src->ParseBool();
 		return true;
 	}
-	if ( idStr::Icmp( _name, "wrap" ) == 0) {
+	if ( idStr::Icmp( _name, "wrap" ) == 0 ) {
 		wrap = src->ParseBool();
 		return true;
 	}
-	if ( idStr::Icmp( _name, "readonly" ) == 0) {
+	if ( idStr::Icmp( _name, "readonly" ) == 0 ) {
 		readonly = src->ParseBool();
 		return true;
 	}
-	if ( idStr::Icmp( _name, "forceScroll" ) == 0) {
+	if ( idStr::Icmp( _name, "forceScroll" ) == 0 ) {
 		forceScroll = src->ParseBool();
 		return true;
 	}
-	if ( idStr::Icmp( _name, "source" ) == 0) {
+	if ( idStr::Icmp( _name, "source" ) == 0 ) {
 		ParseString( src, sourceFile );
 		return true;
 	}
-	if ( idStr::Icmp( _name, "password" ) == 0 ) { 
+	if ( idStr::Icmp( _name, "password" ) == 0 ) {
 		password = src->ParseBool();
 		return true;
 	}
-	if ( idStr::Icmp( _name, "cvarMax" ) == 0) {
+	if ( idStr::Icmp( _name, "cvarMax" ) == 0 ) {
 		cvarMax = src->ParseInt();
 		return true;
 	}
@@ -73,7 +73,7 @@ bool idEditWindow::ParseInternalVar( const char *_name, idParser *src ) {
 	return idWindow::ParseInternalVar( _name, src );
 }
 
-idWinVar *idEditWindow::GetWinVarByName( const char *_name, bool fixup, drawWin_t** owner ) {
+idWinVar *idEditWindow::GetWinVarByName( const char *_name, bool fixup, drawWin_t **owner ) {
 	if ( idStr::Icmp( _name, "cvar" ) == 0 ) {
 		return &cvarStr;
 	}
@@ -107,17 +107,17 @@ void idEditWindow::CommonInit() {
 	liveUpdate = true;
 	readonly = false;
 
-	scroller = new idSliderWindow(dc, gui);
+	scroller = new idSliderWindow( dc, gui );
 }
 
 
-idEditWindow::idEditWindow( idDeviceContext *d, idUserInterfaceLocal *g ) : idWindow(d, g) {
+idEditWindow::idEditWindow( idDeviceContext *d, idUserInterfaceLocal *g ) : idWindow( d, g ) {
 	dc = d;
 	gui = g;
 	CommonInit();
 }
 
-idEditWindow::idEditWindow( idUserInterfaceLocal *g ) : idWindow(g) {
+idEditWindow::idEditWindow( idUserInterfaceLocal *g ) : idWindow( g ) {
 	gui = g;
 	CommonInit();
 }
@@ -145,9 +145,9 @@ void idEditWindow::Draw( int time, float x, float y ) {
 	float scale = textScale;
 
 	idStr		pass;
-	const char* buffer;
-	if ( password ) {		
-		const char* temp = text;
+	const char *buffer;
+	if ( password ) {
+		const char *temp = text;
 		for ( ; *temp; temp++ )	{
 			pass += "*";
 		}
@@ -172,7 +172,7 @@ void idEditWindow::Draw( int time, float x, float y ) {
 		rect.h = ( breaks.Num() + 1 ) * lineHeight;
 	}
 
-	if ( hover && !noEvents && Contains(gui->CursorX(), gui->CursorY()) ) {
+	if ( hover && !noEvents && Contains( gui->CursorX(), gui->CursorY() ) ) {
 		color = hoverColor;
 	} else {
 		hover = false;
@@ -181,7 +181,7 @@ void idEditWindow::Draw( int time, float x, float y ) {
 		color = hoverColor;
 	}
 
-	dc->DrawText( buffer, scale, 0, color, rect, wrap, (flags & WIN_FOCUS) ? cursorPos : -1);
+	dc->DrawText( buffer, scale, 0, color, rect, wrap, ( flags & WIN_FOCUS ) ? cursorPos : -1 );
 }
 
 /*
@@ -189,7 +189,7 @@ void idEditWindow::Draw( int time, float x, float y ) {
 idEditWindow::HandleEvent
 =============
 */
-const char *idEditWindow::HandleEvent(const sysEvent_t *event, bool *updateVisuals) {
+const char *idEditWindow::HandleEvent( const sysEvent_t *event, bool *updateVisuals ) {
 	static char buffer[ MAX_EDITFIELD ];
 	const char *ret = "";
 
@@ -221,7 +221,7 @@ const char *idEditWindow::HandleEvent(const sysEvent_t *event, bool *updateVisua
 		if ( maxChars && len > maxChars ) {
 			len = maxChars;
 		}
-	
+
 		if ( ( key == K_ENTER || key == K_KP_ENTER ) && event->evValue2 ) {
 			RunScript( ON_ACTION );
 			RunScript( ON_ENTER );
@@ -238,12 +238,12 @@ const char *idEditWindow::HandleEvent(const sysEvent_t *event, bool *updateVisua
 		}
 
 		if ( key == 'h' - 'a' + 1 || key == K_BACKSPACE ) {	// ctrl-h is backspace
-   			if ( cursorPos > 0 ) {
+			if ( cursorPos > 0 ) {
 				if ( cursorPos >= len ) {
 					buffer[len - 1] = 0;
 					cursorPos = len - 1;
 				} else {
-					memmove( &buffer[ cursorPos - 1 ], &buffer[ cursorPos ], len + 1 - cursorPos);
+					memmove( &buffer[ cursorPos - 1 ], &buffer[ cursorPos ], len + 1 - cursorPos );
 					cursorPos--;
 				}
 
@@ -253,29 +253,29 @@ const char *idEditWindow::HandleEvent(const sysEvent_t *event, bool *updateVisua
 			}
 
 			return "";
-   		}
+		}
 
-   		//
-   		// ignore any non printable chars (except enter when wrap is enabled)
-   		//
-		if ( wrap && (key == K_ENTER || key == K_KP_ENTER) ) {
+		//
+		// ignore any non printable chars (except enter when wrap is enabled)
+		//
+		if ( wrap && ( key == K_ENTER || key == K_KP_ENTER ) ) {
 		} else if ( !idStr::CharIsPrintable( key ) ) {
 			return "";
 		}
 
 		if ( numeric ) {
 			if ( ( key < '0' || key > '9' ) && key != '.' ) {
-	       		return "";
+				return "";
 			}
 		}
 
 		if ( dc->GetOverStrike() ) {
 			if ( maxChars && cursorPos >= maxChars ) {
-	       		return "";
+				return "";
 			}
 		} else {
 			if ( ( len == MAX_EDITFIELD - 1 ) || ( maxChars && len >= maxChars ) ) {
-	       		return "";
+				return "";
 			}
 			memmove( &buffer[ cursorPos + 1 ], &buffer[ cursorPos ], len + 1 - cursorPos );
 		}
@@ -302,7 +302,7 @@ const char *idEditWindow::HandleEvent(const sysEvent_t *event, bool *updateVisua
 				return ret;
 			}
 			if ( cursorPos < len ) {
-				memmove( &buffer[cursorPos], &buffer[cursorPos + 1], len - cursorPos);
+				memmove( &buffer[cursorPos], &buffer[cursorPos + 1], len - cursorPos );
 				text = buffer;
 				UpdateCvar( false );
 				RunScript( ON_ACTION );
@@ -314,11 +314,11 @@ const char *idEditWindow::HandleEvent(const sysEvent_t *event, bool *updateVisua
 			if ( cursorPos < len ) {
 				if ( idKeyInput::IsDown( K_CTRL ) ) {
 					// skip to next word
-					while( ( cursorPos < len ) && ( buffer[ cursorPos ] != ' ' ) ) {
+					while ( ( cursorPos < len ) && ( buffer[ cursorPos ] != ' ' ) ) {
 						cursorPos++;
 					}
 
-					while( ( cursorPos < len ) && ( buffer[ cursorPos ] == ' ' ) ) {
+					while ( ( cursorPos < len ) && ( buffer[ cursorPos ] == ' ' ) ) {
 						cursorPos++;
 					}
 				} else {
@@ -326,7 +326,7 @@ const char *idEditWindow::HandleEvent(const sysEvent_t *event, bool *updateVisua
 						cursorPos++;
 					}
 				}
-			} 
+			}
 
 			EnsureCursorVisible();
 
@@ -336,11 +336,11 @@ const char *idEditWindow::HandleEvent(const sysEvent_t *event, bool *updateVisua
 		if ( key == K_LEFTARROW ) {
 			if ( idKeyInput::IsDown( K_CTRL ) ) {
 				// skip to previous word
-				while( ( cursorPos > 0 ) && ( buffer[ cursorPos - 1 ] == ' ' ) ) {
+				while ( ( cursorPos > 0 ) && ( buffer[ cursorPos - 1 ] == ' ' ) ) {
 					cursorPos--;
 				}
 
-				while( ( cursorPos > 0 ) && ( buffer[ cursorPos - 1 ] != ' ' ) ) {
+				while ( ( cursorPos > 0 ) && ( buffer[ cursorPos - 1 ] != ' ' ) ) {
 					cursorPos--;
 				}
 			} else {
@@ -356,7 +356,7 @@ const char *idEditWindow::HandleEvent(const sysEvent_t *event, bool *updateVisua
 
 		if ( key == K_HOME ) {
 			if ( idKeyInput::IsDown( K_CTRL ) || cursorLine <= 0 || ( cursorLine >= breaks.Num() ) ) {
-                cursorPos = 0;
+				cursorPos = 0;
 			} else {
 				cursorPos = breaks[cursorLine];
 			}
@@ -365,7 +365,7 @@ const char *idEditWindow::HandleEvent(const sysEvent_t *event, bool *updateVisua
 		}
 
 		if ( key == K_END )  {
-			if ( idKeyInput::IsDown( K_CTRL ) || (cursorLine < -1) || ( cursorLine >= breaks.Num() - 1 ) ) {
+			if ( idKeyInput::IsDown( K_CTRL ) || ( cursorLine < -1 ) || ( cursorLine >= breaks.Num() - 1 ) ) {
 				cursorPos = len;
 			} else {
 				cursorPos = breaks[cursorLine + 1] - 1;
@@ -393,7 +393,7 @@ const char *idEditWindow::HandleEvent(const sysEvent_t *event, bool *updateVisua
 			}
 		}
 
-		if (key == K_UPARROW ) {
+		if ( key == K_UPARROW ) {
 			if ( idKeyInput::IsDown( K_CTRL ) ) {
 				scroller->SetValue( scroller->GetValue() - 1.0f );
 			} else {
@@ -437,12 +437,12 @@ void idEditWindow::PostParse() {
 	if ( sourceFile.Length() ) {
 		void *buffer;
 		fileSystem->ReadFile( sourceFile, &buffer );
-		text = (char *) buffer;
+		text = ( char * ) buffer;
 		fileSystem->FreeFile( buffer );
 	}
 
 	InitCvar();
-	InitScroller(false);
+	InitScroller( false );
 
 	EnsureCursorVisible();
 
@@ -456,13 +456,12 @@ idEditWindow::InitScroller
 This is the same as in idListWindow
 ================
 */
-void idEditWindow::InitScroller( bool horizontal )
-{
+void idEditWindow::InitScroller( bool horizontal ) {
 	const char *thumbImage = "guis/assets/scrollbar_thumb.tga";
 	const char *barImage = "guis/assets/scrollbarv.tga";
 	const char *scrollerName = "_scrollerWinV";
 
-	if (horizontal) {
+	if ( horizontal ) {
 		barImage = "guis/assets/scrollbarh.tga";
 		scrollerName = "_scrollerWinH";
 	}
@@ -472,29 +471,28 @@ void idEditWindow::InitScroller( bool horizontal )
 	sizeBias = mat->GetImageWidth();
 
 	idRectangle scrollRect;
-	if (horizontal) {
+	if ( horizontal ) {
 		sizeBias = mat->GetImageHeight();
 		scrollRect.x = 0;
-		scrollRect.y = (clientRect.h - sizeBias);
+		scrollRect.y = ( clientRect.h - sizeBias );
 		scrollRect.w = clientRect.w;
 		scrollRect.h = sizeBias;
 	} else {
-		scrollRect.x = (clientRect.w - sizeBias);
+		scrollRect.x = ( clientRect.w - sizeBias );
 		scrollRect.y = 0;
 		scrollRect.w = sizeBias;
 		scrollRect.h = clientRect.h;
 	}
 
-	scroller->InitWithDefaults(scrollerName, scrollRect, foreColor, matColor, mat->GetName(), thumbImage, !horizontal, true);
-	InsertChild(scroller, NULL);
-	scroller->SetBuddy(this);
+	scroller->InitWithDefaults( scrollerName, scrollRect, foreColor, matColor, mat->GetName(), thumbImage, !horizontal, true );
+	InsertChild( scroller, NULL );
+	scroller->SetBuddy( this );
 }
 
 void idEditWindow::HandleBuddyUpdate( idWindow *buddy ) {
 }
 
-void idEditWindow::EnsureCursorVisible()
-{
+void idEditWindow::EnsureCursorVisible() {
 	if ( readonly ) {
 		cursorPos = -1;
 	} else if ( maxChars == 1 ) {
@@ -529,13 +527,13 @@ void idEditWindow::EnsureCursorVisible()
 			// When we go past the left side, we want the text to jump 6 characters
 			paintOffset = left - maxWidth * 6;
 		}
-		if ( paintOffset <  right) {
+		if ( paintOffset <  right ) {
 			paintOffset = right;
 		}
 		if ( paintOffset < 0 ) {
 			paintOffset = 0;
 		}
-		scroller->SetRange(0.0f, 0.0f, 1.0f);
+		scroller->SetRange( 0.0f, 0.0f, 1.0f );
 
 	} else {
 		// Word wrap
@@ -543,14 +541,14 @@ void idEditWindow::EnsureCursorVisible()
 		breaks.Clear();
 		idRectangle rect = textRect;
 		rect.w -= sizeBias;
-		dc->DrawText(text, textScale, textAlign, colorWhite, rect, true, (flags & WIN_FOCUS) ? cursorPos : -1, true, &breaks );
+		dc->DrawText( text, textScale, textAlign, colorWhite, rect, true, ( flags & WIN_FOCUS ) ? cursorPos : -1, true, &breaks );
 
-		int fit = textRect.h / (GetMaxCharHeight() + 5);
+		int fit = textRect.h / ( GetMaxCharHeight() + 5 );
 		if ( fit < breaks.Num() + 1 ) {
-			scroller->SetRange(0, breaks.Num() + 1 - fit, 1);
+			scroller->SetRange( 0, breaks.Num() + 1 - fit, 1 );
 		} else {
 			// The text fits completely in the box
-			scroller->SetRange(0.0f, 0.0f, 1.0f);
+			scroller->SetRange( 0.0f, 0.0f, 1.0f );
 		}
 
 		if ( forceScroll ) {
@@ -568,15 +566,15 @@ void idEditWindow::EnsureCursorVisible()
 			int topLine = idMath::FtoiFast( scroller->GetValue() );
 			if ( cursorLine < topLine ) {
 				scroller->SetValue( cursorLine );
-			} else if ( cursorLine >= topLine + fit) {
+			} else if ( cursorLine >= topLine + fit ) {
 				scroller->SetValue( ( cursorLine - fit ) + 1 );
 			}
 		}
 	}
 }
 
-void idEditWindow::Activate(bool activate, idStr &act) {
-	idWindow::Activate(activate, act);
+void idEditWindow::Activate( bool activate, idStr &act ) {
+	idWindow::Activate( activate, act );
 	if ( activate ) {
 		UpdateCvar( true, true );
 		EnsureCursorVisible();
@@ -629,9 +627,9 @@ void idEditWindow::UpdateCvar( bool read, bool force ) {
 idEditWindow::RunNamedEvent
 ============
 */
-void idEditWindow::RunNamedEvent( const char* eventName ) {
+void idEditWindow::RunNamedEvent( const char *eventName ) {
 	idStr event, group;
-	
+
 	if ( !idStr::Cmpn( eventName, "cvar read ", 10 ) ) {
 		event = eventName;
 		group = event.Mid( 10, event.Length() - 10 );

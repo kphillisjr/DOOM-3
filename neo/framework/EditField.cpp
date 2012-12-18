@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -69,7 +69,7 @@ static void FindIndexMatch( const char *s ) {
 		return;
 	}
 
-	if( globalAutoComplete.findMatchIndex == globalAutoComplete.matchIndex ) {
+	if ( globalAutoComplete.findMatchIndex == globalAutoComplete.matchIndex ) {
 		idStr::Copynz( globalAutoComplete.currentMatch, s, sizeof( globalAutoComplete.currentMatch ) );
 	}
 
@@ -164,7 +164,7 @@ idEditField::ClearAutoComplete
 ===============
 */
 void idEditField::ClearAutoComplete( void ) {
-	if ( autoComplete.length > 0 && autoComplete.length <= (int) strlen( buffer ) ) {
+	if ( autoComplete.length > 0 && autoComplete.length <= ( int ) strlen( buffer ) ) {
 		buffer[autoComplete.length] = '\0';
 		if ( cursor > autoComplete.length ) {
 			cursor = autoComplete.length;
@@ -283,7 +283,7 @@ void idEditField::AutoComplete( void ) {
 
 		// and print it
 		idStr::snPrintf( buffer, sizeof( buffer ), autoComplete.currentMatch );
-		if ( autoComplete.length > (int)strlen( buffer ) ) {
+		if ( autoComplete.length > ( int )strlen( buffer ) ) {
 			autoComplete.length = strlen( buffer );
 		}
 		SetCursor( autoComplete.length );
@@ -340,7 +340,7 @@ void idEditField::CharEvent( int ch ) {
 		return;
 	}
 
-	if ( idKeyInput::GetOverstrikeMode() ) {	
+	if ( idKeyInput::GetOverstrikeMode() ) {
 		if ( cursor == MAX_EDIT_LINE - 1 ) {
 			return;
 		}
@@ -394,11 +394,11 @@ void idEditField::KeyDownEvent( int key ) {
 	if ( key == K_RIGHTARROW ) {
 		if ( idKeyInput::IsDown( K_CTRL ) ) {
 			// skip to next word
-			while( ( cursor < len ) && ( buffer[ cursor ] != ' ' ) ) {
+			while ( ( cursor < len ) && ( buffer[ cursor ] != ' ' ) ) {
 				cursor++;
 			}
 
-			while( ( cursor < len ) && ( buffer[ cursor ] == ' ' ) ) {
+			while ( ( cursor < len ) && ( buffer[ cursor ] == ' ' ) ) {
 				cursor++;
 			}
 		} else {
@@ -422,11 +422,11 @@ void idEditField::KeyDownEvent( int key ) {
 	if ( key == K_LEFTARROW ) {
 		if ( idKeyInput::IsDown( K_CTRL ) ) {
 			// skip to previous word
-			while( ( cursor > 0 ) && ( buffer[ cursor - 1 ] == ' ' ) ) {
+			while ( ( cursor > 0 ) && ( buffer[ cursor - 1 ] == ' ' ) ) {
 				cursor--;
 			}
 
-			while( ( cursor > 0 ) && ( buffer[ cursor - 1 ] != ' ' ) ) {
+			while ( ( cursor > 0 ) && ( buffer[ cursor - 1 ] != ' ' ) ) {
 				cursor--;
 			}
 		} else {
@@ -554,7 +554,7 @@ void idEditField::Draw( int x, int y, int width, bool showCursor, const idMateri
 		prestep = scroll;
 
 		// Skip color code
-		if ( idStr::IsColor( buffer + prestep ) ) { 
+		if ( idStr::IsColor( buffer + prestep ) ) {
 			prestep += 2;
 		}
 		if ( prestep > 0 && idStr::IsColor( buffer + prestep - 1 ) ) {
@@ -582,7 +582,7 @@ void idEditField::Draw( int x, int y, int width, bool showCursor, const idMateri
 		return;
 	}
 
-	if ( (int)( com_ticNumber >> 4 ) & 1 ) {
+	if ( ( int )( com_ticNumber >> 4 ) & 1 ) {
 		return;		// off blink
 	}
 
@@ -593,7 +593,7 @@ void idEditField::Draw( int x, int y, int width, bool showCursor, const idMateri
 	}
 
 	// Move the cursor back to account for color codes
-	for ( int i = 0; i<cursor; i++ ) {
+	for ( int i = 0; i < cursor; i++ ) {
 		if ( idStr::IsColor( &str[i] ) ) {
 			i++;
 			prestep += 2;

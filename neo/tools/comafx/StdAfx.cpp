@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -72,7 +72,7 @@ void InitAfx( void ) {
 DefaultOnToolHitTest
 ================
 */
-int DefaultOnToolHitTest( const toolTip_t *toolTips, const CDialog *dialog, CPoint point, TOOLINFO* pTI ) {
+int DefaultOnToolHitTest( const toolTip_t *toolTips, const CDialog *dialog, CPoint point, TOOLINFO *pTI ) {
 	CWnd *wnd;
 	RECT clientRect, rect;
 
@@ -89,7 +89,7 @@ int DefaultOnToolHitTest( const toolTip_t *toolTips, const CDialog *dialog, CPoi
 			pTI->hwnd = dialog->GetSafeHwnd();
 			pTI->uFlags |= TTF_IDISHWND;
 			pTI->uFlags &= ~TTF_CENTERTIP;
-			pTI->uId = (UINT_PTR) wnd->GetSafeHwnd();
+			pTI->uId = ( UINT_PTR ) wnd->GetSafeHwnd();
 			return pTI->uId;
 		}
 	}
@@ -103,15 +103,15 @@ DefaultOnToolTipNotify
 */
 BOOL DefaultOnToolTipNotify( const toolTip_t *toolTips, UINT id, NMHDR *pNMHDR, LRESULT *pResult ) {
 	// need to handle both ANSI and UNICODE versions of the message
-	TOOLTIPTEXTA* pTTTA = (TOOLTIPTEXTA*)pNMHDR;
-	TOOLTIPTEXTW* pTTTW = (TOOLTIPTEXTW*)pNMHDR;
+	TOOLTIPTEXTA *pTTTA = ( TOOLTIPTEXTA * )pNMHDR;
+	TOOLTIPTEXTW *pTTTW = ( TOOLTIPTEXTW * )pNMHDR;
 
 	*pResult = 0;
 
 	UINT nID = pNMHDR->idFrom;
 	if ( pTTTA->uFlags & TTF_IDISHWND ) {
 		// idFrom is actually the HWND of the tool
-		nID = ::GetDlgCtrlID((HWND)nID);
+		nID = ::GetDlgCtrlID( ( HWND )nID );
 	}
 
 	int i;
@@ -126,9 +126,9 @@ BOOL DefaultOnToolTipNotify( const toolTip_t *toolTips, UINT id, NMHDR *pNMHDR, 
 	}
 
 	if ( pNMHDR->code == TTN_NEEDTEXTA ) {
-		lstrcpyn( pTTTA->szText, toolTips[i].tip, sizeof(pTTTA->szText) );
+		lstrcpyn( pTTTA->szText, toolTips[i].tip, sizeof( pTTTA->szText ) );
 	} else {
-		_mbstowcsz( pTTTW->szText, toolTips[i].tip, sizeof(pTTTW->szText) );
+		_mbstowcsz( pTTTW->szText, toolTips[i].tip, sizeof( pTTTW->szText ) );
 	}
 	return TRUE;
 }
@@ -189,15 +189,14 @@ float EditVerifyFloat( CEdit *edit, bool allowNegative ) {
 		else if ( !dot && strIn[i] == '.' ) {
 			strOut.AppendChar( strIn[i] );
 			dot = true;
-		}
-		else if ( strIn[i] >= '0' && strIn[i] <= '9' ) {
+		} else if ( strIn[i] >= '0' && strIn[i] <= '9' ) {
 			strOut.AppendChar( strIn[i] );
 		}
 	}
 	edit->SetWindowText( strOut );
 	edit->SetSel( start, end );
 
-	return atof(strOut.GetBuffer(0));
+	return atof( strOut.GetBuffer( 0 ) );
 
 }
 
@@ -214,8 +213,7 @@ void SpinFloatString( CString &str, bool up ) {
 			if ( dotIndex == -1 ) {
 				dotIndex = i;
 			}
-		}
-		else if ( str[i] != '0' ) {
+		} else if ( str[i] != '0' ) {
 			if ( digitIndex == -1 ) {
 				digitIndex = i;
 			}
@@ -231,8 +229,7 @@ void SpinFloatString( CString &str, bool up ) {
 		if ( digitIndex > dotIndex ) {
 			digitIndex--;
 		}
-	}
-	else {
+	} else {
 		dotIndex = i;
 	}
 
@@ -242,49 +239,43 @@ void SpinFloatString( CString &str, bool up ) {
 			if ( digitIndex == 0 ) {
 				str.Insert( 0, '1' );
 				dotIndex++;
+			} else {
+				str.SetAt( digitIndex - 1, '1' );
 			}
-			else {
-				str.SetAt( digitIndex-1, '1' );
-			}
-		}
-		else {
+		} else {
 			str.SetAt( digitIndex, str[digitIndex] + 1 );
 		}
-	}
-	else {
+	} else {
 		if ( str[digitIndex] == '1' ) {
-			if ( str[digitIndex+1] == '\0' ) {
+			if ( str[digitIndex + 1] == '\0' ) {
 				str.SetAt( digitIndex, '0' );
 				str.AppendChar( '9' );
-			}
-			else if ( str[digitIndex+1] == '0' ) {
+			} else if ( str[digitIndex + 1] == '0' ) {
 				str.SetAt( digitIndex, '0' );
-				str.SetAt( digitIndex+1, '9' );
+				str.SetAt( digitIndex + 1, '9' );
+			} else {
+				str.SetAt( digitIndex + 1, str[digitIndex + 1] - 1 );
 			}
-			else {
-				str.SetAt( digitIndex+1, str[digitIndex+1] - 1 );
-			}
-		}
-		else {
+		} else {
 			str.SetAt( digitIndex, str[digitIndex] - 1 );
 		}
 	}
 	if ( dotIndex < str.GetLength() ) {
 		str.Insert( dotIndex, '.' );
 		// remove trailing zeros
-		for ( i = str.GetLength()-1; i >= 0; i-- ) {
+		for ( i = str.GetLength() - 1; i >= 0; i-- ) {
 			if ( str[i] != '0' && str[i] != '.' ) {
 				break;
 			}
 		}
 		if ( i < str.GetLength() - 1 ) {
-			str.Delete( i+1, str.GetLength() - i );
+			str.Delete( i + 1, str.GetLength() - i );
 		}
 	}
 	for ( i = 0; str[i]; i++ ) {
 		if ( str[i] == '.' ) {
 			if ( i > 1 ) {
-				str.Delete( 0, i-1 );
+				str.Delete( 0, i - 1 );
 			}
 			break;
 		}
@@ -350,8 +341,7 @@ int GetSafeComboBoxSelection( CComboBox *combo, CString &string, int skip ) {
 			index = ( skip + 1 ) % combo->GetCount();
 		}
 		combo->GetLBText( index, string );
-	}
-	else {
+	} else {
 		string = "";
 	}
 

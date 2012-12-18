@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -44,7 +44,7 @@ void idSliderWindow::CommonInit() {
 	low = 0.0;
 	high = 100.0;
 	stepSize = 1.0;
-	thumbMat = declManager->FindMaterial("_default");
+	thumbMat = declManager->FindMaterial( "_default" );
 	buddyWin = NULL;
 
 	cvar = NULL;
@@ -57,13 +57,13 @@ void idSliderWindow::CommonInit() {
 	verticalFlip = false;
 }
 
-idSliderWindow::idSliderWindow(idDeviceContext *d, idUserInterfaceLocal *g) : idWindow(d, g) {
+idSliderWindow::idSliderWindow( idDeviceContext *d, idUserInterfaceLocal *g ) : idWindow( d, g ) {
 	dc = d;
 	gui = g;
 	CommonInit();
 }
 
-idSliderWindow::idSliderWindow(idUserInterfaceLocal *g) : idWindow(g) {
+idSliderWindow::idSliderWindow( idUserInterfaceLocal *g ) : idWindow( g ) {
 	gui = g;
 	CommonInit();
 }
@@ -72,45 +72,45 @@ idSliderWindow::~idSliderWindow() {
 
 }
 
-bool idSliderWindow::ParseInternalVar(const char *_name, idParser *src) {
-	if (idStr::Icmp(_name, "stepsize") == 0 || idStr::Icmp(_name, "step") == 0) {
+bool idSliderWindow::ParseInternalVar( const char *_name, idParser *src ) {
+	if ( idStr::Icmp( _name, "stepsize" ) == 0 || idStr::Icmp( _name, "step" ) == 0 ) {
 		stepSize = src->ParseFloat();
 		return true;
 	}
-	if (idStr::Icmp(_name, "low") == 0) {
+	if ( idStr::Icmp( _name, "low" ) == 0 ) {
 		low = src->ParseFloat();
 		return true;
 	}
-	if (idStr::Icmp(_name, "high") == 0) {
+	if ( idStr::Icmp( _name, "high" ) == 0 ) {
 		high = src->ParseFloat();
 		return true;
 	}
-	if (idStr::Icmp(_name, "vertical") == 0) {
+	if ( idStr::Icmp( _name, "vertical" ) == 0 ) {
 		vertical = src->ParseBool();
 		return true;
 	}
-	if (idStr::Icmp(_name, "verticalflip") == 0) {
+	if ( idStr::Icmp( _name, "verticalflip" ) == 0 ) {
 		verticalFlip = src->ParseBool();
 		return true;
 	}
-	if (idStr::Icmp(_name, "scrollbar") == 0) {
+	if ( idStr::Icmp( _name, "scrollbar" ) == 0 ) {
 		scrollbar = src->ParseBool();
 		return true;
 	}
-	if (idStr::Icmp(_name, "thumbshader") == 0) {
-		ParseString(src, thumbShader);
-		declManager->FindMaterial(thumbShader);
+	if ( idStr::Icmp( _name, "thumbshader" ) == 0 ) {
+		ParseString( src, thumbShader );
+		declManager->FindMaterial( thumbShader );
 		return true;
 	}
-	return idWindow::ParseInternalVar(_name, src);
+	return idWindow::ParseInternalVar( _name, src );
 }
 
-idWinVar *idSliderWindow::GetWinVarByName(const char *_name, bool fixup, drawWin_t** owner) {
- 
-	if (idStr::Icmp(_name, "value") == 0) {
+idWinVar *idSliderWindow::GetWinVarByName( const char *_name, bool fixup, drawWin_t **owner ) {
+
+	if ( idStr::Icmp( _name, "value" ) == 0 ) {
 		return &value;
 	}
-	if (idStr::Icmp(_name, "cvar") == 0) {
+	if ( idStr::Icmp( _name, "cvar" ) == 0 ) {
 		return &cvarStr;
 	}
 	if ( idStr::Icmp( _name, "liveUpdate" ) == 0 ) {
@@ -119,23 +119,23 @@ idWinVar *idSliderWindow::GetWinVarByName(const char *_name, bool fixup, drawWin
 	if ( idStr::Icmp( _name, "cvarGroup" ) == 0 ) {
 		return &cvarGroup;
 	}
-	
-	return idWindow::GetWinVarByName(_name, fixup, owner);
+
+	return idWindow::GetWinVarByName( _name, fixup, owner );
 }
 
-const char *idSliderWindow::HandleEvent(const sysEvent_t *event, bool *updateVisuals) {
+const char *idSliderWindow::HandleEvent( const sysEvent_t *event, bool *updateVisuals ) {
 
-	if (!(event->evType == SE_KEY && event->evValue2)) {
+	if ( !( event->evType == SE_KEY && event->evValue2 ) ) {
 		return "";
 	}
 
 	int key = event->evValue;
 
 	if ( event->evValue2 && key == K_MOUSE1 ) {
-		SetCapture(this);
-		RouteMouseCoords(0.0f, 0.0f);
+		SetCapture( this );
+		RouteMouseCoords( 0.0f, 0.0f );
 		return "";
-	} 
+	}
 
 	if ( key == K_RIGHTARROW || key == K_KP_RIGHTARROW || ( key == K_MOUSE2 && gui->CursorY() > thumbRect.y ) )  {
 		value = value + stepSize;
@@ -145,8 +145,8 @@ const char *idSliderWindow::HandleEvent(const sysEvent_t *event, bool *updateVis
 		value = value - stepSize;
 	}
 
-	if (buddyWin) {
-		buddyWin->HandleBuddyUpdate(this);
+	if ( buddyWin ) {
+		buddyWin->HandleBuddyUpdate( this );
 	} else {
 		gui->SetStateFloat( cvarStr, value );
 		UpdateCvar( false );
@@ -156,50 +156,50 @@ const char *idSliderWindow::HandleEvent(const sysEvent_t *event, bool *updateVis
 }
 
 
-void idSliderWindow::SetBuddy(idWindow *buddy) {
+void idSliderWindow::SetBuddy( idWindow *buddy ) {
 	buddyWin = buddy;
 }
 
 void idSliderWindow::PostParse() {
 	idWindow::PostParse();
 	value = 0.0;
-	thumbMat = declManager->FindMaterial(thumbShader);
+	thumbMat = declManager->FindMaterial( thumbShader );
 	thumbMat->SetSort( SS_GUI );
 	thumbWidth = thumbMat->GetImageWidth();
 	thumbHeight = thumbMat->GetImageHeight();
 	//vertical = state.GetBool("vertical");
 	//scrollbar = state.GetBool("scrollbar");
-	flags |= (WIN_HOLDCAPTURE | WIN_CANFOCUS);
+	flags |= ( WIN_HOLDCAPTURE | WIN_CANFOCUS );
 	InitCvar();
 }
 
-void idSliderWindow::InitWithDefaults(const char *_name, const idRectangle &_rect, const idVec4 &_foreColor, const idVec4 &_matColor, const char *_background, const char *thumbShader, bool _vertical, bool _scrollbar) {
-	SetInitialState(_name);
+void idSliderWindow::InitWithDefaults( const char *_name, const idRectangle &_rect, const idVec4 &_foreColor, const idVec4 &_matColor, const char *_background, const char *thumbShader, bool _vertical, bool _scrollbar ) {
+	SetInitialState( _name );
 	rect = _rect;
 	foreColor = _foreColor;
 	matColor = _matColor;
-	thumbMat = declManager->FindMaterial(thumbShader);
+	thumbMat = declManager->FindMaterial( thumbShader );
 	thumbMat->SetSort( SS_GUI );
 	thumbWidth = thumbMat->GetImageWidth();
 	thumbHeight = thumbMat->GetImageHeight();
-	background = declManager->FindMaterial(_background);
+	background = declManager->FindMaterial( _background );
 	background->SetSort( SS_GUI );
 	vertical = _vertical;
 	scrollbar = _scrollbar;
 	flags |= WIN_HOLDCAPTURE;
 }
 
-void idSliderWindow::SetRange(float _low, float _high, float _step) {
+void idSliderWindow::SetRange( float _low, float _high, float _step ) {
 	low = _low;
 	high = _high;
 	stepSize = _step;
 }
 
-void idSliderWindow::SetValue(float _value) {
+void idSliderWindow::SetValue( float _value ) {
 	value = _value;
 }
 
-void idSliderWindow::Draw(int time, float x, float y) {
+void idSliderWindow::Draw( int time, float x, float y ) {
 	idVec4 color = foreColor;
 
 	if ( !cvar && !buddyWin ) {
@@ -224,8 +224,8 @@ void idSliderWindow::Draw(int time, float x, float y) {
 		return;
 	}
 
-	float thumbPos = (range) ? (value - low) / range : 0.0;
-	if (vertical) {
+	float thumbPos = ( range ) ? ( value - low ) / range : 0.0;
+	if ( vertical ) {
 		if ( verticalFlip ) {
 			thumbPos = 1.f - thumbPos;
 		}
@@ -242,7 +242,7 @@ void idSliderWindow::Draw(int time, float x, float y) {
 	thumbRect.w = thumbWidth;
 	thumbRect.h = thumbHeight;
 
-	if ( hover && !noEvents && Contains(gui->CursorX(), gui->CursorY()) ) {
+	if ( hover && !noEvents && Contains( gui->CursorX(), gui->CursorY() ) ) {
 		color = hoverColor;
 	} else {
 		hover = false;
@@ -252,14 +252,14 @@ void idSliderWindow::Draw(int time, float x, float y) {
 		hover = true;
 	}
 
-	dc->DrawMaterial(thumbRect.x, thumbRect.y, thumbRect.w, thumbRect.h, thumbMat, color);
+	dc->DrawMaterial( thumbRect.x, thumbRect.y, thumbRect.w, thumbRect.h, thumbMat, color );
 	if ( flags & WIN_FOCUS ) {
-		dc->DrawRect(thumbRect.x+1.0f, thumbRect.y+1.0f, thumbRect.w-2.0f, thumbRect.h-2.0f, 1.0f, color);
+		dc->DrawRect( thumbRect.x + 1.0f, thumbRect.y + 1.0f, thumbRect.w - 2.0f, thumbRect.h - 2.0f, 1.0f, color );
 	}
 }
 
 
-void idSliderWindow::DrawBackground(const idRectangle &_drawRect) {
+void idSliderWindow::DrawBackground( const idRectangle &_drawRect ) {
 	if ( !cvar && !buddyWin ) {
 		return;
 	}
@@ -269,7 +269,7 @@ void idSliderWindow::DrawBackground(const idRectangle &_drawRect) {
 	}
 
 	idRectangle r = _drawRect;
-	if (!scrollbar) {
+	if ( !scrollbar ) {
 		if ( vertical ) {
 			r.y += thumbHeight / 2.f;
 			r.h -= thumbHeight;
@@ -278,13 +278,13 @@ void idSliderWindow::DrawBackground(const idRectangle &_drawRect) {
 			r.w -= thumbWidth;
 		}
 	}
-	idWindow::DrawBackground(r);
+	idWindow::DrawBackground( r );
 }
 
-const char *idSliderWindow::RouteMouseCoords(float xd, float yd) {
+const char *idSliderWindow::RouteMouseCoords( float xd, float yd ) {
 	float pct;
 
-	if (!(flags & WIN_CAPTURE)) {
+	if ( !( flags & WIN_CAPTURE ) ) {
 		return "";
 	}
 
@@ -293,16 +293,16 @@ const char *idSliderWindow::RouteMouseCoords(float xd, float yd) {
 	r.y = actualY;
 	r.x += thumbWidth / 2.0;
 	r.w -= thumbWidth;
-	if (vertical) {
+	if ( vertical ) {
 		r.y += thumbHeight / 2;
 		r.h -= thumbHeight;
-		if (gui->CursorY() >= r.y && gui->CursorY() <= r.Bottom()) {
-			pct = (gui->CursorY() - r.y) / r.h;
+		if ( gui->CursorY() >= r.y && gui->CursorY() <= r.Bottom() ) {
+			pct = ( gui->CursorY() - r.y ) / r.h;
 			if ( verticalFlip ) {
 				pct = 1.f - pct;
 			}
-			value = low + (high - low) * pct;
-		} else if (gui->CursorY() < r.y) {
+			value = low + ( high - low ) * pct;
+		} else if ( gui->CursorY() < r.y ) {
 			if ( verticalFlip ) {
 				value = high;
 			} else {
@@ -318,18 +318,18 @@ const char *idSliderWindow::RouteMouseCoords(float xd, float yd) {
 	} else {
 		r.x += thumbWidth / 2;
 		r.w -= thumbWidth;
-		if (gui->CursorX() >= r.x && gui->CursorX() <= r.Right()) {
-			pct = (gui->CursorX() - r.x) / r.w;
-			value = low + (high - low) * pct;
-		} else if (gui->CursorX() < r.x) {
+		if ( gui->CursorX() >= r.x && gui->CursorX() <= r.Right() ) {
+			pct = ( gui->CursorX() - r.x ) / r.w;
+			value = low + ( high - low ) * pct;
+		} else if ( gui->CursorX() < r.x ) {
 			value = low;
 		} else {
 			value = high;
 		}
 	}
 
-	if (buddyWin) {
-		buddyWin->HandleBuddyUpdate(this);
+	if ( buddyWin ) {
+		buddyWin->HandleBuddyUpdate( this );
 	} else {
 		gui->SetStateFloat( cvarStr, value );
 	}
@@ -339,8 +339,8 @@ const char *idSliderWindow::RouteMouseCoords(float xd, float yd) {
 }
 
 
-void idSliderWindow::Activate(bool activate, idStr &act) {
-	idWindow::Activate(activate, act);
+void idSliderWindow::Activate( bool activate, idStr &act ) {
+	idWindow::Activate( activate, act );
 	if ( activate ) {
 		UpdateCvar( true, true );
 	}
@@ -396,9 +396,9 @@ void idSliderWindow::UpdateCvar( bool read, bool force ) {
 idSliderWindow::RunNamedEvent
 ============
 */
-void idSliderWindow::RunNamedEvent( const char* eventName ) {
+void idSliderWindow::RunNamedEvent( const char *eventName ) {
 	idStr event, group;
-	
+
 	if ( !idStr::Cmpn( eventName, "cvar read ", 10 ) ) {
 		event = eventName;
 		group = event.Mid( 10, event.Length() - 10 );

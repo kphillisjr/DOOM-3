@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -111,8 +111,7 @@ void idPhysics_Actor::SetClipModelAxis( void ) {
 	// align clip model to gravity direction
 	if ( ( gravityNormal[2] == -1.0f ) || ( gravityNormal == vec3_zero ) ) {
 		clipModelAxis.Identity();
-	}
-	else {
+	} else {
 		clipModelAxis[2] = -gravityNormal;
 		clipModelAxis[2].NormalVectors( clipModelAxis[0], clipModelAxis[1] );
 		clipModelAxis[1] = -clipModelAxis[1];
@@ -289,12 +288,11 @@ idPhysics_Actor::ClipTranslation
 void idPhysics_Actor::ClipTranslation( trace_t &results, const idVec3 &translation, const idClipModel *model ) const {
 	if ( model ) {
 		gameLocal.clip.TranslationModel( results, clipModel->GetOrigin(), clipModel->GetOrigin() + translation,
-								clipModel, clipModel->GetAxis(), clipMask,
-								model->Handle(), model->GetOrigin(), model->GetAxis() );
-	}
-	else {
+										 clipModel, clipModel->GetAxis(), clipMask,
+										 model->Handle(), model->GetOrigin(), model->GetAxis() );
+	} else {
 		gameLocal.clip.Translation( results, clipModel->GetOrigin(), clipModel->GetOrigin() + translation,
-								clipModel, clipModel->GetAxis(), clipMask, self );
+									clipModel, clipModel->GetAxis(), clipMask, self );
 	}
 }
 
@@ -306,12 +304,11 @@ idPhysics_Actor::ClipRotation
 void idPhysics_Actor::ClipRotation( trace_t &results, const idRotation &rotation, const idClipModel *model ) const {
 	if ( model ) {
 		gameLocal.clip.RotationModel( results, clipModel->GetOrigin(), rotation,
-								clipModel, clipModel->GetAxis(), clipMask,
-								model->Handle(), model->GetOrigin(), model->GetAxis() );
-	}
-	else {
+									  clipModel, clipModel->GetAxis(), clipMask,
+									  model->Handle(), model->GetOrigin(), model->GetAxis() );
+	} else {
 		gameLocal.clip.Rotation( results, clipModel->GetOrigin(), rotation,
-								clipModel, clipModel->GetAxis(), clipMask, self );
+								 clipModel, clipModel->GetAxis(), clipMask, self );
 	}
 }
 
@@ -323,9 +320,8 @@ idPhysics_Actor::ClipContents
 int idPhysics_Actor::ClipContents( const idClipModel *model ) const {
 	if ( model ) {
 		return gameLocal.clip.ContentsModel( clipModel->GetOrigin(), clipModel, clipModel->GetAxis(), -1,
-									model->Handle(), model->GetOrigin(), model->GetAxis() );
-	}
-	else {
+											 model->Handle(), model->GetOrigin(), model->GetAxis() );
+	} else {
 		return gameLocal.clip.Contents( clipModel->GetOrigin(), clipModel, clipModel->GetAxis(), -1, NULL );
 	}
 }

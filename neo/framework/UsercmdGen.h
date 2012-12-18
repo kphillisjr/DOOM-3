@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -41,14 +41,14 @@ const int USERCMD_HZ			= 60;			// 60 frames per second
 const int USERCMD_MSEC			= 1000 / USERCMD_HZ;
 
 // usercmd_t->button bits
-const int BUTTON_ATTACK			= BIT(0);
-const int BUTTON_RUN			= BIT(1);
-const int BUTTON_ZOOM			= BIT(2);
-const int BUTTON_SCORES			= BIT(3);
-const int BUTTON_MLOOK			= BIT(4);
-const int BUTTON_5				= BIT(5);
-const int BUTTON_6				= BIT(6);
-const int BUTTON_7				= BIT(7);
+const int BUTTON_ATTACK			= BIT( 0 );
+const int BUTTON_RUN			= BIT( 1 );
+const int BUTTON_ZOOM			= BIT( 2 );
+const int BUTTON_SCORES			= BIT( 3 );
+const int BUTTON_MLOOK			= BIT( 4 );
+const int BUTTON_5				= BIT( 5 );
+const int BUTTON_6				= BIT( 6 );
+const int BUTTON_7				= BIT( 7 );
 
 // usercmd_t->impulse commands
 const int IMPULSE_0				= 0;			// weap 0

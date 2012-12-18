@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -35,16 +35,16 @@ If you have questions concerning this license or the applicable additional terms
 
 class idRenderModelManagerLocal : public idRenderModelManager {
 public:
-							idRenderModelManagerLocal();
+	idRenderModelManagerLocal();
 	virtual					~idRenderModelManagerLocal() {}
 
 	virtual void			Init();
 	virtual void			Shutdown();
-	virtual idRenderModel *	AllocModel();
+	virtual idRenderModel 	*AllocModel();
 	virtual void			FreeModel( idRenderModel *model );
-	virtual idRenderModel *	FindModel( const char *modelName );
-	virtual idRenderModel *	CheckModel( const char *modelName );
-	virtual idRenderModel *	DefaultModel();
+	virtual idRenderModel 	*FindModel( const char *modelName );
+	virtual idRenderModel 	*CheckModel( const char *modelName );
+	virtual idRenderModel 	*DefaultModel();
 	virtual void			AddModel( idRenderModel *model );
 	virtual void			RemoveModel( idRenderModel *model );
 	virtual void			ReloadModels( bool forceAll = false );
@@ -56,15 +56,15 @@ public:
 	virtual	void			PrintMemInfo( MemInfo_t *mi );
 
 private:
-	idList<idRenderModel*>	models;
+	idList<idRenderModel *>	models;
 	idHashIndex				hash;
-	idRenderModel *			defaultModel;
-	idRenderModel *			beamModel;
-	idRenderModel *			spriteModel;
-	idRenderModel *			trailModel;
+	idRenderModel 			*defaultModel;
+	idRenderModel 			*beamModel;
+	idRenderModel 			*spriteModel;
+	idRenderModel 			*trailModel;
 	bool					insideLevelLoad;		// don't actually load now
 
-	idRenderModel *			GetModel( const char *modelName, bool createIfNotFound );
+	idRenderModel 			*GetModel( const char *modelName, bool createIfNotFound );
 
 	static void				PrintModel_f( const idCmdArgs &args );
 	static void				ListModels_f( const idCmdArgs &args );
@@ -74,7 +74,7 @@ private:
 
 
 idRenderModelManagerLocal	localModelManager;
-idRenderModelManager *		renderModelManager = &localModelManager;
+idRenderModelManager 		*renderModelManager = &localModelManager;
 
 /*
 ==============
@@ -138,7 +138,7 @@ void idRenderModelManagerLocal::ListModels_f( const idCmdArgs &args ) {
 	common->Printf( " mem   srf verts tris\n" );
 
 	common->Printf( "%i loaded models\n", inUse );
-	common->Printf( "total memory: %4.1fM\n", (float)totalMem / (1024*1024) );
+	common->Printf( "total memory: %4.1fM\n", ( float )totalMem / ( 1024 * 1024 ) );
 }
 
 /*
@@ -147,7 +147,7 @@ idRenderModelManagerLocal::ReloadModels_f
 ==============
 */
 void idRenderModelManagerLocal::ReloadModels_f( const idCmdArgs &args ) {
-	if ( idStr::Icmp( args.Argv(1), "all" ) == 0 ) {
+	if ( idStr::Icmp( args.Argv( 1 ), "all" ) == 0 ) {
 		localModelManager.ReloadModels( true );
 	} else {
 		localModelManager.ReloadModels( false );
@@ -208,7 +208,7 @@ idRenderModelManagerLocal::Init
 void idRenderModelManagerLocal::Init() {
 	cmdSystem->AddCommand( "listModels", ListModels_f, CMD_FL_RENDERER, "lists all models" );
 	cmdSystem->AddCommand( "printModel", PrintModel_f, CMD_FL_RENDERER, "prints model info", idCmdSystem::ArgCompletion_ModelName );
-	cmdSystem->AddCommand( "reloadModels", ReloadModels_f, CMD_FL_RENDERER|CMD_FL_CHEAT, "reloads models" );
+	cmdSystem->AddCommand( "reloadModels", ReloadModels_f, CMD_FL_RENDERER | CMD_FL_CHEAT, "reloads models" );
 	cmdSystem->AddCommand( "touchModel", TouchModel_f, CMD_FL_RENDERER, "touches a model", idCmdSystem::ArgCompletion_ModelName );
 
 	insideLevelLoad = false;
@@ -301,10 +301,10 @@ idRenderModel *idRenderModelManagerLocal::GetModel( const char *modelName, bool 
 	} else if ( extension.Icmp( "md3" ) == 0 ) {
 		model = new idRenderModelMD3;
 		model->InitFromFile( modelName );
-	} else if ( extension.Icmp( "prt" ) == 0  ) {
+	} else if ( extension.Icmp( "prt" ) == 0 ) {
 		model = new idRenderModelPrt;
 		model->InitFromFile( modelName );
-	} else if ( extension.Icmp( "liquid" ) == 0  ) {
+	} else if ( extension.Icmp( "liquid" ) == 0 ) {
 		model = new idRenderModelLiquid;
 		model->InitFromFile( modelName );
 	} else {
@@ -368,7 +368,7 @@ void idRenderModelManagerLocal::FreeModel( idRenderModel *model ) {
 		common->Error( "idRenderModelManager::FreeModel: can't free the beam model" );
 		return;
 	}
-	if ( model == spriteModel ) { 
+	if ( model == spriteModel ) {
 		common->Error( "idRenderModelManager::FreeModel: can't free the sprite model" );
 		return;
 	}
@@ -563,7 +563,7 @@ void idRenderModelManagerLocal::EndLevelLoad() {
 	common->Printf( "%5i models purged from previous level, ", purgeCount );
 	common->Printf( "%5i models kept.\n", keepCount );
 	if ( loadCount ) {
-		common->Printf( "%5i new models loaded in %5.1f seconds\n", loadCount, (end-start) * 0.001 );
+		common->Printf( "%5i new models loaded in %5.1f seconds\n", loadCount, ( end - start ) * 0.001 );
 	}
 	common->Printf( "---------------------------------------------------\n" );
 }
@@ -592,7 +592,7 @@ void idRenderModelManagerLocal::PrintMemInfo( MemInfo_t *mi ) {
 
 	for ( i = 0; i <  localModelManager.models.Num() - 1; i++ ) {
 		for ( j = i + 1; j <  localModelManager.models.Num(); j++ ) {
-			if (  localModelManager.models[sortIndex[i]]->Memory() <  localModelManager.models[sortIndex[j]]->Memory() ) {
+			if ( localModelManager.models[sortIndex[i]]->Memory() <  localModelManager.models[sortIndex[j]]->Memory() ) {
 				int temp = sortIndex[i];
 				sortIndex[i] = sortIndex[j];
 				sortIndex[j] = temp;

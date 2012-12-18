@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -38,11 +38,10 @@ If you have questions concerning this license or the applicable additional terms
 /////////////////////////////////////////////////////////////////////////////
 // CEntityListDlg dialog
 
-class CEntityListDlg : public CDialog
-{
+class CEntityListDlg : public CDialog {
 // Construction
 public:
-	CEntityListDlg(CWnd* pParent = NULL);   // standard constructor
+	CEntityListDlg( CWnd *pParent = NULL ); // standard constructor
 	void UpdateList();
 	static void ShowDialog();
 
@@ -56,8 +55,8 @@ public:
 // Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CEntityListDlg)
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+protected:
+	virtual void DoDataExchange( CDataExchange *pDX );  // DDX/DDV support
 	//}}AFX_VIRTUAL
 
 // Implementation
@@ -69,7 +68,7 @@ protected:
 	afx_msg void OnClose();
 	virtual void OnCancel();
 	virtual BOOL OnInitDialog();
-	afx_msg void OnSysCommand(UINT nID,  LPARAM lParam);
+	afx_msg void OnSysCommand( UINT nID,  LPARAM lParam );
 
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()

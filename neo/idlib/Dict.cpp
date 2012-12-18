@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -79,8 +79,8 @@ void idDict::Copy( const idDict &other ) {
 	n = other.args.Num();
 
 	if ( args.Num() ) {
-		found = (int *) _alloca16( other.args.Num() * sizeof( int ) );
-        for ( i = 0; i < n; i++ ) {
+		found = ( int * ) _alloca16( other.args.Num() * sizeof( int ) );
+		for ( i = 0; i < n; i++ ) {
 			found[i] = FindKeyIndex( other.args[i].GetKey() );
 		}
 	} else {
@@ -148,7 +148,7 @@ bool idDict::Parse( idParser &parser ) {
 
 	parser.ExpectTokenString( "{" );
 	parser.ReadToken( &token );
-	while( ( token.type != TT_PUNCTUATION ) || ( token != "}" ) ) {
+	while ( ( token.type != TT_PUNCTUATION ) || ( token != "}" ) ) {
 		if ( token.type != TT_STRING ) {
 			parser.Error( "Expected quoted string, but found '%s'", token.c_str() );
 		}
@@ -182,7 +182,7 @@ void idDict::SetDefaults( const idDict *dict ) {
 	idKeyValue newkv;
 
 	n = dict->args.Num();
-	for( i = 0; i < n; i++ ) {
+	for ( i = 0; i < n; i++ ) {
 		def = &dict->args[i];
 		kv = FindKey( def->GetKey() );
 		if ( !kv ) {
@@ -201,7 +201,7 @@ idDict::Clear
 void idDict::Clear( void ) {
 	int i;
 
-	for( i = 0; i < args.Num(); i++ ) {
+	for ( i = 0; i < args.Num(); i++ ) {
 		globalKeys.FreeString( args[i].key );
 		globalValues.FreeString( args[i].value );
 	}
@@ -220,7 +220,7 @@ void idDict::Print() const {
 	int n;
 
 	n = args.Num();
-	for( i = 0; i < n; i++ ) {
+	for ( i = 0; i < n; i++ ) {
 		idLib::common->Printf( "%s = %s\n", args[i].GetKey().c_str(), args[i].GetValue().c_str() );
 	}
 }
@@ -242,7 +242,7 @@ int	idDict::Checksum( void ) const {
 	sorted.Sort( KeyCompare );
 	n = sorted.Num();
 	CRC32_InitChecksum( ret );
-	for( i = 0; i < n; i++ ) {
+	for ( i = 0; i < n; i++ ) {
 		CRC32_UpdateChecksum( ret, sorted[i].GetKey().c_str(), sorted[i].GetKey().Length() );
 		CRC32_UpdateChecksum( ret, sorted[i].GetValue().c_str(), sorted[i].GetValue().Length() );
 	}
@@ -260,7 +260,7 @@ size_t idDict::Allocated( void ) const {
 	size_t	size;
 
 	size = args.Allocated() + argHash.Allocated();
-	for( i = 0; i < args.Num(); i++ ) {
+	for ( i = 0; i < args.Num(); i++ ) {
 		size += args[i].Size();
 	}
 
@@ -343,13 +343,13 @@ idDict::GetAngles
 bool idDict::GetAngles( const char *key, const char *defaultString, idAngles &out ) const {
 	bool		found;
 	const char	*s;
-	
+
 	if ( !defaultString ) {
 		defaultString = "0 0 0";
 	}
 
 	found = GetString( key, defaultString, &s );
-	out.Zero();	
+	out.Zero();
 	sscanf( s, "%f %f %f", &out.pitch, &out.yaw, &out.roll );
 	return found;
 }
@@ -362,7 +362,7 @@ idDict::GetVector
 bool idDict::GetVector( const char *key, const char *defaultString, idVec3 &out ) const {
 	bool		found;
 	const char	*s;
-	
+
 	if ( !defaultString ) {
 		defaultString = "0 0 0";
 	}
@@ -381,7 +381,7 @@ idDict::GetVec2
 bool idDict::GetVec2( const char *key, const char *defaultString, idVec2 &out ) const {
 	bool		found;
 	const char	*s;
-	
+
 	if ( !defaultString ) {
 		defaultString = "0 0";
 	}
@@ -400,7 +400,7 @@ idDict::GetVec4
 bool idDict::GetVec4( const char *key, const char *defaultString, idVec4 &out ) const {
 	bool		found;
 	const char	*s;
-	
+
 	if ( !defaultString ) {
 		defaultString = "0 0 0 0";
 	}
@@ -419,7 +419,7 @@ idDict::GetMatrix
 bool idDict::GetMatrix( const char *key, const char *defaultString, idMat3 &out ) const {
 	const char	*s;
 	bool		found;
-		
+
 	if ( !defaultString ) {
 		defaultString = "1 0 0 0 1 0 0 0 1";
 	}
@@ -437,10 +437,10 @@ WriteString
 */
 static void WriteString( const char *s, idFile *f ) {
 	int	len = strlen( s );
-	if ( len >= MAX_STRING_CHARS-1 ) {
+	if ( len >= MAX_STRING_CHARS - 1 ) {
 		idLib::common->Error( "idDict::WriteToFileHandle: bad string" );
 	}
-	f->Write( s, strlen(s) + 1 );
+	f->Write( s, strlen( s ) + 1 );
 }
 
 /*
@@ -537,7 +537,7 @@ const idKeyValue *idDict::MatchPrefix( const char *prefix, const idKeyValue *las
 		}
 	}
 
-	for( i = start + 1; i < args.Num(); i++ ) {
+	for ( i = start + 1; i < args.Num(); i++ ) {
 		if ( !args[i].GetKey().Icmpn( prefix, len ) ) {
 			return &args[i];
 		}
@@ -587,7 +587,7 @@ static idStr ReadString( idFile *f ) {
 	int		len;
 
 	for ( len = 0; len < MAX_STRING_CHARS; len++ ) {
-		f->Read( (void *)&str[len], 1 );
+		f->Read( ( void * )&str[len], 1 );
 		if ( str[len] == 0 ) {
 			break;
 		}
@@ -656,8 +656,8 @@ idDictStringSortCmp
 */
 // NOTE: the const wonkyness is required to make msvc happy
 template<>
-ID_INLINE int idListSortCompare( const idPoolStr * const *a, const idPoolStr * const *b ) {
-	return (*a)->Icmp( **b );
+ID_INLINE int idListSortCompare( const idPoolStr *const *a, const idPoolStr *const *b ) {
+	return ( *a )->Icmp( **b );
 }
 
 /*

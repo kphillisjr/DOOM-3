@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -47,38 +47,38 @@ idDeclFX::Print
 void idDeclFX::Print( void ) const {
 	const idDeclFX *list = this;
 
-	common->Printf("%d events\n", list->events.Num() );
-	for( int i = 0; i < list->events.Num(); i++ ) {
-		switch( list->events[i].type ) {
+	common->Printf( "%d events\n", list->events.Num() );
+	for ( int i = 0; i < list->events.Num(); i++ ) {
+		switch ( list->events[i].type ) {
 			case FX_LIGHT:
-				common->Printf("FX_LIGHT %s\n", list->events[i].data.c_str());
+				common->Printf( "FX_LIGHT %s\n", list->events[i].data.c_str() );
 				break;
 			case FX_PARTICLE:
-				common->Printf("FX_PARTICLE %s\n", list->events[i].data.c_str());
+				common->Printf( "FX_PARTICLE %s\n", list->events[i].data.c_str() );
 				break;
 			case FX_MODEL:
-				common->Printf("FX_MODEL %s\n", list->events[i].data.c_str());
+				common->Printf( "FX_MODEL %s\n", list->events[i].data.c_str() );
 				break;
 			case FX_SOUND:
-				common->Printf("FX_SOUND %s\n", list->events[i].data.c_str());
+				common->Printf( "FX_SOUND %s\n", list->events[i].data.c_str() );
 				break;
 			case FX_DECAL:
-				common->Printf("FX_DECAL %s\n", list->events[i].data.c_str());
+				common->Printf( "FX_DECAL %s\n", list->events[i].data.c_str() );
 				break;
 			case FX_SHAKE:
-				common->Printf("FX_SHAKE %s\n", list->events[i].data.c_str());
+				common->Printf( "FX_SHAKE %s\n", list->events[i].data.c_str() );
 				break;
 			case FX_ATTACHLIGHT:
-				common->Printf("FX_ATTACHLIGHT %s\n", list->events[i].data.c_str());
+				common->Printf( "FX_ATTACHLIGHT %s\n", list->events[i].data.c_str() );
 				break;
 			case FX_ATTACHENTITY:
-				common->Printf("FX_ATTACHENTITY %s\n", list->events[i].data.c_str());
+				common->Printf( "FX_ATTACHENTITY %s\n", list->events[i].data.c_str() );
 				break;
 			case FX_LAUNCH:
-				common->Printf("FX_LAUNCH %s\n", list->events[i].data.c_str());
+				common->Printf( "FX_LAUNCH %s\n", list->events[i].data.c_str() );
 				break;
 			case FX_SHOCKWAVE:
-				common->Printf("FX_SHOCKWAVE %s\n", list->events[i].data.c_str());
+				common->Printf( "FX_SHOCKWAVE %s\n", list->events[i].data.c_str() );
 				break;
 		}
 	}
@@ -90,7 +90,7 @@ idDeclFX::List
 ===============
 */
 void idDeclFX::List( void ) const {
-	common->Printf("%s, %d stages\n", GetName(), events.Num() );
+	common->Printf( "%s, %d stages\n", GetName(), events.Num() );
 }
 
 /*
@@ -98,7 +98,7 @@ void idDeclFX::List( void ) const {
 idDeclFX::ParseSingleFXAction
 ================
 */
-void idDeclFX::ParseSingleFXAction( idLexer &src, idFXSingleAction& FXAction ) {
+void idDeclFX::ParseSingleFXAction( idLexer &src, idFXSingleAction &FXAction ) {
 	idToken token;
 
 	FXAction.type = -1;
@@ -136,7 +136,7 @@ void idDeclFX::ParseSingleFXAction( idLexer &src, idFXSingleAction& FXAction ) {
 	FXAction.trackOrigin = false;
 	FXAction.soundStarted = false;
 
-	while (1) {
+	while ( 1 ) {
 		if ( !src.ReadToken( &token ) ) {
 			break;
 		}
@@ -148,13 +148,13 @@ void idDeclFX::ParseSingleFXAction( idLexer &src, idFXSingleAction& FXAction ) {
 		if ( !token.Icmp( "shake" ) ) {
 			FXAction.type = FX_SHAKE;
 			FXAction.shakeTime = src.ParseFloat();
-			src.ExpectTokenString(",");
+			src.ExpectTokenString( "," );
 			FXAction.shakeAmplitude = src.ParseFloat();
-			src.ExpectTokenString(",");
+			src.ExpectTokenString( "," );
 			FXAction.shakeDistance = src.ParseFloat();
-			src.ExpectTokenString(",");
+			src.ExpectTokenString( "," );
 			FXAction.shakeFalloff = src.ParseBool();
-			src.ExpectTokenString(",");
+			src.ExpectTokenString( "," );
 			FXAction.shakeImpulse = src.ParseFloat();
 			continue;
 		}
@@ -170,7 +170,7 @@ void idDeclFX::ParseSingleFXAction( idLexer &src, idFXSingleAction& FXAction ) {
 			continue;
 		}
 
-		if ( !token.Icmp( "fire") ) {
+		if ( !token.Icmp( "fire" ) ) {
 			src.ReadToken( &token );
 			FXAction.fire = token;
 			continue;
@@ -204,7 +204,7 @@ void idDeclFX::ParseSingleFXAction( idLexer &src, idFXSingleAction& FXAction ) {
 			continue;
 		}
 
-		if (!token.Icmp("restart")) {
+		if ( !token.Icmp( "restart" ) ) {
 			FXAction.restart = src.ParseFloat();
 			continue;
 		}
@@ -261,7 +261,7 @@ void idDeclFX::ParseSingleFXAction( idLexer &src, idFXSingleAction& FXAction ) {
 		if ( !token.Icmp( "uselight" ) ) {
 			src.ReadToken( &token );
 			FXAction.data = token;
-			for( int i = 0; i < events.Num(); i++ ) {
+			for ( int i = 0; i < events.Num(); i++ ) {
 				if ( events[i].name.Icmp( FXAction.data ) == 0 ) {
 					FXAction.sibling = i;
 					FXAction.lightColor = events[i].lightColor;
@@ -308,7 +308,7 @@ void idDeclFX::ParseSingleFXAction( idLexer &src, idFXSingleAction& FXAction ) {
 		if ( !token.Icmp( "useModel" ) ) {
 			src.ReadToken( &token );
 			FXAction.data = token;
-			for( int i = 0; i < events.Num(); i++ ) {
+			for ( int i = 0; i < events.Num(); i++ ) {
 				if ( events[i].name.Icmp( FXAction.data ) == 0 ) {
 					FXAction.sibling = i;
 				}
@@ -337,7 +337,7 @@ void idDeclFX::ParseSingleFXAction( idLexer &src, idFXSingleAction& FXAction ) {
 			declManager->FindMaterial( FXAction.data );
 			continue;
 		}
-	
+
 		if ( !token.Icmp( "model" ) ) {
 			src.ReadToken( &token );
 			FXAction.data = token;
@@ -417,8 +417,8 @@ bool idDeclFX::Parse( const char *text, const int textLength ) {
 	src.SkipUntilString( "{" );
 
 	// scan through, identifying each individual parameter
-	while( 1 ) {
-		
+	while ( 1 ) {
+
 		if ( !src.ReadToken( &token ) ) {
 			break;
 		}
@@ -456,11 +456,11 @@ idDeclFX::DefaultDefinition
 const char *idDeclFX::DefaultDefinition( void ) const {
 	return
 		"{\n"
-	"\t"	"{\n"
-	"\t\t"		"duration\t5\n"
-	"\t\t"		"model\t\t_default\n"
-	"\t"	"}\n"
-		"}"; 
+		"\t"	"{\n"
+		"\t\t"		"duration\t5\n"
+		"\t\t"		"model\t\t_default\n"
+		"\t"	"}\n"
+		"}";
 }
 
 /*

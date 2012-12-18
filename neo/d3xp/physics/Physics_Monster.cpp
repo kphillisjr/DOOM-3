@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -94,7 +94,7 @@ monsterMoveResult_t idPhysics_Monster::SlideMove( idVec3 &start, idVec3 &velocit
 
 	blockingEntity = NULL;
 	move = delta;
-	for( i = 0; i < 3; i++ ) {
+	for ( i = 0; i < 3; i++ ) {
 		gameLocal.clip.Translation( tr, start, start + move, clipModel, clipModel->GetAxis(), clipMask, self );
 
 		start = tr.endpos;
@@ -108,8 +108,8 @@ monsterMoveResult_t idPhysics_Monster::SlideMove( idVec3 &start, idVec3 &velocit
 
 		if ( tr.c.entityNum != ENTITYNUM_NONE ) {
 			blockingEntity = gameLocal.entities[ tr.c.entityNum ];
-		} 
-		
+		}
+
 		// clip the movement delta and velocity
 		move.ProjectOntoPlane( tr.c.normal, OVERCLIP );
 		velocity.ProjectOntoPlane( tr.c.normal, OVERCLIP );
@@ -252,7 +252,7 @@ idPhysics_Monster::idPhysics_Monster( void ) {
 	memset( &current, 0, sizeof( current ) );
 	current.atRest = -1;
 	saved = current;
-	
+
 	delta.Zero();
 	maxStepHeight = 18.0f;
 	minFloorCosine = 0.7f;
@@ -310,8 +310,8 @@ void idPhysics_Monster::Save( idSaveGame *savefile ) const {
 	savefile->WriteBool( fly );
 	savefile->WriteBool( useVelocityMove );
 	savefile->WriteBool( noImpact );
-	
-	savefile->WriteInt( (int)moveResult );
+
+	savefile->WriteInt( ( int )moveResult );
 	savefile->WriteObject( blockingEntity );
 }
 
@@ -334,7 +334,7 @@ void idPhysics_Monster::Restore( idRestoreGame *savefile ) {
 	savefile->ReadBool( useVelocityMove );
 	savefile->ReadBool( noImpact );
 
-	savefile->ReadInt( (int &)moveResult );
+	savefile->ReadInt( ( int & )moveResult );
 	savefile->ReadObject( reinterpret_cast<idClass *&>( blockingEntity ) );
 }
 
@@ -493,15 +493,14 @@ bool idPhysics_Monster::Evaluate( int timeStepMSec, int endTimeMSec ) {
 	if ( fly || ( !forceDeltaMove && ( !current.onGround || upspeed > 1.0f ) ) ) {
 		if ( upspeed < 0.0f ) {
 			moveResult = MM_FALLING;
-		}
-		else {
+		} else {
 			current.onGround = false;
 			moveResult = MM_OK;
 		}
 		delta = current.velocity * timeStep;
 		if ( delta != vec3_origin ) {
 			moveResult = idPhysics_Monster::SlideMove( current.origin, current.velocity, delta );
-            delta.Zero();
+			delta.Zero();
 		}
 
 		if ( !fly ) {
@@ -535,7 +534,7 @@ bool idPhysics_Monster::Evaluate( int timeStepMSec, int endTimeMSec ) {
 	current.pushVelocity.Zero();
 
 	if ( IsOutsideWorld() ) {
-		gameLocal.Warning( "clip model outside world bounds for entity '%s' at (%s)", self->name.c_str(), current.origin.ToString(0) );
+		gameLocal.Warning( "clip model outside world bounds for entity '%s' at (%s)", self->name.c_str(), current.origin.ToString( 0 ) );
 		Rest();
 	}
 
@@ -637,8 +636,7 @@ void idPhysics_Monster::SetOrigin( const idVec3 &newOrigin, int id ) {
 	if ( masterEntity ) {
 		self->GetMasterPosition( masterOrigin, masterAxis );
 		current.origin = masterOrigin + newOrigin * masterAxis;
-	}
-	else {
+	} else {
 		current.origin = newOrigin;
 	}
 	clipModel->Link( gameLocal.clip, self, 0, newOrigin, clipModel->GetAxis() );
@@ -681,8 +679,7 @@ void idPhysics_Monster::Rotate( const idRotation &rotation, int id ) {
 	if ( masterEntity ) {
 		self->GetMasterPosition( masterOrigin, masterAxis );
 		current.localOrigin = ( current.origin - masterOrigin ) * masterAxis.Transpose();
-	}
-	else {
+	} else {
 		current.localOrigin = current.origin;
 	}
 	clipModel->Link( gameLocal.clip, self, 0, current.origin, clipModel->GetAxis() * rotation.ToMat3() );
@@ -747,8 +744,7 @@ void idPhysics_Monster::SetMaster( idEntity *master, const bool orientated ) {
 			masterYaw = masterAxis[0].ToYaw();
 		}
 		ClearContacts();
-	}
-	else {
+	} else {
 		if ( masterEntity ) {
 			masterEntity = NULL;
 			Activate();

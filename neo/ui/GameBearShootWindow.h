@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@ class idGameBearShootWindow;
 
 class BSEntity {
 public:
-	const idMaterial *		material;
+	const idMaterial 		*material;
 	idStr					materialName;
 	float					width, height;
 	bool					visible;
@@ -46,21 +46,21 @@ public:
 	bool					fadeIn;
 	bool					fadeOut;
 
-	idGameBearShootWindow *	game;
-	
+	idGameBearShootWindow 	*game;
+
 public:
-						BSEntity(idGameBearShootWindow* _game);
+	BSEntity( idGameBearShootWindow *_game );
 	virtual				~BSEntity();
 
 	virtual void		WriteToSaveGame( idFile *savefile );
-	virtual void		ReadFromSaveGame( idFile *savefile, idGameBearShootWindow* _game );
+	virtual void		ReadFromSaveGame( idFile *savefile, idGameBearShootWindow *_game );
 
-	void				SetMaterial(const char* name);
+	void				SetMaterial( const char *name );
 	void				SetSize( float _width, float _height );
 	void				SetVisible( bool isVisible );
 
 	virtual void		Update( float timeslice );
-	virtual void		Draw(idDeviceContext *dc);
+	virtual void		Draw( idDeviceContext *dc );
 
 private:
 };
@@ -68,18 +68,18 @@ private:
 
 class idGameBearShootWindow : public idWindow {
 public:
-	idGameBearShootWindow(idUserInterfaceLocal *gui);
-	idGameBearShootWindow(idDeviceContext *d, idUserInterfaceLocal *gui);
+	idGameBearShootWindow( idUserInterfaceLocal *gui );
+	idGameBearShootWindow( idDeviceContext *d, idUserInterfaceLocal *gui );
 	~idGameBearShootWindow();
 
 	virtual void		WriteToSaveGame( idFile *savefile );
 	virtual void		ReadFromSaveGame( idFile *savefile );
 
-	virtual const char*	HandleEvent(const sysEvent_t *event, bool *updateVisuals);
+	virtual const char	*HandleEvent( const sysEvent_t *event, bool *updateVisuals );
 	virtual void		PostParse();
-	virtual void		Draw(int time, float x, float y);
-	virtual const char*	Activate(bool activate);
-	virtual idWinVar *	GetWinVarByName	(const char *_name, bool winLookup = false, drawWin_t** owner = NULL);
+	virtual void		Draw( int time, float x, float y );
+	virtual const char	*Activate( bool activate );
+	virtual idWinVar 	*GetWinVarByName( const char *_name, bool winLookup = false, drawWin_t **owner = NULL );
 
 private:
 	void				CommonInit();
@@ -92,7 +92,7 @@ private:
 	void				UpdateGame();
 	void				UpdateScore();
 
-	virtual bool		ParseInternalVar(const char *name, idParser *src);
+	virtual bool		ParseInternalVar( const char *name, idParser *src );
 
 private:
 
@@ -120,7 +120,7 @@ private:
 	float				windForce;
 	int					windUpdateTime;
 
-	idList<BSEntity*>	entities;
+	idList<BSEntity *>	entities;
 
 	BSEntity			*turret;
 	BSEntity			*bear;

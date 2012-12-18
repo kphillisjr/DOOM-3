@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -97,20 +97,19 @@ toolTip_t DialogAFConstraint::toolTips[] = {
 	{ 0, NULL }
 };
 
-IMPLEMENT_DYNAMIC(DialogAFConstraint, CDialog)
+IMPLEMENT_DYNAMIC( DialogAFConstraint, CDialog )
 
 /*
 ================
 DialogAFConstraint::DialogAFConstraint
 ================
 */
-DialogAFConstraint::DialogAFConstraint( CWnd* pParent /*=NULL*/ )
-	: CDialog(DialogAFConstraint::IDD, pParent)
-	, m_friction(0)
-	, constraint(NULL)
-	, file(NULL)
-	, constraintDlg(NULL)
-{
+DialogAFConstraint::DialogAFConstraint( CWnd *pParent /*=NULL*/ )
+	: CDialog( DialogAFConstraint::IDD, pParent )
+	, m_friction( 0 )
+	, constraint( NULL )
+	, file( NULL )
+	, constraintDlg( NULL ) {
 	Create( IDD_DIALOG_AF_CONSTRAINT, pParent );
 	EnableToolTips( TRUE );
 }
@@ -128,14 +127,14 @@ DialogAFConstraint::~DialogAFConstraint() {
 DialogAFConstraint::DoDataExchange
 ================
 */
-void DialogAFConstraint::DoDataExchange( CDataExchange* pDX ) {
-	CDialog::DoDataExchange(pDX);
+void DialogAFConstraint::DoDataExchange( CDataExchange *pDX ) {
+	CDialog::DoDataExchange( pDX );
 	//{{AFX_DATA_MAP(DialogAFConstraint)
-	DDX_Control(pDX, IDC_COMBO_CONSTRAINTS, m_comboConstraintList);
-	DDX_Control(pDX, IDC_COMBO_CONSTRAINT_TYPE, m_comboConstraintType);
-	DDX_Control(pDX, IDC_COMBO_CONSTRAINT_BODY1, m_comboBody1List);
-	DDX_Control(pDX, IDC_COMBO_CONSTRAINT_BODY2, m_comboBody2List);
-	DDX_Text(pDX, IDC_EDIT_CONSTRAINT_FRICTION, m_friction);
+	DDX_Control( pDX, IDC_COMBO_CONSTRAINTS, m_comboConstraintList );
+	DDX_Control( pDX, IDC_COMBO_CONSTRAINT_TYPE, m_comboConstraintType );
+	DDX_Control( pDX, IDC_COMBO_CONSTRAINT_BODY1, m_comboBody1List );
+	DDX_Control( pDX, IDC_COMBO_CONSTRAINT_BODY2, m_comboBody2List );
+	DDX_Text( pDX, IDC_EDIT_CONSTRAINT_FRICTION, m_friction );
 	//}}AFX_DATA_MAP
 }
 
@@ -181,7 +180,7 @@ void DialogAFConstraint::InitConstraintTypeDlg( void ) {
 	}
 
 	GetSafeComboBoxSelection( &m_comboConstraintType, str, -1 );
-	switch( StringToConstraintType( str ) ) {
+	switch ( StringToConstraintType( str ) ) {
 		case DECLAF_CONSTRAINT_FIXED:
 			fixedDlg->LoadConstraint( constraint );
 			constraintDlg = fixedDlg;
@@ -242,16 +241,14 @@ DialogAFConstraint::InitNewRenameDeleteButtons
 void DialogAFConstraint::InitNewRenameDeleteButtons( void ) {
 	if ( file && file->bodies.Num() >= 1 ) {
 		GetDlgItem( IDC_BUTTON_NEWCONSTRAINT )->EnableWindow( true );
-	}
-	else {
+	} else {
 		GetDlgItem( IDC_BUTTON_NEWCONSTRAINT )->EnableWindow( false );
 	}
 
 	if ( file && m_comboConstraintList.GetCount() >= 1 ) {
 		GetDlgItem( IDC_BUTTON_RENAMECONSTRAINT )->EnableWindow( true );
 		GetDlgItem( IDC_BUTTON_DELETECONSTRAINT )->EnableWindow( true );
-	}
-	else {
+	} else {
 		GetDlgItem( IDC_BUTTON_RENAMECONSTRAINT )->EnableWindow( false );
 		GetDlgItem( IDC_BUTTON_DELETECONSTRAINT )->EnableWindow( false );
 	}
@@ -406,7 +403,7 @@ BOOL DialogAFConstraint::OnInitDialog()  {
 	InitNewRenameDeleteButtons();
 
 	return TRUE;  // return TRUE unless you set the focus to a control
-	              // EXCEPTION: OCX Property Pages should return FALSE
+	// EXCEPTION: OCX Property Pages should return FALSE
 }
 
 /*
@@ -414,24 +411,24 @@ BOOL DialogAFConstraint::OnInitDialog()  {
 DialogAFConstraint::OnToolHitTest
 ================
 */
-int DialogAFConstraint::OnToolHitTest( CPoint point, TOOLINFO* pTI ) const {
+int DialogAFConstraint::OnToolHitTest( CPoint point, TOOLINFO *pTI ) const {
 	CDialog::OnToolHitTest( point, pTI );
 	return DefaultOnToolHitTest( toolTips, this, point, pTI );
 }
 
-BEGIN_MESSAGE_MAP(DialogAFConstraint, CDialog)
-	ON_NOTIFY_EX_RANGE(TTN_NEEDTEXTW, 0, 0xFFFF, OnToolTipNotify)
-	ON_NOTIFY_EX_RANGE(TTN_NEEDTEXTA, 0, 0xFFFF, OnToolTipNotify)
+BEGIN_MESSAGE_MAP( DialogAFConstraint, CDialog )
+	ON_NOTIFY_EX_RANGE( TTN_NEEDTEXTW, 0, 0xFFFF, OnToolTipNotify )
+	ON_NOTIFY_EX_RANGE( TTN_NEEDTEXTA, 0, 0xFFFF, OnToolTipNotify )
 	ON_WM_SHOWWINDOW()
-	ON_CBN_SELCHANGE(IDC_COMBO_CONSTRAINTS, OnCbnSelchangeComboConstraints)
-	ON_CBN_SELCHANGE(IDC_COMBO_CONSTRAINT_TYPE, OnCbnSelchangeComboConstraintType)
-	ON_CBN_SELCHANGE(IDC_COMBO_CONSTRAINT_BODY1, OnCbnSelchangeComboConstraintBody1)
-	ON_CBN_SELCHANGE(IDC_COMBO_CONSTRAINT_BODY2, OnCbnSelchangeComboConstraintBody2)
-	ON_EN_CHANGE(IDC_EDIT_CONSTRAINT_FRICTION, OnEnChangeEditConstraintFriction)
-	ON_NOTIFY(UDN_DELTAPOS, IDC_SPIN_CONSTRAINT_FRICTION, OnDeltaposSpinConstraintFriction)
-	ON_BN_CLICKED(IDC_BUTTON_NEWCONSTRAINT, OnBnClickedButtonNewconstraint)
-	ON_BN_CLICKED(IDC_BUTTON_RENAMECONSTRAINT, OnBnClickedButtonRenameconstraint)
-	ON_BN_CLICKED(IDC_BUTTON_DELETECONSTRAINT, OnBnClickedButtonDeleteconstraint)
+	ON_CBN_SELCHANGE( IDC_COMBO_CONSTRAINTS, OnCbnSelchangeComboConstraints )
+	ON_CBN_SELCHANGE( IDC_COMBO_CONSTRAINT_TYPE, OnCbnSelchangeComboConstraintType )
+	ON_CBN_SELCHANGE( IDC_COMBO_CONSTRAINT_BODY1, OnCbnSelchangeComboConstraintBody1 )
+	ON_CBN_SELCHANGE( IDC_COMBO_CONSTRAINT_BODY2, OnCbnSelchangeComboConstraintBody2 )
+	ON_EN_CHANGE( IDC_EDIT_CONSTRAINT_FRICTION, OnEnChangeEditConstraintFriction )
+	ON_NOTIFY( UDN_DELTAPOS, IDC_SPIN_CONSTRAINT_FRICTION, OnDeltaposSpinConstraintFriction )
+	ON_BN_CLICKED( IDC_BUTTON_NEWCONSTRAINT, OnBnClickedButtonNewconstraint )
+	ON_BN_CLICKED( IDC_BUTTON_RENAMECONSTRAINT, OnBnClickedButtonRenameconstraint )
+	ON_BN_CLICKED( IDC_BUTTON_DELETECONSTRAINT, OnBnClickedButtonDeleteconstraint )
 END_MESSAGE_MAP()
 
 
@@ -545,17 +542,16 @@ void DialogAFConstraint::OnCbnSelchangeComboConstraintBody2() {
 }
 
 void DialogAFConstraint::OnEnChangeEditConstraintFriction() {
-	if ( EditControlEnterHit( (CEdit *) GetDlgItem( IDC_EDIT_CONSTRAINT_FRICTION ) ) ) {
+	if ( EditControlEnterHit( ( CEdit * ) GetDlgItem( IDC_EDIT_CONSTRAINT_FRICTION ) ) ) {
 		UpdateFile();
-	}
-	else {
-		EditVerifyFloat( (CEdit *) GetDlgItem( IDC_EDIT_CONSTRAINT_FRICTION ), false );
+	} else {
+		EditVerifyFloat( ( CEdit * ) GetDlgItem( IDC_EDIT_CONSTRAINT_FRICTION ), false );
 	}
 }
 
-void DialogAFConstraint::OnDeltaposSpinConstraintFriction(NMHDR *pNMHDR, LRESULT *pResult) {
-	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>(pNMHDR);
-	m_friction = EditSpinFloat( (CEdit *)GetDlgItem( IDC_EDIT_CONSTRAINT_FRICTION ), pNMUpDown->iDelta < 0 );
+void DialogAFConstraint::OnDeltaposSpinConstraintFriction( NMHDR *pNMHDR, LRESULT *pResult ) {
+	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>( pNMHDR );
+	m_friction = EditSpinFloat( ( CEdit * )GetDlgItem( IDC_EDIT_CONSTRAINT_FRICTION ), pNMUpDown->iDelta < 0 );
 	UpdateFile();
 	*pResult = 0;
 }

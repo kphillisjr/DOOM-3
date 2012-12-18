@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -65,11 +65,15 @@ idDemoFile::AllocCompressor
 */
 idCompressor *idDemoFile::AllocCompressor( int type ) {
 	switch ( type ) {
-	case 0: return idCompressor::AllocNoCompression();
-	default:
-	case 1: return idCompressor::AllocLZW();
-	case 2: return idCompressor::AllocLZSS();
-	case 3: return idCompressor::AllocHuffman();
+		case 0:
+			return idCompressor::AllocNoCompression();
+		default:
+		case 1:
+			return idCompressor::AllocLZW();
+		case 2:
+			return idCompressor::AllocLZSS();
+		case 3:
+			return idCompressor::AllocHuffman();
 	}
 }
 
@@ -79,7 +83,7 @@ idDemoFile::OpenForReading
 ================
 */
 bool idDemoFile::OpenForReading( const char *fileName ) {
-	static const int magicLen = sizeof(DEMO_MAGIC) / sizeof(DEMO_MAGIC[0]);
+	static const int magicLen = sizeof( DEMO_MAGIC ) / sizeof( DEMO_MAGIC[0] );
 	char magicBuffer[magicLen];
 	int compression;
 	int fileLength;
@@ -94,10 +98,10 @@ bool idDemoFile::OpenForReading( const char *fileName ) {
 	fileLength = f->Length();
 
 	if ( com_preloadDemos.GetBool() ) {
-		fileImage = (byte *)Mem_Alloc( fileLength );
+		fileImage = ( byte * )Mem_Alloc( fileLength );
 		f->Read( fileImage, fileLength );
 		fileSystem->CloseFile( f );
-		f = new idFile_Memory( va( "preloaded(%s)", fileName ), (const char *)fileImage, fileLength );
+		f = new idFile_Memory( va( "preloaded(%s)", fileName ), ( const char * )fileImage, fileLength );
 	}
 
 	if ( com_logDemos.GetBool() ) {
@@ -106,8 +110,8 @@ bool idDemoFile::OpenForReading( const char *fileName ) {
 
 	writing = false;
 
-	f->Read(magicBuffer, magicLen);
-	if ( memcmp(magicBuffer, DEMO_MAGIC, magicLen) == 0 ) {
+	f->Read( magicBuffer, magicLen );
+	if ( memcmp( magicBuffer, DEMO_MAGIC, magicLen ) == 0 ) {
 		f->ReadInt( compression );
 	} else {
 		// Ideally we would error out if the magic string isn't there,
@@ -127,9 +131,9 @@ bool idDemoFile::OpenForReading( const char *fileName ) {
 idDemoFile::SetLog
 ================
 */
-void idDemoFile::SetLog(bool b, const char *p) {
+void idDemoFile::SetLog( bool b, const char *p ) {
 	log = b;
-	if (p) {
+	if ( p ) {
 		logStr = p;
 	}
 }
@@ -139,9 +143,9 @@ void idDemoFile::SetLog(bool b, const char *p) {
 idDemoFile::Log
 ================
 */
-void idDemoFile::Log(const char *p) {
+void idDemoFile::Log( const char *p ) {
 	if ( fLog && p && *p ) {
-		fLog->Write( p, strlen(p) );
+		fLog->Write( p, strlen( p ) );
 	}
 }
 
@@ -164,7 +168,7 @@ bool idDemoFile::OpenForWriting( const char *fileName ) {
 
 	writing = true;
 
-	f->Write(DEMO_MAGIC, sizeof(DEMO_MAGIC));
+	f->Write( DEMO_MAGIC, sizeof( DEMO_MAGIC ) );
 	f->WriteInt( com_compressDemos.GetInteger() );
 	f->Flush();
 
@@ -215,18 +219,18 @@ const char *idDemoFile::ReadHashString() {
 	if ( log && fLog ) {
 		const char *text = va( "%s > Reading hash string\n", logStr.c_str() );
 		fLog->Write( text, strlen( text ) );
-	} 
+	}
 
 	ReadInt( index );
 
 	if ( index == -1 ) {
 		// read a new string for the table
 		idStr	*str = new idStr;
-		
+
 		idStr data;
 		ReadString( data );
 		*str = data;
-		
+
 		demoStrings.Append( str );
 
 		return *str;
@@ -262,7 +266,7 @@ void idDemoFile::WriteHashString( const char *str ) {
 	idStr	*copy = new idStr( str );
 //common->Printf( "hash:%i = %s\n", demoStrings.Num(), str );
 	demoStrings.Append( copy );
-	int cmd = -1;	
+	int cmd = -1;
 	WriteInt( cmd );
 	WriteString( str );
 }
@@ -309,7 +313,7 @@ void idDemoFile::WriteDict( const idDict &dict ) {
 int idDemoFile::Read( void *buffer, int len ) {
 	int read = compressor->Read( buffer, len );
 	if ( read == 0 && len >= 4 ) {
-		*(demoSystem_t *)buffer = DS_FINISHED;
+		*( demoSystem_t * )buffer = DS_FINISHED;
 	}
 	return read;
 }

@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -119,8 +119,8 @@ void idRenderModelOverlay::CreateOverlay( const idRenderModel *model, const idPl
 	}
 
 	// make temporary buffers for the building process
-	overlayVertex_t	*overlayVerts = (overlayVertex_t *)_alloca( maxVerts * sizeof( *overlayVerts ) );
-	glIndex_t *overlayIndexes = (glIndex_t *)_alloca16( maxIndexes * sizeof( *overlayIndexes ) );
+	overlayVertex_t	*overlayVerts = ( overlayVertex_t * )_alloca( maxVerts * sizeof( *overlayVerts ) );
+	glIndex_t *overlayIndexes = ( glIndex_t * )_alloca16( maxIndexes * sizeof( *overlayIndexes ) );
 
 	// pull out the triangles we need from the base surfaces
 	for ( surfNum = 0; surfNum < model->NumBaseSurfaces(); surfNum++ ) {
@@ -150,12 +150,12 @@ void idRenderModelOverlay::CreateOverlay( const idRenderModel *model, const idPl
 			continue;
 		}
 
-		byte *cullBits = (byte *)_alloca16( stri->numVerts * sizeof( cullBits[0] ) );
-		idVec2 *texCoords = (idVec2 *)_alloca16( stri->numVerts * sizeof( texCoords[0] ) );
+		byte *cullBits = ( byte * )_alloca16( stri->numVerts * sizeof( cullBits[0] ) );
+		idVec2 *texCoords = ( idVec2 * )_alloca16( stri->numVerts * sizeof( texCoords[0] ) );
 
 		SIMDProcessor->OverlayPointCull( cullBits, texCoords, localTextureAxis, stri->verts, stri->numVerts );
 
-		glIndex_t *vertexRemap = (glIndex_t *)_alloca16( sizeof( vertexRemap[0] ) * stri->numVerts );
+		glIndex_t *vertexRemap = ( glIndex_t * )_alloca16( sizeof( vertexRemap[0] ) * stri->numVerts );
 		SIMDProcessor->Memset( vertexRemap, -1,  sizeof( vertexRemap[0] ) * stri->numVerts );
 
 		// find triangles that need the overlay
@@ -163,9 +163,9 @@ void idRenderModelOverlay::CreateOverlay( const idRenderModel *model, const idPl
 		int numIndexes = 0;
 		int triNum = 0;
 		for ( int index = 0; index < stri->numIndexes; index += 3, triNum++ ) {
-			int v1 = stri->indexes[index+0];
-			int	v2 = stri->indexes[index+1];
-			int v3 = stri->indexes[index+2];
+			int v1 = stri->indexes[index + 0];
+			int	v2 = stri->indexes[index + 1];
+			int v3 = stri->indexes[index + 2];
 
 			// skip triangles completely off one side
 			if ( cullBits[v1] & cullBits[v2] & cullBits[v3] ) {
@@ -176,8 +176,8 @@ void idRenderModelOverlay::CreateOverlay( const idRenderModel *model, const idPl
 
 			// keep this triangle
 			for ( int vnum = 0; vnum < 3; vnum++ ) {
-				int ind = stri->indexes[index+vnum];
-				if ( vertexRemap[ind] == (glIndex_t)-1 ) {
+				int ind = stri->indexes[index + vnum];
+				if ( vertexRemap[ind] == ( glIndex_t ) - 1 ) {
 					vertexRemap[ind] = numVerts;
 
 					overlayVerts[numVerts].vertexNum = ind;
@@ -194,13 +194,13 @@ void idRenderModelOverlay::CreateOverlay( const idRenderModel *model, const idPl
 			continue;
 		}
 
-		overlaySurface_t *s = (overlaySurface_t *) Mem_Alloc( sizeof( overlaySurface_t ) );
+		overlaySurface_t *s = ( overlaySurface_t * ) Mem_Alloc( sizeof( overlaySurface_t ) );
 		s->surfaceNum = surfNum;
 		s->surfaceId = surf->id;
-		s->verts = (overlayVertex_t *)Mem_Alloc( numVerts * sizeof( s->verts[0] ) );
+		s->verts = ( overlayVertex_t * )Mem_Alloc( numVerts * sizeof( s->verts[0] ) );
 		memcpy( s->verts, overlayVerts, numVerts * sizeof( s->verts[0] ) );
 		s->numVerts = numVerts;
-		s->indexes = (glIndex_t *)Mem_Alloc( numIndexes * sizeof( s->indexes[0] ) );
+		s->indexes = ( glIndex_t * )Mem_Alloc( numIndexes * sizeof( s->indexes[0] ) );
 		memcpy( s->indexes, overlayIndexes, numIndexes * sizeof( s->indexes[0] ) );
 		s->numIndexes = numIndexes;
 
@@ -210,7 +210,7 @@ void idRenderModelOverlay::CreateOverlay( const idRenderModel *model, const idPl
 			}
 		}
 		if ( i < materials.Num() ) {
-            materials[i]->surfaces.Append( s );
+			materials[i]->surfaces.Append( s );
 		} else {
 			overlayMaterial_t *mat = new overlayMaterial_t;
 			mat->material = mtr;
@@ -221,7 +221,7 @@ void idRenderModelOverlay::CreateOverlay( const idRenderModel *model, const idPl
 
 	// remove the oldest overlay surfaces if there are too many per material
 	for ( i = 0; i < materials.Num(); i++ ) {
-		while( materials[i]->surfaces.Num() > MAX_OVERLAY_SURFACES ) {
+		while ( materials[i]->surfaces.Num() > MAX_OVERLAY_SURFACES ) {
 			FreeSurface( materials[i]->surfaces[0] );
 			materials[i]->surfaces.RemoveIndex( 0 );
 		}
@@ -254,8 +254,8 @@ void idRenderModelOverlay::AddOverlaySurfacesToModel( idRenderModel *baseModel )
 		common->Error( "idRenderModelOverlay::AddOverlaySurfacesToModel: baseModel is not a static model" );
 	}
 
-	assert( dynamic_cast<idRenderModelStatic *>(baseModel) != NULL );
-	staticModel = static_cast<idRenderModelStatic *>(baseModel);
+	assert( dynamic_cast<idRenderModelStatic *>( baseModel ) != NULL );
+	staticModel = static_cast<idRenderModelStatic *>( baseModel );
 
 	staticModel->overlaysAdded = 0;
 
@@ -360,8 +360,8 @@ idRenderModelOverlay::RemoveOverlaySurfacesFromModel
 void idRenderModelOverlay::RemoveOverlaySurfacesFromModel( idRenderModel *baseModel ) {
 	idRenderModelStatic *staticModel;
 
-	assert( dynamic_cast<idRenderModelStatic *>(baseModel) != NULL );
-	staticModel = static_cast<idRenderModelStatic *>(baseModel);
+	assert( dynamic_cast<idRenderModelStatic *>( baseModel ) != NULL );
+	staticModel = static_cast<idRenderModelStatic *>( baseModel );
 
 	staticModel->DeleteSurfacesWithNegativeId();
 	staticModel->overlaysAdded = 0;

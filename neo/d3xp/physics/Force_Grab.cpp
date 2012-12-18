@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -43,7 +43,7 @@ idForce_Grab::Save
 ================
 */
 void idForce_Grab::Save( idSaveGame *savefile ) const {
-	
+
 	savefile->WriteFloat( damping );
 	savefile->WriteVec3( goalPosition );
 	savefile->WriteFloat( distanceToGoal );
@@ -134,13 +134,13 @@ void idForce_Grab::Evaluate( int time ) {
 	}
 	idVec3			forceDir, v, objectCenter;
 	float			forceAmt;
-	float			mass = physics->GetMass(id);
+	float			mass = physics->GetMass( id );
 
-	objectCenter = physics->GetAbsBounds(id).GetCenter();
+	objectCenter = physics->GetAbsBounds( id ).GetCenter();
 
 	if ( g_grabberRandomMotion.GetBool() && !gameLocal.isMultiplayer ) {
 		// Jitter the objectCenter around so it doesn't remain stationary
-		float SinOffset = idMath::Sin( (float)(gameLocal.time)/66.f );
+		float SinOffset = idMath::Sin( ( float )( gameLocal.time ) / 66.f );
 		float randScale1 = gameLocal.random.RandomFloat();
 		float randScale2 = gameLocal.random.CRandomFloat();
 		objectCenter.x += ( SinOffset * 3.5f * randScale1 ) + ( randScale2 * 1.2f );
@@ -155,9 +155,9 @@ void idForce_Grab::Evaluate( int time ) {
 	if ( temp > 12.f && temp < 32.f ) {
 		temp = 32.f;
 	}
-	forceAmt = (1000.f * mass) + (500.f * temp * mass);
+	forceAmt = ( 1000.f * mass ) + ( 500.f * temp * mass );
 
-	if ( forceAmt/mass > 120000.f ) {
+	if ( forceAmt / mass > 120000.f ) {
 		forceAmt = 120000.f * mass;
 	}
 	physics->AddForce( id, objectCenter, forceDir * forceAmt );
@@ -167,8 +167,8 @@ void idForce_Grab::Evaluate( int time ) {
 		physics->SetLinearVelocity( v * damping, id );
 	}
 	if ( distanceToGoal < 16.f ) {
-		v = physics->GetAngularVelocity(id);
-		if ( v.LengthSqr() > Square(8) ) {
+		v = physics->GetAngularVelocity( id );
+		if ( v.LengthSqr() > Square( 8 ) ) {
 			physics->SetAngularVelocity( v * 0.99999f, id );
 		}
 	}

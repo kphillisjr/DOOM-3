@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -88,16 +88,16 @@ bool R_CreateLightingCache( const idRenderEntityLocal *ent, const idRenderLightL
 	R_GlobalPointToLocal( ent->modelMatrix, light->globalLightOrigin, localLightOrigin );
 
 	int	size = tri->ambientSurface->numVerts * sizeof( lightingCache_t );
-	lightingCache_t *cache = (lightingCache_t *)_alloca16( size );
+	lightingCache_t *cache = ( lightingCache_t * )_alloca16( size );
 
 #if 1
 
 	SIMDProcessor->CreateTextureSpaceLightVectors( &cache[0].localLightVector, localLightOrigin,
-												tri->ambientSurface->verts, tri->ambientSurface->numVerts, tri->indexes, tri->numIndexes );
+			tri->ambientSurface->verts, tri->ambientSurface->numVerts, tri->indexes, tri->numIndexes );
 
 #else
 
-	bool *used = (bool *)_alloca16( tri->ambientSurface->numVerts * sizeof( used[0] ) );
+	bool *used = ( bool * )_alloca16( tri->ambientSurface->numVerts * sizeof( used[0] ) );
 	memset( used, 0, tri->ambientSurface->numVerts * sizeof( used[0] ) );
 
 	// because the interaction may be a very small subset of the full surface,
@@ -158,7 +158,7 @@ void R_CreateVertexProgramShadowCache( srfTriangles_t *tri ) {
 		return;
 	}
 
-	shadowCache_t *temp = (shadowCache_t *)_alloca16( tri->numVerts * 2 * sizeof( shadowCache_t ) );
+	shadowCache_t *temp = ( shadowCache_t * )_alloca16( tri->numVerts * 2 * sizeof( shadowCache_t ) );
 
 #if 1
 
@@ -170,14 +170,14 @@ void R_CreateVertexProgramShadowCache( srfTriangles_t *tri ) {
 	const idDrawVert *verts = tri->verts;
 	for ( int i = 0; i < numVerts; i++ ) {
 		const float *v = verts[i].xyz.ToFloatPtr();
-		temp[i*2+0].xyz[0] = v[0];
-		temp[i*2+1].xyz[0] = v[0];
-		temp[i*2+0].xyz[1] = v[1];
-		temp[i*2+1].xyz[1] = v[1];
-		temp[i*2+0].xyz[2] = v[2];
-		temp[i*2+1].xyz[2] = v[2];
-		temp[i*2+0].xyz[3] = 1.0f;		// on the model surface
-		temp[i*2+1].xyz[3] = 0.0f;		// will be projected to infinity
+		temp[i * 2 + 0].xyz[0] = v[0];
+		temp[i * 2 + 1].xyz[0] = v[0];
+		temp[i * 2 + 0].xyz[1] = v[1];
+		temp[i * 2 + 1].xyz[1] = v[1];
+		temp[i * 2 + 0].xyz[2] = v[2];
+		temp[i * 2 + 1].xyz[2] = v[2];
+		temp[i * 2 + 0].xyz[3] = 1.0f;		// on the model surface
+		temp[i * 2 + 1].xyz[3] = 0.0f;		// will be projected to infinity
 	}
 
 #endif
@@ -198,7 +198,7 @@ void R_SkyboxTexGen( drawSurf_t *surf, const idVec3 &viewOrg ) {
 
 	int numVerts = surf->geo->numVerts;
 	int size = numVerts * sizeof( idVec3 );
-	idVec3 *texCoords = (idVec3 *) _alloca16( size );
+	idVec3 *texCoords = ( idVec3 * ) _alloca16( size );
 
 	const idDrawVert *verts = surf->geo->verts;
 	for ( i = 0; i < numVerts; i++ ) {
@@ -276,7 +276,7 @@ void R_WobbleskyTexGen( drawSurf_t *surf, const idVec3 &viewOrg ) {
 
 	int numVerts = surf->geo->numVerts;
 	int size = numVerts * sizeof( idVec3 );
-	idVec3 *texCoords = (idVec3 *) _alloca16( size );
+	idVec3 *texCoords = ( idVec3 * ) _alloca16( size );
 
 	const idDrawVert *verts = surf->geo->verts;
 	for ( i = 0; i < numVerts; i++ ) {
@@ -311,16 +311,16 @@ static void R_SpecularTexGen( drawSurf_t *surf, const idVec3 &globalLightOrigin,
 
 	// FIXME: change to 3 component?
 	int	size = tri->numVerts * sizeof( idVec4 );
-	idVec4 *texCoords = (idVec4 *) _alloca16( size );
+	idVec4 *texCoords = ( idVec4 * ) _alloca16( size );
 
 #if 1
 
 	SIMDProcessor->CreateSpecularTextureCoords( texCoords, localLightOrigin, localViewOrigin,
-											tri->verts, tri->numVerts, tri->indexes, tri->numIndexes );
+			tri->verts, tri->numVerts, tri->indexes, tri->numIndexes );
 
 #else
 
-	bool *used = (bool *)_alloca16( tri->numVerts * sizeof( used[0] ) );
+	bool *used = ( bool * )_alloca16( tri->numVerts * sizeof( used[0] ) );
 	memset( used, 0, tri->numVerts * sizeof( used[0] ) );
 
 	// because the interaction may be a very small subset of the full surface,
@@ -384,7 +384,7 @@ viewEntity_t *R_SetEntityDefViewEntity( idRenderEntityLocal *def ) {
 	def->viewCount = tr.viewCount;
 
 	// set the model and modelview matricies
-	vModel = (viewEntity_t *)R_ClearedFrameAlloc( sizeof( *vModel ) );
+	vModel = ( viewEntity_t * )R_ClearedFrameAlloc( sizeof( *vModel ) );
 	vModel->entityDef = def;
 
 	// the scissorRect will be expanded as the model bounds is accepted into visible portal chains
@@ -464,7 +464,7 @@ viewLight_t *R_SetLightDefViewLight( idRenderLightLocal *light ) {
 	light->viewCount = tr.viewCount;
 
 	// add to the view light chain
-	vLight = (viewLight_t *)R_ClearedFrameAlloc( sizeof( *vLight ) );
+	vLight = ( viewLight_t * )R_ClearedFrameAlloc( sizeof( *vLight ) );
 	vLight->lightDef = light;
 
 	// the scissorRect will be expanded as the light bounds is accepted into visible portal chains
@@ -477,7 +477,7 @@ viewLight_t *R_SetLightDefViewLight( idRenderLightLocal *light ) {
 		for ( int i = 0 ; i < light->numShadowFrustums ; i++ ) {
 			float d = light->shadowFrustums[i].planes[5].Distance( tr.viewDef->renderView.vieworg );
 			if ( d < INSIDE_LIGHT_FRUSTUM_SLOP ) {
-				vLight->viewSeesShadowPlaneBits|= 1 << i;
+				vLight->viewSeesShadowPlaneBits |= 1 << i;
 			}
 		}
 	} else {
@@ -580,7 +580,7 @@ void idRenderWorldLocal::CreateLightDefInteractions( idRenderLightLocal *ldef ) 
 			}
 
 			// if any of the edef's interaction match this light, we don't
-			// need to consider it. 
+			// need to consider it.
 			if ( r_useInteractionTable.GetBool() && this->interactionTable ) {
 				// allocating these tables may take several megs on big maps, but it saves 3% to 5% of
 				// the CPU time.  The table is updated at interaction::AllocAndLink() and interaction::UnlinkAndFree()
@@ -655,15 +655,15 @@ void idRenderWorldLocal::CreateLightDefInteractions( idRenderLightLocal *ldef ) 
 R_LinkLightSurf
 =================
 */
-void R_LinkLightSurf( const drawSurf_t **link, const srfTriangles_t *tri, const viewEntity_t *space, 
-				   const idRenderLightLocal *light, const idMaterial *shader, const idScreenRect &scissor, bool viewInsideShadow ) {
+void R_LinkLightSurf( const drawSurf_t **link, const srfTriangles_t *tri, const viewEntity_t *space,
+					  const idRenderLightLocal *light, const idMaterial *shader, const idScreenRect &scissor, bool viewInsideShadow ) {
 	drawSurf_t		*drawSurf;
 
 	if ( !space ) {
 		space = &tr.viewDef->worldSpace;
 	}
 
-	drawSurf = (drawSurf_t *)R_FrameAlloc( sizeof( *drawSurf ) );
+	drawSurf = ( drawSurf_t * )R_FrameAlloc( sizeof( *drawSurf ) );
 
 	drawSurf->geo = tri;
 	drawSurf->space = space;
@@ -685,7 +685,7 @@ void R_LinkLightSurf( const drawSurf_t **link, const srfTriangles_t *tri, const 
 			drawSurf->shaderRegisters = constRegs;
 		} else {
 			// FIXME: share with the ambient surface?
-			float *regs = (float *)R_FrameAlloc( shader->GetNumRegisters() * sizeof( float ) );
+			float *regs = ( float * )R_FrameAlloc( shader->GetNumRegisters() * sizeof( float ) );
 			drawSurf->shaderRegisters = regs;
 			shader->EvaluateRegisters( regs, space->entityDef->parms.shaderParms, tr.viewDef, space->entityDef->parms.referenceSound );
 		}
@@ -812,7 +812,7 @@ idScreenRect	R_CalcLightScissorRectangle( viewLight_t *vLight ) {
 	tri = vLight->lightDef->frustumTris;
 	for ( int i = 0 ; i < tri->numVerts ; i++ ) {
 		R_TransformModelToClip( tri->verts[i].xyz, tr.viewDef->worldSpace.modelViewMatrix,
-			tr.viewDef->projectionMatrix, eye, clip );
+								tr.viewDef->projectionMatrix, eye, clip );
 
 		// if it is near clipped, clip the winding polygons to the view frustum
 		if ( clip[3] <= 1 ) {
@@ -891,13 +891,13 @@ void R_AddLightSurfaces( void ) {
 		// see if we are suppressing the light in this view
 		if ( !r_skipSuppress.GetBool() ) {
 			if ( light->parms.suppressLightInViewID
-			&& light->parms.suppressLightInViewID == tr.viewDef->renderView.viewID ) {
+					&& light->parms.suppressLightInViewID == tr.viewDef->renderView.viewID ) {
 				*ptr = vLight->next;
 				light->viewCount = -1;
 				continue;
 			}
-			if ( light->parms.allowLightInViewID 
-			&& light->parms.allowLightInViewID != tr.viewDef->renderView.viewID ) {
+			if ( light->parms.allowLightInViewID
+					&& light->parms.allowLightInViewID != tr.viewDef->renderView.viewID ) {
 				*ptr = vLight->next;
 				light->viewCount = -1;
 				continue;
@@ -905,7 +905,7 @@ void R_AddLightSurfaces( void ) {
 		}
 
 		// evaluate the light shader registers
-		float *lightRegs =(float *)R_FrameAlloc( lightShader->GetNumRegisters() * sizeof( float ) );
+		float *lightRegs = ( float * )R_FrameAlloc( lightShader->GetNumRegisters() * sizeof( float ) );
 		vLight->shaderRegisters = lightRegs;
 		lightShader->EvaluateRegisters( lightRegs, light->parms.shaderParms, tr.viewDef, light->parms.referenceSound );
 
@@ -942,7 +942,7 @@ void R_AddLightSurfaces( void ) {
 
 				if ( lightRegs[ registers[0] ] > 0.0f ||
 						lightRegs[ registers[1] ] > 0.0f ||
-							lightRegs[ registers[2] ] > 0.0f ) {
+						lightRegs[ registers[2] ] > 0.0f ) {
 					break;
 				}
 			}
@@ -985,7 +985,7 @@ void R_AddLightSurfaces( void ) {
 		// a random offset every time
 		if ( r_lightSourceRadius.GetFloat() != 0.0f ) {
 			for ( int i = 0 ; i < 3 ; i++ ) {
-				light->globalLightOrigin[i] += r_lightSourceRadius.GetFloat() * ( -1 + 2 * (rand()&0xfff)/(float)0xfff );
+				light->globalLightOrigin[i] += r_lightSourceRadius.GetFloat() * ( -1 + 2 * ( rand() & 0xfff ) / ( float )0xfff );
 			}
 		}
 
@@ -1187,7 +1187,7 @@ void R_AddDrawSurf( const srfTriangles_t *tri, const viewEntity_t *space, const 
 	static float	refRegs[MAX_EXPRESSION_REGISTERS];	// don't put on stack, or VC++ will do a page touch
 	float			generatedShaderParms[MAX_ENTITY_SHADER_PARMS];
 
-	drawSurf = (drawSurf_t *)R_FrameAlloc( sizeof( *drawSurf ) );
+	drawSurf = ( drawSurf_t * )R_FrameAlloc( sizeof( *drawSurf ) );
 	drawSurf->geo = tri;
 	drawSurf->space = space;
 	drawSurf->material = shader;
@@ -1211,7 +1211,7 @@ void R_AddDrawSurf( const srfTriangles_t *tri, const viewEntity_t *space, const 
 			count = tr.viewDef->maxDrawSurfs * sizeof( tr.viewDef->drawSurfs[0] );
 			tr.viewDef->maxDrawSurfs *= 2;
 		}
-		tr.viewDef->drawSurfs = (drawSurf_t **)R_FrameAlloc( tr.viewDef->maxDrawSurfs * sizeof( tr.viewDef->drawSurfs[0] ) );
+		tr.viewDef->drawSurfs = ( drawSurf_t ** )R_FrameAlloc( tr.viewDef->maxDrawSurfs * sizeof( tr.viewDef->drawSurfs[0] ) );
 		memcpy( tr.viewDef->drawSurfs, old, count );
 	}
 	tr.viewDef->drawSurfs[tr.viewDef->numDrawSurfs] = drawSurf;
@@ -1223,7 +1223,7 @@ void R_AddDrawSurf( const srfTriangles_t *tri, const viewEntity_t *space, const 
 		// shader only uses constant values
 		drawSurf->shaderRegisters = constRegs;
 	} else {
-		float *regs = (float *)R_FrameAlloc( shader->GetNumRegisters() * sizeof( float ) );
+		float *regs = ( float * )R_FrameAlloc( shader->GetNumRegisters() * sizeof( float ) );
 		drawSurf->shaderRegisters = regs;
 
 		// a reference shader will take the calculated stage color value from another shader
@@ -1235,7 +1235,7 @@ void R_AddDrawSurf( const srfTriangles_t *tri, const viewEntity_t *space, const 
 			const shaderStage_t *pStage;
 
 			renderEntity->referenceShader->EvaluateRegisters( refRegs, renderEntity->shaderParms, tr.viewDef, renderEntity->referenceSound );
-			pStage = renderEntity->referenceShader->GetStage(0);
+			pStage = renderEntity->referenceShader->GetStage( 0 );
 
 			memcpy( generatedShaderParms, renderEntity->shaderParms, sizeof( generatedShaderParms ) );
 			generatedShaderParms[0] = refRegs[ pStage->color.registers[0] ];
@@ -1271,7 +1271,7 @@ void R_AddDrawSurf( const srfTriangles_t *tri, const viewEntity_t *space, const 
 	R_DeformDrawSurf( drawSurf );
 
 	// skybox surfaces need a dynamic texgen
-	switch( shader->Texgen() ) {
+	switch ( shader->Texgen() ) {
 		case TG_SKYBOX_CUBE:
 			R_SkyboxTexGen( drawSurf, tr.viewDef->renderView.vieworg );
 			break;
@@ -1369,7 +1369,7 @@ static void R_AddAmbientDrawsurfs( viewEntity_t *vEntity ) {
 
 		R_GlobalShaderOverride( &shader );
 
-		if ( !shader ) {	
+		if ( !shader ) {
 			continue;
 		}
 		if ( !shader->IsDrawn() ) {
@@ -1382,12 +1382,12 @@ static void R_AddAmbientDrawsurfs( viewEntity_t *vEntity ) {
 			for ( j = 0 ; j < tri->numVerts ; j++ ) {
 				for ( k = 0 ; k < 3 ; k++ ) {
 					if ( tri->verts[j].xyz[k] > tri->bounds[1][k] + CHECK_BOUNDS_EPSILON
-						|| tri->verts[j].xyz[k] < tri->bounds[0][k] - CHECK_BOUNDS_EPSILON ) {
+							|| tri->verts[j].xyz[k] < tri->bounds[0][k] - CHECK_BOUNDS_EPSILON ) {
 						common->Printf( "bad tri->bounds on %s:%s\n", def->parms.hModel->Name(), shader->GetName() );
 						break;
 					}
 					if ( tri->verts[j].xyz[k] > def->referenceBounds[1][k] + CHECK_BOUNDS_EPSILON
-						|| tri->verts[j].xyz[k] < def->referenceBounds[0][k] - CHECK_BOUNDS_EPSILON ) {
+							|| tri->verts[j].xyz[k] < def->referenceBounds[0][k] - CHECK_BOUNDS_EPSILON ) {
 						common->Printf( "bad referenceBounds on %s:%s\n", def->parms.hModel->Name(), shader->GetName() );
 						break;
 					}
@@ -1599,14 +1599,14 @@ void R_RemoveUnecessaryViewLights( void ) {
 				surfRect.Union( surf->scissorRect );
 			}
 			for ( surf = vLight->localShadows ; surf ; surf = surf->nextOnLight ) {
-				const_cast<drawSurf_t *>(surf)->scissorRect.Intersect( surfRect );
+				const_cast<drawSurf_t *>( surf )->scissorRect.Intersect( surfRect );
 			}
 
 			for ( surf = vLight->localInteractions ; surf ; surf = surf->nextOnLight ) {
 				surfRect.Union( surf->scissorRect );
 			}
 			for ( surf = vLight->globalShadows ; surf ; surf = surf->nextOnLight ) {
-				const_cast<drawSurf_t *>(surf)->scissorRect.Intersect( surfRect );
+				const_cast<drawSurf_t *>( surf )->scissorRect.Intersect( surfRect );
 			}
 
 			for ( surf = vLight->translucentInteractions ; surf ; surf = surf->nextOnLight ) {

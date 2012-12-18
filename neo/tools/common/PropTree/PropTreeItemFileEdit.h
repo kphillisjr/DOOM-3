@@ -9,8 +9,7 @@
 //#include "PropTreeItem.h"
 //#include "PropTreeItemEdit.h"
 
-class PROPTREE_API CPropTreeItemFileEdit : public CPropTreeItemEdit
-{
+class PROPTREE_API CPropTreeItemFileEdit : public CPropTreeItemEdit {
 	// Construction
 public:
 	CPropTreeItemFileEdit();
@@ -42,8 +41,8 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
-	afx_msg void OnContextMenu(CWnd* pWnd, CPoint point);
-	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+	afx_msg void OnContextMenu( CWnd *pWnd, CPoint point );
+	afx_msg int OnCreate( LPCREATESTRUCT lpCreateStruct );
 };
 
 /////////////////////////////////////////////////////////////////////////////
@@ -51,4 +50,4 @@ public:
 //{{AFX_INSERT_LOCATION}}
 
 
-#endif 
+#endif

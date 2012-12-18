@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -44,7 +44,7 @@ If you have questions concerning this license or the applicable additional terms
 ===================================================================================
 */
 
-idDynamicBlockAlloc<byte, 1<<20, 128>		decoderMemoryAllocator;
+idDynamicBlockAlloc < byte, 1 << 20, 128 >		decoderMemoryAllocator;
 
 const int MIN_OGGVORBIS_MEMORY				= 768 * 1024;
 
@@ -69,13 +69,13 @@ void *_decoder_calloc( size_t num, size_t size ) {
 }
 
 void *_decoder_realloc( void *memblock, size_t size ) {
-	void *ptr = decoderMemoryAllocator.Resize( (byte *)memblock, size );
+	void *ptr = decoderMemoryAllocator.Resize( ( byte * )memblock, size );
 	assert( size == 0 || ptr != NULL );
 	return ptr;
 }
 
 void _decoder_free( void *memblock ) {
-	decoderMemoryAllocator.Free( (byte *)memblock );
+	decoderMemoryAllocator.Free( ( byte * )memblock );
 }
 
 
@@ -93,7 +93,7 @@ FS_ReadOGG
 ====================
 */
 size_t FS_ReadOGG( void *dest, size_t size1, size_t size2, void *fh ) {
-	idFile *f = reinterpret_cast<idFile *>(fh);
+	idFile *f = reinterpret_cast<idFile *>( fh );
 	return f->Read( dest, size1 * size2 );
 }
 
@@ -114,7 +114,7 @@ int FS_SeekOGG( void *fh, ogg_int64_t to, int type ) {
 	} else {
 		common->FatalError( "fs_seekOGG: seek without type\n" );
 	}
-	idFile *f = reinterpret_cast<idFile *>(fh);
+	idFile *f = reinterpret_cast<idFile *>( fh );
 	return f->Seek( to, retype );
 }
 
@@ -133,7 +133,7 @@ FS_TellOGG
 ====================
 */
 long FS_TellOGG( void *fh ) {
-	idFile *f = reinterpret_cast<idFile *>(fh);
+	idFile *f = reinterpret_cast<idFile *>( fh );
 	return f->Tell();
 }
 
@@ -151,7 +151,7 @@ int ov_openFile( idFile *f, OggVorbis_File *vf ) {
 	callbacks.seek_func = FS_SeekOGG;
 	callbacks.close_func = FS_CloseOGG;
 	callbacks.tell_func = FS_TellOGG;
-	return ov_open_callbacks((void *)f, vf, NULL, -1, callbacks);
+	return ov_open_callbacks( ( void * )f, vf, NULL, -1, callbacks );
 }
 
 /*
@@ -159,7 +159,7 @@ int ov_openFile( idFile *f, OggVorbis_File *vf ) {
 idWaveFile::OpenOGG
 ====================
 */
-int idWaveFile::OpenOGG( const char* strFileName, waveformatex_t *pwfx ) {
+int idWaveFile::OpenOGG( const char *strFileName, waveformatex_t *pwfx ) {
 	OggVorbis_File *ov;
 
 	memset( pwfx, 0, sizeof( waveformatex_t ) );
@@ -173,7 +173,7 @@ int idWaveFile::OpenOGG( const char* strFileName, waveformatex_t *pwfx ) {
 
 	ov = new OggVorbis_File;
 
-	if( ov_openFile( mhmmio, ov ) < 0 ) {
+	if ( ov_openFile( mhmmio, ov ) < 0 ) {
 		delete ov;
 		Sys_LeaveCriticalSection( CRITICAL_SECTION_ONE );
 		fileSystem->CloseFile( mhmmio );
@@ -187,7 +187,7 @@ int idWaveFile::OpenOGG( const char* strFileName, waveformatex_t *pwfx ) {
 
 	mpwfx.Format.nSamplesPerSec = vi->rate;
 	mpwfx.Format.nChannels = vi->channels;
-	mpwfx.Format.wBitsPerSample = sizeof(short) * 8;
+	mpwfx.Format.wBitsPerSample = sizeof( short ) * 8;
 	mdwSize = ov_pcm_total( ov, -1 ) * vi->channels;	// pcm samples * num channels
 	mbIsReadingFromMemory = false;
 
@@ -224,10 +224,10 @@ int idWaveFile::OpenOGG( const char* strFileName, waveformatex_t *pwfx ) {
 idWaveFile::ReadOGG
 ====================
 */
-int idWaveFile::ReadOGG( byte* pBuffer, int dwSizeToRead, int *pdwSizeRead ) {
+int idWaveFile::ReadOGG( byte *pBuffer, int dwSizeToRead, int *pdwSizeRead ) {
 	int total = dwSizeToRead;
-	char *bufferPtr = (char *)pBuffer;
-	OggVorbis_File *ov = (OggVorbis_File *) ogg;
+	char *bufferPtr = ( char * )pBuffer;
+	OggVorbis_File *ov = ( OggVorbis_File * ) ogg;
 
 	do {
 		int ret = ov_read( ov, bufferPtr, total >= 4096 ? 4096 : total, Swap_IsBigEndian(), 2, 1, &ov->stream );
@@ -239,9 +239,9 @@ int idWaveFile::ReadOGG( byte* pBuffer, int dwSizeToRead, int *pdwSizeRead ) {
 		}
 		bufferPtr += ret;
 		total -= ret;
-	} while( total > 0 );
+	} while ( total > 0 );
 
-	dwSizeToRead = (byte *)bufferPtr - pBuffer;
+	dwSizeToRead = ( byte * )bufferPtr - pBuffer;
 
 	if ( pdwSizeRead != NULL ) {
 		*pdwSizeRead = dwSizeToRead;
@@ -256,7 +256,7 @@ idWaveFile::CloseOGG
 ====================
 */
 int idWaveFile::CloseOGG( void ) {
-	OggVorbis_File *ov = (OggVorbis_File *) ogg;
+	OggVorbis_File *ov = ( OggVorbis_File * ) ogg;
 	if ( ov != NULL ) {
 		Sys_EnterCriticalSection( CRITICAL_SECTION_ONE );
 		ov_clear( ov );
@@ -283,7 +283,7 @@ class idSampleDecoderLocal : public idSampleDecoder {
 public:
 	virtual void			Decode( idSoundSample *sample, int sampleOffset44k, int sampleCount44k, float *dest );
 	virtual void			ClearDecoder( void );
-	virtual idSoundSample *	GetSample( void ) const;
+	virtual idSoundSample 	*GetSample( void ) const;
 	virtual int				GetLastDecodeTime( void ) const;
 
 	void					Clear( void );
@@ -293,7 +293,7 @@ public:
 private:
 	bool					failed;				// set if decoding failed
 	int						lastFormat;			// last format being decoded
-	idSoundSample *			lastSample;			// last sample being decoded
+	idSoundSample 			*lastSample;			// last sample being decoded
 	int						lastSampleOffset;	// last offset into the decoded sample
 	int						lastDecodeTime;		// last time decoding sound
 	idFile_Memory			file;				// encoded file in memory
@@ -385,7 +385,7 @@ idSampleDecoderLocal::ClearDecoder
 void idSampleDecoderLocal::ClearDecoder( void ) {
 	Sys_EnterCriticalSection( CRITICAL_SECTION_ONE );
 
-	switch( lastFormat ) {
+	switch ( lastFormat ) {
 		case WAVE_FORMAT_TAG_PCM: {
 			break;
 		}
@@ -441,7 +441,7 @@ void idSampleDecoderLocal::Decode( idSoundSample *sample, int sampleOffset44k, i
 	// samples can be decoded both from the sound thread and the main thread for shakes
 	Sys_EnterCriticalSection( CRITICAL_SECTION_ONE );
 
-	switch( sample->objectInfo.wFormatTag ) {
+	switch ( sample->objectInfo.wFormatTag ) {
 		case WAVE_FORMAT_TAG_PCM: {
 			readSamples44k = DecodePCM( sample, sampleOffset44k, sampleCount44k, dest );
 			break;
@@ -497,7 +497,7 @@ int idSampleDecoderLocal::DecodePCM( idSoundSample *sample, int sampleOffset44k,
 	}
 
 	// duplicate samples for 44kHz output
-	SIMDProcessor->UpSamplePCMTo44kHz( dest, (const short *)(first+pos), readSamples, sample->objectInfo.nSamplesPerSec, sample->objectInfo.nChannels );
+	SIMDProcessor->UpSamplePCMTo44kHz( dest, ( const short * )( first + pos ), readSamples, sample->objectInfo.nSamplesPerSec, sample->objectInfo.nChannels );
 
 	return ( readSamples << shift );
 }
@@ -525,7 +525,7 @@ int idSampleDecoderLocal::DecodeOGG( idSoundSample *sample, int sampleOffset44k,
 			failed = true;
 			return 0;
 		}
-		file.SetData( (const char *)sample->nonCacheData, sample->objectMemSize );
+		file.SetData( ( const char * )sample->nonCacheData, sample->objectMemSize );
 		if ( ov_openFile( &file, &ogg ) < 0 ) {
 			failed = true;
 			return 0;
@@ -564,7 +564,7 @@ int idSampleDecoderLocal::DecodeOGG( idSoundSample *sample, int sampleOffset44k,
 
 		readSamples += ret;
 		totalSamples -= ret;
-	} while( totalSamples > 0 );
+	} while ( totalSamples > 0 );
 
 	lastSampleOffset += readSamples;
 

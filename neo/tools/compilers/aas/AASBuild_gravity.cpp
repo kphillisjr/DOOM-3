@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -50,22 +50,20 @@ void idAASBuild::SetPortalFlags_r( idBrushBSPNode *node ) {
 		return;
 	}
 
-	if ( !node->GetChild(0) && !node->GetChild(1) ) {
-		for ( p = node->GetPortals(); p; p = p->Next(s) ) {
-			s = (p->GetNode(1) == node);
+	if ( !node->GetChild( 0 ) && !node->GetChild( 1 ) ) {
+		for ( p = node->GetPortals(); p; p = p->Next( s ) ) {
+			s = ( p->GetNode( 1 ) == node );
 
 			// if solid at the other side of the portal
-			if ( p->GetNode(!s)->GetContents() & AREACONTENTS_SOLID ) {
+			if ( p->GetNode( !s )->GetContents() & AREACONTENTS_SOLID ) {
 				if ( s ) {
 					normal = -p->GetPlane().Normal();
-				}
-				else {
+				} else {
 					normal = p->GetPlane().Normal();
 				}
 				if ( normal * aasSettings->invGravityDir > aasSettings->minFloorCos ) {
 					p->SetFlag( FACE_FLOOR );
-				}
-				else {
+				} else {
 					p->SetFlag( FACE_SOLID );
 				}
 			}
@@ -73,8 +71,8 @@ void idAASBuild::SetPortalFlags_r( idBrushBSPNode *node ) {
 		return;
 	}
 
-	SetPortalFlags_r( node->GetChild(0) );
-	SetPortalFlags_r( node->GetChild(1) );
+	SetPortalFlags_r( node->GetChild( 0 ) );
+	SetPortalFlags_r( node->GetChild( 1 ) );
 }
 
 /*
@@ -86,14 +84,13 @@ bool idAASBuild::PortalIsGap( idBrushBSPPortal *portal, int side ) {
 	idVec3 normal;
 
 	// if solid at the other side of the portal
-	if ( portal->GetNode(!side)->GetContents() & AREACONTENTS_SOLID ) {
+	if ( portal->GetNode( !side )->GetContents() & AREACONTENTS_SOLID ) {
 		return false;
 	}
 
 	if ( side ) {
-		normal = -(portal->GetPlane().Normal());
-	}
-	else {
+		normal = -( portal->GetPlane().Normal() );
+	} else {
 		normal = portal->GetPlane().Normal();
 	}
 	if ( normal * aasSettings->invGravityDir > aasSettings->minFloorCos ) {
@@ -124,15 +121,15 @@ void idAASBuild::GravSubdivLeafNode( idBrushBSPNode *node ) {
 	int floor, gap, numFloorChecked;
 
 	// if this leaf node is already classified it cannot have a combination of floor and gap portals
-	if ( node->GetFlags() & (AREA_FLOOR|AREA_GAP) ) {
+	if ( node->GetFlags() & ( AREA_FLOOR | AREA_GAP ) ) {
 		return;
 	}
 
 	floor = gap = 0;
 
 	// check if the area has a floor
-	for ( p1 = node->GetPortals(); p1; p1 = p1->Next(s1) ) {
-		s1 = (p1->GetNode(1) == node);
+	for ( p1 = node->GetPortals(); p1; p1 = p1->Next( s1 ) ) {
+		s1 = ( p1->GetNode( 1 ) == node );
 
 		if ( p1->GetFlags() & FACE_FLOOR ) {
 			floor++;
@@ -140,8 +137,8 @@ void idAASBuild::GravSubdivLeafNode( idBrushBSPNode *node ) {
 	}
 
 	// find seperating planes between gap and floor portals
-	for ( p1 = node->GetPortals(); p1; p1 = p1->Next(s1) ) {
-		s1 = (p1->GetNode(1) == node);
+	for ( p1 = node->GetPortals(); p1; p1 = p1->Next( s1 ) ) {
+		s1 = ( p1->GetNode( 1 ) == node );
 
 		// if the portal is a gap seen from this side
 		if ( PortalIsGap( p1, s1 ) ) {
@@ -150,8 +147,7 @@ void idAASBuild::GravSubdivLeafNode( idBrushBSPNode *node ) {
 			if ( !floor ) {
 				break;
 			}
-		}
-		else {
+		} else {
 			continue;
 		}
 
@@ -163,13 +159,13 @@ void idAASBuild::GravSubdivLeafNode( idBrushBSPNode *node ) {
 		for ( i = 0; i < w1->GetNumPoints(); i++ ) {
 
 			// create a plane through the edge of the gap parallel to the direction of gravity
-			normal = (*w1)[(i+1)%w1->GetNumPoints()].ToVec3() - (*w1)[i].ToVec3();
+			normal = ( *w1 )[( i + 1 ) % w1->GetNumPoints()].ToVec3() - ( *w1 )[i].ToVec3();
 			normal = normal.Cross( aasSettings->invGravityDir );
 			if ( normal.Normalize() < 0.2f ) {
 				continue;
 			}
 			plane.SetNormal( normal );
-			plane.FitThroughPoint( (*w1)[i].ToVec3() );
+			plane.FitThroughPoint( ( *w1 )[i].ToVec3() );
 
 			// get the side of the plane the gap is on
 			side1 = w1->PlaneSide( plane, GRAVSUBDIV_EPSILON );
@@ -178,8 +174,8 @@ void idAASBuild::GravSubdivLeafNode( idBrushBSPNode *node ) {
 			}
 
 			// test if the plane through the edge of the gap seperates the gap from a floor portal
-			for ( p2 = node->GetPortals(); p2; p2 = p2->Next(s2) ) {
-				s2 = (p2->GetNode(1) == node);
+			for ( p2 = node->GetPortals(); p2; p2 = p2->Next( s2 ) ) {
+				s2 = ( p2->GetNode( 1 ) == node );
 
 				if ( !( p2->GetFlags() & FACE_FLOOR ) ) {
 					continue;
@@ -195,7 +191,7 @@ void idAASBuild::GravSubdivLeafNode( idBrushBSPNode *node ) {
 				max = GRAVSUBDIV_EPSILON;
 				if ( side1 == SIDE_FRONT ) {
 					for ( j = 0; j < w2->GetNumPoints(); j++ ) {
-						d = plane.Distance( (*w2)[j].ToVec3() );
+						d = plane.Distance( ( *w2 )[j].ToVec3() );
 						if ( d >= GRAVSUBDIV_EPSILON ) {
 							break;	// point at the same side of the plane as the gap
 						}
@@ -207,10 +203,9 @@ void idAASBuild::GravSubdivLeafNode( idBrushBSPNode *node ) {
 							max = d;
 						}
 					}
-				}
-				else {
+				} else {
 					for ( j = 0; j < w2->GetNumPoints(); j++ ) {
-						d = plane.Distance( (*w2)[j].ToVec3() );
+						d = plane.Distance( ( *w2 )[j].ToVec3() );
 						if ( d <= -GRAVSUBDIV_EPSILON ) {
 							break;	// point at the same side of the plane as the gap
 						}
@@ -243,18 +238,17 @@ void idAASBuild::GravSubdivLeafNode( idBrushBSPNode *node ) {
 			}
 		}
 
-		for ( p2 = node->GetPortals(); p2; p2 = p2->Next(s2) ) {
-			s2 = (p2->GetNode(1) == node);
+		for ( p2 = node->GetPortals(); p2; p2 = p2->Next( s2 ) ) {
+			s2 = ( p2->GetNode( 1 ) == node );
 			p2->RemoveFlag( FACE_CHECKED );
 		}
 	}
 
 	// if the leaf node does not have both floor and gap portals
-	if ( !( gap && floor) ) {
+	if ( !( gap && floor ) ) {
 		if ( floor ) {
 			node->SetFlag( AREA_FLOOR );
-		}
-		else if ( gap ) {
+		} else if ( gap ) {
 			node->SetFlag( AREA_GAP );
 		}
 		return;
@@ -266,16 +260,16 @@ void idAASBuild::GravSubdivLeafNode( idBrushBSPNode *node ) {
 		return;
 	}
 
-	splitterOrder = (int *) _alloca( planeList.Num() * sizeof( int ) );
-	bestNumSplits = (int *) _alloca( planeList.Num() * sizeof( int ) );
+	splitterOrder = ( int * ) _alloca( planeList.Num() * sizeof( int ) );
+	bestNumSplits = ( int * ) _alloca( planeList.Num() * sizeof( int ) );
 	numSplitters = 0;
 
 	// test all possible seperators and sort them from best to worst
 	for ( i = 0; i < planeList.Num(); i += 2 ) {
 		numSplits = 0;
 
-		for ( p1 = node->GetPortals(); p1; p1 = p1->Next(s1) ) {
-			s1 = (p1->GetNode(1) == node);
+		for ( p1 = node->GetPortals(); p1; p1 = p1->Next( s1 ) ) {
+			s1 = ( p1->GetNode( 1 ) == node );
 			if ( p1->GetWinding()->PlaneSide( planeList[i], 0.1f ) == SIDE_CROSS ) {
 				numSplits++;
 			}
@@ -284,8 +278,8 @@ void idAASBuild::GravSubdivLeafNode( idBrushBSPNode *node ) {
 		for ( j = 0; j < numSplitters; j++ ) {
 			if ( numSplits < bestNumSplits[j] ) {
 				for ( k = numSplitters; k > j; k-- ) {
-					bestNumSplits[k] = bestNumSplits[k-1];
-					splitterOrder[k] = splitterOrder[k-1];
+					bestNumSplits[k] = bestNumSplits[k - 1];
+					splitterOrder[k] = splitterOrder[k - 1];
 				}
 				bestNumSplits[j] = numSplits;
 				splitterOrder[j] = i;
@@ -307,15 +301,15 @@ void idAASBuild::GravSubdivLeafNode( idBrushBSPNode *node ) {
 			break;
 		}
 	}
-	if ( i >= numSplitters) {
+	if ( i >= numSplitters ) {
 		return;
 	}
 
 	DisplayRealTimeString( "\r%6d", ++numGravitationalSubdivisions );
 
 	// test children for further splits
-	GravSubdivLeafNode( node->GetChild(0) );
-	GravSubdivLeafNode( node->GetChild(1) );
+	GravSubdivLeafNode( node->GetChild( 0 ) );
+	GravSubdivLeafNode( node->GetChild( 1 ) );
 }
 
 /*
@@ -333,13 +327,13 @@ void idAASBuild::GravSubdiv_r( idBrushBSPNode *node ) {
 		return;
 	}
 
-	if ( !node->GetChild(0) && !node->GetChild(1) ) {
+	if ( !node->GetChild( 0 ) && !node->GetChild( 1 ) ) {
 		GravSubdivLeafNode( node );
 		return;
 	}
 
-	GravSubdiv_r( node->GetChild(0) );
-	GravSubdiv_r( node->GetChild(1) );
+	GravSubdiv_r( node->GetChild( 0 ) );
+	GravSubdiv_r( node->GetChild( 1 ) );
 }
 
 /*

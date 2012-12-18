@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -75,8 +75,8 @@ Sys_GetSystemRam
 */
 int Sys_GetSystemRam( void ) {
 	MEMORYSTATUSEX statex;
-	statex.dwLength = sizeof ( statex );
-	GlobalMemoryStatusEx (&statex);
+	statex.dwLength = sizeof( statex );
+	GlobalMemoryStatusEx( &statex );
 	int physRam = statex.ullTotalPhys / ( 1024 * 1024 );
 	// HACK: For some reason, ullTotalPhys is sometimes off by a meg or two, so we round up to the nearest 16 megs
 	physRam = ( physRam + 8 ) & ~15;
@@ -96,7 +96,7 @@ int Sys_GetDriveFreeSpace( const char *path ) {
 	DWORDLONG lpTotalNumberOfFreeBytes;
 	int ret = 26;
 	//FIXME: see why this is failing on some machines
-	if ( ::GetDiskFreeSpaceEx( path, (PULARGE_INTEGER)&lpFreeBytesAvailable, (PULARGE_INTEGER)&lpTotalNumberOfBytes, (PULARGE_INTEGER)&lpTotalNumberOfFreeBytes ) ) {
+	if ( ::GetDiskFreeSpaceEx( path, ( PULARGE_INTEGER )&lpFreeBytesAvailable, ( PULARGE_INTEGER )&lpTotalNumberOfBytes, ( PULARGE_INTEGER )&lpTotalNumberOfFreeBytes ) ) {
 		ret = ( double )( lpFreeBytesAvailable ) / ( 1024.0 * 1024.0 );
 	}
 	return ret;
@@ -130,7 +130,7 @@ int Sys_GetVideoRam( void ) {
 		return retSize;
 	}
 
-	// Switch the security level to IMPERSONATE so that provider will grant access to system-level objects.  
+	// Switch the security level to IMPERSONATE so that provider will grant access to system-level objects.
 	hr = CoSetProxyBlanket( spServices, RPC_C_AUTHN_WINNT, RPC_C_AUTHZ_NONE, NULL, RPC_C_AUTHN_LEVEL_CALL, RPC_C_IMP_LEVEL_IMPERSONATE, NULL, EOAC_NONE );
 	if ( hr != S_OK ) {
 		return retSize;
@@ -138,7 +138,7 @@ int Sys_GetVideoRam( void ) {
 
 	// Get the vid controller
 	CComPtr<IEnumWbemClassObject> spEnumInst = NULL;
-	hr = spServices->CreateInstanceEnum( CComBSTR( "Win32_VideoController" ), WBEM_FLAG_SHALLOW, NULL, &spEnumInst ); 
+	hr = spServices->CreateInstanceEnum( CComBSTR( "Win32_VideoController" ), WBEM_FLAG_SHALLOW, NULL, &spEnumInst );
 	if ( hr != WBEM_S_NO_ERROR || spEnumInst == NULL ) {
 		return retSize;
 	}
@@ -183,25 +183,25 @@ void Sys_GetCurrentMemoryStatus( sysMemoryStats_t &stats ) {
 	stats.memoryLoad = statex.dwMemoryLoad;
 
 	work = statex.ullTotalPhys >> 20;
-	stats.totalPhysical = *(int*)&work;
+	stats.totalPhysical = *( int * )&work;
 
 	work = statex.ullAvailPhys >> 20;
-	stats.availPhysical = *(int*)&work;
+	stats.availPhysical = *( int * )&work;
 
 	work = statex.ullAvailPageFile >> 20;
-	stats.availPageFile = *(int*)&work;
+	stats.availPageFile = *( int * )&work;
 
 	work = statex.ullTotalPageFile >> 20;
-	stats.totalPageFile = *(int*)&work;
+	stats.totalPageFile = *( int * )&work;
 
 	work = statex.ullTotalVirtual >> 20;
-	stats.totalVirtual = *(int*)&work;
+	stats.totalVirtual = *( int * )&work;
 
 	work = statex.ullAvailVirtual >> 20;
-	stats.availVirtual = *(int*)&work;
+	stats.availVirtual = *( int * )&work;
 
 	work = statex.ullAvailExtendedVirtual >> 20;
-	stats.availExtendedVirtual = *(int*)&work;
+	stats.availExtendedVirtual = *( int * )&work;
 }
 
 /*
@@ -210,7 +210,7 @@ Sys_LockMemory
 ================
 */
 bool Sys_LockMemory( void *ptr, int bytes ) {
-	return ( VirtualLock( ptr, (SIZE_T)bytes ) != FALSE );
+	return ( VirtualLock( ptr, ( SIZE_T )bytes ) != FALSE );
 }
 
 /*
@@ -219,7 +219,7 @@ Sys_UnlockMemory
 ================
 */
 bool Sys_UnlockMemory( void *ptr, int bytes ) {
-	return ( VirtualUnlock( ptr, (SIZE_T)bytes ) != FALSE );
+	return ( VirtualUnlock( ptr, ( SIZE_T )bytes ) != FALSE );
 }
 
 /*
@@ -250,7 +250,7 @@ char *Sys_GetCurrentUser( void ) {
 	}
 
 	return s_userName;
-}	
+}
 
 
 /*
@@ -277,15 +277,15 @@ const int UNDECORATE_FLAGS =	UNDNAME_NO_MS_KEYWORDS |
 
 typedef struct symbol_s {
 	int					address;
-	char *				name;
-	struct symbol_s *	next;
+	char 				*name;
+	struct symbol_s 	*next;
 } symbol_t;
 
 typedef struct module_s {
 	int					address;
-	char *				name;
-	symbol_t *			symbols;
-	struct module_s *	next;
+	char 				*name;
+	symbol_t 			*symbols;
+	struct module_s 	*next;
 } module_t;
 
 module_t *modules;
@@ -296,11 +296,11 @@ SkipRestOfLine
 ==================
 */
 void SkipRestOfLine( const char **ptr ) {
-	while( (**ptr) != '\0' && (**ptr) != '\n' && (**ptr) != '\r' ) {
-		(*ptr)++;
+	while ( ( **ptr ) != '\0' && ( **ptr ) != '\n' && ( **ptr ) != '\r' ) {
+		( *ptr )++;
 	}
-	while( (**ptr) == '\n' || (**ptr) == '\r' ) {
-		(*ptr)++;
+	while ( ( **ptr ) == '\n' || ( **ptr ) == '\r' ) {
+		( *ptr )++;
 	}
 }
 
@@ -310,8 +310,8 @@ SkipWhiteSpace
 ==================
 */
 void SkipWhiteSpace( const char **ptr ) {
-	while( (**ptr) == ' ' ) {
-		(*ptr)++;
+	while ( ( **ptr ) == ' ' ) {
+		( *ptr )++;
 	}
 }
 
@@ -322,14 +322,14 @@ ParseHexNumber
 */
 int ParseHexNumber( const char **ptr ) {
 	int n = 0;
-	while( (**ptr) >= '0' && (**ptr) <= '9' || (**ptr) >= 'a' && (**ptr) <= 'f' ) {
+	while ( ( **ptr ) >= '0' && ( **ptr ) <= '9' || ( **ptr ) >= 'a' && ( **ptr ) <= 'f' ) {
 		n <<= 4;
 		if ( **ptr >= '0' && **ptr <= '9' ) {
-			n |= ( (**ptr) - '0' );
+			n |= ( ( **ptr ) - '0' );
 		} else {
-			n |= 10 + ( (**ptr) - 'a' );
+			n |= 10 + ( ( **ptr ) - 'a' );
 		}
-		(*ptr)++;
+		( *ptr )++;
 	}
 	return n;
 }
@@ -343,12 +343,12 @@ void Sym_Init( long addr ) {
 	TCHAR moduleName[MAX_STRING_CHARS];
 	MEMORY_BASIC_INFORMATION mbi;
 
-	VirtualQuery( (void*)addr, &mbi, sizeof(mbi) );
+	VirtualQuery( ( void * )addr, &mbi, sizeof( mbi ) );
 
-	GetModuleFileName( (HMODULE)mbi.AllocationBase, moduleName, sizeof( moduleName ) );
+	GetModuleFileName( ( HMODULE )mbi.AllocationBase, moduleName, sizeof( moduleName ) );
 
 	char *ext = moduleName + strlen( moduleName );
-	while( ext > moduleName && *ext != '.' ) {
+	while ( ext > moduleName && *ext != '.' ) {
 		ext--;
 	}
 	if ( ext == moduleName ) {
@@ -357,10 +357,10 @@ void Sym_Init( long addr ) {
 		strcpy( ext, ".map" );
 	}
 
-	module_t *module = (module_t *) malloc( sizeof( module_t ) );
-	module->name = (char *) malloc( strlen( moduleName ) + 1 );
+	module_t *module = ( module_t * ) malloc( sizeof( module_t ) );
+	module->name = ( char * ) malloc( strlen( moduleName ) + 1 );
 	strcpy( module->name, moduleName );
-	module->address = (int)mbi.AllocationBase;
+	module->address = ( int )mbi.AllocationBase;
 	module->symbols = NULL;
 	module->next = modules;
 	modules = module;
@@ -375,7 +375,7 @@ void Sym_Init( long addr ) {
 	int length = ftell( fp );
 	fseek( fp, pos, SEEK_SET );
 
-	char *text = (char *) malloc( length+1 );
+	char *text = ( char * ) malloc( length + 1 );
 	fread( text, 1, length, fp );
 	text[length] = '\0';
 	fclose( fp );
@@ -383,7 +383,7 @@ void Sym_Init( long addr ) {
 	const char *ptr = text;
 
 	// skip up to " Address" on a new line
-	while( *ptr != '\0' ) {
+	while ( *ptr != '\0' ) {
 		SkipWhiteSpace( &ptr );
 		if ( idStr::Cmpn( ptr, "Address", 7 ) == 0 ) {
 			SkipRestOfLine( &ptr );
@@ -398,7 +398,7 @@ void Sym_Init( long addr ) {
 	symbol_t *symbol;
 
 	// parse symbols
-	while( *ptr != '\0' ) {
+	while ( *ptr != '\0' ) {
 
 		SkipWhiteSpace( &ptr );
 
@@ -414,7 +414,7 @@ void Sym_Init( long addr ) {
 
 		// parse symbol name
 		symbolLength = 0;
-		while( *ptr != '\0' && *ptr != ' ' ) {
+		while ( *ptr != '\0' && *ptr != ' ' ) {
 			symbolName[symbolLength++] = *ptr++;
 			if ( symbolLength >= sizeof( symbolName ) - 1 ) {
 				break;
@@ -429,8 +429,8 @@ void Sym_Init( long addr ) {
 
 		SkipRestOfLine( &ptr );
 
-		symbol = (symbol_t *) malloc( sizeof( symbol_t ) );
-		symbol->name = (char *) malloc( symbolLength );
+		symbol = ( symbol_t * ) malloc( sizeof( symbol_t ) );
+		symbol->name = ( char * ) malloc( symbolLength );
 		strcpy( symbol->name, symbolName );
 		symbol->address = symbolAddress;
 		symbol->next = module->symbols;
@@ -472,10 +472,10 @@ void Sym_GetFuncInfo( long addr, idStr &module, idStr &funcName ) {
 	module_t *m;
 	symbol_t *s;
 
-	VirtualQuery( (void*)addr, &mbi, sizeof(mbi) );
+	VirtualQuery( ( void * )addr, &mbi, sizeof( mbi ) );
 
 	for ( m = modules; m != NULL; m = m->next ) {
-		if ( m->address == (int) mbi.AllocationBase ) {
+		if ( m->address == ( int ) mbi.AllocationBase ) {
 			break;
 		}
 	}
@@ -488,7 +488,7 @@ void Sym_GetFuncInfo( long addr, idStr &module, idStr &funcName ) {
 		if ( s->address == addr ) {
 
 			char undName[MAX_STRING_CHARS];
-			if ( UnDecorateSymbolName( s->name, undName, sizeof(undName), UNDECORATE_FLAGS ) ) {
+			if ( UnDecorateSymbolName( s->name, undName, sizeof( undName ), UNDECORATE_FLAGS ) ) {
 				funcName = undName;
 			} else {
 				funcName = s->name;
@@ -528,9 +528,9 @@ void Sym_Init( long addr ) {
 		Sym_Shutdown();
 	}
 
-	VirtualQuery( (void*)addr, &mbi, sizeof(mbi) );
+	VirtualQuery( ( void * )addr, &mbi, sizeof( mbi ) );
 
-	GetModuleFileName( (HMODULE)mbi.AllocationBase, moduleName, sizeof( moduleName ) );
+	GetModuleFileName( ( HMODULE )mbi.AllocationBase, moduleName, sizeof( moduleName ) );
 	_splitpath( moduleName, NULL, NULL, modShortNameBuf, NULL );
 	lastModule = modShortNameBuf;
 
@@ -538,14 +538,14 @@ void Sym_Init( long addr ) {
 	if ( !SymInitialize( processHandle, NULL, FALSE ) ) {
 		return;
 	}
-	if ( !SymLoadModule( processHandle, NULL, moduleName, NULL, (DWORD)mbi.AllocationBase, 0 ) ) {
+	if ( !SymLoadModule( processHandle, NULL, moduleName, NULL, ( DWORD )mbi.AllocationBase, 0 ) ) {
 		SymCleanup( processHandle );
 		return;
 	}
 
 	SymSetOptions( SymGetOptions() & ~SYMOPT_UNDNAME );
 
-	lastAllocationBase = (DWORD) mbi.AllocationBase;
+	lastAllocationBase = ( DWORD ) mbi.AllocationBase;
 }
 
 /*
@@ -567,47 +567,46 @@ Sym_GetFuncInfo
 void Sym_GetFuncInfo( long addr, idStr &module, idStr &funcName ) {
 	MEMORY_BASIC_INFORMATION mbi;
 
-	VirtualQuery( (void*)addr, &mbi, sizeof(mbi) );
+	VirtualQuery( ( void * )addr, &mbi, sizeof( mbi ) );
 
-	if ( (DWORD) mbi.AllocationBase != lastAllocationBase ) {
+	if ( ( DWORD ) mbi.AllocationBase != lastAllocationBase ) {
 		Sym_Init( addr );
 	}
 
-	BYTE symbolBuffer[ sizeof(IMAGEHLP_SYMBOL) + MAX_STRING_CHARS ];
-	PIMAGEHLP_SYMBOL pSymbol = (PIMAGEHLP_SYMBOL)&symbolBuffer[0];
-	pSymbol->SizeOfStruct = sizeof(symbolBuffer);
+	BYTE symbolBuffer[ sizeof( IMAGEHLP_SYMBOL ) + MAX_STRING_CHARS ];
+	PIMAGEHLP_SYMBOL pSymbol = ( PIMAGEHLP_SYMBOL )&symbolBuffer[0];
+	pSymbol->SizeOfStruct = sizeof( symbolBuffer );
 	pSymbol->MaxNameLength = 1023;
 	pSymbol->Address = 0;
 	pSymbol->Flags = 0;
-	pSymbol->Size =0;
+	pSymbol->Size = 0;
 
 	DWORD symDisplacement = 0;
 	if ( SymGetSymFromAddr( processHandle, addr, &symDisplacement, pSymbol ) ) {
 		// clean up name, throwing away decorations that don't affect uniqueness
-	    char undName[MAX_STRING_CHARS];
-		if ( UnDecorateSymbolName( pSymbol->Name, undName, sizeof(undName), UNDECORATE_FLAGS ) ) {
+		char undName[MAX_STRING_CHARS];
+		if ( UnDecorateSymbolName( pSymbol->Name, undName, sizeof( undName ), UNDECORATE_FLAGS ) ) {
 			funcName = undName;
 		} else {
 			funcName = pSymbol->Name;
 		}
 		module = lastModule;
-	}
-	else {
+	} else {
 		LPVOID lpMsgBuf;
 		FormatMessage( FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-						NULL,
-						GetLastError(),
-						MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
-						(LPTSTR) &lpMsgBuf,
-						0,
-						NULL 
-						);
+					   NULL,
+					   GetLastError(),
+					   MAKELANGID( LANG_NEUTRAL, SUBLANG_DEFAULT ), // Default language
+					   ( LPTSTR ) &lpMsgBuf,
+					   0,
+					   NULL
+					 );
 		LocalFree( lpMsgBuf );
 
 		// Couldn't retrieve symbol (no debug info?, can't load dbghelp.dll?)
 		sprintf( funcName, "0x%08x", addr );
 		module = "";
-    }
+	}
 }
 
 #else
@@ -648,12 +647,12 @@ GetFuncAddr
 address_t GetFuncAddr( address_t midPtPtr ) {
 	long temp;
 	do {
-		temp = (long)(*(long*)midPtPtr);
-		if ( (temp&0x00FFFFFF) == PROLOGUE_SIGNATURE ) {
+		temp = ( long )( *( long * )midPtPtr );
+		if ( ( temp & 0x00FFFFFF ) == PROLOGUE_SIGNATURE ) {
 			break;
 		}
 		midPtPtr--;
-	} while(true);
+	} while ( true );
 
 	return midPtPtr;
 }
@@ -678,7 +677,7 @@ address_t GetCallerAddr( long _ebp ) {
 		mov		midPtPtr, eax
 	}
 	res = GetFuncAddr( midPtPtr );
-label:
+	label:
 	return res;
 }
 
@@ -699,20 +698,20 @@ void Sys_GetCallStack( address_t *callStack, const int callStackSize ) {
 		mov m_ebp, eax
 	}
 	// skip last two functions
-	m_ebp = *((long*)m_ebp);
-	m_ebp = *((long*)m_ebp);
+	m_ebp = *( ( long * )m_ebp );
+	m_ebp = *( ( long * )m_ebp );
 	// list functions
 	for ( i = 0; i < callStackSize; i++ ) {
 		callStack[i] = GetCallerAddr( m_ebp );
 		if ( callStack[i] == 0 ) {
 			break;
 		}
-		m_ebp = *((long*)m_ebp);
+		m_ebp = *( ( long * )m_ebp );
 	}
 #else
 	int i = 0;
 #endif
-	while( i < callStackSize ) {
+	while ( i < callStackSize ) {
 		callStack[i++] = 0;
 	}
 }
@@ -723,14 +722,14 @@ Sys_GetCallStackStr
 ==================
 */
 const char *Sys_GetCallStackStr( const address_t *callStack, const int callStackSize ) {
-	static char string[MAX_STRING_CHARS*2];
+	static char string[MAX_STRING_CHARS * 2];
 	int index, i;
 	idStr module, funcName;
 
 	index = 0;
-	for ( i = callStackSize-1; i >= 0; i-- ) {
+	for ( i = callStackSize - 1; i >= 0; i-- ) {
 		Sym_GetFuncInfo( callStack[i], module, funcName );
-		index += sprintf( string+index, " -> %s", funcName.c_str() );
+		index += sprintf( string + index, " -> %s", funcName.c_str() );
 	}
 	return string;
 }
@@ -743,7 +742,7 @@ Sys_GetCallStackCurStr
 const char *Sys_GetCallStackCurStr( int depth ) {
 	address_t *callStack;
 
-	callStack = (address_t *) _alloca( depth * sizeof( address_t ) );
+	callStack = ( address_t * ) _alloca( depth * sizeof( address_t ) );
 	Sys_GetCallStack( callStack, depth );
 	return Sys_GetCallStackStr( callStack, depth );
 }
@@ -754,16 +753,16 @@ Sys_GetCallStackCurAddressStr
 ==================
 */
 const char *Sys_GetCallStackCurAddressStr( int depth ) {
-	static char string[MAX_STRING_CHARS*2];
+	static char string[MAX_STRING_CHARS * 2];
 	address_t *callStack;
 	int index, i;
 
-	callStack = (address_t *) _alloca( depth * sizeof( address_t ) );
+	callStack = ( address_t * ) _alloca( depth * sizeof( address_t ) );
 	Sys_GetCallStack( callStack, depth );
 
 	index = 0;
-	for ( i = depth-1; i >= 0; i-- ) {
-		index += sprintf( string+index, " -> 0x%08x", callStack[i] );
+	for ( i = depth - 1; i >= 0; i-- ) {
+		index += sprintf( string + index, " -> 0x%08x", callStack[i] );
 	}
 	return string;
 }

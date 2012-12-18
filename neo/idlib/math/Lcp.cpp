@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -58,10 +58,10 @@ private:
 	idVecX			diagonal;			// reciprocal of diagonal of U of the LU factored sub matrix for clamped variables
 	int				numUnbounded;		// number of unbounded variables
 	int				numClamped;			// number of clamped variables
-	float **		rowPtrs;			// pointers to the rows of m
-	int *			boxIndex;			// box index
-	int *			side;				// tells if a variable is at the low boundary = -1, high boundary = 1 or inbetween = 0
-	int *			permuted;			// index to keep track of the permutation
+	float 		**rowPtrs;			// pointers to the rows of m
+	int 			*boxIndex;			// box index
+	int 			*side;				// tells if a variable is at the low boundary = -1, high boundary = 1 or inbetween = 0
+	int 			*permuted;			// index to keep track of the permutation
 	bool			padded;				// set to true if the rows of the initial matrix are 16 byte padded
 
 private:
@@ -225,10 +225,10 @@ void idLCP_Square::RemoveClamped( int r ) {
 		return;
 	}
 
-	y0 = (float *) _alloca16( numClamped * sizeof( float ) );
-	z0 = (float *) _alloca16( numClamped * sizeof( float ) );
-	y1 = (float *) _alloca16( numClamped * sizeof( float ) );
-	z1 = (float *) _alloca16( numClamped * sizeof( float ) );
+	y0 = ( float * ) _alloca16( numClamped * sizeof( float ) );
+	z0 = ( float * ) _alloca16( numClamped * sizeof( float ) );
+	y1 = ( float * ) _alloca16( numClamped * sizeof( float ) );
+	z1 = ( float * ) _alloca16( numClamped * sizeof( float ) );
 
 	// the row/column need to be subtracted from the factorization
 	for ( i = 0; i < numClamped; i++ ) {
@@ -264,10 +264,10 @@ void idLCP_Square::RemoveClamped( int r ) {
 		beta1 = z1[i] * diagonal[i];
 
 		clamped[i][r] += p0;
-		for ( j = i+1; j < numClamped; j++ ) {
+		for ( j = i + 1; j < numClamped; j++ ) {
 			z1[j] -= beta1 * clamped[i][j];
 		}
-		for ( j = i+1; j < numClamped; j++ ) {
+		for ( j = i + 1; j < numClamped; j++ ) {
 			y0[j] -= p0 * clamped[j][i];
 		}
 		clamped[r][i] += beta1;
@@ -303,7 +303,7 @@ void idLCP_Square::RemoveClamped( int r ) {
 		clamped[i][i] = diag;
 		diagonal[i] = d;
 
-		for ( j = i+1; j < numClamped; j++ ) {
+		for ( j = i + 1; j < numClamped; j++ ) {
 
 			d = clamped[i][j];
 
@@ -316,7 +316,7 @@ void idLCP_Square::RemoveClamped( int r ) {
 			clamped[i][j] = d;
 		}
 
-		for ( j = i+1; j < numClamped; j++ ) {
+		for ( j = i + 1; j < numClamped; j++ ) {
 
 			d = clamped[j][i];
 
@@ -350,7 +350,7 @@ ID_INLINE void idLCP_Square::CalcForceDelta( int d, float dir ) {
 	}
 
 	// get column d of matrix
-	ptr = (float *) _alloca16( numClamped * sizeof( float ) );
+	ptr = ( float * ) _alloca16( numClamped * sizeof( float ) );
 	for ( i = 0; i < numClamped; i++ ) {
 		ptr[i] = rowPtrs[i][d];
 	}
@@ -510,7 +510,7 @@ bool idLCP_Square::Solve( const idMatX &o_m, idVecX &o_x, const idVecX &o_b, con
 	char *failed;
 
 	// true when the matrix rows are 16 byte padded
-	padded = ((o_m.GetNumRows()+3)&~3) == o_m.GetNumColumns();
+	padded = ( ( o_m.GetNumRows() + 3 )&~3 ) == o_m.GetNumColumns();
 
 	assert( padded || o_m.GetNumRows() == o_m.GetNumColumns() );
 	assert( o_x.GetSize() == o_m.GetNumRows() );
@@ -525,14 +525,14 @@ bool idLCP_Square::Solve( const idMatX &o_m, idVecX &o_x, const idVecX &o_b, con
 	lo.SetData( o_lo.GetSize(), VECX_ALLOCA( o_lo.GetSize() ) );
 	hi.SetData( o_hi.GetSize(), VECX_ALLOCA( o_hi.GetSize() ) );
 	if ( o_boxIndex ) {
-		boxIndex = (int *)_alloca16( o_x.GetSize() * sizeof( int ) );
+		boxIndex = ( int * )_alloca16( o_x.GetSize() * sizeof( int ) );
 		memcpy( boxIndex, o_boxIndex, o_x.GetSize() * sizeof( int ) );
 	} else {
 		boxIndex = NULL;
 	}
 
 	// we override the const on o_m here but on exit the matrix is unchanged
-	m.SetData( o_m.GetNumRows(), o_m.GetNumColumns(), const_cast<float *>(o_m[0]) );
+	m.SetData( o_m.GetNumRows(), o_m.GetNumColumns(), const_cast<float *>( o_m[0] ) );
 	f.Zero();
 	a.Zero();
 	b = o_b;
@@ -540,16 +540,16 @@ bool idLCP_Square::Solve( const idMatX &o_m, idVecX &o_x, const idVecX &o_b, con
 	hi = o_hi;
 
 	// pointers to the rows of m
-	rowPtrs = (float **) _alloca16( m.GetNumRows() * sizeof( float * ) );
+	rowPtrs = ( float ** ) _alloca16( m.GetNumRows() * sizeof( float * ) );
 	for ( i = 0; i < m.GetNumRows(); i++ ) {
 		rowPtrs[i] = m[i];
 	}
 
 	// tells if a variable is at the low boundary, high boundary or inbetween
-	side = (int *) _alloca16( m.GetNumRows() * sizeof( int ) );
+	side = ( int * ) _alloca16( m.GetNumRows() * sizeof( int ) );
 
 	// index to keep track of the permutation
-	permuted = (int *) _alloca16( m.GetNumRows() * sizeof( int ) );
+	permuted = ( int * ) _alloca16( m.GetNumRows() * sizeof( int ) );
 	for ( i = 0; i < m.GetNumRows(); i++ ) {
 		permuted[i] = i;
 	}
@@ -578,7 +578,7 @@ bool idLCP_Square::Solve( const idMatX &o_m, idVecX &o_x, const idVecX &o_b, con
 		}
 	}
 
-	// sub matrix for factorization 
+	// sub matrix for factorization
 	clamped.SetData( m.GetNumRows(), m.GetNumColumns(), MATX_ALLOCA( m.GetNumRows() * m.GetNumColumns() ) );
 	diagonal.SetData( m.GetNumRows(), VECX_ALLOCA( m.GetNumRows() ) );
 
@@ -693,7 +693,7 @@ bool idLCP_Square::Solve( const idMatX &o_m, idVecX &o_x, const idVecX &o_b, con
 
 			// clamp/unclamp the variable that limited this step
 			side[limit] = limitSide;
-			switch( limitSide ) {
+			switch ( limitSide ) {
 				case 0: {
 					a[limit] = 0.0f;
 					AddClamped( limit );
@@ -818,10 +818,10 @@ private:
 	int				numUnbounded;		// number of unbounded variables
 	int				numClamped;			// number of clamped variables
 	int				clampedChangeStart;	// lowest row/column changed in the clamped matrix during an iteration
-	float **		rowPtrs;			// pointers to the rows of m
-	int *			boxIndex;			// box index
-	int *			side;				// tells if a variable is at the low boundary = -1, high boundary = 1 or inbetween = 0
-	int *			permuted;			// index to keep track of the permutation
+	float 		**rowPtrs;			// pointers to the rows of m
+	int 			*boxIndex;			// box index
+	int 			*side;				// tells if a variable is at the low boundary = -1, high boundary = 1 or inbetween = 0
+	int 			*permuted;			// index to keep track of the permutation
 	bool			padded;				// set to true if the rows of the initial matrix are 16 byte padded
 
 private:
@@ -925,7 +925,7 @@ void idLCP_Symmetric::AddClamped( int r, bool useSolveCache ) {
 
 	} else {
 
-		float *v = (float *) _alloca16( numClamped * sizeof( float ) );
+		float *v = ( float * ) _alloca16( numClamped * sizeof( float ) );
 
 		SIMDProcessor->MatX_LowerTriangularSolve( clamped, v, rowPtrs[numClamped], numClamped );
 		// add bottom row to L
@@ -976,7 +976,7 @@ void idLCP_Symmetric::RemoveClamped( int r ) {
 	Swap( r, numClamped );
 
 	// update the factored matrix
-	addSub = (float *) _alloca16( numClamped * sizeof( float ) );
+	addSub = ( float * ) _alloca16( numClamped * sizeof( float ) );
 
 	if ( r == 0 ) {
 
@@ -1001,7 +1001,7 @@ void idLCP_Symmetric::RemoveClamped( int r ) {
 
 	} else {
 
-		v = (float *) _alloca16( numClamped * sizeof( float ) );
+		v = ( float * ) _alloca16( numClamped * sizeof( float ) );
 
 		// solve for v in L * v = rowPtr[r]
 		SIMDProcessor->MatX_LowerTriangularSolve( clamped, v, rowPtrs[r], r );
@@ -1043,13 +1043,13 @@ void idLCP_Symmetric::RemoveClamped( int r ) {
 
 	// add row/column to the lower right sub matrix starting at (r, r)
 
-	v1 = (float *) _alloca16( numClamped * sizeof( float ) );
-	v2 = (float *) _alloca16( numClamped * sizeof( float ) );
+	v1 = ( float * ) _alloca16( numClamped * sizeof( float ) );
+	v2 = ( float * ) _alloca16( numClamped * sizeof( float ) );
 
 	diag = idMath::SQRT_1OVER2;
 	v1[r] = ( 0.5f * addSub[r] + 1.0f ) * diag;
 	v2[r] = ( 0.5f * addSub[r] - 1.0f ) * diag;
-	for ( i = r+1; i < numClamped; i++ ) {
+	for ( i = r + 1; i < numClamped; i++ ) {
 		v1[i] = v2[i] = addSub[i] * diag;
 	}
 
@@ -1092,30 +1092,30 @@ void idLCP_Symmetric::RemoveClamped( int r ) {
 		// update column below diagonal (i,i)
 		ptr = clamped.ToFloatPtr() + i;
 
-		for ( j = i+1; j < numClamped - 1; j += 2 ) {
+		for ( j = i + 1; j < numClamped - 1; j += 2 ) {
 
-			float sum0 = ptr[(j+0)*n];
-			float sum1 = ptr[(j+1)*n];
+			float sum0 = ptr[( j + 0 ) * n];
+			float sum1 = ptr[( j + 1 ) * n];
 
-			v1[j+0] -= p1 * sum0;
-			v1[j+1] -= p1 * sum1;
+			v1[j + 0] -= p1 * sum0;
+			v1[j + 1] -= p1 * sum1;
 
-			sum0 += beta1 * v1[j+0];
-			sum1 += beta1 * v1[j+1];
+			sum0 += beta1 * v1[j + 0];
+			sum1 += beta1 * v1[j + 1];
 
-			v2[j+0] -= p2 * sum0;
-			v2[j+1] -= p2 * sum1;
+			v2[j + 0] -= p2 * sum0;
+			v2[j + 1] -= p2 * sum1;
 
-			sum0 += beta2 * v2[j+0];
-			sum1 += beta2 * v2[j+1];
+			sum0 += beta2 * v2[j + 0];
+			sum1 += beta2 * v2[j + 1];
 
-			ptr[(j+0)*n] = sum0;
-			ptr[(j+1)*n] = sum1;
+			ptr[( j + 0 )*n] = sum0;
+			ptr[( j + 1 )*n] = sum1;
 		}
 
 		for ( ; j < numClamped; j++ ) {
 
-			sum = ptr[j*n];
+			sum = ptr[j * n];
 
 			v1[j] -= p1 * sum;
 			sum += beta1 * v1[j];
@@ -1123,7 +1123,7 @@ void idLCP_Symmetric::RemoveClamped( int r ) {
 			v2[j] -= p2 * sum;
 			sum += beta2 * v2[j];
 
-			ptr[j*n] = sum;
+			ptr[j * n] = sum;
 		}
 	}
 }
@@ -1300,7 +1300,7 @@ bool idLCP_Symmetric::Solve( const idMatX &o_m, idVecX &o_x, const idVecX &o_b, 
 	char *failed;
 
 	// true when the matrix rows are 16 byte padded
-	padded = ((o_m.GetNumRows()+3)&~3) == o_m.GetNumColumns();
+	padded = ( ( o_m.GetNumRows() + 3 )&~3 ) == o_m.GetNumColumns();
 
 	assert( padded || o_m.GetNumRows() == o_m.GetNumColumns() );
 	assert( o_x.GetSize() == o_m.GetNumRows() );
@@ -1315,14 +1315,14 @@ bool idLCP_Symmetric::Solve( const idMatX &o_m, idVecX &o_x, const idVecX &o_b, 
 	lo.SetData( o_lo.GetSize(), VECX_ALLOCA( o_lo.GetSize() ) );
 	hi.SetData( o_hi.GetSize(), VECX_ALLOCA( o_hi.GetSize() ) );
 	if ( o_boxIndex ) {
-		boxIndex = (int *)_alloca16( o_x.GetSize() * sizeof( int ) );
+		boxIndex = ( int * )_alloca16( o_x.GetSize() * sizeof( int ) );
 		memcpy( boxIndex, o_boxIndex, o_x.GetSize() * sizeof( int ) );
 	} else {
 		boxIndex = NULL;
 	}
 
 	// we override the const on o_m here but on exit the matrix is unchanged
-	m.SetData( o_m.GetNumRows(), o_m.GetNumColumns(), const_cast<float *>(o_m[0]) );
+	m.SetData( o_m.GetNumRows(), o_m.GetNumColumns(), const_cast<float *>( o_m[0] ) );
 	f.Zero();
 	a.Zero();
 	b = o_b;
@@ -1330,16 +1330,16 @@ bool idLCP_Symmetric::Solve( const idMatX &o_m, idVecX &o_x, const idVecX &o_b, 
 	hi = o_hi;
 
 	// pointers to the rows of m
-	rowPtrs = (float **) _alloca16( m.GetNumRows() * sizeof( float * ) );
+	rowPtrs = ( float ** ) _alloca16( m.GetNumRows() * sizeof( float * ) );
 	for ( i = 0; i < m.GetNumRows(); i++ ) {
 		rowPtrs[i] = m[i];
 	}
 
 	// tells if a variable is at the low boundary, high boundary or inbetween
-	side = (int *) _alloca16( m.GetNumRows() * sizeof( int ) );
+	side = ( int * ) _alloca16( m.GetNumRows() * sizeof( int ) );
 
 	// index to keep track of the permutation
-	permuted = (int *) _alloca16( m.GetNumRows() * sizeof( int ) );
+	permuted = ( int * ) _alloca16( m.GetNumRows() * sizeof( int ) );
 	for ( i = 0; i < m.GetNumRows(); i++ ) {
 		permuted[i] = i;
 	}
@@ -1368,7 +1368,7 @@ bool idLCP_Symmetric::Solve( const idMatX &o_m, idVecX &o_x, const idVecX &o_b, 
 		}
 	}
 
-	// sub matrix for factorization 
+	// sub matrix for factorization
 	clamped.SetData( m.GetNumRows(), m.GetNumColumns(), MATX_ALLOCA( m.GetNumRows() * m.GetNumColumns() ) );
 	diagonal.SetData( m.GetNumRows(), VECX_ALLOCA( m.GetNumRows() ) );
 	solveCache1.SetData( m.GetNumRows(), VECX_ALLOCA( m.GetNumRows() ) );
@@ -1487,7 +1487,7 @@ bool idLCP_Symmetric::Solve( const idMatX &o_m, idVecX &o_x, const idVecX &o_b, 
 
 			// clamp/unclamp the variable that limited this step
 			side[limit] = limitSide;
-			switch( limitSide ) {
+			switch ( limitSide ) {
 				case 0: {
 					a[limit] = 0.0f;
 					AddClamped( limit, ( limit == i ) );

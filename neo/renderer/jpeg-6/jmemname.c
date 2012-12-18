@@ -18,8 +18,8 @@
 #include "jmemsys.h"		/* import the system-dependent declarations */
 
 #ifndef HAVE_STDLIB_H		/* <stdlib.h> should declare malloc(),free() */
-extern void * malloc JPP((size_t size));
-extern void free JPP((void *ptr));
+extern void *malloc JPP( ( size_t size ) );
+extern void free JPP( ( void *ptr ) );
 #endif
 
 #ifndef SEEK_SET		/* pre-ANSI systems may not define this; */
@@ -87,27 +87,26 @@ extern int errno;
 
 
 LOCAL void
-select_file_name (char * fname)
-{
-  FILE * tfile;
+select_file_name( char *fname ) {
+	FILE *tfile;
 
-  /* Keep generating file names till we find one that's not in use */
-  for (;;) {
-    next_file_num++;		/* advance counter */
-    sprintf(fname, TEMP_FILE_NAME, TEMP_DIRECTORY, next_file_num);
-    if ((tfile = fopen(fname, READ_BINARY)) == NULL) {
-      /* fopen could have failed for a reason other than the file not
-       * being there; for example, file there but unreadable.
-       * If <errno.h> isn't available, then we cannot test the cause.
-       */
+	/* Keep generating file names till we find one that's not in use */
+	for ( ;; ) {
+		next_file_num++;		/* advance counter */
+		sprintf( fname, TEMP_FILE_NAME, TEMP_DIRECTORY, next_file_num );
+		if ( ( tfile = fopen( fname, READ_BINARY ) ) == NULL ) {
+			/* fopen could have failed for a reason other than the file not
+			 * being there; for example, file there but unreadable.
+			 * If <errno.h> isn't available, then we cannot test the cause.
+			 */
 #ifdef ENOENT
-      if (errno != ENOENT)
-	continue;
+			if ( errno != ENOENT )
+				continue;
 #endif
-      break;
-    }
-    fclose(tfile);		/* oops, it's there; close tfile & try again */
-  }
+			break;
+		}
+		fclose( tfile );		/* oops, it's there; close tfile & try again */
+	}
 }
 
 #else /* ! NO_MKTEMP */
@@ -118,12 +117,11 @@ select_file_name (char * fname)
 #endif
 
 LOCAL void
-select_file_name (char * fname)
-{
-  next_file_num++;		/* advance counter */
-  sprintf(fname, TEMP_FILE_NAME, TEMP_DIRECTORY, next_file_num);
-  mktemp(fname);		/* make sure file name is unique */
-  /* mktemp replaces the trailing XXXXXX with a unique string of characters */
+select_file_name( char *fname ) {
+	next_file_num++;		/* advance counter */
+	sprintf( fname, TEMP_FILE_NAME, TEMP_DIRECTORY, next_file_num );
+	mktemp( fname );		/* make sure file name is unique */
+	/* mktemp replaces the trailing XXXXXX with a unique string of characters */
 }
 
 #endif /* NO_MKTEMP */
@@ -135,15 +133,13 @@ select_file_name (char * fname)
  */
 
 GLOBAL void *
-jpeg_get_small (j_common_ptr cinfo, size_t sizeofobject)
-{
-  return (void *) malloc(sizeofobject);
+jpeg_get_small( j_common_ptr cinfo, size_t sizeofobject ) {
+	return ( void * ) malloc( sizeofobject );
 }
 
 GLOBAL void
-jpeg_free_small (j_common_ptr cinfo, void * object, size_t sizeofobject)
-{
-  free(object);
+jpeg_free_small( j_common_ptr cinfo, void *object, size_t sizeofobject ) {
+	free( object );
 }
 
 
@@ -155,15 +151,13 @@ jpeg_free_small (j_common_ptr cinfo, void * object, size_t sizeofobject)
  */
 
 GLOBAL void FAR *
-jpeg_get_large (j_common_ptr cinfo, size_t sizeofobject)
-{
-  return (void FAR *) malloc(sizeofobject);
+jpeg_get_large( j_common_ptr cinfo, size_t sizeofobject ) {
+	return ( void FAR * ) malloc( sizeofobject );
 }
 
 GLOBAL void
-jpeg_free_large (j_common_ptr cinfo, void FAR * object, size_t sizeofobject)
-{
-  free(object);
+jpeg_free_large( j_common_ptr cinfo, void FAR *object, size_t sizeofobject ) {
+	free( object );
 }
 
 
@@ -180,10 +174,9 @@ jpeg_free_large (j_common_ptr cinfo, void FAR * object, size_t sizeofobject)
 #endif
 
 GLOBAL long
-jpeg_mem_available (j_common_ptr cinfo, long min_bytes_needed,
-		    long max_bytes_needed, long already_allocated)
-{
-  return cinfo->mem->max_memory_to_use - already_allocated;
+jpeg_mem_available( j_common_ptr cinfo, long min_bytes_needed,
+					long max_bytes_needed, long already_allocated ) {
+	return cinfo->mem->max_memory_to_use - already_allocated;
 }
 
 
@@ -196,41 +189,38 @@ jpeg_mem_available (j_common_ptr cinfo, long min_bytes_needed,
 
 
 METHODDEF void
-read_backing_store (j_common_ptr cinfo, backing_store_ptr info,
-		    void FAR * buffer_address,
-		    long file_offset, long byte_count)
-{
-  if (fseek(info->temp_file, file_offset, SEEK_SET))
-    ERREXIT(cinfo, JERR_TFILE_SEEK);
-  if (JFREAD(info->temp_file, buffer_address, byte_count)
-      != (size_t) byte_count)
-    ERREXIT(cinfo, JERR_TFILE_READ);
+read_backing_store( j_common_ptr cinfo, backing_store_ptr info,
+					void FAR *buffer_address,
+					long file_offset, long byte_count ) {
+	if ( fseek( info->temp_file, file_offset, SEEK_SET ) )
+		ERREXIT( cinfo, JERR_TFILE_SEEK );
+	if ( JFREAD( info->temp_file, buffer_address, byte_count )
+			!= ( size_t ) byte_count )
+		ERREXIT( cinfo, JERR_TFILE_READ );
 }
 
 
 METHODDEF void
-write_backing_store (j_common_ptr cinfo, backing_store_ptr info,
-		     void FAR * buffer_address,
-		     long file_offset, long byte_count)
-{
-  if (fseek(info->temp_file, file_offset, SEEK_SET))
-    ERREXIT(cinfo, JERR_TFILE_SEEK);
-  if (JFWRITE(info->temp_file, buffer_address, byte_count)
-      != (size_t) byte_count)
-    ERREXIT(cinfo, JERR_TFILE_WRITE);
+write_backing_store( j_common_ptr cinfo, backing_store_ptr info,
+					 void FAR *buffer_address,
+					 long file_offset, long byte_count ) {
+	if ( fseek( info->temp_file, file_offset, SEEK_SET ) )
+		ERREXIT( cinfo, JERR_TFILE_SEEK );
+	if ( JFWRITE( info->temp_file, buffer_address, byte_count )
+			!= ( size_t ) byte_count )
+		ERREXIT( cinfo, JERR_TFILE_WRITE );
 }
 
 
 METHODDEF void
-close_backing_store (j_common_ptr cinfo, backing_store_ptr info)
-{
-  fclose(info->temp_file);	/* close the file */
-  unlink(info->temp_name);	/* delete the file */
-/* If your system doesn't have unlink(), use remove() instead.
- * remove() is the ANSI-standard name for this function, but if
- * your system was ANSI you'd be using jmemansi.c, right?
- */
-  TRACEMSS(cinfo, 1, JTRC_TFILE_CLOSE, info->temp_name);
+close_backing_store( j_common_ptr cinfo, backing_store_ptr info ) {
+	fclose( info->temp_file );	/* close the file */
+	unlink( info->temp_name );	/* delete the file */
+	/* If your system doesn't have unlink(), use remove() instead.
+	 * remove() is the ANSI-standard name for this function, but if
+	 * your system was ANSI you'd be using jmemansi.c, right?
+	 */
+	TRACEMSS( cinfo, 1, JTRC_TFILE_CLOSE, info->temp_name );
 }
 
 
@@ -239,16 +229,15 @@ close_backing_store (j_common_ptr cinfo, backing_store_ptr info)
  */
 
 GLOBAL void
-jpeg_open_backing_store (j_common_ptr cinfo, backing_store_ptr info,
-			 long total_bytes_needed)
-{
-  select_file_name(info->temp_name);
-  if ((info->temp_file = fopen(info->temp_name, RW_BINARY)) == NULL)
-    ERREXITS(cinfo, JERR_TFILE_CREATE, info->temp_name);
-  info->read_backing_store = read_backing_store;
-  info->write_backing_store = write_backing_store;
-  info->close_backing_store = close_backing_store;
-  TRACEMSS(cinfo, 1, JTRC_TFILE_OPEN, info->temp_name);
+jpeg_open_backing_store( j_common_ptr cinfo, backing_store_ptr info,
+						 long total_bytes_needed ) {
+	select_file_name( info->temp_name );
+	if ( ( info->temp_file = fopen( info->temp_name, RW_BINARY ) ) == NULL )
+		ERREXITS( cinfo, JERR_TFILE_CREATE, info->temp_name );
+	info->read_backing_store = read_backing_store;
+	info->write_backing_store = write_backing_store;
+	info->close_backing_store = close_backing_store;
+	TRACEMSS( cinfo, 1, JTRC_TFILE_OPEN, info->temp_name );
 }
 
 
@@ -258,14 +247,12 @@ jpeg_open_backing_store (j_common_ptr cinfo, backing_store_ptr info,
  */
 
 GLOBAL long
-jpeg_mem_init (j_common_ptr cinfo)
-{
-  next_file_num = 0;		/* initialize temp file name generator */
-  return DEFAULT_MAX_MEM;	/* default for max_memory_to_use */
+jpeg_mem_init( j_common_ptr cinfo ) {
+	next_file_num = 0;		/* initialize temp file name generator */
+	return DEFAULT_MAX_MEM;	/* default for max_memory_to_use */
 }
 
 GLOBAL void
-jpeg_mem_term (j_common_ptr cinfo)
-{
-  /* no work */
+jpeg_mem_term( j_common_ptr cinfo ) {
+	/* no work */
 }

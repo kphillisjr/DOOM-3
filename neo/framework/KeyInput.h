@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -115,7 +115,7 @@ typedef enum {
 	K_KP_STAR,
 	K_KP_EQUALS,
 
-	K_MASCULINE_ORDINATOR = 186,	
+	K_MASCULINE_ORDINATOR = 186,
 	// K_MOUSE enums must be contiguous (no char codes in the middle)
 	K_MOUSE1 = 187,
 	K_MOUSE2,
@@ -197,7 +197,7 @@ public:
 	static void			Init( void );
 	static void			Shutdown( void );
 
-	static void			ArgCompletion_KeyName( const idCmdArgs &args, void(*callback)( const char *s ) );
+	static void			ArgCompletion_KeyName( const idCmdArgs &args, void( *callback )( const char *s ) );
 	static void			PreliminaryKeyEvent( int keyNum, bool down );
 	static bool			IsDown( int keyNum );
 	static int			GetUsercmdAction( int keyNum );
@@ -205,15 +205,15 @@ public:
 	static void			SetOverstrikeMode( bool state );
 	static void			ClearStates( void );
 	static int			StringToKeyNum( const char *str );
-	static const char *	KeyNumToString( int keyNum, bool localized );
+	static const char 	*KeyNumToString( int keyNum, bool localized );
 
 	static void			SetBinding( int keyNum, const char *binding );
-	static const char *	GetBinding( int keyNum );
+	static const char 	*GetBinding( int keyNum );
 	static bool			UnbindBinding( const char *bind );
 	static int			NumBinds( const char *binding );
 	static bool			ExecKeyBinding( int keyNum );
-	static const char *	KeysFromBinding( const char *bind );
-	static const char *	BindingFromKey( const char *key );
+	static const char 	*KeysFromBinding( const char *bind );
+	static const char 	*BindingFromKey( const char *key );
 	static bool			KeyIsBoundTo( int keyNum, const char *binding );
 	static void			WriteBindings( idFile *f );
 };

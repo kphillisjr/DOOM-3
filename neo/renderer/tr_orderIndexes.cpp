@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -56,7 +56,7 @@ int	R_MeshCost( int numIndexes, glIndex_t *indexes ) {
 	for ( i = 0 ; i < numIndexes ; i++ ) {
 		v = indexes[i];
 		for ( j = 0 ; j < CACHE_SIZE ; j++ ) {
-			if ( inCache[ ( fifo + j ) % CACHE_SIZE ] == v ) {
+			if ( inCache[( fifo + j ) % CACHE_SIZE ] == v ) {
 				break;
 			}
 		}
@@ -105,13 +105,13 @@ void R_OrderIndexes( int numIndexes, glIndex_t *indexes ) {
 	}
 
 	// save off the original indexes
-	oldIndexes = (glIndex_t *)_alloca( numIndexes * sizeof( *oldIndexes ) );
+	oldIndexes = ( glIndex_t * )_alloca( numIndexes * sizeof( *oldIndexes ) );
 	memcpy( oldIndexes, indexes, numIndexes * sizeof( *oldIndexes ) );
 	numOldIndexes = numIndexes;
 
 	// make a table to mark the triangles when they are emited
 	numTris = numIndexes / 3;
-	triangleUsed = (bool *)_alloca( numTris * sizeof( *triangleUsed ) );
+	triangleUsed = ( bool * )_alloca( numTris * sizeof( *triangleUsed ) );
 	memset( triangleUsed, 0, numTris * sizeof( *triangleUsed ) );
 
 	// find the highest vertex number
@@ -124,10 +124,10 @@ void R_OrderIndexes( int numIndexes, glIndex_t *indexes ) {
 	numVerts++;
 
 	// create a table of triangles used by each vertex
-	vrefs = (vertRef_t **)_alloca( numVerts * sizeof( *vrefs ) );
+	vrefs = ( vertRef_t ** )_alloca( numVerts * sizeof( *vrefs ) );
 	memset( vrefs, 0, numVerts * sizeof( *vrefs ) );
 
-	vrefTable = (vertRef_t *)_alloca( numIndexes * sizeof( *vrefTable ) );
+	vrefTable = ( vertRef_t * )_alloca( numIndexes * sizeof( *vrefTable ) );
 	for ( i = 0 ; i < numIndexes ; i++ ) {
 		tri = i / 3;
 
@@ -155,9 +155,9 @@ void R_OrderIndexes( int numIndexes, glIndex_t *indexes ) {
 		do {
 			// emit this tri
 			base = oldIndexes + tri * 3;
-			indexes[numIndexes+0] = base[0];
-			indexes[numIndexes+1] = base[1];
-			indexes[numIndexes+2] = base[2];
+			indexes[numIndexes + 0] = base[0];
+			indexes[numIndexes + 1] = base[1];
+			indexes[numIndexes + 2] = base[2];
 			numIndexes += 3;
 
 			triangleUsed[tri] = true;
@@ -165,7 +165,7 @@ void R_OrderIndexes( int numIndexes, glIndex_t *indexes ) {
 			// try to find a shared edge to another unused tri
 			for ( i = 0 ; i < 3 ; i++ ) {
 				v1 = base[i];
-				v2 = base[(i+1)%3];
+				v2 = base[( i + 1 ) % 3];
 
 				for ( vref = vrefs[v1] ; vref ; vref = vref->next ) {
 					tri = vref->tri;
@@ -174,9 +174,9 @@ void R_OrderIndexes( int numIndexes, glIndex_t *indexes ) {
 					}
 
 					// if this triangle also uses v2, grab it
-					if ( oldIndexes[tri*3+0] == v2
-						|| oldIndexes[tri*3+1] == v2
-						|| oldIndexes[tri*3+2] == v2 ) {
+					if ( oldIndexes[tri * 3 + 0] == v2
+							|| oldIndexes[tri * 3 + 1] == v2
+							|| oldIndexes[tri * 3 + 2] == v2 ) {
 						break;
 					}
 				}

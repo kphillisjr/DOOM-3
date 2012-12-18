@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -42,13 +42,13 @@ NSBitmapImageRep::NSBitmapImageRep( void ) {
 NSBitmapImageRep::NSBitmapImageRep( const char *filename ) {
 
 	R_LoadImage( filename, &bmap, &width, &height, &timestamp, false );
-	if (!width || !height) {
+	if ( !width || !height ) {
 		common->FatalError( "roqvq: unable to load image %s\n", filename );
 	}
 }
 
 NSBitmapImageRep::NSBitmapImageRep( int wide, int high ) {
-	bmap = (byte *)Mem_ClearedAlloc( wide * high * 4 );
+	bmap = ( byte * )Mem_ClearedAlloc( wide * high * 4 );
 	width = wide;
 	height = high;
 }
@@ -72,7 +72,7 @@ int NSBitmapImageRep::pixelsHigh( void ) {
 	return height;
 }
 
-byte * NSBitmapImageRep::bitmapData( void ) {
+byte *NSBitmapImageRep::bitmapData( void ) {
 	return bmap;
 }
 
@@ -91,10 +91,10 @@ NSBitmapImageRep &NSBitmapImageRep::operator=( const NSBitmapImageRep &a ) {
 		return *this;
 	}
 
-	if (bmap) {
-		Mem_Free(bmap);
+	if ( bmap ) {
+		Mem_Free( bmap );
 	}
-	bmap	= (byte *)Mem_Alloc( a.width * a.height * 4 );
+	bmap	= ( byte * )Mem_Alloc( a.width * a.height * 4 );
 	memcpy( bmap, a.bmap, a.width * a.height * 4 );
 	width = a.width;
 	height = a.height;

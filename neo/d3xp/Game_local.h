@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -46,7 +46,7 @@ If you have questions concerning this license or the applicable additional terms
 
 // if set to 1 the server sends the client PVS with snapshots and the client compares against what it sees
 #ifndef ASYNC_WRITE_PVS
-	#define ASYNC_WRITE_PVS 0
+#define ASYNC_WRITE_PVS 0
 #endif
 
 #ifdef ID_DEBUG_UNINITIALIZED_MEMORY
@@ -55,8 +55,8 @@ If you have questions concerning this license or the applicable additional terms
 #define protected	public
 #endif
 
-extern idRenderWorld *				gameRenderWorld;
-extern idSoundWorld *				gameSoundWorld;
+extern idRenderWorld 				*gameRenderWorld;
+extern idSoundWorld 				*gameSoundWorld;
 
 // the "gameversion" client command will print this plus compile date
 #define	GAME_VERSION		"baseDOOM-1"
@@ -112,21 +112,21 @@ void gameError( const char *fmt, ... );
 
 const int MAX_GAME_MESSAGE_SIZE		= 8192;
 const int MAX_ENTITY_STATE_SIZE		= 512;
-const int ENTITY_PVS_SIZE			= ((MAX_GENTITIES+31)>>5);
+const int ENTITY_PVS_SIZE			= ( ( MAX_GENTITIES + 31 ) >> 5 );
 const int NUM_RENDER_PORTAL_BITS	= idMath::BitsForInteger( PS_BLOCK_ALL );
 
 typedef struct entityState_s {
 	int						entityNumber;
 	idBitMsg				state;
 	byte					stateBuf[MAX_ENTITY_STATE_SIZE];
-	struct entityState_s *	next;
+	struct entityState_s 	*next;
 } entityState_t;
 
 typedef struct snapshot_s {
 	int						sequence;
-	entityState_t *			firstEntityState;
+	entityState_t 			*firstEntityState;
 	int						pvs[ENTITY_PVS_SIZE];
-	struct snapshot_s *		next;
+	struct snapshot_s 		*next;
 } snapshot_t;
 
 const int MAX_EVENT_PARAM_SIZE		= 128;
@@ -181,8 +181,8 @@ typedef struct {
 	idEntity	*ent;
 	int			dist;
 #ifdef CTF
-	int			team;			
-#endif    
+	int			team;
+#endif
 } spawnSpot_t;
 
 //============================================================================
@@ -195,23 +195,25 @@ public:
 		OUTOFORDER_SORT
 	} outOfOrderBehaviour_t;
 
-							idEventQueue() : start( NULL ), end( NULL ) {}
+	idEventQueue() : start( NULL ), end( NULL ) {}
 
-	entityNetEvent_t *		Alloc();
+	entityNetEvent_t 		*Alloc();
 	void					Free( entityNetEvent_t *event );
 	void					Shutdown();
 
 	void					Init();
-	void					Enqueue( entityNetEvent_t* event, outOfOrderBehaviour_t oooBehaviour );
-	entityNetEvent_t *		Dequeue( void );
-	entityNetEvent_t *		RemoveLast( void );
+	void					Enqueue( entityNetEvent_t *event, outOfOrderBehaviour_t oooBehaviour );
+	entityNetEvent_t 		*Dequeue( void );
+	entityNetEvent_t 		*RemoveLast( void );
 
-	entityNetEvent_t *		Start( void ) { return start; }
+	entityNetEvent_t 		*Start( void ) {
+		return start;
+	}
 
 private:
-	entityNetEvent_t *					start;
-	entityNetEvent_t *					end;
-	idBlockAlloc<entityNetEvent_t,32>	eventAllocator;
+	entityNetEvent_t 					*start;
+	entityNetEvent_t 					*end;
+	idBlockAlloc<entityNetEvent_t, 32>	eventAllocator;
 };
 
 //============================================================================
@@ -219,21 +221,23 @@ private:
 template< class type >
 class idEntityPtr {
 public:
-							idEntityPtr();
+	idEntityPtr();
 
 	// save games
 	void					Save( idSaveGame *savefile ) const;					// archives object for save game file
 	void					Restore( idRestoreGame *savefile );					// unarchives object from save game file
 
-	idEntityPtr<type> &		operator=( type *ent );
+	idEntityPtr<type> 		&operator=( type *ent );
 
 	// synchronize entity pointers over the network
-	int						GetSpawnId( void ) const { return spawnId; }
+	int						GetSpawnId( void ) const {
+		return spawnId;
+	}
 	bool					SetSpawnId( int id );
 	bool					UpdateSpawnId( void );
 
 	bool					IsValid( void ) const;
-	type *					GetEntity( void ) const;
+	type 					*GetEntity( void ) const;
 	int						GetEntityNum( void ) const;
 
 private:
@@ -248,11 +252,40 @@ struct timeState_t {
 	int					framenum;
 	int					realClientTime;
 
-	void				Set( int t, int pt, int ms, int f, int rct )		{ time = t; previousTime = pt; msec = ms; framenum = f; realClientTime = rct; };
-	void				Get( int& t, int& pt, int& ms, int& f, int& rct )	{ t = time; pt = previousTime; ms = msec; f = framenum; rct = realClientTime; };
-	void				Save( idSaveGame *savefile ) const	{ savefile->WriteInt( time ); savefile->WriteInt( previousTime ); savefile->WriteInt( msec ); savefile->WriteInt( framenum ); savefile->WriteInt( realClientTime ); }
-	void				Restore( idRestoreGame *savefile )	{ savefile->ReadInt( time ); savefile->ReadInt( previousTime ); savefile->ReadInt( msec ); savefile->ReadInt( framenum ); savefile->ReadInt( realClientTime ); }
-	void				Increment()											{ framenum++; previousTime = time; time += msec; realClientTime = time; };
+	void				Set( int t, int pt, int ms, int f, int rct )		{
+		time = t;
+		previousTime = pt;
+		msec = ms;
+		framenum = f;
+		realClientTime = rct;
+	};
+	void				Get( int &t, int &pt, int &ms, int &f, int &rct )	{
+		t = time;
+		pt = previousTime;
+		ms = msec;
+		f = framenum;
+		rct = realClientTime;
+	};
+	void				Save( idSaveGame *savefile ) const	{
+		savefile->WriteInt( time );
+		savefile->WriteInt( previousTime );
+		savefile->WriteInt( msec );
+		savefile->WriteInt( framenum );
+		savefile->WriteInt( realClientTime );
+	}
+	void				Restore( idRestoreGame *savefile )	{
+		savefile->ReadInt( time );
+		savefile->ReadInt( previousTime );
+		savefile->ReadInt( msec );
+		savefile->ReadInt( framenum );
+		savefile->ReadInt( realClientTime );
+	}
+	void				Increment()											{
+		framenum++;
+		previousTime = time;
+		time += msec;
+		realClientTime = time;
+	};
 };
 
 enum slowmoState_t {
@@ -272,12 +305,12 @@ public:
 	idDict					userInfo[MAX_CLIENTS];	// client specific settings
 	usercmd_t				usercmds[MAX_CLIENTS];	// client input commands
 	idDict					persistentPlayerInfo[MAX_CLIENTS];
-	idEntity *				entities[MAX_GENTITIES];// index to entities
+	idEntity 				*entities[MAX_GENTITIES];// index to entities
 	int						spawnIds[MAX_GENTITIES];// for use in idEntityPtr
 	int						firstFreeIndex;			// first free index in the entities array
 	int						num_entities;			// current number <= MAX_GENTITIES
 	idHashIndex				entityHash;				// hash table to quickly find entities by name
-	idWorldspawn *			world;					// world entity
+	idWorldspawn 			*world;					// world entity
 	idLinkList<idEntity>	spawnedEntities;		// all spawned entities
 	idLinkList<idEntity>	activeEntities;			// all thinking entities (idEntity::thinkFlags != 0)
 	int						numEntitiesToDeactivate;// number of entities that became inactive in current frame
@@ -286,26 +319,26 @@ public:
 	idDict					persistentLevelInfo;	// contains args that are kept around between levels
 
 	// can be used to automatically effect every material in the world that references globalParms
-	float					globalShaderParms[ MAX_GLOBAL_SHADER_PARMS ];	
+	float					globalShaderParms[ MAX_GLOBAL_SHADER_PARMS ];
 
 	idRandom				random;					// random number generator used throughout the game
 
 	idProgram				program;				// currently loaded script and data space
-	idThread *				frameCommandThread;
+	idThread 				*frameCommandThread;
 
 	idClip					clip;					// collision detection
 	idPush					push;					// geometric pushing
 	idPVS					pvs;					// potential visible set
 
-	idTestModel *			testmodel;				// for development testing of models
-	idEntityFx *			testFx;					// for development testing of fx
+	idTestModel 			*testmodel;				// for development testing of models
+	idEntityFx 			*testFx;					// for development testing of fx
 
-	idStr					sessionCommand;			// a target_sessionCommand can set this to return something to the session 
+	idStr					sessionCommand;			// a target_sessionCommand can set this to return something to the session
 
 	idMultiplayerGame		mpGame;					// handles rules for standard dm
 
-	idSmokeParticles *		smokeParticles;			// global smoke trails
-	idEditEntities *		editEntities;			// in game editing
+	idSmokeParticles 		*smokeParticles;			// global smoke trails
+	idEditEntities 		*editEntities;			// in game editing
 
 	int						cinematicSkipTime;		// don't allow skipping cinemetics until this time has passed so player doesn't skip out accidently from a firefight
 	int						cinematicStopTime;		// cinematics have several camera changes, so keep track of when we stop them so that we don't reset cinematicSkipTime unnecessarily
@@ -313,7 +346,7 @@ public:
 	bool					inCinematic;			// game is playing cinematic (player controls frozen)
 	bool					skipCinematic;
 
-													// are kept up to date with changes to serverInfo
+	// are kept up to date with changes to serverInfo
 	int						framenum;
 	int						previousTime;			// time in msec of last frame
 	int						time;					// in msec
@@ -325,8 +358,8 @@ public:
 	bool					isMultiplayer;			// set if the game is run in multiplayer mode
 	bool					isServer;				// set if the game is run for a dedicated or listen server
 	bool					isClient;				// set if the game is run for a client
-													// discriminates between the RunFrame path and the ClientPrediction path
-													// NOTE: on a listen server, isClient is false
+	// discriminates between the RunFrame path and the ClientPrediction path
+	// NOTE: on a listen server, isClient is false
 	int						localClientNum;			// number of the local client. MP: -1 on a dedicated
 	idLinkList<idEntity>	snapshotEntities;		// entities from the last snapshot
 	int						realClientTime;			// real client time
@@ -334,7 +367,7 @@ public:
 	float					clientSmoothing;		// smoothing of other clients in the view
 	int						entityDefBits;			// bits required to store an entity def number
 
-	static const char *		sufaceTypeNames[ MAX_SURFACE_TYPES ];	// text names for surface types
+	static const char 		*sufaceTypeNames[ MAX_SURFACE_TYPES ];	// text names for surface types
 
 	idEntityPtr<idEntity>	lastGUIEnt;				// last entity with a GUI, used by Cmd_NextGUI_f
 	int						lastGUI;				// last GUI on the lastGUIEnt
@@ -357,7 +390,7 @@ public:
 	virtual void			SelectTimeGroup( int timeGroup );
 	virtual int				GetTimeGroupTime( int timeGroup );
 
-	virtual void			GetBestGameType( const char* map, const char* gametype, char buf[ MAX_STRING_CHARS ] );
+	virtual void			GetBestGameType( const char *map, const char *gametype, char buf[ MAX_STRING_CHARS ] );
 
 	void					ComputeSlowMsec();
 	void					RunTimeGroup2();
@@ -372,17 +405,17 @@ public:
 
 	// ---------------------- Public idGame Interface -------------------
 
-							idGameLocal();
+	idGameLocal();
 
 	virtual void			Init( void );
 	virtual void			Shutdown( void );
 	virtual void			SetLocalClient( int clientNum );
 	virtual void			ThrottleUserInfo( void );
-	virtual const idDict *	SetUserInfo( int clientNum, const idDict &userInfo, bool isClient, bool canModify );
-	virtual const idDict *	GetUserInfo( int clientNum );
+	virtual const idDict 	*SetUserInfo( int clientNum, const idDict &userInfo, bool isClient, bool canModify );
+	virtual const idDict 	*GetUserInfo( int clientNum );
 	virtual void			SetServerInfo( const idDict &serverInfo );
 
-	virtual const idDict &	GetPersistentPlayerInfo( int clientNum );
+	virtual const idDict 	&GetPersistentPlayerInfo( int clientNum );
 	virtual void			SetPersistentPlayerInfo( int clientNum, const idDict &playerInfo );
 	virtual void			InitFromNewMap( const char *mapName, idRenderWorld *renderWorld, idSoundWorld *soundWorld, bool isServer, bool isClient, int randSeed );
 	virtual bool			InitFromSaveGame( const char *mapName, idRenderWorld *renderWorld, idSoundWorld *soundWorld, idFile *saveGameFile );
@@ -394,7 +427,7 @@ public:
 	virtual bool			Draw( int clientNum );
 	virtual escReply_t		HandleESC( idUserInterface **gui );
 	virtual idUserInterface	*StartMenu( void );
-	virtual const char *	HandleGuiCommands( const char *menuCommand );
+	virtual const char 	*HandleGuiCommands( const char *menuCommand );
 	virtual void			HandleMainMenuCommands( const char *menuCommand, idUserInterface *gui );
 	virtual allowReply_t	ServerAllowClient( int numClients, const char *IP, const char *guid, const char *password, char reason[MAX_STRING_CHARS] );
 	virtual void			ServerClientConnect( int clientNum, const char *guid );
@@ -418,13 +451,13 @@ public:
 
 	// ---------------------- Public idGameLocal Interface -------------------
 
-	void					Printf( const char *fmt, ... ) const id_attribute((format(printf,2,3)));
-	void					DPrintf( const char *fmt, ... ) const id_attribute((format(printf,2,3)));
-	void					Warning( const char *fmt, ... ) const id_attribute((format(printf,2,3)));
-	void					DWarning( const char *fmt, ... ) const id_attribute((format(printf,2,3)));
-	void					Error( const char *fmt, ... ) const id_attribute((format(printf,2,3)));
+	void					Printf( const char *fmt, ... ) const id_attribute( ( format( printf, 2, 3 ) ) );
+	void					DPrintf( const char *fmt, ... ) const id_attribute( ( format( printf, 2, 3 ) ) );
+	void					Warning( const char *fmt, ... ) const id_attribute( ( format( printf, 2, 3 ) ) );
+	void					DWarning( const char *fmt, ... ) const id_attribute( ( format( printf, 2, 3 ) ) );
+	void					Error( const char *fmt, ... ) const id_attribute( ( format( printf, 2, 3 ) ) );
 
-							// Initializes all map variables common to both save games and spawned games
+	// Initializes all map variables common to both save games and spawned games
 	void					LoadMap( const char *mapName, int randseed );
 
 	void					LocalMapRestart( void );
@@ -433,12 +466,12 @@ public:
 	bool					NextMap( void );	// returns wether serverinfo settings have been modified
 	static void				NextMap_f( const idCmdArgs &args );
 
-	idMapFile *				GetLevelMap( void );
-	const char *			GetMapName( void ) const;
+	idMapFile 				*GetLevelMap( void );
+	const char 			*GetMapName( void ) const;
 
 	int						NumAAS( void ) const;
-	idAAS *					GetAAS( int num ) const;
-	idAAS *					GetAAS( const char *name ) const;
+	idAAS 					*GetAAS( int num ) const;
+	idAAS 					*GetAAS( const char *name ) const;
 	void					SetAASAreaState( const idBounds &bounds, const int areaContents, bool closed );
 	aasHandle_t				AddAASObstacle( const idBounds &bounds );
 	void					RemoveAASObstacle( const aasHandle_t handle );
@@ -447,12 +480,12 @@ public:
 	bool					CheatsOk( bool requirePlayer = true );
 	void					SetSkill( int value );
 	gameState_t				GameState( void ) const;
-	idEntity *				SpawnEntityType( const idTypeInfo &classdef, const idDict *args = NULL, bool bIsClientReadSnapshot = false );
+	idEntity 				*SpawnEntityType( const idTypeInfo &classdef, const idDict *args = NULL, bool bIsClientReadSnapshot = false );
 	bool					SpawnEntityDef( const idDict &args, idEntity **ent = NULL, bool setDefaults = true );
 	int						GetSpawnId( const idEntity *ent ) const;
 
-	const idDeclEntityDef *	FindEntityDef( const char *name, bool makeDefault = true ) const;
-	const idDict *			FindEntityDefDict( const char *name, bool makeDefault = true ) const;
+	const idDeclEntityDef 	*FindEntityDef( const char *name, bool makeDefault = true ) const;
+	const idDict 			*FindEntityDefDict( const char *name, bool makeDefault = true ) const;
 
 	void					RegisterEntity( idEntity *ent );
 	void					UnregisterEntity( idEntity *ent );
@@ -460,16 +493,18 @@ public:
 	bool					RequirementMet( idEntity *activator, const idStr &requires, int removeItem );
 
 	void					AlertAI( idEntity *ent );
-	idActor *				GetAlertEntity( void );
+	idActor 				*GetAlertEntity( void );
 
 	bool					InPlayerPVS( idEntity *ent ) const;
 	bool					InPlayerConnectedArea( idEntity *ent ) const;
 #ifdef _D3XP
-	pvsHandle_t				GetPlayerPVS()			{ return playerPVS; };
+	pvsHandle_t				GetPlayerPVS()			{
+		return playerPVS;
+	};
 #endif
 
 	void					SetCamera( idCamera *cam );
-	idCamera *				GetCamera( void ) const;
+	idCamera 				*GetCamera( void ) const;
 	bool					SkipCinematic( void );
 	void					CalcFov( float base_fov, float &fov_x, float &fov_y ) const;
 
@@ -477,13 +512,13 @@ public:
 	bool					RemoveEntityFromHash( const char *name, idEntity *ent );
 	int						GetTargets( const idDict &args, idList< idEntityPtr<idEntity> > &list, const char *ref ) const;
 
-							// returns the master entity of a trace.  for example, if the trace entity is the player's head, it will return the player.
-	idEntity *				GetTraceEntity( const trace_t &trace ) const;
+	// returns the master entity of a trace.  for example, if the trace entity is the player's head, it will return the player.
+	idEntity 				*GetTraceEntity( const trace_t &trace ) const;
 
-	static void				ArgCompletion_EntityName( const idCmdArgs &args, void(*callback)( const char *s ) );
-	idEntity *				FindTraceEntity( idVec3 start, idVec3 end, const idTypeInfo &c, const idEntity *skip ) const;
-	idEntity *				FindEntity( const char *name ) const;
-	idEntity *				FindEntityUsingDef( idEntity *from, const char *match ) const;
+	static void				ArgCompletion_EntityName( const idCmdArgs &args, void( *callback )( const char *s ) );
+	idEntity 				*FindTraceEntity( idVec3 start, idVec3 end, const idTypeInfo &c, const idEntity *skip ) const;
+	idEntity 				*FindEntity( const char *name ) const;
+	idEntity 				*FindEntityUsingDef( idEntity *from, const char *match ) const;
 	int						EntitiesWithinRadius( const idVec3 org, float radius, idEntity **entityList, int maxCount ) const;
 
 	void					KillBox( idEntity *ent, bool catch_teleport = false );
@@ -497,23 +532,29 @@ public:
 	void					CallFrameCommand( idEntity *ent, const function_t *frameCommand );
 	void					CallObjectFrameCommand( idEntity *ent, const char *frameCommand );
 
-	const idVec3 &			GetGravity( void ) const;
+	const idVec3 			&GetGravity( void ) const;
 
 	// added the following to assist licensees with merge issues
-	int						GetFrameNum() const { return framenum; };
-	int						GetTime() const { return time; };
-	int						GetMSec() const { return msec; };
+	int						GetFrameNum() const {
+		return framenum;
+	};
+	int						GetTime() const {
+		return time;
+	};
+	int						GetMSec() const {
+		return msec;
+	};
 
 	int						GetNextClientNum( int current ) const;
-	idPlayer *				GetClientByNum( int current ) const;
-	idPlayer *				GetClientByName( const char *name ) const;
-	idPlayer *				GetClientByCmdArgs( const idCmdArgs &args ) const;
+	idPlayer 				*GetClientByNum( int current ) const;
+	idPlayer 				*GetClientByName( const char *name ) const;
+	idPlayer 				*GetClientByCmdArgs( const idCmdArgs &args ) const;
 
-	idPlayer *				GetLocalPlayer() const;
+	idPlayer 				*GetLocalPlayer() const;
 
 	void					SpreadLocations();
-	idLocationEntity *		LocationForPoint( const idVec3 &point );	// May return NULL
-	idEntity *				SelectInitialSpawnPoint( idPlayer *player );
+	idLocationEntity 		*LocationForPoint( const idVec3 &point );	// May return NULL
+	idEntity 				*SelectInitialSpawnPoint( idPlayer *player );
 
 	void					SetPortalState( qhandle_t portal, int blockingBits );
 	void					SaveEntityNetworkEvent( const idEntity *ent, int event, const idBitMsg *msg );
@@ -522,10 +563,14 @@ public:
 	int						ClientRemapDecl( declType_t type, int index );
 
 	void					SetGlobalMaterial( const idMaterial *mat );
-	const idMaterial *		GetGlobalMaterial();
+	const idMaterial 		*GetGlobalMaterial();
 
-	void					SetGibTime( int _time ) { nextGibTime = _time; };
-	int						GetGibTime() { return nextGibTime; };
+	void					SetGibTime( int _time ) {
+		nextGibTime = _time;
+	};
+	int						GetGibTime() {
+		return nextGibTime;
+	};
 
 
 
@@ -533,16 +578,16 @@ private:
 	const static int		INITIAL_SPAWN_COUNT = 1;
 
 	idStr					mapFileName;			// name of the map, empty string if no map loaded
-	idMapFile *				mapFile;				// will be NULL during the game unless in-game editing is used
+	idMapFile 				*mapFile;				// will be NULL during the game unless in-game editing is used
 	bool					mapCycleLoaded;
 
 	int						spawnCount;
 	int						mapSpawnCount;			// it's handy to know which entities are part of the map
 
-	idLocationEntity **		locationEntities;		// for location names, etc
+	idLocationEntity 		**locationEntities;		// for location names, etc
 
-	idCamera *				camera;
-	const idMaterial *		globalMaterial;		// for overriding everything
+	idCamera 				*camera;
+	const idMaterial 		*globalMaterial;		// for overriding everything
 
 	idList<idAAS *>			aasList;				// area system
 	idStrList				aasNames;
@@ -562,11 +607,11 @@ private:
 
 	idList<int>				clientDeclRemap[MAX_CLIENTS][DECL_MAX_TYPES];
 
-	entityState_t *			clientEntityStates[MAX_CLIENTS][MAX_GENTITIES];
+	entityState_t 			*clientEntityStates[MAX_CLIENTS][MAX_GENTITIES];
 	int						clientPVS[MAX_CLIENTS][ENTITY_PVS_SIZE];
-	snapshot_t *			clientSnapshots[MAX_CLIENTS];
-	idBlockAlloc<entityState_t,256>entityStateAllocator;
-	idBlockAlloc<snapshot_t,64>snapshotAllocator;
+	snapshot_t 			*clientSnapshots[MAX_CLIENTS];
+	idBlockAlloc<entityState_t, 256>entityStateAllocator;
+	idBlockAlloc<snapshot_t, 64>snapshotAllocator;
 
 	idEventQueue			eventQueue;
 	idEventQueue			savedEventQueue;
@@ -588,11 +633,11 @@ private:
 	byte					lagometer[ LAGO_IMG_HEIGHT ][ LAGO_IMG_WIDTH ][ 4 ];
 
 	void					Clear( void );
-							// returns true if the entity shouldn't be spawned at all in this game type or difficulty level
+	// returns true if the entity shouldn't be spawned at all in this game type or difficulty level
 	bool					InhibitEntitySpawn( idDict &spawnArgs );
-							// spawn entities from the map file
+	// spawn entities from the map file
 	void					SpawnMapEntities( void );
-							// commons used by init, shutdown, and restart
+	// commons used by init, shutdown, and restart
 	void					MapPopulate( void );
 	void					MapClear( bool clearClients );
 
@@ -618,11 +663,11 @@ private:
 	bool					ApplySnapshot( int clientNum, int sequence );
 	void					WriteGameStateToSnapshot( idBitMsgDelta &msg ) const;
 	void					ReadGameStateFromSnapshot( const idBitMsgDelta &msg );
-	void					NetworkEventWarning( const entityNetEvent_t *event, const char *fmt, ... ) id_attribute((format(printf,3,4)));
+	void					NetworkEventWarning( const entityNetEvent_t *event, const char *fmt, ... ) id_attribute( ( format( printf, 3, 4 ) ) );
 	void					ServerProcessEntityNetworkEventQueue( void );
 	void					ClientProcessEntityNetworkEventQueue( void );
 	void					ClientShowSnapshot( int clientNum ) const;
-							// call after any change to serverInfo. Will update various quick-access flags
+	// call after any change to serverInfo. Will update various quick-access flags
 	void					UpdateServerInfoFlags( void );
 	void					RandomizeInitialSpawns( void );
 	static int				sortSpawnPoints( const void *ptr1, const void *ptr2 );

@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -52,7 +52,7 @@ void RB_DrawElementsImmediate( const srfTriangles_t *tri ) {
 	backEnd.pc.c_drawIndexes += tri->numIndexes;
 	backEnd.pc.c_drawVertexes += tri->numVerts;
 
-	if ( tri->ambientSurface != NULL  ) {
+	if ( tri->ambientSurface != NULL ) {
 		if ( tri->indexes == tri->ambientSurface->indexes ) {
 			backEnd.pc.c_drawRefIndexes += tri->numIndexes;
 		}
@@ -81,7 +81,7 @@ void RB_DrawElementsWithCounters( const srfTriangles_t *tri ) {
 	backEnd.pc.c_drawIndexes += tri->numIndexes;
 	backEnd.pc.c_drawVertexes += tri->numVerts;
 
-	if ( tri->ambientSurface != NULL  ) {
+	if ( tri->ambientSurface != NULL ) {
 		if ( tri->indexes == tri->ambientSurface->indexes ) {
 			backEnd.pc.c_drawRefIndexes += tri->numIndexes;
 		}
@@ -91,19 +91,19 @@ void RB_DrawElementsWithCounters( const srfTriangles_t *tri ) {
 	}
 
 	if ( tri->indexCache && r_useIndexBuffers.GetBool() ) {
-		qglDrawElements( GL_TRIANGLES, 
-						r_singleTriangle.GetBool() ? 3 : tri->numIndexes,
-						GL_INDEX_TYPE,
-						(int *)vertexCache.Position( tri->indexCache ) );
+		qglDrawElements( GL_TRIANGLES,
+						 r_singleTriangle.GetBool() ? 3 : tri->numIndexes,
+						 GL_INDEX_TYPE,
+						 ( int * )vertexCache.Position( tri->indexCache ) );
 		backEnd.pc.c_vboIndexes += tri->numIndexes;
 	} else {
 		if ( r_useIndexBuffers.GetBool() ) {
 			vertexCache.UnbindIndex();
 		}
-		qglDrawElements( GL_TRIANGLES, 
-						r_singleTriangle.GetBool() ? 3 : tri->numIndexes,
-						GL_INDEX_TYPE,
-						tri->indexes );
+		qglDrawElements( GL_TRIANGLES,
+						 r_singleTriangle.GetBool() ? 3 : tri->numIndexes,
+						 GL_INDEX_TYPE,
+						 tri->indexes );
 	}
 }
 
@@ -120,19 +120,19 @@ void RB_DrawShadowElementsWithCounters( const srfTriangles_t *tri, int numIndexe
 	backEnd.pc.c_shadowVertexes += tri->numVerts;
 
 	if ( tri->indexCache && r_useIndexBuffers.GetBool() ) {
-		qglDrawElements( GL_TRIANGLES, 
-						r_singleTriangle.GetBool() ? 3 : numIndexes,
-						GL_INDEX_TYPE,
-						(int *)vertexCache.Position( tri->indexCache ) );
+		qglDrawElements( GL_TRIANGLES,
+						 r_singleTriangle.GetBool() ? 3 : numIndexes,
+						 GL_INDEX_TYPE,
+						 ( int * )vertexCache.Position( tri->indexCache ) );
 		backEnd.pc.c_vboIndexes += numIndexes;
 	} else {
 		if ( r_useIndexBuffers.GetBool() ) {
 			vertexCache.UnbindIndex();
 		}
-		qglDrawElements( GL_TRIANGLES, 
-						r_singleTriangle.GetBool() ? 3 : numIndexes,
-						GL_INDEX_TYPE,
-						tri->indexes );
+		qglDrawElements( GL_TRIANGLES,
+						 r_singleTriangle.GetBool() ? 3 : numIndexes,
+						 GL_INDEX_TYPE,
+						 tri->indexes );
 	}
 }
 
@@ -151,7 +151,7 @@ void RB_RenderTriangleSurface( const srfTriangles_t *tri ) {
 	}
 
 
-	idDrawVert *ac = (idDrawVert *)vertexCache.Position( tri->ambientCache );
+	idDrawVert *ac = ( idDrawVert * )vertexCache.Position( tri->ambientCache );
 	qglVertexPointer( 3, GL_FLOAT, sizeof( idDrawVert ), ac->xyz.ToFloatPtr() );
 	qglTexCoordPointer( 2, GL_FLOAT, sizeof( idDrawVert ), ac->st.ToFloatPtr() );
 
@@ -182,9 +182,9 @@ void RB_EnterWeaponDepthHack() {
 
 	matrix[14] *= 0.25;
 
-	qglMatrixMode(GL_PROJECTION);
+	qglMatrixMode( GL_PROJECTION );
 	qglLoadMatrixf( matrix );
-	qglMatrixMode(GL_MODELVIEW);
+	qglMatrixMode( GL_MODELVIEW );
 }
 
 /*
@@ -201,9 +201,9 @@ void RB_EnterModelDepthHack( float depth ) {
 
 	matrix[14] -= depth;
 
-	qglMatrixMode(GL_PROJECTION);
+	qglMatrixMode( GL_PROJECTION );
 	qglLoadMatrixf( matrix );
-	qglMatrixMode(GL_MODELVIEW);
+	qglMatrixMode( GL_MODELVIEW );
 }
 
 /*
@@ -214,9 +214,9 @@ RB_LeaveDepthHack
 void RB_LeaveDepthHack() {
 	qglDepthRange( 0, 1 );
 
-	qglMatrixMode(GL_PROJECTION);
+	qglMatrixMode( GL_PROJECTION );
 	qglLoadMatrixf( backEnd.viewDef->projectionMatrix );
-	qglMatrixMode(GL_MODELVIEW);
+	qglMatrixMode( GL_MODELVIEW );
 }
 
 /*
@@ -229,14 +229,14 @@ matrix will already have been loaded, and backEnd.currentSpace will
 be updated after the triangle function completes.
 ====================
 */
-void RB_RenderDrawSurfListWithFunction( drawSurf_t **drawSurfs, int numDrawSurfs, 
-											  void (*triFunc_)( const drawSurf_t *) ) {
+void RB_RenderDrawSurfListWithFunction( drawSurf_t **drawSurfs, int numDrawSurfs,
+										void ( *triFunc_ )( const drawSurf_t * ) ) {
 	int				i;
 	const drawSurf_t		*drawSurf;
 
 	backEnd.currentSpace = NULL;
 
-	for (i = 0  ; i < numDrawSurfs ; i++ ) {
+	for ( i = 0  ; i < numDrawSurfs ; i++ ) {
 		drawSurf = drawSurfs[i];
 
 		// change the matrix if needed
@@ -255,10 +255,10 @@ void RB_RenderDrawSurfListWithFunction( drawSurf_t **drawSurfs, int numDrawSurfs
 		// change the scissor if needed
 		if ( r_useScissor.GetBool() && !backEnd.currentScissor.Equals( drawSurf->scissorRect ) ) {
 			backEnd.currentScissor = drawSurf->scissorRect;
-			qglScissor( backEnd.viewDef->viewport.x1 + backEnd.currentScissor.x1, 
-				backEnd.viewDef->viewport.y1 + backEnd.currentScissor.y1,
-				backEnd.currentScissor.x2 + 1 - backEnd.currentScissor.x1,
-				backEnd.currentScissor.y2 + 1 - backEnd.currentScissor.y1 );
+			qglScissor( backEnd.viewDef->viewport.x1 + backEnd.currentScissor.x1,
+						backEnd.viewDef->viewport.y1 + backEnd.currentScissor.y1,
+						backEnd.currentScissor.x2 + 1 - backEnd.currentScissor.x1,
+						backEnd.currentScissor.y2 + 1 - backEnd.currentScissor.y1 );
 		}
 
 		// render it
@@ -277,8 +277,8 @@ void RB_RenderDrawSurfListWithFunction( drawSurf_t **drawSurfs, int numDrawSurfs
 RB_RenderDrawSurfChainWithFunction
 ======================
 */
-void RB_RenderDrawSurfChainWithFunction( const drawSurf_t *drawSurfs, 
-										void (*triFunc_)( const drawSurf_t *) ) {
+void RB_RenderDrawSurfChainWithFunction( const drawSurf_t *drawSurfs,
+		void ( *triFunc_ )( const drawSurf_t * ) ) {
 	const drawSurf_t		*drawSurf;
 
 	backEnd.currentSpace = NULL;
@@ -300,10 +300,10 @@ void RB_RenderDrawSurfChainWithFunction( const drawSurf_t *drawSurfs,
 		// change the scissor if needed
 		if ( r_useScissor.GetBool() && !backEnd.currentScissor.Equals( drawSurf->scissorRect ) ) {
 			backEnd.currentScissor = drawSurf->scissorRect;
-			qglScissor( backEnd.viewDef->viewport.x1 + backEnd.currentScissor.x1, 
-				backEnd.viewDef->viewport.y1 + backEnd.currentScissor.y1,
-				backEnd.currentScissor.x2 + 1 - backEnd.currentScissor.x1,
-				backEnd.currentScissor.y2 + 1 - backEnd.currentScissor.y1 );
+			qglScissor( backEnd.viewDef->viewport.x1 + backEnd.currentScissor.x1,
+						backEnd.viewDef->viewport.y1 + backEnd.currentScissor.y1,
+						backEnd.currentScissor.x2 + 1 - backEnd.currentScissor.x1,
+						backEnd.currentScissor.y2 + 1 - backEnd.currentScissor.y1 );
 		}
 
 		// render it
@@ -323,7 +323,7 @@ RB_GetShaderTextureMatrix
 ======================
 */
 void RB_GetShaderTextureMatrix( const float *shaderRegisters,
-							   const textureStage_t *texture, float matrix[16] ) {
+								const textureStage_t *texture, float matrix[16] ) {
 	matrix[0] = shaderRegisters[ texture->matrix[0][0] ];
 	matrix[4] = shaderRegisters[ texture->matrix[0][1] ];
 	matrix[8] = 0;
@@ -332,7 +332,7 @@ void RB_GetShaderTextureMatrix( const float *shaderRegisters,
 	// we attempt to keep scrolls from generating incredibly large texture values, but
 	// center rotations and center scales can still generate offsets that need to be > 1
 	if ( matrix[12] < -40 || matrix[12] > 40 ) {
-		matrix[12] -= (int)matrix[12];
+		matrix[12] -= ( int )matrix[12];
 	}
 
 	matrix[1] = shaderRegisters[ texture->matrix[1][0] ];
@@ -340,7 +340,7 @@ void RB_GetShaderTextureMatrix( const float *shaderRegisters,
 	matrix[9] = 0;
 	matrix[13] = shaderRegisters[ texture->matrix[1][2] ];
 	if ( matrix[13] < -40 || matrix[13] > 40 ) {
-		matrix[13] -= (int)matrix[13];
+		matrix[13] -= ( int )matrix[13];
 	}
 
 	matrix[2] = 0;
@@ -387,7 +387,7 @@ void RB_BindVariableStageImage( const textureStage_t *texture, const float *shad
 		// offset time by shaderParm[7] (FIXME: make the time offset a parameter of the shader?)
 		// We make no attempt to optimize for multiple identical cinematics being in view, or
 		// for cinematics going at a lower framerate than the renderer.
-		cin = texture->cinematic->ImageForTime( (int)(1000 * ( backEnd.viewDef->floatTime + backEnd.viewDef->renderView.shaderParms[11] ) ) );
+		cin = texture->cinematic->ImageForTime( ( int )( 1000 * ( backEnd.viewDef->floatTime + backEnd.viewDef->renderView.shaderParms[11] ) ) );
 
 		if ( cin.image ) {
 			globalImages->cinematicImage->UploadScratch( cin.image, cin.imageWidth, cin.imageHeight );
@@ -396,7 +396,7 @@ void RB_BindVariableStageImage( const textureStage_t *texture, const float *shad
 		}
 	} else {
 		//FIXME: see why image is invalid
-		if (texture->image) {
+		if ( texture->image ) {
 			texture->image->Bind();
 		}
 	}
@@ -413,7 +413,7 @@ void RB_BindStageTexture( const float *shaderRegisters, const textureStage_t *te
 
 	// texgens
 	if ( texture->texgen == TG_DIFFUSE_CUBE ) {
-		qglTexCoordPointer( 3, GL_FLOAT, sizeof( idDrawVert ), ((idDrawVert *)vertexCache.Position( surf->geo->ambientCache ))->normal.ToFloatPtr() );
+		qglTexCoordPointer( 3, GL_FLOAT, sizeof( idDrawVert ), ( ( idDrawVert * )vertexCache.Position( surf->geo->ambientCache ) )->normal.ToFloatPtr() );
 	}
 	if ( texture->texgen == TG_SKYBOX_CUBE || texture->texgen == TG_WOBBLESKY_CUBE ) {
 		qglTexCoordPointer( 3, GL_FLOAT, 0, vertexCache.Position( surf->dynamicTexCoords ) );
@@ -426,7 +426,7 @@ void RB_BindStageTexture( const float *shaderRegisters, const textureStage_t *te
 		qglTexGenf( GL_T, GL_TEXTURE_GEN_MODE, GL_REFLECTION_MAP_EXT );
 		qglTexGenf( GL_R, GL_TEXTURE_GEN_MODE, GL_REFLECTION_MAP_EXT );
 		qglEnableClientState( GL_NORMAL_ARRAY );
-		qglNormalPointer( GL_FLOAT, sizeof( idDrawVert ), ((idDrawVert *)vertexCache.Position( surf->geo->ambientCache ))->normal.ToFloatPtr() );
+		qglNormalPointer( GL_FLOAT, sizeof( idDrawVert ), ( ( idDrawVert * )vertexCache.Position( surf->geo->ambientCache ) )->normal.ToFloatPtr() );
 
 		qglMatrixMode( GL_TEXTURE );
 		float	mat[16];
@@ -449,10 +449,10 @@ RB_FinishStageTexture
 ======================
 */
 void RB_FinishStageTexture( const textureStage_t *texture, const drawSurf_t *surf ) {
-	if ( texture->texgen == TG_DIFFUSE_CUBE || texture->texgen == TG_SKYBOX_CUBE 
-		|| texture->texgen == TG_WOBBLESKY_CUBE ) {
-		qglTexCoordPointer( 2, GL_FLOAT, sizeof( idDrawVert ), 
-			(void *)&(((idDrawVert *)vertexCache.Position( surf->geo->ambientCache ))->st) );
+	if ( texture->texgen == TG_DIFFUSE_CUBE || texture->texgen == TG_SKYBOX_CUBE
+			|| texture->texgen == TG_WOBBLESKY_CUBE ) {
+		qglTexCoordPointer( 2, GL_FLOAT, sizeof( idDrawVert ),
+							( void * ) & ( ( ( idDrawVert * )vertexCache.Position( surf->geo->ambientCache ) )->st ) );
 	}
 
 	if ( texture->texgen == TG_REFLECT_CUBE ) {
@@ -516,7 +516,7 @@ void RB_DetermineLightScale( void ) {
 		// lights with no surfaces or shaderparms may still be present
 		// for debug display
 		if ( !vLight->localInteractions && !vLight->globalInteractions
-			&& !vLight->translucentInteractions ) {
+				&& !vLight->translucentInteractions ) {
 			continue;
 		}
 
@@ -552,23 +552,23 @@ Any mirrored or portaled views have already been drawn, so prepare
 to actually render the visible surfaces for this view
 =================
 */
-void RB_BeginDrawingView (void) {
+void RB_BeginDrawingView( void ) {
 	// set the modelview matrix for the viewer
-	qglMatrixMode(GL_PROJECTION);
+	qglMatrixMode( GL_PROJECTION );
 	qglLoadMatrixf( backEnd.viewDef->projectionMatrix );
-	qglMatrixMode(GL_MODELVIEW);
+	qglMatrixMode( GL_MODELVIEW );
 
 	// set the window clipping
-	qglViewport( tr.viewportOffset[0] + backEnd.viewDef->viewport.x1, 
-		tr.viewportOffset[1] + backEnd.viewDef->viewport.y1, 
-		backEnd.viewDef->viewport.x2 + 1 - backEnd.viewDef->viewport.x1,
-		backEnd.viewDef->viewport.y2 + 1 - backEnd.viewDef->viewport.y1 );
+	qglViewport( tr.viewportOffset[0] + backEnd.viewDef->viewport.x1,
+				 tr.viewportOffset[1] + backEnd.viewDef->viewport.y1,
+				 backEnd.viewDef->viewport.x2 + 1 - backEnd.viewDef->viewport.x1,
+				 backEnd.viewDef->viewport.y2 + 1 - backEnd.viewDef->viewport.y1 );
 
 	// the scissor may be smaller than the viewport for subviews
-	qglScissor( tr.viewportOffset[0] + backEnd.viewDef->viewport.x1 + backEnd.viewDef->scissor.x1, 
-		tr.viewportOffset[1] + backEnd.viewDef->viewport.y1 + backEnd.viewDef->scissor.y1, 
-		backEnd.viewDef->scissor.x2 + 1 - backEnd.viewDef->scissor.x1,
-		backEnd.viewDef->scissor.y2 + 1 - backEnd.viewDef->scissor.y1 );
+	qglScissor( tr.viewportOffset[0] + backEnd.viewDef->viewport.x1 + backEnd.viewDef->scissor.x1,
+				tr.viewportOffset[1] + backEnd.viewDef->viewport.y1 + backEnd.viewDef->scissor.y1,
+				backEnd.viewDef->scissor.x2 + 1 - backEnd.viewDef->scissor.x1,
+				backEnd.viewDef->scissor.y2 + 1 - backEnd.viewDef->scissor.y1 );
 	backEnd.currentScissor = backEnd.viewDef->scissor;
 
 	// ensures that depth writes are enabled for the depth clear
@@ -579,7 +579,7 @@ void RB_BeginDrawingView (void) {
 		qglStencilMask( 0xff );
 		// some cards may have 7 bit stencil buffers, so don't assume this
 		// should be 128
-		qglClearStencil( 1<<(glConfig.stencilBits-1) );
+		qglClearStencil( 1 << ( glConfig.stencilBits - 1 ) );
 		qglClear( GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT );
 		qglEnable( GL_DEPTH_TEST );
 	} else {
@@ -598,7 +598,7 @@ R_SetDrawInteractions
 ==================
 */
 void R_SetDrawInteraction( const shaderStage_t *surfaceStage, const float *surfaceRegs,
-						  idImage **image, idVec4 matrix[2], float color[4] ) {
+						   idImage **image, idVec4 matrix[2], float color[4] ) {
 	*image = surfaceStage->texture.image;
 	if ( surfaceStage->texture.hasMatrix ) {
 		matrix[0][0] = surfaceRegs[surfaceStage->texture.matrix[0][0]];
@@ -614,10 +614,10 @@ void R_SetDrawInteraction( const shaderStage_t *surfaceStage, const float *surfa
 		// we attempt to keep scrolls from generating incredibly large texture values, but
 		// center rotations and center scales can still generate offsets that need to be > 1
 		if ( matrix[0][3] < -40 || matrix[0][3] > 40 ) {
-			matrix[0][3] -= (int)matrix[0][3];
+			matrix[0][3] -= ( int )matrix[0][3];
 		}
 		if ( matrix[1][3] < -40 || matrix[1][3] > 40 ) {
-			matrix[1][3] -= (int)matrix[1][3];
+			matrix[1][3] -= ( int )matrix[1][3];
 		}
 	} else {
 		matrix[0][0] = 1;
@@ -651,7 +651,7 @@ void R_SetDrawInteraction( const shaderStage_t *surfaceStage, const float *surfa
 RB_SubmittInteraction
 =================
 */
-static void RB_SubmittInteraction( drawInteraction_t *din, void (*DrawInteraction)(const drawInteraction_t *) ) {
+static void RB_SubmittInteraction( drawInteraction_t *din, void ( *DrawInteraction )( const drawInteraction_t * ) ) {
 	if ( !din->bumpImage ) {
 		return;
 	}
@@ -667,13 +667,13 @@ static void RB_SubmittInteraction( drawInteraction_t *din, void (*DrawInteractio
 	}
 
 	// if we wouldn't draw anything, don't call the Draw function
-	if ( 
-		( ( din->diffuseColor[0] > 0 || 
-		din->diffuseColor[1] > 0 || 
-		din->diffuseColor[2] > 0 ) && din->diffuseImage != globalImages->blackImage )
-		|| ( ( din->specularColor[0] > 0 || 
-		din->specularColor[1] > 0 || 
-		din->specularColor[2] > 0 ) && din->specularImage != globalImages->blackImage ) ) {
+	if (
+		( ( din->diffuseColor[0] > 0 ||
+			din->diffuseColor[1] > 0 ||
+			din->diffuseColor[2] > 0 ) && din->diffuseImage != globalImages->blackImage )
+		|| ( ( din->specularColor[0] > 0 ||
+			   din->specularColor[1] > 0 ||
+			   din->specularColor[2] > 0 ) && din->specularImage != globalImages->blackImage ) ) {
 		DrawInteraction( din );
 	}
 }
@@ -686,7 +686,7 @@ This can be used by different draw_* backends to decompose a complex light / sur
 interaction into primitive interactions
 =============
 */
-void RB_CreateSingleDrawInteractions( const drawSurf_t *surf, void (*DrawInteraction)(const drawInteraction_t *) ) {
+void RB_CreateSingleDrawInteractions( const drawSurf_t *surf, void ( *DrawInteraction )( const drawInteraction_t * ) ) {
 	const idMaterial	*surfaceShader = surf->material;
 	const float			*surfaceRegs = surf->shaderRegisters;
 	const viewLight_t	*vLight = backEnd.vLight;
@@ -711,10 +711,10 @@ void RB_CreateSingleDrawInteractions( const drawSurf_t *surf, void (*DrawInterac
 	// change the scissor if needed
 	if ( r_useScissor.GetBool() && !backEnd.currentScissor.Equals( surf->scissorRect ) ) {
 		backEnd.currentScissor = surf->scissorRect;
-		qglScissor( backEnd.viewDef->viewport.x1 + backEnd.currentScissor.x1, 
-			backEnd.viewDef->viewport.y1 + backEnd.currentScissor.y1,
-			backEnd.currentScissor.x2 + 1 - backEnd.currentScissor.x1,
-			backEnd.currentScissor.y2 + 1 - backEnd.currentScissor.y1 );
+		qglScissor( backEnd.viewDef->viewport.x1 + backEnd.currentScissor.x1,
+					backEnd.viewDef->viewport.y1 + backEnd.currentScissor.y1,
+					backEnd.currentScissor.x2 + 1 - backEnd.currentScissor.x1,
+					backEnd.currentScissor.y2 + 1 - backEnd.currentScissor.y1 );
 	}
 
 	// hack depth range if needed
@@ -755,7 +755,7 @@ void RB_CreateSingleDrawInteractions( const drawSurf_t *surf, void (*DrawInterac
 		// now multiply the texgen by the light texture matrix
 		if ( lightStage->texture.hasMatrix ) {
 			RB_GetShaderTextureMatrix( lightRegs, &lightStage->texture, backEnd.lightTextureMatrix );
-			RB_BakeTextureMatrixIntoTexgen( reinterpret_cast<class idPlane *>(inter.lightProjection), backEnd.lightTextureMatrix );
+			RB_BakeTextureMatrixIntoTexgen( reinterpret_cast<class idPlane *>( inter.lightProjection ), backEnd.lightTextureMatrix );
 		}
 
 		inter.bumpImage = NULL;
@@ -777,7 +777,7 @@ void RB_CreateSingleDrawInteractions( const drawSurf_t *surf, void (*DrawInterac
 		for ( int surfaceStageNum = 0 ; surfaceStageNum < surfaceShader->GetNumStages() ; surfaceStageNum++ ) {
 			const shaderStage_t	*surfaceStage = surfaceShader->GetStage( surfaceStageNum );
 
-			switch( surfaceStage->lighting ) {
+			switch ( surfaceStage->lighting ) {
 				case SL_AMBIENT: {
 					// ignore ambient stages while drawing interactions
 					break;
@@ -803,7 +803,7 @@ void RB_CreateSingleDrawInteractions( const drawSurf_t *surf, void (*DrawInterac
 						RB_SubmittInteraction( &inter, DrawInteraction );
 					}
 					R_SetDrawInteraction( surfaceStage, surfaceRegs, &inter.diffuseImage,
-											inter.diffuseMatrix, inter.diffuseColor.ToFloatPtr() );
+										  inter.diffuseMatrix, inter.diffuseColor.ToFloatPtr() );
 					inter.diffuseColor[0] *= lightColor[0];
 					inter.diffuseColor[1] *= lightColor[1];
 					inter.diffuseColor[2] *= lightColor[2];
@@ -820,7 +820,7 @@ void RB_CreateSingleDrawInteractions( const drawSurf_t *surf, void (*DrawInterac
 						RB_SubmittInteraction( &inter, DrawInteraction );
 					}
 					R_SetDrawInteraction( surfaceStage, surfaceRegs, &inter.specularImage,
-											inter.specularMatrix, inter.specularColor.ToFloatPtr() );
+										  inter.specularMatrix, inter.specularColor.ToFloatPtr() );
 					inter.specularColor[0] *= lightColor[0];
 					inter.specularColor[1] *= lightColor[1];
 					inter.specularColor[2] *= lightColor[2];
@@ -849,10 +849,10 @@ RB_DrawView
 void RB_DrawView( const void *data ) {
 	const drawSurfsCommand_t	*cmd;
 
-	cmd = (const drawSurfsCommand_t *)data;
+	cmd = ( const drawSurfsCommand_t * )data;
 
 	backEnd.viewDef = cmd->viewDef;
-	
+
 	// we will need to do a new copyTexSubImage of the screen
 	// when a SS_POST_PROCESS material is used
 	backEnd.currentRenderCopied = false;

@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -99,7 +99,7 @@ typedef struct glconfig_s {
 } glconfig_t;
 
 
-// font support 
+// font support
 const int GLYPH_START			= 0;
 const int GLYPH_END				= 255;
 const int GLYPH_CHARSTART		= 32;
@@ -118,7 +118,7 @@ typedef struct {
 	float				t;				// y offset in image where glyph starts
 	float				s2;
 	float				t2;
-	const idMaterial *	glyph;			// shader with the glyph
+	const idMaterial 	*glyph;			// shader with the glyph
 	char				shaderName[32];
 } glyphInfo_t;
 
@@ -179,8 +179,8 @@ public:
 	virtual int				GetScreenHeight( void ) const = 0;
 
 	// allocate a renderWorld to be used for drawing
-	virtual idRenderWorld *	AllocRenderWorld( void ) = 0;
-	virtual	void			FreeRenderWorld( idRenderWorld * rw ) = 0;
+	virtual idRenderWorld 	*AllocRenderWorld( void ) = 0;
+	virtual	void			FreeRenderWorld( idRenderWorld *rw ) = 0;
 
 	// All data that will be used in a level should be
 	// registered before rendering any frames to prevent disk hits,
@@ -200,9 +200,9 @@ public:
 											bool clip = true, float min_x = 0.0f, float min_y = 0.0f, float max_x = 640.0f, float max_y = 480.0f ) = 0;
 	virtual void			DrawStretchPic( float x, float y, float w, float h, float s1, float t1, float s2, float t2, const idMaterial *material ) = 0;
 
-	virtual void			DrawStretchTri ( idVec2 p1, idVec2 p2, idVec2 p3, idVec2 t1, idVec2 t2, idVec2 t3, const idMaterial *material ) = 0;
+	virtual void			DrawStretchTri( idVec2 p1, idVec2 p2, idVec2 p3, idVec2 t1, idVec2 t2, idVec2 t3, const idMaterial *material ) = 0;
 	virtual void			GlobalToNormalizedDeviceCoordinates( const idVec3 &global, idVec3 &ndc ) = 0;
-	virtual void			GetGLSettings( int& width, int& height ) = 0;
+	virtual void			GetGLSettings( int &width, int &height ) = 0;
 	virtual void			PrintMemInfo( MemInfo_t *mi ) = 0;
 
 	virtual void			DrawSmallChar( int x, int y, int ch, const idMaterial *material ) = 0;
@@ -258,7 +258,7 @@ public:
 	virtual bool			UploadImage( const char *imageName, const byte *data, int width, int height ) = 0;
 };
 
-extern idRenderSystem *			renderSystem;
+extern idRenderSystem 			*renderSystem;
 
 //
 // functions mainly intended for editor and dmap integration

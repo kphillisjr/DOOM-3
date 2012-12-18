@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -99,12 +99,12 @@ void idAASBuild::ParseProcNodes( idLexer *src ) {
 	if ( idAASBuild::numProcNodes < 0 ) {
 		src->Error( "idAASBuild::ParseProcNodes: bad numProcNodes" );
 	}
-	idAASBuild::procNodes = (aasProcNode_t *)Mem_ClearedAlloc( idAASBuild::numProcNodes * sizeof( aasProcNode_t ) );
+	idAASBuild::procNodes = ( aasProcNode_t * )Mem_ClearedAlloc( idAASBuild::numProcNodes * sizeof( aasProcNode_t ) );
 
 	for ( i = 0; i < idAASBuild::numProcNodes; i++ ) {
 		aasProcNode_t *node;
 
-		node = &(idAASBuild::procNodes[i]);
+		node = &( idAASBuild::procNodes[i] );
 
 		src->Parse1DMatrix( 4, node->plane.ToFloatPtr() );
 		node->children[0] = src->ParseInt();
@@ -129,7 +129,7 @@ bool idAASBuild::LoadProcBSP( const char *name, ID_TIME_T minFileTime ) {
 	fileName.SetFileExtension( PROC_FILE_EXT );
 	src = new idLexer( fileName, LEXFL_NOSTRINGCONCAT | LEXFL_NODOLLARPRECOMPILE );
 	if ( !src->IsLoaded() ) {
-		common->Warning("idAASBuild::LoadProcBSP: couldn't load %s", fileName.c_str() );
+		common->Warning( "idAASBuild::LoadProcBSP: couldn't load %s", fileName.c_str() );
 		delete src;
 		return false;
 	}
@@ -209,29 +209,23 @@ bool idAASBuild::ChoppedAwayByProcBSP( int nodeNum, idFixedWinding *w, const idV
 		dist = node->plane.Normal() * origin + node->plane[3];
 		if ( dist > radius ) {
 			res = SIDE_FRONT;
-		}
-		else if ( dist < -radius ) {
+		} else if ( dist < -radius ) {
 			res = SIDE_BACK;
-		}
-		else {
+		} else {
 			res = w->Split( &back, node->plane, ON_EPSILON );
 		}
 		if ( res == SIDE_FRONT ) {
 			nodeNum = node->children[0];
-		}
-		else if ( res == SIDE_BACK ) {
+		} else if ( res == SIDE_BACK ) {
 			nodeNum = node->children[1];
-		}
-		else if ( res == SIDE_ON ) {
+		} else if ( res == SIDE_ON ) {
 			// continue with the side the winding faces
 			if ( node->plane.Normal() * normal > 0.0f ) {
 				nodeNum = node->children[0];
-			}
-			else {
+			} else {
 				nodeNum = node->children[1];
 			}
-		}
-		else {
+		} else {
 			// if either node is not solid
 			if ( node->children[0] < 0 || node->children[1] < 0 ) {
 				return false;
@@ -273,19 +267,19 @@ void idAASBuild::ClipBrushSidesWithProcBSP( idBrushList &brushList ) {
 	for ( brush = brushList.Head(); brush; brush = brush->Next() ) {
 		for ( i = 0; i < brush->GetNumSides(); i++ ) {
 
-			if ( !brush->GetSide(i)->GetWinding() ) {
+			if ( !brush->GetSide( i )->GetWinding() ) {
 				continue;
 			}
 
 			// make a local copy of the winding
-			neww = *brush->GetSide(i)->GetWinding();
+			neww = *brush->GetSide( i )->GetWinding();
 			neww.GetBounds( bounds );
-			origin = (bounds[1] - bounds[0]) * 0.5f;
+			origin = ( bounds[1] - bounds[0] ) * 0.5f;
 			radius = origin.Length() + ON_EPSILON;
 			origin = bounds[0] + origin;
 
-			if ( ChoppedAwayByProcBSP( 0, &neww, brush->GetSide(i)->GetPlane().Normal(), origin, radius ) ) {
-				brush->GetSide(i)->SetFlag( SFL_USED_SPLITTER );
+			if ( ChoppedAwayByProcBSP( 0, &neww, brush->GetSide( i )->GetPlane().Normal(), origin, radius ) ) {
+				brush->GetSide( i )->SetFlag( SFL_USED_SPLITTER );
 				clippedSides++;
 			}
 		}
@@ -302,7 +296,7 @@ idAASBuild::ContentsForAAS
 int idAASBuild::ContentsForAAS( int contents ) {
 	int c;
 
-	if ( contents & ( CONTENTS_SOLID|CONTENTS_AAS_SOLID|CONTENTS_MONSTERCLIP ) ) {
+	if ( contents & ( CONTENTS_SOLID | CONTENTS_AAS_SOLID | CONTENTS_MONSTERCLIP ) ) {
 		return AREACONTENTS_SOLID;
 	}
 	c = 0;
@@ -333,7 +327,7 @@ idBrushList idAASBuild::AddBrushesForMapBrush( const idMapBrush *mapBrush, const
 
 	contents = 0;
 	for ( i = 0; i < mapBrush->GetNumSides(); i++ ) {
-		mapSide = mapBrush->GetSide(i);
+		mapSide = mapBrush->GetSide( i );
 		mat = declManager->FindMaterial( mapSide->GetMaterial() );
 		contents |= mat->GetContentFlags();
 		plane = mapSide->GetPlane();
@@ -410,12 +404,12 @@ idBrushList idAASBuild::AddBrushesForMapPatch( const idMapPatch *mapPatch, const
 
 			d1 = mesh[v2].xyz - mesh[v1].xyz;
 			d2 = mesh[v3].xyz - mesh[v1].xyz;
-			plane.SetNormal( d1.Cross(d2) );
+			plane.SetNormal( d1.Cross( d2 ) );
 			if ( plane.Normalize() != 0.0f ) {
 				plane.FitThroughPoint( mesh[v1].xyz );
 				dot = plane.Distance( mesh[v4].xyz );
 				// if we can turn it into a quad
-				if ( idMath::Fabs(dot) < 0.1f ) {
+				if ( idMath::Fabs( dot ) < 0.1f ) {
 					w.Clear();
 					w += mesh[v1].xyz;
 					w += mesh[v2].xyz;
@@ -431,13 +425,11 @@ idBrushList idAASBuild::AddBrushesForMapPatch( const idMapPatch *mapPatch, const
 						brush->Transform( origin, axis );
 						brushList.AddToTail( brush );
 						validBrushes++;
-					}
-					else {
+					} else {
 						delete brush;
 					}
 					continue;
-				}
-				else {
+				} else {
 					// create one of the triangles
 					w.Clear();
 					w += mesh[v1].xyz;
@@ -453,8 +445,7 @@ idBrushList idAASBuild::AddBrushesForMapPatch( const idMapPatch *mapPatch, const
 						brush->Transform( origin, axis );
 						brushList.AddToTail( brush );
 						validBrushes++;
-					}
-					else {
+					} else {
 						delete brush;
 					}
 				}
@@ -462,7 +453,7 @@ idBrushList idAASBuild::AddBrushesForMapPatch( const idMapPatch *mapPatch, const
 			// create the other triangle
 			d1 = mesh[v3].xyz - mesh[v1].xyz;
 			d2 = mesh[v4].xyz - mesh[v1].xyz;
-			plane.SetNormal( d1.Cross(d2) );
+			plane.SetNormal( d1.Cross( d2 ) );
 			if ( plane.Normalize() != 0.0f ) {
 				plane.FitThroughPoint( mesh[v1].xyz );
 
@@ -480,8 +471,7 @@ idBrushList idAASBuild::AddBrushesForMapPatch( const idMapPatch *mapPatch, const
 					brush->Transform( origin, axis );
 					brushList.AddToTail( brush );
 					validBrushes++;
-				}
-				else {
+				} else {
 					delete brush;
 				}
 			}
@@ -522,14 +512,14 @@ idBrushList idAASBuild::AddBrushesForMapEntity( const idMapEntity *mapEnt, int e
 	for ( i = 0; i < mapEnt->GetNumPrimitives(); i++ ) {
 		idMapPrimitive	*mapPrim;
 
-		mapPrim = mapEnt->GetPrimitive(i);
+		mapPrim = mapEnt->GetPrimitive( i );
 		if ( mapPrim->GetType() == idMapPrimitive::TYPE_BRUSH ) {
-			brushList = AddBrushesForMapBrush( static_cast<idMapBrush*>(mapPrim), origin, axis, entityNum, i, brushList );
+			brushList = AddBrushesForMapBrush( static_cast<idMapBrush *>( mapPrim ), origin, axis, entityNum, i, brushList );
 			continue;
 		}
 		if ( mapPrim->GetType() == idMapPrimitive::TYPE_PATCH ) {
 			if ( aasSettings->usePatches ) {
-				brushList = AddBrushesForMapPatch( static_cast<idMapPatch*>(mapPrim), origin, axis, entityNum, i, brushList );
+				brushList = AddBrushesForMapPatch( static_cast<idMapPatch *>( mapPrim ), origin, axis, entityNum, i, brushList );
 			}
 			continue;
 		}
@@ -543,7 +533,7 @@ idBrushList idAASBuild::AddBrushesForMapEntity( const idMapEntity *mapEnt, int e
 idAASBuild::AddBrushesForMapFile
 ============
 */
-idBrushList idAASBuild::AddBrushesForMapFile( const idMapFile * mapFile, idBrushList brushList ) {
+idBrushList idAASBuild::AddBrushesForMapFile( const idMapFile *mapFile, idBrushList brushList ) {
 	int i;
 
 	common->Printf( "[Brush Load]\n" );
@@ -575,7 +565,7 @@ bool idAASBuild::CheckForEntities( const idMapFile *mapFile, idStrList &entityCl
 	com_editors |= EDITOR_AAS;
 
 	for ( i = 0; i < mapFile->GetNumEntities(); i++ ) {
-		if ( !mapFile->GetEntity(i)->epairs.GetString( "classname", "", classname ) ) {
+		if ( !mapFile->GetEntity( i )->epairs.GetString( "classname", "", classname ) ) {
 			continue;
 		}
 
@@ -622,7 +612,7 @@ idAASBuild::ChangeMultipleBoundingBoxContents
 ============
 */
 void idAASBuild::ChangeMultipleBoundingBoxContents_r( idBrushBSPNode *node, int mask ) {
-	while( node ) {
+	while ( node ) {
 		if ( !( node->GetContents() & mask ) ) {
 			node->SetContents( node->GetContents() & ~AREACONTENTS_SOLID );
 		}
@@ -638,9 +628,9 @@ idAASBuild::Build
 */
 bool idAASBuild::Build( const idStr &fileName, const idAASSettings *settings ) {
 	int i, bit, mask, startTime;
-	idMapFile * mapFile;
+	idMapFile *mapFile;
 	idBrushList brushList;
-	idList<idBrushList*> expandedBrushes;
+	idList<idBrushList *> expandedBrushes;
 	idBrush *b;
 	idBrushBSP bsp;
 	idStr name;
@@ -781,7 +771,7 @@ bool idAASBuild::Build( const idStr &fileName, const idAASSettings *settings ) {
 	// delete the map file
 	delete mapFile;
 
-	common->Printf( "%6d seconds to create AAS\n", (Sys_Milliseconds() - startTime) / 1000 );
+	common->Printf( "%6d seconds to create AAS\n", ( Sys_Milliseconds() - startTime ) / 1000 );
 
 	return true;
 }
@@ -793,7 +783,7 @@ idAASBuild::BuildReachability
 */
 bool idAASBuild::BuildReachability( const idStr &fileName, const idAASSettings *settings ) {
 	int startTime;
-	idMapFile * mapFile;
+	idMapFile *mapFile;
 	idStr name;
 	idAASReach reach;
 	idAASCluster cluster;
@@ -835,7 +825,7 @@ bool idAASBuild::BuildReachability( const idStr &fileName, const idAASSettings *
 	// delete the map file
 	delete mapFile;
 
-	common->Printf( "%6d seconds to calculate reachability\n", (Sys_Milliseconds() - startTime) / 1000 );
+	common->Printf( "%6d seconds to calculate reachability\n", ( Sys_Milliseconds() - startTime ) / 1000 );
 
 	return true;
 }
@@ -884,10 +874,10 @@ void RunAAS_f( const idCmdArgs &args ) {
 
 	if ( args.Argc() <= 1 ) {
 		common->Printf( "runAAS [options] <mapfile>\n"
-					"options:\n"
-					"  -usePatches        = use bezier patches for collision detection.\n"
-					"  -writeBrushMap     = write a brush map with the AAS geometry.\n"
-					"  -playerFlood       = use player spawn points as valid AAS positions.\n" );
+						"options:\n"
+						"  -usePatches        = use bezier patches for collision detection.\n"
+						"  -writeBrushMap     = write a brush map with the AAS geometry.\n"
+						"  -playerFlood       = use player spawn points as valid AAS positions.\n" );
 		return;
 	}
 
@@ -902,14 +892,14 @@ void RunAAS_f( const idCmdArgs &args ) {
 	}
 
 	const idKeyValue *kv = dict->MatchPrefix( "type" );
-	while( kv != NULL ) {
+	while ( kv != NULL ) {
 		const idDict *settingsDict = gameEdit->FindEntityDefDict( kv->GetValue(), false );
 		if ( !settingsDict ) {
 			common->Warning( "Unable to find '%s' in def/aas.def", kv->GetValue().c_str() );
 		} else {
 			settings.FromDict( kv->GetValue(), settingsDict );
 			i = ParseOptions( args, settings );
-			mapName = args.Argv(i);
+			mapName = args.Argv( i );
 			mapName.BackSlashesToSlashes();
 			if ( mapName.Icmpn( "maps/", 4 ) != 0 ) {
 				mapName = "maps/" + mapName;
@@ -953,7 +943,7 @@ void RunAASDir_f( const idCmdArgs &args ) {
 	}
 
 	// scan for .map files
-	mapFiles = fileSystem->ListFiles( idStr("maps/") + args.Argv(1), ".map" );
+	mapFiles = fileSystem->ListFiles( idStr( "maps/" ) + args.Argv( 1 ), ".map" );
 
 	// create AAS files for all the .map files
 	for ( i = 0; i < mapFiles->GetNumFiles(); i++ ) {
@@ -962,7 +952,7 @@ void RunAASDir_f( const idCmdArgs &args ) {
 		}
 
 		const idKeyValue *kv = dict->MatchPrefix( "type" );
-		while( kv != NULL ) {
+		while ( kv != NULL ) {
 			const idDict *settingsDict = gameEdit->FindEntityDefDict( kv->GetValue(), false );
 			if ( !settingsDict ) {
 				common->Warning( "Unable to find '%s' in def/aas.def", kv->GetValue().c_str() );
@@ -1010,14 +1000,14 @@ void RunReach_f( const idCmdArgs &args ) {
 	}
 
 	const idKeyValue *kv = dict->MatchPrefix( "type" );
-	while( kv != NULL ) {
+	while ( kv != NULL ) {
 		const idDict *settingsDict = gameEdit->FindEntityDefDict( kv->GetValue(), false );
 		if ( !settingsDict ) {
 			common->Warning( "Unable to find '%s' in def/aas.def", kv->GetValue().c_str() );
 		} else {
 			settings.FromDict( kv->GetValue(), settingsDict );
 			i = ParseOptions( args, settings );
-			aas.BuildReachability( idStr("maps/") + args.Argv(i), &settings );
+			aas.BuildReachability( idStr( "maps/" ) + args.Argv( i ), &settings );
 		}
 
 		kv = dict->MatchPrefix( "type", kv );

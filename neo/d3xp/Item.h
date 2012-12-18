@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -42,7 +42,7 @@ class idItem : public idEntity {
 public:
 	CLASS_PROTOTYPE( idItem );
 
-							idItem();
+	idItem();
 	virtual					~idItem();
 
 	void					Save( idSaveGame *savefile ) const;
@@ -60,9 +60,9 @@ public:
 		EVENT_RESPAWN,
 		EVENT_RESPAWNFX,
 #ifdef CTF
-        EVENT_TAKEFLAG,
-        EVENT_DROPFLAG,
-        EVENT_FLAGRETURN,
+		EVENT_TAKEFLAG,
+		EVENT_DROPFLAG,
+		EVENT_FLAGRETURN,
 		EVENT_FLAGCAPTURE,
 #endif
 		EVENT_MAXEVENTS
@@ -83,7 +83,7 @@ private:
 
 	// for item pulse effect
 	int						itemShellHandle;
-	const idMaterial *		shellMaterial;
+	const idMaterial 		*shellMaterial;
 
 	// used to update the item pulse effect
 	mutable bool			inView;
@@ -105,7 +105,7 @@ class idItemPowerup : public idItem {
 public:
 	CLASS_PROTOTYPE( idItemPowerup );
 
-							idItemPowerup();
+	idItemPowerup();
 
 	void					Save( idSaveGame *savefile ) const;
 	void					Restore( idRestoreGame *savefile );
@@ -122,7 +122,7 @@ class idObjective : public idItem {
 public:
 	CLASS_PROTOTYPE( idObjective );
 
-							idObjective();
+	idObjective();
 
 	void					Save( idSaveGame *savefile ) const;
 	void					Restore( idRestoreGame *savefile );
@@ -157,7 +157,7 @@ class idMoveableItem : public idItem {
 public:
 	CLASS_PROTOTYPE( idMoveableItem );
 
-							idMoveableItem();
+	idMoveableItem();
 	virtual					~idMoveableItem();
 
 	void					Save( idSaveGame *savefile ) const;
@@ -171,19 +171,19 @@ public:
 	virtual bool			Pickup( idPlayer *player );
 
 	static void				DropItems( idAnimatedEntity *ent, const char *type, idList<idEntity *> *list );
-	static idEntity	*		DropItem( const char *classname, const idVec3 &origin, const idMat3 &axis, const idVec3 &velocity, int activateDelay, int removeDelay );
+	static idEntity			*DropItem( const char *classname, const idVec3 &origin, const idMat3 &axis, const idVec3 &velocity, int activateDelay, int removeDelay );
 
 	virtual void			WriteToSnapshot( idBitMsgDelta &msg ) const;
 	virtual void			ReadFromSnapshot( const idBitMsgDelta &msg );
 
-#ifdef CTF    
+#ifdef CTF
 protected:
 #else
 private:
 #endif
 	idPhysics_RigidBody		physicsObj;
-	idClipModel *			trigger;
-	const idDeclParticle *	smoke;
+	idClipModel 			*trigger;
+	const idDeclParticle 	*smoke;
 	int						smokeTime;
 
 #ifdef _D3XP
@@ -203,18 +203,18 @@ private:
 
 class idItemTeam : public idMoveableItem {
 public:
-    CLASS_PROTOTYPE( idItemTeam );
+	CLASS_PROTOTYPE( idItemTeam );
 
-                            idItemTeam();
+	idItemTeam();
 	virtual					~idItemTeam();
 
-    void                    Spawn();
+	void                    Spawn();
 	virtual bool			Pickup( idPlayer *player );
-	virtual bool			ClientReceiveEvent( int event, int time, const idBitMsg &msg );    
-	virtual void			Think(void );
+	virtual bool			ClientReceiveEvent( int event, int time, const idBitMsg &msg );
+	virtual void			Think( void );
 
 	void					Drop( bool death = false );	// was the drop caused by death of carrier?
-	void					Return( idPlayer * player = NULL );
+	void					Return( idPlayer *player = NULL );
 	void					Capture( void );
 
 	virtual void			FreeLightDef( void );
@@ -225,8 +225,8 @@ public:
 	virtual void			ReadFromSnapshot( const idBitMsgDelta &msg );
 
 public:
-    int                     team;
-	// TODO : turn this into a state : 
+	int                     team;
+	// TODO : turn this into a state :
 	bool					carried;			// is it beeing carried by a player?
 	bool					dropped;			// was it dropped?
 
@@ -235,32 +235,32 @@ private:
 	idMat3					returnAxis;
 	int						lastDrop;
 
-	const idDeclSkin *		skinDefault;
-	const idDeclSkin *		skinCarried;
+	const idDeclSkin 		*skinDefault;
+	const idDeclSkin 		*skinCarried;
 
-	const function_t *		scriptTaken;
-	const function_t *		scriptDropped;
-	const function_t *		scriptReturned;
-	const function_t *		scriptCaptured;
+	const function_t 		*scriptTaken;
+	const function_t 		*scriptDropped;
+	const function_t 		*scriptReturned;
+	const function_t 		*scriptCaptured;
 
-    renderLight_t           itemGlow;           // Used by flags when they are picked up
-    int                     itemGlowHandle;
+	renderLight_t           itemGlow;           // Used by flags when they are picked up
+	int                     itemGlowHandle;
 
 	int						lastNuggetDrop;
-	const char *			nuggetName;
+	const char 			*nuggetName;
 
 private:
 
-	void					Event_TakeFlag( idPlayer * player );
-    void					Event_DropFlag( bool death );
-	void					Event_FlagReturn( idPlayer * player = NULL );
+	void					Event_TakeFlag( idPlayer *player );
+	void					Event_DropFlag( bool death );
+	void					Event_FlagReturn( idPlayer *player = NULL );
 	void					Event_FlagCapture( void );
 
 	void					PrivateReturn( void );
-	function_t *			LoadScript( char * script );
+	function_t 			*LoadScript( char *script );
 
 	void					SpawnNugget( idVec3 pos );
-    void                    UpdateGuis( void );
+	void                    UpdateGuis( void );
 };
 
 #endif
@@ -296,7 +296,7 @@ class idObjectiveComplete : public idItemRemover {
 public:
 	CLASS_PROTOTYPE( idObjectiveComplete );
 
-							idObjectiveComplete();
+	idObjectiveComplete();
 
 	void					Save( idSaveGame *savefile ) const;
 	void					Restore( idRestoreGame *savefile );

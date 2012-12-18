@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -57,23 +57,29 @@ public:
 	void				Save( idSaveGame *savefile ) const;
 	void				Restore( idRestoreGame *savefile );
 
-						idForce_Field( void );
+	idForce_Field( void );
 	virtual				~idForce_Field( void );
-						// uniform constant force
+	// uniform constant force
 	void				Uniform( const idVec3 &force );
-						// explosion from clip model origin
+	// explosion from clip model origin
 	void				Explosion( float force );
-						// implosion towards clip model origin
+	// implosion towards clip model origin
 	void				Implosion( float force );
-						// add random torque
+	// add random torque
 	void				RandomTorque( float force );
-						// should the force field apply a force, velocity or impulse
-	void				SetApplyType( const forceFieldApplyType type ) { applyType = type; }
-						// make the force field only push players
-	void				SetPlayerOnly( bool set ) { playerOnly = set; }
-						// make the force field only push monsters
-	void				SetMonsterOnly( bool set ) { monsterOnly = set; }
-						// clip model describing the extents of the force field
+	// should the force field apply a force, velocity or impulse
+	void				SetApplyType( const forceFieldApplyType type ) {
+		applyType = type;
+	}
+	// make the force field only push players
+	void				SetPlayerOnly( bool set ) {
+		playerOnly = set;
+	}
+	// make the force field only push monsters
+	void				SetMonsterOnly( bool set ) {
+		monsterOnly = set;
+	}
+	// clip model describing the extents of the force field
 	void				SetClipModel( idClipModel *clipModel );
 
 public: // common force interface
@@ -88,7 +94,7 @@ private:
 	float				randomTorque;
 	bool				playerOnly;
 	bool				monsterOnly;
-	idClipModel *		clipModel;
+	idClipModel 		*clipModel;
 };
 
 #endif /* !__FORCE_FIELD_H__ */

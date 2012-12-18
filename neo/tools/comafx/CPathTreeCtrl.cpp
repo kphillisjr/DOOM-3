@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -75,7 +75,7 @@ HTREEITEM CPathTreeCtrl::FindItem( const idStr &pathName ) {
 
 	lastSlash = pathName.Last( '/' );
 
-	while( item && lastSlash > path.Length() ) {
+	while ( item && lastSlash > path.Length() ) {
 		itemName = GetItemText( item );
 		tmpPath = path + itemName;
 		if ( pathName.Icmpn( tmpPath, tmpPath.Length() ) == 0 ) {
@@ -115,7 +115,7 @@ HTREEITEM CPathTreeCtrl::InsertPathIntoTree( const idStr &pathName, const int id
 
 	lastSlash = pathName.Last( '/' );
 
-	while( item && lastSlash > path.Length() ) {
+	while ( item && lastSlash > path.Length() ) {
 		itemName = GetItemText( item );
 		tmpPath = path + itemName;
 		if ( pathName.Icmpn( tmpPath, tmpPath.Length() ) == 0 ) {
@@ -127,7 +127,7 @@ HTREEITEM CPathTreeCtrl::InsertPathIntoTree( const idStr &pathName, const int id
 		}
 	}
 
-	while( lastSlash > path.Length() ) {
+	while ( lastSlash > path.Length() ) {
 		pathName.Mid( path.Length(), pathName.Length(), tmpPath );
 		tmpPath.Left( tmpPath.Find( '/' ), itemName );
 		parentItem = InsertItem( itemName, parentItem );
@@ -156,14 +156,14 @@ HTREEITEM CPathTreeCtrl::AddPathToTree( const idStr &pathName, const int id, idP
 
 	lastSlash = pathName.Last( '/' );
 
-	while( stack.Num() > 1 ) {
+	while ( stack.Num() > 1 ) {
 		if ( pathName.Icmpn( stack.TopName(), stack.TopNameLength() ) == 0 ) {
 			break;
 		}
 		stack.Pop();
 	}
 
-	while( lastSlash > stack.TopNameLength() ) {
+	while ( lastSlash > stack.TopNameLength() ) {
 		pathName.Mid( stack.TopNameLength(), pathName.Length(), tmpPath );
 		tmpPath.Left( tmpPath.Find( '/' ), itemName );
 		item = InsertItem( itemName, stack.TopItem() );
@@ -200,7 +200,7 @@ int CPathTreeCtrl::SearchTree( treeItemCompare_t compare, void *data, CPathTreeC
 	searchStack.PushRoot( item );
 	id = 0;
 
-	while( searchStack.Num() > 0 ) {
+	while ( searchStack.Num() > 0 ) {
 
 		for ( child = GetChildItem( item ); child; child = GetChildItem( child ) ) {
 			searchStack.Push( item, GetItemText( item ) );
@@ -216,7 +216,7 @@ int CPathTreeCtrl::SearchTree( treeItemCompare_t compare, void *data, CPathTreeC
 			numItems++;
 		}
 
-		for ( item = GetNextSiblingItem( item ); item == NULL;  ) {
+		for ( item = GetNextSiblingItem( item ); item == NULL; ) {
 			item = GetNextSiblingItem( searchStack.TopItem() );
 			searchStack.Pop();
 			if ( searchStack.Num() <= 0 ) {
@@ -228,10 +228,10 @@ int CPathTreeCtrl::SearchTree( treeItemCompare_t compare, void *data, CPathTreeC
 	return numItems;
 }
 
-BEGIN_MESSAGE_MAP(CPathTreeCtrl,CTreeCtrl)
+BEGIN_MESSAGE_MAP( CPathTreeCtrl, CTreeCtrl )
 	//{{AFX_MSG_MAP(CPathTreeCtrl)
-	ON_NOTIFY_EX_RANGE(TTN_NEEDTEXTW, 0, 0xFFFF, OnToolTipText)
-	ON_NOTIFY_EX_RANGE(TTN_NEEDTEXTA, 0, 0xFFFF, OnToolTipText)
+	ON_NOTIFY_EX_RANGE( TTN_NEEDTEXTW, 0, 0xFFFF, OnToolTipText )
+	ON_NOTIFY_EX_RANGE( TTN_NEEDTEXTA, 0, 0xFFFF, OnToolTipText )
 	ON_WM_MOUSEMOVE()
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
@@ -241,15 +241,15 @@ END_MESSAGE_MAP()
 CPathTreeCtrl::OnToolHitTest
 ================
 */
-int CPathTreeCtrl::OnToolHitTest( CPoint point, TOOLINFO * pTI ) const {
+int CPathTreeCtrl::OnToolHitTest( CPoint point, TOOLINFO *pTI ) const {
 	RECT rect;
 
 	UINT nFlags;
 	HTREEITEM hitem = HitTest( point, &nFlags );
-	if( nFlags & TVHT_ONITEM ) {
+	if ( nFlags & TVHT_ONITEM ) {
 		GetItemRect( hitem, &rect, TRUE );
 		pTI->hwnd = m_hWnd;
-		pTI->uId = (UINT)hitem;
+		pTI->uId = ( UINT )hitem;
 		pTI->lpszText = LPSTR_TEXTCALLBACK;
 		pTI->rect = rect;
 		return pTI->uId;
@@ -262,29 +262,29 @@ int CPathTreeCtrl::OnToolHitTest( CPoint point, TOOLINFO * pTI ) const {
 CPathTreeCtrl::OnToolTipText
 ================
 */
-BOOL CPathTreeCtrl::OnToolTipText( UINT id, NMHDR * pNMHDR, LRESULT * pResult ) {
+BOOL CPathTreeCtrl::OnToolTipText( UINT id, NMHDR *pNMHDR, LRESULT *pResult ) {
 	// need to handle both ANSI and UNICODE versions of the message
-	TOOLTIPTEXTA* pTTTA = (TOOLTIPTEXTA*)pNMHDR;
-	TOOLTIPTEXTW* pTTTW = (TOOLTIPTEXTW*)pNMHDR;
+	TOOLTIPTEXTA *pTTTA = ( TOOLTIPTEXTA * )pNMHDR;
+	TOOLTIPTEXTW *pTTTW = ( TOOLTIPTEXTW * )pNMHDR;
 
 	UINT nID = pNMHDR->idFrom;
 
 	*pResult = 0;
 
-	// Do not process the message from built in tooltip 
-	if( nID == (UINT)m_hWnd &&
-			(( pNMHDR->code == TTN_NEEDTEXTA && pTTTA->uFlags & TTF_IDISHWND ) ||
-			( pNMHDR->code == TTN_NEEDTEXTW && pTTTW->uFlags & TTF_IDISHWND ) ) ) {
+	// Do not process the message from built in tooltip
+	if ( nID == ( UINT )m_hWnd &&
+			( ( pNMHDR->code == TTN_NEEDTEXTA && pTTTA->uFlags & TTF_IDISHWND ) ||
+			  ( pNMHDR->code == TTN_NEEDTEXTW && pTTTW->uFlags & TTF_IDISHWND ) ) ) {
 		return FALSE;
 	}
 
 	CString toolTip = "?";
 
 	// Get the mouse position
-	const MSG* pMessage;
+	const MSG *pMessage;
 	CPoint pt;
 	pMessage = GetCurrentMessage();
-	ASSERT ( pMessage );
+	ASSERT( pMessage );
 	pt = pMessage->pt;
 	ScreenToClient( &pt );
 
@@ -292,11 +292,11 @@ BOOL CPathTreeCtrl::OnToolTipText( UINT id, NMHDR * pNMHDR, LRESULT * pResult ) 
 	UINT nFlags;
 	HTREEITEM hitem = HitTest( pt, &nFlags );
 
-	if( nFlags & TVHT_ONITEM ) {
+	if ( nFlags & TVHT_ONITEM ) {
 		// relay message to parent
 		pTTTA->hdr.hwndFrom = GetSafeHwnd();
-		pTTTA->hdr.idFrom = (UINT) hitem;
-		if ( GetParent()->SendMessage( WM_NOTIFY, ( TTN_NEEDTEXT << 16 ) | GetDlgCtrlID(), (LPARAM)pTTTA ) == FALSE ) {
+		pTTTA->hdr.idFrom = ( UINT ) hitem;
+		if ( GetParent()->SendMessage( WM_NOTIFY, ( TTN_NEEDTEXT << 16 ) | GetDlgCtrlID(), ( LPARAM )pTTTA ) == FALSE ) {
 			return FALSE;
 		}
 	}

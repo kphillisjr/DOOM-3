@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -62,31 +62,31 @@ class idPhysics_Monster : public idPhysics_Actor {
 public:
 	CLASS_PROTOTYPE( idPhysics_Monster );
 
-							idPhysics_Monster( void );
+	idPhysics_Monster( void );
 
 	void					Save( idSaveGame *savefile ) const;
 	void					Restore( idRestoreGame *savefile );
 
-							// maximum step up the monster can take, default 18 units
+	// maximum step up the monster can take, default 18 units
 	void					SetMaxStepHeight( const float newMaxStepHeight );
 	float					GetMaxStepHeight( void ) const;
-							// minimum cosine of floor angle to be able to stand on the floor
+	// minimum cosine of floor angle to be able to stand on the floor
 	void					SetMinFloorCosine( const float newMinFloorCosine );
-							// set delta for next move
+	// set delta for next move
 	void					SetDelta( const idVec3 &d );
-							// returns true if monster is standing on the ground
+	// returns true if monster is standing on the ground
 	bool					OnGround( void ) const;
-							// returns the movement result
+	// returns the movement result
 	monsterMoveResult_t		GetMoveResult( void ) const;
-							// overrides any velocity for pure delta movement
+	// overrides any velocity for pure delta movement
 	void					ForceDeltaMove( bool force );
-							// whether velocity should be affected by gravity
+	// whether velocity should be affected by gravity
 	void					UseFlyMove( bool force );
-							// don't use delta movement
+	// don't use delta movement
 	void					UseVelocityMove( bool force );
-							// get entity blocking the move
-	idEntity *				GetSlideMoveEntity( void ) const;
-							// enable/disable activation by impact
+	// get entity blocking the move
+	idEntity 				*GetSlideMoveEntity( void ) const;
+	// enable/disable activation by impact
 	void					EnableImpact( void );
 	void					DisableImpact( void );
 
@@ -113,10 +113,10 @@ public:	// common physics interface
 
 	void					SetLinearVelocity( const idVec3 &newLinearVelocity, int id = 0 );
 
-	const idVec3 &			GetLinearVelocity( int id = 0 ) const;
+	const idVec3 			&GetLinearVelocity( int id = 0 ) const;
 
 	void					SetPushed( int deltaTime );
-	const idVec3 &			GetPushedLinearVelocity( const int id = 0 ) const;
+	const idVec3 			&GetPushedLinearVelocity( const int id = 0 ) const;
 
 	void					SetMaster( idEntity *master, const bool orientated = true );
 
@@ -140,7 +140,7 @@ private:
 
 	// results of last evaluate
 	monsterMoveResult_t		moveResult;
-	idEntity *				blockingEntity;
+	idEntity 				*blockingEntity;
 
 private:
 	void					CheckGround( monsterPState_t &state );

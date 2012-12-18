@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -85,13 +85,12 @@ void idAASBuild::ClearHash( const idBounds &bounds ) {
 	if ( f > max ) {
 		max = f;
 	}
-	aas_vertexShift = (float) max / VERTEX_HASH_BOXSIZE;
-	for ( i = 0; (1<<i) < aas_vertexShift; i++ ) {
+	aas_vertexShift = ( float ) max / VERTEX_HASH_BOXSIZE;
+	for ( i = 0; ( 1 << i ) < aas_vertexShift; i++ ) {
 	}
 	if ( i == 0 ) {
 		aas_vertexShift = 1;
-	}
-	else {
+	} else {
 		aas_vertexShift = i;
 	}
 }
@@ -104,9 +103,9 @@ idAASBuild::HashVec
 ID_INLINE int idAASBuild::HashVec( const idVec3 &vec ) {
 	int x, y;
 
-	x = (((int) (vec[0] - aas_vertexBounds[0].x + 0.5)) + 2) >> 2;
-	y = (((int) (vec[1] - aas_vertexBounds[0].y + 0.5)) + 2) >> 2;
-	return (x + y * VERTEX_HASH_BOXSIZE) & (VERTEX_HASH_SIZE-1);
+	x = ( ( ( int )( vec[0] - aas_vertexBounds[0].x + 0.5 ) ) + 2 ) >> 2;
+	y = ( ( ( int )( vec[1] - aas_vertexBounds[0].y + 0.5 ) ) + 2 ) >> 2;
+	return ( x + y * VERTEX_HASH_BOXSIZE ) & ( VERTEX_HASH_SIZE - 1 );
 }
 
 /*
@@ -117,12 +116,11 @@ idAASBuild::GetVertex
 bool idAASBuild::GetVertex( const idVec3 &v, int *vertexNum ) {
 	int i, hashKey, vn;
 	aasVertex_t vert, *p;
-	
-	for (i = 0; i < 3; i++) {
-		if ( idMath::Fabs(v[i] - idMath::Rint(v[i])) < INTEGRAL_EPSILON ) {
-			vert[i] = idMath::Rint(v[i]);
-		}
-		else {
+
+	for ( i = 0; i < 3; i++ ) {
+		if ( idMath::Fabs( v[i] - idMath::Rint( v[i] ) ) < INTEGRAL_EPSILON ) {
+			vert[i] = idMath::Rint( v[i] );
+		} else {
 			vert[i] = v[i];
 		}
 	}
@@ -132,10 +130,9 @@ bool idAASBuild::GetVertex( const idVec3 &v, int *vertexNum ) {
 	for ( vn = aas_vertexHash->First( hashKey ); vn >= 0; vn = aas_vertexHash->Next( vn ) ) {
 		p = &file->vertices[vn];
 		// first compare z-axis because hash is based on x-y plane
-		if (idMath::Fabs( vert.z - p->z ) < VERTEX_EPSILON &&
-			idMath::Fabs( vert.x - p->x ) < VERTEX_EPSILON &&
-			idMath::Fabs( vert.y - p->y ) < VERTEX_EPSILON )
-		{
+		if ( idMath::Fabs( vert.z - p->z ) < VERTEX_EPSILON &&
+				idMath::Fabs( vert.x - p->x ) < VERTEX_EPSILON &&
+				idMath::Fabs( vert.y - p->y ) < VERTEX_EPSILON ) {
 			*vertexNum = vn;
 			return true;
 		}
@@ -161,8 +158,7 @@ bool idAASBuild::GetEdge( const idVec3 &v1, const idVec3 &v2, int *edgeNum, int 
 
 	if ( v1num != -1 ) {
 		found = true;
-	}
-	else {
+	} else {
 		found = GetVertex( v1, &v1num );
 	}
 	found &= GetVertex( v2, &v2num );
@@ -183,8 +179,7 @@ bool idAASBuild::GetEdge( const idVec3 &v1, const idVec3 &v2, int *edgeNum, int 
 					*edgeNum = -e;
 					break;
 				}
-			}
-			else if ( vertexNum[0] == v1num ) {
+			} else if ( vertexNum[0] == v1num ) {
 				if ( vertexNum[1] == v2num ) {
 					*edgeNum = e;
 					break;
@@ -222,8 +217,7 @@ bool idAASBuild::GetFaceForPortal( idBrushBSPPortal *portal, int side, int *face
 	if ( portal->GetFaceNum() > 0 ) {
 		if ( side ) {
 			*faceNum = -portal->GetFaceNum();
-		}
-		else {
+		} else {
 			*faceNum = portal->GetFaceNum();
 		}
 		return true;
@@ -235,11 +229,11 @@ bool idAASBuild::GetFaceForPortal( idBrushBSPPortal *portal, int side, int *face
 	v1num = -1;		// first vertex unknown
 	for ( i = 0; i < w->GetNumPoints(); i++ ) {
 
-		GetEdge( (*w)[i].ToVec3(), (*w)[(i+1)%w->GetNumPoints()].ToVec3(), &faceEdges[numFaceEdges], v1num );
+		GetEdge( ( *w )[i].ToVec3(), ( *w )[( i + 1 ) % w->GetNumPoints()].ToVec3(), &faceEdges[numFaceEdges], v1num );
 
 		if ( faceEdges[numFaceEdges] ) {
 			// last vertex of this edge is the first vertex of the next edge
-			v1num = file->edges[ abs(faceEdges[numFaceEdges]) ].vertexNum[ INTSIGNBITNOTSET(faceEdges[numFaceEdges]) ];
+			v1num = file->edges[ abs( faceEdges[numFaceEdges] ) ].vertexNum[ INTSIGNBITNOTSET( faceEdges[numFaceEdges] ) ];
 
 			// this edge is valid so keep it
 			numFaceEdges++;
@@ -253,7 +247,7 @@ bool idAASBuild::GetFaceForPortal( idBrushBSPPortal *portal, int side, int *face
 
 	// the polygon is invalid if some edge is found twice
 	for ( i = 0; i < numFaceEdges; i++ ) {
-		for ( j = i+1; j < numFaceEdges; j++ ) {
+		for ( j = i + 1; j < numFaceEdges; j++ ) {
 			if ( faceEdges[i] == faceEdges[j] || faceEdges[i] == -faceEdges[j] ) {
 				return false;
 			}
@@ -272,8 +266,7 @@ bool idAASBuild::GetFaceForPortal( idBrushBSPPortal *portal, int side, int *face
 	}
 	if ( side ) {
 		*faceNum = -file->faces.Num();
-	}
-	else {
+	} else {
 		*faceNum = file->faces.Num();
 	}
 	file->faces.Append( face );
@@ -304,8 +297,8 @@ bool idAASBuild::GetAreaForLeafNode( idBrushBSPNode *node, int *areaNum ) {
 	area.reach = NULL;
 	area.rev_reach = NULL;
 
-	for ( p = node->GetPortals(); p; p = p->Next(s) ) {
-		s = (p->GetNode(1) == node);
+	for ( p = node->GetPortals(); p; p = p->Next( s ) ) {
+		s = ( p->GetNode( 1 ) == node );
 
 		if ( !GetFaceForPortal( p, s, &faceNum ) ) {
 			continue;
@@ -315,10 +308,9 @@ bool idAASBuild::GetAreaForLeafNode( idBrushBSPNode *node, int *areaNum ) {
 		area.numFaces++;
 
 		if ( faceNum > 0 ) {
-			file->faces[abs(faceNum)].areas[0] = file->areas.Num();
-		}
-		else {
-			file->faces[abs(faceNum)].areas[1] = file->areas.Num();
+			file->faces[abs( faceNum )].areas[0] = file->areas.Num();
+		} else {
+			file->faces[abs( faceNum )].areas[1] = file->areas.Num();
 		}
 	}
 
@@ -353,7 +345,7 @@ int idAASBuild::StoreTree_r( idBrushBSPNode *node ) {
 		return 0;
 	}
 
-	if ( !node->GetChild(0) && !node->GetChild(1) ) {
+	if ( !node->GetChild( 0 ) && !node->GetChild( 1 ) ) {
 		if ( GetAreaForLeafNode( node, &areaNum ) ) {
 			return areaNum;
 		}
@@ -366,13 +358,13 @@ int idAASBuild::StoreTree_r( idBrushBSPNode *node ) {
 	file->nodes.Append( aasNode );
 
 	// !@#$%^ cause of some bug we cannot set the children directly with the StoreTree_r return value
-	child0 = StoreTree_r( node->GetChild(0) );
+	child0 = StoreTree_r( node->GetChild( 0 ) );
 	file->nodes[nodeNum].children[0] = child0;
-	child1 = StoreTree_r( node->GetChild(1) );
+	child1 = StoreTree_r( node->GetChild( 1 ) );
 	file->nodes[nodeNum].children[1] = child1;
 
 	if ( !child0 && !child1 ) {
-		file->nodes.SetNum( file->nodes.Num()-1 );
+		file->nodes.SetNum( file->nodes.Num() - 1 );
 		return 0;
 	}
 
@@ -403,23 +395,22 @@ void idAASBuild::GetSizeEstimate_r( idBrushBSPNode *parent, idBrushBSPNode *node
 		return;
 	}
 
-	if ( !node->GetChild(0) && !node->GetChild(1) ) {
+	if ( !node->GetChild( 0 ) && !node->GetChild( 1 ) ) {
 		// multiple branches of the bsp tree might point to the same leaf node
 		if ( node->GetParent() == parent ) {
 			size.numAreas++;
-			for ( p = node->GetPortals(); p; p = p->Next(s) ) {
-				s = (p->GetNode(1) == node);
+			for ( p = node->GetPortals(); p; p = p->Next( s ) ) {
+				s = ( p->GetNode( 1 ) == node );
 				size.numFaceIndexes++;
 				size.numEdgeIndexes += p->GetWinding()->GetNumPoints();
 			}
 		}
-	}
-	else {
+	} else {
 		size.numNodes++;
 	}
 
-	GetSizeEstimate_r( node, node->GetChild(0), size );
-	GetSizeEstimate_r( node, node->GetChild(1), size );
+	GetSizeEstimate_r( node, node->GetChild( 0 ), size );
+	GetSizeEstimate_r( node, node->GetChild( 1 ), size );
 }
 
 /*

@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -41,13 +41,13 @@ If you have questions concerning this license or the applicable additional terms
 template< class Type >
 class idHashTable {
 public:
-					idHashTable( int newtablesize = 256 );
-					idHashTable( const idHashTable<Type> &map );
-					~idHashTable( void );
+	idHashTable( int newtablesize = 256 );
+	idHashTable( const idHashTable<Type> &map );
+	~idHashTable( void );
 
-					// returns total size of allocated memory
+	// returns total size of allocated memory
 	size_t			Allocated( void ) const;
-					// returns total size of allocated memory including size of hash table type
+	// returns total size of allocated memory including size of hash table type
 	size_t			Size( void ) const;
 
 	void			Set( const char *key, Type &value );
@@ -57,10 +57,10 @@ public:
 	void			Clear( void );
 	void			DeleteContents( void );
 
-					// the entire contents can be itterated over, but note that the
-					// exact index for a given element may change when new elements are added
+	// the entire contents can be itterated over, but note that the
+	// exact index for a given element may change when new elements are added
 	int				Num( void ) const;
-	Type *			GetIndex( int index ) const;
+	Type 			*GetIndex( int index ) const;
 
 	int				GetSpread( void ) const;
 
@@ -74,7 +74,7 @@ private:
 		hashnode_s( const char *k, Type v, hashnode_s *n ) : key( k ), value( v ), next( n ) {};
 	};
 
-	hashnode_s **	heads;
+	hashnode_s 	**heads;
 
 	int				tablesize;
 	int				numentries;
@@ -122,14 +122,14 @@ ID_INLINE idHashTable<Type>::idHashTable( const idHashTable<Type> &map ) {
 	numentries		= map.numentries;
 	tablesizemask	= map.tablesizemask;
 
-	for( i = 0; i < tablesize; i++ ) {
+	for ( i = 0; i < tablesize; i++ ) {
 		if ( !map.heads[ i ] ) {
 			heads[ i ] = NULL;
 			continue;
 		}
 
 		prev = &heads[ i ];
-		for( node = map.heads[ i ]; node != NULL; node = node->next ) {
+		for ( node = map.heads[ i ]; node != NULL; node = node->next ) {
 			*prev = new hashnode_s( node->key, node->value, NULL );
 			prev = &( *prev )->next;
 		}
@@ -188,7 +188,7 @@ ID_INLINE void idHashTable<Type>::Set( const char *key, Type &value ) {
 	int hash, s;
 
 	hash = GetHash( key );
-	for( nextPtr = &(heads[hash]), node = *nextPtr; node != NULL; nextPtr = &(node->next), node = *nextPtr ) {
+	for ( nextPtr = &( heads[hash] ), node = *nextPtr; node != NULL; nextPtr = &( node->next ), node = *nextPtr ) {
 		s = node->key.Cmp( key );
 		if ( s == 0 ) {
 			node->value = value;
@@ -202,7 +202,7 @@ ID_INLINE void idHashTable<Type>::Set( const char *key, Type &value ) {
 	numentries++;
 
 	*nextPtr = new hashnode_s( key, value, heads[ hash ] );
-	(*nextPtr)->next = node;
+	( *nextPtr )->next = node;
 }
 
 /*
@@ -216,7 +216,7 @@ ID_INLINE bool idHashTable<Type>::Get( const char *key, Type **value ) const {
 	int hash, s;
 
 	hash = GetHash( key );
-	for( node = heads[ hash ]; node != NULL; node = node->next ) {
+	for ( node = heads[ hash ]; node != NULL; node = node->next ) {
 		s = node->key.Cmp( key );
 		if ( s == 0 ) {
 			if ( value ) {
@@ -256,8 +256,8 @@ ID_INLINE Type *idHashTable<Type>::GetIndex( int index ) const {
 	}
 
 	count = 0;
-	for( i = 0; i < tablesize; i++ ) {
-		for( node = heads[ i ]; node != NULL; node = node->next ) {
+	for ( i = 0; i < tablesize; i++ ) {
+		for ( node = heads[ i ]; node != NULL; node = node->next ) {
 			if ( count == index ) {
 				return &node->value;
 			}
@@ -283,7 +283,7 @@ ID_INLINE bool idHashTable<Type>::Remove( const char *key ) {
 	hash = GetHash( key );
 	head = &heads[ hash ];
 	if ( *head ) {
-		for( prev = NULL, node = *head; node != NULL; prev = node, node = node->next ) {
+		for ( prev = NULL, node = *head; node != NULL; prev = node, node = node->next ) {
 			if ( node->key == key ) {
 				if ( prev ) {
 					prev->next = node->next;
@@ -312,9 +312,9 @@ ID_INLINE void idHashTable<Type>::Clear( void ) {
 	hashnode_s	*node;
 	hashnode_s	*next;
 
-	for( i = 0; i < tablesize; i++ ) {
+	for ( i = 0; i < tablesize; i++ ) {
 		next = heads[ i ];
-		while( next != NULL ) {
+		while ( next != NULL ) {
 			node = next;
 			next = next->next;
 			delete node;
@@ -337,9 +337,9 @@ ID_INLINE void idHashTable<Type>::DeleteContents( void ) {
 	hashnode_s	*node;
 	hashnode_s	*next;
 
-	for( i = 0; i < tablesize; i++ ) {
+	for ( i = 0; i < tablesize; i++ ) {
 		next = heads[ i ];
-		while( next != NULL ) {
+		while ( next != NULL ) {
 			node = next;
 			next = next->next;
 			delete node->value;
@@ -385,7 +385,7 @@ int idHashTable<Type>::GetSpread( void ) const {
 	error = 0;
 	for ( i = 0; i < tablesize; i++ ) {
 		numItems = 0;
-		for( node = heads[ i ]; node != NULL; node = node->next ) {
+		for ( node = heads[ i ]; node != NULL; node = node->next ) {
 			numItems++;
 		}
 		e = abs( numItems - average );
@@ -393,7 +393,7 @@ int idHashTable<Type>::GetSpread( void ) const {
 			error += e - 1;
 		}
 	}
-	return 100 - (error * 100 / numentries);
+	return 100 - ( error * 100 / numentries );
 }
 #endif
 

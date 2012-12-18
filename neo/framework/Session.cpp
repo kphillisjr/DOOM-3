@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -56,9 +56,9 @@ const int PREVIEW_HEIGHT = 298;
 void RandomizeStack( void ) {
 	// attempt to force uninitialized stack memory bugs
 	int		bytes = 4000000;
-	byte	*buf = (byte *)_alloca( bytes );
+	byte	*buf = ( byte * )_alloca( bytes );
 
-	int	fill = rand()&255;
+	int	fill = rand() & 255;
 	for ( int i = 0 ; i < bytes ; i++ ) {
 		buf[i] = fill;
 	}
@@ -88,7 +88,7 @@ static void Session_Map_f( const idCmdArgs &args ) {
 	findFile_t	ff;
 	idCmdArgs	rl_args;
 
-	map = args.Argv(1);
+	map = args.Argv( 1 );
 	if ( !map.Length() ) {
 		return;
 	}
@@ -100,17 +100,17 @@ static void Session_Map_f( const idCmdArgs &args ) {
 	sprintf( string, "maps/%s.map", map.c_str() );
 	ff = fileSystem->FindFile( string, true );
 	switch ( ff ) {
-	case FIND_NO:
-		common->Printf( "Can't find map %s\n", string.c_str() );
-		return;
-	case FIND_ADDON:
-		common->Printf( "map %s is in an addon pak - reloading\n", string.c_str() );
-		rl_args.AppendArg( "map" );
-		rl_args.AppendArg( map );
-		cmdSystem->SetupReloadEngine( rl_args );
-		return;
-	default:
-		break;
+		case FIND_NO:
+			common->Printf( "Can't find map %s\n", string.c_str() );
+			return;
+		case FIND_ADDON:
+			common->Printf( "map %s is in an addon pak - reloading\n", string.c_str() );
+			rl_args.AppendArg( "map" );
+			rl_args.AppendArg( map );
+			cmdSystem->SetupReloadEngine( rl_args );
+			return;
+		default:
+			break;
 	}
 
 	cvarSystem->SetCVarBool( "developer", false );
@@ -127,9 +127,9 @@ Restart the server on a different map in developer mode
 static void Session_DevMap_f( const idCmdArgs &args ) {
 	idStr map, string;
 	findFile_t	ff;
-	idCmdArgs	rl_args;	
+	idCmdArgs	rl_args;
 
-	map = args.Argv(1);
+	map = args.Argv( 1 );
 	if ( !map.Length() ) {
 		return;
 	}
@@ -141,17 +141,17 @@ static void Session_DevMap_f( const idCmdArgs &args ) {
 	sprintf( string, "maps/%s.map", map.c_str() );
 	ff = fileSystem->FindFile( string, true );
 	switch ( ff ) {
-	case FIND_NO:
-		common->Printf( "Can't find map %s\n", string.c_str() );
-		return;
-	case FIND_ADDON:
-		common->Printf( "map %s is in an addon pak - reloading\n", string.c_str() );
-		rl_args.AppendArg( "devmap" );
-		rl_args.AppendArg( map );
-		cmdSystem->SetupReloadEngine( rl_args );
-		return;
-	default:
-		break;
+		case FIND_NO:
+			common->Printf( "Can't find map %s\n", string.c_str() );
+			return;
+		case FIND_ADDON:
+			common->Printf( "map %s is in an addon pak - reloading\n", string.c_str() );
+			rl_args.AppendArg( "devmap" );
+			rl_args.AppendArg( map );
+			cmdSystem->SetupReloadEngine( rl_args );
+			return;
+		default:
+			break;
 	}
 
 	cvarSystem->SetCVarBool( "developer", true );
@@ -166,7 +166,7 @@ Session_TestMap_f
 static void Session_TestMap_f( const idCmdArgs &args ) {
 	idStr map, string;
 
-	map = args.Argv(1);
+	map = args.Argv( 1 );
 	if ( !map.Length() ) {
 		return;
 	}
@@ -191,7 +191,7 @@ static void Sess_WritePrecache_f( const idCmdArgs &args ) {
 		common->Printf( "USAGE: writePrecache <execFile>\n" );
 		return;
 	}
-	idStr	str = args.Argv(1);
+	idStr	str = args.Argv( 1 );
 	str.DefaultFileExtension( ".cfg" );
 	idFile *f = fileSystem->OpenFileWrite( str );
 	declManager->WritePrecacheCommands( f );
@@ -272,7 +272,7 @@ static void Session_PromptKey_f( const idCmdArgs &args ) {
 				idAsyncNetwork::BuildInvalidKeyMsg( msg, valid );
 				sessLocal.MessageBox( MSG_OK, msg, common->GetLanguageDict()->GetString( "#str_04310" ), true, NULL, NULL, true );
 			}
-		} else if ( args.Argc() == 2 && idStr::Icmp( args.Argv(1), "force" ) == 0 ) {
+		} else if ( args.Argc() == 2 && idStr::Icmp( args.Argv( 1 ), "force" ) == 0 ) {
 			// cancelled in force mode
 			cmdSystem->BufferCommandText( CMD_EXEC_APPEND, "quit\n" );
 			cmdSystem->ExecuteCommandBuffer();
@@ -285,7 +285,7 @@ static void Session_PromptKey_f( const idCmdArgs &args ) {
 ===============================================================================
 
 SESSION LOCAL
-  
+
 ===============================================================================
 */
 
@@ -295,7 +295,7 @@ idSessionLocal::Clear
 ===============
 */
 void idSessionLocal::Clear() {
-	
+
 	insideUpdateScreen = false;
 	insideExecuteMapChange = false;
 
@@ -325,7 +325,7 @@ void idSessionLocal::Clear() {
 	timeDemo = TD_NO;
 	waitingOnBind = false;
 	lastPacifierTime = 0;
-	
+
 	msgRunning = false;
 	guiMsgRestore = NULL;
 	msgIgnoreButtons = false;
@@ -353,11 +353,11 @@ idSessionLocal::idSessionLocal
 */
 idSessionLocal::idSessionLocal() {
 	guiInGame = guiMainMenu = guiIntro \
-		= guiRestartMenu = guiLoading = guiGameOver = guiActive \
-		= guiTest = guiMsg = guiMsgRestore = guiTakeNotes = NULL;	
-	
+							  = guiRestartMenu = guiLoading = guiGameOver = guiActive \
+									  = guiTest = guiMsg = guiMsgRestore = guiTakeNotes = NULL;
+
 	menuSoundWorld = NULL;
-	
+
 	Clear();
 }
 
@@ -427,7 +427,7 @@ void idSessionLocal::Shutdown() {
 		delete menuSoundWorld;
 		menuSoundWorld = NULL;
 	}
-		
+
 	mapSpawnData.serverInfo.Clear();
 	mapSpawnData.syncedCVars.Clear();
 	for ( i = 0; i < MAX_ASYNC_CLIENTS; i++ ) {
@@ -468,7 +468,7 @@ void idSessionLocal::StartWipe( const char *_wipeMaterial, bool hold ) {
 
 	Draw();
 
-	renderSystem->CaptureRenderToImage( "_scratch");
+	renderSystem->CaptureRenderToImage( "_scratch" );
 	renderSystem->UnCrop();
 
 	wipeMaterial = declManager->FindMaterial( _wipeMaterial, false );
@@ -548,7 +548,7 @@ Session_TestGUI_f
 ================
 */
 static void Session_TestGUI_f( const idCmdArgs &args ) {
-	sessLocal.TestGUI( args.Argv(1) );
+	sessLocal.TestGUI( args.Argv( 1 ) );
 }
 
 /*
@@ -594,7 +594,7 @@ static void Session_DemoShot_f( const idCmdArgs &args ) {
 		idStr filename = FindUnusedFileName( "demos/shot%03i.demo" );
 		sessLocal.DemoShot( filename );
 	} else {
-		sessLocal.DemoShot( va( "demos/shot_%s.demo", args.Argv(1) ) );
+		sessLocal.DemoShot( va( "demos/shot_%s.demo", args.Argv( 1 ) ) );
 	}
 }
 
@@ -608,7 +608,7 @@ static void Session_RecordDemo_f( const idCmdArgs &args ) {
 		idStr filename = FindUnusedFileName( "demos/demo%03i.demo" );
 		sessLocal.StartRecordingRenderDemo( filename );
 	} else {
-		sessLocal.StartRecordingRenderDemo( va( "demos/%s.demo", args.Argv(1) ) );
+		sessLocal.StartRecordingRenderDemo( va( "demos/%s.demo", args.Argv( 1 ) ) );
 	}
 }
 
@@ -619,11 +619,11 @@ Session_CompressDemo_f
 */
 static void Session_CompressDemo_f( const idCmdArgs &args ) {
 	if ( args.Argc() == 2 ) {
-		sessLocal.CompressDemoFile( "2", args.Argv(1) );
+		sessLocal.CompressDemoFile( "2", args.Argv( 1 ) );
 	} else if ( args.Argc() == 3 ) {
-		sessLocal.CompressDemoFile( args.Argv(2), args.Argv(1) );
+		sessLocal.CompressDemoFile( args.Argv( 2 ), args.Argv( 1 ) );
 	} else {
-		common->Printf("use: CompressDemo <file> [scheme]\nscheme is the same as com_compressDemo, defaults to 2" );
+		common->Printf( "use: CompressDemo <file> [scheme]\nscheme is the same as com_compressDemo, defaults to 2" );
 	}
 }
 
@@ -643,7 +643,7 @@ Session_PlayDemo_f
 */
 static void Session_PlayDemo_f( const idCmdArgs &args ) {
 	if ( args.Argc() >= 2 ) {
-		sessLocal.StartPlayingRenderDemo( va( "demos/%s", args.Argv(1) ) );
+		sessLocal.StartPlayingRenderDemo( va( "demos/%s", args.Argv( 1 ) ) );
 	}
 }
 
@@ -654,7 +654,7 @@ Session_TimeDemo_f
 */
 static void Session_TimeDemo_f( const idCmdArgs &args ) {
 	if ( args.Argc() >= 2 ) {
-		sessLocal.TimeRenderDemo( va( "demos/%s", args.Argv(1) ), ( args.Argc() > 2 ) );
+		sessLocal.TimeRenderDemo( va( "demos/%s", args.Argv( 1 ) ), ( args.Argc() > 2 ) );
 	}
 }
 
@@ -664,7 +664,7 @@ Session_TimeDemoQuit_f
 ================
 */
 static void Session_TimeDemoQuit_f( const idCmdArgs &args ) {
-	sessLocal.TimeRenderDemo( va( "demos/%s", args.Argv(1) ) );
+	sessLocal.TimeRenderDemo( va( "demos/%s", args.Argv( 1 ) ) );
 	if ( sessLocal.timeDemo == TD_YES ) {
 		// this allows hardware vendors to automate some testing
 		sessLocal.timeDemo = TD_YES_THEN_QUIT;
@@ -677,7 +677,7 @@ Session_AVIDemo_f
 ================
 */
 static void Session_AVIDemo_f( const idCmdArgs &args ) {
-	sessLocal.AVIRenderDemo( va( "demos/%s", args.Argv(1) ) );
+	sessLocal.AVIRenderDemo( va( "demos/%s", args.Argv( 1 ) ) );
 }
 
 /*
@@ -686,7 +686,7 @@ Session_AVIGame_f
 ================
 */
 static void Session_AVIGame_f( const idCmdArgs &args ) {
-	sessLocal.AVIGame( args.Argv(1) );
+	sessLocal.AVIGame( args.Argv( 1 ) );
 }
 
 /*
@@ -695,7 +695,7 @@ Session_AVICmdDemo_f
 ================
 */
 static void Session_AVICmdDemo_f( const idCmdArgs &args ) {
-	sessLocal.AVICmdDemo( args.Argv(1) );
+	sessLocal.AVICmdDemo( args.Argv( 1 ) );
 }
 
 /*
@@ -720,7 +720,7 @@ Session_PlayCmdDemo_f
 ================
 */
 static void Session_PlayCmdDemo_f( const idCmdArgs &args ) {
-	sessLocal.StartPlayingCmdDemo( args.Argv(1) );
+	sessLocal.StartPlayingCmdDemo( args.Argv( 1 ) );
 }
 
 /*
@@ -729,7 +729,7 @@ Session_TimeCmdDemo_f
 ================
 */
 static void Session_TimeCmdDemo_f( const idCmdArgs &args ) {
-	sessLocal.TimeCmdDemo( args.Argv(1) );
+	sessLocal.TimeCmdDemo( args.Argv( 1 ) );
 }
 
 /*
@@ -847,7 +847,7 @@ void idSessionLocal::StopPlayingRenderDemo() {
 		return;
 	}
 
-	// Record the stop time before doing anything that could be time consuming 
+	// Record the stop time before doing anything that could be time consuming
 	int timeDemoStopTime = Sys_Milliseconds();
 
 	EndAVICapture();
@@ -908,7 +908,7 @@ void idSessionLocal::StartPlayingRenderDemo( idStr demoName ) {
 
 	// make sure localSound / GUI intro music shuts up
 	sw->StopAllSounds();
-	sw->PlayShaderDirectly( "", 0 );	
+	sw->PlayShaderDirectly( "", 0 );
 	menuSoundWorld->StopAllSounds();
 	menuSoundWorld->PlayShaderDirectly( "", 0 );
 
@@ -959,12 +959,12 @@ idSessionLocal::TimeRenderDemo
 */
 void idSessionLocal::TimeRenderDemo( const char *demoName, bool twice ) {
 	idStr demo = demoName;
-	
+
 	// no sound in time demos
 	soundSystem->SetMute( true );
 
 	StartPlayingRenderDemo( demo );
-	
+
 	if ( twice && readDemo ) {
 		// cycle through once to precache everything
 		guiLoading->SetStateString( "demo", common->GetLanguageDict()->GetString( "#str_04852" ) );
@@ -978,7 +978,7 @@ void idSessionLocal::TimeRenderDemo( const char *demoName, bool twice ) {
 		guiLoading->SetStateString( "demo", "" );
 		StartPlayingRenderDemo( demo );
 	}
-	
+
 
 	if ( !readDemo ) {
 		return;
@@ -1015,12 +1015,12 @@ void idSessionLocal::EndAVICapture() {
 	sw->AVIClose();
 
 	// write a .roqParam file so the demo can be converted to a roq file
-	idFile *f = fileSystem->OpenFileWrite( va( "demos/%s/%s.roqParam", 
-		aviDemoShortName.c_str(), aviDemoShortName.c_str() ) );
+	idFile *f = fileSystem->OpenFileWrite( va( "demos/%s/%s.roqParam",
+										   aviDemoShortName.c_str(), aviDemoShortName.c_str() ) );
 	f->Printf( "INPUT_DIR demos/%s\n", aviDemoShortName.c_str() );
 	f->Printf( "FILENAME demos/%s/%s.RoQ\n", aviDemoShortName.c_str(), aviDemoShortName.c_str() );
 	f->Printf( "\nINPUT\n" );
-	f->Printf( "%s_*.tga [00000-%05i]\n", aviDemoShortName.c_str(), (int)( aviDemoFrameCount-1 ) );
+	f->Printf( "%s_*.tga [00000-%05i]\n", aviDemoShortName.c_str(), ( int )( aviDemoFrameCount - 1 ) );
 	f->Printf( "END_INPUT\n" );
 	delete f;
 
@@ -1102,10 +1102,10 @@ void idSessionLocal::CompressDemoFile( const char *scheme, const char *demoName 
 	compressedName.StripFileExtension();
 	compressedName.Append( "_compressed.demo" );
 
-	int savedCompression = cvarSystem->GetCVarInteger("com_compressDemos");
-	bool savedPreload = cvarSystem->GetCVarBool("com_preloadDemos");
+	int savedCompression = cvarSystem->GetCVarInteger( "com_compressDemos" );
+	bool savedPreload = cvarSystem->GetCVarBool( "com_preloadDemos" );
 	cvarSystem->SetCVarBool( "com_preloadDemos", false );
-	cvarSystem->SetCVarInteger("com_compressDemos", atoi(scheme) );
+	cvarSystem->SetCVarInteger( "com_compressDemos", atoi( scheme ) );
 
 	idDemoFile demoread, demowrite;
 	if ( !demoread.OpenForReading( fullDemoName ) ) {
@@ -1116,7 +1116,7 @@ void idSessionLocal::CompressDemoFile( const char *scheme, const char *demoName 
 		common->Printf( "Could not open %s for writing\n", compressedName.c_str() );
 		demoread.Close();
 		cvarSystem->SetCVarBool( "com_preloadDemos", savedPreload );
-		cvarSystem->SetCVarInteger("com_compressDemos", savedCompression);
+		cvarSystem->SetCVarInteger( "com_compressDemos", savedCompression );
 		return;
 	}
 	common->SetRefreshOnPrint( true );
@@ -1125,7 +1125,7 @@ void idSessionLocal::CompressDemoFile( const char *scheme, const char *demoName 
 	static const int bufferSize = 65535;
 	char buffer[bufferSize];
 	int bytesRead;
-	while ( 0 != (bytesRead = demoread.Read( buffer, bufferSize ) ) ) {
+	while ( 0 != ( bytesRead = demoread.Read( buffer, bufferSize ) ) ) {
 		demowrite.Write( buffer, bytesRead );
 		common->Printf( "." );
 	}
@@ -1134,7 +1134,7 @@ void idSessionLocal::CompressDemoFile( const char *scheme, const char *demoName 
 	demowrite.Close();
 
 	cvarSystem->SetCVarBool( "com_preloadDemos", savedPreload );
-	cvarSystem->SetCVarInteger("com_compressDemos", savedCompression);
+	cvarSystem->SetCVarInteger( "com_compressDemos", savedCompression );
 
 	common->Printf( "Done\n" );
 	common->SetRefreshOnPrint( false );
@@ -1170,11 +1170,11 @@ void idSessionLocal::StartNewGame( const char *mapName, bool devmap ) {
 	}
 #endif
 	if ( idAsyncNetwork::server.IsActive() ) {
-		common->Printf("Server running, use si_map / serverMapRestart\n");
+		common->Printf( "Server running, use si_map / serverMapRestart\n" );
 		return;
 	}
 	if ( idAsyncNetwork::client.IsActive() ) {
-		common->Printf("Client running, disconnect from server first\n");
+		common->Printf( "Client running, disconnect from server first\n" );
 		return;
 	}
 
@@ -1189,7 +1189,7 @@ void idSessionLocal::StartNewGame( const char *mapName, bool devmap ) {
 
 	// set the devmap key so any play testing items will be given at
 	// spawn time to set approximately the right weapons and ammo
-	if(devmap) {
+	if ( devmap ) {
 		mapSpawnData.serverInfo.Set( "devmap", "1" );
 	}
 
@@ -1227,7 +1227,7 @@ void idSessionLocal::MoveToNewMap( const char *mapName ) {
 
 	ExecuteMapChange();
 
-	if ( !mapSpawnData.serverInfo.GetBool("devmap") ) {
+	if ( !mapSpawnData.serverInfo.GetBool( "devmap" ) ) {
 		// Autosave at the beginning of the level
 		SaveGame( GetAutoSaveName( mapName ), true );
 	}
@@ -1282,17 +1282,17 @@ This should still work after disconnecting from a level
 ==============
 */
 void idSessionLocal::WriteCmdDemo( const char *demoName, bool save ) {
-	
+
 	if ( !demoName[0] ) {
 		common->Printf( "idSessionLocal::WriteCmdDemo: no name specified\n" );
 		return;
 	}
 
 	idStr statsName;
-	if (save) {
+	if ( save ) {
 		statsName = demoName;
 		statsName.StripFileExtension();
-		statsName.DefaultFileExtension(".stats");
+		statsName.DefaultFileExtension( ".stats" );
 	}
 
 	common->Printf( "writing save data to %s\n", demoName );
@@ -1306,7 +1306,7 @@ void idSessionLocal::WriteCmdDemo( const char *demoName, bool save ) {
 	if ( save ) {
 		cmdDemoFile->Write( &logIndex, sizeof( logIndex ) );
 	}
-	
+
 	SaveCmdDemoToFile( cmdDemoFile );
 
 	if ( save ) {
@@ -1334,14 +1334,14 @@ void idSessionLocal::FinishCmdLoad() {
 idSessionLocal::StartPlayingCmdDemo
 ===============
 */
-void idSessionLocal::StartPlayingCmdDemo(const char *demoName) {
+void idSessionLocal::StartPlayingCmdDemo( const char *demoName ) {
 	// exit any current game
 	Stop();
 
 	idStr fullDemoName = "demos/";
 	fullDemoName += demoName;
 	fullDemoName.DefaultFileExtension( ".cdemo" );
-	cmdDemoFile = fileSystem->OpenFileRead(fullDemoName);
+	cmdDemoFile = fileSystem->OpenFileRead( fullDemoName );
 
 	if ( cmdDemoFile == NULL ) {
 		common->Printf( "Couldn't open %s\n", fullDemoName.c_str() );
@@ -1351,15 +1351,15 @@ void idSessionLocal::StartPlayingCmdDemo(const char *demoName) {
 	guiLoading = uiManager->FindGui( "guis/map/loading.gui", true, false, true );
 	//cmdDemoFile->Read(&loadGameTime, sizeof(loadGameTime));
 
-	LoadCmdDemoFromFile(cmdDemoFile);
+	LoadCmdDemoFromFile( cmdDemoFile );
 
 	// start the map
 	ExecuteMapChange();
 
-	cmdDemoFile = fileSystem->OpenFileRead(fullDemoName);
+	cmdDemoFile = fileSystem->OpenFileRead( fullDemoName );
 
 	// have to do this twice as the execmapchange clears the cmddemofile
-	LoadCmdDemoFromFile(cmdDemoFile);
+	LoadCmdDemoFromFile( cmdDemoFile );
 
 	// run one frame to get the view angles correct
 	RunGameTic();
@@ -1383,7 +1383,7 @@ void idSessionLocal::TimeCmdDemo( const char *demoName ) {
 	// run all the frames in sequence
 	minuteStart = startTime;
 
-	while( cmdDemoFile ) {
+	while ( cmdDemoFile ) {
 		RunGameTic();
 		count++;
 
@@ -1463,7 +1463,7 @@ int idSessionLocal::GetBytesNeededForMapLoad( const char *mapName ) {
 	const idDecl *mapDecl = declManager->FindType( DECL_MAPDEF, mapName, false );
 	const idDeclEntityDef *mapDef = static_cast<const idDeclEntityDef *>( mapDecl );
 	if ( mapDef ) {
-		return mapDef->dict.GetInt( va("size%d", Max( 0, com_machineSpec.GetInteger() ) ) );
+		return mapDef->dict.GetInt( va( "size%d", Max( 0, com_machineSpec.GetInteger() ) ) );
 	} else {
 		if ( com_machineSpec.GetInteger() < 2 ) {
 			return 200 * 1024 * 1024;
@@ -1479,20 +1479,20 @@ idSessionLocal::SetBytesNeededForMapLoad
 ===============
 */
 void idSessionLocal::SetBytesNeededForMapLoad( const char *mapName, int bytesNeeded ) {
-	idDecl *mapDecl = const_cast<idDecl *>(declManager->FindType( DECL_MAPDEF, mapName, false ));
+	idDecl *mapDecl = const_cast<idDecl *>( declManager->FindType( DECL_MAPDEF, mapName, false ) );
 	idDeclEntityDef *mapDef = static_cast<idDeclEntityDef *>( mapDecl );
 
 	if ( com_updateLoadSize.GetBool() && mapDef ) {
 		// we assume that if com_updateLoadSize is true then the file is writable
 
-		mapDef->dict.SetInt( va("size%d", com_machineSpec.GetInteger()), bytesNeeded );
+		mapDef->dict.SetInt( va( "size%d", com_machineSpec.GetInteger() ), bytesNeeded );
 
 		idStr declText = "\nmapDef ";
 		declText += mapDef->GetName();
 		declText += " {\n";
-		for (int i=0; i<mapDef->dict.GetNumKeyVals(); i++) {
+		for ( int i = 0; i < mapDef->dict.GetNumKeyVals(); i++ ) {
 			const idKeyValue *kv = mapDef->dict.GetKeyVal( i );
-			if ( kv && (kv->GetKey().Cmp("classname") != 0 ) ) {
+			if ( kv && ( kv->GetKey().Cmp( "classname" ) != 0 ) ) {
 				declText += "\t\"" + kv->GetKey() + "\"\t\t\"" + kv->GetValue() + "\"\n";
 			}
 		}
@@ -1581,10 +1581,10 @@ void idSessionLocal::ExecuteMapChange( bool noFadeWipe ) {
 	// and draw the loading gui instead of game draws
 	insideExecuteMapChange = true;
 
-	// if this works out we will probably want all the sizes in a def file although this solution will 
+	// if this works out we will probably want all the sizes in a def file although this solution will
 	// work for new maps etc. after the first load. we can also drop the sizes into the default.cfg
 	fileSystem->ResetReadCount();
-	if ( !reloadingSameMap  ) {
+	if ( !reloadingSameMap ) {
 		bytesNeededForMapLoad = GetBytesNeededForMapLoad( mapString.c_str() );
 	} else {
 		bytesNeededForMapLoad = 30 * 1024 * 1024;
@@ -1605,8 +1605,8 @@ void idSessionLocal::ExecuteMapChange( bool noFadeWipe ) {
 	// if net play, we get the number of clients during mapSpawnInfo processing
 	if ( !idAsyncNetwork::IsActive() ) {
 		numClients = 1;
-	} 
-	
+	}
+
 	int start = Sys_Milliseconds();
 
 	common->Printf( "--------- Map Initialization ---------\n" );
@@ -1667,7 +1667,7 @@ void idSessionLocal::ExecuteMapChange( bool noFadeWipe ) {
 		}
 	}
 
-	common->Printf ("-----------------------------------\n");
+	common->Printf( "-----------------------------------\n" );
 
 	int	msec = Sys_Milliseconds() - start;
 	common->Printf( "%6d msec to load %s\n", msec, mapString.c_str() );
@@ -1736,11 +1736,11 @@ LoadGame_f
 */
 void LoadGame_f( const idCmdArgs &args ) {
 	console->Close();
-	if ( args.Argc() < 2 || idStr::Icmp(args.Argv(1), "quick" ) == 0 ) {
+	if ( args.Argc() < 2 || idStr::Icmp( args.Argv( 1 ), "quick" ) == 0 ) {
 		idStr saveName = common->GetLanguageDict()->GetString( "#str_07178" );
 		sessLocal.LoadGame( saveName );
 	} else {
-		sessLocal.LoadGame( args.Argv(1) );
+		sessLocal.LoadGame( args.Argv( 1 ) );
 	}
 }
 
@@ -1750,14 +1750,14 @@ SaveGame_f
 ===============
 */
 void SaveGame_f( const idCmdArgs &args ) {
-	if ( args.Argc() < 2 || idStr::Icmp( args.Argv(1), "quick" ) == 0 ) {
+	if ( args.Argc() < 2 || idStr::Icmp( args.Argv( 1 ), "quick" ) == 0 ) {
 		idStr saveName = common->GetLanguageDict()->GetString( "#str_07178" );
 		if ( sessLocal.SaveGame( saveName ) ) {
 			common->Printf( "%s\n", saveName.c_str() );
 		}
 	} else {
-		if ( sessLocal.SaveGame( args.Argv(1) ) ) {
-			common->Printf( "Saved %s\n", args.Argv(1) );
+		if ( sessLocal.SaveGame( args.Argv( 1 ) ) ) {
+			common->Printf( "Saved %s\n", args.Argv( 1 ) );
 		}
 	}
 }
@@ -1799,11 +1799,11 @@ void idSessionLocal::TakeNotes( const char *p, bool extended ) {
 #if 0
 		const char *people[] = {
 			"Nobody", "Adam", "Brandon", "David", "PHook", "Jay", "Jake",
-				"PatJ", "Brett", "Ted", "Darin", "Brian", "Sean"
+			"PatJ", "Brett", "Ted", "Darin", "Brian", "Sean"
 		};
 #else
 		const char *people[] = {
-			"Tim", "Kenneth", "Robert", 
+			"Tim", "Kenneth", "Robert",
 			"Matt", "Mal", "Jerry", "Steve", "Pat",
 			"Xian", "Ed", "Fred", "James", "Eric", "Andy", "Seneca", "Patrick", "Kevin",
 			"MrElusive", "Jim", "Brian", "John", "Adrian", "Nobody"
@@ -1811,7 +1811,7 @@ void idSessionLocal::TakeNotes( const char *p, bool extended ) {
 #endif
 		const int numPeople = sizeof( people ) / sizeof( people[0] );
 
-		idListGUI * guiList_people = uiManager->AllocListGUI();
+		idListGUI *guiList_people = uiManager->AllocListGUI();
 		guiList_people->Config( guiTakeNotes, "person" );
 		for ( int i = 0; i < numPeople; i++ ) {
 			guiList_people->Push( people[i] );
@@ -1837,19 +1837,19 @@ Session_Hitch_f
 void Session_Hitch_f( const idCmdArgs &args ) {
 	idSoundWorld *sw = soundSystem->GetPlayingSoundWorld();
 	if ( sw ) {
-		soundSystem->SetMute(true);
+		soundSystem->SetMute( true );
 		sw->Pause();
 		Sys_EnterCriticalSection();
 	}
 	if ( args.Argc() == 2 ) {
-		Sys_Sleep( atoi(args.Argv(1)) );
+		Sys_Sleep( atoi( args.Argv( 1 ) ) );
 	} else {
 		Sys_Sleep( 100 );
 	}
 	if ( sw ) {
 		Sys_LeaveCriticalSection();
 		sw->UnPause();
-		soundSystem->SetMute(false);
+		soundSystem->SetMute( false );
 	}
 }
 
@@ -1875,7 +1875,7 @@ void idSessionLocal::ScrubSaveGameFileName( idStr &saveFileName ) const {
 		if ( strchr( "',.~!@#$%^&*()[]{}<>\\|/=?+;:-\'\"", inFileName[i] ) ) {
 			// random junk
 			saveFileName += '_';
-		} else if ( (const unsigned char)inFileName[i] >= 128 ) {
+		} else if ( ( const unsigned char )inFileName[i] >= 128 ) {
 			// high ascii chars
 			saveFileName += '_';
 		} else if ( inFileName[i] == ' ' ) {
@@ -1910,13 +1910,13 @@ bool idSessionLocal::SaveGame( const char *saveName, bool autosave ) {
 	}
 
 	if ( game->GetPersistentPlayerInfo( 0 ).GetInt( "health" ) <= 0 ) {
-		MessageBox( MSG_OK, common->GetLanguageDict()->GetString ( "#str_04311" ), common->GetLanguageDict()->GetString ( "#str_04312" ), true );
+		MessageBox( MSG_OK, common->GetLanguageDict()->GetString( "#str_04311" ), common->GetLanguageDict()->GetString( "#str_04312" ), true );
 		common->Printf( "You must be alive to save the game\n" );
 		return false;
 	}
 
 	if ( Sys_GetDriveFreeSpace( cvarSystem->GetCVarString( "fs_savepath" ) ) < 25 ) {
-		MessageBox( MSG_OK, common->GetLanguageDict()->GetString ( "#str_04313" ), common->GetLanguageDict()->GetString ( "#str_04314" ), true );
+		MessageBox( MSG_OK, common->GetLanguageDict()->GetString( "#str_04313" ), common->GetLanguageDict()->GetString( "#str_04314" ), true );
 		common->Printf( "Not enough drive space to save the game\n" );
 		return false;
 	}
@@ -1951,7 +1951,7 @@ bool idSessionLocal::SaveGame( const char *saveName, bool autosave ) {
 		return false;
 	}
 
-	// Write SaveGame Header: 
+	// Write SaveGame Header:
 	// Game Name / Version / Map Name / Persistant Player Info
 
 	// game
@@ -2001,13 +2001,13 @@ bool idSessionLocal::SaveGame( const char *saveName, bool autosave ) {
 	description.Replace( "\\", "\\\\" );
 	description.Replace( "\"", "\\\"" );
 
-	const idDeclEntityDef *mapDef = static_cast<const idDeclEntityDef *>(declManager->FindType( DECL_MAPDEF, mapName, false ));
+	const idDeclEntityDef *mapDef = static_cast<const idDeclEntityDef *>( declManager->FindType( DECL_MAPDEF, mapName, false ) );
 	if ( mapDef ) {
 		mapName = common->GetLanguageDict()->GetString( mapDef->dict.GetString( "name", mapName ) );
 	}
 
 	fileDesc->Printf( "\"%s\"\n", description.c_str() );
-	fileDesc->Printf( "\"%s\"\n", mapName.c_str());
+	fileDesc->Printf( "\"%s\"\n", mapName.c_str() );
 
 	if ( autosave ) {
 		idStr sshot = mapSpawnData.serverInfo.GetString( "si_map" );
@@ -2037,7 +2037,7 @@ bool idSessionLocal::SaveGame( const char *saveName, bool autosave ) {
 idSessionLocal::LoadGame
 ===============
 */
-bool idSessionLocal::LoadGame( const char *saveName ) { 
+bool idSessionLocal::LoadGame( const char *saveName ) {
 #ifdef	ID_DEDICATED
 	common->Printf( "Dedicated servers cannot load games.\n" );
 	return false;
@@ -2103,7 +2103,7 @@ bool idSessionLocal::LoadGame( const char *saveName ) {
 	// but still load the map with the persistant playerInfo from the header
 	// so that the player doesn't lose too much progress.
 	if ( savegameVersion != SAVEGAME_VERSION &&
-		 !( savegameVersion == 16 && SAVEGAME_VERSION == 17 ) ) {	// handle savegame v16 in v17
+			!( savegameVersion == 16 && SAVEGAME_VERSION == 17 ) ) {	// handle savegame v16 in v17
 		common->Warning( "Savegame Version mismatch: aborting loadgame and starting level with persistent data" );
 		loadingSaveGame = false;
 		fileSystem->CloseFile( savegameFile );
@@ -2180,7 +2180,7 @@ bool idSessionLocal::ProcessEvent( const sysEvent_t *event ) {
 			guiTest = NULL;
 			return true;
 		}
-		
+
 		static const char *cmd;
 		cmd = guiTest->HandleEvent( event, com_frameTime );
 		if ( cmd && cmd[0] ) {
@@ -2220,7 +2220,7 @@ Draw the fade material over everything that has been drawn
 void	idSessionLocal::DrawWipeModel() {
 	int		latchedTic = com_ticNumber;
 
-	if (  wipeStartTic >= wipeStopTic ) {
+	if ( wipeStartTic >= wipeStopTic ) {
 		return;
 	}
 
@@ -2246,7 +2246,7 @@ void idSessionLocal::AdvanceRenderDemo( bool singleFrameOnly ) {
 	int skipFrames = 0;
 
 	if ( !aviCaptureMode && !timeDemo && !singleFrameOnly ) {
-		skipFrames = ( (latchedTicNumber - lastDemoTic) / USERCMD_PER_DEMO_FRAME ) - 1;
+		skipFrames = ( ( latchedTicNumber - lastDemoTic ) / USERCMD_PER_DEMO_FRAME ) - 1;
 		// never skip too many frames, just let it go into slightly slow motion
 		if ( skipFrames > 4 ) {
 			skipFrames = 4;
@@ -2254,10 +2254,10 @@ void idSessionLocal::AdvanceRenderDemo( bool singleFrameOnly ) {
 		lastDemoTic = latchedTicNumber - latchedTicNumber % USERCMD_PER_DEMO_FRAME;
 	} else {
 		// always advance a single frame with avidemo and timedemo
-		lastDemoTic = latchedTicNumber; 
+		lastDemoTic = latchedTicNumber;
 	}
 
-	while( skipFrames > -1 ) {
+	while ( skipFrames > -1 ) {
 		int		ds = DS_FINISHED;
 
 		readDemo->ReadInt( ds );
@@ -2313,14 +2313,14 @@ void idSessionLocal::DrawCmdGraph() {
 		return;
 	}
 	renderSystem->SetColor4( 0.1f, 0.1f, 0.1f, 1.0f );
-	renderSystem->DrawStretchPic( 0, 480-ANGLE_GRAPH_HEIGHT, MAX_BUFFERED_USERCMD*ANGLE_GRAPH_STRETCH, ANGLE_GRAPH_HEIGHT, 0, 0, 1, 1, whiteMaterial );
+	renderSystem->DrawStretchPic( 0, 480 - ANGLE_GRAPH_HEIGHT, MAX_BUFFERED_USERCMD * ANGLE_GRAPH_STRETCH, ANGLE_GRAPH_HEIGHT, 0, 0, 1, 1, whiteMaterial );
 	renderSystem->SetColor4( 0.9f, 0.9f, 0.9f, 1.0f );
-	for ( int i = 0 ; i < MAX_BUFFERED_USERCMD-4 ; i++ ) {
-		usercmd_t	cmd = usercmdGen->TicCmd( latchedTicNumber - (MAX_BUFFERED_USERCMD-4) + i );
+	for ( int i = 0 ; i < MAX_BUFFERED_USERCMD - 4 ; i++ ) {
+		usercmd_t	cmd = usercmdGen->TicCmd( latchedTicNumber - ( MAX_BUFFERED_USERCMD - 4 ) + i );
 		int h = cmd.angles[1];
 		h >>= 8;
-		h &= (ANGLE_GRAPH_HEIGHT-1);
-		renderSystem->DrawStretchPic( i* ANGLE_GRAPH_STRETCH, 480-h, 1, h, 0, 0, 1, 1, whiteMaterial );
+		h &= ( ANGLE_GRAPH_HEIGHT - 1 );
+		renderSystem->DrawStretchPic( i * ANGLE_GRAPH_STRETCH, 480 - h, 1, h, 0, 0, 1, 1, whiteMaterial );
 	}
 }
 
@@ -2377,7 +2377,7 @@ void idSessionLocal::Draw() {
 		}
 		if ( guiActive == guiMsg ) {
 			guiMsg->Redraw( com_frameTime );
-		} 
+		}
 	} else if ( guiTest ) {
 		// if testing a gui, clear the screen and draw it
 		// clear the background, in case the tested gui is transparent
@@ -2386,12 +2386,12 @@ void idSessionLocal::Draw() {
 		renderSystem->DrawStretchPic( 0, 0, 640, 480, 0, 0, 1, 1, declManager->FindMaterial( "_white" ) );
 		guiTest->Redraw( com_frameTime );
 	} else if ( guiActive && !guiActive->State().GetBool( "gameDraw" ) ) {
-		
+
 		// draw the frozen gui in the background
 		if ( guiActive == guiMsg && guiMsgRestore ) {
 			guiMsgRestore->Redraw( com_frameTime );
 		}
-		
+
 		// draw the menus full screen
 		if ( guiActive == guiTakeNotes && !com_skipGameDraw.GetBool() ) {
 			game->Draw( GetLocalClientNum() );
@@ -2453,7 +2453,7 @@ void idSessionLocal::Draw() {
 
 	// draw the wipe material on top of this if it hasn't completed yet
 	DrawWipeModel();
-	
+
 	// draw debug graphs
 	DrawCmdGraph();
 
@@ -2534,7 +2534,7 @@ void idSessionLocal::Frame() {
 	if ( aviCaptureMode ) {
 		idStr	name;
 
-		name = va("demos/%s/%s_%05i.tga", aviDemoShortName.c_str(), aviDemoShortName.c_str(), aviTicStart );
+		name = va( "demos/%s/%s_%05i.tga", aviDemoShortName.c_str(), aviDemoShortName.c_str(), aviTicStart );
 
 		float ratio = 30.0f / ( 1000.0f / USERCMD_MSEC / com_aviDemoTics.GetInteger() );
 		aviDemoFrameCount += ratio;
@@ -2543,7 +2543,7 @@ void idSessionLocal::Frame() {
 			int c = aviDemoFrameCount - aviTicStart;
 			while ( c-- ) {
 				renderSystem->TakeScreenshot( com_aviDemoWidth.GetInteger(), com_aviDemoHeight.GetInteger(), name, com_aviDemoSamples.GetInteger(), NULL );
-				name = va("demos/%s/%s_%05i.tga", aviDemoShortName.c_str(), aviDemoShortName.c_str(), ++aviTicStart );
+				name = va( "demos/%s/%s_%05i.tga", aviDemoShortName.c_str(), aviDemoShortName.c_str(), ++aviTicStart );
 			}
 		}
 		aviTicStart = aviDemoFrameCount;
@@ -2565,7 +2565,7 @@ void idSessionLocal::Frame() {
 	if ( com_minTics.GetInteger() > 1 ) {
 		minTic = lastGameTic + com_minTics.GetInteger();
 	}
-	
+
 	if ( readDemo ) {
 		if ( !timeDemo && numDemoFrames != 1 ) {
 			minTic = lastDemoTic + USERCMD_PER_DEMO_FRAME;
@@ -2577,7 +2577,7 @@ void idSessionLocal::Frame() {
 	} else if ( writeDemo ) {
 		minTic = lastGameTic + USERCMD_PER_DEMO_FRAME;		// demos are recorded at 30 hz
 	}
-	
+
 	// fixedTic lets us run a forced number of usercmd each frame without timing
 	if ( com_fixedTic.GetInteger() ) {
 		minTic = latchedTicNumber;
@@ -2588,7 +2588,7 @@ void idSessionLocal::Frame() {
 	// Spin in place if needed.  The game should yield the cpu if
 	// it is running over 60 hz, because there is fundamentally
 	// nothing useful for it to do.
-	while( 1 ) {
+	while ( 1 ) {
 		latchedTicNumber = com_ticNumber;
 		if ( latchedTicNumber >= minTic ) {
 			break;
@@ -2596,7 +2596,7 @@ void idSessionLocal::Frame() {
 		Sys_Sleep( 1 );
 	}
 #else
-	while( 1 ) {
+	while ( 1 ) {
 		latchedTicNumber = com_ticNumber;
 		if ( latchedTicNumber >= minTic ) {
 			break;
@@ -2760,7 +2760,7 @@ void idSessionLocal::RunGameTic() {
 			logCmd.consistencyHash = LittleLong( logCmd.consistencyHash );
 		}
 	}
-	
+
 	// if we didn't get one from the file, get it locally
 	if ( !cmdDemoFile ) {
 		// get a locally created command
@@ -2793,7 +2793,7 @@ void idSessionLocal::RunGameTic() {
 		loggedUsercmds[logIndex].cmd = cmd;
 		// save the consistencyHash for demo playback verification
 		loggedUsercmds[logIndex].consistencyHash = ret.consistencyHash;
-		if (logIndex % 30 == 0 && statIndex < MAX_LOGGED_STATS) {
+		if ( logIndex % 30 == 0 && statIndex < MAX_LOGGED_STATS ) {
 			loggedStats[statIndex].health = ret.health;
 			loggedStats[statIndex].heartRate = ret.heartRate;
 			loggedStats[statIndex].stamina = ret.stamina;
@@ -2810,7 +2810,7 @@ void idSessionLocal::RunGameTic() {
 
 		args.TokenizeString( ret.sessionCommand, false );
 
-		if ( !idStr::Icmp( args.Argv(0), "map" ) ) {
+		if ( !idStr::Icmp( args.Argv( 0 ), "map" ) ) {
 			// get current player states
 			for ( int i = 0 ; i < numClients ; i++ ) {
 				mapSpawnData.persistentPlayerInfo[i] = game->GetPersistentPlayerInfo( i );
@@ -2820,17 +2820,17 @@ void idSessionLocal::RunGameTic() {
 			mapSpawnData.serverInfo.Delete( "devmap" );
 
 			// go to the next map
-			MoveToNewMap( args.Argv(1) );
-		} else if ( !idStr::Icmp( args.Argv(0), "devmap" ) ) {
+			MoveToNewMap( args.Argv( 1 ) );
+		} else if ( !idStr::Icmp( args.Argv( 0 ), "devmap" ) ) {
 			mapSpawnData.serverInfo.Set( "devmap", "1" );
-			MoveToNewMap( args.Argv(1) );
-		} else if ( !idStr::Icmp( args.Argv(0), "died" ) ) {
+			MoveToNewMap( args.Argv( 1 ) );
+		} else if ( !idStr::Icmp( args.Argv( 0 ), "died" ) ) {
 			// restart on the same map
 			UnloadMap();
-			SetGUI(guiRestartMenu, NULL);
-		} else if ( !idStr::Icmp( args.Argv(0), "disconnect" ) ) {
+			SetGUI( guiRestartMenu, NULL );
+		} else if ( !idStr::Icmp( args.Argv( 0 ), "disconnect" ) ) {
 			cmdSystem->BufferCommandText( CMD_EXEC_INSERT, "stoprecording ; disconnect" );
-		} else if ( !idStr::Icmp( args.Argv(0), "endOfDemo" ) ) {
+		} else if ( !idStr::Icmp( args.Argv( 0 ), "endOfDemo" ) ) {
 			cmdSystem->BufferCommandText( CMD_EXEC_NOW, "endOfDemo" );
 		}
 	}
@@ -2848,7 +2848,7 @@ void idSessionLocal::Init() {
 
 	common->Printf( "-------- Initializing Session --------\n" );
 
-	cmdSystem->AddCommand( "writePrecache", Sess_WritePrecache_f, CMD_FL_SYSTEM|CMD_FL_CHEAT, "writes precache commands" );
+	cmdSystem->AddCommand( "writePrecache", Sess_WritePrecache_f, CMD_FL_SYSTEM | CMD_FL_CHEAT, "writes precache commands" );
 
 #ifndef	ID_DEDICATED
 	cmdSystem->AddCommand( "map", Session_Map_f, CMD_FL_SYSTEM, "loads a map", idCmdSystem::ArgCompletion_MapName );
@@ -2881,8 +2881,8 @@ void idSessionLocal::Init() {
 	cmdSystem->AddCommand( "testGUI", Session_TestGUI_f, CMD_FL_SYSTEM, "tests a gui" );
 
 #ifndef	ID_DEDICATED
-	cmdSystem->AddCommand( "saveGame", SaveGame_f, CMD_FL_SYSTEM|CMD_FL_CHEAT, "saves a game" );
-	cmdSystem->AddCommand( "loadGame", LoadGame_f, CMD_FL_SYSTEM|CMD_FL_CHEAT, "loads a game", idCmdSystem::ArgCompletion_SaveGame );
+	cmdSystem->AddCommand( "saveGame", SaveGame_f, CMD_FL_SYSTEM | CMD_FL_CHEAT, "saves a game" );
+	cmdSystem->AddCommand( "loadGame", LoadGame_f, CMD_FL_SYSTEM | CMD_FL_CHEAT, "loads a game", idCmdSystem::ArgCompletion_SaveGame );
 #endif
 
 	cmdSystem->AddCommand( "takeViewNotes", TakeViewNotes_f, CMD_FL_SYSTEM, "take notes about the current map from the current view" );
@@ -2892,7 +2892,7 @@ void idSessionLocal::Init() {
 
 	cmdSystem->AddCommand( "promptKey", Session_PromptKey_f, CMD_FL_SYSTEM, "prompt and sets the CD Key" );
 
-	cmdSystem->AddCommand( "hitch", Session_Hitch_f, CMD_FL_SYSTEM|CMD_FL_CHEAT, "hitches the game" );
+	cmdSystem->AddCommand( "hitch", Session_Hitch_f, CMD_FL_SYSTEM | CMD_FL_CHEAT, "hitches the game" );
 
 	// the same idRenderWorld will be used for all games
 	// and demos, insuring that level specific models
@@ -2995,7 +2995,7 @@ void idSessionLocal::ReadCDKey( void ) {
 		common->Printf( "Couldn't read %s.\n", filename.c_str() );
 		cdkey[ 0 ] = '\0';
 	} else {
-		memset( buffer, 0, sizeof(buffer) );
+		memset( buffer, 0, sizeof( buffer ) );
 		f->Read( buffer, CDKEY_BUF_LEN - 1 );
 		fileSystem->CloseFile( f );
 		idStr::Copynz( cdkey, buffer, CDKEY_BUF_LEN );
@@ -3009,7 +3009,7 @@ void idSessionLocal::ReadCDKey( void ) {
 		common->Printf( "Couldn't read %s.\n", filename.c_str() );
 		xpkey[ 0 ] = '\0';
 	} else {
-		memset( buffer, 0, sizeof(buffer) );
+		memset( buffer, 0, sizeof( buffer ) );
 		f->Read( buffer, CDKEY_BUF_LEN - 1 );
 		fileSystem->CloseFile( f );
 		idStr::Copynz( xpkey, buffer, CDKEY_BUF_LEN );
@@ -3098,7 +3098,7 @@ we toggled some key state to CDKEY_CHECKING. send a standalone auth packet to va
 void idSessionLocal::EmitGameAuth( void ) {
 	// make sure the auth reply is empty, we use it to indicate an auth reply
 	authMsg.Empty();
-	if ( idAsyncNetwork::client.SendAuthCheck( cdkey_state == CDKEY_CHECKING ? cdkey : NULL, xpkey_state == CDKEY_CHECKING ? xpkey : NULL ) ) {		
+	if ( idAsyncNetwork::client.SendAuthCheck( cdkey_state == CDKEY_CHECKING ? cdkey : NULL, xpkey_state == CDKEY_CHECKING ? xpkey : NULL ) ) {
 		authEmitTimeout = Sys_Milliseconds() + CDKEY_AUTH_TIMEOUT;
 		common->DPrintf( "authing with the master..\n" );
 	} else {
@@ -3110,7 +3110,7 @@ void idSessionLocal::EmitGameAuth( void ) {
 		if ( xpkey_state == CDKEY_CHECKING ) {
 			xpkey_state = CDKEY_OK;
 		}
-	}	
+	}
 }
 
 /*
@@ -3124,7 +3124,7 @@ bool idSessionLocal::CheckKey( const char *key, bool netConnect, bool offline_va
 	char lkey[ 2 ][ CDKEY_BUF_LEN ];
 	char l_chk[ 2 ][ 3 ];
 	char s_chk[ 3 ];
-	int imax,i_key;
+	int imax, i_key;
 	unsigned int checksum, chk8;
 	bool edited_key[ 2 ];
 
@@ -3148,7 +3148,7 @@ bool idSessionLocal::CheckKey( const char *key, bool netConnect, bool offline_va
 		imax = 1;
 	}
 	offline_valid[ 0 ] = offline_valid[ 1 ] = true;
-	for( i_key = 0; i_key < imax; i_key++ ) {
+	for ( i_key = 0; i_key < imax; i_key++ ) {
 		// check that the characters are from the valid set
 		int i;
 		for ( i = 0; i < CDKEY_BUF_LEN - 1; i++ ) {
@@ -3169,7 +3169,7 @@ bool idSessionLocal::CheckKey( const char *key, bool netConnect, bool offline_va
 			}
 		}
 	}
-	
+
 	if ( !offline_valid[ 0 ] || !offline_valid[1] ) {
 		return false;
 	}
@@ -3210,13 +3210,13 @@ bool idSessionLocal::CDKeysAreValid( bool strict ) {
 		if ( strlen( cdkey ) != CDKEY_BUF_LEN - 1 ) {
 			cdkey_state = CDKEY_INVALID;
 		} else {
-			for ( i = 0; i < CDKEY_BUF_LEN-1; i++ ) {
+			for ( i = 0; i < CDKEY_BUF_LEN - 1; i++ ) {
 				if ( !strchr( CDKEY_DIGITS, cdkey[i] ) ) {
 					cdkey_state = CDKEY_INVALID;
 					break;
 				}
 			}
-		}		
+		}
 		if ( cdkey_state == CDKEY_UNKNOWN ) {
 			cdkey_state = CDKEY_CHECKING;
 			emitAuth = true;
@@ -3224,10 +3224,10 @@ bool idSessionLocal::CDKeysAreValid( bool strict ) {
 	}
 	if ( xpkey_state == CDKEY_UNKNOWN ) {
 		if ( fileSystem->HasD3XP() ) {
-			if ( strlen( xpkey ) != CDKEY_BUF_LEN -1 ) {
+			if ( strlen( xpkey ) != CDKEY_BUF_LEN - 1 ) {
 				xpkey_state = CDKEY_INVALID;
 			} else {
-				for ( i = 0; i < CDKEY_BUF_LEN-1; i++ ) {
+				for ( i = 0; i < CDKEY_BUF_LEN - 1; i++ ) {
 					if ( !strchr( CDKEY_DIGITS, xpkey[i] ) ) {
 						xpkey_state = CDKEY_INVALID;
 					}

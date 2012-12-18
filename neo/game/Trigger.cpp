@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@ If you have questions concerning this license or the applicable additional terms
 ===============================================================================
 
   idTrigger
-	
+
 ===============================================================================
 */
 
@@ -44,8 +44,8 @@ const idEventDef EV_Enable( "enable", NULL );
 const idEventDef EV_Disable( "disable", NULL );
 
 CLASS_DECLARATION( idEntity, idTrigger )
-	EVENT( EV_Enable,	idTrigger::Event_Enable )
-	EVENT( EV_Disable,	idTrigger::Event_Disable )
+EVENT( EV_Enable,	idTrigger::Event_Enable )
+EVENT( EV_Disable,	idTrigger::Event_Disable )
 END_CLASS
 
 /*
@@ -67,11 +67,11 @@ void idTrigger::DrawDebugInfo( void ) {
 
 	viewTextBounds.ExpandSelf( 128.0f );
 	viewBounds.ExpandSelf( 512.0f );
-	for( ent = gameLocal.spawnedEntities.Next(); ent != NULL; ent = ent->spawnNode.Next() ) {
+	for ( ent = gameLocal.spawnedEntities.Next(); ent != NULL; ent = ent->spawnNode.Next() ) {
 		if ( ent->GetPhysics()->GetContents() & ( CONTENTS_TRIGGER | CONTENTS_FLASHLIGHT_TRIGGER ) ) {
 			show = viewBounds.IntersectsBounds( ent->GetPhysics()->GetAbsBounds() );
 			if ( !show ) {
-				for( i = 0; i < ent->targets.Num(); i++ ) {
+				for ( i = 0; i < ent->targets.Num(); i++ ) {
 					target = ent->targets[ i ].GetEntity();
 					if ( target && viewBounds.IntersectsBounds( target->GetPhysics()->GetAbsBounds() ) ) {
 						show = true;
@@ -99,7 +99,7 @@ void idTrigger::DrawDebugInfo( void ) {
 				}
 			}
 
-			for( i = 0; i < ent->targets.Num(); i++ ) {
+			for ( i = 0; i < ent->targets.Num(); i++ ) {
 				target = ent->targets[ i ].GetEntity();
 				if ( target ) {
 					gameRenderWorld->DebugArrow( colorYellow, ent->GetPhysics()->GetAbsBounds().GetCenter(), target->GetPhysics()->GetOrigin(), 10, 0 );
@@ -181,7 +181,7 @@ void idTrigger::Restore( idRestoreGame *savefile ) {
 	if ( funcname.Length() ) {
 		scriptFunction = gameLocal.program.FindFunction( funcname );
 		if ( scriptFunction == NULL ) {
-			gameLocal.Warning( "idTrigger_Multi '%s' at (%s) calls unknown function '%s'", name.c_str(), GetPhysics()->GetOrigin().ToString(0), funcname.c_str() );
+			gameLocal.Warning( "idTrigger_Multi '%s' at (%s) calls unknown function '%s'", name.c_str(), GetPhysics()->GetOrigin().ToString( 0 ), funcname.c_str() );
 		}
 	} else {
 		scriptFunction = NULL;
@@ -227,7 +227,7 @@ void idTrigger::Spawn( void ) {
 	if ( funcname.Length() ) {
 		scriptFunction = gameLocal.program.FindFunction( funcname );
 		if ( scriptFunction == NULL ) {
-			gameLocal.Warning( "trigger '%s' at (%s) calls unknown function '%s'", name.c_str(), GetPhysics()->GetOrigin().ToString(0), funcname.c_str() );
+			gameLocal.Warning( "trigger '%s' at (%s) calls unknown function '%s'", name.c_str(), GetPhysics()->GetOrigin().ToString( 0 ), funcname.c_str() );
 		}
 	} else {
 		scriptFunction = NULL;
@@ -239,16 +239,16 @@ void idTrigger::Spawn( void ) {
 ===============================================================================
 
   idTrigger_Multi
-	
+
 ===============================================================================
 */
 
 const idEventDef EV_TriggerAction( "<triggerAction>", "e" );
 
 CLASS_DECLARATION( idTrigger, idTrigger_Multi )
-	EVENT( EV_Touch,			idTrigger_Multi::Event_Touch )
-	EVENT( EV_Activate,			idTrigger_Multi::Event_Trigger )
-	EVENT( EV_TriggerAction,	idTrigger_Multi::Event_TriggerAction )
+EVENT( EV_Touch,			idTrigger_Multi::Event_Touch )
+EVENT( EV_Activate,			idTrigger_Multi::Event_Trigger )
+EVENT( EV_TriggerAction,	idTrigger_Multi::Event_TriggerAction )
 END_CLASS
 
 
@@ -325,15 +325,15 @@ void idTrigger_Multi::Spawn( void ) {
 	spawnArgs.GetFloat( "random", "0", random );
 	spawnArgs.GetFloat( "delay", "0", delay );
 	spawnArgs.GetFloat( "random_delay", "0", random_delay );
-	
+
 	if ( random && ( random >= wait ) && ( wait >= 0 ) ) {
 		random = wait - 1;
-		gameLocal.Warning( "idTrigger_Multi '%s' at (%s) has random >= wait", name.c_str(), GetPhysics()->GetOrigin().ToString(0) );
+		gameLocal.Warning( "idTrigger_Multi '%s' at (%s) has random >= wait", name.c_str(), GetPhysics()->GetOrigin().ToString( 0 ) );
 	}
 
 	if ( random_delay && ( random_delay >= delay ) && ( delay >= 0 ) ) {
 		random_delay = delay - 1;
-		gameLocal.Warning( "idTrigger_Multi '%s' at (%s) has random_delay >= delay", name.c_str(), GetPhysics()->GetOrigin().ToString(0) );
+		gameLocal.Warning( "idTrigger_Multi '%s' at (%s) has random_delay >= delay", name.c_str(), GetPhysics()->GetOrigin().ToString( 0 ) );
 	}
 
 	spawnArgs.GetString( "requires", "", requires );
@@ -374,7 +374,7 @@ bool idTrigger_Multi::CheckFacing( idEntity *activator ) {
 		if ( !activator->IsType( idPlayer::Type ) ) {
 			return true;
 		}
-		idPlayer *player = static_cast< idPlayer* >( activator );
+		idPlayer *player = static_cast< idPlayer * >( activator );
 		float dot = player->viewAngles.ToForward() * GetPhysics()->GetAxis()[0];
 		float angle = RAD2DEG( idMath::ACos( dot ) );
 		if ( angle  > spawnArgs.GetFloat( "angleLimit", "30" ) ) {
@@ -461,7 +461,7 @@ idTrigger_Multi::Event_Touch
 ================
 */
 void idTrigger_Multi::Event_Touch( idEntity *other, trace_t *trace ) {
-	if( triggerFirst ) {
+	if ( triggerFirst ) {
 		return;
 	}
 
@@ -509,14 +509,14 @@ void idTrigger_Multi::Event_Touch( idEntity *other, trace_t *trace ) {
 ===============================================================================
 
   idTrigger_EntityName
-	
+
 ===============================================================================
 */
 
 CLASS_DECLARATION( idTrigger, idTrigger_EntityName )
-	EVENT( EV_Touch,			idTrigger_EntityName::Event_Touch )
-	EVENT( EV_Activate,			idTrigger_EntityName::Event_Trigger )
-	EVENT( EV_TriggerAction,	idTrigger_EntityName::Event_TriggerAction )
+EVENT( EV_Touch,			idTrigger_EntityName::Event_Touch )
+EVENT( EV_Activate,			idTrigger_EntityName::Event_Trigger )
+EVENT( EV_TriggerAction,	idTrigger_EntityName::Event_TriggerAction )
 END_CLASS
 
 /*
@@ -573,22 +573,22 @@ void idTrigger_EntityName::Spawn( void ) {
 	spawnArgs.GetFloat( "random", "0", random );
 	spawnArgs.GetFloat( "delay", "0", delay );
 	spawnArgs.GetFloat( "random_delay", "0", random_delay );
-	
+
 	if ( random && ( random >= wait ) && ( wait >= 0 ) ) {
 		random = wait - 1;
-		gameLocal.Warning( "idTrigger_EntityName '%s' at (%s) has random >= wait", name.c_str(), GetPhysics()->GetOrigin().ToString(0) );
+		gameLocal.Warning( "idTrigger_EntityName '%s' at (%s) has random >= wait", name.c_str(), GetPhysics()->GetOrigin().ToString( 0 ) );
 	}
 
 	if ( random_delay && ( random_delay >= delay ) && ( delay >= 0 ) ) {
 		random_delay = delay - 1;
-		gameLocal.Warning( "idTrigger_EntityName '%s' at (%s) has random_delay >= delay", name.c_str(), GetPhysics()->GetOrigin().ToString(0) );
+		gameLocal.Warning( "idTrigger_EntityName '%s' at (%s) has random_delay >= delay", name.c_str(), GetPhysics()->GetOrigin().ToString( 0 ) );
 	}
 
 	spawnArgs.GetBool( "triggerFirst", "0", triggerFirst );
 
 	entityName = spawnArgs.GetString( "entityname" );
 	if ( !entityName.Length() ) {
-		gameLocal.Error( "idTrigger_EntityName '%s' at (%s) doesn't have 'entityname' key specified", name.c_str(), GetPhysics()->GetOrigin().ToString(0) );
+		gameLocal.Error( "idTrigger_EntityName '%s' at (%s) doesn't have 'entityname' key specified", name.c_str(), GetPhysics()->GetOrigin().ToString( 0 ) );
 	}
 
 	nextTriggerTime = 0;
@@ -669,7 +669,7 @@ idTrigger_EntityName::Event_Touch
 ================
 */
 void idTrigger_EntityName::Event_Touch( idEntity *other, trace_t *trace ) {
-	if( triggerFirst ) {
+	if ( triggerFirst ) {
 		return;
 	}
 
@@ -696,15 +696,15 @@ void idTrigger_EntityName::Event_Touch( idEntity *other, trace_t *trace ) {
 ===============================================================================
 
   idTrigger_Timer
-	
+
 ===============================================================================
 */
 
 const idEventDef EV_Timer( "<timer>", NULL );
 
 CLASS_DECLARATION( idTrigger, idTrigger_Timer )
-	EVENT( EV_Timer,		idTrigger_Timer::Event_Timer )
-	EVENT( EV_Activate,		idTrigger_Timer::Event_Use )
+EVENT( EV_Timer,		idTrigger_Timer::Event_Timer )
+EVENT( EV_Activate,		idTrigger_Timer::Event_Use )
 END_CLASS
 
 /*
@@ -765,7 +765,7 @@ void idTrigger_Timer::Spawn( void ) {
 
 	if ( random >= wait && wait >= 0 ) {
 		random = wait - 0.001;
-		gameLocal.Warning( "idTrigger_Timer '%s' at (%s) has random >= wait", name.c_str(), GetPhysics()->GetOrigin().ToString(0) );
+		gameLocal.Warning( "idTrigger_Timer '%s' at (%s) has random >= wait", name.c_str(), GetPhysics()->GetOrigin().ToString( 0 ) );
 	}
 
 	if ( on ) {
@@ -840,13 +840,13 @@ void idTrigger_Timer::Event_Use( idEntity *activator ) {
 ===============================================================================
 
   idTrigger_Count
-	
+
 ===============================================================================
 */
 
 CLASS_DECLARATION( idTrigger, idTrigger_Count )
-	EVENT( EV_Activate,	idTrigger_Count::Event_Trigger )
-	EVENT( EV_TriggerAction,	idTrigger_Count::Event_TriggerAction )
+EVENT( EV_Activate,	idTrigger_Count::Event_Trigger )
+EVENT( EV_TriggerAction,	idTrigger_Count::Event_TriggerAction )
 END_CLASS
 
 /*
@@ -900,10 +900,10 @@ idTrigger_Count::Event_Trigger
 */
 void idTrigger_Count::Event_Trigger( idEntity *activator ) {
 	// goal of -1 means trigger has been exhausted
-	if (goal >= 0) {
+	if ( goal >= 0 ) {
 		count++;
 		if ( count >= goal ) {
-			if (spawnArgs.GetBool("repeat")) {
+			if ( spawnArgs.GetBool( "repeat" ) ) {
 				count = 0;
 			} else {
 				goal = -1;
@@ -930,13 +930,13 @@ void idTrigger_Count::Event_TriggerAction( idEntity *activator ) {
 ===============================================================================
 
   idTrigger_Hurt
-	
+
 ===============================================================================
 */
 
 CLASS_DECLARATION( idTrigger, idTrigger_Hurt )
-	EVENT( EV_Touch,		idTrigger_Hurt::Event_Touch )
-	EVENT( EV_Activate,		idTrigger_Hurt::Event_Toggle )
+EVENT( EV_Touch,		idTrigger_Hurt::Event_Touch )
+EVENT( EV_Activate,		idTrigger_Hurt::Event_Toggle )
 END_CLASS
 
 
@@ -1026,7 +1026,7 @@ void idTrigger_Hurt::Event_Toggle( idEntity *activator ) {
 */
 
 CLASS_DECLARATION( idTrigger, idTrigger_Fade )
-	EVENT( EV_Activate,		idTrigger_Fade::Event_Trigger )
+EVENT( EV_Activate,		idTrigger_Fade::Event_Trigger )
 END_CLASS
 
 /*
@@ -1052,12 +1052,12 @@ void idTrigger_Fade::Event_Trigger( idEntity *activator ) {
 ===============================================================================
 
   idTrigger_Touch
-	
+
 ===============================================================================
 */
 
 CLASS_DECLARATION( idTrigger, idTrigger_Touch )
-	EVENT( EV_Activate,		idTrigger_Touch::Event_Trigger )
+EVENT( EV_Activate,		idTrigger_Touch::Event_Trigger )
 END_CLASS
 
 
@@ -1134,9 +1134,9 @@ void idTrigger_Touch::TouchEntities( void ) {
 		if ( !entity ) {
 			continue;
 		}
-		
+
 		if ( !gameLocal.clip.ContentsModel( cm->GetOrigin(), cm, cm->GetAxis(), -1,
-									clipModel->Handle(), clipModel->GetOrigin(), clipModel->GetAxis() ) ) {
+											clipModel->Handle(), clipModel->GetOrigin(), clipModel->GetAxis() ) ) {
 			continue;
 		}
 

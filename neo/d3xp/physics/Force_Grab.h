@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -47,13 +47,13 @@ public:
 	void				Save( idSaveGame *savefile ) const;
 	void				Restore( idRestoreGame *savefile );
 
-						idForce_Grab( void );
+	idForce_Grab( void );
 	virtual				~idForce_Grab( void );
-						// initialize the drag force
+	// initialize the drag force
 	void				Init( float damping );
-						// set physics object being dragged
+	// set physics object being dragged
 	void				SetPhysics( idPhysics *physics, int id, const idVec3 &goal );
-						// update the goal position
+	// update the goal position
 	void				SetGoalPosition( const idVec3 &goal );
 
 
@@ -73,7 +73,7 @@ private:
 	float				distanceToGoal;
 
 	// positioning
-	idPhysics *			physics;		// physics object
+	idPhysics 			*physics;		// physics object
 	int					id;				// clip model id of physics object
 };
 

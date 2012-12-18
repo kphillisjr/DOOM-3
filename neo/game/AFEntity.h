@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -47,7 +47,7 @@ public:
 	CLASS_PROTOTYPE( idMultiModelAF );
 
 	void					Spawn( void );
-							~idMultiModelAF( void );
+	~idMultiModelAF( void );
 
 	virtual void			Think( void );
 	virtual void			Present( void );
@@ -96,7 +96,7 @@ class idAFAttachment : public idAnimatedEntity {
 public:
 	CLASS_PROTOTYPE( idAFAttachment );
 
-							idAFAttachment( void );
+	idAFAttachment( void );
 	virtual					~idAFAttachment( void );
 
 	void					Spawn( void );
@@ -106,7 +106,7 @@ public:
 
 	void					SetBody( idEntity *bodyEnt, const char *headModel, jointHandle_t attachJoint );
 	void					ClearBody( void );
-	idEntity *				GetBody( void ) const;
+	idEntity 				*GetBody( void ) const;
 
 	virtual void			Think( void );
 
@@ -123,13 +123,13 @@ public:
 	virtual void			AddDamageEffect( const trace_t &collision, const idVec3 &velocity, const char *damageDefName );
 
 	void					SetCombatModel( void );
-	idClipModel *			GetCombatModel( void ) const;
+	idClipModel 			*GetCombatModel( void ) const;
 	virtual void			LinkCombat( void );
 	virtual void			UnlinkCombat( void );
 
 protected:
-	idEntity *				body;
-	idClipModel *			combatModel;	// render model for hit detection of head
+	idEntity 				*body;
+	idClipModel 			*combatModel;	// render model for hit detection of head
 	int						idleAnim;
 	jointHandle_t			attachJoint;
 };
@@ -147,7 +147,7 @@ class idAFEntity_Base : public idAnimatedEntity {
 public:
 	CLASS_PROTOTYPE( idAFEntity_Base );
 
-							idAFEntity_Base( void );
+	idAFEntity_Base( void );
 	virtual					~idAFEntity_Base( void );
 
 	void					Spawn( void );
@@ -165,13 +165,19 @@ public:
 	virtual void			FreeModelDef( void );
 
 	virtual bool			LoadAF( void );
-	bool					IsActiveAF( void ) const { return af.IsActive(); }
-	const char *			GetAFName( void ) const { return af.GetName(); }
-	idPhysics_AF *			GetAFPhysics( void ) { return af.GetPhysics(); }
+	bool					IsActiveAF( void ) const {
+		return af.IsActive();
+	}
+	const char 			*GetAFName( void ) const {
+		return af.GetName();
+	}
+	idPhysics_AF 			*GetAFPhysics( void ) {
+		return af.GetPhysics();
+	}
 
 	void					SetCombatModel( void );
-	idClipModel *			GetCombatModel( void ) const;
-							// contents of combatModel can be set to 0 or re-enabled (mp)
+	idClipModel 			*GetCombatModel( void ) const;
+	// contents of combatModel can be set to 0 or re-enabled (mp)
 	void					SetCombatContents( bool enable );
 	virtual void			LinkCombat( void );
 	virtual void			UnlinkCombat( void );
@@ -190,7 +196,7 @@ public:
 
 protected:
 	idAF					af;				// articulated figure
-	idClipModel *			combatModel;	// render model for hit detection
+	idClipModel 			*combatModel;	// render model for hit detection
 	int						combatModelContents;
 	idVec3					spawnOrigin;	// spawn origin
 	idMat3					spawnAxis;		// rotation axis used when spawned
@@ -214,8 +220,8 @@ class idAFEntity_Gibbable : public idAFEntity_Base {
 public:
 	CLASS_PROTOTYPE( idAFEntity_Gibbable );
 
-							idAFEntity_Gibbable( void );
-							~idAFEntity_Gibbable( void );
+	idAFEntity_Gibbable( void );
+	~idAFEntity_Gibbable( void );
 
 	void					Spawn( void );
 	void					Save( idSaveGame *savefile ) const;
@@ -225,7 +231,7 @@ public:
 	virtual void			SpawnGibs( const idVec3 &dir, const char *damageDefName );
 
 protected:
-	idRenderModel *			skeletonModel;
+	idRenderModel 			*skeletonModel;
 	int						skeletonModelDefHandle;
 	bool					gibbed;
 
@@ -247,8 +253,8 @@ class idAFEntity_Generic : public idAFEntity_Gibbable {
 public:
 	CLASS_PROTOTYPE( idAFEntity_Generic );
 
-							idAFEntity_Generic( void );
-							~idAFEntity_Generic( void );
+	idAFEntity_Generic( void );
+	~idAFEntity_Generic( void );
 
 	void					Spawn( void );
 
@@ -256,7 +262,9 @@ public:
 	void					Restore( idRestoreGame *savefile );
 
 	virtual void			Think( void );
-	void					KeepRunningPhysics( void ) { keepRunningPhysics = true; }
+	void					KeepRunningPhysics( void ) {
+		keepRunningPhysics = true;
+	}
 
 private:
 	void					Event_Activate( idEntity *activator );
@@ -277,8 +285,8 @@ class idAFEntity_WithAttachedHead : public idAFEntity_Gibbable {
 public:
 	CLASS_PROTOTYPE( idAFEntity_WithAttachedHead );
 
-							idAFEntity_WithAttachedHead();
-							~idAFEntity_WithAttachedHead();
+	idAFEntity_WithAttachedHead();
+	~idAFEntity_WithAttachedHead();
 
 	void					Spawn( void );
 
@@ -319,19 +327,19 @@ class idAFEntity_Vehicle : public idAFEntity_Base {
 public:
 	CLASS_PROTOTYPE( idAFEntity_Vehicle );
 
-							idAFEntity_Vehicle( void );
+	idAFEntity_Vehicle( void );
 
 	void					Spawn( void );
 	void					Use( idPlayer *player );
 
 protected:
-	idPlayer *				player;
+	idPlayer 				*player;
 	jointHandle_t			eyesJoint;
 	jointHandle_t			steeringWheelJoint;
 	float					wheelRadius;
 	float					steerAngle;
 	float					steerSpeed;
-	const idDeclParticle *	dustSmoke;
+	const idDeclParticle 	*dustSmoke;
 
 	float					GetSteerAngle( void );
 };
@@ -349,15 +357,15 @@ class idAFEntity_VehicleSimple : public idAFEntity_Vehicle {
 public:
 	CLASS_PROTOTYPE( idAFEntity_VehicleSimple );
 
-							idAFEntity_VehicleSimple( void );
-							~idAFEntity_VehicleSimple( void );
+	idAFEntity_VehicleSimple( void );
+	~idAFEntity_VehicleSimple( void );
 
 	void					Spawn( void );
 	virtual void			Think( void );
 
 protected:
-	idClipModel *			wheelModel;
-	idAFConstraint_Suspension *	suspension[4];
+	idClipModel 			*wheelModel;
+	idAFConstraint_Suspension 	*suspension[4];
 	jointHandle_t			wheelJoints[4];
 	float					wheelAngles[4];
 };
@@ -375,14 +383,14 @@ class idAFEntity_VehicleFourWheels : public idAFEntity_Vehicle {
 public:
 	CLASS_PROTOTYPE( idAFEntity_VehicleFourWheels );
 
-							idAFEntity_VehicleFourWheels( void );
+	idAFEntity_VehicleFourWheels( void );
 
 	void					Spawn( void );
 	virtual void			Think( void );
 
 protected:
-	idAFBody *				wheels[4];
-	idAFConstraint_Hinge *	steering[2];
+	idAFBody 				*wheels[4];
+	idAFConstraint_Hinge 	*steering[2];
 	jointHandle_t			wheelJoints[4];
 	float					wheelAngles[4];
 };
@@ -400,14 +408,14 @@ class idAFEntity_VehicleSixWheels : public idAFEntity_Vehicle {
 public:
 	CLASS_PROTOTYPE( idAFEntity_VehicleSixWheels );
 
-							idAFEntity_VehicleSixWheels( void );
+	idAFEntity_VehicleSixWheels( void );
 
 	void					Spawn( void );
 	virtual void			Think( void );
 
 private:
-	idAFBody *				wheels[6];
-	idAFConstraint_Hinge *	steering[4];
+	idAFBody 				*wheels[6];
+	idAFConstraint_Hinge 	*steering[4];
 	jointHandle_t			wheelJoints[6];
 	float					wheelAngles[6];
 };
@@ -425,8 +433,8 @@ class idAFEntity_SteamPipe : public idAFEntity_Base {
 public:
 	CLASS_PROTOTYPE( idAFEntity_SteamPipe );
 
-							idAFEntity_SteamPipe( void );
-							~idAFEntity_SteamPipe( void );
+	idAFEntity_SteamPipe( void );
+	~idAFEntity_SteamPipe( void );
 
 	void					Spawn( void );
 	void					Save( idSaveGame *savefile ) const;
@@ -458,14 +466,14 @@ class idAFEntity_ClawFourFingers : public idAFEntity_Base {
 public:
 	CLASS_PROTOTYPE( idAFEntity_ClawFourFingers );
 
-							idAFEntity_ClawFourFingers( void );
+	idAFEntity_ClawFourFingers( void );
 
 	void					Spawn( void );
 	void					Save( idSaveGame *savefile ) const;
 	void					Restore( idRestoreGame *savefile );
 
 private:
-	idAFConstraint_Hinge *	fingers[4];
+	idAFConstraint_Hinge 	*fingers[4];
 
 	void					Event_SetFingerAngle( float angle );
 	void					Event_StopFingers( void );

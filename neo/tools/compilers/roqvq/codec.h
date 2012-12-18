@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -49,27 +49,27 @@ public:
 
 	void	SparseEncode( void );
 	void	EncodeNothing( void );
-	void	IRGBtab(void);
-	void	InitImages(void);
-	void	QuadX( int startX, int startY, int quadSize);
+	void	IRGBtab( void );
+	void	InitImages( void );
+	void	QuadX( int startX, int startY, int quadSize );
 	void	InitQStatus();
-	float	Snr(byte *old, byte *bnew, int size);
-	void	FvqData( byte *bitmap, int size, int realx, int realy,  quadcel *pquad, bool clamp);
-	void	GetData( unsigned char *iData, int qSize, int startX, int startY, NSBitmapImageRep *bitmap);
-	int		ComputeMotionBlock( byte *old, byte *bnew, int size);
-	void	VqData8( byte *cel, quadcel *pquad);
-	void	VqData4( byte *cel, quadcel *pquad);
-	void	VqData2( byte *cel, quadcel *pquad);
-	int		MotMeanY(void);
-	int		MotMeanX(void);
-	void	SetPreviousImage( const char*filename, NSBitmapImageRep *timage );
+	float	Snr( byte *old, byte *bnew, int size );
+	void	FvqData( byte *bitmap, int size, int realx, int realy,  quadcel *pquad, bool clamp );
+	void	GetData( unsigned char *iData, int qSize, int startX, int startY, NSBitmapImageRep *bitmap );
+	int		ComputeMotionBlock( byte *old, byte *bnew, int size );
+	void	VqData8( byte *cel, quadcel *pquad );
+	void	VqData4( byte *cel, quadcel *pquad );
+	void	VqData2( byte *cel, quadcel *pquad );
+	int		MotMeanY( void );
+	int		MotMeanX( void );
+	void	SetPreviousImage( const char *filename, NSBitmapImageRep *timage );
 	int		BestCodeword( unsigned char *tempvector, int dimension, VQDATA **codebook );
 private:
-	
+
 	void	VQ( const int numEntries, const int dimension, const unsigned char *vectors, float *snr, VQDATA **codebook, const bool optimize );
 	void	Sort( float *list, int *intIndex, int numElements );
-	void	Segment( int *alist, float *flist, int numElements, float rmse);
-	void	LowestQuad( quadcel*qtemp, int* status, float* snr, int bweigh);
+	void	Segment( int *alist, float *flist, int numElements, float rmse );
+	void	LowestQuad( quadcel *qtemp, int *status, float *snr, int bweigh );
 	void	MakePreviousImage( quadcel *pquad );
 	float	GetCurrentRMSE( quadcel *pquad );
 	int		GetCurrentQuadOutputSize( quadcel *pquad );

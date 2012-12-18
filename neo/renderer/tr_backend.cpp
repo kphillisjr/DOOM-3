@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -49,7 +49,7 @@ void RB_SetDefaultGLState( void ) {
 	RB_LogComment( "--- R_SetDefaultGLState ---\n" );
 
 	qglClearDepth( 1.0f );
-	qglColor4f (1,1,1,1);
+	qglColor4f( 1, 1, 1, 1 );
 
 	// the vertex array is always enabled
 	qglEnableClientState( GL_VERTEX_ARRAY );
@@ -72,10 +72,10 @@ void RB_SetDefaultGLState( void ) {
 	qglDisable( GL_LINE_STIPPLE );
 	qglDisable( GL_STENCIL_TEST );
 
-	qglPolygonMode (GL_FRONT_AND_BACK, GL_FILL);
+	qglPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
 	qglDepthMask( GL_TRUE );
 	qglDepthFunc( GL_ALWAYS );
- 
+
 	qglCullFace( GL_FRONT_AND_BACK );
 	qglShadeModel( GL_SMOOTH );
 
@@ -110,7 +110,7 @@ RB_LogComment
 ====================
 */
 void RB_LogComment( const char *comment, ... ) {
-   va_list marker;
+	va_list marker;
 
 	if ( !tr.logFile ) {
 		return;
@@ -204,16 +204,16 @@ void GL_TexEnv( int env ) {
 	tmu->texEnv = env;
 
 	switch ( env ) {
-	case GL_COMBINE_EXT:
-	case GL_MODULATE:
-	case GL_REPLACE:
-	case GL_DECAL:
-	case GL_ADD:
-		qglTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, env );
-		break;
-	default:
-		common->Error( "GL_TexEnv: invalid env '%d' passed\n", env );
-		break;
+		case GL_COMBINE_EXT:
+		case GL_MODULATE:
+		case GL_REPLACE:
+		case GL_DECAL:
+		case GL_ADD:
+			qglTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, env );
+			break;
+		default:
+			common->Error( "GL_TexEnv: invalid env '%d' passed\n", env );
+			break;
 	}
 }
 
@@ -238,7 +238,7 @@ This routine is responsible for setting the most commonly changed state
 */
 void GL_State( int stateBits ) {
 	int	diff;
-	
+
 	if ( !r_useStateCaching.GetBool() || backEnd.glState.forceGlState ) {
 		// make sure everything is set all the time, so we
 		// can see if our delta checking is screwing up
@@ -272,68 +272,68 @@ void GL_State( int stateBits ) {
 		GLenum srcFactor, dstFactor;
 
 		switch ( stateBits & GLS_SRCBLEND_BITS ) {
-		case GLS_SRCBLEND_ZERO:
-			srcFactor = GL_ZERO;
-			break;
-		case GLS_SRCBLEND_ONE:
-			srcFactor = GL_ONE;
-			break;
-		case GLS_SRCBLEND_DST_COLOR:
-			srcFactor = GL_DST_COLOR;
-			break;
-		case GLS_SRCBLEND_ONE_MINUS_DST_COLOR:
-			srcFactor = GL_ONE_MINUS_DST_COLOR;
-			break;
-		case GLS_SRCBLEND_SRC_ALPHA:
-			srcFactor = GL_SRC_ALPHA;
-			break;
-		case GLS_SRCBLEND_ONE_MINUS_SRC_ALPHA:
-			srcFactor = GL_ONE_MINUS_SRC_ALPHA;
-			break;
-		case GLS_SRCBLEND_DST_ALPHA:
-			srcFactor = GL_DST_ALPHA;
-			break;
-		case GLS_SRCBLEND_ONE_MINUS_DST_ALPHA:
-			srcFactor = GL_ONE_MINUS_DST_ALPHA;
-			break;
-		case GLS_SRCBLEND_ALPHA_SATURATE:
-			srcFactor = GL_SRC_ALPHA_SATURATE;
-			break;
-		default:
-			srcFactor = GL_ONE;		// to get warning to shut up
-			common->Error( "GL_State: invalid src blend state bits\n" );
-			break;
+			case GLS_SRCBLEND_ZERO:
+				srcFactor = GL_ZERO;
+				break;
+			case GLS_SRCBLEND_ONE:
+				srcFactor = GL_ONE;
+				break;
+			case GLS_SRCBLEND_DST_COLOR:
+				srcFactor = GL_DST_COLOR;
+				break;
+			case GLS_SRCBLEND_ONE_MINUS_DST_COLOR:
+				srcFactor = GL_ONE_MINUS_DST_COLOR;
+				break;
+			case GLS_SRCBLEND_SRC_ALPHA:
+				srcFactor = GL_SRC_ALPHA;
+				break;
+			case GLS_SRCBLEND_ONE_MINUS_SRC_ALPHA:
+				srcFactor = GL_ONE_MINUS_SRC_ALPHA;
+				break;
+			case GLS_SRCBLEND_DST_ALPHA:
+				srcFactor = GL_DST_ALPHA;
+				break;
+			case GLS_SRCBLEND_ONE_MINUS_DST_ALPHA:
+				srcFactor = GL_ONE_MINUS_DST_ALPHA;
+				break;
+			case GLS_SRCBLEND_ALPHA_SATURATE:
+				srcFactor = GL_SRC_ALPHA_SATURATE;
+				break;
+			default:
+				srcFactor = GL_ONE;		// to get warning to shut up
+				common->Error( "GL_State: invalid src blend state bits\n" );
+				break;
 		}
 
 		switch ( stateBits & GLS_DSTBLEND_BITS ) {
-		case GLS_DSTBLEND_ZERO:
-			dstFactor = GL_ZERO;
-			break;
-		case GLS_DSTBLEND_ONE:
-			dstFactor = GL_ONE;
-			break;
-		case GLS_DSTBLEND_SRC_COLOR:
-			dstFactor = GL_SRC_COLOR;
-			break;
-		case GLS_DSTBLEND_ONE_MINUS_SRC_COLOR:
-			dstFactor = GL_ONE_MINUS_SRC_COLOR;
-			break;
-		case GLS_DSTBLEND_SRC_ALPHA:
-			dstFactor = GL_SRC_ALPHA;
-			break;
-		case GLS_DSTBLEND_ONE_MINUS_SRC_ALPHA:
-			dstFactor = GL_ONE_MINUS_SRC_ALPHA;
-			break;
-		case GLS_DSTBLEND_DST_ALPHA:
-			dstFactor = GL_DST_ALPHA;
-			break;
-		case GLS_DSTBLEND_ONE_MINUS_DST_ALPHA:
-			dstFactor = GL_ONE_MINUS_DST_ALPHA;
-			break;
-		default:
-			dstFactor = GL_ONE;		// to get warning to shut up
-			common->Error( "GL_State: invalid dst blend state bits\n" );
-			break;
+			case GLS_DSTBLEND_ZERO:
+				dstFactor = GL_ZERO;
+				break;
+			case GLS_DSTBLEND_ONE:
+				dstFactor = GL_ONE;
+				break;
+			case GLS_DSTBLEND_SRC_COLOR:
+				dstFactor = GL_SRC_COLOR;
+				break;
+			case GLS_DSTBLEND_ONE_MINUS_SRC_COLOR:
+				dstFactor = GL_ONE_MINUS_SRC_COLOR;
+				break;
+			case GLS_DSTBLEND_SRC_ALPHA:
+				dstFactor = GL_SRC_ALPHA;
+				break;
+			case GLS_DSTBLEND_ONE_MINUS_SRC_ALPHA:
+				dstFactor = GL_ONE_MINUS_SRC_ALPHA;
+				break;
+			case GLS_DSTBLEND_DST_ALPHA:
+				dstFactor = GL_DST_ALPHA;
+				break;
+			case GLS_DSTBLEND_ONE_MINUS_DST_ALPHA:
+				dstFactor = GL_ONE_MINUS_DST_ALPHA;
+				break;
+			default:
+				dstFactor = GL_ONE;		// to get warning to shut up
+				common->Error( "GL_State: invalid dst blend state bits\n" );
+				break;
 		}
 
 		qglBlendFunc( srcFactor, dstFactor );
@@ -353,7 +353,7 @@ void GL_State( int stateBits ) {
 	//
 	// check colormask
 	//
-	if ( diff & (GLS_REDMASK|GLS_GREENMASK|GLS_BLUEMASK|GLS_ALPHAMASK) ) {
+	if ( diff & ( GLS_REDMASK | GLS_GREENMASK | GLS_BLUEMASK | GLS_ALPHAMASK ) ) {
 		GLboolean		r, g, b, a;
 		r = ( stateBits & GLS_REDMASK ) ? 0 : 1;
 		g = ( stateBits & GLS_GREENMASK ) ? 0 : 1;
@@ -378,24 +378,24 @@ void GL_State( int stateBits ) {
 	//
 	if ( diff & GLS_ATEST_BITS ) {
 		switch ( stateBits & GLS_ATEST_BITS ) {
-		case 0:
-			qglDisable( GL_ALPHA_TEST );
-			break;
-		case GLS_ATEST_EQ_255:
-			qglEnable( GL_ALPHA_TEST );
-			qglAlphaFunc( GL_EQUAL, 1 );
-			break;
-		case GLS_ATEST_LT_128:
-			qglEnable( GL_ALPHA_TEST );
-			qglAlphaFunc( GL_LESS, 0.5 );
-			break;
-		case GLS_ATEST_GE_128:
-			qglEnable( GL_ALPHA_TEST );
-			qglAlphaFunc( GL_GEQUAL, 0.5 );
-			break;
-		default:
-			assert( 0 );
-			break;
+			case 0:
+				qglDisable( GL_ALPHA_TEST );
+				break;
+			case GLS_ATEST_EQ_255:
+				qglEnable( GL_ALPHA_TEST );
+				qglAlphaFunc( GL_EQUAL, 1 );
+				break;
+			case GLS_ATEST_LT_128:
+				qglEnable( GL_ALPHA_TEST );
+				qglAlphaFunc( GL_LESS, 0.5 );
+				break;
+			case GLS_ATEST_GE_128:
+				qglEnable( GL_ALPHA_TEST );
+				qglAlphaFunc( GL_GEQUAL, 0.5 );
+				break;
+			default:
+				assert( 0 );
+				break;
 		}
 	}
 
@@ -427,10 +427,10 @@ void RB_SetGL2D( void ) {
 		qglScissor( 0, 0, glConfig.vidWidth, glConfig.vidHeight );
 	}
 	qglMatrixMode( GL_PROJECTION );
-    qglLoadIdentity();
+	qglLoadIdentity();
 	qglOrtho( 0, 640, 480, 0, 0, 1 );		// always assume 640x480 virtual coordinates
 	qglMatrixMode( GL_MODELVIEW );
-    qglLoadIdentity();
+	qglLoadIdentity();
 
 	GL_State( GLS_DEPTHFUNC_ALWAYS |
 			  GLS_SRCBLEND_SRC_ALPHA |
@@ -455,7 +455,7 @@ static void	RB_SetBuffer( const void *data ) {
 
 	// see which draw buffer we want to render the frame to
 
-	cmd = (const setBufferCommand_t *)data;
+	cmd = ( const setBufferCommand_t * )data;
 
 	backEnd.frameCount = cmd->frameCount;
 
@@ -521,7 +521,7 @@ void RB_ShowImages( void ) {
 		}
 
 		image->Bind();
-		qglBegin (GL_QUADS);
+		qglBegin( GL_QUADS );
 		qglTexCoord2f( 0, 0 );
 		qglVertex2f( x, y );
 		qglTexCoord2f( 1, 0 );
@@ -557,11 +557,11 @@ const void	RB_SwapBuffers( const void *data ) {
 		qglFinish();
 	}
 
-    RB_LogComment( "***************** RB_SwapBuffers *****************\n\n\n" );
+	RB_LogComment( "***************** RB_SwapBuffers *****************\n\n\n" );
 
 	// don't flip if drawing to front buffer
 	if ( !r_frontBuffer.GetBool() ) {
-	    GLimp_SwapBuffers();
+		GLimp_SwapBuffers();
 	}
 }
 
@@ -575,15 +575,15 @@ Copy part of the current framebuffer to an image
 const void	RB_CopyRender( const void *data ) {
 	const copyRenderCommand_t	*cmd;
 
-	cmd = (const copyRenderCommand_t *)data;
+	cmd = ( const copyRenderCommand_t * )data;
 
 	if ( r_skipCopyTexture.GetBool() ) {
 		return;
 	}
 
-    RB_LogComment( "***************** RB_CopyRender *****************\n" );
+	RB_LogComment( "***************** RB_CopyRender *****************\n" );
 
-	if (cmd->image) {
+	if ( cmd->image ) {
 		cmd->image->CopyFramebuffer( cmd->x, cmd->y, cmd->imageWidth, cmd->imageHeight, false );
 	}
 }
@@ -613,34 +613,33 @@ void RB_ExecuteBackEndCommands( const emptyCommand_t *cmds ) {
 	// upload any image loads that have completed
 	globalImages->CompleteBackgroundImageLoads();
 
-	for ( ; cmds ; cmds = (const emptyCommand_t *)cmds->next ) {
+	for ( ; cmds ; cmds = ( const emptyCommand_t * )cmds->next ) {
 		switch ( cmds->commandId ) {
-		case RC_NOP:
-			break;
-		case RC_DRAW_VIEW:
-			RB_DrawView( cmds );
-			if ( ((const drawSurfsCommand_t *)cmds)->viewDef->viewEntitys ) {
-				c_draw3d++;
-			}
-			else {
-				c_draw2d++;
-			}
-			break;
-		case RC_SET_BUFFER:
-			RB_SetBuffer( cmds );
-			c_setBuffers++;
-			break;
-		case RC_SWAP_BUFFERS:
-			RB_SwapBuffers( cmds );
-			c_swapBuffers++;
-			break;
-		case RC_COPY_RENDER:
-			RB_CopyRender( cmds );
-			c_copyRenders++;
-			break;
-		default:
-			common->Error( "RB_ExecuteBackEndCommands: bad commandId" );
-			break;
+			case RC_NOP:
+				break;
+			case RC_DRAW_VIEW:
+				RB_DrawView( cmds );
+				if ( ( ( const drawSurfsCommand_t * )cmds )->viewDef->viewEntitys ) {
+					c_draw3d++;
+				} else {
+					c_draw2d++;
+				}
+				break;
+			case RC_SET_BUFFER:
+				RB_SetBuffer( cmds );
+				c_setBuffers++;
+				break;
+			case RC_SWAP_BUFFERS:
+				RB_SwapBuffers( cmds );
+				c_swapBuffers++;
+				break;
+			case RC_COPY_RENDER:
+				RB_CopyRender( cmds );
+				c_copyRenders++;
+				break;
+			default:
+				common->Error( "RB_ExecuteBackEndCommands: bad commandId" );
+				break;
 		}
 	}
 

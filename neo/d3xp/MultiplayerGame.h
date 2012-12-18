@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -51,7 +51,7 @@ typedef enum {
 	GAME_TDM,
 	GAME_LASTMAN,
 #ifdef CTF
-    GAME_CTF,
+	GAME_CTF,
 	GAME_COUNT,
 #endif
 } gameType_t;
@@ -60,20 +60,20 @@ typedef enum {
 
 // Used by the UI
 typedef enum {
-    FLAGSTATUS_INBASE = 0,
-    FLAGSTATUS_TAKEN  = 1,
-    FLAGSTATUS_STRAY  = 2,
-    FLAGSTATUS_NONE   = 3
+	FLAGSTATUS_INBASE = 0,
+	FLAGSTATUS_TAKEN  = 1,
+	FLAGSTATUS_STRAY  = 2,
+	FLAGSTATUS_NONE   = 3
 } flagStatus_t;
 
 #endif
 
 
 typedef enum {
-		PLAYER_VOTE_NONE,
-		PLAYER_VOTE_NO,
-		PLAYER_VOTE_YES,
-		PLAYER_VOTE_WAIT	// mark a player allowed to vote
+	PLAYER_VOTE_NONE,
+	PLAYER_VOTE_NO,
+	PLAYER_VOTE_YES,
+	PLAYER_VOTE_WAIT	// mark a player allowed to vote
 } playerVote_t;
 
 typedef struct mpPlayerState_s {
@@ -119,7 +119,7 @@ typedef enum {
 	SND_TWO,
 	SND_ONE,
 	SND_SUDDENDEATH,
-#ifdef CTF	
+#ifdef CTF
 	SND_FLAG_CAPTURED_YOURS,
 	SND_FLAG_CAPTURED_THEIRS,
 	SND_FLAG_RETURN,
@@ -134,7 +134,7 @@ typedef enum {
 class idMultiplayerGame {
 public:
 
-					idMultiplayerGame();
+	idMultiplayerGame();
 
 	void			Shutdown( void );
 
@@ -147,7 +147,7 @@ public:
 	// checks rules and updates state of the mp game
 	void			Run( void );
 
-	// draws mp hud, scoredboard, etc.. 
+	// draws mp hud, scoredboard, etc..
 	bool			Draw( int clientNum );
 
 	// updates a player vote
@@ -156,11 +156,11 @@ public:
 	// updates frag counts and potentially ends the match in sudden death
 	void			PlayerDeath( idPlayer *dead, idPlayer *killer, bool telefrag );
 
-	void			AddChatLine( const char *fmt, ... ) id_attribute((format(printf,2,3)));
+	void			AddChatLine( const char *fmt, ... ) id_attribute( ( format( printf, 2, 3 ) ) );
 
 	void			UpdateMainGui( void );
-	idUserInterface*StartMenu( void );
-	const char*		HandleGuiCommands( const char *menuCommand );
+	idUserInterface *StartMenu( void );
+	const char		*HandleGuiCommands( const char *menuCommand );
 	void			SetMenuSkin( void );
 
 	void			WriteToSnapshot( idBitMsgDelta &msg ) const;
@@ -266,7 +266,7 @@ public:
 	void			ProcessVoiceChat( int clientNum, bool team, int index );
 
 	void			Precache( void );
-	
+
 	// throttle UI switch rates
 	void			ThrottleUserInfo( void );
 	void			ToggleSpectate( void );
@@ -285,17 +285,17 @@ public:
 	void			ClientReadWarmupTime( const idBitMsg &msg );
 
 	void			ServerClientConnect( int clientNum );
-#ifdef CTF    
-    void            ClearHUDStatus( void );
-    int             GetFlagPoints( int team );	// Team points in CTF
+#ifdef CTF
+	void            ClearHUDStatus( void );
+	int             GetFlagPoints( int team );	// Team points in CTF
 	void			SetFlagMsg( bool b );		// allow flag event messages to be sent
 	bool			IsFlagMsgOn( void );		// should flag event messages go through?
-    void			ClearGuis( void );
+	void			ClearGuis( void );
 
-    int             player_red_flag;            // Ent num of red flag carrier for HUD    
-    int             player_blue_flag;           // Ent num of blue flag carrier for HUD
+	int             player_red_flag;            // Ent num of red flag carrier for HUD
+	int             player_blue_flag;           // Ent num of blue flag carrier for HUD
 
-#endif     
+#endif
 	void			PlayerStats( int clientNum, char *data, const int len );
 
 private:
@@ -311,7 +311,7 @@ private:
 
 	mpPlayerState_t	playerState[ MAX_CLIENTS ];
 
-											// keep track of clients which are willingly in spectator mode
+	// keep track of clients which are willingly in spectator mode
 
 	// vote vars
 	vote_flags_t	vote;					// active vote or VOTE_NONE
@@ -357,7 +357,7 @@ private:
 
 	// rankings are used by UpdateScoreboard and UpdateHud
 	int				numRankedPlayers;		// ranked players, others may be empty slots or spectators
-	idPlayer *		rankedPlayers[MAX_CLIENTS];
+	idPlayer 		*rankedPlayers[MAX_CLIENTS];
 
 	bool			pureReady;				// defaults to false, set to true once server game is running with pure checksums
 	int				fragLimitTimeout;
@@ -369,12 +369,12 @@ private:
 	int				startFragLimit;			// synchronize to clients in initial state, set on -> GAMEON
 
 #ifdef CTF
-	idItemTeam *	teamFlags[ 2 ];
+	idItemTeam 	*teamFlags[ 2 ];
 	int				teamPoints[ 2 ];
 
 	bool			flagMsgOn;
 
-	const char *	gameTypeVoteMap[ GAME_COUNT ];
+	const char 	*gameTypeVoteMap[ GAME_COUNT ];
 #endif
 
 private:
@@ -383,22 +383,22 @@ private:
 	// updates the passed gui with current score information
 	void			UpdateRankColor( idUserInterface *gui, const char *mask, int i, const idVec3 &vec );
 	void			UpdateScoreboard( idUserInterface *scoreBoard, idPlayer *player );
-#ifdef CTF    
-	void			UpdateCTFScoreboard( idUserInterface *scoreBoard, idPlayer *player );    
+#ifdef CTF
+	void			UpdateCTFScoreboard( idUserInterface *scoreBoard, idPlayer *player );
 #endif
 
 #ifndef CTF
-    // We declare this publically above so we can call it during a map restart.
+	// We declare this publically above so we can call it during a map restart.
 	void			ClearGuis( void );
-#endif    
-    
+#endif
+
 	void			DrawScoreBoard( idPlayer *player );
 	void			UpdateHud( idPlayer *player, idUserInterface *hud );
 	bool			Warmup( void );
 	void			CheckVote( void );
 	bool			AllPlayersReady( void );
-	idPlayer *		FragLimitHit( void );
-	idPlayer *		FragLeader( void );
+	idPlayer 		*FragLimitHit( void );
+	idPlayer 		*FragLeader( void );
 	bool			TimeLimitHit( void );
 #ifdef CTF
 	bool			PointLimitHit( void );
@@ -412,7 +412,7 @@ private:
 	void			CycleTourneyPlayers( void );
 	// walk through the tourneyRank to build a wait list for the clients
 	void			UpdateTourneyLine( void );
-	const char *	GameTime( void );
+	const char 	*GameTime( void );
 	void			Clear( void );
 	bool			EnoughClientsToPlay( void );
 	void			ClearChatData( void );
@@ -436,31 +436,31 @@ private:
 #ifdef CTF
 	void			FindTeamFlags( void );
 #endif
-   
+
 public:
 
-#ifdef CTF    
-	idItemTeam *	GetTeamFlag( int team );
-    flagStatus_t    GetFlagStatus( int team );
+#ifdef CTF
+	idItemTeam 	*GetTeamFlag( int team );
+	flagStatus_t    GetFlagStatus( int team );
 	void			TeamScoreCTF( int team, int delta );
 	void			PlayerScoreCTF( int playerIdx, int delta );
 	// returns entityNum to team flag carrier, -1 if no flag carrier
 	int				GetFlagCarrier( int team );
-    void            UpdateScoreboardFlagStatus( void );
-	
-	void			SetBestGametype( const char * map );
+	void            UpdateScoreboardFlagStatus( void );
+
+	void			SetBestGametype( const char *map );
 	void			ReloadScoreboard();
 #endif
 
 #ifdef _D3XP
-	idStr			GetBestGametype( const char* map, const char* gametype );
+	idStr			GetBestGametype( const char *map, const char *gametype );
 #endif
 
-/* #ifdef CTF ... merge the below IsGametypeFlagBased */
-bool            IsGametypeFlagBased( void );
-bool            IsGametypeTeamBased( void );
-/* #endif CTF */
-    
+	/* #ifdef CTF ... merge the below IsGametypeFlagBased */
+	bool            IsGametypeFlagBased( void );
+	bool            IsGametypeTeamBased( void );
+	/* #endif CTF */
+
 };
 
 ID_INLINE idMultiplayerGame::gameState_t idMultiplayerGame::GetGameState( void ) const {

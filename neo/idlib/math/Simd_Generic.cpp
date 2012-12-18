@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -57,7 +57,7 @@ If you have questions concerning this license or the applicable additional terms
 idSIMD_Generic::GetName
 ============
 */
-const char * idSIMD_Generic::GetName( void ) const {
+const char *idSIMD_Generic::GetName( void ) const {
 	return "generic code";
 }
 
@@ -70,7 +70,7 @@ idSIMD_Generic::Add
 */
 void VPCALL idSIMD_Generic::Add( float *dst, const float constant, const float *src, const int count ) {
 #define OPER(X) dst[(X)] = src[(X)] + constant;
-	UNROLL4(OPER)
+	UNROLL4( OPER )
 #undef OPER
 }
 
@@ -83,7 +83,7 @@ idSIMD_Generic::Add
 */
 void VPCALL idSIMD_Generic::Add( float *dst, const float *src0, const float *src1, const int count ) {
 #define OPER(X) dst[(X)] = src0[(X)] + src1[(X)];
-	UNROLL4(OPER)
+	UNROLL4( OPER )
 #undef OPER
 }
 
@@ -97,7 +97,7 @@ idSIMD_Generic::Sub
 void VPCALL idSIMD_Generic::Sub( float *dst, const float constant, const float *src, const int count ) {
 	double c = constant;
 #define OPER(X) dst[(X)] = c - src[(X)];
-	UNROLL4(OPER)
+	UNROLL4( OPER )
 #undef OPER
 }
 
@@ -110,7 +110,7 @@ idSIMD_Generic::Sub
 */
 void VPCALL idSIMD_Generic::Sub( float *dst, const float *src0, const float *src1, const int count ) {
 #define OPER(X) dst[(X)] = src0[(X)] - src1[(X)];
-	UNROLL4(OPER)
+	UNROLL4( OPER )
 #undef OPER
 }
 
@@ -121,10 +121,10 @@ idSIMD_Generic::Mul
   dst[i] = constant * src[i];
 ============
 */
-void VPCALL idSIMD_Generic::Mul( float *dst, const float constant, const float *src0, const int count) {
+void VPCALL idSIMD_Generic::Mul( float *dst, const float constant, const float *src0, const int count ) {
 	double c = constant;
 #define OPER(X) (dst[(X)] = (c * src0[(X)]))
-	UNROLL4(OPER)
+	UNROLL4( OPER )
 #undef OPER
 }
 
@@ -137,7 +137,7 @@ idSIMD_Generic::Mul
 */
 void VPCALL idSIMD_Generic::Mul( float *dst, const float *src0, const float *src1, const int count ) {
 #define OPER(X) (dst[(X)] = src0[(X)] * src1[(X)])
-	UNROLL4(OPER)
+	UNROLL4( OPER )
 #undef OPER
 }
 
@@ -151,7 +151,7 @@ idSIMD_Generic::Div
 void VPCALL idSIMD_Generic::Div( float *dst, const float constant, const float *divisor, const int count ) {
 	double c = constant;
 #define OPER(X) (dst[(X)] = (c / divisor[(X)]))
-	UNROLL4(OPER)
+	UNROLL4( OPER )
 #undef OPER
 }
 
@@ -164,7 +164,7 @@ idSIMD_Generic::Div
 */
 void VPCALL idSIMD_Generic::Div( float *dst, const float *src0, const float *src1, const int count ) {
 #define OPER(X) (dst[(X)] = src0[(X)] / src1[(X)])
-	UNROLL4(OPER)
+	UNROLL4( OPER )
 #undef OPER
 }
 
@@ -178,7 +178,7 @@ idSIMD_Generic::MulAdd
 void VPCALL idSIMD_Generic::MulAdd( float *dst, const float constant, const float *src, const int count ) {
 	double c = constant;
 #define OPER(X) (dst[(X)] += c * src[(X)])
-	UNROLL4(OPER)
+	UNROLL4( OPER )
 #undef OPER
 }
 
@@ -191,7 +191,7 @@ idSIMD_Generic::MulAdd
 */
 void VPCALL idSIMD_Generic::MulAdd( float *dst, const float *src0, const float *src1, const int count ) {
 #define OPER(X) (dst[(X)] += src0[(X)] * src1[(X)])
-	UNROLL4(OPER)
+	UNROLL4( OPER )
 #undef OPER
 }
 
@@ -205,7 +205,7 @@ idSIMD_Generic::MulSub
 void VPCALL idSIMD_Generic::MulSub( float *dst, const float constant, const float *src, const int count ) {
 	double c = constant;
 #define OPER(X) (dst[(X)] -= c * src[(X)])
-	UNROLL4(OPER)
+	UNROLL4( OPER )
 #undef OPER
 }
 
@@ -218,7 +218,7 @@ idSIMD_Generic::MulSub
 */
 void VPCALL idSIMD_Generic::MulSub( float *dst, const float *src0, const float *src1, const int count ) {
 #define OPER(X) (dst[(X)] -= src0[(X)] * src1[(X)])
-	UNROLL4(OPER)
+	UNROLL4( OPER )
 #undef OPER
 }
 
@@ -231,7 +231,7 @@ idSIMD_Generic::Dot
 */
 void VPCALL idSIMD_Generic::Dot( float *dst, const idVec3 &constant, const idVec3 *src, const int count ) {
 #define OPER(X) dst[(X)] = constant * src[(X)];
-	UNROLL1(OPER)
+	UNROLL1( OPER )
 #undef OPER
 }
 
@@ -244,7 +244,7 @@ idSIMD_Generic::Dot
 */
 void VPCALL idSIMD_Generic::Dot( float *dst, const idVec3 &constant, const idPlane *src, const int count ) {
 #define OPER(X) dst[(X)] = constant * src[(X)].Normal() + src[(X)][3];
-	UNROLL1(OPER)
+	UNROLL1( OPER )
 #undef OPER
 }
 
@@ -257,7 +257,7 @@ idSIMD_Generic::Dot
 */
 void VPCALL idSIMD_Generic::Dot( float *dst, const idVec3 &constant, const idDrawVert *src, const int count ) {
 #define OPER(X) dst[(X)] = constant * src[(X)].xyz;
-	UNROLL1(OPER)
+	UNROLL1( OPER )
 #undef OPER
 }
 
@@ -270,7 +270,7 @@ idSIMD_Generic::Dot
 */
 void VPCALL idSIMD_Generic::Dot( float *dst, const idPlane &constant, const idVec3 *src, const int count ) {
 #define OPER(X) dst[(X)] = constant.Normal() * src[(X)] + constant[3];
-	UNROLL1(OPER)
+	UNROLL1( OPER )
 #undef OPER
 }
 
@@ -283,7 +283,7 @@ idSIMD_Generic::Dot
 */
 void VPCALL idSIMD_Generic::Dot( float *dst, const idPlane &constant, const idPlane *src, const int count ) {
 #define OPER(X) dst[(X)] = constant.Normal() * src[(X)].Normal() + constant[3] * src[(X)][3];
-	UNROLL1(OPER)
+	UNROLL1( OPER )
 #undef OPER
 }
 
@@ -296,7 +296,7 @@ idSIMD_Generic::Dot
 */
 void VPCALL idSIMD_Generic::Dot( float *dst, const idPlane &constant, const idDrawVert *src, const int count ) {
 #define OPER(X) dst[(X)] = constant.Normal() * src[(X)].xyz + constant[3];
-	UNROLL1(OPER)
+	UNROLL1( OPER )
 #undef OPER
 }
 
@@ -309,7 +309,7 @@ idSIMD_Generic::Dot
 */
 void VPCALL idSIMD_Generic::Dot( float *dst, const idVec3 *src0, const idVec3 *src1, const int count ) {
 #define OPER(X) dst[(X)] = src0[(X)] * src1[(X)];
-	UNROLL1(OPER)
+	UNROLL1( OPER )
 #undef OPER
 }
 
@@ -323,7 +323,7 @@ idSIMD_Generic::Dot
 void VPCALL idSIMD_Generic::Dot( float &dot, const float *src1, const float *src2, const int count ) {
 #if 1
 
-	switch( count ) {
+	switch ( count ) {
 		case 0: {
 			dot = 0.0f;
 			return;
@@ -347,26 +347,34 @@ void VPCALL idSIMD_Generic::Dot( float &dot, const float *src1, const float *src
 			s1 = src1[1] * src2[1];
 			s2 = src1[2] * src2[2];
 			s3 = src1[3] * src2[3];
-			for ( i = 4; i < count-7; i += 8 ) {
-				s0 += src1[i+0] * src2[i+0];
-				s1 += src1[i+1] * src2[i+1];
-				s2 += src1[i+2] * src2[i+2];
-				s3 += src1[i+3] * src2[i+3];
-				s0 += src1[i+4] * src2[i+4];
-				s1 += src1[i+5] * src2[i+5];
-				s2 += src1[i+6] * src2[i+6];
-				s3 += src1[i+7] * src2[i+7];
+			for ( i = 4; i < count - 7; i += 8 ) {
+				s0 += src1[i + 0] * src2[i + 0];
+				s1 += src1[i + 1] * src2[i + 1];
+				s2 += src1[i + 2] * src2[i + 2];
+				s3 += src1[i + 3] * src2[i + 3];
+				s0 += src1[i + 4] * src2[i + 4];
+				s1 += src1[i + 5] * src2[i + 5];
+				s2 += src1[i + 6] * src2[i + 6];
+				s3 += src1[i + 7] * src2[i + 7];
 			}
-			switch( count - i ) {
-				NODEFAULT;
-				case 7: s0 += src1[i+6] * src2[i+6];
-				case 6: s1 += src1[i+5] * src2[i+5];
-				case 5: s2 += src1[i+4] * src2[i+4];
-				case 4: s3 += src1[i+3] * src2[i+3];
-				case 3: s0 += src1[i+2] * src2[i+2];
-				case 2: s1 += src1[i+1] * src2[i+1];
-				case 1: s2 += src1[i+0] * src2[i+0];
-				case 0: break;
+			switch ( count - i ) {
+					NODEFAULT;
+				case 7:
+					s0 += src1[i + 6] * src2[i + 6];
+				case 6:
+					s1 += src1[i + 5] * src2[i + 5];
+				case 5:
+					s2 += src1[i + 4] * src2[i + 4];
+				case 4:
+					s3 += src1[i + 3] * src2[i + 3];
+				case 3:
+					s0 += src1[i + 2] * src2[i + 2];
+				case 2:
+					s1 += src1[i + 1] * src2[i + 1];
+				case 1:
+					s2 += src1[i + 0] * src2[i + 0];
+				case 0:
+					break;
 			}
 			double sum;
 			sum = s3;
@@ -396,7 +404,7 @@ idSIMD_Generic::CmpGT
 */
 void VPCALL idSIMD_Generic::CmpGT( byte *dst, const float *src0, const float constant, const int count ) {
 #define OPER(X) dst[(X)] = src0[(X)] > constant;
-	UNROLL4(OPER)
+	UNROLL4( OPER )
 #undef OPER
 }
 
@@ -409,7 +417,7 @@ idSIMD_Generic::CmpGT
 */
 void VPCALL idSIMD_Generic::CmpGT( byte *dst, const byte bitNum, const float *src0, const float constant, const int count ) {
 #define OPER(X) dst[(X)] |= ( src0[(X)] > constant ) << bitNum;
-	UNROLL4(OPER)
+	UNROLL4( OPER )
 #undef OPER
 }
 
@@ -422,7 +430,7 @@ idSIMD_Generic::CmpGE
 */
 void VPCALL idSIMD_Generic::CmpGE( byte *dst, const float *src0, const float constant, const int count ) {
 #define OPER(X) dst[(X)] = src0[(X)] >= constant;
-	UNROLL4(OPER)
+	UNROLL4( OPER )
 #undef OPER
 }
 
@@ -435,7 +443,7 @@ idSIMD_Generic::CmpGE
 */
 void VPCALL idSIMD_Generic::CmpGE( byte *dst, const byte bitNum, const float *src0, const float constant, const int count ) {
 #define OPER(X) dst[(X)] |= ( src0[(X)] >= constant ) << bitNum;
-	UNROLL4(OPER)
+	UNROLL4( OPER )
 #undef OPER
 }
 
@@ -448,7 +456,7 @@ idSIMD_Generic::CmpLT
 */
 void VPCALL idSIMD_Generic::CmpLT( byte *dst, const float *src0, const float constant, const int count ) {
 #define OPER(X) dst[(X)] = src0[(X)] < constant;
-	UNROLL4(OPER)
+	UNROLL4( OPER )
 #undef OPER
 }
 
@@ -461,7 +469,7 @@ idSIMD_Generic::CmpLT
 */
 void VPCALL idSIMD_Generic::CmpLT( byte *dst, const byte bitNum, const float *src0, const float constant, const int count ) {
 #define OPER(X) dst[(X)] |= ( src0[(X)] < constant ) << bitNum;
-	UNROLL4(OPER)
+	UNROLL4( OPER )
 #undef OPER
 }
 
@@ -474,7 +482,7 @@ idSIMD_Generic::CmpLE
 */
 void VPCALL idSIMD_Generic::CmpLE( byte *dst, const float *src0, const float constant, const int count ) {
 #define OPER(X) dst[(X)] = src0[(X)] <= constant;
-	UNROLL4(OPER)
+	UNROLL4( OPER )
 #undef OPER
 }
 
@@ -487,7 +495,7 @@ idSIMD_Generic::CmpLE
 */
 void VPCALL idSIMD_Generic::CmpLE( byte *dst, const byte bitNum, const float *src0, const float constant, const int count ) {
 #define OPER(X) dst[(X)] |= ( src0[(X)] <= constant ) << bitNum;
-	UNROLL4(OPER)
+	UNROLL4( OPER )
 #undef OPER
 }
 
@@ -497,9 +505,10 @@ idSIMD_Generic::MinMax
 ============
 */
 void VPCALL idSIMD_Generic::MinMax( float &min, float &max, const float *src, const int count ) {
-	min = idMath::INFINITY; max = -idMath::INFINITY;
+	min = idMath::INFINITY;
+	max = -idMath::INFINITY;
 #define OPER(X) if ( src[(X)] < min ) {min = src[(X)];} if ( src[(X)] > max ) {max = src[(X)];}
-	UNROLL1(OPER)
+	UNROLL1( OPER )
 #undef OPER
 }
 
@@ -509,9 +518,10 @@ idSIMD_Generic::MinMax
 ============
 */
 void VPCALL idSIMD_Generic::MinMax( idVec2 &min, idVec2 &max, const idVec2 *src, const int count ) {
-	min[0] = min[1] = idMath::INFINITY; max[0] = max[1] = -idMath::INFINITY;
+	min[0] = min[1] = idMath::INFINITY;
+	max[0] = max[1] = -idMath::INFINITY;
 #define OPER(X) const idVec2 &v = src[(X)]; if ( v[0] < min[0] ) { min[0] = v[0]; } if ( v[0] > max[0] ) { max[0] = v[0]; } if ( v[1] < min[1] ) { min[1] = v[1]; } if ( v[1] > max[1] ) { max[1] = v[1]; }
-	UNROLL1(OPER)
+	UNROLL1( OPER )
 #undef OPER
 }
 
@@ -521,9 +531,10 @@ idSIMD_Generic::MinMax
 ============
 */
 void VPCALL idSIMD_Generic::MinMax( idVec3 &min, idVec3 &max, const idVec3 *src, const int count ) {
-	min[0] = min[1] = min[2] = idMath::INFINITY; max[0] = max[1] = max[2] = -idMath::INFINITY;
+	min[0] = min[1] = min[2] = idMath::INFINITY;
+	max[0] = max[1] = max[2] = -idMath::INFINITY;
 #define OPER(X) const idVec3 &v = src[(X)]; if ( v[0] < min[0] ) { min[0] = v[0]; } if ( v[0] > max[0] ) { max[0] = v[0]; } if ( v[1] < min[1] ) { min[1] = v[1]; } if ( v[1] > max[1] ) { max[1] = v[1]; } if ( v[2] < min[2] ) { min[2] = v[2]; } if ( v[2] > max[2] ) { max[2] = v[2]; }
-	UNROLL1(OPER)
+	UNROLL1( OPER )
 #undef OPER
 }
 
@@ -533,9 +544,10 @@ idSIMD_Generic::MinMax
 ============
 */
 void VPCALL idSIMD_Generic::MinMax( idVec3 &min, idVec3 &max, const idDrawVert *src, const int count ) {
-	min[0] = min[1] = min[2] = idMath::INFINITY; max[0] = max[1] = max[2] = -idMath::INFINITY;
+	min[0] = min[1] = min[2] = idMath::INFINITY;
+	max[0] = max[1] = max[2] = -idMath::INFINITY;
 #define OPER(X) const idVec3 &v = src[(X)].xyz; if ( v[0] < min[0] ) { min[0] = v[0]; } if ( v[0] > max[0] ) { max[0] = v[0]; } if ( v[1] < min[1] ) { min[1] = v[1]; } if ( v[1] > max[1] ) { max[1] = v[1]; } if ( v[2] < min[2] ) { min[2] = v[2]; } if ( v[2] > max[2] ) { max[2] = v[2]; }
-	UNROLL1(OPER)
+	UNROLL1( OPER )
 #undef OPER
 }
 
@@ -545,9 +557,10 @@ idSIMD_Generic::MinMax
 ============
 */
 void VPCALL idSIMD_Generic::MinMax( idVec3 &min, idVec3 &max, const idDrawVert *src, const int *indexes, const int count ) {
-	min[0] = min[1] = min[2] = idMath::INFINITY; max[0] = max[1] = max[2] = -idMath::INFINITY;
+	min[0] = min[1] = min[2] = idMath::INFINITY;
+	max[0] = max[1] = max[2] = -idMath::INFINITY;
 #define OPER(X) const idVec3 &v = src[indexes[(X)]].xyz; if ( v[0] < min[0] ) { min[0] = v[0]; } if ( v[0] > max[0] ) { max[0] = v[0]; } if ( v[1] < min[1] ) { min[1] = v[1]; } if ( v[1] > max[1] ) { max[1] = v[1]; } if ( v[2] < min[2] ) { min[2] = v[2]; } if ( v[2] > max[2] ) { max[2] = v[2]; }
-	UNROLL1(OPER)
+	UNROLL1( OPER )
 #undef OPER
 }
 
@@ -558,7 +571,7 @@ idSIMD_Generic::Clamp
 */
 void VPCALL idSIMD_Generic::Clamp( float *dst, const float *src, const float min, const float max, const int count ) {
 #define OPER(X) dst[(X)] = src[(X)] < min ? min : src[(X)] > max ? max : src[(X)];
-	UNROLL1(OPER)
+	UNROLL1( OPER )
 #undef OPER
 }
 
@@ -569,7 +582,7 @@ idSIMD_Generic::ClampMin
 */
 void VPCALL idSIMD_Generic::ClampMin( float *dst, const float *src, const float min, const int count ) {
 #define OPER(X) dst[(X)] = src[(X)] < min ? min : src[(X)];
-	UNROLL1(OPER)
+	UNROLL1( OPER )
 #undef OPER
 }
 
@@ -580,7 +593,7 @@ idSIMD_Generic::ClampMax
 */
 void VPCALL idSIMD_Generic::ClampMax( float *dst, const float *src, const float max, const int count ) {
 #define OPER(X) dst[(X)] = src[(X)] > max ? max : src[(X)];
-	UNROLL1(OPER)
+	UNROLL1( OPER )
 #undef OPER
 }
 
@@ -617,9 +630,9 @@ idSIMD_Generic::Negate16
 ============
 */
 void VPCALL idSIMD_Generic::Negate16( float *dst, const int count ) {
-	unsigned int *ptr = reinterpret_cast<unsigned int *>(dst);
+	unsigned int *ptr = reinterpret_cast<unsigned int *>( dst );
 #define OPER(X) ptr[(X)] ^= ( 1 << 31 )		// IEEE 32 bits float sign bit
-	UNROLL1(OPER)
+	UNROLL1( OPER )
 #undef OPER
 }
 
@@ -630,7 +643,7 @@ idSIMD_Generic::Copy16
 */
 void VPCALL idSIMD_Generic::Copy16( float *dst, const float *src, const int count ) {
 #define OPER(X) dst[(X)] = src[(X)]
-	UNROLL1(OPER)
+	UNROLL1( OPER )
 #undef OPER
 }
 
@@ -641,7 +654,7 @@ idSIMD_Generic::Add16
 */
 void VPCALL idSIMD_Generic::Add16( float *dst, const float *src1, const float *src2, const int count ) {
 #define OPER(X) dst[(X)] = src1[(X)] + src2[(X)]
-	UNROLL1(OPER)
+	UNROLL1( OPER )
 #undef OPER
 }
 
@@ -652,7 +665,7 @@ idSIMD_Generic::Sub16
 */
 void VPCALL idSIMD_Generic::Sub16( float *dst, const float *src1, const float *src2, const int count ) {
 #define OPER(X) dst[(X)] = src1[(X)] - src2[(X)]
-	UNROLL1(OPER)
+	UNROLL1( OPER )
 #undef OPER
 }
 
@@ -663,7 +676,7 @@ idSIMD_Generic::Mul16
 */
 void VPCALL idSIMD_Generic::Mul16( float *dst, const float *src1, const float constant, const int count ) {
 #define OPER(X) dst[(X)] = src1[(X)] * constant
-	UNROLL1(OPER)
+	UNROLL1( OPER )
 #undef OPER
 }
 
@@ -674,7 +687,7 @@ idSIMD_Generic::AddAssign16
 */
 void VPCALL idSIMD_Generic::AddAssign16( float *dst, const float *src, const int count ) {
 #define OPER(X) dst[(X)] += src[(X)]
-	UNROLL1(OPER)
+	UNROLL1( OPER )
 #undef OPER
 }
 
@@ -685,7 +698,7 @@ idSIMD_Generic::SubAssign16
 */
 void VPCALL idSIMD_Generic::SubAssign16( float *dst, const float *src, const int count ) {
 #define OPER(X) dst[(X)] -= src[(X)]
-	UNROLL1(OPER)
+	UNROLL1( OPER )
 #undef OPER
 }
 
@@ -696,7 +709,7 @@ idSIMD_Generic::MulAssign16
 */
 void VPCALL idSIMD_Generic::MulAssign16( float *dst, const float constant, const int count ) {
 #define OPER(X) dst[(X)] *= constant
-	UNROLL1(OPER)
+	UNROLL1( OPER )
 #undef OPER
 }
 
@@ -717,7 +730,7 @@ void VPCALL idSIMD_Generic::MatX_MultiplyVecX( idVecX &dst, const idMatX &mat, c
 	vPtr = vec.ToFloatPtr();
 	dstPtr = dst.ToFloatPtr();
 	numRows = mat.GetNumRows();
-	switch( mat.GetNumColumns() ) {
+	switch ( mat.GetNumColumns() ) {
 		case 1:
 			for ( i = 0; i < numRows; i++ ) {
 				dstPtr[i] = mPtr[0] * vPtr[0];
@@ -788,7 +801,7 @@ void VPCALL idSIMD_Generic::MatX_MultiplyAddVecX( idVecX &dst, const idMatX &mat
 	vPtr = vec.ToFloatPtr();
 	dstPtr = dst.ToFloatPtr();
 	numRows = mat.GetNumRows();
-	switch( mat.GetNumColumns() ) {
+	switch ( mat.GetNumColumns() ) {
 		case 1:
 			for ( i = 0; i < numRows; i++ ) {
 				dstPtr[i] += mPtr[0] * vPtr[0];
@@ -810,21 +823,21 @@ void VPCALL idSIMD_Generic::MatX_MultiplyAddVecX( idVecX &dst, const idMatX &mat
 		case 4:
 			for ( i = 0; i < numRows; i++ ) {
 				dstPtr[i] += mPtr[0] * vPtr[0] + mPtr[1] * vPtr[1] + mPtr[2] * vPtr[2] +
-							mPtr[3] * vPtr[3];
+							 mPtr[3] * vPtr[3];
 				mPtr += 4;
 			}
 			break;
 		case 5:
 			for ( i = 0; i < numRows; i++ ) {
 				dstPtr[i] += mPtr[0] * vPtr[0] + mPtr[1] * vPtr[1] + mPtr[2] * vPtr[2] +
-							mPtr[3] * vPtr[3] + mPtr[4] * vPtr[4];
+							 mPtr[3] * vPtr[3] + mPtr[4] * vPtr[4];
 				mPtr += 5;
 			}
 			break;
 		case 6:
 			for ( i = 0; i < numRows; i++ ) {
 				dstPtr[i] += mPtr[0] * vPtr[0] + mPtr[1] * vPtr[1] + mPtr[2] * vPtr[2] +
-							mPtr[3] * vPtr[3] + mPtr[4] * vPtr[4] + mPtr[5] * vPtr[5];
+							 mPtr[3] * vPtr[3] + mPtr[4] * vPtr[4] + mPtr[5] * vPtr[5];
 				mPtr += 6;
 			}
 			break;
@@ -859,7 +872,7 @@ void VPCALL idSIMD_Generic::MatX_MultiplySubVecX( idVecX &dst, const idMatX &mat
 	vPtr = vec.ToFloatPtr();
 	dstPtr = dst.ToFloatPtr();
 	numRows = mat.GetNumRows();
-	switch( mat.GetNumColumns() ) {
+	switch ( mat.GetNumColumns() ) {
 		case 1:
 			for ( i = 0; i < numRows; i++ ) {
 				dstPtr[i] -= mPtr[0] * vPtr[0];
@@ -881,21 +894,21 @@ void VPCALL idSIMD_Generic::MatX_MultiplySubVecX( idVecX &dst, const idMatX &mat
 		case 4:
 			for ( i = 0; i < numRows; i++ ) {
 				dstPtr[i] -= mPtr[0] * vPtr[0] + mPtr[1] * vPtr[1] + mPtr[2] * vPtr[2] +
-							mPtr[3] * vPtr[3];
+							 mPtr[3] * vPtr[3];
 				mPtr += 4;
 			}
 			break;
 		case 5:
 			for ( i = 0; i < numRows; i++ ) {
 				dstPtr[i] -= mPtr[0] * vPtr[0] + mPtr[1] * vPtr[1] + mPtr[2] * vPtr[2] +
-							mPtr[3] * vPtr[3] + mPtr[4] * vPtr[4];
+							 mPtr[3] * vPtr[3] + mPtr[4] * vPtr[4];
 				mPtr += 5;
 			}
 			break;
 		case 6:
 			for ( i = 0; i < numRows; i++ ) {
 				dstPtr[i] -= mPtr[0] * vPtr[0] + mPtr[1] * vPtr[1] + mPtr[2] * vPtr[2] +
-							mPtr[3] * vPtr[3] + mPtr[4] * vPtr[4] + mPtr[5] * vPtr[5];
+							 mPtr[3] * vPtr[3] + mPtr[4] * vPtr[4] + mPtr[5] * vPtr[5];
 				mPtr += 6;
 			}
 			break;
@@ -930,43 +943,43 @@ void VPCALL idSIMD_Generic::MatX_TransposeMultiplyVecX( idVecX &dst, const idMat
 	vPtr = vec.ToFloatPtr();
 	dstPtr = dst.ToFloatPtr();
 	numColumns = mat.GetNumColumns();
-	switch( mat.GetNumRows() ) {
+	switch ( mat.GetNumRows() ) {
 		case 1:
 			for ( i = 0; i < numColumns; i++ ) {
-				dstPtr[i] = *(mPtr) * vPtr[0];
+				dstPtr[i] = *( mPtr ) * vPtr[0];
 				mPtr++;
 			}
 			break;
 		case 2:
 			for ( i = 0; i < numColumns; i++ ) {
-				dstPtr[i] = *(mPtr) * vPtr[0] + *(mPtr+numColumns) * vPtr[1];
+				dstPtr[i] = *( mPtr ) * vPtr[0] + *( mPtr + numColumns ) * vPtr[1];
 				mPtr++;
 			}
 			break;
 		case 3:
 			for ( i = 0; i < numColumns; i++ ) {
-				dstPtr[i] = *(mPtr) * vPtr[0] + *(mPtr+numColumns) * vPtr[1] + *(mPtr+2*numColumns) * vPtr[2];
+				dstPtr[i] = *( mPtr ) * vPtr[0] + *( mPtr + numColumns ) * vPtr[1] + *( mPtr + 2 * numColumns ) * vPtr[2];
 				mPtr++;
 			}
 			break;
 		case 4:
 			for ( i = 0; i < numColumns; i++ ) {
-				dstPtr[i] = *(mPtr) * vPtr[0] + *(mPtr+numColumns) * vPtr[1] + *(mPtr+2*numColumns) * vPtr[2] +
-						*(mPtr+3*numColumns) * vPtr[3];
+				dstPtr[i] = *( mPtr ) * vPtr[0] + *( mPtr + numColumns ) * vPtr[1] + *( mPtr + 2 * numColumns ) * vPtr[2] +
+							*( mPtr + 3 * numColumns ) * vPtr[3];
 				mPtr++;
 			}
 			break;
 		case 5:
 			for ( i = 0; i < numColumns; i++ ) {
-				dstPtr[i] = *(mPtr) * vPtr[0] + *(mPtr+numColumns) * vPtr[1] + *(mPtr+2*numColumns) * vPtr[2] +
-						*(mPtr+3*numColumns) * vPtr[3] + *(mPtr+4*numColumns) * vPtr[4];
+				dstPtr[i] = *( mPtr ) * vPtr[0] + *( mPtr + numColumns ) * vPtr[1] + *( mPtr + 2 * numColumns ) * vPtr[2] +
+							*( mPtr + 3 * numColumns ) * vPtr[3] + *( mPtr + 4 * numColumns ) * vPtr[4];
 				mPtr++;
 			}
 			break;
 		case 6:
 			for ( i = 0; i < numColumns; i++ ) {
-				dstPtr[i] = *(mPtr) * vPtr[0] + *(mPtr+numColumns) * vPtr[1] + *(mPtr+2*numColumns) * vPtr[2] +
-						*(mPtr+3*numColumns) * vPtr[3] + *(mPtr+4*numColumns) * vPtr[4] + *(mPtr+5*numColumns) * vPtr[5];
+				dstPtr[i] = *( mPtr ) * vPtr[0] + *( mPtr + numColumns ) * vPtr[1] + *( mPtr + 2 * numColumns ) * vPtr[2] +
+							*( mPtr + 3 * numColumns ) * vPtr[3] + *( mPtr + 4 * numColumns ) * vPtr[4] + *( mPtr + 5 * numColumns ) * vPtr[5];
 				mPtr++;
 			}
 			break;
@@ -1002,43 +1015,43 @@ void VPCALL idSIMD_Generic::MatX_TransposeMultiplyAddVecX( idVecX &dst, const id
 	vPtr = vec.ToFloatPtr();
 	dstPtr = dst.ToFloatPtr();
 	numColumns = mat.GetNumColumns();
-	switch( mat.GetNumRows() ) {
+	switch ( mat.GetNumRows() ) {
 		case 1:
 			for ( i = 0; i < numColumns; i++ ) {
-				dstPtr[i] += *(mPtr) * vPtr[0];
+				dstPtr[i] += *( mPtr ) * vPtr[0];
 				mPtr++;
 			}
 			break;
 		case 2:
 			for ( i = 0; i < numColumns; i++ ) {
-				dstPtr[i] += *(mPtr) * vPtr[0] + *(mPtr+numColumns) * vPtr[1];
+				dstPtr[i] += *( mPtr ) * vPtr[0] + *( mPtr + numColumns ) * vPtr[1];
 				mPtr++;
 			}
 			break;
 		case 3:
 			for ( i = 0; i < numColumns; i++ ) {
-				dstPtr[i] += *(mPtr) * vPtr[0] + *(mPtr+numColumns) * vPtr[1] + *(mPtr+2*numColumns) * vPtr[2];
+				dstPtr[i] += *( mPtr ) * vPtr[0] + *( mPtr + numColumns ) * vPtr[1] + *( mPtr + 2 * numColumns ) * vPtr[2];
 				mPtr++;
 			}
 			break;
 		case 4:
 			for ( i = 0; i < numColumns; i++ ) {
-				dstPtr[i] += *(mPtr) * vPtr[0] + *(mPtr+numColumns) * vPtr[1] + *(mPtr+2*numColumns) * vPtr[2] +
-						*(mPtr+3*numColumns) * vPtr[3];
+				dstPtr[i] += *( mPtr ) * vPtr[0] + *( mPtr + numColumns ) * vPtr[1] + *( mPtr + 2 * numColumns ) * vPtr[2] +
+							 *( mPtr + 3 * numColumns ) * vPtr[3];
 				mPtr++;
 			}
 			break;
 		case 5:
 			for ( i = 0; i < numColumns; i++ ) {
-				dstPtr[i] += *(mPtr) * vPtr[0] + *(mPtr+numColumns) * vPtr[1] + *(mPtr+2*numColumns) * vPtr[2] +
-						*(mPtr+3*numColumns) * vPtr[3] + *(mPtr+4*numColumns) * vPtr[4];
+				dstPtr[i] += *( mPtr ) * vPtr[0] + *( mPtr + numColumns ) * vPtr[1] + *( mPtr + 2 * numColumns ) * vPtr[2] +
+							 *( mPtr + 3 * numColumns ) * vPtr[3] + *( mPtr + 4 * numColumns ) * vPtr[4];
 				mPtr++;
 			}
 			break;
 		case 6:
 			for ( i = 0; i < numColumns; i++ ) {
-				dstPtr[i] += *(mPtr) * vPtr[0] + *(mPtr+numColumns) * vPtr[1] + *(mPtr+2*numColumns) * vPtr[2] +
-						*(mPtr+3*numColumns) * vPtr[3] + *(mPtr+4*numColumns) * vPtr[4] + *(mPtr+5*numColumns) * vPtr[5];
+				dstPtr[i] += *( mPtr ) * vPtr[0] + *( mPtr + numColumns ) * vPtr[1] + *( mPtr + 2 * numColumns ) * vPtr[2] +
+							 *( mPtr + 3 * numColumns ) * vPtr[3] + *( mPtr + 4 * numColumns ) * vPtr[4] + *( mPtr + 5 * numColumns ) * vPtr[5];
 				mPtr++;
 			}
 			break;
@@ -1074,43 +1087,43 @@ void VPCALL idSIMD_Generic::MatX_TransposeMultiplySubVecX( idVecX &dst, const id
 	vPtr = vec.ToFloatPtr();
 	dstPtr = dst.ToFloatPtr();
 	numColumns = mat.GetNumColumns();
-	switch( mat.GetNumRows() ) {
+	switch ( mat.GetNumRows() ) {
 		case 1:
 			for ( i = 0; i < numColumns; i++ ) {
-				dstPtr[i] -= *(mPtr) * vPtr[0];
+				dstPtr[i] -= *( mPtr ) * vPtr[0];
 				mPtr++;
 			}
 			break;
 		case 2:
 			for ( i = 0; i < numColumns; i++ ) {
-				dstPtr[i] -= *(mPtr) * vPtr[0] + *(mPtr+numColumns) * vPtr[1];
+				dstPtr[i] -= *( mPtr ) * vPtr[0] + *( mPtr + numColumns ) * vPtr[1];
 				mPtr++;
 			}
 			break;
 		case 3:
 			for ( i = 0; i < numColumns; i++ ) {
-				dstPtr[i] -= *(mPtr) * vPtr[0] + *(mPtr+numColumns) * vPtr[1] + *(mPtr+2*numColumns) * vPtr[2];
+				dstPtr[i] -= *( mPtr ) * vPtr[0] + *( mPtr + numColumns ) * vPtr[1] + *( mPtr + 2 * numColumns ) * vPtr[2];
 				mPtr++;
 			}
 			break;
 		case 4:
 			for ( i = 0; i < numColumns; i++ ) {
-				dstPtr[i] -= *(mPtr) * vPtr[0] + *(mPtr+numColumns) * vPtr[1] + *(mPtr+2*numColumns) * vPtr[2] +
-						*(mPtr+3*numColumns) * vPtr[3];
+				dstPtr[i] -= *( mPtr ) * vPtr[0] + *( mPtr + numColumns ) * vPtr[1] + *( mPtr + 2 * numColumns ) * vPtr[2] +
+							 *( mPtr + 3 * numColumns ) * vPtr[3];
 				mPtr++;
 			}
 			break;
 		case 5:
 			for ( i = 0; i < numColumns; i++ ) {
-				dstPtr[i] -= *(mPtr) * vPtr[0] + *(mPtr+numColumns) * vPtr[1] + *(mPtr+2*numColumns) * vPtr[2] +
-						*(mPtr+3*numColumns) * vPtr[3] + *(mPtr+4*numColumns) * vPtr[4];
+				dstPtr[i] -= *( mPtr ) * vPtr[0] + *( mPtr + numColumns ) * vPtr[1] + *( mPtr + 2 * numColumns ) * vPtr[2] +
+							 *( mPtr + 3 * numColumns ) * vPtr[3] + *( mPtr + 4 * numColumns ) * vPtr[4];
 				mPtr++;
 			}
 			break;
 		case 6:
 			for ( i = 0; i < numColumns; i++ ) {
-				dstPtr[i] -= *(mPtr) * vPtr[0] + *(mPtr+numColumns) * vPtr[1] + *(mPtr+2*numColumns) * vPtr[2] +
-						*(mPtr+3*numColumns) * vPtr[3] + *(mPtr+4*numColumns) * vPtr[4] + *(mPtr+5*numColumns) * vPtr[5];
+				dstPtr[i] -= *( mPtr ) * vPtr[0] + *( mPtr + numColumns ) * vPtr[1] + *( mPtr + 2 * numColumns ) * vPtr[2] +
+							 *( mPtr + 3 * numColumns ) * vPtr[3] + *( mPtr + 4 * numColumns ) * vPtr[4] + *( mPtr + 5 * numColumns ) * vPtr[5];
 				mPtr++;
 			}
 			break;
@@ -1157,7 +1170,7 @@ void VPCALL idSIMD_Generic::MatX_MultiplyMatX( idMatX &dst, const idMatX &m1, co
 	k = m1.GetNumRows();
 	l = m2.GetNumColumns();
 
-	switch( m1.GetNumColumns() ) {
+	switch ( m1.GetNumColumns() ) {
 		case 1: {
 			if ( l == 6 ) {
 				for ( i = 0; i < k; i++ ) {		// Nx1 * 1x6
@@ -1219,7 +1232,7 @@ void VPCALL idSIMD_Generic::MatX_MultiplyMatX( idMatX &dst, const idMatX &m1, co
 			for ( i = 0; i < k; i++ ) {
 				m2Ptr = m2.ToFloatPtr();
 				for ( j = 0; j < l; j++ ) {
-					*dstPtr++ = m1Ptr[0] * m2Ptr[0] + m1Ptr[1] * m2Ptr[l] + m1Ptr[2] * m2Ptr[2*l];
+					*dstPtr++ = m1Ptr[0] * m2Ptr[0] + m1Ptr[1] * m2Ptr[l] + m1Ptr[2] * m2Ptr[2 * l];
 					m2Ptr++;
 				}
 				m1Ptr += 3;
@@ -1242,8 +1255,8 @@ void VPCALL idSIMD_Generic::MatX_MultiplyMatX( idMatX &dst, const idMatX &m1, co
 			for ( i = 0; i < k; i++ ) {
 				m2Ptr = m2.ToFloatPtr();
 				for ( j = 0; j < l; j++ ) {
-					*dstPtr++ = m1Ptr[0] * m2Ptr[0] + m1Ptr[1] * m2Ptr[l] + m1Ptr[2] * m2Ptr[2*l] +
-									 m1Ptr[3] * m2Ptr[3*l];
+					*dstPtr++ = m1Ptr[0] * m2Ptr[0] + m1Ptr[1] * m2Ptr[l] + m1Ptr[2] * m2Ptr[2 * l] +
+								m1Ptr[3] * m2Ptr[3 * l];
 					m2Ptr++;
 				}
 				m1Ptr += 4;
@@ -1266,8 +1279,8 @@ void VPCALL idSIMD_Generic::MatX_MultiplyMatX( idMatX &dst, const idMatX &m1, co
 			for ( i = 0; i < k; i++ ) {
 				m2Ptr = m2.ToFloatPtr();
 				for ( j = 0; j < l; j++ ) {
-					*dstPtr++ = m1Ptr[0] * m2Ptr[0] + m1Ptr[1] * m2Ptr[l] + m1Ptr[2] * m2Ptr[2*l] +
-									 m1Ptr[3] * m2Ptr[3*l] + m1Ptr[4] * m2Ptr[4*l];
+					*dstPtr++ = m1Ptr[0] * m2Ptr[0] + m1Ptr[1] * m2Ptr[l] + m1Ptr[2] * m2Ptr[2 * l] +
+								m1Ptr[3] * m2Ptr[3 * l] + m1Ptr[4] * m2Ptr[4 * l];
 					m2Ptr++;
 				}
 				m1Ptr += 5;
@@ -1275,11 +1288,11 @@ void VPCALL idSIMD_Generic::MatX_MultiplyMatX( idMatX &dst, const idMatX &m1, co
 			break;
 		}
 		case 6: {
-			switch( k ) {
+			switch ( k ) {
 				case 1: {
 					if ( l == 1 ) {		// 1x6 * 6x1
 						dstPtr[0] = m1Ptr[0] * m2Ptr[0] + m1Ptr[1] * m2Ptr[1] + m1Ptr[2] * m2Ptr[2] +
-									 m1Ptr[3] * m2Ptr[3] + m1Ptr[4] * m2Ptr[4] + m1Ptr[5] * m2Ptr[5];
+									m1Ptr[3] * m2Ptr[3] + m1Ptr[4] * m2Ptr[4] + m1Ptr[5] * m2Ptr[5];
 						return;
 					}
 					break;
@@ -1289,11 +1302,11 @@ void VPCALL idSIMD_Generic::MatX_MultiplyMatX( idMatX &dst, const idMatX &m1, co
 						for ( i = 0; i < 2; i++ ) {
 							for ( j = 0; j < 2; j++ ) {
 								*dstPtr = m1Ptr[0] * m2Ptr[ 0 * 2 + j ]
-										+ m1Ptr[1] * m2Ptr[ 1 * 2 + j ]
-										+ m1Ptr[2] * m2Ptr[ 2 * 2 + j ]
-										+ m1Ptr[3] * m2Ptr[ 3 * 2 + j ]
-										+ m1Ptr[4] * m2Ptr[ 4 * 2 + j ]
-										+ m1Ptr[5] * m2Ptr[ 5 * 2 + j ];
+										  + m1Ptr[1] * m2Ptr[ 1 * 2 + j ]
+										  + m1Ptr[2] * m2Ptr[ 2 * 2 + j ]
+										  + m1Ptr[3] * m2Ptr[ 3 * 2 + j ]
+										  + m1Ptr[4] * m2Ptr[ 4 * 2 + j ]
+										  + m1Ptr[5] * m2Ptr[ 5 * 2 + j ];
 								dstPtr++;
 							}
 							m1Ptr += 6;
@@ -1307,11 +1320,11 @@ void VPCALL idSIMD_Generic::MatX_MultiplyMatX( idMatX &dst, const idMatX &m1, co
 						for ( i = 0; i < 3; i++ ) {
 							for ( j = 0; j < 3; j++ ) {
 								*dstPtr = m1Ptr[0] * m2Ptr[ 0 * 3 + j ]
-										+ m1Ptr[1] * m2Ptr[ 1 * 3 + j ]
-										+ m1Ptr[2] * m2Ptr[ 2 * 3 + j ]
-										+ m1Ptr[3] * m2Ptr[ 3 * 3 + j ]
-										+ m1Ptr[4] * m2Ptr[ 4 * 3 + j ]
-										+ m1Ptr[5] * m2Ptr[ 5 * 3 + j ];
+										  + m1Ptr[1] * m2Ptr[ 1 * 3 + j ]
+										  + m1Ptr[2] * m2Ptr[ 2 * 3 + j ]
+										  + m1Ptr[3] * m2Ptr[ 3 * 3 + j ]
+										  + m1Ptr[4] * m2Ptr[ 4 * 3 + j ]
+										  + m1Ptr[5] * m2Ptr[ 5 * 3 + j ];
 								dstPtr++;
 							}
 							m1Ptr += 6;
@@ -1325,11 +1338,11 @@ void VPCALL idSIMD_Generic::MatX_MultiplyMatX( idMatX &dst, const idMatX &m1, co
 						for ( i = 0; i < 4; i++ ) {
 							for ( j = 0; j < 4; j++ ) {
 								*dstPtr = m1Ptr[0] * m2Ptr[ 0 * 4 + j ]
-										+ m1Ptr[1] * m2Ptr[ 1 * 4 + j ]
-										+ m1Ptr[2] * m2Ptr[ 2 * 4 + j ]
-										+ m1Ptr[3] * m2Ptr[ 3 * 4 + j ]
-										+ m1Ptr[4] * m2Ptr[ 4 * 4 + j ]
-										+ m1Ptr[5] * m2Ptr[ 5 * 4 + j ];
+										  + m1Ptr[1] * m2Ptr[ 1 * 4 + j ]
+										  + m1Ptr[2] * m2Ptr[ 2 * 4 + j ]
+										  + m1Ptr[3] * m2Ptr[ 3 * 4 + j ]
+										  + m1Ptr[4] * m2Ptr[ 4 * 4 + j ]
+										  + m1Ptr[5] * m2Ptr[ 5 * 4 + j ];
 								dstPtr++;
 							}
 							m1Ptr += 6;
@@ -1342,11 +1355,11 @@ void VPCALL idSIMD_Generic::MatX_MultiplyMatX( idMatX &dst, const idMatX &m1, co
 						for ( i = 0; i < 5; i++ ) {
 							for ( j = 0; j < 5; j++ ) {
 								*dstPtr = m1Ptr[0] * m2Ptr[ 0 * 5 + j ]
-										+ m1Ptr[1] * m2Ptr[ 1 * 5 + j ]
-										+ m1Ptr[2] * m2Ptr[ 2 * 5 + j ]
-										+ m1Ptr[3] * m2Ptr[ 3 * 5 + j ]
-										+ m1Ptr[4] * m2Ptr[ 4 * 5 + j ]
-										+ m1Ptr[5] * m2Ptr[ 5 * 5 + j ];
+										  + m1Ptr[1] * m2Ptr[ 1 * 5 + j ]
+										  + m1Ptr[2] * m2Ptr[ 2 * 5 + j ]
+										  + m1Ptr[3] * m2Ptr[ 3 * 5 + j ]
+										  + m1Ptr[4] * m2Ptr[ 4 * 5 + j ]
+										  + m1Ptr[5] * m2Ptr[ 5 * 5 + j ];
 								dstPtr++;
 							}
 							m1Ptr += 6;
@@ -1355,15 +1368,15 @@ void VPCALL idSIMD_Generic::MatX_MultiplyMatX( idMatX &dst, const idMatX &m1, co
 					}
 				}
 				case 6: {
-					switch( l ) {
+					switch ( l ) {
 						case 1: {		// 6x6 * 6x1
 							for ( i = 0; i < 6; i++ ) {
 								*dstPtr = m1Ptr[0] * m2Ptr[ 0 * 1 ]
-										+ m1Ptr[1] * m2Ptr[ 1 * 1 ]
-										+ m1Ptr[2] * m2Ptr[ 2 * 1 ]
-										+ m1Ptr[3] * m2Ptr[ 3 * 1 ]
-										+ m1Ptr[4] * m2Ptr[ 4 * 1 ]
-										+ m1Ptr[5] * m2Ptr[ 5 * 1 ];
+										  + m1Ptr[1] * m2Ptr[ 1 * 1 ]
+										  + m1Ptr[2] * m2Ptr[ 2 * 1 ]
+										  + m1Ptr[3] * m2Ptr[ 3 * 1 ]
+										  + m1Ptr[4] * m2Ptr[ 4 * 1 ]
+										  + m1Ptr[5] * m2Ptr[ 5 * 1 ];
 								dstPtr++;
 								m1Ptr += 6;
 							}
@@ -1373,11 +1386,11 @@ void VPCALL idSIMD_Generic::MatX_MultiplyMatX( idMatX &dst, const idMatX &m1, co
 							for ( i = 0; i < 6; i++ ) {
 								for ( j = 0; j < 2; j++ ) {
 									*dstPtr = m1Ptr[0] * m2Ptr[ 0 * 2 + j ]
-											+ m1Ptr[1] * m2Ptr[ 1 * 2 + j ]
-											+ m1Ptr[2] * m2Ptr[ 2 * 2 + j ]
-											+ m1Ptr[3] * m2Ptr[ 3 * 2 + j ]
-											+ m1Ptr[4] * m2Ptr[ 4 * 2 + j ]
-											+ m1Ptr[5] * m2Ptr[ 5 * 2 + j ];
+											  + m1Ptr[1] * m2Ptr[ 1 * 2 + j ]
+											  + m1Ptr[2] * m2Ptr[ 2 * 2 + j ]
+											  + m1Ptr[3] * m2Ptr[ 3 * 2 + j ]
+											  + m1Ptr[4] * m2Ptr[ 4 * 2 + j ]
+											  + m1Ptr[5] * m2Ptr[ 5 * 2 + j ];
 									dstPtr++;
 								}
 								m1Ptr += 6;
@@ -1388,11 +1401,11 @@ void VPCALL idSIMD_Generic::MatX_MultiplyMatX( idMatX &dst, const idMatX &m1, co
 							for ( i = 0; i < 6; i++ ) {
 								for ( j = 0; j < 3; j++ ) {
 									*dstPtr = m1Ptr[0] * m2Ptr[ 0 * 3 + j ]
-											+ m1Ptr[1] * m2Ptr[ 1 * 3 + j ]
-											+ m1Ptr[2] * m2Ptr[ 2 * 3 + j ]
-											+ m1Ptr[3] * m2Ptr[ 3 * 3 + j ]
-											+ m1Ptr[4] * m2Ptr[ 4 * 3 + j ]
-											+ m1Ptr[5] * m2Ptr[ 5 * 3 + j ];
+											  + m1Ptr[1] * m2Ptr[ 1 * 3 + j ]
+											  + m1Ptr[2] * m2Ptr[ 2 * 3 + j ]
+											  + m1Ptr[3] * m2Ptr[ 3 * 3 + j ]
+											  + m1Ptr[4] * m2Ptr[ 4 * 3 + j ]
+											  + m1Ptr[5] * m2Ptr[ 5 * 3 + j ];
 									dstPtr++;
 								}
 								m1Ptr += 6;
@@ -1403,11 +1416,11 @@ void VPCALL idSIMD_Generic::MatX_MultiplyMatX( idMatX &dst, const idMatX &m1, co
 							for ( i = 0; i < 6; i++ ) {
 								for ( j = 0; j < 4; j++ ) {
 									*dstPtr = m1Ptr[0] * m2Ptr[ 0 * 4 + j ]
-											+ m1Ptr[1] * m2Ptr[ 1 * 4 + j ]
-											+ m1Ptr[2] * m2Ptr[ 2 * 4 + j ]
-											+ m1Ptr[3] * m2Ptr[ 3 * 4 + j ]
-											+ m1Ptr[4] * m2Ptr[ 4 * 4 + j ]
-											+ m1Ptr[5] * m2Ptr[ 5 * 4 + j ];
+											  + m1Ptr[1] * m2Ptr[ 1 * 4 + j ]
+											  + m1Ptr[2] * m2Ptr[ 2 * 4 + j ]
+											  + m1Ptr[3] * m2Ptr[ 3 * 4 + j ]
+											  + m1Ptr[4] * m2Ptr[ 4 * 4 + j ]
+											  + m1Ptr[5] * m2Ptr[ 5 * 4 + j ];
 									dstPtr++;
 								}
 								m1Ptr += 6;
@@ -1418,11 +1431,11 @@ void VPCALL idSIMD_Generic::MatX_MultiplyMatX( idMatX &dst, const idMatX &m1, co
 							for ( i = 0; i < 6; i++ ) {
 								for ( j = 0; j < 5; j++ ) {
 									*dstPtr = m1Ptr[0] * m2Ptr[ 0 * 5 + j ]
-											+ m1Ptr[1] * m2Ptr[ 1 * 5 + j ]
-											+ m1Ptr[2] * m2Ptr[ 2 * 5 + j ]
-											+ m1Ptr[3] * m2Ptr[ 3 * 5 + j ]
-											+ m1Ptr[4] * m2Ptr[ 4 * 5 + j ]
-											+ m1Ptr[5] * m2Ptr[ 5 * 5 + j ];
+											  + m1Ptr[1] * m2Ptr[ 1 * 5 + j ]
+											  + m1Ptr[2] * m2Ptr[ 2 * 5 + j ]
+											  + m1Ptr[3] * m2Ptr[ 3 * 5 + j ]
+											  + m1Ptr[4] * m2Ptr[ 4 * 5 + j ]
+											  + m1Ptr[5] * m2Ptr[ 5 * 5 + j ];
 									dstPtr++;
 								}
 								m1Ptr += 6;
@@ -1433,11 +1446,11 @@ void VPCALL idSIMD_Generic::MatX_MultiplyMatX( idMatX &dst, const idMatX &m1, co
 							for ( i = 0; i < 6; i++ ) {
 								for ( j = 0; j < 6; j++ ) {
 									*dstPtr = m1Ptr[0] * m2Ptr[ 0 * 6 + j ]
-											+ m1Ptr[1] * m2Ptr[ 1 * 6 + j ]
-											+ m1Ptr[2] * m2Ptr[ 2 * 6 + j ]
-											+ m1Ptr[3] * m2Ptr[ 3 * 6 + j ]
-											+ m1Ptr[4] * m2Ptr[ 4 * 6 + j ]
-											+ m1Ptr[5] * m2Ptr[ 5 * 6 + j ];
+											  + m1Ptr[1] * m2Ptr[ 1 * 6 + j ]
+											  + m1Ptr[2] * m2Ptr[ 2 * 6 + j ]
+											  + m1Ptr[3] * m2Ptr[ 3 * 6 + j ]
+											  + m1Ptr[4] * m2Ptr[ 4 * 6 + j ]
+											  + m1Ptr[5] * m2Ptr[ 5 * 6 + j ];
 									dstPtr++;
 								}
 								m1Ptr += 6;
@@ -1450,8 +1463,8 @@ void VPCALL idSIMD_Generic::MatX_MultiplyMatX( idMatX &dst, const idMatX &m1, co
 			for ( i = 0; i < k; i++ ) {
 				m2Ptr = m2.ToFloatPtr();
 				for ( j = 0; j < l; j++ ) {
-					*dstPtr++ = m1Ptr[0] * m2Ptr[0] + m1Ptr[1] * m2Ptr[l] + m1Ptr[2] * m2Ptr[2*l] +
-									 m1Ptr[3] * m2Ptr[3*l] + m1Ptr[4] * m2Ptr[4*l] + m1Ptr[5] * m2Ptr[5*l];
+					*dstPtr++ = m1Ptr[0] * m2Ptr[0] + m1Ptr[1] * m2Ptr[l] + m1Ptr[2] * m2Ptr[2 * l] +
+								m1Ptr[3] * m2Ptr[3 * l] + m1Ptr[4] * m2Ptr[4 * l] + m1Ptr[5] * m2Ptr[5 * l];
 					m2Ptr++;
 				}
 				m1Ptr += 6;
@@ -1502,7 +1515,7 @@ void VPCALL idSIMD_Generic::MatX_TransposeMultiplyMatX( idMatX &dst, const idMat
 	k = m1.GetNumColumns();
 	l = m2.GetNumColumns();
 
-	switch( m1.GetNumRows() ) {
+	switch ( m1.GetNumRows() ) {
 		case 1:
 			if ( k == 6 && l == 1 ) {			// 1x6 * 1x1
 				for ( i = 0; i < 6; i++ ) {
@@ -1523,8 +1536,8 @@ void VPCALL idSIMD_Generic::MatX_TransposeMultiplyMatX( idMatX &dst, const idMat
 		case 2:
 			if ( k == 6 && l == 2 ) {			// 2x6 * 2x2
 				for ( i = 0; i < 6; i++ ) {
-					*dstPtr++ = m1Ptr[0*6] * m2Ptr[0*2+0] + m1Ptr[1*6] * m2Ptr[1*2+0];
-					*dstPtr++ = m1Ptr[0*6] * m2Ptr[0*2+1] + m1Ptr[1*6] * m2Ptr[1*2+1];
+					*dstPtr++ = m1Ptr[0 * 6] * m2Ptr[0 * 2 + 0] + m1Ptr[1 * 6] * m2Ptr[1 * 2 + 0];
+					*dstPtr++ = m1Ptr[0 * 6] * m2Ptr[0 * 2 + 1] + m1Ptr[1 * 6] * m2Ptr[1 * 2 + 1];
 					m1Ptr++;
 				}
 				return;
@@ -1541,9 +1554,9 @@ void VPCALL idSIMD_Generic::MatX_TransposeMultiplyMatX( idMatX &dst, const idMat
 		case 3:
 			if ( k == 6 && l == 3 ) {			// 3x6 * 3x3
 				for ( i = 0; i < 6; i++ ) {
-					*dstPtr++ = m1Ptr[0*6] * m2Ptr[0*3+0] + m1Ptr[1*6] * m2Ptr[1*3+0] + m1Ptr[2*6] * m2Ptr[2*3+0];
-					*dstPtr++ = m1Ptr[0*6] * m2Ptr[0*3+1] + m1Ptr[1*6] * m2Ptr[1*3+1] + m1Ptr[2*6] * m2Ptr[2*3+1];
-					*dstPtr++ = m1Ptr[0*6] * m2Ptr[0*3+2] + m1Ptr[1*6] * m2Ptr[1*3+2] + m1Ptr[2*6] * m2Ptr[2*3+2];
+					*dstPtr++ = m1Ptr[0 * 6] * m2Ptr[0 * 3 + 0] + m1Ptr[1 * 6] * m2Ptr[1 * 3 + 0] + m1Ptr[2 * 6] * m2Ptr[2 * 3 + 0];
+					*dstPtr++ = m1Ptr[0 * 6] * m2Ptr[0 * 3 + 1] + m1Ptr[1 * 6] * m2Ptr[1 * 3 + 1] + m1Ptr[2 * 6] * m2Ptr[2 * 3 + 1];
+					*dstPtr++ = m1Ptr[0 * 6] * m2Ptr[0 * 3 + 2] + m1Ptr[1 * 6] * m2Ptr[1 * 3 + 2] + m1Ptr[2 * 6] * m2Ptr[2 * 3 + 2];
 					m1Ptr++;
 				}
 				return;
@@ -1551,7 +1564,7 @@ void VPCALL idSIMD_Generic::MatX_TransposeMultiplyMatX( idMatX &dst, const idMat
 			for ( i = 0; i < k; i++ ) {
 				m2Ptr = m2.ToFloatPtr();
 				for ( j = 0; j < l; j++ ) {
-					*dstPtr++ = m1Ptr[0] * m2Ptr[0] + m1Ptr[k] * m2Ptr[l] + m1Ptr[2*k] * m2Ptr[2*l];
+					*dstPtr++ = m1Ptr[0] * m2Ptr[0] + m1Ptr[k] * m2Ptr[l] + m1Ptr[2 * k] * m2Ptr[2 * l];
 					m2Ptr++;
 				}
 				m1Ptr++;
@@ -1560,10 +1573,10 @@ void VPCALL idSIMD_Generic::MatX_TransposeMultiplyMatX( idMatX &dst, const idMat
 		case 4:
 			if ( k == 6 && l == 4 ) {			// 4x6 * 4x4
 				for ( i = 0; i < 6; i++ ) {
-					*dstPtr++ = m1Ptr[0*6] * m2Ptr[0*4+0] + m1Ptr[1*6] * m2Ptr[1*4+0] + m1Ptr[2*6] * m2Ptr[2*4+0] + m1Ptr[3*6] * m2Ptr[3*4+0];
-					*dstPtr++ = m1Ptr[0*6] * m2Ptr[0*4+1] + m1Ptr[1*6] * m2Ptr[1*4+1] + m1Ptr[2*6] * m2Ptr[2*4+1] + m1Ptr[3*6] * m2Ptr[3*4+1];
-					*dstPtr++ = m1Ptr[0*6] * m2Ptr[0*4+2] + m1Ptr[1*6] * m2Ptr[1*4+2] + m1Ptr[2*6] * m2Ptr[2*4+2] + m1Ptr[3*6] * m2Ptr[3*4+2];
-					*dstPtr++ = m1Ptr[0*6] * m2Ptr[0*4+3] + m1Ptr[1*6] * m2Ptr[1*4+3] + m1Ptr[2*6] * m2Ptr[2*4+3] + m1Ptr[3*6] * m2Ptr[3*4+3];
+					*dstPtr++ = m1Ptr[0 * 6] * m2Ptr[0 * 4 + 0] + m1Ptr[1 * 6] * m2Ptr[1 * 4 + 0] + m1Ptr[2 * 6] * m2Ptr[2 * 4 + 0] + m1Ptr[3 * 6] * m2Ptr[3 * 4 + 0];
+					*dstPtr++ = m1Ptr[0 * 6] * m2Ptr[0 * 4 + 1] + m1Ptr[1 * 6] * m2Ptr[1 * 4 + 1] + m1Ptr[2 * 6] * m2Ptr[2 * 4 + 1] + m1Ptr[3 * 6] * m2Ptr[3 * 4 + 1];
+					*dstPtr++ = m1Ptr[0 * 6] * m2Ptr[0 * 4 + 2] + m1Ptr[1 * 6] * m2Ptr[1 * 4 + 2] + m1Ptr[2 * 6] * m2Ptr[2 * 4 + 2] + m1Ptr[3 * 6] * m2Ptr[3 * 4 + 2];
+					*dstPtr++ = m1Ptr[0 * 6] * m2Ptr[0 * 4 + 3] + m1Ptr[1 * 6] * m2Ptr[1 * 4 + 3] + m1Ptr[2 * 6] * m2Ptr[2 * 4 + 3] + m1Ptr[3 * 6] * m2Ptr[3 * 4 + 3];
 					m1Ptr++;
 				}
 				return;
@@ -1571,8 +1584,8 @@ void VPCALL idSIMD_Generic::MatX_TransposeMultiplyMatX( idMatX &dst, const idMat
 			for ( i = 0; i < k; i++ ) {
 				m2Ptr = m2.ToFloatPtr();
 				for ( j = 0; j < l; j++ ) {
-					*dstPtr++ = m1Ptr[0] * m2Ptr[0] + m1Ptr[k] * m2Ptr[l] + m1Ptr[2*k] * m2Ptr[2*l] +
-									m1Ptr[3*k] * m2Ptr[3*l];
+					*dstPtr++ = m1Ptr[0] * m2Ptr[0] + m1Ptr[k] * m2Ptr[l] + m1Ptr[2 * k] * m2Ptr[2 * l] +
+								m1Ptr[3 * k] * m2Ptr[3 * l];
 					m2Ptr++;
 				}
 				m1Ptr++;
@@ -1581,11 +1594,11 @@ void VPCALL idSIMD_Generic::MatX_TransposeMultiplyMatX( idMatX &dst, const idMat
 		case 5:
 			if ( k == 6 && l == 5 ) {			// 5x6 * 5x5
 				for ( i = 0; i < 6; i++ ) {
-					*dstPtr++ = m1Ptr[0*6] * m2Ptr[0*5+0] + m1Ptr[1*6] * m2Ptr[1*5+0] + m1Ptr[2*6] * m2Ptr[2*5+0] + m1Ptr[3*6] * m2Ptr[3*5+0] + m1Ptr[4*6] * m2Ptr[4*5+0];
-					*dstPtr++ = m1Ptr[0*6] * m2Ptr[0*5+1] + m1Ptr[1*6] * m2Ptr[1*5+1] + m1Ptr[2*6] * m2Ptr[2*5+1] + m1Ptr[3*6] * m2Ptr[3*5+1] + m1Ptr[4*6] * m2Ptr[4*5+1];
-					*dstPtr++ = m1Ptr[0*6] * m2Ptr[0*5+2] + m1Ptr[1*6] * m2Ptr[1*5+2] + m1Ptr[2*6] * m2Ptr[2*5+2] + m1Ptr[3*6] * m2Ptr[3*5+2] + m1Ptr[4*6] * m2Ptr[4*5+2];
-					*dstPtr++ = m1Ptr[0*6] * m2Ptr[0*5+3] + m1Ptr[1*6] * m2Ptr[1*5+3] + m1Ptr[2*6] * m2Ptr[2*5+3] + m1Ptr[3*6] * m2Ptr[3*5+3] + m1Ptr[4*6] * m2Ptr[4*5+3];
-					*dstPtr++ = m1Ptr[0*6] * m2Ptr[0*5+4] + m1Ptr[1*6] * m2Ptr[1*5+4] + m1Ptr[2*6] * m2Ptr[2*5+4] + m1Ptr[3*6] * m2Ptr[3*5+4] + m1Ptr[4*6] * m2Ptr[4*5+4];
+					*dstPtr++ = m1Ptr[0 * 6] * m2Ptr[0 * 5 + 0] + m1Ptr[1 * 6] * m2Ptr[1 * 5 + 0] + m1Ptr[2 * 6] * m2Ptr[2 * 5 + 0] + m1Ptr[3 * 6] * m2Ptr[3 * 5 + 0] + m1Ptr[4 * 6] * m2Ptr[4 * 5 + 0];
+					*dstPtr++ = m1Ptr[0 * 6] * m2Ptr[0 * 5 + 1] + m1Ptr[1 * 6] * m2Ptr[1 * 5 + 1] + m1Ptr[2 * 6] * m2Ptr[2 * 5 + 1] + m1Ptr[3 * 6] * m2Ptr[3 * 5 + 1] + m1Ptr[4 * 6] * m2Ptr[4 * 5 + 1];
+					*dstPtr++ = m1Ptr[0 * 6] * m2Ptr[0 * 5 + 2] + m1Ptr[1 * 6] * m2Ptr[1 * 5 + 2] + m1Ptr[2 * 6] * m2Ptr[2 * 5 + 2] + m1Ptr[3 * 6] * m2Ptr[3 * 5 + 2] + m1Ptr[4 * 6] * m2Ptr[4 * 5 + 2];
+					*dstPtr++ = m1Ptr[0 * 6] * m2Ptr[0 * 5 + 3] + m1Ptr[1 * 6] * m2Ptr[1 * 5 + 3] + m1Ptr[2 * 6] * m2Ptr[2 * 5 + 3] + m1Ptr[3 * 6] * m2Ptr[3 * 5 + 3] + m1Ptr[4 * 6] * m2Ptr[4 * 5 + 3];
+					*dstPtr++ = m1Ptr[0 * 6] * m2Ptr[0 * 5 + 4] + m1Ptr[1 * 6] * m2Ptr[1 * 5 + 4] + m1Ptr[2 * 6] * m2Ptr[2 * 5 + 4] + m1Ptr[3 * 6] * m2Ptr[3 * 5 + 4] + m1Ptr[4 * 6] * m2Ptr[4 * 5 + 4];
 					m1Ptr++;
 				}
 				return;
@@ -1593,8 +1606,8 @@ void VPCALL idSIMD_Generic::MatX_TransposeMultiplyMatX( idMatX &dst, const idMat
 			for ( i = 0; i < k; i++ ) {
 				m2Ptr = m2.ToFloatPtr();
 				for ( j = 0; j < l; j++ ) {
-					*dstPtr++ = m1Ptr[0] * m2Ptr[0] + m1Ptr[k] * m2Ptr[l] + m1Ptr[2*k] * m2Ptr[2*l] +
-									m1Ptr[3*k] * m2Ptr[3*l] + m1Ptr[4*k] * m2Ptr[4*l];
+					*dstPtr++ = m1Ptr[0] * m2Ptr[0] + m1Ptr[k] * m2Ptr[l] + m1Ptr[2 * k] * m2Ptr[2 * l] +
+								m1Ptr[3 * k] * m2Ptr[3 * l] + m1Ptr[4 * k] * m2Ptr[4 * l];
 					m2Ptr++;
 				}
 				m1Ptr++;
@@ -1602,16 +1615,16 @@ void VPCALL idSIMD_Generic::MatX_TransposeMultiplyMatX( idMatX &dst, const idMat
 			break;
 		case 6:
 			if ( l == 6 ) {
-				switch( k ) {
+				switch ( k ) {
 					case 1:						// 6x1 * 6x6
 						m2Ptr = m2.ToFloatPtr();
 						for ( j = 0; j < 6; j++ ) {
-							*dstPtr++ = m1Ptr[0*1] * m2Ptr[0*6] +
-										m1Ptr[1*1] * m2Ptr[1*6] +
-										m1Ptr[2*1] * m2Ptr[2*6] +
-										m1Ptr[3*1] * m2Ptr[3*6] +
-										m1Ptr[4*1] * m2Ptr[4*6] +
-										m1Ptr[5*1] * m2Ptr[5*6];
+							*dstPtr++ = m1Ptr[0 * 1] * m2Ptr[0 * 6] +
+										m1Ptr[1 * 1] * m2Ptr[1 * 6] +
+										m1Ptr[2 * 1] * m2Ptr[2 * 6] +
+										m1Ptr[3 * 1] * m2Ptr[3 * 6] +
+										m1Ptr[4 * 1] * m2Ptr[4 * 6] +
+										m1Ptr[5 * 1] * m2Ptr[5 * 6];
 							m2Ptr++;
 						}
 						return;
@@ -1619,12 +1632,12 @@ void VPCALL idSIMD_Generic::MatX_TransposeMultiplyMatX( idMatX &dst, const idMat
 						for ( i = 0; i < 2; i++ ) {
 							m2Ptr = m2.ToFloatPtr();
 							for ( j = 0; j < 6; j++ ) {
-								*dstPtr++ = m1Ptr[0*2] * m2Ptr[0*6] +
-											m1Ptr[1*2] * m2Ptr[1*6] +
-											m1Ptr[2*2] * m2Ptr[2*6] +
-											m1Ptr[3*2] * m2Ptr[3*6] +
-											m1Ptr[4*2] * m2Ptr[4*6] +
-											m1Ptr[5*2] * m2Ptr[5*6];
+								*dstPtr++ = m1Ptr[0 * 2] * m2Ptr[0 * 6] +
+											m1Ptr[1 * 2] * m2Ptr[1 * 6] +
+											m1Ptr[2 * 2] * m2Ptr[2 * 6] +
+											m1Ptr[3 * 2] * m2Ptr[3 * 6] +
+											m1Ptr[4 * 2] * m2Ptr[4 * 6] +
+											m1Ptr[5 * 2] * m2Ptr[5 * 6];
 								m2Ptr++;
 							}
 							m1Ptr++;
@@ -1634,12 +1647,12 @@ void VPCALL idSIMD_Generic::MatX_TransposeMultiplyMatX( idMatX &dst, const idMat
 						for ( i = 0; i < 3; i++ ) {
 							m2Ptr = m2.ToFloatPtr();
 							for ( j = 0; j < 6; j++ ) {
-								*dstPtr++ = m1Ptr[0*3] * m2Ptr[0*6] +
-											m1Ptr[1*3] * m2Ptr[1*6] +
-											m1Ptr[2*3] * m2Ptr[2*6] +
-											m1Ptr[3*3] * m2Ptr[3*6] +
-											m1Ptr[4*3] * m2Ptr[4*6] +
-											m1Ptr[5*3] * m2Ptr[5*6];
+								*dstPtr++ = m1Ptr[0 * 3] * m2Ptr[0 * 6] +
+											m1Ptr[1 * 3] * m2Ptr[1 * 6] +
+											m1Ptr[2 * 3] * m2Ptr[2 * 6] +
+											m1Ptr[3 * 3] * m2Ptr[3 * 6] +
+											m1Ptr[4 * 3] * m2Ptr[4 * 6] +
+											m1Ptr[5 * 3] * m2Ptr[5 * 6];
 								m2Ptr++;
 							}
 							m1Ptr++;
@@ -1649,12 +1662,12 @@ void VPCALL idSIMD_Generic::MatX_TransposeMultiplyMatX( idMatX &dst, const idMat
 						for ( i = 0; i < 4; i++ ) {
 							m2Ptr = m2.ToFloatPtr();
 							for ( j = 0; j < 6; j++ ) {
-								*dstPtr++ = m1Ptr[0*4] * m2Ptr[0*6] +
-											m1Ptr[1*4] * m2Ptr[1*6] +
-											m1Ptr[2*4] * m2Ptr[2*6] +
-											m1Ptr[3*4] * m2Ptr[3*6] +
-											m1Ptr[4*4] * m2Ptr[4*6] +
-											m1Ptr[5*4] * m2Ptr[5*6];
+								*dstPtr++ = m1Ptr[0 * 4] * m2Ptr[0 * 6] +
+											m1Ptr[1 * 4] * m2Ptr[1 * 6] +
+											m1Ptr[2 * 4] * m2Ptr[2 * 6] +
+											m1Ptr[3 * 4] * m2Ptr[3 * 6] +
+											m1Ptr[4 * 4] * m2Ptr[4 * 6] +
+											m1Ptr[5 * 4] * m2Ptr[5 * 6];
 								m2Ptr++;
 							}
 							m1Ptr++;
@@ -1664,12 +1677,12 @@ void VPCALL idSIMD_Generic::MatX_TransposeMultiplyMatX( idMatX &dst, const idMat
 						for ( i = 0; i < 5; i++ ) {
 							m2Ptr = m2.ToFloatPtr();
 							for ( j = 0; j < 6; j++ ) {
-								*dstPtr++ = m1Ptr[0*5] * m2Ptr[0*6] +
-											m1Ptr[1*5] * m2Ptr[1*6] +
-											m1Ptr[2*5] * m2Ptr[2*6] +
-											m1Ptr[3*5] * m2Ptr[3*6] +
-											m1Ptr[4*5] * m2Ptr[4*6] +
-											m1Ptr[5*5] * m2Ptr[5*6];
+								*dstPtr++ = m1Ptr[0 * 5] * m2Ptr[0 * 6] +
+											m1Ptr[1 * 5] * m2Ptr[1 * 6] +
+											m1Ptr[2 * 5] * m2Ptr[2 * 6] +
+											m1Ptr[3 * 5] * m2Ptr[3 * 6] +
+											m1Ptr[4 * 5] * m2Ptr[4 * 6] +
+											m1Ptr[5 * 5] * m2Ptr[5 * 6];
 								m2Ptr++;
 							}
 							m1Ptr++;
@@ -1679,12 +1692,12 @@ void VPCALL idSIMD_Generic::MatX_TransposeMultiplyMatX( idMatX &dst, const idMat
 						for ( i = 0; i < 6; i++ ) {
 							m2Ptr = m2.ToFloatPtr();
 							for ( j = 0; j < 6; j++ ) {
-								*dstPtr++ = m1Ptr[0*6] * m2Ptr[0*6] +
-											m1Ptr[1*6] * m2Ptr[1*6] +
-											m1Ptr[2*6] * m2Ptr[2*6] +
-											m1Ptr[3*6] * m2Ptr[3*6] +
-											m1Ptr[4*6] * m2Ptr[4*6] +
-											m1Ptr[5*6] * m2Ptr[5*6];
+								*dstPtr++ = m1Ptr[0 * 6] * m2Ptr[0 * 6] +
+											m1Ptr[1 * 6] * m2Ptr[1 * 6] +
+											m1Ptr[2 * 6] * m2Ptr[2 * 6] +
+											m1Ptr[3 * 6] * m2Ptr[3 * 6] +
+											m1Ptr[4 * 6] * m2Ptr[4 * 6] +
+											m1Ptr[5 * 6] * m2Ptr[5 * 6];
 								m2Ptr++;
 							}
 							m1Ptr++;
@@ -1695,8 +1708,8 @@ void VPCALL idSIMD_Generic::MatX_TransposeMultiplyMatX( idMatX &dst, const idMat
 			for ( i = 0; i < k; i++ ) {
 				m2Ptr = m2.ToFloatPtr();
 				for ( j = 0; j < l; j++ ) {
-					*dstPtr++ = m1Ptr[0] * m2Ptr[0] + m1Ptr[k] * m2Ptr[l] + m1Ptr[2*k] * m2Ptr[2*l] +
-									m1Ptr[3*k] * m2Ptr[3*l] + m1Ptr[4*k] * m2Ptr[4*l] + m1Ptr[5*k] * m2Ptr[5*l];
+					*dstPtr++ = m1Ptr[0] * m2Ptr[0] + m1Ptr[k] * m2Ptr[l] + m1Ptr[2 * k] * m2Ptr[2 * l] +
+								m1Ptr[3 * k] * m2Ptr[3 * l] + m1Ptr[4 * k] * m2Ptr[4 * l] + m1Ptr[5 * k] * m2Ptr[5 * l];
 					m2Ptr++;
 				}
 				m1Ptr++;
@@ -1716,7 +1729,7 @@ void VPCALL idSIMD_Generic::MatX_TransposeMultiplyMatX( idMatX &dst, const idMat
 					*dstPtr++ = sum;
 				}
 			}
-		break;
+			break;
 	}
 }
 
@@ -1745,54 +1758,86 @@ void VPCALL idSIMD_Generic::MatX_LowerTriangularSolve( const idMatX &L, float *x
 
 	// unrolled cases for n < 8
 	if ( n < 8 ) {
-		#define NSKIP( n, s )	((n<<3)|(s&7))
-		switch( NSKIP( n, skip ) ) {
-			case NSKIP( 1, 0 ): x[0] = b[0];
+#define NSKIP( n, s )	((n<<3)|(s&7))
+		switch ( NSKIP( n, skip ) ) {
+			case NSKIP( 1, 0 ):
+				x[0] = b[0];
 				return;
-			case NSKIP( 2, 0 ): x[0] = b[0];
-			case NSKIP( 2, 1 ): x[1] = b[1] - lptr[1*nc+0] * x[0];
+			case NSKIP( 2, 0 ):
+				x[0] = b[0];
+			case NSKIP( 2, 1 ):
+				x[1] = b[1] - lptr[1 * nc + 0] * x[0];
 				return;
-			case NSKIP( 3, 0 ): x[0] = b[0];
-			case NSKIP( 3, 1 ): x[1] = b[1] - lptr[1*nc+0] * x[0];
-			case NSKIP( 3, 2 ): x[2] = b[2] - lptr[2*nc+0] * x[0] - lptr[2*nc+1] * x[1];
+			case NSKIP( 3, 0 ):
+				x[0] = b[0];
+			case NSKIP( 3, 1 ):
+				x[1] = b[1] - lptr[1 * nc + 0] * x[0];
+			case NSKIP( 3, 2 ):
+				x[2] = b[2] - lptr[2 * nc + 0] * x[0] - lptr[2 * nc + 1] * x[1];
 				return;
-			case NSKIP( 4, 0 ): x[0] = b[0];
-			case NSKIP( 4, 1 ): x[1] = b[1] - lptr[1*nc+0] * x[0];
-			case NSKIP( 4, 2 ): x[2] = b[2] - lptr[2*nc+0] * x[0] - lptr[2*nc+1] * x[1];
-			case NSKIP( 4, 3 ): x[3] = b[3] - lptr[3*nc+0] * x[0] - lptr[3*nc+1] * x[1] - lptr[3*nc+2] * x[2];
+			case NSKIP( 4, 0 ):
+				x[0] = b[0];
+			case NSKIP( 4, 1 ):
+				x[1] = b[1] - lptr[1 * nc + 0] * x[0];
+			case NSKIP( 4, 2 ):
+				x[2] = b[2] - lptr[2 * nc + 0] * x[0] - lptr[2 * nc + 1] * x[1];
+			case NSKIP( 4, 3 ):
+				x[3] = b[3] - lptr[3 * nc + 0] * x[0] - lptr[3 * nc + 1] * x[1] - lptr[3 * nc + 2] * x[2];
 				return;
-			case NSKIP( 5, 0 ): x[0] = b[0];
-			case NSKIP( 5, 1 ): x[1] = b[1] - lptr[1*nc+0] * x[0];
-			case NSKIP( 5, 2 ): x[2] = b[2] - lptr[2*nc+0] * x[0] - lptr[2*nc+1] * x[1];
-			case NSKIP( 5, 3 ): x[3] = b[3] - lptr[3*nc+0] * x[0] - lptr[3*nc+1] * x[1] - lptr[3*nc+2] * x[2];
-			case NSKIP( 5, 4 ): x[4] = b[4] - lptr[4*nc+0] * x[0] - lptr[4*nc+1] * x[1] - lptr[4*nc+2] * x[2] - lptr[4*nc+3] * x[3];
+			case NSKIP( 5, 0 ):
+				x[0] = b[0];
+			case NSKIP( 5, 1 ):
+				x[1] = b[1] - lptr[1 * nc + 0] * x[0];
+			case NSKIP( 5, 2 ):
+				x[2] = b[2] - lptr[2 * nc + 0] * x[0] - lptr[2 * nc + 1] * x[1];
+			case NSKIP( 5, 3 ):
+				x[3] = b[3] - lptr[3 * nc + 0] * x[0] - lptr[3 * nc + 1] * x[1] - lptr[3 * nc + 2] * x[2];
+			case NSKIP( 5, 4 ):
+				x[4] = b[4] - lptr[4 * nc + 0] * x[0] - lptr[4 * nc + 1] * x[1] - lptr[4 * nc + 2] * x[2] - lptr[4 * nc + 3] * x[3];
 				return;
-			case NSKIP( 6, 0 ): x[0] = b[0];
-			case NSKIP( 6, 1 ): x[1] = b[1] - lptr[1*nc+0] * x[0];
-			case NSKIP( 6, 2 ): x[2] = b[2] - lptr[2*nc+0] * x[0] - lptr[2*nc+1] * x[1];
-			case NSKIP( 6, 3 ): x[3] = b[3] - lptr[3*nc+0] * x[0] - lptr[3*nc+1] * x[1] - lptr[3*nc+2] * x[2];
-			case NSKIP( 6, 4 ): x[4] = b[4] - lptr[4*nc+0] * x[0] - lptr[4*nc+1] * x[1] - lptr[4*nc+2] * x[2] - lptr[4*nc+3] * x[3];
-			case NSKIP( 6, 5 ): x[5] = b[5] - lptr[5*nc+0] * x[0] - lptr[5*nc+1] * x[1] - lptr[5*nc+2] * x[2] - lptr[5*nc+3] * x[3] - lptr[5*nc+4] * x[4];
+			case NSKIP( 6, 0 ):
+				x[0] = b[0];
+			case NSKIP( 6, 1 ):
+				x[1] = b[1] - lptr[1 * nc + 0] * x[0];
+			case NSKIP( 6, 2 ):
+				x[2] = b[2] - lptr[2 * nc + 0] * x[0] - lptr[2 * nc + 1] * x[1];
+			case NSKIP( 6, 3 ):
+				x[3] = b[3] - lptr[3 * nc + 0] * x[0] - lptr[3 * nc + 1] * x[1] - lptr[3 * nc + 2] * x[2];
+			case NSKIP( 6, 4 ):
+				x[4] = b[4] - lptr[4 * nc + 0] * x[0] - lptr[4 * nc + 1] * x[1] - lptr[4 * nc + 2] * x[2] - lptr[4 * nc + 3] * x[3];
+			case NSKIP( 6, 5 ):
+				x[5] = b[5] - lptr[5 * nc + 0] * x[0] - lptr[5 * nc + 1] * x[1] - lptr[5 * nc + 2] * x[2] - lptr[5 * nc + 3] * x[3] - lptr[5 * nc + 4] * x[4];
 				return;
-			case NSKIP( 7, 0 ): x[0] = b[0];
-			case NSKIP( 7, 1 ): x[1] = b[1] - lptr[1*nc+0] * x[0];
-			case NSKIP( 7, 2 ): x[2] = b[2] - lptr[2*nc+0] * x[0] - lptr[2*nc+1] * x[1];
-			case NSKIP( 7, 3 ): x[3] = b[3] - lptr[3*nc+0] * x[0] - lptr[3*nc+1] * x[1] - lptr[3*nc+2] * x[2];
-			case NSKIP( 7, 4 ): x[4] = b[4] - lptr[4*nc+0] * x[0] - lptr[4*nc+1] * x[1] - lptr[4*nc+2] * x[2] - lptr[4*nc+3] * x[3];
-			case NSKIP( 7, 5 ): x[5] = b[5] - lptr[5*nc+0] * x[0] - lptr[5*nc+1] * x[1] - lptr[5*nc+2] * x[2] - lptr[5*nc+3] * x[3] - lptr[5*nc+4] * x[4];
-			case NSKIP( 7, 6 ): x[6] = b[6] - lptr[6*nc+0] * x[0] - lptr[6*nc+1] * x[1] - lptr[6*nc+2] * x[2] - lptr[6*nc+3] * x[3] - lptr[6*nc+4] * x[4] - lptr[6*nc+5] * x[5];
+			case NSKIP( 7, 0 ):
+				x[0] = b[0];
+			case NSKIP( 7, 1 ):
+				x[1] = b[1] - lptr[1 * nc + 0] * x[0];
+			case NSKIP( 7, 2 ):
+				x[2] = b[2] - lptr[2 * nc + 0] * x[0] - lptr[2 * nc + 1] * x[1];
+			case NSKIP( 7, 3 ):
+				x[3] = b[3] - lptr[3 * nc + 0] * x[0] - lptr[3 * nc + 1] * x[1] - lptr[3 * nc + 2] * x[2];
+			case NSKIP( 7, 4 ):
+				x[4] = b[4] - lptr[4 * nc + 0] * x[0] - lptr[4 * nc + 1] * x[1] - lptr[4 * nc + 2] * x[2] - lptr[4 * nc + 3] * x[3];
+			case NSKIP( 7, 5 ):
+				x[5] = b[5] - lptr[5 * nc + 0] * x[0] - lptr[5 * nc + 1] * x[1] - lptr[5 * nc + 2] * x[2] - lptr[5 * nc + 3] * x[3] - lptr[5 * nc + 4] * x[4];
+			case NSKIP( 7, 6 ):
+				x[6] = b[6] - lptr[6 * nc + 0] * x[0] - lptr[6 * nc + 1] * x[1] - lptr[6 * nc + 2] * x[2] - lptr[6 * nc + 3] * x[3] - lptr[6 * nc + 4] * x[4] - lptr[6 * nc + 5] * x[5];
 				return;
 		}
 		return;
 	}
 
 	// process first 4 rows
-	switch( skip ) {
-		case 0: x[0] = b[0];
-		case 1: x[1] = b[1] - lptr[1*nc+0] * x[0];
-		case 2: x[2] = b[2] - lptr[2*nc+0] * x[0] - lptr[2*nc+1] * x[1];
-		case 3: x[3] = b[3] - lptr[3*nc+0] * x[0] - lptr[3*nc+1] * x[1] - lptr[3*nc+2] * x[2];
-				skip = 4;
+	switch ( skip ) {
+		case 0:
+			x[0] = b[0];
+		case 1:
+			x[1] = b[1] - lptr[1 * nc + 0] * x[0];
+		case 2:
+			x[2] = b[2] - lptr[2 * nc + 0] * x[0] - lptr[2 * nc + 1] * x[1];
+		case 3:
+			x[3] = b[3] - lptr[3 * nc + 0] * x[0] - lptr[3 * nc + 1] * x[1] - lptr[3 * nc + 2] * x[2];
+			skip = 4;
 	}
 
 	lptr = L[skip];
@@ -1805,26 +1850,34 @@ void VPCALL idSIMD_Generic::MatX_LowerTriangularSolve( const idMatX &L, float *x
 		s1 = lptr[1] * x[1];
 		s2 = lptr[2] * x[2];
 		s3 = lptr[3] * x[3];
-		for ( j = 4; j < i-7; j += 8 ) {
-			s0 += lptr[j+0] * x[j+0];
-			s1 += lptr[j+1] * x[j+1];
-			s2 += lptr[j+2] * x[j+2];
-			s3 += lptr[j+3] * x[j+3];
-			s0 += lptr[j+4] * x[j+4];
-			s1 += lptr[j+5] * x[j+5];
-			s2 += lptr[j+6] * x[j+6];
-			s3 += lptr[j+7] * x[j+7];
+		for ( j = 4; j < i - 7; j += 8 ) {
+			s0 += lptr[j + 0] * x[j + 0];
+			s1 += lptr[j + 1] * x[j + 1];
+			s2 += lptr[j + 2] * x[j + 2];
+			s3 += lptr[j + 3] * x[j + 3];
+			s0 += lptr[j + 4] * x[j + 4];
+			s1 += lptr[j + 5] * x[j + 5];
+			s2 += lptr[j + 6] * x[j + 6];
+			s3 += lptr[j + 7] * x[j + 7];
 		}
-		switch( i - j ) {
-			NODEFAULT;
-			case 7: s0 += lptr[j+6] * x[j+6];
-			case 6: s1 += lptr[j+5] * x[j+5];
-			case 5: s2 += lptr[j+4] * x[j+4];
-			case 4: s3 += lptr[j+3] * x[j+3];
-			case 3: s0 += lptr[j+2] * x[j+2];
-			case 2: s1 += lptr[j+1] * x[j+1];
-			case 1: s2 += lptr[j+0] * x[j+0];
-			case 0: break;
+		switch ( i - j ) {
+				NODEFAULT;
+			case 7:
+				s0 += lptr[j + 6] * x[j + 6];
+			case 6:
+				s1 += lptr[j + 5] * x[j + 5];
+			case 5:
+				s2 += lptr[j + 4] * x[j + 4];
+			case 4:
+				s3 += lptr[j + 3] * x[j + 3];
+			case 3:
+				s0 += lptr[j + 2] * x[j + 2];
+			case 2:
+				s1 += lptr[j + 1] * x[j + 1];
+			case 1:
+				s2 += lptr[j + 0] * x[j + 0];
+			case 0:
+				break;
 		}
 		double sum;
 		sum = s3;
@@ -1874,7 +1927,7 @@ void VPCALL idSIMD_Generic::MatX_LowerTriangularSolveTranspose( const idMatX &L,
 
 	// unrolled cases for n < 8
 	if ( n < 8 ) {
-		switch( n ) {
+		switch ( n ) {
 			case 0:
 				return;
 			case 1:
@@ -1882,42 +1935,42 @@ void VPCALL idSIMD_Generic::MatX_LowerTriangularSolveTranspose( const idMatX &L,
 				return;
 			case 2:
 				x[1] = b[1];
-				x[0] = b[0] - lptr[1*nc+0] * x[1];
+				x[0] = b[0] - lptr[1 * nc + 0] * x[1];
 				return;
 			case 3:
 				x[2] = b[2];
-				x[1] = b[1] - lptr[2*nc+1] * x[2];
-				x[0] = b[0] - lptr[2*nc+0] * x[2] - lptr[1*nc+0] * x[1];
+				x[1] = b[1] - lptr[2 * nc + 1] * x[2];
+				x[0] = b[0] - lptr[2 * nc + 0] * x[2] - lptr[1 * nc + 0] * x[1];
 				return;
 			case 4:
 				x[3] = b[3];
-				x[2] = b[2] - lptr[3*nc+2] * x[3];
-				x[1] = b[1] - lptr[3*nc+1] * x[3] - lptr[2*nc+1] * x[2];
-				x[0] = b[0] - lptr[3*nc+0] * x[3] - lptr[2*nc+0] * x[2] - lptr[1*nc+0] * x[1];
+				x[2] = b[2] - lptr[3 * nc + 2] * x[3];
+				x[1] = b[1] - lptr[3 * nc + 1] * x[3] - lptr[2 * nc + 1] * x[2];
+				x[0] = b[0] - lptr[3 * nc + 0] * x[3] - lptr[2 * nc + 0] * x[2] - lptr[1 * nc + 0] * x[1];
 				return;
 			case 5:
 				x[4] = b[4];
-				x[3] = b[3] - lptr[4*nc+3] * x[4];
-				x[2] = b[2] - lptr[4*nc+2] * x[4] - lptr[3*nc+2] * x[3];
-				x[1] = b[1] - lptr[4*nc+1] * x[4] - lptr[3*nc+1] * x[3] - lptr[2*nc+1] * x[2];
-				x[0] = b[0] - lptr[4*nc+0] * x[4] - lptr[3*nc+0] * x[3] - lptr[2*nc+0] * x[2] - lptr[1*nc+0] * x[1];
+				x[3] = b[3] - lptr[4 * nc + 3] * x[4];
+				x[2] = b[2] - lptr[4 * nc + 2] * x[4] - lptr[3 * nc + 2] * x[3];
+				x[1] = b[1] - lptr[4 * nc + 1] * x[4] - lptr[3 * nc + 1] * x[3] - lptr[2 * nc + 1] * x[2];
+				x[0] = b[0] - lptr[4 * nc + 0] * x[4] - lptr[3 * nc + 0] * x[3] - lptr[2 * nc + 0] * x[2] - lptr[1 * nc + 0] * x[1];
 				return;
 			case 6:
 				x[5] = b[5];
-				x[4] = b[4] - lptr[5*nc+4] * x[5];
-				x[3] = b[3] - lptr[5*nc+3] * x[5] - lptr[4*nc+3] * x[4];
-				x[2] = b[2] - lptr[5*nc+2] * x[5] - lptr[4*nc+2] * x[4] - lptr[3*nc+2] * x[3];
-				x[1] = b[1] - lptr[5*nc+1] * x[5] - lptr[4*nc+1] * x[4] - lptr[3*nc+1] * x[3] - lptr[2*nc+1] * x[2];
-				x[0] = b[0] - lptr[5*nc+0] * x[5] - lptr[4*nc+0] * x[4] - lptr[3*nc+0] * x[3] - lptr[2*nc+0] * x[2] - lptr[1*nc+0] * x[1];
+				x[4] = b[4] - lptr[5 * nc + 4] * x[5];
+				x[3] = b[3] - lptr[5 * nc + 3] * x[5] - lptr[4 * nc + 3] * x[4];
+				x[2] = b[2] - lptr[5 * nc + 2] * x[5] - lptr[4 * nc + 2] * x[4] - lptr[3 * nc + 2] * x[3];
+				x[1] = b[1] - lptr[5 * nc + 1] * x[5] - lptr[4 * nc + 1] * x[4] - lptr[3 * nc + 1] * x[3] - lptr[2 * nc + 1] * x[2];
+				x[0] = b[0] - lptr[5 * nc + 0] * x[5] - lptr[4 * nc + 0] * x[4] - lptr[3 * nc + 0] * x[3] - lptr[2 * nc + 0] * x[2] - lptr[1 * nc + 0] * x[1];
 				return;
 			case 7:
 				x[6] = b[6];
-				x[5] = b[5] - lptr[6*nc+5] * x[6];
-				x[4] = b[4] - lptr[6*nc+4] * x[6] - lptr[5*nc+4] * x[5];
-				x[3] = b[3] - lptr[6*nc+3] * x[6] - lptr[5*nc+3] * x[5] - lptr[4*nc+3] * x[4];
-				x[2] = b[2] - lptr[6*nc+2] * x[6] - lptr[5*nc+2] * x[5] - lptr[4*nc+2] * x[4] - lptr[3*nc+2] * x[3];
-				x[1] = b[1] - lptr[6*nc+1] * x[6] - lptr[5*nc+1] * x[5] - lptr[4*nc+1] * x[4] - lptr[3*nc+1] * x[3] - lptr[2*nc+1] * x[2];
-				x[0] = b[0] - lptr[6*nc+0] * x[6] - lptr[5*nc+0] * x[5] - lptr[4*nc+0] * x[4] - lptr[3*nc+0] * x[3] - lptr[2*nc+0] * x[2] - lptr[1*nc+0] * x[1];
+				x[5] = b[5] - lptr[6 * nc + 5] * x[6];
+				x[4] = b[4] - lptr[6 * nc + 4] * x[6] - lptr[5 * nc + 4] * x[5];
+				x[3] = b[3] - lptr[6 * nc + 3] * x[6] - lptr[5 * nc + 3] * x[5] - lptr[4 * nc + 3] * x[4];
+				x[2] = b[2] - lptr[6 * nc + 2] * x[6] - lptr[5 * nc + 2] * x[5] - lptr[4 * nc + 2] * x[4] - lptr[3 * nc + 2] * x[3];
+				x[1] = b[1] - lptr[6 * nc + 1] * x[6] - lptr[5 * nc + 1] * x[5] - lptr[4 * nc + 1] * x[4] - lptr[3 * nc + 1] * x[3] - lptr[2 * nc + 1] * x[2];
+				x[0] = b[0] - lptr[6 * nc + 0] * x[6] - lptr[5 * nc + 0] * x[5] - lptr[4 * nc + 0] * x[4] - lptr[3 * nc + 0] * x[3] - lptr[2 * nc + 0] * x[2] - lptr[1 * nc + 0] * x[1];
 				return;
 		}
 		return;
@@ -1932,36 +1985,36 @@ void VPCALL idSIMD_Generic::MatX_LowerTriangularSolveTranspose( const idMatX &L,
 
 	// process 4 rows at a time
 	for ( i = n; i >= 4; i -= 4 ) {
-		s0 = b[i-4];
-		s1 = b[i-3];
-		s2 = b[i-2];
-		s3 = b[i-1];
+		s0 = b[i - 4];
+		s1 = b[i - 3];
+		s2 = b[i - 2];
+		s3 = b[i - 1];
 		// process 4x4 blocks
-		for ( j = 0; j < n-i; j += 4 ) {
-			s0 -= lptr[(j+0)*nc+0] * xptr[j+0];
-			s1 -= lptr[(j+0)*nc+1] * xptr[j+0];
-			s2 -= lptr[(j+0)*nc+2] * xptr[j+0];
-			s3 -= lptr[(j+0)*nc+3] * xptr[j+0];
-			s0 -= lptr[(j+1)*nc+0] * xptr[j+1];
-			s1 -= lptr[(j+1)*nc+1] * xptr[j+1];
-			s2 -= lptr[(j+1)*nc+2] * xptr[j+1];
-			s3 -= lptr[(j+1)*nc+3] * xptr[j+1];
-			s0 -= lptr[(j+2)*nc+0] * xptr[j+2];
-			s1 -= lptr[(j+2)*nc+1] * xptr[j+2];
-			s2 -= lptr[(j+2)*nc+2] * xptr[j+2];
-			s3 -= lptr[(j+2)*nc+3] * xptr[j+2];
-			s0 -= lptr[(j+3)*nc+0] * xptr[j+3];
-			s1 -= lptr[(j+3)*nc+1] * xptr[j+3];
-			s2 -= lptr[(j+3)*nc+2] * xptr[j+3];
-			s3 -= lptr[(j+3)*nc+3] * xptr[j+3];
+		for ( j = 0; j < n - i; j += 4 ) {
+			s0 -= lptr[( j + 0 ) * nc + 0] * xptr[j + 0];
+			s1 -= lptr[( j + 0 ) * nc + 1] * xptr[j + 0];
+			s2 -= lptr[( j + 0 ) * nc + 2] * xptr[j + 0];
+			s3 -= lptr[( j + 0 ) * nc + 3] * xptr[j + 0];
+			s0 -= lptr[( j + 1 ) * nc + 0] * xptr[j + 1];
+			s1 -= lptr[( j + 1 ) * nc + 1] * xptr[j + 1];
+			s2 -= lptr[( j + 1 ) * nc + 2] * xptr[j + 1];
+			s3 -= lptr[( j + 1 ) * nc + 3] * xptr[j + 1];
+			s0 -= lptr[( j + 2 ) * nc + 0] * xptr[j + 2];
+			s1 -= lptr[( j + 2 ) * nc + 1] * xptr[j + 2];
+			s2 -= lptr[( j + 2 ) * nc + 2] * xptr[j + 2];
+			s3 -= lptr[( j + 2 ) * nc + 3] * xptr[j + 2];
+			s0 -= lptr[( j + 3 ) * nc + 0] * xptr[j + 3];
+			s1 -= lptr[( j + 3 ) * nc + 1] * xptr[j + 3];
+			s2 -= lptr[( j + 3 ) * nc + 2] * xptr[j + 3];
+			s3 -= lptr[( j + 3 ) * nc + 3] * xptr[j + 3];
 		}
 		// process left over of the 4 rows
-		s0 -= lptr[0-1*nc] * s3;
-		s1 -= lptr[1-1*nc] * s3;
-		s2 -= lptr[2-1*nc] * s3;
-		s0 -= lptr[0-2*nc] * s2;
-		s1 -= lptr[1-2*nc] * s2;
-		s0 -= lptr[0-3*nc] * s1;
+		s0 -= lptr[0 - 1 * nc] * s3;
+		s1 -= lptr[1 - 1 * nc] * s3;
+		s2 -= lptr[2 - 1 * nc] * s3;
+		s0 -= lptr[0 - 2 * nc] * s2;
+		s1 -= lptr[1 - 2 * nc] * s2;
+		s0 -= lptr[0 - 3 * nc] * s1;
 		// store result
 		xptr[-4] = s0;
 		xptr[-3] = s1;
@@ -1976,7 +2029,7 @@ void VPCALL idSIMD_Generic::MatX_LowerTriangularSolveTranspose( const idMatX &L,
 		s0 = b[i];
 		lptr = L[0] + i;
 		for ( j = i + 1; j < n; j++ ) {
-			s0 -= lptr[j*nc] * x[j];
+			s0 -= lptr[j * nc] * x[j];
 		}
 		x[i] = s0;
 	}
@@ -1992,7 +2045,7 @@ void VPCALL idSIMD_Generic::MatX_LowerTriangularSolveTranspose( const idMatX &L,
 		sum = b[i];
 		ptr = L[0] + i;
 		for ( j = i + 1; j < n; j++ ) {
-			sum -= ptr[j*nc] * x[j];
+			sum -= ptr[j * nc] * x[j];
 		}
 		x[i] = sum;
 	}
@@ -2015,8 +2068,8 @@ bool VPCALL idSIMD_Generic::MatX_LDLTFactor( idMatX &mat, idVecX &invDiag, const
 	float *v, *diag, *mptr;
 	double s0, s1, s2, s3, sum, d;
 
-	v = (float *) _alloca16( n * sizeof( float ) );
-	diag = (float *) _alloca16( n * sizeof( float ) );
+	v = ( float * ) _alloca16( n * sizeof( float ) );
+	diag = ( float * ) _alloca16( n * sizeof( float ) );
 
 	nc = mat.GetNumColumns();
 
@@ -2041,12 +2094,13 @@ bool VPCALL idSIMD_Generic::MatX_LDLTFactor( idMatX &mat, idVecX &invDiag, const
 
 	mptr = mat[0];
 	for ( j = 1; j < n; j++ ) {
-		mptr[j*nc+0] = ( mptr[j*nc+0] ) * d;
+		mptr[j * nc + 0] = ( mptr[j * nc + 0] ) * d;
 	}
 
 	mptr = mat[1];
 
-	v[0] = diag[0] * mptr[0]; s0 = v[0] * mptr[0];
+	v[0] = diag[0] * mptr[0];
+	s0 = v[0] * mptr[0];
 	sum = mptr[1] - s0;
 
 	if ( sum == 0.0f ) {
@@ -2063,13 +2117,15 @@ bool VPCALL idSIMD_Generic::MatX_LDLTFactor( idMatX &mat, idVecX &invDiag, const
 
 	mptr = mat[0];
 	for ( j = 2; j < n; j++ ) {
-		mptr[j*nc+1] = ( mptr[j*nc+1] - v[0] * mptr[j*nc+0] ) * d;
+		mptr[j * nc + 1] = ( mptr[j * nc + 1] - v[0] * mptr[j * nc + 0] ) * d;
 	}
 
 	mptr = mat[2];
 
-	v[0] = diag[0] * mptr[0]; s0 = v[0] * mptr[0];
-	v[1] = diag[1] * mptr[1]; s1 = v[1] * mptr[1];
+	v[0] = diag[0] * mptr[0];
+	s0 = v[0] * mptr[0];
+	v[1] = diag[1] * mptr[1];
+	s1 = v[1] * mptr[1];
 	sum = mptr[2] - s0 - s1;
 
 	if ( sum == 0.0f ) {
@@ -2086,14 +2142,17 @@ bool VPCALL idSIMD_Generic::MatX_LDLTFactor( idMatX &mat, idVecX &invDiag, const
 
 	mptr = mat[0];
 	for ( j = 3; j < n; j++ ) {
-		mptr[j*nc+2] = ( mptr[j*nc+2] - v[0] * mptr[j*nc+0] - v[1] * mptr[j*nc+1] ) * d;
+		mptr[j * nc + 2] = ( mptr[j * nc + 2] - v[0] * mptr[j * nc + 0] - v[1] * mptr[j * nc + 1] ) * d;
 	}
 
 	mptr = mat[3];
 
-	v[0] = diag[0] * mptr[0]; s0 = v[0] * mptr[0];
-	v[1] = diag[1] * mptr[1]; s1 = v[1] * mptr[1];
-	v[2] = diag[2] * mptr[2]; s2 = v[2] * mptr[2];
+	v[0] = diag[0] * mptr[0];
+	s0 = v[0] * mptr[0];
+	v[1] = diag[1] * mptr[1];
+	s1 = v[1] * mptr[1];
+	v[2] = diag[2] * mptr[2];
+	s2 = v[2] * mptr[2];
 	sum = mptr[3] - s0 - s1 - s2;
 
 	if ( sum == 0.0f ) {
@@ -2110,29 +2169,44 @@ bool VPCALL idSIMD_Generic::MatX_LDLTFactor( idMatX &mat, idVecX &invDiag, const
 
 	mptr = mat[0];
 	for ( j = 4; j < n; j++ ) {
-		mptr[j*nc+3] = ( mptr[j*nc+3] - v[0] * mptr[j*nc+0] - v[1] * mptr[j*nc+1] - v[2] * mptr[j*nc+2] ) * d;
+		mptr[j * nc + 3] = ( mptr[j * nc + 3] - v[0] * mptr[j * nc + 0] - v[1] * mptr[j * nc + 1] - v[2] * mptr[j * nc + 2] ) * d;
 	}
 
 	for ( i = 4; i < n; i++ ) {
 
 		mptr = mat[i];
 
-		v[0] = diag[0] * mptr[0]; s0 = v[0] * mptr[0];
-		v[1] = diag[1] * mptr[1]; s1 = v[1] * mptr[1];
-		v[2] = diag[2] * mptr[2]; s2 = v[2] * mptr[2];
-		v[3] = diag[3] * mptr[3]; s3 = v[3] * mptr[3];
-		for ( k = 4; k < i-3; k += 4 ) {
-			v[k+0] = diag[k+0] * mptr[k+0]; s0 += v[k+0] * mptr[k+0];
-			v[k+1] = diag[k+1] * mptr[k+1]; s1 += v[k+1] * mptr[k+1];
-			v[k+2] = diag[k+2] * mptr[k+2]; s2 += v[k+2] * mptr[k+2];
-			v[k+3] = diag[k+3] * mptr[k+3]; s3 += v[k+3] * mptr[k+3];
+		v[0] = diag[0] * mptr[0];
+		s0 = v[0] * mptr[0];
+		v[1] = diag[1] * mptr[1];
+		s1 = v[1] * mptr[1];
+		v[2] = diag[2] * mptr[2];
+		s2 = v[2] * mptr[2];
+		v[3] = diag[3] * mptr[3];
+		s3 = v[3] * mptr[3];
+		for ( k = 4; k < i - 3; k += 4 ) {
+			v[k + 0] = diag[k + 0] * mptr[k + 0];
+			s0 += v[k + 0] * mptr[k + 0];
+			v[k + 1] = diag[k + 1] * mptr[k + 1];
+			s1 += v[k + 1] * mptr[k + 1];
+			v[k + 2] = diag[k + 2] * mptr[k + 2];
+			s2 += v[k + 2] * mptr[k + 2];
+			v[k + 3] = diag[k + 3] * mptr[k + 3];
+			s3 += v[k + 3] * mptr[k + 3];
 		}
-		switch( i - k ) {
-			NODEFAULT;
-			case 3: v[k+2] = diag[k+2] * mptr[k+2]; s0 += v[k+2] * mptr[k+2];
-			case 2: v[k+1] = diag[k+1] * mptr[k+1]; s1 += v[k+1] * mptr[k+1];
-			case 1: v[k+0] = diag[k+0] * mptr[k+0]; s2 += v[k+0] * mptr[k+0];
-			case 0: break;
+		switch ( i - k ) {
+				NODEFAULT;
+			case 3:
+				v[k + 2] = diag[k + 2] * mptr[k + 2];
+				s0 += v[k + 2] * mptr[k + 2];
+			case 2:
+				v[k + 1] = diag[k + 1] * mptr[k + 1];
+				s1 += v[k + 1] * mptr[k + 1];
+			case 1:
+				v[k + 0] = diag[k + 0] * mptr[k + 0];
+				s2 += v[k + 0] * mptr[k + 0];
+			case 0:
+				break;
 		}
 		sum = s3;
 		sum += s2;
@@ -2152,32 +2226,40 @@ bool VPCALL idSIMD_Generic::MatX_LDLTFactor( idMatX &mat, idVecX &invDiag, const
 			return true;
 		}
 
-		mptr = mat[i+1];
-		for ( j = i+1; j < n; j++ ) {
+		mptr = mat[i + 1];
+		for ( j = i + 1; j < n; j++ ) {
 			s0 = mptr[0] * v[0];
 			s1 = mptr[1] * v[1];
 			s2 = mptr[2] * v[2];
 			s3 = mptr[3] * v[3];
-			for ( k = 4; k < i-7; k += 8 ) {
-				s0 += mptr[k+0] * v[k+0];
-				s1 += mptr[k+1] * v[k+1];
-				s2 += mptr[k+2] * v[k+2];
-				s3 += mptr[k+3] * v[k+3];
-				s0 += mptr[k+4] * v[k+4];
-				s1 += mptr[k+5] * v[k+5];
-				s2 += mptr[k+6] * v[k+6];
-				s3 += mptr[k+7] * v[k+7];
+			for ( k = 4; k < i - 7; k += 8 ) {
+				s0 += mptr[k + 0] * v[k + 0];
+				s1 += mptr[k + 1] * v[k + 1];
+				s2 += mptr[k + 2] * v[k + 2];
+				s3 += mptr[k + 3] * v[k + 3];
+				s0 += mptr[k + 4] * v[k + 4];
+				s1 += mptr[k + 5] * v[k + 5];
+				s2 += mptr[k + 6] * v[k + 6];
+				s3 += mptr[k + 7] * v[k + 7];
 			}
-			switch( i - k ) {
-				NODEFAULT;
-				case 7: s0 += mptr[k+6] * v[k+6];
-				case 6: s1 += mptr[k+5] * v[k+5];
-				case 5: s2 += mptr[k+4] * v[k+4];
-				case 4: s3 += mptr[k+3] * v[k+3];
-				case 3: s0 += mptr[k+2] * v[k+2];
-				case 2: s1 += mptr[k+1] * v[k+1];
-				case 1: s2 += mptr[k+0] * v[k+0];
-				case 0: break;
+			switch ( i - k ) {
+					NODEFAULT;
+				case 7:
+					s0 += mptr[k + 6] * v[k + 6];
+				case 6:
+					s1 += mptr[k + 5] * v[k + 5];
+				case 5:
+					s2 += mptr[k + 4] * v[k + 4];
+				case 4:
+					s3 += mptr[k + 3] * v[k + 3];
+				case 3:
+					s0 += mptr[k + 2] * v[k + 2];
+				case 2:
+					s1 += mptr[k + 1] * v[k + 1];
+				case 1:
+					s2 += mptr[k + 0] * v[k + 0];
+				case 0:
+					break;
 			}
 			sum = s3;
 			sum += s2;
@@ -2196,7 +2278,7 @@ bool VPCALL idSIMD_Generic::MatX_LDLTFactor( idMatX &mat, idVecX &invDiag, const
 	float *v, *ptr, *diagPtr;
 	double d, sum;
 
-	v = (float *) _alloca16( n * sizeof( float ) );
+	v = ( float * ) _alloca16( n * sizeof( float ) );
 	nc = mat.GetNumColumns();
 
 	for ( i = 0; i < n; i++ ) {
@@ -2206,8 +2288,8 @@ bool VPCALL idSIMD_Generic::MatX_LDLTFactor( idMatX &mat, idVecX &invDiag, const
 		sum = ptr[i];
 		for ( j = 0; j < i; j++ ) {
 			d = ptr[j];
-		    v[j] = diagPtr[0] * d;
-		    sum -= v[j] * d;
+			v[j] = diagPtr[0] * d;
+			sum -= v[j] * d;
 			diagPtr += nc + 1;
 		}
 
@@ -2222,7 +2304,7 @@ bool VPCALL idSIMD_Generic::MatX_LDLTFactor( idMatX &mat, idVecX &invDiag, const
 			continue;
 		}
 
-		ptr = mat[i+1];
+		ptr = mat[i + 1];
 		for ( j = i + 1; j < n; j++ ) {
 			sum = ptr[i];
 			for ( k = 0; k < i; k++ ) {
@@ -2288,7 +2370,7 @@ idSIMD_Generic::TransformJoints
 void VPCALL idSIMD_Generic::TransformJoints( idJointMat *jointMats, const int *parents, const int firstJoint, const int lastJoint ) {
 	int i;
 
-	for( i = firstJoint; i <= lastJoint; i++ ) {
+	for ( i = firstJoint; i <= lastJoint; i++ ) {
 		assert( parents[i] < i );
 		jointMats[i] *= jointMats[parents[i]];
 	}
@@ -2302,7 +2384,7 @@ idSIMD_Generic::UntransformJoints
 void VPCALL idSIMD_Generic::UntransformJoints( idJointMat *jointMats, const int *parents, const int firstJoint, const int lastJoint ) {
 	int i;
 
-	for( i = lastJoint; i >= firstJoint; i-- ) {
+	for ( i = lastJoint; i >= firstJoint; i-- ) {
 		assert( parents[i] < i );
 		jointMats[i] /= jointMats[parents[i]];
 	}
@@ -2315,15 +2397,15 @@ idSIMD_Generic::TransformVerts
 */
 void VPCALL idSIMD_Generic::TransformVerts( idDrawVert *verts, const int numVerts, const idJointMat *joints, const idVec4 *weights, const int *index, int numWeights ) {
 	int i, j;
-	const byte *jointsPtr = (byte *)joints;
+	const byte *jointsPtr = ( byte * )joints;
 
-	for( j = i = 0; i < numVerts; i++ ) {
+	for ( j = i = 0; i < numVerts; i++ ) {
 		idVec3 v;
 
-		v = ( *(idJointMat *) ( jointsPtr + index[j*2+0] ) ) * weights[j];
-		while( index[j*2+1] == 0 ) {
+		v = ( *( idJointMat * )( jointsPtr + index[j * 2 + 0] ) ) * weights[j];
+		while ( index[j * 2 + 1] == 0 ) {
 			j++;
-			v += ( *(idJointMat *) ( jointsPtr + index[j*2+0] ) ) * weights[j];
+			v += ( *( idJointMat * )( jointsPtr + index[j * 2 + 0] ) ) * weights[j];
 		}
 		j++;
 
@@ -2493,7 +2575,7 @@ idSIMD_Generic::DeriveTangents
 void VPCALL idSIMD_Generic::DeriveTangents( idPlane *planes, idDrawVert *verts, const int numVerts, const int *indexes, const int numIndexes ) {
 	int i;
 
-	bool *used = (bool *)_alloca16( numVerts * sizeof( used[0] ) );
+	bool *used = ( bool * )_alloca16( numVerts * sizeof( used[0] ) );
 	memset( used, 0, numVerts * sizeof( used[0] ) );
 
 	idPlane *planesPtr = planes;
@@ -2540,7 +2622,7 @@ void VPCALL idSIMD_Generic::DeriveTangents( idPlane *planes, idDrawVert *verts, 
 
 		// area sign bit
 		area = d0[3] * d1[4] - d0[4] * d1[3];
-		signBit = ( *(unsigned long *)&area ) & ( 1 << 31 );
+		signBit = ( *( unsigned long * )&area ) & ( 1 << 31 );
 
 		// first tangent
 		t0[0] = d0[0] * d1[4] - d0[4] * d1[0];
@@ -2548,7 +2630,7 @@ void VPCALL idSIMD_Generic::DeriveTangents( idPlane *planes, idDrawVert *verts, 
 		t0[2] = d0[2] * d1[4] - d0[4] * d1[2];
 
 		f = idMath::RSqrt( t0.x * t0.x + t0.y * t0.y + t0.z * t0.z );
-		*(unsigned long *)&f ^= signBit;
+		*( unsigned long * )&f ^= signBit;
 
 		t0.x *= f;
 		t0.y *= f;
@@ -2560,7 +2642,7 @@ void VPCALL idSIMD_Generic::DeriveTangents( idPlane *planes, idDrawVert *verts, 
 		t1[2] = d0[3] * d1[2] - d0[2] * d1[3];
 
 		f = idMath::RSqrt( t1.x * t1.x + t1.y * t1.y + t1.z * t1.z );
-		*(unsigned long *)&f ^= signBit;
+		*( unsigned long * )&f ^= signBit;
 
 		t1.x *= f;
 		t1.y *= f;
@@ -2692,14 +2774,18 @@ void VPCALL idSIMD_Generic::NormalizeTangents( idDrawVert *verts, const int numV
 		float f;
 
 		f = idMath::RSqrt( v.x * v.x + v.y * v.y + v.z * v.z );
-		v.x *= f; v.y *= f; v.z *= f;
+		v.x *= f;
+		v.y *= f;
+		v.z *= f;
 
 		for ( int j = 0; j < 2; j++ ) {
 			idVec3 &t = verts[i].tangents[j];
 
 			t -= ( t * v ) * v;
 			f = idMath::RSqrt( t.x * t.x + t.y * t.y + t.z * t.z );
-			t.x *= f; t.y *= f; t.z *= f;
+			t.x *= f;
+			t.y *= f;
+			t.z *= f;
 		}
 	}
 }
@@ -2715,7 +2801,7 @@ idSIMD_Generic::CreateTextureSpaceLightVectors
 */
 void VPCALL idSIMD_Generic::CreateTextureSpaceLightVectors( idVec3 *lightVectors, const idVec3 &lightOrigin, const idDrawVert *verts, const int numVerts, const int *indexes, const int numIndexes ) {
 
-	bool *used = (bool *)_alloca16( numVerts * sizeof( used[0] ) );
+	bool *used = ( bool * )_alloca16( numVerts * sizeof( used[0] ) );
 	memset( used, 0, numVerts * sizeof( used[0] ) );
 
 	for ( int i = numIndexes - 1; i >= 0; i-- ) {
@@ -2749,7 +2835,7 @@ idSIMD_Generic::CreateSpecularTextureCoords
 */
 void VPCALL idSIMD_Generic::CreateSpecularTextureCoords( idVec4 *texCoords, const idVec3 &lightOrigin, const idVec3 &viewOrigin, const idDrawVert *verts, const int numVerts, const int *indexes, const int numIndexes ) {
 
-	bool *used = (bool *)_alloca16( numVerts * sizeof( used[0] ) );
+	bool *used = ( bool * )_alloca16( numVerts * sizeof( used[0] ) );
 	memset( used, 0, numVerts * sizeof( used[0] ) );
 
 	for ( int i = numIndexes - 1; i >= 0; i-- ) {
@@ -2800,18 +2886,18 @@ int VPCALL idSIMD_Generic::CreateShadowCache( idVec4 *vertexCache, int *vertRema
 			continue;
 		}
 		const float *v = verts[i].xyz.ToFloatPtr();
-		vertexCache[outVerts+0][0] = v[0];
-		vertexCache[outVerts+0][1] = v[1];
-		vertexCache[outVerts+0][2] = v[2];
-		vertexCache[outVerts+0][3] = 1.0f;
+		vertexCache[outVerts + 0][0] = v[0];
+		vertexCache[outVerts + 0][1] = v[1];
+		vertexCache[outVerts + 0][2] = v[2];
+		vertexCache[outVerts + 0][3] = 1.0f;
 
 		// R_SetupProjection() builds the projection matrix with a slight crunch
 		// for depth, which keeps this w=0 division from rasterizing right at the
 		// wrap around point and causing depth fighting with the rear caps
-		vertexCache[outVerts+1][0] = v[0] - lightOrigin[0];
-		vertexCache[outVerts+1][1] = v[1] - lightOrigin[1];
-		vertexCache[outVerts+1][2] = v[2] - lightOrigin[2];
-		vertexCache[outVerts+1][3] = 0.0f;
+		vertexCache[outVerts + 1][0] = v[0] - lightOrigin[0];
+		vertexCache[outVerts + 1][1] = v[1] - lightOrigin[1];
+		vertexCache[outVerts + 1][2] = v[2] - lightOrigin[2];
+		vertexCache[outVerts + 1][3] = 0.0f;
 		vertRemap[i] = outVerts;
 		outVerts += 2;
 	}
@@ -2826,14 +2912,14 @@ idSIMD_Generic::CreateVertexProgramShadowCache
 int VPCALL idSIMD_Generic::CreateVertexProgramShadowCache( idVec4 *vertexCache, const idDrawVert *verts, const int numVerts ) {
 	for ( int i = 0; i < numVerts; i++ ) {
 		const float *v = verts[i].xyz.ToFloatPtr();
-		vertexCache[i*2+0][0] = v[0];
-		vertexCache[i*2+1][0] = v[0];
-		vertexCache[i*2+0][1] = v[1];
-		vertexCache[i*2+1][1] = v[1];
-		vertexCache[i*2+0][2] = v[2];
-		vertexCache[i*2+1][2] = v[2];
-		vertexCache[i*2+0][3] = 1.0f;
-		vertexCache[i*2+1][3] = 0.0f;
+		vertexCache[i * 2 + 0][0] = v[0];
+		vertexCache[i * 2 + 1][0] = v[0];
+		vertexCache[i * 2 + 0][1] = v[1];
+		vertexCache[i * 2 + 1][1] = v[1];
+		vertexCache[i * 2 + 0][2] = v[2];
+		vertexCache[i * 2 + 1][2] = v[2];
+		vertexCache[i * 2 + 0][3] = 1.0f;
+		vertexCache[i * 2 + 1][3] = 0.0f;
 	}
 	return numVerts * 2;
 }
@@ -2849,28 +2935,28 @@ void idSIMD_Generic::UpSamplePCMTo44kHz( float *dest, const short *src, const in
 	if ( kHz == 11025 ) {
 		if ( numChannels == 1 ) {
 			for ( int i = 0; i < numSamples; i++ ) {
-				dest[i*4+0] = dest[i*4+1] = dest[i*4+2] = dest[i*4+3] = (float) src[i+0];
+				dest[i * 4 + 0] = dest[i * 4 + 1] = dest[i * 4 + 2] = dest[i * 4 + 3] = ( float ) src[i + 0];
 			}
 		} else {
 			for ( int i = 0; i < numSamples; i += 2 ) {
-				dest[i*4+0] = dest[i*4+2] = dest[i*4+4] = dest[i*4+6] = (float) src[i+0];
-				dest[i*4+1] = dest[i*4+3] = dest[i*4+5] = dest[i*4+7] = (float) src[i+1];
+				dest[i * 4 + 0] = dest[i * 4 + 2] = dest[i * 4 + 4] = dest[i * 4 + 6] = ( float ) src[i + 0];
+				dest[i * 4 + 1] = dest[i * 4 + 3] = dest[i * 4 + 5] = dest[i * 4 + 7] = ( float ) src[i + 1];
 			}
 		}
 	} else if ( kHz == 22050 ) {
 		if ( numChannels == 1 ) {
 			for ( int i = 0; i < numSamples; i++ ) {
-				dest[i*2+0] = dest[i*2+1] = (float) src[i+0];
+				dest[i * 2 + 0] = dest[i * 2 + 1] = ( float ) src[i + 0];
 			}
 		} else {
 			for ( int i = 0; i < numSamples; i += 2 ) {
-				dest[i*2+0] = dest[i*2+2] = (float) src[i+0];
-				dest[i*2+1] = dest[i*2+3] = (float) src[i+1];
+				dest[i * 2 + 0] = dest[i * 2 + 2] = ( float ) src[i + 0];
+				dest[i * 2 + 1] = dest[i * 2 + 3] = ( float ) src[i + 1];
 			}
 		}
 	} else if ( kHz == 44100 ) {
 		for ( int i = 0; i < numSamples; i++ ) {
-			dest[i] = (float) src[i];
+			dest[i] = ( float ) src[i];
 		}
 	} else {
 		assert( 0 );
@@ -2884,38 +2970,38 @@ idSIMD_Generic::UpSampleOGGTo44kHz
   Duplicate samples for 44kHz output.
 ============
 */
-void idSIMD_Generic::UpSampleOGGTo44kHz( float *dest, const float * const *ogg, const int numSamples, const int kHz, const int numChannels ) {
+void idSIMD_Generic::UpSampleOGGTo44kHz( float *dest, const float *const *ogg, const int numSamples, const int kHz, const int numChannels ) {
 	if ( kHz == 11025 ) {
 		if ( numChannels == 1 ) {
 			for ( int i = 0; i < numSamples; i++ ) {
-				dest[i*4+0] = dest[i*4+1] = dest[i*4+2] = dest[i*4+3] = ogg[0][i] * 32768.0f;
+				dest[i * 4 + 0] = dest[i * 4 + 1] = dest[i * 4 + 2] = dest[i * 4 + 3] = ogg[0][i] * 32768.0f;
 			}
 		} else {
 			for ( int i = 0; i < numSamples >> 1; i++ ) {
-				dest[i*8+0] = dest[i*8+2] = dest[i*8+4] = dest[i*8+6] = ogg[0][i] * 32768.0f;
-				dest[i*8+1] = dest[i*8+3] = dest[i*8+5] = dest[i*8+7] = ogg[1][i] * 32768.0f;
+				dest[i * 8 + 0] = dest[i * 8 + 2] = dest[i * 8 + 4] = dest[i * 8 + 6] = ogg[0][i] * 32768.0f;
+				dest[i * 8 + 1] = dest[i * 8 + 3] = dest[i * 8 + 5] = dest[i * 8 + 7] = ogg[1][i] * 32768.0f;
 			}
 		}
 	} else if ( kHz == 22050 ) {
 		if ( numChannels == 1 ) {
 			for ( int i = 0; i < numSamples; i++ ) {
-				dest[i*2+0] = dest[i*2+1] = ogg[0][i] * 32768.0f;
+				dest[i * 2 + 0] = dest[i * 2 + 1] = ogg[0][i] * 32768.0f;
 			}
 		} else {
 			for ( int i = 0; i < numSamples >> 1; i++ ) {
-				dest[i*4+0] = dest[i*4+2] = ogg[0][i] * 32768.0f;
-				dest[i*4+1] = dest[i*4+3] = ogg[1][i] * 32768.0f;
+				dest[i * 4 + 0] = dest[i * 4 + 2] = ogg[0][i] * 32768.0f;
+				dest[i * 4 + 1] = dest[i * 4 + 3] = ogg[1][i] * 32768.0f;
 			}
 		}
 	} else if ( kHz == 44100 ) {
 		if ( numChannels == 1 ) {
 			for ( int i = 0; i < numSamples; i++ ) {
-				dest[i*1+0] = ogg[0][i] * 32768.0f;
+				dest[i * 1 + 0] = ogg[0][i] * 32768.0f;
 			}
 		} else {
 			for ( int i = 0; i < numSamples >> 1; i++ ) {
-				dest[i*2+0] = ogg[0][i] * 32768.0f;
-				dest[i*2+1] = ogg[1][i] * 32768.0f;
+				dest[i * 2 + 0] = ogg[0][i] * 32768.0f;
+				dest[i * 2 + 1] = ogg[1][i] * 32768.0f;
 			}
 		}
 	} else {
@@ -2936,9 +3022,9 @@ void VPCALL idSIMD_Generic::MixSoundTwoSpeakerMono( float *mixBuffer, const floa
 
 	assert( numSamples == MIXBUFFER_SAMPLES );
 
-	for( int j = 0; j < MIXBUFFER_SAMPLES; j++ ) {
-		mixBuffer[j*2+0] += samples[j] * sL;
-		mixBuffer[j*2+1] += samples[j] * sR;
+	for ( int j = 0; j < MIXBUFFER_SAMPLES; j++ ) {
+		mixBuffer[j * 2 + 0] += samples[j] * sL;
+		mixBuffer[j * 2 + 1] += samples[j] * sR;
 		sL += incL;
 		sR += incR;
 	}
@@ -2957,9 +3043,9 @@ void VPCALL idSIMD_Generic::MixSoundTwoSpeakerStereo( float *mixBuffer, const fl
 
 	assert( numSamples == MIXBUFFER_SAMPLES );
 
-	for( int j = 0; j < MIXBUFFER_SAMPLES; j++ ) {
-		mixBuffer[j*2+0] += samples[j*2+0] * sL;
-		mixBuffer[j*2+1] += samples[j*2+1] * sR;
+	for ( int j = 0; j < MIXBUFFER_SAMPLES; j++ ) {
+		mixBuffer[j * 2 + 0] += samples[j * 2 + 0] * sL;
+		mixBuffer[j * 2 + 1] += samples[j * 2 + 1] * sR;
 		sL += incL;
 		sR += incR;
 	}
@@ -2987,13 +3073,13 @@ void VPCALL idSIMD_Generic::MixSoundSixSpeakerMono( float *mixBuffer, const floa
 
 	assert( numSamples == MIXBUFFER_SAMPLES );
 
-	for( int i = 0; i < MIXBUFFER_SAMPLES; i++ ) {
-		mixBuffer[i*6+0] += samples[i] * sL0;
-		mixBuffer[i*6+1] += samples[i] * sL1;
-		mixBuffer[i*6+2] += samples[i] * sL2;
-		mixBuffer[i*6+3] += samples[i] * sL3;
-		mixBuffer[i*6+4] += samples[i] * sL4;
-		mixBuffer[i*6+5] += samples[i] * sL5;
+	for ( int i = 0; i < MIXBUFFER_SAMPLES; i++ ) {
+		mixBuffer[i * 6 + 0] += samples[i] * sL0;
+		mixBuffer[i * 6 + 1] += samples[i] * sL1;
+		mixBuffer[i * 6 + 2] += samples[i] * sL2;
+		mixBuffer[i * 6 + 3] += samples[i] * sL3;
+		mixBuffer[i * 6 + 4] += samples[i] * sL4;
+		mixBuffer[i * 6 + 5] += samples[i] * sL5;
 		sL0 += incL0;
 		sL1 += incL1;
 		sL2 += incL2;
@@ -3025,13 +3111,13 @@ void VPCALL idSIMD_Generic::MixSoundSixSpeakerStereo( float *mixBuffer, const fl
 
 	assert( numSamples == MIXBUFFER_SAMPLES );
 
-	for( int i = 0; i < MIXBUFFER_SAMPLES; i++ ) {
-		mixBuffer[i*6+0] += samples[i*2+0] * sL0;
-		mixBuffer[i*6+1] += samples[i*2+1] * sL1;
-		mixBuffer[i*6+2] += samples[i*2+0] * sL2;
-		mixBuffer[i*6+3] += samples[i*2+0] * sL3;
-		mixBuffer[i*6+4] += samples[i*2+0] * sL4;
-		mixBuffer[i*6+5] += samples[i*2+1] * sL5;
+	for ( int i = 0; i < MIXBUFFER_SAMPLES; i++ ) {
+		mixBuffer[i * 6 + 0] += samples[i * 2 + 0] * sL0;
+		mixBuffer[i * 6 + 1] += samples[i * 2 + 1] * sL1;
+		mixBuffer[i * 6 + 2] += samples[i * 2 + 0] * sL2;
+		mixBuffer[i * 6 + 3] += samples[i * 2 + 0] * sL3;
+		mixBuffer[i * 6 + 4] += samples[i * 2 + 0] * sL4;
+		mixBuffer[i * 6 + 5] += samples[i * 2 + 1] * sL5;
 		sL0 += incL0;
 		sL1 += incL1;
 		sL2 += incL2;
@@ -3054,7 +3140,7 @@ void VPCALL idSIMD_Generic::MixedSoundToSamples( short *samples, const float *mi
 		} else if ( mixBuffer[i] >= 32767.0f ) {
 			samples[i] = 32767;
 		} else {
-			samples[i] = (short) mixBuffer[i];
+			samples[i] = ( short ) mixBuffer[i];
 		}
 	}
 }

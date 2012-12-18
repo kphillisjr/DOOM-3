@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -44,9 +44,9 @@ typedef struct vertCache_s {
 
 	int				offset;
 	int				size;				// may be larger than the amount asked for, due
-										// to round up and minimum fragment sizes
+	// to round up and minimum fragment sizes
 	int				tag;				// a tag of 0 is a free block
-	struct vertCache_s	**	user;				// will be set to zero when purged
+	struct vertCache_s		**user;				// will be set to zero when purged
 	struct vertCache_s *next, *prev;	// may be on the static list or one of the frame lists
 	int				frameUsed;			// it can't be purged if near the current frame
 } vertCache_t;
@@ -73,7 +73,7 @@ public:
 
 	// This will be a real pointer with virtual memory,
 	// but it will be an int offset cast to a pointer of ARB_vertex_buffer_object
-	void *			Position( vertCache_t *buffer );
+	void 			*Position( vertCache_t *buffer );
 
 	// if r_useIndexBuffers is enabled, but you need to draw something without
 	// an indexCache, this must be called to reset GL_ELEMENT_ARRAY_BUFFER_ARB
@@ -84,7 +84,7 @@ public:
 	// will change every frame.
 	// will return NULL if the vertex cache is completely full
 	// As with Position(), this may not actually be a pointer you can access.
-	vertCache_t	*	AllocFrameTemp( void *data, int bytes );
+	vertCache_t		*AllocFrameTemp( void *data, int bytes );
 
 	// notes that a buffer is used this frame, so it can't be purged
 	// out from under the GPU
@@ -93,7 +93,7 @@ public:
 	// this block won't have to zero a buffer pointer when it is purged,
 	// but it must still wait for the frames to pass, in case the GPU
 	// is still referencing it
-	void			Free( vertCache_t *buffer );	
+	void			Free( vertCache_t *buffer );
 
 	// updates the counter for determining which temp space to use
 	// and which blocks can be purged
@@ -128,14 +128,14 @@ private:
 	vertCache_t		*tempBuffers[NUM_VERTEX_FRAMES];		// allocated at startup
 	bool			tempOverflow;			// had to alloc a temp in static memory
 
-	idBlockAlloc<vertCache_t,1024>	headerAllocator;
+	idBlockAlloc<vertCache_t, 1024>	headerAllocator;
 
 	vertCache_t		freeStaticHeaders;		// head of doubly linked list
 	vertCache_t		freeDynamicHeaders;		// head of doubly linked list
 	vertCache_t		dynamicHeaders;			// head of doubly linked list
 	vertCache_t		deferredFreeList;		// head of doubly linked list
 	vertCache_t		staticHeaders;			// head of doubly linked list in MRU order,
-											// staticHeaders.next is most recently used
+	// staticHeaders.next is most recently used
 
 	int				frameBytes;				// for each of NUM_VERTEX_FRAMES frames
 };

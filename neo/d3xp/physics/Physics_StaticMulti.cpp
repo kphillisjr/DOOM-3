@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -83,8 +83,8 @@ void idPhysics_StaticMulti::Save( idSaveGame *savefile ) const {
 
 	savefile->WriteObject( self );
 
-	savefile->WriteInt(current.Num());
-	for  ( i = 0; i < current.Num(); i++ ) {
+	savefile->WriteInt( current.Num() );
+	for ( i = 0; i < current.Num(); i++ ) {
 		savefile->WriteVec3( current[i].origin );
 		savefile->WriteMat3( current[i].axis );
 		savefile->WriteVec3( current[i].localOrigin );
@@ -96,8 +96,8 @@ void idPhysics_StaticMulti::Save( idSaveGame *savefile ) const {
 		savefile->WriteClipModel( clipModels[i] );
 	}
 
-	savefile->WriteBool(hasMaster);
-	savefile->WriteBool(isOrientated);
+	savefile->WriteBool( hasMaster );
+	savefile->WriteBool( isOrientated );
 }
 
 /*
@@ -110,7 +110,7 @@ void idPhysics_StaticMulti::Restore( idRestoreGame *savefile ) {
 
 	savefile->ReadObject( reinterpret_cast<idClass *&>( self ) );
 
-	savefile->ReadInt(num);
+	savefile->ReadInt( num );
 	current.AssureSize( num );
 	for ( i = 0; i < num; i++ ) {
 		savefile->ReadVec3( current[i].origin );
@@ -119,14 +119,14 @@ void idPhysics_StaticMulti::Restore( idRestoreGame *savefile ) {
 		savefile->ReadMat3( current[i].localAxis );
 	}
 
-	savefile->ReadInt(num);
+	savefile->ReadInt( num );
 	clipModels.SetNum( num );
 	for ( i = 0; i < num; i++ ) {
 		savefile->ReadClipModel( clipModels[i] );
 	}
 
-	savefile->ReadBool(hasMaster);
-	savefile->ReadBool(isOrientated);
+	savefile->ReadBool( hasMaster );
+	savefile->ReadBool( isOrientated );
 }
 
 /*
@@ -167,8 +167,8 @@ void idPhysics_StaticMulti::SetClipModel( idClipModel *model, float density, int
 	assert( self );
 
 	if ( id >= clipModels.Num() ) {
-		current.AssureSize( id+1, defaultState );
-		clipModels.AssureSize( id+1, NULL );
+		current.AssureSize( id + 1, defaultState );
+		clipModels.AssureSize( id + 1, NULL );
 	}
 
 	if ( clipModels[id] && clipModels[id] != model && freeOld ) {
@@ -184,8 +184,8 @@ void idPhysics_StaticMulti::SetClipModel( idClipModel *model, float density, int
 			break;
 		}
 	}
-	current.SetNum( i+1, false );
-	clipModels.SetNum( i+1, false );
+	current.SetNum( i + 1, false );
+	clipModels.SetNum( i + 1, false );
 }
 
 /*
@@ -744,7 +744,7 @@ int idPhysics_StaticMulti::ClipContents( const idClipModel *model ) const {
 		if ( clipModels[i] ) {
 			if ( model ) {
 				contents |= gameLocal.clip.ContentsModel( clipModels[i]->GetOrigin(), clipModels[i], clipModels[i]->GetAxis(), -1,
-											model->Handle(), model->GetOrigin(), model->GetAxis() );
+							model->Handle(), model->GetOrigin(), model->GetAxis() );
 			} else {
 				contents |= gameLocal.clip.Contents( clipModels[i]->GetOrigin(), clipModels[i], clipModels[i]->GetAxis(), -1, NULL );
 			}
@@ -762,7 +762,7 @@ void idPhysics_StaticMulti::DisableClip( void ) {
 	int i;
 
 	for ( i = 0; i < clipModels.Num(); i++ ) {
-        if ( clipModels[i] ) {
+		if ( clipModels[i] ) {
 			clipModels[i]->Disable();
 		}
 	}
@@ -792,7 +792,7 @@ void idPhysics_StaticMulti::UnlinkClip( void ) {
 	int i;
 
 	for ( i = 0; i < clipModels.Num(); i++ ) {
-        if ( clipModels[i] ) {
+		if ( clipModels[i] ) {
 			clipModels[i]->Unlink();
 		}
 	}
@@ -934,7 +934,7 @@ void idPhysics_StaticMulti::SetMaster( idEntity *master, const bool orientated )
 			// transform from world space to master space
 			self->GetMasterPosition( masterOrigin, masterAxis );
 			for ( i = 0; i < clipModels.Num(); i++ ) {
-                current[i].localOrigin = ( current[i].origin - masterOrigin ) * masterAxis.Transpose();
+				current[i].localOrigin = ( current[i].origin - masterOrigin ) * masterAxis.Transpose();
 				if ( orientated ) {
 					current[i].localAxis = current[i].axis * masterAxis.Transpose();
 				} else {

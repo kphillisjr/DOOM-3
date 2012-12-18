@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -718,10 +718,10 @@ void idPhysics_Base::AddGroundContacts( const idClipModel *clipModel ) {
 	index = contacts.Num();
 	contacts.SetNum( index + 10, false );
 
-	dir.SubVec3(0) = gravityNormal;
-	dir.SubVec3(1) = vec3_origin;
+	dir.SubVec3( 0 ) = gravityNormal;
+	dir.SubVec3( 1 ) = vec3_origin;
 	num = gameLocal.clip.Contacts( &contacts[index], 10, clipModel->GetOrigin(),
-					dir, CONTACT_EPSILON, clipModel, clipModel->GetAxis(), clipMask, self );
+								   dir, CONTACT_EPSILON, clipModel, clipModel->GetAxis(), clipMask, self );
 	contacts.SetNum( index + num, false );
 }
 
@@ -797,8 +797,7 @@ void idPhysics_Base::DrawVelocity( int id, float linearScale, float angularScale
 	if ( length > 0.1f ) {
 		if ( length < 60.0f ) {
 			length = 60.0f;
-		}
-		else if ( length > 360.0f ) {
+		} else if ( length > 360.0f ) {
 			length = 360.0f;
 		}
 		axis = GetAxis( id );

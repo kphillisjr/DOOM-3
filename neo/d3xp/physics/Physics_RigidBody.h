@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -69,26 +69,26 @@ public:
 
 	CLASS_PROTOTYPE( idPhysics_RigidBody );
 
-							idPhysics_RigidBody( void );
-							~idPhysics_RigidBody( void );
+	idPhysics_RigidBody( void );
+	~idPhysics_RigidBody( void );
 
 	void					Save( idSaveGame *savefile ) const;
 	void					Restore( idRestoreGame *savefile );
 
-							// initialisation
+	// initialisation
 	void					SetFriction( const float linear, const float angular, const float contact );
 	void					SetBouncyness( const float b );
-							// same as above but drop to the floor first
+	// same as above but drop to the floor first
 	void					DropToFloor( void );
-							// no contact determination and contact friction
+	// no contact determination and contact friction
 	void					NoContact( void );
-							// enable/disable activation by impact
+	// enable/disable activation by impact
 	void					EnableImpact( void );
 	void					DisableImpact( void );
 
 public:	// common physics interface
 	void					SetClipModel( idClipModel *model, float density, int id = 0, bool freeOld = true );
-	idClipModel *			GetClipModel( int id = 0 ) const;
+	idClipModel 			*GetClipModel( int id = 0 ) const;
 	int						GetNumClipModels( void ) const;
 
 	void					SetMass( float mass, int id = -1 );
@@ -97,8 +97,8 @@ public:	// common physics interface
 	void					SetContents( int contents, int id = -1 );
 	int						GetContents( int id = -1 ) const;
 
-	const idBounds &		GetBounds( int id = -1 ) const;
-	const idBounds &		GetAbsBounds( int id = -1 ) const;
+	const idBounds 		&GetBounds( int id = -1 ) const;
+	const idBounds 		&GetAbsBounds( int id = -1 ) const;
 
 	bool					Evaluate( int timeStepMSec, int endTimeMSec );
 	void					UpdateTime( int endTimeMSec );
@@ -122,14 +122,14 @@ public:	// common physics interface
 	void					Translate( const idVec3 &translation, int id = -1 );
 	void					Rotate( const idRotation &rotation, int id = -1 );
 
-	const idVec3 &			GetOrigin( int id = 0 ) const;
-	const idMat3 &			GetAxis( int id = 0 ) const;
+	const idVec3 			&GetOrigin( int id = 0 ) const;
+	const idMat3 			&GetAxis( int id = 0 ) const;
 
 	void					SetLinearVelocity( const idVec3 &newLinearVelocity, int id = 0 );
 	void					SetAngularVelocity( const idVec3 &newAngularVelocity, int id = 0 );
 
-	const idVec3 &			GetLinearVelocity( int id = 0 ) const;
-	const idVec3 &			GetAngularVelocity( int id = 0 ) const;
+	const idVec3 			&GetLinearVelocity( int id = 0 ) const;
+	const idVec3 			&GetAngularVelocity( int id = 0 ) const;
 
 	void					ClipTranslation( trace_t &results, const idVec3 &translation, const idClipModel *model ) const;
 	void					ClipRotation( trace_t &results, const idRotation &rotation, const idClipModel *model ) const;
@@ -144,8 +144,8 @@ public:	// common physics interface
 	bool					EvaluateContacts( void );
 
 	void					SetPushed( int deltaTime );
-	const idVec3 &			GetPushedLinearVelocity( const int id = 0 ) const;
-	const idVec3 &			GetPushedAngularVelocity( const int id = 0 ) const;
+	const idVec3 			&GetPushedLinearVelocity( const int id = 0 ) const;
+	const idVec3 			&GetPushedAngularVelocity( const int id = 0 ) const;
 
 	void					SetMaster( idEntity *master, const bool orientated );
 
@@ -162,7 +162,7 @@ private:
 	float					angularFriction;			// rotational friction
 	float					contactFriction;			// friction with contact surfaces
 	float					bouncyness;					// bouncyness
-	idClipModel *			clipModel;					// clip model used for collision detection
+	idClipModel 			*clipModel;					// clip model used for collision detection
 
 	// derived properties
 	float					mass;						// mass of body
@@ -171,7 +171,7 @@ private:
 	idMat3					inertiaTensor;				// mass distribution
 	idMat3					inverseInertiaTensor;		// inverse inertia tensor
 
-	idODE *					integrator;					// integrator
+	idODE 					*integrator;					// integrator
 	bool					dropToFloor;				// true if dropping to the floor and putting to rest
 	bool					testSolid;					// true if testing for solid when dropping to the floor
 	bool					noImpact;					// if true do not activate when another object collides

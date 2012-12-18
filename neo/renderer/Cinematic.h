@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -54,7 +54,7 @@ typedef enum {
 // a cinematic stream generates an image buffer, which the caller will upload to a texture
 typedef struct {
 	int					imageWidth, imageHeight;	// will be a power of 2
-	const byte *		image;						// RGBA format, alpha will be 255
+	const byte 		*image;						// RGBA format, alpha will be 255
 	int					status;
 } cinData_t;
 
@@ -86,7 +86,7 @@ public:
 	virtual void		Close();
 
 	// closes the file and frees all allocated memory
-	virtual void		ResetTime(int time);
+	virtual void		ResetTime( int time );
 };
 
 /*
@@ -99,9 +99,11 @@ public:
 
 class idSndWindow : public idCinematic {
 public:
-	
-						idSndWindow() { showWaveform = false; }
-						~idSndWindow() {}
+
+	idSndWindow() {
+		showWaveform = false;
+	}
+	~idSndWindow() {}
 
 	bool				InitFromFile( const char *qpath, bool looping );
 	cinData_t			ImageForTime( int milliseconds );

@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -86,12 +86,12 @@ int cm_contentsFlagByIndex[] = {
 	0
 };
 
-idCVar cm_drawMask(			"cm_drawMask",			"none",		CVAR_GAME,				"collision mask", cm_contentsNameByIndex, idCmdSystem::ArgCompletion_String<cm_contentsNameByIndex> );
-idCVar cm_drawColor(		"cm_drawColor",			"1 0 0 .5",	CVAR_GAME,				"color used to draw the collision models" );
-idCVar cm_drawFilled(		"cm_drawFilled",		"0",		CVAR_GAME | CVAR_BOOL,	"draw filled polygons" );
-idCVar cm_drawInternal(		"cm_drawInternal",		"1",		CVAR_GAME | CVAR_BOOL,	"draw internal edges green" );
-idCVar cm_drawNormals(		"cm_drawNormals",		"0",		CVAR_GAME | CVAR_BOOL,	"draw polygon and edge normals" );
-idCVar cm_backFaceCull(		"cm_backFaceCull",		"0",		CVAR_GAME | CVAR_BOOL,	"cull back facing polygons" );
+idCVar cm_drawMask(	"cm_drawMask",			"none",		CVAR_GAME,				"collision mask", cm_contentsNameByIndex, idCmdSystem::ArgCompletion_String<cm_contentsNameByIndex> );
+idCVar cm_drawColor(	"cm_drawColor",			"1 0 0 .5",	CVAR_GAME,				"color used to draw the collision models" );
+idCVar cm_drawFilled(	"cm_drawFilled",		"0",		CVAR_GAME | CVAR_BOOL,	"draw filled polygons" );
+idCVar cm_drawInternal(	"cm_drawInternal",		"1",		CVAR_GAME | CVAR_BOOL,	"draw internal edges green" );
+idCVar cm_drawNormals(	"cm_drawNormals",		"0",		CVAR_GAME | CVAR_BOOL,	"draw polygon and edge normals" );
+idCVar cm_backFaceCull(	"cm_backFaceCull",		"0",		CVAR_GAME | CVAR_BOOL,	"cull back facing polygons" );
 idCVar cm_debugCollision(	"cm_debugCollision",	"0",		CVAR_GAME | CVAR_BOOL,	"debug the collision detection" );
 
 static idVec4 cm_color;
@@ -106,7 +106,7 @@ int idCollisionModelManagerLocal::ContentsFromString( const char *string ) const
 	idLexer src( string, idStr::Length( string ), "ContentsFromString" );
 	idToken token;
 
-	while( src.ReadToken( &token ) ) {
+	while ( src.ReadToken( &token ) ) {
 		if ( token == "," ) {
 			continue;
 		}
@@ -157,7 +157,7 @@ void idCollisionModelManagerLocal::DrawEdge( cm_model_t *model, int edgeNum, con
 
 	isRotated = axis.IsRotated();
 
-	edge = model->edges + abs(edgeNum);
+	edge = model->edges + abs( edgeNum );
 	side = edgeNum < 0;
 
 	start = model->vertices[edge->vertexNum[side]].p;
@@ -182,9 +182,9 @@ void idCollisionModelManagerLocal::DrawEdge( cm_model_t *model, int edgeNum, con
 	}
 
 	if ( cm_drawNormals.GetBool() ) {
-		mid = (start + end) * 0.5f;
+		mid = ( start + end ) * 0.5f;
 		if ( isRotated ) {
-			end = mid + 5 * (axis * edge->normal);
+			end = mid + 5 * ( axis * edge->normal );
 		} else {
 			end = mid + 5 * edge->normal;
 		}
@@ -204,7 +204,7 @@ void idCollisionModelManagerLocal::DrawPolygon( cm_model_t *model, cm_polygon_t 
 
 	if ( cm_backFaceCull.GetBool() ) {
 		edgeNum = p->edges[0];
-		edge = model->edges + abs(edgeNum);
+		edge = model->edges + abs( edgeNum );
 		dir = model->vertices[edge->vertexNum[0]].p - viewOrigin;
 		if ( dir * p->plane.Normal() > 0.0f ) {
 			return;
@@ -215,13 +215,13 @@ void idCollisionModelManagerLocal::DrawPolygon( cm_model_t *model, cm_polygon_t 
 		center = vec3_origin;
 		for ( i = 0; i < p->numEdges; i++ ) {
 			edgeNum = p->edges[i];
-			edge = model->edges + abs(edgeNum);
+			edge = model->edges + abs( edgeNum );
 			center += model->vertices[edge->vertexNum[edgeNum < 0]].p;
 		}
-		center *= (1.0f / p->numEdges);
+		center *= ( 1.0f / p->numEdges );
 		if ( axis.IsRotated() ) {
 			center = center * axis + origin;
-			end = center + 5 * (axis * p->plane.Normal());
+			end = center + 5 * ( axis * p->plane.Normal() );
 		} else {
 			center += origin;
 			end = center + 5 * p->plane.Normal();
@@ -233,14 +233,14 @@ void idCollisionModelManagerLocal::DrawPolygon( cm_model_t *model, cm_polygon_t 
 		idFixedWinding winding;
 		for ( i = p->numEdges - 1; i >= 0; i-- ) {
 			edgeNum = p->edges[i];
-			edge = model->edges + abs(edgeNum);
-			winding += origin + model->vertices[edge->vertexNum[INTSIGNBITSET(edgeNum)]].p * axis;
+			edge = model->edges + abs( edgeNum );
+			winding += origin + model->vertices[edge->vertexNum[INTSIGNBITSET( edgeNum )]].p * axis;
 		}
 		session->rw->DebugPolygon( cm_color, winding );
 	} else {
 		for ( i = 0; i < p->numEdges; i++ ) {
 			edgeNum = p->edges[i];
-			edge = model->edges + abs(edgeNum);
+			edge = model->edges + abs( edgeNum );
 			if ( edge->checkcount == checkCount ) {
 				continue;
 			}
@@ -256,13 +256,13 @@ idCollisionModelManagerLocal::DrawNodePolygons
 ================
 */
 void idCollisionModelManagerLocal::DrawNodePolygons( cm_model_t *model, cm_node_t *node,
-										   const idVec3 &origin, const idMat3 &axis,
-										   const idVec3 &viewOrigin, const float radius ) {
+		const idVec3 &origin, const idMat3 &axis,
+		const idVec3 &viewOrigin, const float radius ) {
 	int i;
 	cm_polygon_t *p;
 	cm_polygonRef_t *pref;
 
-	while (1) {
+	while ( 1 ) {
 		for ( pref = node->polygons; pref; pref = pref->next ) {
 			p = pref->p;
 			if ( radius ) {
@@ -292,9 +292,9 @@ void idCollisionModelManagerLocal::DrawNodePolygons( cm_model_t *model, cm_node_
 		if ( node->planeType == -1 ) {
 			break;
 		}
-		if ( radius && viewOrigin[node->planeType] > node->planeDist + radius  ) {
+		if ( radius && viewOrigin[node->planeType] > node->planeDist + radius ) {
 			node = node->children[0];
-		} else if ( radius && viewOrigin[node->planeType] < node->planeDist - radius  ) {
+		} else if ( radius && viewOrigin[node->planeType] < node->planeDist - radius ) {
 			node = node->children[1];
 		} else {
 			DrawNodePolygons( model, node->children[1], origin, axis, viewOrigin, radius );
@@ -309,7 +309,7 @@ idCollisionModelManagerLocal::DrawModel
 ================
 */
 void idCollisionModelManagerLocal::DrawModel( cmHandle_t handle, const idVec3 &modelOrigin, const idMat3 &modelAxis,
-					const idVec3 &viewOrigin, const float radius ) {
+		const idVec3 &viewOrigin, const float radius ) {
 
 	cm_model_t *model;
 	idVec3 viewPos;
@@ -324,7 +324,7 @@ void idCollisionModelManagerLocal::DrawModel( cmHandle_t handle, const idVec3 &m
 	}
 
 	model = models[ handle ];
-	viewPos = (viewOrigin - modelOrigin) * modelAxis.Transpose();
+	viewPos = ( viewOrigin - modelOrigin ) * modelAxis.Transpose();
 	checkCount++;
 	DrawNodePolygons( model, model->node, modelOrigin, modelAxis, viewPos, radius );
 }
@@ -337,19 +337,19 @@ Speed test code
 ===============================================================================
 */
 
-static idCVar cm_testCollision(		"cm_testCollision",		"0",					CVAR_GAME | CVAR_BOOL,		"" );
-static idCVar cm_testRotation(		"cm_testRotation",		"1",					CVAR_GAME | CVAR_BOOL,		"" );
-static idCVar cm_testModel(			"cm_testModel",			"0",					CVAR_GAME | CVAR_INTEGER,	"" );
-static idCVar cm_testTimes(			"cm_testTimes",			"1000",					CVAR_GAME | CVAR_INTEGER,	"" );
+static idCVar cm_testCollision(	"cm_testCollision",		"0",					CVAR_GAME | CVAR_BOOL,		"" );
+static idCVar cm_testRotation(	"cm_testRotation",		"1",					CVAR_GAME | CVAR_BOOL,		"" );
+static idCVar cm_testModel(	"cm_testModel",			"0",					CVAR_GAME | CVAR_INTEGER,	"" );
+static idCVar cm_testTimes(	"cm_testTimes",			"1000",					CVAR_GAME | CVAR_INTEGER,	"" );
 static idCVar cm_testRandomMany(	"cm_testRandomMany",	"0",					CVAR_GAME | CVAR_BOOL,		"" );
-static idCVar cm_testOrigin(		"cm_testOrigin",		"0 0 0",				CVAR_GAME,					"" );
-static idCVar cm_testReset(			"cm_testReset",			"0",					CVAR_GAME | CVAR_BOOL,		"" );
-static idCVar cm_testBox(			"cm_testBox",			"-16 -16 0 16 16 64",	CVAR_GAME,					"" );
+static idCVar cm_testOrigin(	"cm_testOrigin",		"0 0 0",				CVAR_GAME,					"" );
+static idCVar cm_testReset(	"cm_testReset",			"0",					CVAR_GAME | CVAR_BOOL,		"" );
+static idCVar cm_testBox(	"cm_testBox",			"-16 -16 0 16 16 64",	CVAR_GAME,					"" );
 static idCVar cm_testBoxRotation(	"cm_testBoxRotation",	"0 0 0",				CVAR_GAME,					"" );
-static idCVar cm_testWalk(			"cm_testWalk",			"1",					CVAR_GAME | CVAR_BOOL,		"" );
-static idCVar cm_testLength(		"cm_testLength",		"1024",					CVAR_GAME | CVAR_FLOAT,		"" );
-static idCVar cm_testRadius(		"cm_testRadius",		"64",					CVAR_GAME | CVAR_FLOAT,		"" );
-static idCVar cm_testAngle(			"cm_testAngle",			"60",					CVAR_GAME | CVAR_FLOAT,		"" );
+static idCVar cm_testWalk(	"cm_testWalk",			"1",					CVAR_GAME | CVAR_BOOL,		"" );
+static idCVar cm_testLength(	"cm_testLength",		"1024",					CVAR_GAME | CVAR_FLOAT,		"" );
+static idCVar cm_testRadius(	"cm_testRadius",		"64",					CVAR_GAME | CVAR_FLOAT,		"" );
+static idCVar cm_testAngle(	"cm_testAngle",			"60",					CVAR_GAME | CVAR_FLOAT,		"" );
 
 static int total_translation;
 static int min_translation = 999999;
@@ -377,7 +377,7 @@ void idCollisionModelManagerLocal::DebugOutput( const idVec3 &origin ) {
 		return;
 	}
 
-	testend = (idVec3 *) Mem_Alloc( cm_testTimes.GetInteger() * sizeof(idVec3) );
+	testend = ( idVec3 * ) Mem_Alloc( cm_testTimes.GetInteger() * sizeof( idVec3 ) );
 
 	if ( cm_testReset.GetBool() || ( cm_testWalk.GetBool() && !start.Compare( start ) ) ) {
 		total_translation = total_rotation = 0;
@@ -395,7 +395,7 @@ void idCollisionModelManagerLocal::DebugOutput( const idVec3 &origin ) {
 	}
 
 	sscanf( cm_testBox.GetString(), "%f %f %f %f %f %f", &bounds[0][0], &bounds[0][1], &bounds[0][2],
-										&bounds[1][0], &bounds[1][1], &bounds[1][2] );
+			&bounds[1][0], &bounds[1][1], &bounds[1][2] );
 	sscanf( cm_testBoxRotation.GetString(), "%f %f %f", &boxAngles[0], &boxAngles[1], &boxAngles[2] );
 	boxAxis = boxAngles.ToMat3();
 	modelAxis.Identity();
@@ -425,7 +425,7 @@ void idCollisionModelManagerLocal::DebugOutput( const idVec3 &origin ) {
 	timer.Clear();
 	timer.Start();
 	for ( i = 0; i < cm_testTimes.GetInteger(); i++ ) {
-		Translation( &trace, start, testend[i], &itm, boxAxis, CONTENTS_SOLID|CONTENTS_PLAYERCLIP, cm_testModel.GetInteger(), vec3_origin, modelAxis );
+		Translation( &trace, start, testend[i], &itm, boxAxis, CONTENTS_SOLID | CONTENTS_PLAYERCLIP, cm_testModel.GetInteger(), vec3_origin, modelAxis );
 	}
 	timer.Stop();
 	t = timer.Milliseconds();
@@ -434,11 +434,11 @@ void idCollisionModelManagerLocal::DebugOutput( const idVec3 &origin ) {
 	num_translation++;
 	total_translation += t;
 	if ( cm_testTimes.GetInteger() > 9999 ) {
-		sprintf( buf, "%3dK", (int ) ( cm_testTimes.GetInteger() / 1000 ) );
+		sprintf( buf, "%3dK", ( int )( cm_testTimes.GetInteger() / 1000 ) );
 	} else {
 		sprintf( buf, "%4d", cm_testTimes.GetInteger() );
 	}
-	common->Printf("%s translations: %4d milliseconds, (min = %d, max = %d, av = %1.1f)\n", buf, t, min_translation, max_translation, (float) total_translation / num_translation );
+	common->Printf( "%s translations: %4d milliseconds, (min = %d, max = %d, av = %1.1f)\n", buf, t, min_translation, max_translation, ( float ) total_translation / num_translation );
 
 	if ( cm_testRandomMany.GetBool() ) {
 		// if many traces in one random direction
@@ -467,7 +467,7 @@ void idCollisionModelManagerLocal::DebugOutput( const idVec3 &origin ) {
 		timer.Start();
 		for ( i = 0; i < cm_testTimes.GetInteger(); i++ ) {
 			rotation.SetOrigin( testend[i] );
-			Rotation( &trace, start, rotation, &itm, boxAxis, CONTENTS_SOLID|CONTENTS_PLAYERCLIP, cm_testModel.GetInteger(), vec3_origin, modelAxis );
+			Rotation( &trace, start, rotation, &itm, boxAxis, CONTENTS_SOLID | CONTENTS_PLAYERCLIP, cm_testModel.GetInteger(), vec3_origin, modelAxis );
 		}
 		timer.Stop();
 		t = timer.Milliseconds();
@@ -476,11 +476,11 @@ void idCollisionModelManagerLocal::DebugOutput( const idVec3 &origin ) {
 		num_rotation++;
 		total_rotation += t;
 		if ( cm_testTimes.GetInteger() > 9999 ) {
-			sprintf( buf, "%3dK", (int ) ( cm_testTimes.GetInteger() / 1000 ) );
+			sprintf( buf, "%3dK", ( int )( cm_testTimes.GetInteger() / 1000 ) );
 		} else {
 			sprintf( buf, "%4d", cm_testTimes.GetInteger() );
 		}
-		common->Printf("%s rotation: %4d milliseconds, (min = %d, max = %d, av = %1.1f)\n", buf, t, min_rotation, max_rotation, (float) total_rotation / num_rotation );
+		common->Printf( "%s rotation: %4d milliseconds, (min = %d, max = %d, av = %1.1f)\n", buf, t, min_rotation, max_rotation, ( float ) total_rotation / num_rotation );
 	}
 
 	Mem_Free( testend );

@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -50,7 +50,7 @@ idRenderModelLiquid::idRenderModelLiquid() {
 	drop_height = 4;
 	drop_radius = 4;
 	drop_delay	= 1000;
-    shader		= declManager->FindMaterial( NULL );
+	shader		= declManager->FindMaterial( NULL );
 	update_tics	= 33;  // ~30 hz
 	time		= 0;
 	seed		= 0;
@@ -72,7 +72,7 @@ modelSurface_t idRenderModelLiquid::GenerateSurface( float lerp ) {
 
 	inv_lerp = 1.0f - lerp;
 	vert = verts.Ptr();
-	for( i = 0; i < verts.Num(); i++, vert++ ) {
+	for ( i = 0; i < verts.Num(); i++, vert++ ) {
 		vert->xyz.z = page1[ i ] * lerp + page2[ i ] * inv_lerp;
 	}
 
@@ -98,7 +98,7 @@ modelSurface_t idRenderModelLiquid::GenerateSurface( float lerp ) {
 
 	tri->numVerts = deformInfo->numOutputVerts;
 	R_AllocStaticTriSurfVerts( tri, tri->numVerts );
-	SIMDProcessor->Memcpy( tri->verts, verts.Ptr(), deformInfo->numSourceVerts * sizeof(tri->verts[0]) );
+	SIMDProcessor->Memcpy( tri->verts, verts.Ptr(), deformInfo->numSourceVerts * sizeof( tri->verts[0] ) );
 
 	// replicate the mirror seam vertexes
 	base = deformInfo->numOutputVerts - deformInfo->numMirroredVerts;
@@ -130,7 +130,7 @@ idRenderModelLiquid::WaterDrop
 */
 void idRenderModelLiquid::WaterDrop( int x, int y, float *page ) {
 	int		cx, cy;
-	int		left,top,right,bottom;
+	int		left, top, right, bottom;
 	int		square;
 	int		radsquare = drop_radius * drop_radius;
 	float	invlength = 1.0f / ( float )radsquare;
@@ -143,29 +143,31 @@ void idRenderModelLiquid::WaterDrop( int x, int y, float *page ) {
 		y = 1 + drop_radius + random.RandomInt( verts_y - 2 * drop_radius - 1 );
 	}
 
-	left=-drop_radius; right = drop_radius;
-	top=-drop_radius; bottom = drop_radius;
+	left = -drop_radius;
+	right = drop_radius;
+	top = -drop_radius;
+	bottom = drop_radius;
 
 	// Perform edge clipping...
 	if ( x - drop_radius < 1 ) {
-		left -= (x-drop_radius-1);
+		left -= ( x - drop_radius - 1 );
 	}
 	if ( y - drop_radius < 1 ) {
-		top -= (y-drop_radius-1);
+		top -= ( y - drop_radius - 1 );
 	}
 	if ( x + drop_radius > verts_x - 1 ) {
-		right -= (x+drop_radius-verts_x+1);
+		right -= ( x + drop_radius - verts_x + 1 );
 	}
 	if ( y + drop_radius > verts_y - 1 ) {
-		bottom-= (y+drop_radius-verts_y+1);
+		bottom -= ( y + drop_radius - verts_y + 1 );
 	}
 
 	for ( cy = top; cy < bottom; cy++ ) {
 		for ( cx = left; cx < right; cx++ ) {
-			square = cy*cy + cx*cx;
+			square = cy * cy + cx * cx;
 			if ( square < radsquare ) {
-				dist = idMath::Sqrt( (float)square * invlength );
-				page[verts_x*(cy+y) + cx+x] += idMath::Cos16( dist * idMath::PI * 0.5f ) * drop_height;
+				dist = idMath::Sqrt( ( float )square * invlength );
+				page[verts_x * ( cy + y ) + cx + x] += idMath::Cos16( dist * idMath::PI * 0.5f ) * drop_height;
 			}
 		}
 	}
@@ -178,7 +180,7 @@ idRenderModelLiquid::IntersectBounds
 */
 void idRenderModelLiquid::IntersectBounds( const idBounds &bounds, float displacement ) {
 	int		cx, cy;
-	int		left,top,right,bottom;
+	int		left, top, right, bottom;
 	float	up, down;
 	float	*pos;
 
@@ -242,70 +244,70 @@ void idRenderModelLiquid::Update( void ) {
 	p1 = page1;
 	p2 = page2;
 
-	switch( liquid_type ) {
-	case 0 :
-		for ( y = 1; y < verts_y - 1; y++ ) {
-			p2 += verts_x;
-			p1 += verts_x;
-			for ( x = 1; x < verts_x - 1; x++ ) {
-				value =
-					( p2[ x + verts_x ] +
-					p2[ x - verts_x ] +
-					p2[ x + 1 ] +
-					p2[ x - 1 ] +
-					p2[ x - verts_x - 1 ] +
-					p2[ x - verts_x + 1 ] +
-					p2[ x + verts_x - 1 ] +
-					p2[ x + verts_x + 1 ] +
-					p2[ x ] ) * ( 2.0f / 9.0f ) -
-					p1[ x ];
+	switch ( liquid_type ) {
+		case 0 :
+			for ( y = 1; y < verts_y - 1; y++ ) {
+				p2 += verts_x;
+				p1 += verts_x;
+				for ( x = 1; x < verts_x - 1; x++ ) {
+					value =
+						( p2[ x + verts_x ] +
+						  p2[ x - verts_x ] +
+						  p2[ x + 1 ] +
+						  p2[ x - 1 ] +
+						  p2[ x - verts_x - 1 ] +
+						  p2[ x - verts_x + 1 ] +
+						  p2[ x + verts_x - 1 ] +
+						  p2[ x + verts_x + 1 ] +
+						  p2[ x ] ) * ( 2.0f / 9.0f ) -
+						p1[ x ];
 
-				p1[ x ] = value * density;
+					p1[ x ] = value * density;
+				}
 			}
-		}
-		break;
+			break;
 
-	case 1 :
-		for ( y = 1; y < verts_y - 1; y++ ) {
-			p2 += verts_x;
-			p1 += verts_x;
-			for ( x = 1; x < verts_x - 1; x++ ) {
-				value =
-					( p2[ x + verts_x ] +
-					p2[ x - verts_x ] +
-					p2[ x + 1 ] +
-					p2[ x - 1 ] +
-					p2[ x - verts_x - 1 ] +
-					p2[ x - verts_x + 1 ] +
-					p2[ x + verts_x - 1 ] +
-					p2[ x + verts_x + 1 ] ) * 0.25f -
-					p1[ x ];
+		case 1 :
+			for ( y = 1; y < verts_y - 1; y++ ) {
+				p2 += verts_x;
+				p1 += verts_x;
+				for ( x = 1; x < verts_x - 1; x++ ) {
+					value =
+						( p2[ x + verts_x ] +
+						  p2[ x - verts_x ] +
+						  p2[ x + 1 ] +
+						  p2[ x - 1 ] +
+						  p2[ x - verts_x - 1 ] +
+						  p2[ x - verts_x + 1 ] +
+						  p2[ x + verts_x - 1 ] +
+						  p2[ x + verts_x + 1 ] ) * 0.25f -
+						p1[ x ];
 
-				p1[ x ] = value * density;
+					p1[ x ] = value * density;
+				}
 			}
-		}
-		break;
+			break;
 
-	case 2 :
-		for ( y = 1; y < verts_y - 1; y++ ) {
-			p2 += verts_x;
-			p1 += verts_x;
-			for ( x = 1; x < verts_x - 1; x++ ) {
-				value =
-					( p2[ x + verts_x ] +
-					p2[ x - verts_x ] +
-					p2[ x + 1 ] +
-					p2[ x - 1 ] +
-					p2[ x - verts_x - 1 ] +
-					p2[ x - verts_x + 1 ] +
-					p2[ x + verts_x - 1 ] +
-					p2[ x + verts_x + 1 ] + 
-					p2[ x ] ) * ( 1.0f / 9.0f );
+		case 2 :
+			for ( y = 1; y < verts_y - 1; y++ ) {
+				p2 += verts_x;
+				p1 += verts_x;
+				for ( x = 1; x < verts_x - 1; x++ ) {
+					value =
+						( p2[ x + verts_x ] +
+						  p2[ x - verts_x ] +
+						  p2[ x + 1 ] +
+						  p2[ x - 1 ] +
+						  p2[ x - verts_x - 1 ] +
+						  p2[ x - verts_x + 1 ] +
+						  p2[ x + verts_x - 1 ] +
+						  p2[ x + verts_x + 1 ] +
+						  p2[ x ] ) * ( 1.0f / 9.0f );
 
-				p1[ x ] = value * density;
+					p1[ x ] = value * density;
+				}
 			}
-		}
-		break;
+			break;
 	}
 }
 
@@ -360,7 +362,7 @@ void idRenderModelLiquid::InitFromFile( const char *fileName ) {
 	size_x = scale_x * verts_x;
 	size_y = scale_y * verts_y;
 
-	while( parser.ReadToken( &token ) ) {
+	while ( parser.ReadToken( &token ) ) {
 		if ( !token.Icmp( "seed" ) ) {
 			seed = parser.ParseInt();
 		} else if ( !token.Icmp( "size_x" ) ) {
@@ -430,13 +432,13 @@ void idRenderModelLiquid::InitFromFile( const char *fileName ) {
 			page2[ i ] = 0.0f;
 			verts[ i ].Clear();
 			verts[ i ].xyz.Set( x * scale_x, y * scale_y, 0.0f );
-			verts[ i ].st.Set( (float) x / (float)( verts_x - 1 ), (float) -y / (float)( verts_y - 1 ) );
+			verts[ i ].st.Set( ( float ) x / ( float )( verts_x - 1 ), ( float ) - y / ( float )( verts_y - 1 ) );
 		}
 	}
 
 	tris.SetNum( ( verts_x - 1 ) * ( verts_y - 1 ) * 6 );
-	for( i = 0, y = 0; y < verts_y - 1; y++ ) {
-		for( x = 1; x < verts_x; x++, i += 6 ) {
+	for ( i = 0, y = 0; y < verts_y - 1; y++ ) {
+		for ( x = 1; x < verts_x; x++, i += 6 ) {
 			tris[ i + 0 ] = y * verts_x + x;
 			tris[ i + 1 ] = y * verts_x + x - 1;
 			tris[ i + 2 ] = ( y + 1 ) * verts_x + x - 1;
@@ -495,8 +497,8 @@ idRenderModel *idRenderModelLiquid::InstantiateDynamicModel( const struct render
 
 		frames = LIQUID_MAX_SKIP_FRAMES;
 	}
-	
-	while( frames > 0 ) {
+
+	while ( frames > 0 ) {
 		Update();
 		frames--;
 	}
@@ -526,7 +528,7 @@ dynamicModel_t idRenderModelLiquid::IsDynamicModel() const {
 idRenderModelLiquid::Bounds
 ====================
 */
-idBounds idRenderModelLiquid::Bounds(const struct renderEntity_s *ent) const {
+idBounds idRenderModelLiquid::Bounds( const struct renderEntity_s *ent ) const {
 	// FIXME: need to do this better
 	return bounds;
 }

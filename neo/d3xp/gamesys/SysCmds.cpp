@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -69,7 +69,7 @@ void Cmd_EntityList_f( const idCmdArgs &args ) {
 
 	gameLocal.Printf( "%-4s  %-20s %-20s %s\n", " Num", "EntityDef", "Class", "Name" );
 	gameLocal.Printf( "--------------------------------------------------------------------\n" );
-	for( e = 0; e < MAX_GENTITIES; e++ ) {
+	for ( e = 0; e < MAX_GENTITIES; e++ ) {
 		check = gameLocal.entities[ e ];
 
 		if ( !check ) {
@@ -81,7 +81,7 @@ void Cmd_EntityList_f( const idCmdArgs &args ) {
 		}
 
 		gameLocal.Printf( "%4i: %-20s %-20s %s\n", e,
-			check->GetEntityDefName(), check->GetClassname(), check->name.c_str() );
+						  check->GetEntityDefName(), check->GetClassname(), check->name.c_str() );
 
 		count++;
 		size += check->spawnArgs.Allocated();
@@ -103,7 +103,7 @@ void Cmd_ActiveEntityList_f( const idCmdArgs &args ) {
 
 	gameLocal.Printf( "%-4s  %-20s %-20s %s\n", " Num", "EntityDef", "Class", "Name" );
 	gameLocal.Printf( "--------------------------------------------------------------------\n" );
-	for( check = gameLocal.activeEntities.Next(); check != NULL; check = check->activeNode.Next() ) {
+	for ( check = gameLocal.activeEntities.Next(); check != NULL; check = check->activeNode.Next() ) {
 		char	dormant = check->fl.isDormant ? '-' : ' ';
 		gameLocal.Printf( "%4i:%c%-20s %-20s %s\n", check->entityNumber, dormant, check->GetEntityDefName(), check->GetClassname(), check->name.c_str() );
 		count++;
@@ -157,7 +157,7 @@ void Cmd_ReloadScript_f( const idCmdArgs &args ) {
 		}
 		if ( gamedir.Length() > 0 ) {
 			idStr scriptFile = va( "script/%s_main.script", gamedir.c_str() );
-			if ( fileSystem->ReadFile(scriptFile.c_str(), NULL) > 0 ) {
+			if ( fileSystem->ReadFile( scriptFile.c_str(), NULL ) > 0 ) {
 				gameLocal.program.CompileFile( scriptFile.c_str() );
 				gameLocal.program.FinishCompilation();
 			}
@@ -175,11 +175,11 @@ Cmd_Script_f
 ===================
 */
 void Cmd_Script_f( const idCmdArgs &args ) {
-	const char *	script;
+	const char 	*script;
 	idStr			text;
 	idStr			funcname;
 	static int		funccount = 0;
-	idThread *		thread;
+	idThread 		*thread;
 	const function_t *func;
 	idEntity		*ent;
 
@@ -195,7 +195,7 @@ void Cmd_Script_f( const idCmdArgs &args ) {
 		func = gameLocal.program.FindFunction( funcname );
 		if ( func ) {
 			// set all the entity names in case the user named one in the script that wasn't referenced in the default script
-			for( ent = gameLocal.spawnedEntities.Next(); ent != NULL; ent = ent->spawnNode.Next() ) {
+			for ( ent = gameLocal.spawnedEntities.Next(); ent != NULL; ent = ent->spawnNode.Next() ) {
 				gameLocal.program.SetEntity( ent->name, ent );
 			}
 
@@ -222,14 +222,14 @@ void KillEntities( const idCmdArgs &args, const idTypeInfo &superClass ) {
 		return;
 	}
 
-	for( i = 1; i < args.Argc(); i++ ) {
+	for ( i = 1; i < args.Argc(); i++ ) {
 		name = args.Argv( i );
 		ignore.Append( name );
 	}
 
-	for( ent = gameLocal.spawnedEntities.Next(); ent != NULL; ent = ent->spawnNode.Next() ) {
+	for ( ent = gameLocal.spawnedEntities.Next(); ent != NULL; ent = ent->spawnNode.Next() ) {
 		if ( ent->IsType( superClass ) ) {
-			for( i = 0; i < ignore.Num(); i++ ) {
+			for ( i = 0; i < ignore.Num(); i++ ) {
 				if ( ignore[ i ] == ent->name ) {
 					break;
 				}
@@ -314,7 +314,7 @@ void Cmd_Give_f( const idCmdArgs &args ) {
 	if ( give_all || ( idStr::Cmpn( name, "weapon", 6 ) == 0 ) ) {
 		if ( gameLocal.world->spawnArgs.GetBool( "no_Weapons" ) ) {
 			gameLocal.world->spawnArgs.SetBool( "no_Weapons", false );
-			for( i = 0; i < gameLocal.numClients; i++ ) {
+			for ( i = 0; i < gameLocal.numClients; i++ ) {
 				if ( gameLocal.entities[ i ] ) {
 					gameLocal.entities[ i ]->PostEventSec( &EV_Player_SelectWeapon, 0.5f, gameLocal.entities[ i ]->spawnArgs.GetString( "def_weapon1" ) );
 				}
@@ -373,8 +373,7 @@ void Cmd_Give_f( const idCmdArgs &args ) {
 	if ( idStr::Icmp( name, "invulnerability" ) == 0 ) {
 		if ( args.Argc() > 2 ) {
 			player->GivePowerUp( INVULNERABILITY, atoi( args.Argv( 2 ) ) );
-		}
-		else {
+		} else {
 			player->GivePowerUp( INVULNERABILITY, 30000 );
 		}
 		return;
@@ -383,8 +382,7 @@ void Cmd_Give_f( const idCmdArgs &args ) {
 	if ( idStr::Icmp( name, "helltime" ) == 0 ) {
 		if ( args.Argc() > 2 ) {
 			player->GivePowerUp( HELLTIME, atoi( args.Argv( 2 ) ) );
-		}
-		else {
+		} else {
 			player->GivePowerUp( HELLTIME, 30000 );
 		}
 		return;
@@ -393,24 +391,23 @@ void Cmd_Give_f( const idCmdArgs &args ) {
 	if ( idStr::Icmp( name, "envirosuit" ) == 0 ) {
 		if ( args.Argc() > 2 ) {
 			player->GivePowerUp( ENVIROSUIT, atoi( args.Argv( 2 ) ) );
-		}
-		else {
+		} else {
 			player->GivePowerUp( ENVIROSUIT, 30000 );
 		}
 		return;
 	}
 #endif
 	if ( idStr::Icmp( name, "pda" ) == 0 ) {
-		player->GivePDA( args.Argv(2), NULL );
+		player->GivePDA( args.Argv( 2 ), NULL );
 		return;
 	}
 
 	if ( idStr::Icmp( name, "video" ) == 0 ) {
-		player->GiveVideo( args.Argv(2), NULL );
+		player->GiveVideo( args.Argv( 2 ), NULL );
 		return;
 	}
 
-	if ( !give_all && !player->Give( args.Argv(1), args.Argv(2) ) ) {
+	if ( !give_all && !player->Give( args.Argv( 1 ), args.Argv( 2 ) ) ) {
 		gameLocal.Printf( "unknown item\n" );
 	}
 }
@@ -612,7 +609,7 @@ static void Cmd_Say( bool team, const idCmdArgs &args ) {
 	}
 	name = "player";
 
-	idPlayer *	player;
+	idPlayer 	*player;
 
 	// here we need to special case a listen server to use the real client name instead of "server"
 	// "server" will only appear on a dedicated server
@@ -623,22 +620,22 @@ static void Cmd_Say( bool team, const idCmdArgs &args ) {
 		}
 
 #ifdef CTF
-        // Append the player's location to team chat messages in CTF
-        if ( gameLocal.mpGame.IsGametypeFlagBased() && team && player ) {
-            idLocationEntity *locationEntity = gameLocal.LocationForPoint( player->GetEyePosition() );
-            
-            if ( locationEntity ) {
-                idStr temp = "[";
-                temp += locationEntity->GetLocation();
-                temp += "] ";
-                temp += text;
-                text = temp;
-            }
-            
-        }
+		// Append the player's location to team chat messages in CTF
+		if ( gameLocal.mpGame.IsGametypeFlagBased() && team && player ) {
+			idLocationEntity *locationEntity = gameLocal.LocationForPoint( player->GetEyePosition() );
+
+			if ( locationEntity ) {
+				idStr temp = "[";
+				temp += locationEntity->GetLocation();
+				temp += "] ";
+				temp += text;
+				text = temp;
+			}
+
+		}
 #endif
 
-        
+
 	} else {
 		name = "server";
 	}
@@ -866,7 +863,7 @@ void Cmd_Spawn_f( const idCmdArgs &args ) {
 	org = player->GetPhysics()->GetOrigin() + idAngles( 0, yaw, 0 ).ToForward() * 80 + idVec3( 0, 0, 1 );
 	dict.Set( "origin", org.ToString() );
 
-	for( i = 2; i < args.Argc() - 1; i += 2 ) {
+	for ( i = 2; i < args.Argc() - 1; i += 2 ) {
 
 		key = args.Argv( i );
 		value = args.Argv( i + 1 );
@@ -937,7 +934,7 @@ void Cmd_TestLight_f( const idCmdArgs &args ) {
 	int			i;
 	idStr		filename;
 	const char *key, *value, *name;
-	idPlayer *	player;
+	idPlayer 	*player;
 	idDict		dict;
 
 	player = gameLocal.GetLocalPlayer();
@@ -960,13 +957,13 @@ void Cmd_TestLight_f( const idCmdArgs &args ) {
 
 	if ( args.Argc() >= 2 ) {
 		value = args.Argv( 1 );
-		filename = args.Argv(1);
+		filename = args.Argv( 1 );
 		filename.DefaultFileExtension( ".tga" );
 		dict.Set( "texture", filename );
 	}
 
 	dict.Set( "classname", "light" );
-	for( i = 2; i < args.Argc() - 1; i += 2 ) {
+	for ( i = 2; i < args.Argc() - 1; i += 2 ) {
 
 		key = args.Argv( i );
 		value = args.Argv( i + 1 );
@@ -984,7 +981,7 @@ void Cmd_TestLight_f( const idCmdArgs &args ) {
 
 	gameLocal.SpawnEntityDef( dict );
 
-	gameLocal.Printf( "Created new light\n");
+	gameLocal.Printf( "Created new light\n" );
 }
 
 /*
@@ -1003,17 +1000,17 @@ void Cmd_TestPointLight_f( const idCmdArgs &args ) {
 		return;
 	}
 
-	dict.SetVector("origin", player->GetRenderView()->vieworg);
+	dict.SetVector( "origin", player->GetRenderView()->vieworg );
 
 	if ( args.Argc() >= 2 ) {
 		value = args.Argv( 1 );
-		dict.Set("light", value);
+		dict.Set( "light", value );
 	} else {
-		dict.Set("light", "300");
+		dict.Set( "light", "300" );
 	}
 
 	dict.Set( "classname", "light" );
-	for( i = 2; i < args.Argc() - 1; i += 2 ) {
+	for ( i = 2; i < args.Argc() - 1; i += 2 ) {
 
 		key = args.Argv( i );
 		value = args.Argv( i + 1 );
@@ -1031,7 +1028,7 @@ void Cmd_TestPointLight_f( const idCmdArgs &args ) {
 
 	gameLocal.SpawnEntityDef( dict );
 
-	gameLocal.Printf( "Created new point light\n");
+	gameLocal.Printf( "Created new point light\n" );
 }
 
 /*
@@ -1054,14 +1051,14 @@ void Cmd_PopLight_f( const idCmdArgs &args ) {
 
 	lastLight = NULL;
 	last = -1;
-	for( ent = gameLocal.spawnedEntities.Next(); ent != NULL; ent = ent->spawnNode.Next() ) {
+	for ( ent = gameLocal.spawnedEntities.Next(); ent != NULL; ent = ent->spawnNode.Next() ) {
 		if ( !ent->IsType( idLight::Type ) ) {
 			continue;
 		}
 
 		if ( gameLocal.spawnIds[ ent->entityNumber ] > last ) {
 			last = gameLocal.spawnIds[ ent->entityNumber ];
-			lastLight = static_cast<idLight*>( ent );
+			lastLight = static_cast<idLight *>( ent );
 		}
 	}
 
@@ -1095,13 +1092,13 @@ void Cmd_ClearLights_f( const idCmdArgs &args ) {
 	bool removeFromMap = ( args.Argc() > 1 );
 
 	gameLocal.Printf( "Clearing all lights.\n" );
-	for( ent = gameLocal.spawnedEntities.Next(); ent != NULL; ent = next ) {
+	for ( ent = gameLocal.spawnedEntities.Next(); ent != NULL; ent = next ) {
 		next = ent->spawnNode.Next();
 		if ( !ent->IsType( idLight::Type ) ) {
 			continue;
 		}
 
-		light = static_cast<idLight*>( ent );
+		light = static_cast<idLight *>( ent );
 		mapEnt = mapFile->FindEntity( light->name );
 
 		if ( removeFromMap && mapEnt ) {
@@ -1120,7 +1117,7 @@ Cmd_TestFx_f
 void Cmd_TestFx_f( const idCmdArgs &args ) {
 	idVec3		offset;
 	const char *name;
-	idPlayer *	player;
+	idPlayer 	*player;
 	idDict		dict;
 
 	player = gameLocal.GetLocalPlayer();
@@ -1143,7 +1140,7 @@ void Cmd_TestFx_f( const idCmdArgs &args ) {
 	offset = player->GetPhysics()->GetOrigin() + player->viewAngles.ToForward() * 100.0f;
 
 	dict.Set( "origin", offset.ToString() );
-	dict.Set( "test", "1");
+	dict.Set( "test", "1" );
 	dict.Set( "fx", name );
 	gameLocal.testFx = ( idEntityFx * )gameLocal.SpawnEntityType( idEntityFx::Type, &dict );
 }
@@ -1173,7 +1170,7 @@ static void Cmd_AddDebugLine_f( const idCmdArgs &args ) {
 		return;
 	}
 
-	if ( args.Argc () < 7 ) {
+	if ( args.Argc() < 7 ) {
 		gameLocal.Printf( "usage: addline <x y z> <x y z> <color>\n" );
 		return;
 	}
@@ -1217,12 +1214,12 @@ static void Cmd_RemoveDebugLine_f( const idCmdArgs &args ) {
 		return;
 	}
 
-	if ( args.Argc () < 2 ) {
+	if ( args.Argc() < 2 ) {
 		gameLocal.Printf( "usage: removeline <num>\n" );
 		return;
 	}
 	value = args.Argv( 1 );
-	num = atoi(value);
+	num = atoi( value );
 	for ( i = 0; i < MAX_DEBUGLINES; i++ ) {
 		if ( debugLines[i].used ) {
 			if ( --num < 0 ) {
@@ -1250,7 +1247,7 @@ static void Cmd_BlinkDebugLine_f( const idCmdArgs &args ) {
 		return;
 	}
 
-	if ( args.Argc () < 2 ) {
+	if ( args.Argc() < 2 ) {
 		gameLocal.Printf( "usage: blinkline <num>\n" );
 		return;
 	}
@@ -1330,21 +1327,21 @@ void D_DrawDebugLines( void ) {
 
 	for ( i = 0; i < MAX_DEBUGLINES; i++ ) {
 		if ( debugLines[i].used ) {
-			if ( !debugLines[i].blink || (gameLocal.time & (1<<9)) ) {
-				color = idVec4( debugLines[i].color&1, (debugLines[i].color>>1)&1, (debugLines[i].color>>2)&1, 1 );
+			if ( !debugLines[i].blink || ( gameLocal.time & ( 1 << 9 ) ) ) {
+				color = idVec4( debugLines[i].color & 1, ( debugLines[i].color >> 1 ) & 1, ( debugLines[i].color >> 2 ) & 1, 1 );
 				gameRenderWorld->DebugLine( color, debugLines[i].start, debugLines[i].end );
 				//
 				if ( debugLines[i].arrow ) {
 					// draw a nice arrow
 					forward = debugLines[i].end - debugLines[i].start;
 					l = forward.Normalize() * 0.2f;
-					forward.NormalVectors( right, up);
+					forward.NormalVectors( right, up );
 
 					if ( l > 3.0f ) {
 						l = 3.0f;
 					}
-					p1 = debugLines[i].end - l * forward + (l * 0.4f) * right;
-					p2 = debugLines[i].end - l * forward - (l * 0.4f) * right;
+					p1 = debugLines[i].end - l * forward + ( l * 0.4f ) * right;
+					p2 = debugLines[i].end - l * forward - ( l * 0.4f ) * right;
 					gameRenderWorld->DebugLine( color, debugLines[i].end, p1 );
 					gameRenderWorld->DebugLine( color, debugLines[i].end, p2 );
 					gameRenderWorld->DebugLine( color, p1, p2 );
@@ -1379,9 +1376,9 @@ static void Cmd_CollisionModelInfo_f( const idCmdArgs &args ) {
 		return;
 	}
 
-	if ( args.Argc () < 2 ) {
+	if ( args.Argc() < 2 ) {
 		gameLocal.Printf( "usage: collisionModelInfo <modelNum>\n"
-					"use 'all' instead of the model number for accumulated info\n" );
+						  "use 'all' instead of the model number for accumulated info\n" );
 		return;
 	}
 
@@ -1389,7 +1386,7 @@ static void Cmd_CollisionModelInfo_f( const idCmdArgs &args ) {
 	if ( !idStr::Icmp( value, "all" ) ) {
 		collisionModelManager->ModelInfo( -1 );
 	} else {
-		collisionModelManager->ModelInfo( atoi(value) );
+		collisionModelManager->ModelInfo( atoi( value ) );
 	}
 }
 
@@ -1466,13 +1463,13 @@ Cmd_ListAnims_f
 ==================
 */
 static void Cmd_ListAnims_f( const idCmdArgs &args ) {
-	idEntity *		ent;
+	idEntity 		*ent;
 	int				num;
 	size_t			size;
 	size_t			alloced;
-	idAnimator *	animator;
-	const char *	classname;
-	const idDict *	dict;
+	idAnimator 	*animator;
+	const char 	*classname;
+	const idDict 	*dict;
 	int				i;
 
 	if ( args.Argc() > 1 ) {
@@ -1489,7 +1486,7 @@ static void Cmd_ListAnims_f( const idCmdArgs &args ) {
 
 		gameLocal.Printf( "----------------\n" );
 		num = animator.NumAnims();
-		for( i = 0; i < num; i++ ) {
+		for ( i = 0; i < num; i++ ) {
 			gameLocal.Printf( "%s\n", animator.AnimFullName( i ) );
 		}
 		gameLocal.Printf( "%d anims\n", num );
@@ -1498,7 +1495,7 @@ static void Cmd_ListAnims_f( const idCmdArgs &args ) {
 
 		size = 0;
 		num = 0;
-		for( ent = gameLocal.spawnedEntities.Next(); ent != NULL; ent = ent->spawnNode.Next() ) {
+		for ( ent = gameLocal.spawnedEntities.Next(); ent != NULL; ent = ent->spawnNode.Next() ) {
 			animator = ent->GetAnimator();
 			if ( animator ) {
 				alloced = animator->Allocated();
@@ -1614,7 +1611,7 @@ static void Cmd_TestDeath_f( const idCmdArgs &args ) {
 
 	g_testDeath.SetBool( 1 );
 	player->Damage( NULL, NULL, dir, "damage_triggerhurt_1000", 1.0f, INVALID_JOINT );
-	if ( args.Argc() >= 2) {
+	if ( args.Argc() >= 2 ) {
 		player->SpawnGibs( dir, "damage_triggerhurt_1000" );
 	}
 
@@ -1665,8 +1662,7 @@ static void Cmd_SaveSelected_f( const idCmdArgs &args ) {
 	if ( args.Argc() > 1 ) {
 		mapName = args.Argv( 1 );
 		mapName = "maps/" + mapName;
-	}
-	else {
+	} else {
 		mapName = mapFile->GetName();
 	}
 
@@ -1691,11 +1687,10 @@ static void Cmd_SaveSelected_f( const idCmdArgs &args ) {
 		// save the moveable state
 		mapEnt->epairs.Set( "origin", s->GetPhysics()->GetOrigin().ToString( 8 ) );
 		mapEnt->epairs.Set( "rotation", s->GetPhysics()->GetAxis().ToString( 8 ) );
-	}
-	else if ( s->IsType( idAFEntity_Generic::Type ) || s->IsType( idAFEntity_WithAttachedHead::Type ) ) {
+	} else if ( s->IsType( idAFEntity_Generic::Type ) || s->IsType( idAFEntity_WithAttachedHead::Type ) ) {
 		// save the articulated figure state
 		dict.Clear();
-		static_cast<idAFEntity_Base *>(s)->SaveState( dict );
+		static_cast<idAFEntity_Base *>( s )->SaveState( dict );
 		mapEnt->epairs.Copy( dict );
 	}
 
@@ -1738,8 +1733,8 @@ static void Cmd_SaveMoveables_f( const idCmdArgs &args ) {
 		return;
 	}
 
-	for( e = 0; e < MAX_GENTITIES; e++ ) {
-		m = static_cast<idMoveable *>(gameLocal.entities[ e ]);
+	for ( e = 0; e < MAX_GENTITIES; e++ ) {
+		m = static_cast<idMoveable *>( gameLocal.entities[ e ] );
 
 		if ( !m || !m->IsType( idMoveable::Type ) ) {
 			continue;
@@ -1762,13 +1757,12 @@ static void Cmd_SaveMoveables_f( const idCmdArgs &args ) {
 	if ( args.Argc() > 1 ) {
 		mapName = args.Argv( 1 );
 		mapName = "maps/" + mapName;
-	}
-	else {
+	} else {
 		mapName = mapFile->GetName();
 	}
 
-	for( e = 0; e < MAX_GENTITIES; e++ ) {
-		m = static_cast<idMoveable *>(gameLocal.entities[ e ]);
+	for ( e = 0; e < MAX_GENTITIES; e++ ) {
+		m = static_cast<idMoveable *>( gameLocal.entities[ e ] );
 
 		if ( !m || !m->IsType( idMoveable::Type ) ) {
 			continue;
@@ -1824,13 +1818,12 @@ static void Cmd_SaveRagdolls_f( const idCmdArgs &args ) {
 	if ( args.Argc() > 1 ) {
 		mapName = args.Argv( 1 );
 		mapName = "maps/" + mapName;
-	}
-	else {
+	} else {
 		mapName = mapFile->GetName();
 	}
 
-	for( e = 0; e < MAX_GENTITIES; e++ ) {
-		af = static_cast<idAFEntity_Base *>(gameLocal.entities[ e ]);
+	for ( e = 0; e < MAX_GENTITIES; e++ ) {
+		af = static_cast<idAFEntity_Base *>( gameLocal.entities[ e ] );
 
 		if ( !af ) {
 			continue;
@@ -1941,13 +1934,12 @@ static void Cmd_SaveLights_f( const idCmdArgs &args ) {
 	if ( args.Argc() > 1 ) {
 		mapName = args.Argv( 1 );
 		mapName = "maps/" + mapName;
-	}
-	else {
+	} else {
 		mapName = mapFile->GetName();
 	}
 
-	for( e = 0; e < MAX_GENTITIES; e++ ) {
-		light = static_cast<idLight*>(gameLocal.entities[ e ]);
+	for ( e = 0; e < MAX_GENTITIES; e++ ) {
+		light = static_cast<idLight *>( gameLocal.entities[ e ] );
 
 		if ( !light || !light->IsType( idLight::Type ) ) {
 			continue;
@@ -2001,21 +1993,20 @@ static void Cmd_SaveParticles_f( const idCmdArgs &args ) {
 	if ( args.Argc() > 1 ) {
 		mapName = args.Argv( 1 );
 		mapName = "maps/" + mapName;
-	}
-	else {
+	} else {
 		mapName = mapFile->GetName();
 	}
 
-	for( e = 0; e < MAX_GENTITIES; e++ ) {
+	for ( e = 0; e < MAX_GENTITIES; e++ ) {
 
-		ent = static_cast<idStaticEntity*> ( gameLocal.entities[ e ] );
+		ent = static_cast<idStaticEntity *>( gameLocal.entities[ e ] );
 
 		if ( !ent ) {
 			continue;
 		}
 
 		strModel = ent->spawnArgs.GetString( "model" );
-		if ( strModel.Length() && strModel.Find( ".prt") > 0 ) {
+		if ( strModel.Length() && strModel.Find( ".prt" ) > 0 ) {
 			dict.Clear();
 			dict.Set( "model", ent->spawnArgs.GetString( "model" ) );
 			dict.SetVector( "origin", ent->GetPhysics()->GetOrigin() );
@@ -2083,7 +2074,7 @@ static void Cmd_RecordViewNotes_f( const idCmdArgs &args ) {
 	// Argv(2) = note number (person0001)
 	// Argv(3) = comments
 
-	idStr str = args.Argv(1);
+	idStr str = args.Argv( 1 );
 	str.SetFileExtension( ".txt" );
 
 #ifdef _D3XP
@@ -2094,16 +2085,16 @@ static void Cmd_RecordViewNotes_f( const idCmdArgs &args ) {
 
 	if ( file ) {
 		file->WriteFloatString( "\"view\"\t( %s )\t( %s )\r\n", origin.ToString(), axis.ToString() );
-		file->WriteFloatString( "\"comments\"\t\"%s: %s\"\r\n\r\n", args.Argv(2), args.Argv(3) );
+		file->WriteFloatString( "\"comments\"\t\"%s: %s\"\r\n\r\n", args.Argv( 2 ), args.Argv( 3 ) );
 		fileSystem->CloseFile( file );
 	}
 
-	idStr viewComments = args.Argv(1);
-	viewComments.StripLeading("viewnotes/");
+	idStr viewComments = args.Argv( 1 );
+	viewComments.StripLeading( "viewnotes/" );
 	viewComments += " -- Loc: ";
 	viewComments += origin.ToString();
 	viewComments += "\n";
-	viewComments += args.Argv(3);
+	viewComments += args.Argv( 3 );
 	player->hud->SetStateString( "viewcomments", viewComments );
 	player->hud->HandleNamedEvent( "showViewComments" );
 }
@@ -2119,7 +2110,7 @@ static void Cmd_CloseViewNotes_f( const idCmdArgs &args ) {
 	if ( !player ) {
 		return;
 	}
-	
+
 	player->hud->SetStateString( "viewcomments", "" );
 	player->hud->HandleNamedEvent( "hideViewComments" );
 }
@@ -2159,8 +2150,8 @@ static void Cmd_ShowViewNotes_f( const idCmdArgs &args ) {
 		}
 	}
 
-	if ( parser.ExpectTokenString( "view" ) && parser.Parse1DMatrix( 3, origin.ToFloatPtr() ) && 
-		parser.Parse1DMatrix( 9, axis.ToFloatPtr() ) && parser.ExpectTokenString( "comments" ) && parser.ReadToken( &token ) ) {
+	if ( parser.ExpectTokenString( "view" ) && parser.Parse1DMatrix( 3, origin.ToFloatPtr() ) &&
+			parser.Parse1DMatrix( 9, axis.ToFloatPtr() ) && parser.ExpectTokenString( "comments" ) && parser.ReadToken( &token ) ) {
 		player->hud->SetStateString( "viewcomments", token );
 		player->hud->HandleNamedEvent( "showViewComments" );
 		player->Teleport( origin, axis.ToAngles(), NULL );
@@ -2179,7 +2170,7 @@ helper function for Cmd_NextGUI_f.  Checks the passed entity to determine if it
 has any valid gui surfaces.
 =================
 */
-bool FindEntityGUIs( idEntity *ent, const modelSurface_t ** surfaces,  int maxSurfs, int &guiSurfaces ) {
+bool FindEntityGUIs( idEntity *ent, const modelSurface_t **surfaces,  int maxSurfs, int &guiSurfaces ) {
 	renderEntity_t			*renderEnt;
 	idRenderModel			*renderModel;
 	const modelSurface_t	*surf;
@@ -2189,7 +2180,7 @@ bool FindEntityGUIs( idEntity *ent, const modelSurface_t ** surfaces,  int maxSu
 	assert( surfaces != NULL );
 	assert( ent != NULL );
 
-	memset( surfaces, 0x00, sizeof( modelSurface_t *) * maxSurfs );
+	memset( surfaces, 0x00, sizeof( modelSurface_t * ) * maxSurfs );
 	guiSurfaces = 0;
 
 	renderEnt  = ent->GetRenderEntity();
@@ -2198,7 +2189,7 @@ bool FindEntityGUIs( idEntity *ent, const modelSurface_t ** surfaces,  int maxSu
 		return false;
 	}
 
-	for( i = 0; i < renderModel->NumSurfaces(); i++ ) {
+	for ( i = 0; i < renderModel->NumSurfaces(); i++ ) {
 		surf = renderModel->Surface( i );
 		if ( surf == NULL ) {
 			continue;
@@ -2274,7 +2265,7 @@ void Cmd_NextGUI_f( const idCmdArgs &args ) {
 			if ( ent->spawnArgs.GetString( "gui", NULL ) != NULL ) {
 				break;
 			}
-			
+
 			if ( ent->spawnArgs.GetString( "gui2", NULL ) != NULL ) {
 				break;
 			}
@@ -2282,7 +2273,7 @@ void Cmd_NextGUI_f( const idCmdArgs &args ) {
 			if ( ent->spawnArgs.GetString( "gui3", NULL ) != NULL ) {
 				break;
 			}
-			
+
 			// try the next entity
 			gameLocal.lastGUIEnt = ent;
 		}
@@ -2305,7 +2296,7 @@ void Cmd_NextGUI_f( const idCmdArgs &args ) {
 		return;
 	}
 
-	gameLocal.Printf( "Teleporting to gui entity \"%s\", gui #%d.\n" , ent->name.c_str (), gameLocal.lastGUI );
+	gameLocal.Printf( "Teleporting to gui entity \"%s\", gui #%d.\n" , ent->name.c_str(), gameLocal.lastGUI );
 
 	renderEnt = ent->GetRenderEntity();
 	surfIndex = gameLocal.lastGUI++;
@@ -2317,14 +2308,14 @@ void Cmd_NextGUI_f( const idCmdArgs &args ) {
 
 	assert( geom->facePlanes != NULL );
 
-	modelMatrix = idMat4( renderEnt->axis, renderEnt->origin );	
+	modelMatrix = idMat4( renderEnt->axis, renderEnt->origin );
 	normal = geom->facePlanes[ 0 ].Normal() * renderEnt->axis;
 	center = geom->bounds.GetCenter() * modelMatrix;
 
-	origin = center + (normal * 32.0f);
+	origin = center + ( normal * 32.0f );
 	origin.z -= player->EyeHeight();
 	normal *= -1.0f;
-	angles = normal.ToAngles ();
+	angles = normal.ToAngles();
 
 	//	make sure the player is in noclip
 	player->noclip = true;
@@ -2339,25 +2330,25 @@ void Cmd_SetActorState_f( const idCmdArgs &args ) {
 		return;
 	}
 
-	idEntity* ent;
+	idEntity *ent;
 	ent = gameLocal.FindEntity( args.Argv( 1 ) );
 	if ( !ent ) {
 		gameLocal.Printf( "entity not found\n" );
 		return;
 	}
 
-	
-	if(!ent->IsType(idActor::Type)) {
+
+	if ( !ent->IsType( idActor::Type ) ) {
 		gameLocal.Printf( "entity not an actor\n" );
 		return;
 	}
 
-	idActor* actor = (idActor*)ent;
-	actor->PostEventMS(&AI_SetState, 0, args.Argv(2));
+	idActor *actor = ( idActor * )ent;
+	actor->PostEventMS( &AI_SetState, 0, args.Argv( 2 ) );
 }
 #endif
 
-static void ArgCompletion_DefFile( const idCmdArgs &args, void(*callback)( const char *s ) ) {
+static void ArgCompletion_DefFile( const idCmdArgs &args, void( *callback )( const char *s ) ) {
 	cmdSystem->ArgCompletion_FolderExtension( args, callback, "def/", true, ".def", NULL );
 }
 
@@ -2381,7 +2372,7 @@ void Cmd_TestId_f( const idCmdArgs &args ) {
 	if ( idStr::Cmpn( id, STRTABLE_ID, STRTABLE_ID_LENGTH ) != 0 ) {
 		id = STRTABLE_ID + id;
 	}
-	gameLocal.mpGame.AddChatLine( common->GetLanguageDict()->GetString( id ), "<nothing>", "<nothing>", "<nothing>" );	
+	gameLocal.mpGame.AddChatLine( common->GetLanguageDict()->GetString( id ), "<nothing>", "<nothing>", "<nothing>" );
 }
 
 /*
@@ -2395,86 +2386,86 @@ so it can perform tab completion
 void idGameLocal::InitConsoleCommands( void ) {
 	cmdSystem->AddCommand( "listTypeInfo",			ListTypeInfo_f,				CMD_FL_GAME,				"list type info" );
 	cmdSystem->AddCommand( "writeGameState",		WriteGameState_f,			CMD_FL_GAME,				"write game state" );
-	cmdSystem->AddCommand( "testSaveGame",			TestSaveGame_f,				CMD_FL_GAME|CMD_FL_CHEAT,	"test a save game for a level" );
+	cmdSystem->AddCommand( "testSaveGame",			TestSaveGame_f,				CMD_FL_GAME | CMD_FL_CHEAT,	"test a save game for a level" );
 	cmdSystem->AddCommand( "game_memory",			idClass::DisplayInfo_f,		CMD_FL_GAME,				"displays game class info" );
 	cmdSystem->AddCommand( "listClasses",			idClass::ListClasses_f,		CMD_FL_GAME,				"lists game classes" );
-	cmdSystem->AddCommand( "listThreads",			idThread::ListThreads_f,	CMD_FL_GAME|CMD_FL_CHEAT,	"lists script threads" );
-	cmdSystem->AddCommand( "listEntities",			Cmd_EntityList_f,			CMD_FL_GAME|CMD_FL_CHEAT,	"lists game entities" );
-	cmdSystem->AddCommand( "listActiveEntities",	Cmd_ActiveEntityList_f,		CMD_FL_GAME|CMD_FL_CHEAT,	"lists active game entities" );
-	cmdSystem->AddCommand( "listMonsters",			idAI::List_f,				CMD_FL_GAME|CMD_FL_CHEAT,	"lists monsters" );
-	cmdSystem->AddCommand( "listSpawnArgs",			Cmd_ListSpawnArgs_f,		CMD_FL_GAME|CMD_FL_CHEAT,	"list the spawn args of an entity", idGameLocal::ArgCompletion_EntityName );
+	cmdSystem->AddCommand( "listThreads",			idThread::ListThreads_f,	CMD_FL_GAME | CMD_FL_CHEAT,	"lists script threads" );
+	cmdSystem->AddCommand( "listEntities",			Cmd_EntityList_f,			CMD_FL_GAME | CMD_FL_CHEAT,	"lists game entities" );
+	cmdSystem->AddCommand( "listActiveEntities",	Cmd_ActiveEntityList_f,		CMD_FL_GAME | CMD_FL_CHEAT,	"lists active game entities" );
+	cmdSystem->AddCommand( "listMonsters",			idAI::List_f,				CMD_FL_GAME | CMD_FL_CHEAT,	"lists monsters" );
+	cmdSystem->AddCommand( "listSpawnArgs",			Cmd_ListSpawnArgs_f,		CMD_FL_GAME | CMD_FL_CHEAT,	"list the spawn args of an entity", idGameLocal::ArgCompletion_EntityName );
 	cmdSystem->AddCommand( "say",					Cmd_Say_f,					CMD_FL_GAME,				"text chat" );
 	cmdSystem->AddCommand( "sayTeam",				Cmd_SayTeam_f,				CMD_FL_GAME,				"team text chat" );
 	cmdSystem->AddCommand( "addChatLine",			Cmd_AddChatLine_f,			CMD_FL_GAME,				"internal use - core to game chat lines" );
 	cmdSystem->AddCommand( "gameKick",				Cmd_Kick_f,					CMD_FL_GAME,				"same as kick, but recognizes player names" );
-	cmdSystem->AddCommand( "give",					Cmd_Give_f,					CMD_FL_GAME|CMD_FL_CHEAT,	"gives one or more items" );
+	cmdSystem->AddCommand( "give",					Cmd_Give_f,					CMD_FL_GAME | CMD_FL_CHEAT,	"gives one or more items" );
 	cmdSystem->AddCommand( "centerview",			Cmd_CenterView_f,			CMD_FL_GAME,				"centers the view" );
-	cmdSystem->AddCommand( "god",					Cmd_God_f,					CMD_FL_GAME|CMD_FL_CHEAT,	"enables god mode" );
-	cmdSystem->AddCommand( "notarget",				Cmd_Notarget_f,				CMD_FL_GAME|CMD_FL_CHEAT,	"disables the player as a target" );
-	cmdSystem->AddCommand( "noclip",				Cmd_Noclip_f,				CMD_FL_GAME|CMD_FL_CHEAT,	"disables collision detection for the player" );
+	cmdSystem->AddCommand( "god",					Cmd_God_f,					CMD_FL_GAME | CMD_FL_CHEAT,	"enables god mode" );
+	cmdSystem->AddCommand( "notarget",				Cmd_Notarget_f,				CMD_FL_GAME | CMD_FL_CHEAT,	"disables the player as a target" );
+	cmdSystem->AddCommand( "noclip",				Cmd_Noclip_f,				CMD_FL_GAME | CMD_FL_CHEAT,	"disables collision detection for the player" );
 	cmdSystem->AddCommand( "kill",					Cmd_Kill_f,					CMD_FL_GAME,				"kills the player" );
-	cmdSystem->AddCommand( "where",					Cmd_GetViewpos_f,			CMD_FL_GAME|CMD_FL_CHEAT,	"prints the current view position" );
-	cmdSystem->AddCommand( "getviewpos",			Cmd_GetViewpos_f,			CMD_FL_GAME|CMD_FL_CHEAT,	"prints the current view position" );
-	cmdSystem->AddCommand( "setviewpos",			Cmd_SetViewpos_f,			CMD_FL_GAME|CMD_FL_CHEAT,	"sets the current view position" );
-	cmdSystem->AddCommand( "teleport",				Cmd_Teleport_f,				CMD_FL_GAME|CMD_FL_CHEAT,	"teleports the player to an entity location", idGameLocal::ArgCompletion_EntityName );
-	cmdSystem->AddCommand( "trigger",				Cmd_Trigger_f,				CMD_FL_GAME|CMD_FL_CHEAT,	"triggers an entity", idGameLocal::ArgCompletion_EntityName );
-	cmdSystem->AddCommand( "spawn",					Cmd_Spawn_f,				CMD_FL_GAME|CMD_FL_CHEAT,	"spawns a game entity", idCmdSystem::ArgCompletion_Decl<DECL_ENTITYDEF> );
-	cmdSystem->AddCommand( "damage",				Cmd_Damage_f,				CMD_FL_GAME|CMD_FL_CHEAT,	"apply damage to an entity", idGameLocal::ArgCompletion_EntityName );
-	cmdSystem->AddCommand( "remove",				Cmd_Remove_f,				CMD_FL_GAME|CMD_FL_CHEAT,	"removes an entity", idGameLocal::ArgCompletion_EntityName );
-	cmdSystem->AddCommand( "killMonsters",			Cmd_KillMonsters_f,			CMD_FL_GAME|CMD_FL_CHEAT,	"removes all monsters" );
-	cmdSystem->AddCommand( "killMoveables",			Cmd_KillMovables_f,			CMD_FL_GAME|CMD_FL_CHEAT,	"removes all moveables" );
-	cmdSystem->AddCommand( "killRagdolls",			Cmd_KillRagdolls_f,			CMD_FL_GAME|CMD_FL_CHEAT,	"removes all ragdolls" );
-	cmdSystem->AddCommand( "addline",				Cmd_AddDebugLine_f,			CMD_FL_GAME|CMD_FL_CHEAT,	"adds a debug line" );
-	cmdSystem->AddCommand( "addarrow",				Cmd_AddDebugLine_f,			CMD_FL_GAME|CMD_FL_CHEAT,	"adds a debug arrow" );
-	cmdSystem->AddCommand( "removeline",			Cmd_RemoveDebugLine_f,		CMD_FL_GAME|CMD_FL_CHEAT,	"removes a debug line" );
-	cmdSystem->AddCommand( "blinkline",				Cmd_BlinkDebugLine_f,		CMD_FL_GAME|CMD_FL_CHEAT,	"blinks a debug line" );
-	cmdSystem->AddCommand( "listLines",				Cmd_ListDebugLines_f,		CMD_FL_GAME|CMD_FL_CHEAT,	"lists all debug lines" );
-	cmdSystem->AddCommand( "playerModel",			Cmd_PlayerModel_f,			CMD_FL_GAME|CMD_FL_CHEAT,	"sets the given model on the player", idCmdSystem::ArgCompletion_Decl<DECL_MODELDEF> );
-	cmdSystem->AddCommand( "testFx",				Cmd_TestFx_f,				CMD_FL_GAME|CMD_FL_CHEAT,	"tests an FX system", idCmdSystem::ArgCompletion_Decl<DECL_FX> );
-	cmdSystem->AddCommand( "testBoneFx",			Cmd_TestBoneFx_f,			CMD_FL_GAME|CMD_FL_CHEAT,	"tests an FX system bound to a joint", idCmdSystem::ArgCompletion_Decl<DECL_FX> );
-	cmdSystem->AddCommand( "testLight",				Cmd_TestLight_f,			CMD_FL_GAME|CMD_FL_CHEAT,	"tests a light" );
-	cmdSystem->AddCommand( "testPointLight",		Cmd_TestPointLight_f,		CMD_FL_GAME|CMD_FL_CHEAT,	"tests a point light" );
-	cmdSystem->AddCommand( "popLight",				Cmd_PopLight_f,				CMD_FL_GAME|CMD_FL_CHEAT,	"removes the last created light" );
-	cmdSystem->AddCommand( "testDeath",				Cmd_TestDeath_f,			CMD_FL_GAME|CMD_FL_CHEAT,	"tests death" );
-	cmdSystem->AddCommand( "testSave",				Cmd_TestSave_f,				CMD_FL_GAME|CMD_FL_CHEAT,	"writes out a test savegame" );
-	cmdSystem->AddCommand( "testModel",				idTestModel::TestModel_f,			CMD_FL_GAME|CMD_FL_CHEAT,	"tests a model", idTestModel::ArgCompletion_TestModel );
-	cmdSystem->AddCommand( "testSkin",				idTestModel::TestSkin_f,			CMD_FL_GAME|CMD_FL_CHEAT,	"tests a skin on an existing testModel", idCmdSystem::ArgCompletion_Decl<DECL_SKIN> );
-	cmdSystem->AddCommand( "testShaderParm",		idTestModel::TestShaderParm_f,		CMD_FL_GAME|CMD_FL_CHEAT,	"sets a shaderParm on an existing testModel" );
-	cmdSystem->AddCommand( "keepTestModel",			idTestModel::KeepTestModel_f,		CMD_FL_GAME|CMD_FL_CHEAT,	"keeps the last test model in the game" );
-	cmdSystem->AddCommand( "testAnim",				idTestModel::TestAnim_f,			CMD_FL_GAME|CMD_FL_CHEAT,	"tests an animation", idTestModel::ArgCompletion_TestAnim );
-	cmdSystem->AddCommand( "testParticleStopTime",	idTestModel::TestParticleStopTime_f,CMD_FL_GAME|CMD_FL_CHEAT,	"tests particle stop time on a test model" );
-	cmdSystem->AddCommand( "nextAnim",				idTestModel::TestModelNextAnim_f,	CMD_FL_GAME|CMD_FL_CHEAT,	"shows next animation on test model" );
-	cmdSystem->AddCommand( "prevAnim",				idTestModel::TestModelPrevAnim_f,	CMD_FL_GAME|CMD_FL_CHEAT,	"shows previous animation on test model" );
-	cmdSystem->AddCommand( "nextFrame",				idTestModel::TestModelNextFrame_f,	CMD_FL_GAME|CMD_FL_CHEAT,	"shows next animation frame on test model" );
-	cmdSystem->AddCommand( "prevFrame",				idTestModel::TestModelPrevFrame_f,	CMD_FL_GAME|CMD_FL_CHEAT,	"shows previous animation frame on test model" );
-	cmdSystem->AddCommand( "testBlend",				idTestModel::TestBlend_f,			CMD_FL_GAME|CMD_FL_CHEAT,	"tests animation blending" );
-	cmdSystem->AddCommand( "reloadScript",			Cmd_ReloadScript_f,			CMD_FL_GAME|CMD_FL_CHEAT,	"reloads scripts" );
-	cmdSystem->AddCommand( "script",				Cmd_Script_f,				CMD_FL_GAME|CMD_FL_CHEAT,	"executes a line of script" );
+	cmdSystem->AddCommand( "where",					Cmd_GetViewpos_f,			CMD_FL_GAME | CMD_FL_CHEAT,	"prints the current view position" );
+	cmdSystem->AddCommand( "getviewpos",			Cmd_GetViewpos_f,			CMD_FL_GAME | CMD_FL_CHEAT,	"prints the current view position" );
+	cmdSystem->AddCommand( "setviewpos",			Cmd_SetViewpos_f,			CMD_FL_GAME | CMD_FL_CHEAT,	"sets the current view position" );
+	cmdSystem->AddCommand( "teleport",				Cmd_Teleport_f,				CMD_FL_GAME | CMD_FL_CHEAT,	"teleports the player to an entity location", idGameLocal::ArgCompletion_EntityName );
+	cmdSystem->AddCommand( "trigger",				Cmd_Trigger_f,				CMD_FL_GAME | CMD_FL_CHEAT,	"triggers an entity", idGameLocal::ArgCompletion_EntityName );
+	cmdSystem->AddCommand( "spawn",					Cmd_Spawn_f,				CMD_FL_GAME | CMD_FL_CHEAT,	"spawns a game entity", idCmdSystem::ArgCompletion_Decl<DECL_ENTITYDEF> );
+	cmdSystem->AddCommand( "damage",				Cmd_Damage_f,				CMD_FL_GAME | CMD_FL_CHEAT,	"apply damage to an entity", idGameLocal::ArgCompletion_EntityName );
+	cmdSystem->AddCommand( "remove",				Cmd_Remove_f,				CMD_FL_GAME | CMD_FL_CHEAT,	"removes an entity", idGameLocal::ArgCompletion_EntityName );
+	cmdSystem->AddCommand( "killMonsters",			Cmd_KillMonsters_f,			CMD_FL_GAME | CMD_FL_CHEAT,	"removes all monsters" );
+	cmdSystem->AddCommand( "killMoveables",			Cmd_KillMovables_f,			CMD_FL_GAME | CMD_FL_CHEAT,	"removes all moveables" );
+	cmdSystem->AddCommand( "killRagdolls",			Cmd_KillRagdolls_f,			CMD_FL_GAME | CMD_FL_CHEAT,	"removes all ragdolls" );
+	cmdSystem->AddCommand( "addline",				Cmd_AddDebugLine_f,			CMD_FL_GAME | CMD_FL_CHEAT,	"adds a debug line" );
+	cmdSystem->AddCommand( "addarrow",				Cmd_AddDebugLine_f,			CMD_FL_GAME | CMD_FL_CHEAT,	"adds a debug arrow" );
+	cmdSystem->AddCommand( "removeline",			Cmd_RemoveDebugLine_f,		CMD_FL_GAME | CMD_FL_CHEAT,	"removes a debug line" );
+	cmdSystem->AddCommand( "blinkline",				Cmd_BlinkDebugLine_f,		CMD_FL_GAME | CMD_FL_CHEAT,	"blinks a debug line" );
+	cmdSystem->AddCommand( "listLines",				Cmd_ListDebugLines_f,		CMD_FL_GAME | CMD_FL_CHEAT,	"lists all debug lines" );
+	cmdSystem->AddCommand( "playerModel",			Cmd_PlayerModel_f,			CMD_FL_GAME | CMD_FL_CHEAT,	"sets the given model on the player", idCmdSystem::ArgCompletion_Decl<DECL_MODELDEF> );
+	cmdSystem->AddCommand( "testFx",				Cmd_TestFx_f,				CMD_FL_GAME | CMD_FL_CHEAT,	"tests an FX system", idCmdSystem::ArgCompletion_Decl<DECL_FX> );
+	cmdSystem->AddCommand( "testBoneFx",			Cmd_TestBoneFx_f,			CMD_FL_GAME | CMD_FL_CHEAT,	"tests an FX system bound to a joint", idCmdSystem::ArgCompletion_Decl<DECL_FX> );
+	cmdSystem->AddCommand( "testLight",				Cmd_TestLight_f,			CMD_FL_GAME | CMD_FL_CHEAT,	"tests a light" );
+	cmdSystem->AddCommand( "testPointLight",		Cmd_TestPointLight_f,		CMD_FL_GAME | CMD_FL_CHEAT,	"tests a point light" );
+	cmdSystem->AddCommand( "popLight",				Cmd_PopLight_f,				CMD_FL_GAME | CMD_FL_CHEAT,	"removes the last created light" );
+	cmdSystem->AddCommand( "testDeath",				Cmd_TestDeath_f,			CMD_FL_GAME | CMD_FL_CHEAT,	"tests death" );
+	cmdSystem->AddCommand( "testSave",				Cmd_TestSave_f,				CMD_FL_GAME | CMD_FL_CHEAT,	"writes out a test savegame" );
+	cmdSystem->AddCommand( "testModel",				idTestModel::TestModel_f,			CMD_FL_GAME | CMD_FL_CHEAT,	"tests a model", idTestModel::ArgCompletion_TestModel );
+	cmdSystem->AddCommand( "testSkin",				idTestModel::TestSkin_f,			CMD_FL_GAME | CMD_FL_CHEAT,	"tests a skin on an existing testModel", idCmdSystem::ArgCompletion_Decl<DECL_SKIN> );
+	cmdSystem->AddCommand( "testShaderParm",		idTestModel::TestShaderParm_f,		CMD_FL_GAME | CMD_FL_CHEAT,	"sets a shaderParm on an existing testModel" );
+	cmdSystem->AddCommand( "keepTestModel",			idTestModel::KeepTestModel_f,		CMD_FL_GAME | CMD_FL_CHEAT,	"keeps the last test model in the game" );
+	cmdSystem->AddCommand( "testAnim",				idTestModel::TestAnim_f,			CMD_FL_GAME | CMD_FL_CHEAT,	"tests an animation", idTestModel::ArgCompletion_TestAnim );
+	cmdSystem->AddCommand( "testParticleStopTime",	idTestModel::TestParticleStopTime_f, CMD_FL_GAME | CMD_FL_CHEAT,	"tests particle stop time on a test model" );
+	cmdSystem->AddCommand( "nextAnim",				idTestModel::TestModelNextAnim_f,	CMD_FL_GAME | CMD_FL_CHEAT,	"shows next animation on test model" );
+	cmdSystem->AddCommand( "prevAnim",				idTestModel::TestModelPrevAnim_f,	CMD_FL_GAME | CMD_FL_CHEAT,	"shows previous animation on test model" );
+	cmdSystem->AddCommand( "nextFrame",				idTestModel::TestModelNextFrame_f,	CMD_FL_GAME | CMD_FL_CHEAT,	"shows next animation frame on test model" );
+	cmdSystem->AddCommand( "prevFrame",				idTestModel::TestModelPrevFrame_f,	CMD_FL_GAME | CMD_FL_CHEAT,	"shows previous animation frame on test model" );
+	cmdSystem->AddCommand( "testBlend",				idTestModel::TestBlend_f,			CMD_FL_GAME | CMD_FL_CHEAT,	"tests animation blending" );
+	cmdSystem->AddCommand( "reloadScript",			Cmd_ReloadScript_f,			CMD_FL_GAME | CMD_FL_CHEAT,	"reloads scripts" );
+	cmdSystem->AddCommand( "script",				Cmd_Script_f,				CMD_FL_GAME | CMD_FL_CHEAT,	"executes a line of script" );
 	cmdSystem->AddCommand( "listCollisionModels",	Cmd_ListCollisionModels_f,	CMD_FL_GAME,				"lists collision models" );
 	cmdSystem->AddCommand( "collisionModelInfo",	Cmd_CollisionModelInfo_f,	CMD_FL_GAME,				"shows collision model info" );
-	cmdSystem->AddCommand( "reexportmodels",		Cmd_ReexportModels_f,		CMD_FL_GAME|CMD_FL_CHEAT,	"reexports models", ArgCompletion_DefFile );
-	cmdSystem->AddCommand( "reloadanims",			Cmd_ReloadAnims_f,			CMD_FL_GAME|CMD_FL_CHEAT,	"reloads animations" );
+	cmdSystem->AddCommand( "reexportmodels",		Cmd_ReexportModels_f,		CMD_FL_GAME | CMD_FL_CHEAT,	"reexports models", ArgCompletion_DefFile );
+	cmdSystem->AddCommand( "reloadanims",			Cmd_ReloadAnims_f,			CMD_FL_GAME | CMD_FL_CHEAT,	"reloads animations" );
 	cmdSystem->AddCommand( "listAnims",				Cmd_ListAnims_f,			CMD_FL_GAME,				"lists all animations" );
 	cmdSystem->AddCommand( "aasStats",				Cmd_AASStats_f,				CMD_FL_GAME,				"shows AAS stats" );
-	cmdSystem->AddCommand( "testDamage",			Cmd_TestDamage_f,			CMD_FL_GAME|CMD_FL_CHEAT,	"tests a damage def", idCmdSystem::ArgCompletion_Decl<DECL_ENTITYDEF> );
-	cmdSystem->AddCommand( "weaponSplat",			Cmd_WeaponSplat_f,			CMD_FL_GAME|CMD_FL_CHEAT,	"projects a blood splat on the player weapon" );
-	cmdSystem->AddCommand( "saveSelected",			Cmd_SaveSelected_f,			CMD_FL_GAME|CMD_FL_CHEAT,	"saves the selected entity to the .map file" );
-	cmdSystem->AddCommand( "deleteSelected",		Cmd_DeleteSelected_f,		CMD_FL_GAME|CMD_FL_CHEAT,	"deletes selected entity" );
-	cmdSystem->AddCommand( "saveMoveables",			Cmd_SaveMoveables_f,		CMD_FL_GAME|CMD_FL_CHEAT,	"save all moveables to the .map file" );
-	cmdSystem->AddCommand( "saveRagdolls",			Cmd_SaveRagdolls_f,			CMD_FL_GAME|CMD_FL_CHEAT,	"save all ragdoll poses to the .map file" );
-	cmdSystem->AddCommand( "bindRagdoll",			Cmd_BindRagdoll_f,			CMD_FL_GAME|CMD_FL_CHEAT,	"binds ragdoll at the current drag position" );
-	cmdSystem->AddCommand( "unbindRagdoll",			Cmd_UnbindRagdoll_f,		CMD_FL_GAME|CMD_FL_CHEAT,	"unbinds the selected ragdoll" );
-	cmdSystem->AddCommand( "saveLights",			Cmd_SaveLights_f,			CMD_FL_GAME|CMD_FL_CHEAT,	"saves all lights to the .map file" );
-	cmdSystem->AddCommand( "saveParticles",			Cmd_SaveParticles_f,		CMD_FL_GAME|CMD_FL_CHEAT,	"saves all lights to the .map file" );
-	cmdSystem->AddCommand( "clearLights",			Cmd_ClearLights_f,			CMD_FL_GAME|CMD_FL_CHEAT,	"clears all lights" );
-	cmdSystem->AddCommand( "gameError",				Cmd_GameError_f,			CMD_FL_GAME|CMD_FL_CHEAT,	"causes a game error" );
+	cmdSystem->AddCommand( "testDamage",			Cmd_TestDamage_f,			CMD_FL_GAME | CMD_FL_CHEAT,	"tests a damage def", idCmdSystem::ArgCompletion_Decl<DECL_ENTITYDEF> );
+	cmdSystem->AddCommand( "weaponSplat",			Cmd_WeaponSplat_f,			CMD_FL_GAME | CMD_FL_CHEAT,	"projects a blood splat on the player weapon" );
+	cmdSystem->AddCommand( "saveSelected",			Cmd_SaveSelected_f,			CMD_FL_GAME | CMD_FL_CHEAT,	"saves the selected entity to the .map file" );
+	cmdSystem->AddCommand( "deleteSelected",		Cmd_DeleteSelected_f,		CMD_FL_GAME | CMD_FL_CHEAT,	"deletes selected entity" );
+	cmdSystem->AddCommand( "saveMoveables",			Cmd_SaveMoveables_f,		CMD_FL_GAME | CMD_FL_CHEAT,	"save all moveables to the .map file" );
+	cmdSystem->AddCommand( "saveRagdolls",			Cmd_SaveRagdolls_f,			CMD_FL_GAME | CMD_FL_CHEAT,	"save all ragdoll poses to the .map file" );
+	cmdSystem->AddCommand( "bindRagdoll",			Cmd_BindRagdoll_f,			CMD_FL_GAME | CMD_FL_CHEAT,	"binds ragdoll at the current drag position" );
+	cmdSystem->AddCommand( "unbindRagdoll",			Cmd_UnbindRagdoll_f,		CMD_FL_GAME | CMD_FL_CHEAT,	"unbinds the selected ragdoll" );
+	cmdSystem->AddCommand( "saveLights",			Cmd_SaveLights_f,			CMD_FL_GAME | CMD_FL_CHEAT,	"saves all lights to the .map file" );
+	cmdSystem->AddCommand( "saveParticles",			Cmd_SaveParticles_f,		CMD_FL_GAME | CMD_FL_CHEAT,	"saves all lights to the .map file" );
+	cmdSystem->AddCommand( "clearLights",			Cmd_ClearLights_f,			CMD_FL_GAME | CMD_FL_CHEAT,	"clears all lights" );
+	cmdSystem->AddCommand( "gameError",				Cmd_GameError_f,			CMD_FL_GAME | CMD_FL_CHEAT,	"causes a game error" );
 
 #ifndef	ID_DEMO_BUILD
-	cmdSystem->AddCommand( "disasmScript",			Cmd_DisasmScript_f,			CMD_FL_GAME|CMD_FL_CHEAT,	"disassembles script" );
-	cmdSystem->AddCommand( "recordViewNotes",		Cmd_RecordViewNotes_f,		CMD_FL_GAME|CMD_FL_CHEAT,	"record the current view position with notes" );
-	cmdSystem->AddCommand( "showViewNotes",			Cmd_ShowViewNotes_f,		CMD_FL_GAME|CMD_FL_CHEAT,	"show any view notes for the current map, successive calls will cycle to the next note" );
-	cmdSystem->AddCommand( "closeViewNotes",		Cmd_CloseViewNotes_f,		CMD_FL_GAME|CMD_FL_CHEAT,	"close the view showing any notes for this map" );
-	cmdSystem->AddCommand( "exportmodels",			Cmd_ExportModels_f,			CMD_FL_GAME|CMD_FL_CHEAT,	"exports models", ArgCompletion_DefFile );
+	cmdSystem->AddCommand( "disasmScript",			Cmd_DisasmScript_f,			CMD_FL_GAME | CMD_FL_CHEAT,	"disassembles script" );
+	cmdSystem->AddCommand( "recordViewNotes",		Cmd_RecordViewNotes_f,		CMD_FL_GAME | CMD_FL_CHEAT,	"record the current view position with notes" );
+	cmdSystem->AddCommand( "showViewNotes",			Cmd_ShowViewNotes_f,		CMD_FL_GAME | CMD_FL_CHEAT,	"show any view notes for the current map, successive calls will cycle to the next note" );
+	cmdSystem->AddCommand( "closeViewNotes",		Cmd_CloseViewNotes_f,		CMD_FL_GAME | CMD_FL_CHEAT,	"close the view showing any notes for this map" );
+	cmdSystem->AddCommand( "exportmodels",			Cmd_ExportModels_f,			CMD_FL_GAME | CMD_FL_CHEAT,	"exports models", ArgCompletion_DefFile );
 
 	// multiplayer client commands ( replaces old impulses stuff )
 	cmdSystem->AddCommand( "clientDropWeapon",		idMultiplayerGame::DropWeapon_f, CMD_FL_GAME,			"drop current weapon" );
@@ -2487,16 +2478,16 @@ void idGameLocal::InitConsoleCommands( void ) {
 
 	// multiplayer server commands
 	cmdSystem->AddCommand( "serverMapRestart",		idGameLocal::MapRestart_f,	CMD_FL_GAME,				"restart the current game" );
-	cmdSystem->AddCommand( "serverForceReady",	idMultiplayerGame::ForceReady_f,CMD_FL_GAME,				"force all players ready" );
+	cmdSystem->AddCommand( "serverForceReady",	idMultiplayerGame::ForceReady_f, CMD_FL_GAME,				"force all players ready" );
 	cmdSystem->AddCommand( "serverNextMap",			idGameLocal::NextMap_f,		CMD_FL_GAME,				"change to the next map" );
 #endif
 
 	// localization help commands
-	cmdSystem->AddCommand( "nextGUI",				Cmd_NextGUI_f,				CMD_FL_GAME|CMD_FL_CHEAT,	"teleport the player to the next func_static with a gui" );
-	cmdSystem->AddCommand( "testid",				Cmd_TestId_f,				CMD_FL_GAME|CMD_FL_CHEAT,	"output the string for the specified id." );
+	cmdSystem->AddCommand( "nextGUI",				Cmd_NextGUI_f,				CMD_FL_GAME | CMD_FL_CHEAT,	"teleport the player to the next func_static with a gui" );
+	cmdSystem->AddCommand( "testid",				Cmd_TestId_f,				CMD_FL_GAME | CMD_FL_CHEAT,	"output the string for the specified id." );
 
 #ifdef _D3XP
-	cmdSystem->AddCommand( "setActorState",			Cmd_SetActorState_f,		CMD_FL_GAME|CMD_FL_CHEAT,	"Manually sets an actors script state", idGameLocal::ArgCompletion_EntityName );
+	cmdSystem->AddCommand( "setActorState",			Cmd_SetActorState_f,		CMD_FL_GAME | CMD_FL_CHEAT,	"Manually sets an actors script state", idGameLocal::ArgCompletion_EntityName );
 #endif
 }
 

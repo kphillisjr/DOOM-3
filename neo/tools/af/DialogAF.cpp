@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -67,17 +67,16 @@ toolTip_t DialogAF::toolTips[] = {
 DialogAF *g_AFDialog = NULL;
 
 
-IMPLEMENT_DYNAMIC(DialogAF, CDialog)
+IMPLEMENT_DYNAMIC( DialogAF, CDialog )
 
 /*
 ================
 DialogAF::DialogAF
 ================
 */
-DialogAF::DialogAF( CWnd* pParent /*=NULL*/ )
-	: CDialog(DialogAF::IDD, pParent)
-	, file(NULL)
-{
+DialogAF::DialogAF( CWnd *pParent /*=NULL*/ )
+	: CDialog( DialogAF::IDD, pParent )
+	, file( NULL ) {
 	wndTabs = NULL;
 	wndTabDisplay = NULL;
 }
@@ -95,10 +94,10 @@ DialogAF::~DialogAF() {
 DialogAF::DoDataExchange
 ================
 */
-void DialogAF::DoDataExchange(CDataExchange* pDX) {
-	CDialog::DoDataExchange(pDX);
+void DialogAF::DoDataExchange( CDataExchange *pDX ) {
+	CDialog::DoDataExchange( pDX );
 	//{{AFX_DATA_MAP(DialogAF)
-	DDX_Control(pDX, IDC_COMBO_AF, AFList);
+	DDX_Control( pDX, IDC_COMBO_AF, AFList );
 	//}}AFX_DATA_MAP
 }
 
@@ -121,8 +120,7 @@ void DialogAF::LoadFile( idDeclAF *af ) {
 		}
 		GetDlgItem( IDC_BUTTON_AF_SAVE )->EnableWindow( file->modified );
 		GetDlgItem( IDC_BUTTON_AF_DELETE )->EnableWindow( true );
-	}
-	else {
+	} else {
 		AFList.SetCurSel( -1 );
 		GetDlgItem( IDC_BUTTON_AF_SAVE )->EnableWindow( false );
 		GetDlgItem( IDC_BUTTON_AF_DELETE )->EnableWindow( false );
@@ -205,11 +203,11 @@ void DialogAF::SetTab( int id ) {
 		item.mask = TCIF_PARAM;
 		wndTabs->GetItem( i, &item );
 		if ( item.lParam == id ) {
-			wndTabs->SetCurSel(i);
+			wndTabs->SetCurSel( i );
 			return;
 		}
 	}
-	wndTabs->SetCurSel(0);
+	wndTabs->SetCurSel( 0 );
 }
 
 /*
@@ -235,12 +233,12 @@ BOOL DialogAF::OnInitDialog()  {
 	CDialog::OnInitDialog();
 
 	com_editors |= EDITOR_AF;
-	
+
 	// initialize list with articulated figure files
 	InitAFList();
 
 	// initialize tabs
-	wndTabs = (CTabCtrl *) GetDlgItem( IDC_DIALOG_AF_TAB_MODE );
+	wndTabs = ( CTabCtrl * ) GetDlgItem( IDC_DIALOG_AF_TAB_MODE );
 	AddTabItem( AFTAB_VIEW, "View" );
 	AddTabItem( AFTAB_PROPERTIES, "Properties" );
 	AddTabItem( AFTAB_BODIES, "Bodies" );
@@ -270,26 +268,26 @@ BOOL DialogAF::OnInitDialog()  {
 	GetDlgItem( IDC_BUTTON_AF_SAVE )->EnableWindow( false );
 
 	return TRUE;  // return TRUE unless you set the focus to a control
-	              // EXCEPTION: OCX Property Pages should return FALSE
+	// EXCEPTION: OCX Property Pages should return FALSE
 }
 
 
-BEGIN_MESSAGE_MAP(DialogAF, CDialog)
-	ON_NOTIFY_EX_RANGE(TTN_NEEDTEXTW, 0, 0xFFFF, OnToolTipNotify)
-	ON_NOTIFY_EX_RANGE(TTN_NEEDTEXTA, 0, 0xFFFF, OnToolTipNotify)
-	ON_NOTIFY(TCN_SELCHANGE, IDC_DIALOG_AF_TAB_MODE, OnTcnSelchangeTabMode)
+BEGIN_MESSAGE_MAP( DialogAF, CDialog )
+	ON_NOTIFY_EX_RANGE( TTN_NEEDTEXTW, 0, 0xFFFF, OnToolTipNotify )
+	ON_NOTIFY_EX_RANGE( TTN_NEEDTEXTA, 0, 0xFFFF, OnToolTipNotify )
+	ON_NOTIFY( TCN_SELCHANGE, IDC_DIALOG_AF_TAB_MODE, OnTcnSelchangeTabMode )
 	ON_WM_DESTROY()
 	ON_WM_ACTIVATE()
 	ON_WM_MOVE()
 	ON_WM_SETFOCUS()
-	ON_CBN_SELCHANGE(IDC_COMBO_AF, OnCbnSelchangeComboAf)
-	ON_BN_CLICKED(IDC_BUTTON_AF_NEW, OnBnClickedButtonAfNew)
-	ON_BN_CLICKED(IDC_BUTTON_AF_DELETE, OnBnClickedButtonAfDelete)
-	ON_BN_CLICKED(IDC_BUTTON_AF_SAVE, OnBnClickedButtonAfSave)
-	ON_BN_CLICKED(IDC_BUTTON_AF_SPAWN, OnBnClickedButtonAfSpawn)
-	ON_BN_CLICKED(IDCANCEL, OnBnClickedCancel)
-	ON_BN_CLICKED(IDC_BUTTON_AF_KILL, OnBnClickedButtonAfKill)
-	ON_BN_CLICKED(IDC_BUTTON_AF_TPOSE, OnBnClickedButtonAfTpose)
+	ON_CBN_SELCHANGE( IDC_COMBO_AF, OnCbnSelchangeComboAf )
+	ON_BN_CLICKED( IDC_BUTTON_AF_NEW, OnBnClickedButtonAfNew )
+	ON_BN_CLICKED( IDC_BUTTON_AF_DELETE, OnBnClickedButtonAfDelete )
+	ON_BN_CLICKED( IDC_BUTTON_AF_SAVE, OnBnClickedButtonAfSave )
+	ON_BN_CLICKED( IDC_BUTTON_AF_SPAWN, OnBnClickedButtonAfSpawn )
+	ON_BN_CLICKED( IDCANCEL, OnBnClickedCancel )
+	ON_BN_CLICKED( IDC_BUTTON_AF_KILL, OnBnClickedButtonAfKill )
+	ON_BN_CLICKED( IDC_BUTTON_AF_TPOSE, OnBnClickedButtonAfTpose )
 END_MESSAGE_MAP()
 
 
@@ -302,7 +300,7 @@ void AFEditorInit( const idDict *spawnArgs ) {
 
 	if ( renderSystem->IsFullScreen() ) {
 		common->Printf( "Cannot run the articulated figure editor in fullscreen mode.\n"
-					"Set r_fullscreen to 0 and vid_restart.\n" );
+						"Set r_fullscreen to 0 and vid_restart.\n" );
 		return;
 	}
 
@@ -311,13 +309,13 @@ void AFEditorInit( const idDict *spawnArgs ) {
 		g_AFDialog = new DialogAF();
 	}
 
-	if ( g_AFDialog->GetSafeHwnd() == NULL) {
+	if ( g_AFDialog->GetSafeHwnd() == NULL ) {
 		g_AFDialog->Create( IDD_DIALOG_AF );
-/*
-		// FIXME: restore position
-		CRect rct;
-		g_AFDialog->SetWindowPos( NULL, rct.left, rct.top, 0, 0, SWP_NOSIZE );
-*/
+		/*
+				// FIXME: restore position
+				CRect rct;
+				g_AFDialog->SetWindowPos( NULL, rct.left, rct.top, 0, 0, SWP_NOSIZE );
+		*/
 	}
 
 	idKeyInput::ClearStates();
@@ -350,7 +348,7 @@ void AFEditorRun( void ) {
 	MSG *msg = &m_msgCur;
 #endif
 
-	while( ::PeekMessage(msg, NULL, NULL, NULL, PM_NOREMOVE) ) {
+	while ( ::PeekMessage( msg, NULL, NULL, NULL, PM_NOREMOVE ) ) {
 		// pump message
 		if ( !AfxGetApp()->PumpMessage() ) {
 		}
@@ -504,7 +502,7 @@ void DialogAF::OnBnClickedButtonAfNew() {
 
 	// create a new .af file
 	AFList.AddString( name );
-	AFList.SetCurSel( AFList.FindString( -1, name )  );
+	AFList.SetCurSel( AFList.FindString( -1, name ) );
 	idDeclAF *decl = static_cast<idDeclAF *>( declManager->CreateNewDecl( DECL_AF, name, fileName ) );
 	LoadFile( decl );
 	AFDialogSetFileModified();
@@ -570,8 +568,7 @@ void DialogAF::OnBnClickedButtonAfSave() {
 	if ( file ) {
 		if ( file->Save() ) {
 			GetDlgItem( IDC_BUTTON_AF_SAVE )->EnableWindow( false );
-		}
-		else {
+		} else {
 			MessageBox( "Saving the file failed. Make sure the file is not read-only.", "Delete Articulated Figure", MB_OK );
 		}
 	}

@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -41,7 +41,7 @@ If you have questions concerning this license or the applicable additional terms
 
 class idIK {
 public:
-							idIK( void );
+	idIK( void );
 	virtual					~idIK( void );
 
 	void					Save( idSaveGame *savefile ) const;
@@ -59,8 +59,8 @@ public:
 protected:
 	bool					initialized;
 	bool					ik_activate;
-	idEntity *				self;				// entity using the animated model
-	idAnimator *			animator;			// animator on entity
+	idEntity 				*self;				// entity using the animated model
+	idAnimator 			*animator;			// animator on entity
 	int						modifiedAnim;		// animation modified by the IK
 	idVec3					modelOffset;
 };
@@ -69,7 +69,7 @@ protected:
 /*
 ===============================================================================
 
-  IK controller for a walking character with an arbitrary number of legs.	
+  IK controller for a walking character with an arbitrary number of legs.
 
 ===============================================================================
 */
@@ -77,7 +77,7 @@ protected:
 class idIK_Walk : public idIK {
 public:
 
-							idIK_Walk( void );
+	idIK_Walk( void );
 	virtual					~idIK_Walk( void );
 
 	void					Save( idSaveGame *savefile ) const;
@@ -95,7 +95,7 @@ public:
 private:
 	static const int		MAX_LEGS		= 8;
 
-	idClipModel *			footModel;
+	idClipModel 			*footModel;
 
 	int						numLegs;
 	int						enabledLegs;
@@ -148,7 +148,7 @@ private:
 class idIK_Reach : public idIK {
 public:
 
-							idIK_Reach( void );
+	idIK_Reach( void );
 	virtual					~idIK_Reach( void );
 
 	void					Save( idSaveGame *savefile ) const;

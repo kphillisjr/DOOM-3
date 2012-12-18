@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -66,7 +66,7 @@ bool idAASLocal::EdgeSplitPoint( idVec3 &split, int edgeNum, const idPlane &plan
 	if ( FLOATSIGNBITSET( d1 ) == FLOATSIGNBITSET( d2 ) ) {
 		return false;
 	}
-	split = v1 + (d1 / (d1 - d2)) * (v2 - v1);
+	split = v1 + ( d1 / ( d1 - d2 ) ) * ( v2 - v1 );
 	return true;
 }
 
@@ -95,9 +95,9 @@ bool idAASLocal::FloorEdgeSplitPoint( idVec3 &bestSplit, int areaNum, const idPl
 
 	for ( i = 0; i < area->numFaces; i++ ) {
 		faceNum = file->GetFaceIndex( area->firstFace + i );
-		face = &file->GetFace( abs(faceNum) );
+		face = &file->GetFace( abs( faceNum ) );
 
-		if ( !(face->flags & FACE_FLOOR ) ) {
+		if ( !( face->flags & FACE_FLOOR ) ) {
 			continue;
 		}
 
@@ -152,7 +152,7 @@ bool idAASLocal::WalkPathValid( int areaNum, const idVec3 &origin, int goalAreaN
 	lastAreas[0] = lastAreas[1] = lastAreas[2] = lastAreas[3] = areaNum;
 	lastAreaIndex = 0;
 
-	pathPlane.SetNormal( (goalOrigin - origin).Cross( file->GetSettings().gravityDir ) );
+	pathPlane.SetNormal( ( goalOrigin - origin ).Cross( file->GetSettings().gravityDir ) );
 	pathPlane.Normalize();
 	pathPlane.FitThroughPoint( origin );
 
@@ -215,7 +215,7 @@ bool idAASLocal::WalkPathValid( int areaNum, const idVec3 &origin, int goalAreaN
 
 			// direction parallel to gravity
 			dir = ( file->GetSettings().gravityDir * endPos * file->GetSettings().gravityDir ) -
-						( file->GetSettings().gravityDir * p * file->GetSettings().gravityDir );
+				  ( file->GetSettings().gravityDir * p * file->GetSettings().gravityDir );
 			if ( dir.LengthSqr() > Square( file->GetSettings().maxStepHeight ) ) {
 				continue;
 			}
@@ -254,12 +254,12 @@ idVec3 idAASLocal::SubSampleWalkPath( int areaNum, const idVec3 &origin, const i
 	idVec3 dir, point, nextPoint, endPos;
 
 	dir = end - start;
-	numSamples = (int) (dir.Length() / walkPathSampleDistance) + 1;
+	numSamples = ( int )( dir.Length() / walkPathSampleDistance ) + 1;
 
 	point = start;
 	for ( i = 1; i < numSamples; i++ ) {
-		nextPoint = start + dir * ((float) i / numSamples);
-		if ( (point - nextPoint).LengthSqr() > Square( maxWalkPathDistance ) ) {
+		nextPoint = start + dir * ( ( float ) i / numSamples );
+		if ( ( point - nextPoint ).LengthSqr() > Square( maxWalkPathDistance ) ) {
 			return point;
 		}
 		if ( !idAASLocal::WalkPathValid( areaNum, origin, 0, nextPoint, travelFlags, endPos, curAreaNum ) ) {
@@ -312,7 +312,7 @@ bool idAASLocal::WalkPathToGoal( aasPath_t &path, int areaNum, const idVec3 &ori
 		// no need to check through the first area
 		if ( areaNum != curAreaNum ) {
 			// only optimize a limited distance ahead
-			if ( (reach->start - origin).LengthSqr() > Square( maxWalkPathDistance ) ) {
+			if ( ( reach->start - origin ).LengthSqr() > Square( maxWalkPathDistance ) ) {
 #if SUBSAMPLE_WALK_PATH
 				path.moveGoal = SubSampleWalkPath( areaNum, origin, path.moveGoal, reach->start, travelFlags, path.moveAreaNum );
 #endif
@@ -369,7 +369,7 @@ bool idAASLocal::WalkPathToGoal( aasPath_t &path, int areaNum, const idVec3 &ori
 		return false;
 	}
 
-	switch( reach->travelType ) {
+	switch ( reach->travelType ) {
 		case TFL_WALKOFFLEDGE:
 			path.type = PATHTYPE_WALKOFFLEDGE;
 			path.secondaryGoal = reach->end;
@@ -430,12 +430,12 @@ idVec3 idAASLocal::SubSampleFlyPath( int areaNum, const idVec3 &origin, const id
 	idVec3 dir, point, nextPoint, endPos;
 
 	dir = end - start;
-	numSamples = (int) (dir.Length() / flyPathSampleDistance) + 1;
+	numSamples = ( int )( dir.Length() / flyPathSampleDistance ) + 1;
 
 	point = start;
 	for ( i = 1; i < numSamples; i++ ) {
-		nextPoint = start + dir * ((float) i / numSamples);
-		if ( (point - nextPoint).LengthSqr() > Square( maxFlyPathDistance ) ) {
+		nextPoint = start + dir * ( ( float ) i / numSamples );
+		if ( ( point - nextPoint ).LengthSqr() > Square( maxFlyPathDistance ) ) {
 			return point;
 		}
 		if ( !idAASLocal::FlyPathValid( areaNum, origin, 0, nextPoint, travelFlags, endPos, curAreaNum ) ) {
@@ -487,7 +487,7 @@ bool idAASLocal::FlyPathToGoal( aasPath_t &path, int areaNum, const idVec3 &orig
 
 		// no need to check through the first area
 		if ( areaNum != curAreaNum ) {
-			if ( (reach->start - origin).LengthSqr() > Square( maxFlyPathDistance ) ) {
+			if ( ( reach->start - origin ).LengthSqr() > Square( maxFlyPathDistance ) ) {
 #if SUBSAMPLE_FLY_PATH
 				path.moveGoal = SubSampleFlyPath( areaNum, origin, path.moveGoal, reach->start, travelFlags, path.moveAreaNum );
 #endif
@@ -546,7 +546,7 @@ bool idAASLocal::FlyPathToGoal( aasPath_t &path, int areaNum, const idVec3 &orig
 typedef struct wallEdge_s {
 	int					edgeNum;
 	int					verts[2];
-	struct wallEdge_s *	next;
+	struct wallEdge_s 	*next;
 } wallEdge_t;
 
 /*
@@ -558,9 +558,9 @@ void idAASLocal::SortWallEdges( int *edges, int numEdges ) const {
 	int i, j, k, numSequences;
 	wallEdge_t **sequenceFirst, **sequenceLast, *wallEdges, *wallEdge;
 
-	wallEdges = (wallEdge_t *) _alloca16( numEdges * sizeof( wallEdge_t ) );
-	sequenceFirst = (wallEdge_t **)_alloca16( numEdges * sizeof( wallEdge_t * ) );
-	sequenceLast = (wallEdge_t **)_alloca16( numEdges * sizeof( wallEdge_t * ) );
+	wallEdges = ( wallEdge_t * ) _alloca16( numEdges * sizeof( wallEdge_t ) );
+	sequenceFirst = ( wallEdge_t ** )_alloca16( numEdges * sizeof( wallEdge_t * ) );
+	sequenceLast = ( wallEdge_t ** )_alloca16( numEdges * sizeof( wallEdge_t * ) );
 
 	for ( i = 0; i < numEdges; i++ ) {
 		wallEdges[i].edgeNum = edges[i];
@@ -572,7 +572,7 @@ void idAASLocal::SortWallEdges( int *edges, int numEdges ) const {
 	numSequences = numEdges;
 
 	for ( i = 0; i < numSequences; i++ ) {
-		for ( j = i+1; j < numSequences; j++ ) {
+		for ( j = i + 1; j < numSequences; j++ ) {
 			if ( sequenceFirst[i]->verts[0] == sequenceLast[j]->verts[1] ) {
 				sequenceLast[j]->next = sequenceFirst[i];
 				sequenceFirst[i] = sequenceFirst[j];
@@ -586,8 +586,8 @@ void idAASLocal::SortWallEdges( int *edges, int numEdges ) const {
 		if ( j < numSequences ) {
 			numSequences--;
 			for ( k = j; k < numSequences; k++ ) {
-				sequenceFirst[k] = sequenceFirst[k+1];
-				sequenceLast[k] = sequenceLast[k+1];
+				sequenceFirst[k] = sequenceFirst[k + 1];
+				sequenceLast[k] = sequenceLast[k + 1];
 			}
 			i = -1;
 		}
@@ -620,9 +620,9 @@ int idAASLocal::GetWallEdges( int areaNum, const idBounds &bounds, int travelFla
 
 	numEdges = 0;
 
-	areasVisited = (byte *) _alloca16( file->GetNumAreas() );
+	areasVisited = ( byte * ) _alloca16( file->GetNumAreas() );
 	memset( areasVisited, 0, file->GetNumAreas() * sizeof( byte ) );
-	areaQueue = (int *) _alloca16( file->GetNumAreas() * sizeof( int ) );
+	areaQueue = ( int * ) _alloca16( file->GetNumAreas() * sizeof( int ) );
 
 	queueStart = -1;
 	queueEnd = 0;
@@ -635,9 +635,9 @@ int idAASLocal::GetWallEdges( int areaNum, const idBounds &bounds, int travelFla
 
 		for ( i = 0; i < area->numFaces; i++ ) {
 			face1Num = file->GetFaceIndex( area->firstFace + i );
-			face1 = &file->GetFace( abs(face1Num) );
+			face1 = &file->GetFace( abs( face1Num ) );
 
-			if ( !(face1->flags & FACE_FLOOR ) ) {
+			if ( !( face1->flags & FACE_FLOOR ) ) {
 				continue;
 			}
 
@@ -651,9 +651,9 @@ int idAASLocal::GetWallEdges( int areaNum, const idBounds &bounds, int travelFla
 						continue;
 					}
 					face2Num = file->GetFaceIndex( area->firstFace + k );
-					face2 = &file->GetFace( abs(face2Num) );
+					face2 = &file->GetFace( abs( face2Num ) );
 
-					if ( !(face2->flags & FACE_FLOOR ) ) {
+					if ( !( face2->flags & FACE_FLOOR ) ) {
 						continue;
 					}
 

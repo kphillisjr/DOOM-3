@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -77,7 +77,7 @@ static char exit_spawn[ 1024 ];
 Posix_Exit
 ================
 */
-void Posix_Exit(int ret) {
+void Posix_Exit( int ret ) {
 	if ( tty_enabled ) {
 		Sys_Printf( "shutdown terminal support\n" );
 		if ( tcsetattr( 0, TCSADRAIN, &tty_tc ) == -1 ) {
@@ -106,7 +106,7 @@ void Posix_Exit(int ret) {
 Posix_SetExit
 ================
 */
-void Posix_SetExit(int ret) {
+void Posix_SetExit( int ret ) {
 	set_exit = 0;
 }
 
@@ -146,7 +146,7 @@ void idSysLocal::StartProcess( const char *exeName, bool quit ) {
 Sys_Quit
 ================
 */
-void Sys_Quit(void) {
+void Sys_Quit( void ) {
 	Posix_Exit( EXIT_SUCCESS );
 }
 
@@ -156,7 +156,7 @@ Sys_Milliseconds
 ================
 */
 /* base time in seconds, that's our origin
-   timeval:tv_sec is an int: 
+   timeval:tv_sec is an int:
    assuming this wraps every 0x7fffffff - ~68 years since the Epoch (1970) - we're safe till 2038
    using unsigned long data type to work right with Sys_XTimeToSysTime */
 unsigned long sys_timeBase = 0;
@@ -169,14 +169,14 @@ int Sys_Milliseconds( void ) {
 	int curtime;
 	struct timeval tp;
 
-	gettimeofday(&tp, NULL);
+	gettimeofday( &tp, NULL );
 
-	if (!sys_timeBase) {
+	if ( !sys_timeBase ) {
 		sys_timeBase = tp.tv_sec;
 		return tp.tv_usec / 1000;
 	}
 
-	curtime = (tp.tv_sec - sys_timeBase) * 1000 + tp.tv_usec / 1000;
+	curtime = ( tp.tv_sec - sys_timeBase ) * 1000 + tp.tv_usec / 1000;
 
 	return curtime;
 }
@@ -187,7 +187,7 @@ Sys_Mkdir
 ================
 */
 void Sys_Mkdir( const char *path ) {
-	mkdir(path, 0777);
+	mkdir( path, 0777 );
 }
 
 /*
@@ -202,54 +202,54 @@ int Sys_ListFiles( const char *directory, const char *extension, idStrList &list
 	char search[MAX_OSPATH];
 	struct stat st;
 	bool debug;
-	
+
 	list.Clear();
 
 	debug = cvarSystem->GetCVarBool( "fs_debug" );
-	
-	if (!extension)
+
+	if ( !extension )
 		extension = "";
-	
+
 	// passing a slash as extension will find directories
-	if (extension[0] == '/' && extension[1] == 0) {
+	if ( extension[0] == '/' && extension[1] == 0 ) {
 		extension = "";
 		dironly = true;
 	}
-	
+
 	// search
 	// NOTE: case sensitivity of directory path can screw us up here
-	if ((fdir = opendir(directory)) == NULL) {
-		if (debug) {
-			common->Printf("Sys_ListFiles: opendir %s failed\n", directory);
+	if ( ( fdir = opendir( directory ) ) == NULL ) {
+		if ( debug ) {
+			common->Printf( "Sys_ListFiles: opendir %s failed\n", directory );
 		}
 		return -1;
 	}
-	
-	while ((d = readdir(fdir)) != NULL) {
-		idStr::snPrintf(search, sizeof(search), "%s/%s", directory, d->d_name);
-		if (stat(search, &st) == -1)
+
+	while ( ( d = readdir( fdir ) ) != NULL ) {
+		idStr::snPrintf( search, sizeof( search ), "%s/%s", directory, d->d_name );
+		if ( stat( search, &st ) == -1 )
 			continue;
-		if (!dironly) {
-			idStr look(search);
+		if ( !dironly ) {
+			idStr look( search );
 			idStr ext;
-			look.ExtractFileExtension(ext);
-			if (extension[0] != '\0' && ext.Icmp(&extension[1]) != 0) {
+			look.ExtractFileExtension( ext );
+			if ( extension[0] != '\0' && ext.Icmp( &extension[1] ) != 0 ) {
 				continue;
 			}
 		}
-		if ((dironly && !(st.st_mode & S_IFDIR)) ||
-			(!dironly && (st.st_mode & S_IFDIR)))
+		if ( ( dironly && !( st.st_mode & S_IFDIR ) ) ||
+				( !dironly && ( st.st_mode & S_IFDIR ) ) )
 			continue;
 
-		list.Append(d->d_name);
+		list.Append( d->d_name );
 	}
 
-	closedir(fdir);
-	
+	closedir( fdir );
+
 	if ( debug ) {
 		common->Printf( "Sys_ListFiles: %d entries in %s\n", list.Num(), directory );
 	}
-	
+
 	return list.Num();
 }
 
@@ -273,16 +273,16 @@ ptr should either be null, or point to a block of data that can be freed later
 ================
 */
 void Posix_QueEvent( sysEventType_t type, int value, int value2,
-				  int ptrLength, void *ptr ) {
+					 int ptrLength, void *ptr ) {
 	sysEvent_t *ev;
 
 	ev = &eventQue[eventHead & MASK_QUED_EVENTS];
-	if (eventHead - eventTail >= MAX_QUED_EVENTS) {
+	if ( eventHead - eventTail >= MAX_QUED_EVENTS ) {
 		common->Printf( "Posix_QueEvent: overflow\n" );
 		// we are discarding an event, but don't leak memory
 		// TTimo: verbose dropped event types?
-		if (ev->evPtr) {
-			Mem_Free(ev->evPtr);
+		if ( ev->evPtr ) {
+			Mem_Free( ev->evPtr );
 			ev->evPtr = NULL;
 		}
 		eventTail++;
@@ -306,16 +306,16 @@ void Posix_QueEvent( sysEventType_t type, int value, int value2,
 Sys_GetEvent
 ================
 */
-sysEvent_t Sys_GetEvent(void) {
+sysEvent_t Sys_GetEvent( void ) {
 	static sysEvent_t ev;
 
 	// return if we have data
-	if (eventHead > eventTail) {
+	if ( eventHead > eventTail ) {
 		eventTail++;
-		return eventQue[(eventTail - 1) & MASK_QUED_EVENTS];
+		return eventQue[( eventTail - 1 ) & MASK_QUED_EVENTS];
 	}
 	// return the empty event with the current time
-	memset(&ev, 0, sizeof(ev));
+	memset( &ev, 0, sizeof( ev ) );
 
 	return ev;
 }
@@ -338,7 +338,7 @@ const char *Posix_Cwd( void ) {
 	static char cwd[MAX_OSPATH];
 
 	getcwd( cwd, sizeof( cwd ) - 1 );
-	cwd[MAX_OSPATH-1] = 0;
+	cwd[MAX_OSPATH - 1] = 0;
 
 	return cwd;
 }
@@ -390,7 +390,7 @@ int Sys_DLL_Load( const char *path ) {
 	if ( !handle ) {
 		Sys_Printf( "dlopen '%s' failed: %s\n", path, dlerror() );
 	}
-	return (int)handle;
+	return ( int )handle;
 }
 
 /*
@@ -398,10 +398,10 @@ int Sys_DLL_Load( const char *path ) {
 Sys_DLL_GetProcAddress
 =================
 */
-void* Sys_DLL_GetProcAddress( int handle, const char *sym ) {
+void *Sys_DLL_GetProcAddress( int handle, const char *sym ) {
 	const char *error;
-	void *ret = dlsym( (void *)handle, sym );
-	if ((error = dlerror()) != NULL)  {
+	void *ret = dlsym( ( void * )handle, sym );
+	if ( ( error = dlerror() ) != NULL )  {
 		Sys_Printf( "dlsym '%s' failed: %s\n", sym, error );
 	}
 	return ret;
@@ -413,7 +413,7 @@ Sys_DLL_Unload
 =================
 */
 void Sys_DLL_Unload( int handle ) {
-	dlclose( (void *)handle );
+	dlclose( ( void * )handle );
 }
 
 /*
@@ -430,29 +430,29 @@ const char *Sys_DefaultCDPath( void ) {
 	return "";
 }
 
-long Sys_FileTimeStamp(FILE * fp) {
+long Sys_FileTimeStamp( FILE *fp ) {
 	struct stat st;
-	fstat(fileno(fp), &st);
+	fstat( fileno( fp ), &st );
 	return st.st_mtime;
 }
 
-void Sys_Sleep(int msec) {
+void Sys_Sleep( int msec ) {
 	if ( msec < 20 ) {
 		static int last = 0;
 		int now = Sys_Milliseconds();
 		if ( now - last > 1000 ) {
-			Sys_Printf("WARNING: Sys_Sleep - %d < 20 msec is not portable\n", msec);
+			Sys_Printf( "WARNING: Sys_Sleep - %d < 20 msec is not portable\n", msec );
 			last = now;
 		}
 		// ignore that sleep call, keep going
 		return;
 	}
 	// use nanosleep? keep sleeping if signal interrupt?
-	if (usleep(msec * 1000) == -1)
-		Sys_Printf("usleep: %s\n", strerror(errno));
+	if ( usleep( msec * 1000 ) == -1 )
+		Sys_Printf( "usleep: %s\n", strerror( errno ) );
 }
 
-char *Sys_GetClipboardData(void) {
+char *Sys_GetClipboardData( void ) {
 	Sys_Printf( "TODO: Sys_GetClipboardData\n" );
 	return NULL;
 }
@@ -460,11 +460,10 @@ char *Sys_GetClipboardData(void) {
 void Sys_SetClipboardData( const char *string ) {
 	Sys_Printf( "TODO: Sys_SetClipboardData\n" );
 }
-	
+
 
 // stub pretty much everywhere - heavy calling
-void Sys_FlushCacheMemory(void *base, int bytes)
-{
+void Sys_FlushCacheMemory( void *base, int bytes ) {
 //  Sys_Printf("Sys_FlushCacheMemory stub\n");
 }
 
@@ -593,13 +592,13 @@ void Posix_InitConsoleInput( void ) {
 		  	STATUS, and WERASE, and buffers by lines.
 		  ISIG: when any of the characters  INTR,  QUIT,  SUSP,  or
 		  	DSUSP are received, generate the corresponding signal
-		*/              
-		tc.c_lflag &= ~(ECHO | ICANON);
+		*/
+		tc.c_lflag &= ~( ECHO | ICANON );
 		/*
 		  ISTRIP strip off bit 8
 		  INPCK enable input parity checking
 		*/
-		tc.c_iflag &= ~(ISTRIP | INPCK);
+		tc.c_iflag &= ~( ISTRIP | INPCK );
 		tc.c_cc[VMIN] = 1;
 		tc.c_cc[VTIME] = 0;
 		if ( tcsetattr( 0, TCSADRAIN, &tc ) == -1 ) {
@@ -700,11 +699,11 @@ void tty_Show() {
 }
 
 void tty_FlushIn() {
-  char key;
-  while ( read(0, &key, 1) != -1 ) {
-	  Sys_Printf( "'%d' ", key );
-  }
-  Sys_Printf( "\n" );
+	char key;
+	while ( read( 0, &key, 1 ) != -1 ) {
+		Sys_Printf( "'%d' ", key );
+	}
+	Sys_Printf( "\n" );
 }
 
 /*
@@ -725,208 +724,208 @@ char *Posix_ConsoleInput( void ) {
 				hidden = true;
 			}
 			switch ( key ) {
-			case 1:
-				input_field.SetCursor( 0 );
-				break;
-			case 5:
-				input_field.SetCursor( strlen( input_field.GetBuffer() ) );
-				break;
-			case 127:
-			case 8:
-				input_field.CharEvent( K_BACKSPACE );
-				break;
-			case '\n':
-				idStr::Copynz( input_ret, input_field.GetBuffer(), sizeof( input_ret ) );
-				assert( hidden );
-				tty_Show();
-				write( STDOUT_FILENO, &key, 1 );
-				input_field.Clear();
-				if ( history_count < COMMAND_HISTORY ) {
-					history[ history_count ] = input_ret;
-					history_count++;
-				} else {
-					history[ history_start ] = input_ret;
-					history_start++;
-					history_start %= COMMAND_HISTORY;
-				}
-				history_current = 0;
-				return input_ret;
-			case '\t':
-				input_field.AutoComplete();
-				break;
-			case 27: {
-				// enter escape sequence mode
-				ret = read( STDIN_FILENO, &key, 1 );
-				if ( ret <= 0 ) {
-					Sys_Printf( "dropping sequence: '27' " );
-					tty_FlushIn();
+				case 1:
+					input_field.SetCursor( 0 );
+					break;
+				case 5:
+					input_field.SetCursor( strlen( input_field.GetBuffer() ) );
+					break;
+				case 127:
+				case 8:
+					input_field.CharEvent( K_BACKSPACE );
+					break;
+				case '\n':
+					idStr::Copynz( input_ret, input_field.GetBuffer(), sizeof( input_ret ) );
 					assert( hidden );
 					tty_Show();
-					return NULL;
-				}
-				switch ( key ) {
-				case 79:
-					ret = read( STDIN_FILENO, &key, 1 );
-					if ( ret <= 0 ) {
-						Sys_Printf( "dropping sequence: '27' '79' " );
-						tty_FlushIn();
-						assert( hidden );
-						tty_Show();
-						return NULL;
+					write( STDOUT_FILENO, &key, 1 );
+					input_field.Clear();
+					if ( history_count < COMMAND_HISTORY ) {
+						history[ history_count ] = input_ret;
+						history_count++;
+					} else {
+						history[ history_start ] = input_ret;
+						history_start++;
+						history_start %= COMMAND_HISTORY;
 					}
-					switch ( key ) {
-					case 72:
-						// xterm only
-						input_field.SetCursor( 0 );
-						break;
-					case 70:
-						// xterm only
-						input_field.SetCursor( strlen( input_field.GetBuffer() ) );
-						break;
-					default:
-						Sys_Printf( "dropping sequence: '27' '79' '%d' ", key );
-						tty_FlushIn();
-						assert( hidden );
-						tty_Show();
-						return NULL;
-					}
+					history_current = 0;
+					return input_ret;
+				case '\t':
+					input_field.AutoComplete();
 					break;
-				case 91: {
+				case 27: {
+					// enter escape sequence mode
 					ret = read( STDIN_FILENO, &key, 1 );
 					if ( ret <= 0 ) {
-						Sys_Printf( "dropping sequence: '27' '91' " );
+						Sys_Printf( "dropping sequence: '27' " );
 						tty_FlushIn();
 						assert( hidden );
 						tty_Show();
 						return NULL;
 					}
 					switch ( key ) {
-					case 49: {
-						ret = read( STDIN_FILENO, &key, 1 );
-						if ( ret <= 0 || key != 126 ) {
-							Sys_Printf( "dropping sequence: '27' '91' '49' '%d' ", key );
-							tty_FlushIn();
-							assert( hidden );
-							tty_Show();
-							return NULL;
-						}
-						// only screen and linux terms
-						input_field.SetCursor( 0 );
-						break;
-					}
-					case 50: {
-						ret = read( STDIN_FILENO, &key, 1 );
-						if ( ret <= 0 || key != 126 ) {
-							Sys_Printf( "dropping sequence: '27' '91' '50' '%d' ", key );
-							tty_FlushIn();
-							assert( hidden );
-							tty_Show();
-							return NULL;
-						}
-						// all terms
-						input_field.KeyDownEvent( K_INS );
-						break;						
-					}
-					case 52: {
-						ret = read( STDIN_FILENO, &key, 1 );
-						if ( ret <= 0 || key != 126 ) {
-							Sys_Printf( "dropping sequence: '27' '91' '52' '%d' ", key );
-							tty_FlushIn();
-							assert( hidden );
-							tty_Show();
-							return NULL;
-						}
-						// only screen and linux terms
-						input_field.SetCursor( strlen( input_field.GetBuffer() ) );
-						break;
-					}
-					case 51: {
-						ret = read( STDIN_FILENO, &key, 1 );
-						if ( ret <= 0 ) {
-							Sys_Printf( "dropping sequence: '27' '91' '51' " );
-							tty_FlushIn();
-							assert( hidden );
-							tty_Show();
-							return NULL;
-						}
-						if ( key == 126 ) {
-							input_field.KeyDownEvent( K_DEL );
+						case 79:
+							ret = read( STDIN_FILENO, &key, 1 );
+							if ( ret <= 0 ) {
+								Sys_Printf( "dropping sequence: '27' '79' " );
+								tty_FlushIn();
+								assert( hidden );
+								tty_Show();
+								return NULL;
+							}
+							switch ( key ) {
+								case 72:
+									// xterm only
+									input_field.SetCursor( 0 );
+									break;
+								case 70:
+									// xterm only
+									input_field.SetCursor( strlen( input_field.GetBuffer() ) );
+									break;
+								default:
+									Sys_Printf( "dropping sequence: '27' '79' '%d' ", key );
+									tty_FlushIn();
+									assert( hidden );
+									tty_Show();
+									return NULL;
+							}
+							break;
+						case 91: {
+							ret = read( STDIN_FILENO, &key, 1 );
+							if ( ret <= 0 ) {
+								Sys_Printf( "dropping sequence: '27' '91' " );
+								tty_FlushIn();
+								assert( hidden );
+								tty_Show();
+								return NULL;
+							}
+							switch ( key ) {
+								case 49: {
+									ret = read( STDIN_FILENO, &key, 1 );
+									if ( ret <= 0 || key != 126 ) {
+										Sys_Printf( "dropping sequence: '27' '91' '49' '%d' ", key );
+										tty_FlushIn();
+										assert( hidden );
+										tty_Show();
+										return NULL;
+									}
+									// only screen and linux terms
+									input_field.SetCursor( 0 );
+									break;
+								}
+								case 50: {
+									ret = read( STDIN_FILENO, &key, 1 );
+									if ( ret <= 0 || key != 126 ) {
+										Sys_Printf( "dropping sequence: '27' '91' '50' '%d' ", key );
+										tty_FlushIn();
+										assert( hidden );
+										tty_Show();
+										return NULL;
+									}
+									// all terms
+									input_field.KeyDownEvent( K_INS );
+									break;
+								}
+								case 52: {
+									ret = read( STDIN_FILENO, &key, 1 );
+									if ( ret <= 0 || key != 126 ) {
+										Sys_Printf( "dropping sequence: '27' '91' '52' '%d' ", key );
+										tty_FlushIn();
+										assert( hidden );
+										tty_Show();
+										return NULL;
+									}
+									// only screen and linux terms
+									input_field.SetCursor( strlen( input_field.GetBuffer() ) );
+									break;
+								}
+								case 51: {
+									ret = read( STDIN_FILENO, &key, 1 );
+									if ( ret <= 0 ) {
+										Sys_Printf( "dropping sequence: '27' '91' '51' " );
+										tty_FlushIn();
+										assert( hidden );
+										tty_Show();
+										return NULL;
+									}
+									if ( key == 126 ) {
+										input_field.KeyDownEvent( K_DEL );
+										break;
+									}
+									Sys_Printf( "dropping sequence: '27' '91' '51' '%d'", key );
+									tty_FlushIn();
+									assert( hidden );
+									tty_Show();
+									return NULL;
+								}
+								case 65:
+								case 66: {
+									// history
+									if ( history_current == 0 ) {
+										history_backup = input_field;
+									}
+									if ( key == 65 ) {
+										// up
+										history_current++;
+									} else {
+										// down
+										history_current--;
+									}
+									// history_current cycle:
+									// 0: current edit
+									// 1 .. Min( COMMAND_HISTORY, history_count ): back in history
+									if ( history_current < 0 ) {
+										history_current = Min( COMMAND_HISTORY, history_count );
+									} else {
+										history_current %= Min( COMMAND_HISTORY, history_count ) + 1;
+									}
+									int index = -1;
+									if ( history_current == 0 ) {
+										input_field = history_backup;
+									} else {
+										index = history_start + Min( COMMAND_HISTORY, history_count ) - history_current;
+										index %= COMMAND_HISTORY;
+										assert( index >= 0 && index < COMMAND_HISTORY );
+										input_field.SetBuffer( history[ index ] );
+									}
+									assert( hidden );
+									tty_Show();
+									return NULL;
+								}
+								case 67:
+									input_field.KeyDownEvent( K_RIGHTARROW );
+									break;
+								case 68:
+									input_field.KeyDownEvent( K_LEFTARROW );
+									break;
+								default:
+									Sys_Printf( "dropping sequence: '27' '91' '%d' ", key );
+									tty_FlushIn();
+									assert( hidden );
+									tty_Show();
+									return NULL;
+							}
 							break;
 						}
-						Sys_Printf( "dropping sequence: '27' '91' '51' '%d'", key );
-						tty_FlushIn();
-						assert( hidden );
-						tty_Show();
-						return NULL;						
-					}
-					case 65:
-					case 66: {
-						// history
-						if ( history_current == 0 ) {
-							history_backup = input_field;
-						}
-						if ( key == 65 ) {
-							// up
-							history_current++;
-						} else {
-							// down
-							history_current--;
-						}
-						// history_current cycle:
-						// 0: current edit
-						// 1 .. Min( COMMAND_HISTORY, history_count ): back in history
-						if ( history_current < 0 ) {
-							history_current = Min( COMMAND_HISTORY, history_count );
-						} else {
-							history_current %= Min( COMMAND_HISTORY, history_count ) + 1;
-						}
-						int index = -1;
-						if ( history_current == 0 ) {
-							input_field = history_backup;
-						} else {									
-							index = history_start + Min( COMMAND_HISTORY, history_count ) - history_current;
-							index %= COMMAND_HISTORY;
-							assert( index >= 0 && index < COMMAND_HISTORY );
-							input_field.SetBuffer( history[ index ] );
-						}
-						assert( hidden );
-						tty_Show();
-						return NULL;
-					}
-					case 67:
-						input_field.KeyDownEvent( K_RIGHTARROW );
-						break;
-					case 68:
-						input_field.KeyDownEvent( K_LEFTARROW );
-						break;
-					default:
-						Sys_Printf( "dropping sequence: '27' '91' '%d' ", key );
-						tty_FlushIn();
-						assert( hidden );
-						tty_Show();
-						return NULL;
+						default:
+							Sys_Printf( "dropping sequence: '27' '%d' ", key );
+							tty_FlushIn();
+							assert( hidden );
+							tty_Show();
+							return NULL;
 					}
 					break;
 				}
 				default:
-					Sys_Printf( "dropping sequence: '27' '%d' ", key );
+					if ( key >= ' ' ) {
+						input_field.CharEvent( key );
+						break;
+					}
+					Sys_Printf( "dropping sequence: '%d' ", key );
 					tty_FlushIn();
 					assert( hidden );
 					tty_Show();
 					return NULL;
-				}
-				break;
-			}
-			default:
-				if ( key >= ' ' ) {
-					input_field.CharEvent( key );
-					break;
-				}
-				Sys_Printf( "dropping sequence: '%d' ", key );
-				tty_FlushIn();
-				assert( hidden );
-				tty_Show();
-				return NULL;
 			}
 		}
 		if ( hidden ) {
@@ -965,7 +964,7 @@ char *Posix_ConsoleInput( void ) {
 			Sys_Printf( "read overflow\n" );	// things are likely to break, as input will be cut into pieces
 		}
 
-		input_ret[ len-1 ] = '\0';		// rip off the \n and terminate
+		input_ret[ len - 1 ] = '\0';		// rip off the \n and terminate
 		return input_ret;
 #endif
 	}
@@ -984,7 +983,7 @@ void Sys_GenerateEvents( void ) {
 		int len;
 
 		len = strlen( s ) + 1;
-		b = (char *)Mem_Alloc( len );
+		b = ( char * )Mem_Alloc( len );
 		strcpy( b, s );
 		Posix_QueEvent( SE_CONSOLE, 0, 0, len, b );
 	}
@@ -1012,7 +1011,7 @@ void Sys_DebugVPrintf( const char *fmt, va_list arg ) {
 	tty_Show();
 }
 
-void Sys_Printf(const char *msg, ...) {
+void Sys_Printf( const char *msg, ... ) {
 	va_list argptr;
 
 	tty_Hide();
@@ -1022,9 +1021,9 @@ void Sys_Printf(const char *msg, ...) {
 	tty_Show();
 }
 
-void Sys_VPrintf(const char *msg, va_list arg) {
+void Sys_VPrintf( const char *msg, va_list arg ) {
 	tty_Hide();
-	vprintf(msg, arg);
+	vprintf( msg, arg );
 	tty_Show();
 }
 
@@ -1033,7 +1032,7 @@ void Sys_VPrintf(const char *msg, va_list arg) {
 Sys_Error
 ================
 */
-void Sys_Error(const char *error, ...) {
+void Sys_Error( const char *error, ... ) {
 	va_list argptr;
 
 	Sys_Printf( "Sys_Error: " );

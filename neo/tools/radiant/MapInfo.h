@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -37,11 +37,10 @@ If you have questions concerning this license or the applicable additional terms
 /////////////////////////////////////////////////////////////////////////////
 // CMapInfo dialog
 
-class CMapInfo : public CDialog
-{
+class CMapInfo : public CDialog {
 // Construction
 public:
-	CMapInfo(CWnd* pParent = NULL);   // standard constructor
+	CMapInfo( CWnd *pParent = NULL ); // standard constructor
 
 // Dialog Data
 	//{{AFX_DATA(CMapInfo)
@@ -56,8 +55,8 @@ public:
 // Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CMapInfo)
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+protected:
+	virtual void DoDataExchange( CDataExchange *pDX );  // DDX/DDV support
 	//}}AFX_VIRTUAL
 
 // Implementation

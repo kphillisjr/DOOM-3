@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@ If you have questions concerning this license or the applicable additional terms
 ===============================================================================
 
   idMoveable
-	
+
 ===============================================================================
 */
 
@@ -45,11 +45,11 @@ const idEventDef EV_IsAtRest( "isAtRest", NULL, 'd' );
 const idEventDef EV_EnableDamage( "enableDamage", "f" );
 
 CLASS_DECLARATION( idEntity, idMoveable )
-	EVENT( EV_Activate,					idMoveable::Event_Activate )
-	EVENT( EV_BecomeNonSolid,			idMoveable::Event_BecomeNonSolid )
-	EVENT( EV_SetOwnerFromSpawnArgs,	idMoveable::Event_SetOwnerFromSpawnArgs )
-	EVENT( EV_IsAtRest,					idMoveable::Event_IsAtRest )
-	EVENT( EV_EnableDamage,				idMoveable::Event_EnableDamage )
+EVENT( EV_Activate,					idMoveable::Event_Activate )
+EVENT( EV_BecomeNonSolid,			idMoveable::Event_BecomeNonSolid )
+EVENT( EV_SetOwnerFromSpawnArgs,	idMoveable::Event_SetOwnerFromSpawnArgs )
+EVENT( EV_IsAtRest,					idMoveable::Event_IsAtRest )
+EVENT( EV_EnableDamage,				idMoveable::Event_EnableDamage )
 END_CLASS
 
 
@@ -147,7 +147,7 @@ void idMoveable::Spawn( void ) {
 
 	if ( health ) {
 		if ( brokenModel != "" && !renderModelManager->CheckModel( brokenModel ) ) {
-			gameLocal.Error( "idMoveable '%s' at (%s): cannot load broken model '%s'", name.c_str(), GetPhysics()->GetOrigin().ToString(0), brokenModel.c_str() );
+			gameLocal.Error( "idMoveable '%s' at (%s): cannot load broken model '%s'", name.c_str(), GetPhysics()->GetOrigin().ToString( 0 ), brokenModel.c_str() );
 		}
 	}
 
@@ -311,8 +311,7 @@ bool idMoveable::Collide( const trace_t &collision, const idVec3 &velocity ) {
 #ifdef _D3XP
 					if ( attacker ) {
 						ent->Damage( this, attacker, dir, monsterDamage, f, INVALID_JOINT );
-					}
-					else {
+					} else {
 						ent->Damage( this, GetPhysics()->GetClipModel()->GetOwner(), dir, monsterDamage, f, INVALID_JOINT );
 					}
 #else
@@ -327,8 +326,7 @@ bool idMoveable::Collide( const trace_t &collision, const idVec3 &velocity ) {
 
 					if ( attacker ) {
 						ent->Damage( this, attacker, dir, damage, f, INVALID_JOINT );
-					}
-					else {
+					} else {
 						ent->Damage( this, GetPhysics()->GetClipModel()->GetOwner(), dir, damage, f, INVALID_JOINT );
 					}
 #else
@@ -343,7 +341,7 @@ bool idMoveable::Collide( const trace_t &collision, const idVec3 &velocity ) {
 
 #ifdef _D3XP
 	if ( this->IsType( idExplodingBarrel::Type ) ) {
-		idExplodingBarrel *ebarrel = static_cast<idExplodingBarrel*>(this);
+		idExplodingBarrel *ebarrel = static_cast<idExplodingBarrel *>( this );
 
 		if ( !ebarrel->IsStable() ) {
 			PostEventSec( &EV_Explode, 0.04f );
@@ -498,7 +496,7 @@ const idMaterial *idMoveable::GetRenderModelMaterial( void ) const {
 		return renderEntity.customShader;
 	}
 	if ( renderEntity.hModel && renderEntity.hModel->NumSurfaces() ) {
-		 return renderEntity.hModel->Surface( 0 )->shader;
+		return renderEntity.hModel->Surface( 0 )->shader;
 	}
 	return NULL;
 }
@@ -556,7 +554,7 @@ void idMoveable::Event_Activate( idEntity *activator ) {
 	Show();
 
 	if ( !spawnArgs.GetInt( "notPushable" ) ) {
-        physicsObj.EnableImpact();
+		physicsObj.EnableImpact();
 	}
 
 	physicsObj.Activate();
@@ -622,7 +620,7 @@ void idMoveable::Event_EnableDamage( float enable ) {
 ===============================================================================
 
   idBarrel
-	
+
 ===============================================================================
 */
 
@@ -713,7 +711,7 @@ void idBarrel::BarrelThink( void ) {
 				movedDistance = ( 1.0f - idMath::Fabs( dir * curAxis[barrelAxis] ) ) * movedDistance;
 
 				// get rotation about barrel axis since last think frame
-				angle = lastAxis[(barrelAxis+1)%3] * curAxis[(barrelAxis+1)%3];
+				angle = lastAxis[( barrelAxis + 1 ) % 3] * curAxis[( barrelAxis + 1 ) % 3];
 				angle = idMath::ACos( angle );
 				// distance along cylinder hull
 				rotatedDistance = angle * radius;
@@ -723,7 +721,7 @@ void idBarrel::BarrelThink( void ) {
 
 					// additional rotation of the visual model to make it look
 					// like the barrel rolls instead of slides
-					angle = 180.0f * (movedDistance - rotatedDistance) / (radius * idMath::PI);
+					angle = 180.0f * ( movedDistance - rotatedDistance ) / ( radius * idMath::PI );
 					if ( gravityNormal.Cross( curAxis[barrelAxis] ) * dir < 0.0f ) {
 						additionalRotation += angle;
 					} else {
@@ -816,10 +814,10 @@ const idEventDef EV_Respawn( "<respawn>" );
 const idEventDef EV_TriggerTargets( "<triggertargets>" );
 
 CLASS_DECLARATION( idBarrel, idExplodingBarrel )
-	EVENT( EV_Activate,					idExplodingBarrel::Event_Activate )
-	EVENT( EV_Respawn,					idExplodingBarrel::Event_Respawn )
-	EVENT( EV_Explode,					idExplodingBarrel::Event_Explode )
-	EVENT( EV_TriggerTargets,			idExplodingBarrel::Event_TriggerTargets )
+EVENT( EV_Activate,					idExplodingBarrel::Event_Activate )
+EVENT( EV_Respawn,					idExplodingBarrel::Event_Respawn )
+EVENT( EV_Explode,					idExplodingBarrel::Event_Explode )
+EVENT( EV_TriggerTargets,			idExplodingBarrel::Event_TriggerTargets )
 END_CLASS
 
 /*
@@ -849,7 +847,7 @@ idExplodingBarrel::~idExplodingBarrel
 ================
 */
 idExplodingBarrel::~idExplodingBarrel() {
-	if ( particleModelDefHandle >= 0 ){
+	if ( particleModelDefHandle >= 0 ) {
 		gameRenderWorld->FreeEntityDef( particleModelDefHandle );
 	}
 	if ( lightDefHandle >= 0 ) {
@@ -891,9 +889,9 @@ void idExplodingBarrel::Restore( idRestoreGame *savefile ) {
 	savefile->ReadVec3( spawnOrigin );
 	savefile->ReadMat3( spawnAxis );
 
-	savefile->ReadInt( (int &)state );
-	savefile->ReadInt( (int &)particleModelDefHandle );
-	savefile->ReadInt( (int &)lightDefHandle );
+	savefile->ReadInt( ( int & )state );
+	savefile->ReadInt( ( int & )particleModelDefHandle );
+	savefile->ReadInt( ( int & )lightDefHandle );
 
 	savefile->ReadRenderEntity( particleRenderEntity );
 	savefile->ReadRenderLight( light );
@@ -946,10 +944,10 @@ idExplodingBarrel::Think
 void idExplodingBarrel::Think( void ) {
 	idBarrel::BarrelThink();
 
-	if ( lightDefHandle >= 0 ){
+	if ( lightDefHandle >= 0 ) {
 		if ( state == BURNING ) {
 			// ramp the color up over 250 ms
-			float pct = (gameLocal.time - lightTime) / 250.f;
+			float pct = ( gameLocal.time - lightTime ) / 250.f;
 			if ( pct > 1.0f ) {
 				pct = 1.0f;
 			}
@@ -974,7 +972,7 @@ void idExplodingBarrel::Think( void ) {
 		return;
 	}
 
-	if ( particleModelDefHandle >= 0 ){
+	if ( particleModelDefHandle >= 0 ) {
 		particleRenderEntity.origin = physicsObj.GetAbsBounds().GetCenter();
 		particleRenderEntity.axis = mat3_identity;
 		gameRenderWorld->UpdateEntityDef( particleModelDefHandle, &particleRenderEntity );
@@ -1018,7 +1016,7 @@ idExplodingBarrel::StartBurning
 void idExplodingBarrel::StopBurning( void ) {
 	state = NORMAL;
 
-	if ( particleModelDefHandle >= 0 ){
+	if ( particleModelDefHandle >= 0 ) {
 		gameRenderWorld->FreeEntityDef( particleModelDefHandle );
 		particleModelDefHandle = -1;
 
@@ -1039,10 +1037,10 @@ void idExplodingBarrel::AddParticles( const char *name, bool burn ) {
 		int explicitTimeGroup = timeGroup;
 		SetTimeState explicitTS( explicitTimeGroup );
 #endif
-		if ( particleModelDefHandle >= 0 ){
+		if ( particleModelDefHandle >= 0 ) {
 			gameRenderWorld->FreeEntityDef( particleModelDefHandle );
 		}
-		memset( &particleRenderEntity, 0, sizeof ( particleRenderEntity ) );
+		memset( &particleRenderEntity, 0, sizeof( particleRenderEntity ) );
 		const idDeclModelDef *modelDef = static_cast<const idDeclModelDef *>( declManager->FindType( DECL_MODELDEF, name ) );
 		if ( modelDef ) {
 			particleRenderEntity.origin = physicsObj.GetAbsBounds().GetCenter();
@@ -1076,10 +1074,10 @@ idExplodingBarrel::AddLight
 ================
 */
 void idExplodingBarrel::AddLight( const char *name, bool burn ) {
-	if ( lightDefHandle >= 0 ){
+	if ( lightDefHandle >= 0 ) {
 		gameRenderWorld->FreeLightDef( lightDefHandle );
 	}
-	memset( &light, 0, sizeof ( light ) );
+	memset( &light, 0, sizeof( light ) );
 	light.axis = mat3_identity;
 	light.lightRadius.x = spawnArgs.GetFloat( "light_radius" );
 	light.lightRadius.y = light.lightRadius.z = light.lightRadius.x;
@@ -1144,7 +1142,7 @@ void idExplodingBarrel::Killed( idEntity *inflictor, idEntity *attacker, int dam
 		state = BURNING;
 		PostEventSec( &EV_Explode, f );
 		StartSound( "snd_burn", SND_CHANNEL_ANY, 0, false, NULL );
-		AddParticles( spawnArgs.GetString ( "model_burn", "" ), true );
+		AddParticles( spawnArgs.GetString( "model_burn", "" ), true );
 		return;
 	} else {
 		state = EXPLODING;
@@ -1155,7 +1153,7 @@ void idExplodingBarrel::Killed( idEntity *inflictor, idEntity *attacker, int dam
 			msg.Init( msgBuf, sizeof( msgBuf ) );
 			msg.WriteLong( gameLocal.time );
 			ServerSendEvent( EVENT_EXPLODE, &msg, false, -1 );
-		}		
+		}
 	}
 
 	// do this before applying radius damage so the ent can trace to any damagable ents nearby
@@ -1168,7 +1166,7 @@ void idExplodingBarrel::Killed( idEntity *inflictor, idEntity *attacker, int dam
 	}
 
 	ExplodingEffects( );
-	
+
 	//FIXME: need to precache all the debris stuff here and in the projectiles
 	const idKeyValue *kv = spawnArgs.MatchPrefix( "def_debris" );
 	// bool first = true;
@@ -1179,12 +1177,12 @@ void idExplodingBarrel::Killed( idEntity *inflictor, idEntity *attacker, int dam
 			idVec3 dir;
 			idDebris *debris;
 			//if ( first ) {
-				dir = physicsObj.GetAxis()[1];
+			dir = physicsObj.GetAxis()[1];
 			//	first = false;
 			//} else {
-				dir.x += gameLocal.random.CRandomFloat() * 4.0f;
-				dir.y += gameLocal.random.CRandomFloat() * 4.0f;
-				//dir.z = gameLocal.random.RandomFloat() * 8.0f;
+			dir.x += gameLocal.random.CRandomFloat() * 4.0f;
+			dir.y += gameLocal.random.CRandomFloat() * 4.0f;
+			//dir.z = gameLocal.random.RandomFloat() * 8.0f;
 			//}
 			dir.Normalize();
 
@@ -1193,12 +1191,12 @@ void idExplodingBarrel::Killed( idEntity *inflictor, idEntity *attacker, int dam
 				gameLocal.Error( "'projectile_debris' is not an idDebris" );
 			}
 
-			debris = static_cast<idDebris *>(ent);
+			debris = static_cast<idDebris *>( ent );
 			debris->Create( this, physicsObj.GetOrigin(), dir.ToMat3() );
 			debris->Launch();
 			debris->GetRenderEntity()->shaderParms[ SHADERPARM_TIME_OF_DEATH ] = ( gameLocal.time + 1500 ) * 0.001f;
 			debris->UpdateVisuals();
-			
+
 		}
 		kv = spawnArgs.MatchPrefix( "def_debris", kv );
 	}
@@ -1224,8 +1222,8 @@ void idExplodingBarrel::Killed( idEntity *inflictor, idEntity *attacker, int dam
 idExplodingBarrel::Damage
 ================
 */
-void idExplodingBarrel::Damage( idEntity *inflictor, idEntity *attacker, const idVec3 &dir, 
-					  const char *damageDefName, const float damageScale, const int location ) {
+void idExplodingBarrel::Damage( idEntity *inflictor, idEntity *attacker, const idVec3 &dir,
+								const char *damageDefName, const float damageScale, const int location ) {
 
 	const idDict *damageDef = gameLocal.FindEntityDefDict( damageDefName );
 	if ( !damageDef ) {
@@ -1340,7 +1338,7 @@ idExplodingBarrel::ClientReceiveEvent
 */
 bool idExplodingBarrel::ClientReceiveEvent( int event, int time, const idBitMsg &msg ) {
 
-	switch( event ) {
+	switch ( event ) {
 		case EVENT_EXPLODE: {
 			if ( gameLocal.realClientTime - msg.ReadLong() < spawnArgs.GetInt( "explode_lapse", "1000" ) ) {
 				ExplodingEffects( );

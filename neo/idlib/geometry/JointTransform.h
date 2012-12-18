@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -69,8 +69,8 @@ public:
 	idVec3			operator*( const idVec3 &v ) const;							// only rotate
 	idVec3			operator*( const idVec4 &v ) const;							// rotate and translate
 
-	idJointMat &	operator*=( const idJointMat &a );							// transform
-	idJointMat &	operator/=( const idJointMat &a );							// untransform
+	idJointMat 	&operator*=( const idJointMat &a );							// transform
+	idJointMat 	&operator/=( const idJointMat &a );							// untransform
 
 	bool			Compare( const idJointMat &a ) const;						// exact compare, no epsilon
 	bool			Compare( const idJointMat &a, const float epsilon ) const;	// compare with epsilon
@@ -80,11 +80,11 @@ public:
 	idMat3			ToMat3( void ) const;
 	idVec3			ToVec3( void ) const;
 	idJointQuat		ToJointQuat( void ) const;
-	const float *	ToFloatPtr( void ) const;
-	float *			ToFloatPtr( void );
+	const float 	*ToFloatPtr( void ) const;
+	float 			*ToFloatPtr( void );
 
 private:
-	float			mat[3*4];
+	float			mat[3 * 4];
 };
 
 ID_INLINE void idJointMat::SetRotation( const idMat3 &m ) {

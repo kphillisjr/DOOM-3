@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -43,56 +43,56 @@ If you have questions concerning this license or the applicable additional terms
 
 class idHashIndex {
 public:
-					idHashIndex( void );
-					idHashIndex( const int initialHashSize, const int initialIndexSize );
-					~idHashIndex( void );
+	idHashIndex( void );
+	idHashIndex( const int initialHashSize, const int initialIndexSize );
+	~idHashIndex( void );
 
-					// returns total size of allocated memory
+	// returns total size of allocated memory
 	size_t			Allocated( void ) const;
-					// returns total size of allocated memory including size of hash index type
+	// returns total size of allocated memory including size of hash index type
 	size_t			Size( void ) const;
 
-	idHashIndex &	operator=( const idHashIndex &other );
-					// add an index to the hash, assumes the index has not yet been added to the hash
+	idHashIndex 	&operator=( const idHashIndex &other );
+	// add an index to the hash, assumes the index has not yet been added to the hash
 	void			Add( const int key, const int index );
-					// remove an index from the hash
+	// remove an index from the hash
 	void			Remove( const int key, const int index );
-					// get the first index from the hash, returns -1 if empty hash entry
+	// get the first index from the hash, returns -1 if empty hash entry
 	int				First( const int key ) const;
-					// get the next index from the hash, returns -1 if at the end of the hash chain
+	// get the next index from the hash, returns -1 if at the end of the hash chain
 	int				Next( const int index ) const;
-					// insert an entry into the index and add it to the hash, increasing all indexes >= index
+	// insert an entry into the index and add it to the hash, increasing all indexes >= index
 	void			InsertIndex( const int key, const int index );
-					// remove an entry from the index and remove it from the hash, decreasing all indexes >= index
+	// remove an entry from the index and remove it from the hash, decreasing all indexes >= index
 	void			RemoveIndex( const int key, const int index );
-					// clear the hash
+	// clear the hash
 	void			Clear( void );
-					// clear and resize
+	// clear and resize
 	void			Clear( const int newHashSize, const int newIndexSize );
-					// free allocated memory
+	// free allocated memory
 	void			Free( void );
-					// get size of hash table
+	// get size of hash table
 	int				GetHashSize( void ) const;
-					// get size of the index
+	// get size of the index
 	int				GetIndexSize( void ) const;
-					// set granularity
+	// set granularity
 	void			SetGranularity( const int newGranularity );
-					// force resizing the index, current hash table stays intact
+	// force resizing the index, current hash table stays intact
 	void			ResizeIndex( const int newIndexSize );
-					// returns number in the range [0-100] representing the spread over the hash table
+	// returns number in the range [0-100] representing the spread over the hash table
 	int				GetSpread( void ) const;
-					// returns a key for a string
+	// returns a key for a string
 	int				GenerateKey( const char *string, bool caseSensitive = true ) const;
-					// returns a key for a vector
+	// returns a key for a vector
 	int				GenerateKey( const idVec3 &v ) const;
-					// returns a key for two integers
+	// returns a key for two integers
 	int				GenerateKey( const int n1, const int n2 ) const;
 
 private:
 	int				hashSize;
-	int *			hash;
+	int 			*hash;
 	int				indexSize;
-	int *			indexChain;
+	int 			*indexChain;
 	int				granularity;
 	int				hashMask;
 	int				lookupMask;
@@ -162,8 +162,7 @@ ID_INLINE idHashIndex &idHashIndex::operator=( const idHashIndex &other ) {
 		hashSize = other.hashSize;
 		indexSize = other.indexSize;
 		Free();
-	}
-	else {
+	} else {
 		if ( other.hashSize != hashSize || hash == INVALID_INDEX ) {
 			if ( hash != INVALID_INDEX ) {
 				delete[] hash;
@@ -196,8 +195,7 @@ ID_INLINE void idHashIndex::Add( const int key, const int index ) {
 	assert( index >= 0 );
 	if ( hash == INVALID_INDEX ) {
 		Allocate( hashSize, index >= indexSize ? index + 1 : indexSize );
-	}
-	else if ( index >= indexSize ) {
+	} else if ( index >= indexSize ) {
 		ResizeIndex( index + 1 );
 	}
 	h = key & hashMask;
@@ -218,8 +216,7 @@ ID_INLINE void idHashIndex::Remove( const int key, const int index ) {
 	}
 	if ( hash[k] == index ) {
 		hash[k] = indexChain[index];
-	}
-	else {
+	} else {
 		for ( int i = hash[k]; i != -1; i = indexChain[i] ) {
 			if ( indexChain[i] == index ) {
 				indexChain[i] = indexChain[index];
@@ -279,7 +276,7 @@ ID_INLINE void idHashIndex::InsertIndex( const int key, const int index ) {
 			ResizeIndex( max + 1 );
 		}
 		for ( i = max; i > index; i-- ) {
-			indexChain[i] = indexChain[i-1];
+			indexChain[i] = indexChain[i - 1];
 		}
 		indexChain[index] = -1;
 	}
@@ -314,7 +311,7 @@ ID_INLINE void idHashIndex::RemoveIndex( const int key, const int index ) {
 			}
 		}
 		for ( i = index; i < max; i++ ) {
-			indexChain[i] = indexChain[i+1];
+			indexChain[i] = indexChain[i + 1];
 		}
 		indexChain[max] = -1;
 	}
@@ -390,7 +387,7 @@ idHashIndex::GenerateKey
 ================
 */
 ID_INLINE int idHashIndex::GenerateKey( const idVec3 &v ) const {
-	return ( (((int) v[0]) + ((int) v[1]) + ((int) v[2])) & hashMask );
+	return ( ( ( ( int ) v[0] ) + ( ( int ) v[1] ) + ( ( int ) v[2] ) ) & hashMask );
 }
 
 /*

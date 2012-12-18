@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -69,12 +69,9 @@ bool idAASCluster::UpdatePortal( int areaNum, int clusterNum ) {
 		portal->clusters[0] = clusterNum;
 	}
 	// if the portal has no back cluster yet
-	else if ( !portal->clusters[1] )
-	{
+	else if ( !portal->clusters[1] ) {
 		portal->clusters[1] = clusterNum;
-	}
-	else
-	{
+	} else {
 		// remove the cluster portal flag contents
 		file->areas[areaNum].contents &= ~AREACONTENTS_CLUSTERPORTAL;
 		return false;
@@ -123,7 +120,7 @@ bool idAASCluster::FloodClusterAreas_r( int areaNum, int clusterNum ) {
 	if ( !noFaceFlood ) {
 		// use area faces to flood into adjacent areas
 		for ( i = 0; i < area->numFaces; i++ ) {
-			faceNum = abs(file->faceIndex[area->firstFace + i]);
+			faceNum = abs( file->faceIndex[area->firstFace + i] );
 			face = &file->faces[faceNum];
 			if ( face->areas[0] == areaNum ) {
 				if ( face->areas[1] ) {
@@ -131,8 +128,7 @@ bool idAASCluster::FloodClusterAreas_r( int areaNum, int clusterNum ) {
 						return false;
 					}
 				}
-			}
-			else {
+			} else {
 				if ( face->areas[0] ) {
 					if ( !FloodClusterAreas_r( face->areas[0], clusterNum ) ) {
 						return false;
@@ -144,14 +140,14 @@ bool idAASCluster::FloodClusterAreas_r( int areaNum, int clusterNum ) {
 
 	// use the reachabilities to flood into other areas
 	for ( reach = file->areas[areaNum].reach; reach; reach = reach->next ) {
-		if ( !FloodClusterAreas_r( reach->toAreaNum, clusterNum) ) {
+		if ( !FloodClusterAreas_r( reach->toAreaNum, clusterNum ) ) {
 			return false;
 		}
 	}
 
 	// use the reversed reachabilities to flood into other areas
 	for ( reach = file->areas[areaNum].rev_reach; reach; reach = reach->rev_next ) {
-		if ( !FloodClusterAreas_r( reach->fromAreaNum, clusterNum) ) {
+		if ( !FloodClusterAreas_r( reach->fromAreaNum, clusterNum ) ) {
 			return false;
 		}
 	}
@@ -193,7 +189,7 @@ void idAASCluster::NumberClusterAreas( int clusterNum ) {
 			continue;
 		}
 
-		if ( !(file->areas[i].flags & (AREA_REACHABLE_WALK|AREA_REACHABLE_FLY)) ) {
+		if ( !( file->areas[i].flags & ( AREA_REACHABLE_WALK | AREA_REACHABLE_FLY ) ) ) {
 			continue;
 		}
 
@@ -206,14 +202,13 @@ void idAASCluster::NumberClusterAreas( int clusterNum ) {
 		portalNum = file->portalIndex[cluster->firstPortal + i];
 		portal = &file->portals[portalNum];
 
-		if ( !(file->areas[portal->areaNum].flags & (AREA_REACHABLE_WALK|AREA_REACHABLE_FLY)) ) {
+		if ( !( file->areas[portal->areaNum].flags & ( AREA_REACHABLE_WALK | AREA_REACHABLE_FLY ) ) ) {
 			continue;
 		}
 
 		if ( portal->clusters[0] == clusterNum ) {
 			portal->clusterAreaNum[0] = cluster->numAreas++;
-		}
-		else {
+		} else {
 			portal->clusterAreaNum[1] = cluster->numAreas++;
 		}
 		cluster->numReachableAreas++;
@@ -226,7 +221,7 @@ void idAASCluster::NumberClusterAreas( int clusterNum ) {
 			continue;
 		}
 
-		if ( file->areas[i].flags & (AREA_REACHABLE_WALK|AREA_REACHABLE_FLY) ) {
+		if ( file->areas[i].flags & ( AREA_REACHABLE_WALK | AREA_REACHABLE_FLY ) ) {
 			continue;
 		}
 
@@ -238,14 +233,13 @@ void idAASCluster::NumberClusterAreas( int clusterNum ) {
 		portalNum = file->portalIndex[cluster->firstPortal + i];
 		portal = &file->portals[portalNum];
 
-		if ( file->areas[portal->areaNum].flags & (AREA_REACHABLE_WALK|AREA_REACHABLE_FLY) ) {
+		if ( file->areas[portal->areaNum].flags & ( AREA_REACHABLE_WALK | AREA_REACHABLE_FLY ) ) {
 			continue;
 		}
 
 		if ( portal->clusters[0] == clusterNum ) {
 			portal->clusterAreaNum[0] = cluster->numAreas++;
-		}
-		else {
+		} else {
 			portal->clusterAreaNum[1] = cluster->numAreas++;
 		}
 	}
@@ -270,7 +264,7 @@ bool idAASCluster::FindClusters( void ) {
 
 		// if not flooding through faces only use areas that have reachabilities
 		if ( noFaceFlood ) {
-			if ( !(file->areas[i].flags & (AREA_REACHABLE_WALK|AREA_REACHABLE_FLY)) ) {
+			if ( !( file->areas[i].flags & ( AREA_REACHABLE_WALK | AREA_REACHABLE_FLY ) ) ) {
 				continue;
 			}
 		}
@@ -336,7 +330,7 @@ bool idAASCluster::TestPortals( void ) {
 		area = &file->areas[portal->areaNum];
 
 		// if this portal was already removed
-		if ( !( area->contents & AREACONTENTS_CLUSTERPORTAL) ) {
+		if ( !( area->contents & AREACONTENTS_CLUSTERPORTAL ) ) {
 			continue;
 		}
 
@@ -384,7 +378,7 @@ bool idAASCluster::TestPortals( void ) {
 		for ( reach = area->reach; reach; reach = reach->next ) {
 			area2 = &file->areas[ reach->toAreaNum ];
 
-			if ( !(area2->contents & AREACONTENTS_CLUSTERPORTAL) ) {
+			if ( !( area2->contents & AREACONTENTS_CLUSTERPORTAL ) ) {
 				continue;
 			}
 
@@ -397,7 +391,7 @@ bool idAASCluster::TestPortals( void ) {
 			portal2 = &file->portals[ -file->areas[ reach->toAreaNum ].cluster ];
 
 			if ( ( portal2->clusters[0] != portal->clusters[0] && portal2->clusters[0] != portal->clusters[1] ) ||
-				( portal2->clusters[1] != portal->clusters[0] && portal2->clusters[1] != portal->clusters[1] ) ) {
+					( portal2->clusters[1] != portal->clusters[0] && portal2->clusters[1] != portal->clusters[1] ) ) {
 				area2->contents &= ~AREACONTENTS_CLUSTERPORTAL;
 				ok = false;
 				continue;
@@ -426,7 +420,7 @@ void idAASCluster::RemoveInvalidPortals( void ) {
 		numOpenAreas = 0;
 		for ( j = 0; j < file->areas[i].numFaces; j++ ) {
 			face1Num = file->faceIndex[ file->areas[i].firstFace + j ];
-			face1 = &file->faces[ abs(face1Num) ];
+			face1 = &file->faces[ abs( face1Num ) ];
 			otherAreaNum = face1->areas[ face1Num < 0 ];
 
 			if ( !otherAreaNum ) {
@@ -435,7 +429,7 @@ void idAASCluster::RemoveInvalidPortals( void ) {
 
 			for ( k = 0; k < j; k++ ) {
 				face2Num = file->faceIndex[ file->areas[i].firstFace + k ];
-				face2 = &file->faces[ abs(face2Num) ];
+				face2 = &file->faces[ abs( face2Num ) ];
 				if ( otherAreaNum == face2->areas[ face2Num < 0 ] ) {
 					break;
 				}
@@ -472,7 +466,7 @@ bool idAASCluster::Build( idAASFileLocal *file ) {
 
 	RemoveInvalidPortals();
 
-	while( 1 ) {
+	while ( 1 ) {
 
 		// delete all existing clusters
 		file->DeleteClusters();
@@ -530,14 +524,14 @@ bool idAASCluster::BuildSingleCluster( idAASFileLocal *file ) {
 	// give all reachable areas in the cluster a number
 	for ( i = 0; i < file->areas.Num(); i++ ) {
 		file->areas[i].cluster = file->clusters.Num();
-		if ( file->areas[i].flags & (AREA_REACHABLE_WALK|AREA_REACHABLE_FLY) ) {
+		if ( file->areas[i].flags & ( AREA_REACHABLE_WALK | AREA_REACHABLE_FLY ) ) {
 			file->areas[i].clusterAreaNum = cluster.numReachableAreas++;
 		}
 	}
 	// give the remaining areas a number within the cluster
 	numAreas = cluster.numReachableAreas;
 	for ( i = 0; i < file->areas.Num(); i++ ) {
-		if ( file->areas[i].flags & (AREA_REACHABLE_WALK|AREA_REACHABLE_FLY) ) {
+		if ( file->areas[i].flags & ( AREA_REACHABLE_WALK | AREA_REACHABLE_FLY ) ) {
 			continue;
 		}
 		file->areas[i].clusterAreaNum = numAreas++;

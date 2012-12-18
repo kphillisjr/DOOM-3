@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -91,30 +91,29 @@ const unsigned long DDSF_MIPMAP          = 0x00400000l;
 #define DDS_MAKEFOURCC(a, b, c, d) ((a) | ((b) << 8) | ((c) << 16) | ((d) << 24))
 
 typedef struct {
-    unsigned long dwSize;
-    unsigned long dwFlags;
-    unsigned long dwFourCC;
-    unsigned long dwRGBBitCount;
-    unsigned long dwRBitMask;
-    unsigned long dwGBitMask;
-    unsigned long dwBBitMask;
-    unsigned long dwABitMask;
+	unsigned long dwSize;
+	unsigned long dwFlags;
+	unsigned long dwFourCC;
+	unsigned long dwRGBBitCount;
+	unsigned long dwRBitMask;
+	unsigned long dwGBitMask;
+	unsigned long dwBBitMask;
+	unsigned long dwABitMask;
 } ddsFilePixelFormat_t;
 
-typedef struct
-{
-    unsigned long dwSize;
-    unsigned long dwFlags;
-    unsigned long dwHeight;
-    unsigned long dwWidth;
-    unsigned long dwPitchOrLinearSize;
-    unsigned long dwDepth;
-    unsigned long dwMipMapCount;
-    unsigned long dwReserved1[11];
-    ddsFilePixelFormat_t ddspf;
-    unsigned long dwCaps1;
-    unsigned long dwCaps2;
-    unsigned long dwReserved2[3];
+typedef struct {
+	unsigned long dwSize;
+	unsigned long dwFlags;
+	unsigned long dwHeight;
+	unsigned long dwWidth;
+	unsigned long dwPitchOrLinearSize;
+	unsigned long dwDepth;
+	unsigned long dwMipMapCount;
+	unsigned long dwReserved1[11];
+	ddsFilePixelFormat_t ddspf;
+	unsigned long dwCaps1;
+	unsigned long dwCaps2;
+	unsigned long dwReserved2[3];
 } ddsFileHeader_t;
 
 
@@ -145,7 +144,7 @@ typedef enum {
 
 class idImage {
 public:
-				idImage();
+	idImage();
 
 	// Makes this image active on the current GL texture unit.
 	// automatically enables or disables cube mapping or texture3D
@@ -163,15 +162,15 @@ public:
 	// data goes from the bottom to the top line of the image, as OpenGL expects it
 	// These perform an implicit Bind() on the current texture unit
 	// FIXME: should we implement cinematics this way, instead of with explicit calls?
-	void		GenerateImage( const byte *pic, int width, int height, 
-					   textureFilter_t filter, bool allowDownSize, 
-					   textureRepeat_t repeat, textureDepth_t depth );
+	void		GenerateImage( const byte *pic, int width, int height,
+							   textureFilter_t filter, bool allowDownSize,
+							   textureRepeat_t repeat, textureDepth_t depth );
 	void		Generate3DImage( const byte *pic, int width, int height, int depth,
-						textureFilter_t filter, bool allowDownSize, 
-						textureRepeat_t repeat, textureDepth_t minDepth );
-	void		GenerateCubeImage( const byte *pic[6], int size, 
-						textureFilter_t filter, bool allowDownSize, 
-						textureDepth_t depth );
+								 textureFilter_t filter, bool allowDownSize,
+								 textureRepeat_t repeat, textureDepth_t minDepth );
+	void		GenerateCubeImage( const byte *pic[6], int size,
+								   textureFilter_t filter, bool allowDownSize,
+								   textureDepth_t depth );
 
 	void		CopyFramebuffer( int x, int y, int width, int height, bool useOversizedBuffer );
 
@@ -191,7 +190,9 @@ public:
 	// check for changed timestamp on disk and reload if necessary
 	void		Reload( bool checkPrecompressed, bool force );
 
-	void		AddReference()				{ refCount++; };
+	void		AddReference()				{
+		refCount++;
+	};
 
 //==========================================================
 
@@ -207,7 +208,7 @@ public:
 	int			BitsForInternalFormat( int internalFormat ) const;
 	void		UploadCompressedNormalMap( int width, int height, const byte *rgba, int mipLevel );
 	GLenum		SelectInternalFormat( const byte **dataPtrs, int numDataPtrs, int width, int height,
-									 textureDepth_t minimumDepth, bool *monochromeResult ) const;
+									  textureDepth_t minimumDepth, bool *monochromeResult ) const;
 	void		ImageProgramStringToCompressedFileName( const char *imageProg, char *fileName ) const;
 	int			NumLevelsForImageSize( int width, int height ) const;
 
@@ -223,11 +224,11 @@ public:
 	bool				isPartialImage;			// true if this is pointed to by another image
 	bool				backgroundLoadInProgress;	// true if another thread is reading the complete d3t file
 	backgroundDownload_t	bgl;
-	idImage *			bglNext;				// linked from tr.backgroundImageLoads
+	idImage 			*bglNext;				// linked from tr.backgroundImageLoads
 
 	// parameters that define this image
 	idStr				imgName;				// game path, including extension (except for cube maps), may be an image program
-	void				(*generatorFunction)( idImage *image );	// NULL for files
+	void	( *generatorFunction )( idImage *image );	// NULL for files
 	bool				allowDownSize;			// this also doubles as a don't-partially-load flag
 	textureFilter_t		filter;
 	textureRepeat_t		repeat;
@@ -251,7 +252,7 @@ public:
 
 	idImage 			*cacheUsagePrev, *cacheUsageNext;	// for dynamic cache purging of old images
 
-	idImage *			hashNext;				// for hash chains to speed lookup
+	idImage 			*hashNext;				// for hash chains to speed lookup
 
 	int					refCount;				// overall ref count
 };
@@ -308,16 +309,16 @@ public:
 	// If the load fails for any reason, the image will be filled in with the default
 	// grid pattern.
 	// Will automatically resample non-power-of-two images and execute image programs if needed.
-	idImage *			ImageFromFile( const char *name,
-							 textureFilter_t filter, bool allowDownSize,
-							 textureRepeat_t repeat, textureDepth_t depth, cubeFiles_t cubeMap = CF_2D );
+	idImage 			*ImageFromFile( const char *name,
+										textureFilter_t filter, bool allowDownSize,
+										textureRepeat_t repeat, textureDepth_t depth, cubeFiles_t cubeMap = CF_2D );
 
 	// look for a loaded image, whatever the parameters
-	idImage *			GetImage( const char *name ) const;
+	idImage 			*GetImage( const char *name ) const;
 
 	// The callback will be issued immediately, and later if images are reloaded or vid_restart
 	// The callback function should call one of the idImage::Generate* functions to fill in the data
-	idImage *			ImageFromFunction( const char *name, void (*generatorFunction)( idImage *image ));
+	idImage 			*ImageFromFunction( const char *name, void ( *generatorFunction )( idImage *image ) );
 
 	// called once a frame to allow any background loads that have been completed
 	// to turn into textures.
@@ -376,7 +377,7 @@ public:
 	static idCVar		image_useOffLineCompression; // will write a batch file with commands for the offline compression
 	static idCVar		image_preload;				// if 0, dynamically load all images
 	static idCVar		image_cacheMinK;			// maximum K of precompressed files to read at specification time,
-													// the remainder will be dynamically cached
+	// the remainder will be dynamically cached
 	static idCVar		image_cacheMegs;			// maximum bytes set aside for temporary loading of full-sized precompressed images
 	static idCVar		image_useCache;				// 1 = do background load image caching
 	static idCVar		image_showBackgroundLoads;	// 1 = print number of outstanding background loads
@@ -389,35 +390,35 @@ public:
 	static idCVar		image_downSizeLimit;		// downsize diffuse limit
 
 	// built-in images
-	idImage *			defaultImage;
-	idImage *			flatNormalMap;				// 128 128 255 in all pixels
-	idImage *			ambientNormalMap;			// tr.ambientLightVector encoded in all pixels
-	idImage *			rampImage;					// 0-255 in RGBA in S
-	idImage *			alphaRampImage;				// 0-255 in alpha, 255 in RGB
-	idImage *			alphaNotchImage;			// 2x1 texture with just 1110 and 1111 with point sampling
-	idImage *			whiteImage;					// full of 0xff
-	idImage *			blackImage;					// full of 0x00
-	idImage *			normalCubeMapImage;			// cube map to normalize STR into RGB
-	idImage *			noFalloffImage;				// all 255, but zero clamped
-	idImage *			fogImage;					// increasing alpha is denser fog
-	idImage *			fogEnterImage;				// adjust fogImage alpha based on terminator plane
-	idImage *			cinematicImage;
-	idImage *			scratchImage;
-	idImage *			scratchImage2;
-	idImage *			accumImage;
-	idImage *			currentRenderImage;			// for SS_POST_PROCESS shaders
-	idImage *			scratchCubeMapImage;
-	idImage *			specularTableImage;			// 1D intensity texture with our specular function
-	idImage *			specular2DTableImage;		// 2D intensity texture with our specular function with variable specularity
-	idImage *			borderClampImage;			// white inside, black outside
+	idImage 			*defaultImage;
+	idImage 			*flatNormalMap;				// 128 128 255 in all pixels
+	idImage 			*ambientNormalMap;			// tr.ambientLightVector encoded in all pixels
+	idImage 			*rampImage;					// 0-255 in RGBA in S
+	idImage 			*alphaRampImage;				// 0-255 in alpha, 255 in RGB
+	idImage 			*alphaNotchImage;			// 2x1 texture with just 1110 and 1111 with point sampling
+	idImage 			*whiteImage;					// full of 0xff
+	idImage 			*blackImage;					// full of 0x00
+	idImage 			*normalCubeMapImage;			// cube map to normalize STR into RGB
+	idImage 			*noFalloffImage;				// all 255, but zero clamped
+	idImage 			*fogImage;					// increasing alpha is denser fog
+	idImage 			*fogEnterImage;				// adjust fogImage alpha based on terminator plane
+	idImage 			*cinematicImage;
+	idImage 			*scratchImage;
+	idImage 			*scratchImage2;
+	idImage 			*accumImage;
+	idImage 			*currentRenderImage;			// for SS_POST_PROCESS shaders
+	idImage 			*scratchCubeMapImage;
+	idImage 			*specularTableImage;			// 1D intensity texture with our specular function
+	idImage 			*specular2DTableImage;		// 2D intensity texture with our specular function with variable specularity
+	idImage 			*borderClampImage;			// white inside, black outside
 
 	//--------------------------------------------------------
-	
-	idImage *			AllocImage( const char *name );
+
+	idImage 			*AllocImage( const char *name );
 	void				SetNormalPalette();
 	void				ChangeTextureFilter();
 
-	idList<idImage*>	images;
+	idList<idImage *>	images;
 	idStrList			ddsList;
 	idHashIndex			ddsHash;
 
@@ -432,9 +433,9 @@ public:
 	float				textureAnisotropy;
 	float				textureLODBias;
 
-	idImage *			imageHashTable[FILE_HASH_SIZE];
+	idImage 			*imageHashTable[FILE_HASH_SIZE];
 
-	idImage *			backgroundImageLoads;		// chain of images that have background file loads active
+	idImage 			*backgroundImageLoads;		// chain of images that have background file loads active
 	idImage				cacheLRU;					// head/tail of doubly linked list
 	int					totalCachedImageSize;		// for determining when something should be purged
 
@@ -455,10 +456,10 @@ FIXME: make an "imageBlock" type to hold byte*,width,height?
 ====================================================================
 */
 
-byte *R_Dropsample( const byte *in, int inwidth, int inheight,  
-							int outwidth, int outheight );
-byte *R_ResampleTexture( const byte *in, int inwidth, int inheight,  
-							int outwidth, int outheight );
+byte *R_Dropsample( const byte *in, int inwidth, int inheight,
+					int outwidth, int outheight );
+byte *R_ResampleTexture( const byte *in, int inwidth, int inheight,
+						 int outwidth, int outheight );
 byte *R_MipMapWithAlphaSpecularity( const byte *in, int width, int height );
 byte *R_MipMap( const byte *in, int width, int height, bool preserveBorder );
 byte *R_MipMap3D( const byte *in, int width, int height, int depth, bool preserveBorder );

@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -33,7 +33,7 @@ If you have questions concerning this license or the applicable additional terms
 ===============================================================================
 
   idProjectile
-	
+
 ===============================================================================
 */
 
@@ -43,7 +43,7 @@ class idProjectile : public idEntity {
 public :
 	CLASS_PROTOTYPE( idProjectile );
 
-							idProjectile();
+	idProjectile();
 	virtual					~idProjectile();
 
 	void					Spawn( void );
@@ -55,7 +55,7 @@ public :
 	virtual void			Launch( const idVec3 &start, const idVec3 &dir, const idVec3 &pushVelocity, const float timeSinceFire = 0.0f, const float launchPower = 1.0f, const float dmgPower = 1.0f );
 	virtual void			FreeLightDef( void );
 
-	idEntity *				GetOwner( void ) const;
+	idEntity 				*GetOwner( void ) const;
 
 	virtual void			Think( void );
 	virtual void			Killed( idEntity *inflictor, idEntity *attacker, int damage, const idVec3 &dir, int location );
@@ -103,7 +103,7 @@ protected:
 	idForce_Constant		thruster;
 	idPhysics_RigidBody		physicsObj;
 
-	const idDeclParticle *	smokeFly;
+	const idDeclParticle 	*smokeFly;
 	int						smokeFlyTime;
 
 	typedef enum {
@@ -114,7 +114,7 @@ protected:
 		FIZZLED = 3,
 		EXPLODED = 4
 	} projectileState_t;
-	
+
 	projectileState_t		state;
 
 private:
@@ -133,8 +133,8 @@ class idGuidedProjectile : public idProjectile {
 public :
 	CLASS_PROTOTYPE( idGuidedProjectile );
 
-							idGuidedProjectile( void );
-							~idGuidedProjectile( void );
+	idGuidedProjectile( void );
+	~idGuidedProjectile( void );
 
 	void					Save( idSaveGame *savefile ) const;
 	void					Restore( idRestoreGame *savefile );
@@ -163,7 +163,7 @@ private:
 
 class idSoulCubeMissile : public idGuidedProjectile {
 public:
-	CLASS_PROTOTYPE ( idSoulCubeMissile );
+	CLASS_PROTOTYPE( idSoulCubeMissile );
 	~idSoulCubeMissile();
 	void					Save( idSaveGame *savefile ) const;
 	void					Restore( idRestoreGame *savefile );
@@ -188,7 +188,7 @@ private:
 	idVec3					orbitOrg;
 	int						orbitTime;
 	int						smokeKillTime;
-	const idDeclParticle *	smokeKill;
+	const idDeclParticle 	*smokeKill;
 };
 
 struct beamTarget_t {
@@ -201,8 +201,8 @@ class idBFGProjectile : public idProjectile {
 public :
 	CLASS_PROTOTYPE( idBFGProjectile );
 
-							idBFGProjectile();
-							~idBFGProjectile();
+	idBFGProjectile();
+	~idBFGProjectile();
 
 	void					Save( idSaveGame *savefile ) const;
 	void					Restore( idRestoreGame *savefile );
@@ -228,7 +228,7 @@ private:
 ===============================================================================
 
   idDebris
-	
+
 ===============================================================================
 */
 
@@ -236,8 +236,8 @@ class idDebris : public idEntity {
 public :
 	CLASS_PROTOTYPE( idDebris );
 
-							idDebris();
-							~idDebris();
+	idDebris();
+	~idDebris();
 
 	// save games
 	void					Save( idSaveGame *savefile ) const;					// archives object for save game file
@@ -257,9 +257,9 @@ public :
 private:
 	idEntityPtr<idEntity>	owner;
 	idPhysics_RigidBody		physicsObj;
-	const idDeclParticle *	smokeFly;
+	const idDeclParticle 	*smokeFly;
 	int						smokeFlyTime;
-	const idSoundShader *	sndBounce;
+	const idSoundShader 	*sndBounce;
 
 
 	void					Event_Explode( void );

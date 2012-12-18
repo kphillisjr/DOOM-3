@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -106,85 +106,85 @@ const idEventDef EV_HasFunction( "hasFunction", "s", 'd' );
 const idEventDef EV_CallFunction( "callFunction", "s" );
 const idEventDef EV_SetNeverDormant( "setNeverDormant", "d" );
 #ifdef _D3XP
-const idEventDef EV_SetGui ( "setGui", "ds" );
-const idEventDef EV_PrecacheGui ( "precacheGui", "s" );
-const idEventDef EV_GetGuiParm ( "getGuiParm", "ds", 's' );
-const idEventDef EV_GetGuiParmFloat ( "getGuiParmFloat", "ds", 'f' );
+const idEventDef EV_SetGui( "setGui", "ds" );
+const idEventDef EV_PrecacheGui( "precacheGui", "s" );
+const idEventDef EV_GetGuiParm( "getGuiParm", "ds", 's' );
+const idEventDef EV_GetGuiParmFloat( "getGuiParmFloat", "ds", 'f' );
 const idEventDef EV_MotionBlurOn( "motionBlurOn" );
 const idEventDef EV_MotionBlurOff( "motionBlurOff" );
-const idEventDef EV_GuiNamedEvent ( "guiNamedEvent", "ds" );
+const idEventDef EV_GuiNamedEvent( "guiNamedEvent", "ds" );
 #endif
 
 ABSTRACT_DECLARATION( idClass, idEntity )
-	EVENT( EV_GetName,				idEntity::Event_GetName )
-	EVENT( EV_SetName,				idEntity::Event_SetName )
-	EVENT( EV_FindTargets,			idEntity::Event_FindTargets )
-	EVENT( EV_ActivateTargets,		idEntity::Event_ActivateTargets )
-	EVENT( EV_NumTargets,			idEntity::Event_NumTargets )
-	EVENT( EV_GetTarget,			idEntity::Event_GetTarget )
-	EVENT( EV_RandomTarget,			idEntity::Event_RandomTarget )
-	EVENT( EV_BindToJoint,			idEntity::Event_BindToJoint )
-	EVENT( EV_RemoveBinds,			idEntity::Event_RemoveBinds )
-	EVENT( EV_Bind,					idEntity::Event_Bind )
-	EVENT( EV_BindPosition,			idEntity::Event_BindPosition )
-	EVENT( EV_Unbind,				idEntity::Event_Unbind )
-	EVENT( EV_SpawnBind,			idEntity::Event_SpawnBind )
-	EVENT( EV_SetOwner,				idEntity::Event_SetOwner )
-	EVENT( EV_SetModel,				idEntity::Event_SetModel )
-	EVENT( EV_SetSkin,				idEntity::Event_SetSkin )
-	EVENT( EV_GetShaderParm,		idEntity::Event_GetShaderParm )
-	EVENT( EV_SetShaderParm,		idEntity::Event_SetShaderParm )
-	EVENT( EV_SetShaderParms,		idEntity::Event_SetShaderParms )
-	EVENT( EV_SetColor,				idEntity::Event_SetColor )
-	EVENT( EV_GetColor,				idEntity::Event_GetColor )
-	EVENT( EV_IsHidden,				idEntity::Event_IsHidden )
-	EVENT( EV_Hide,					idEntity::Event_Hide )
-	EVENT( EV_Show,					idEntity::Event_Show )
-	EVENT( EV_CacheSoundShader,		idEntity::Event_CacheSoundShader )
-	EVENT( EV_StartSoundShader,		idEntity::Event_StartSoundShader )
-	EVENT( EV_StartSound,			idEntity::Event_StartSound )
-	EVENT( EV_StopSound,			idEntity::Event_StopSound )
-	EVENT( EV_FadeSound,			idEntity::Event_FadeSound )
-	EVENT( EV_GetWorldOrigin,		idEntity::Event_GetWorldOrigin )
-	EVENT( EV_SetWorldOrigin,		idEntity::Event_SetWorldOrigin )
-	EVENT( EV_GetOrigin,			idEntity::Event_GetOrigin )
-	EVENT( EV_SetOrigin,			idEntity::Event_SetOrigin )
-	EVENT( EV_GetAngles,			idEntity::Event_GetAngles )
-	EVENT( EV_SetAngles,			idEntity::Event_SetAngles )
-	EVENT( EV_GetLinearVelocity,	idEntity::Event_GetLinearVelocity )
-	EVENT( EV_SetLinearVelocity,	idEntity::Event_SetLinearVelocity )
-	EVENT( EV_GetAngularVelocity,	idEntity::Event_GetAngularVelocity )
-	EVENT( EV_SetAngularVelocity,	idEntity::Event_SetAngularVelocity )
-	EVENT( EV_GetSize,				idEntity::Event_GetSize )
-	EVENT( EV_SetSize,				idEntity::Event_SetSize )
-	EVENT( EV_GetMins,				idEntity::Event_GetMins)
-	EVENT( EV_GetMaxs,				idEntity::Event_GetMaxs )
-	EVENT( EV_Touches,				idEntity::Event_Touches )
-	EVENT( EV_SetGuiParm, 			idEntity::Event_SetGuiParm )
-	EVENT( EV_SetGuiFloat, 			idEntity::Event_SetGuiFloat )
-	EVENT( EV_GetNextKey,			idEntity::Event_GetNextKey )
-	EVENT( EV_SetKey,				idEntity::Event_SetKey )
-	EVENT( EV_GetKey,				idEntity::Event_GetKey )
-	EVENT( EV_GetIntKey,			idEntity::Event_GetIntKey )
-	EVENT( EV_GetFloatKey,			idEntity::Event_GetFloatKey )
-	EVENT( EV_GetVectorKey,			idEntity::Event_GetVectorKey )
-	EVENT( EV_GetEntityKey,			idEntity::Event_GetEntityKey )
-	EVENT( EV_RestorePosition,		idEntity::Event_RestorePosition )
-	EVENT( EV_UpdateCameraTarget,	idEntity::Event_UpdateCameraTarget )
-	EVENT( EV_DistanceTo,			idEntity::Event_DistanceTo )
-	EVENT( EV_DistanceToPoint,		idEntity::Event_DistanceToPoint )
-	EVENT( EV_StartFx,				idEntity::Event_StartFx )
-	EVENT( EV_Thread_WaitFrame,		idEntity::Event_WaitFrame )
-	EVENT( EV_Thread_Wait,			idEntity::Event_Wait )
-	EVENT( EV_HasFunction,			idEntity::Event_HasFunction )
-	EVENT( EV_CallFunction,			idEntity::Event_CallFunction )
-	EVENT( EV_SetNeverDormant,		idEntity::Event_SetNeverDormant )
+EVENT( EV_GetName,				idEntity::Event_GetName )
+EVENT( EV_SetName,				idEntity::Event_SetName )
+EVENT( EV_FindTargets,			idEntity::Event_FindTargets )
+EVENT( EV_ActivateTargets,		idEntity::Event_ActivateTargets )
+EVENT( EV_NumTargets,			idEntity::Event_NumTargets )
+EVENT( EV_GetTarget,			idEntity::Event_GetTarget )
+EVENT( EV_RandomTarget,			idEntity::Event_RandomTarget )
+EVENT( EV_BindToJoint,			idEntity::Event_BindToJoint )
+EVENT( EV_RemoveBinds,			idEntity::Event_RemoveBinds )
+EVENT( EV_Bind,					idEntity::Event_Bind )
+EVENT( EV_BindPosition,			idEntity::Event_BindPosition )
+EVENT( EV_Unbind,				idEntity::Event_Unbind )
+EVENT( EV_SpawnBind,			idEntity::Event_SpawnBind )
+EVENT( EV_SetOwner,				idEntity::Event_SetOwner )
+EVENT( EV_SetModel,				idEntity::Event_SetModel )
+EVENT( EV_SetSkin,				idEntity::Event_SetSkin )
+EVENT( EV_GetShaderParm,		idEntity::Event_GetShaderParm )
+EVENT( EV_SetShaderParm,		idEntity::Event_SetShaderParm )
+EVENT( EV_SetShaderParms,		idEntity::Event_SetShaderParms )
+EVENT( EV_SetColor,				idEntity::Event_SetColor )
+EVENT( EV_GetColor,				idEntity::Event_GetColor )
+EVENT( EV_IsHidden,				idEntity::Event_IsHidden )
+EVENT( EV_Hide,					idEntity::Event_Hide )
+EVENT( EV_Show,					idEntity::Event_Show )
+EVENT( EV_CacheSoundShader,		idEntity::Event_CacheSoundShader )
+EVENT( EV_StartSoundShader,		idEntity::Event_StartSoundShader )
+EVENT( EV_StartSound,			idEntity::Event_StartSound )
+EVENT( EV_StopSound,			idEntity::Event_StopSound )
+EVENT( EV_FadeSound,			idEntity::Event_FadeSound )
+EVENT( EV_GetWorldOrigin,		idEntity::Event_GetWorldOrigin )
+EVENT( EV_SetWorldOrigin,		idEntity::Event_SetWorldOrigin )
+EVENT( EV_GetOrigin,			idEntity::Event_GetOrigin )
+EVENT( EV_SetOrigin,			idEntity::Event_SetOrigin )
+EVENT( EV_GetAngles,			idEntity::Event_GetAngles )
+EVENT( EV_SetAngles,			idEntity::Event_SetAngles )
+EVENT( EV_GetLinearVelocity,	idEntity::Event_GetLinearVelocity )
+EVENT( EV_SetLinearVelocity,	idEntity::Event_SetLinearVelocity )
+EVENT( EV_GetAngularVelocity,	idEntity::Event_GetAngularVelocity )
+EVENT( EV_SetAngularVelocity,	idEntity::Event_SetAngularVelocity )
+EVENT( EV_GetSize,				idEntity::Event_GetSize )
+EVENT( EV_SetSize,				idEntity::Event_SetSize )
+EVENT( EV_GetMins,				idEntity::Event_GetMins )
+EVENT( EV_GetMaxs,				idEntity::Event_GetMaxs )
+EVENT( EV_Touches,				idEntity::Event_Touches )
+EVENT( EV_SetGuiParm, 			idEntity::Event_SetGuiParm )
+EVENT( EV_SetGuiFloat, 			idEntity::Event_SetGuiFloat )
+EVENT( EV_GetNextKey,			idEntity::Event_GetNextKey )
+EVENT( EV_SetKey,				idEntity::Event_SetKey )
+EVENT( EV_GetKey,				idEntity::Event_GetKey )
+EVENT( EV_GetIntKey,			idEntity::Event_GetIntKey )
+EVENT( EV_GetFloatKey,			idEntity::Event_GetFloatKey )
+EVENT( EV_GetVectorKey,			idEntity::Event_GetVectorKey )
+EVENT( EV_GetEntityKey,			idEntity::Event_GetEntityKey )
+EVENT( EV_RestorePosition,		idEntity::Event_RestorePosition )
+EVENT( EV_UpdateCameraTarget,	idEntity::Event_UpdateCameraTarget )
+EVENT( EV_DistanceTo,			idEntity::Event_DistanceTo )
+EVENT( EV_DistanceToPoint,		idEntity::Event_DistanceToPoint )
+EVENT( EV_StartFx,				idEntity::Event_StartFx )
+EVENT( EV_Thread_WaitFrame,		idEntity::Event_WaitFrame )
+EVENT( EV_Thread_Wait,			idEntity::Event_Wait )
+EVENT( EV_HasFunction,			idEntity::Event_HasFunction )
+EVENT( EV_CallFunction,			idEntity::Event_CallFunction )
+EVENT( EV_SetNeverDormant,		idEntity::Event_SetNeverDormant )
 #ifdef _D3XP
-	EVENT( EV_SetGui,				idEntity::Event_SetGui )
-	EVENT( EV_PrecacheGui,			idEntity::Event_PrecacheGui )
-	EVENT( EV_GetGuiParm,			idEntity::Event_GetGuiParm )
-	EVENT( EV_GetGuiParmFloat,		idEntity::Event_GetGuiParmFloat )
-	EVENT( EV_GuiNamedEvent,		idEntity::Event_GuiNamedEvent )
+EVENT( EV_SetGui,				idEntity::Event_SetGui )
+EVENT( EV_PrecacheGui,			idEntity::Event_PrecacheGui )
+EVENT( EV_GetGuiParm,			idEntity::Event_GetGuiParm )
+EVENT( EV_GetGuiParmFloat,		idEntity::Event_GetGuiParmFloat )
+EVENT( EV_GuiNamedEvent,		idEntity::Event_GuiNamedEvent )
 #endif
 END_CLASS
 
@@ -198,7 +198,7 @@ void UpdateGuiParms( idUserInterface *gui, const idDict *args ) {
 		return;
 	}
 	const idKeyValue *kv = args->MatchPrefix( "gui_parm", NULL );
-	while( kv ) {
+	while ( kv ) {
 		gui->SetStateString( kv->GetKey(), kv->GetValue() );
 		kv = args->MatchPrefix( "gui_parm", kv );
 	}
@@ -304,7 +304,7 @@ void idGameEdit::ParseSpawnArgsToRenderEntity( const idDict *args, renderEntity_
 	renderEntity->noSelfShadow = args->GetBool( "noselfshadows" );
 
 	// init any guis, including entity-specific states
-	for( i = 0; i < MAX_RENDERENTITY_GUI; i++ ) {
+	for ( i = 0; i < MAX_RENDERENTITY_GUI; i++ ) {
 		temp = args->GetString( i == 0 ? "gui" : va( "gui%d", i + 1 ) );
 		if ( temp[ 0 ] != '\0' ) {
 			AddRenderGui( temp, &renderEntity->gui[ i ], args );
@@ -456,7 +456,7 @@ idEntity::FixupLocalizedStrings
 void idEntity::FixupLocalizedStrings() {
 	for ( int i = 0; i < spawnArgs.GetNumKeyVals(); i++ ) {
 		const idKeyValue *kv = spawnArgs.GetKeyVal( i );
-		if ( idStr::Cmpn( kv->GetValue(), STRTABLE_ID, STRTABLE_ID_LENGTH ) == 0 ){
+		if ( idStr::Cmpn( kv->GetValue(), STRTABLE_ID, STRTABLE_ID_LENGTH ) == 0 ) {
 			spawnArgs.Set( kv->GetKey(), common->GetLanguageDict()->GetString( kv->GetValue() ) );
 		}
 	}
@@ -490,7 +490,7 @@ void idEntity::Spawn( void ) {
 	gameEdit->ParseSpawnArgsToRenderEntity( &spawnArgs, &renderEntity );
 
 	renderEntity.entityNum = entityNumber;
-	
+
 #ifdef _D3XP
 	noGrab = spawnArgs.GetBool( "noGrab", "0" );
 
@@ -650,7 +650,7 @@ idEntity::~idEntity( void ) {
 	FreeSoundEmitter( false );
 
 #ifdef _D3XP
-	if ( xrayEntityHandle != -1) {
+	if ( xrayEntityHandle != -1 ) {
 		gameRenderWorld->FreeEntityDef( xrayEntityHandle );
 		xrayEntityHandle = -1;
 	}
@@ -688,7 +688,7 @@ void idEntity::Save( idSaveGame *savefile ) const {
 	savefile->WriteInt( health );
 
 	savefile->WriteInt( targets.Num() );
-	for( i = 0; i < targets.Num(); i++ ) {
+	for ( i = 0; i < targets.Num(); i++ ) {
 		targets[ i ].Save( savefile );
 	}
 
@@ -717,7 +717,7 @@ void idEntity::Save( idSaveGame *savefile ) const {
 	savefile->WriteStaticObject( defaultPhysicsObj );
 
 	savefile->WriteInt( numPVSAreas );
-	for( i = 0; i < MAX_PVS_AREAS; i++ ) {
+	for ( i = 0; i < MAX_PVS_AREAS; i++ ) {
 		savefile->WriteInt( PVSAreas[ i ] );
 	}
 
@@ -725,9 +725,9 @@ void idEntity::Save( idSaveGame *savefile ) const {
 		savefile->WriteBool( false );
 	} else {
 		savefile->WriteBool( true );
-		for( i = 0; i < NUM_SIGNALS; i++ ) {
+		for ( i = 0; i < NUM_SIGNALS; i++ ) {
 			savefile->WriteInt( signals->signal[ i ].Num() );
-			for( j = 0; j < signals->signal[ i ].Num(); j++ ) {
+			for ( j = 0; j < signals->signal[ i ].Num(); j++ ) {
 				savefile->WriteInt( signals->signal[ i ][ j ].threadnum );
 				savefile->WriteString( signals->signal[ i ][ j ].function->Name() );
 			}
@@ -772,13 +772,13 @@ void idEntity::Restore( idRestoreGame *savefile ) {
 	targets.Clear();
 	savefile->ReadInt( num );
 	targets.SetNum( num );
-	for( i = 0; i < num; i++ ) {
+	for ( i = 0; i < num; i++ ) {
 		targets[ i ].Restore( savefile );
 	}
 
 	savefile->Read( &fl, sizeof( fl ) );
 	LittleBitField( &fl, sizeof( fl ) );
-	
+
 #ifdef _D3XP
 	savefile->ReadInt( timeGroup );
 	savefile->ReadBool( noGrab );
@@ -804,7 +804,7 @@ void idEntity::Restore( idRestoreGame *savefile ) {
 	RestorePhysics( &defaultPhysicsObj );
 
 	savefile->ReadInt( numPVSAreas );
-	for( i = 0; i < MAX_PVS_AREAS; i++ ) {
+	for ( i = 0; i < MAX_PVS_AREAS; i++ ) {
 		savefile->ReadInt( PVSAreas[ i ] );
 	}
 
@@ -812,10 +812,10 @@ void idEntity::Restore( idRestoreGame *savefile ) {
 	savefile->ReadBool( readsignals );
 	if ( readsignals ) {
 		signals = new signalList_t;
-		for( i = 0; i < NUM_SIGNALS; i++ ) {
+		for ( i = 0; i < NUM_SIGNALS; i++ ) {
 			savefile->ReadInt( num );
 			signals->signal[ i ].SetNum( num );
-			for( j = 0; j < num; j++ ) {
+			for ( j = 0; j < num; j++ ) {
 				savefile->ReadInt( signals->signal[ i ][ j ].threadnum );
 				savefile->ReadString( funcname );
 				signals->signal[ i ][ j ].function = gameLocal.program.FindFunction( funcname );
@@ -839,7 +839,7 @@ void idEntity::Restore( idRestoreGame *savefile ) {
 idEntity::GetEntityDefName
 ================
 */
-const char * idEntity::GetEntityDefName( void ) const {
+const char *idEntity::GetEntityDefName( void ) const {
 	if ( entityDefNumber < 0 ) {
 		return "*unknown*";
 	}
@@ -872,7 +872,7 @@ void idEntity::SetName( const char *newname ) {
 idEntity::GetName
 ================
 */
-const char * idEntity::GetName( void ) const {
+const char *idEntity::GetName( void ) const {
 	return name.c_str();
 }
 
@@ -880,7 +880,7 @@ const char * idEntity::GetName( void ) const {
 /***********************************************************************
 
 	Thinking
-	
+
 ***********************************************************************/
 
 /*
@@ -945,7 +945,7 @@ off from the player can skip all of their work
 */
 bool idEntity::CheckDormant( void ) {
 	bool dormant;
-	
+
 	dormant = DoDormantTests();
 	if ( dormant && !fl.isDormant ) {
 		fl.isDormant = true;
@@ -1056,7 +1056,7 @@ void idEntity::BecomeInactive( int flags ) {
 /***********************************************************************
 
 	Visuals
-	
+
 ***********************************************************************/
 
 /*
@@ -1335,7 +1335,7 @@ void idEntity::UpdatePVSAreas( void ) {
 		PVSAreas[numPVSAreas] = localPVSAreas[numPVSAreas];
 	}
 
-	for( i = numPVSAreas; i < MAX_PVS_AREAS; i++ ) {
+	for ( i = numPVSAreas; i < MAX_PVS_AREAS; i++ ) {
 		PVSAreas[ i ] = 0;
 	}
 }
@@ -1586,7 +1586,7 @@ renderView_t *idEntity::GetRenderView( void ) {
 	renderView->viewaxis = GetPhysics()->GetAxis();
 
 	// copy global shader parms
-	for( int i = 0; i < MAX_GLOBAL_SHADER_PARMS; i++ ) {
+	for ( int i = 0; i < MAX_GLOBAL_SHADER_PARMS; i++ ) {
 		renderView->shaderParms[ i ] = gameLocal.globalShaderParms[ i ];
 	}
 
@@ -1600,7 +1600,7 @@ renderView_t *idEntity::GetRenderView( void ) {
 /***********************************************************************
 
   Sound
-	
+
 ***********************************************************************/
 
 /*
@@ -1794,7 +1794,7 @@ void idEntity::FreeSoundEmitter( bool immediate ) {
 /***********************************************************************
 
   entity binding
-	
+
 ***********************************************************************/
 
 /*
@@ -1851,7 +1851,7 @@ bool idEntity::InitBind( idEntity *master ) {
 
 	// add any bind constraints to an articulated figure
 	if ( master && IsType( idAFEntity_Base::Type ) ) {
-		static_cast<idAFEntity_Base *>(this)->AddBindConstraints();
+		static_cast<idAFEntity_Base *>( this )->AddBindConstraints();
 	}
 
 	if ( !master || master == gameLocal.world ) {
@@ -2009,14 +2009,14 @@ idEntity::Unbind
 ================
 */
 void idEntity::Unbind( void ) {
-	idEntity *	prev;
-	idEntity *	next;
-	idEntity *	last;
-	idEntity *	ent;
+	idEntity 	*prev;
+	idEntity 	*next;
+	idEntity 	*last;
+	idEntity 	*ent;
 
 	// remove any bind constraints from an articulated figure
 	if ( IsType( idAFEntity_Base::Type ) ) {
-		static_cast<idAFEntity_Base *>(this)->RemoveBindConstraints();
+		static_cast<idAFEntity_Base *>( this )->RemoveBindConstraints();
 	}
 
 	if ( !bindMaster ) {
@@ -2039,7 +2039,7 @@ void idEntity::Unbind( void ) {
 	// and any entities that are bound to me from the old team.
 	// Find the node previous to me in the team
 	prev = teamMaster;
-	for( ent = teamMaster->teamChain; ent && ( ent != this ); ent = ent->teamChain ) {
+	for ( ent = teamMaster->teamChain; ent && ( ent != this ); ent = ent->teamChain ) {
 		prev = ent;
 	}
 
@@ -2048,7 +2048,7 @@ void idEntity::Unbind( void ) {
 	// Find the last node in my team that is bound to me.
 	// Also find the first node not bound to me, if one exists.
 	last = this;
-	for( next = teamChain; next != NULL; next = next->teamChain ) {
+	for ( next = teamChain; next != NULL; next = next->teamChain ) {
 		if ( !next->IsBoundTo( this ) ) {
 			break;
 		}
@@ -2071,7 +2071,7 @@ void idEntity::Unbind( void ) {
 	} else if ( next ) {
 		// If we were the teamMaster, then the nodes that were not bound to me are now
 		// a disconnected chain.  Make them into their own team.
-		for( ent = next; ent->teamChain != NULL; ent = ent->teamChain ) {
+		for ( ent = next; ent->teamChain != NULL; ent = ent->teamChain ) {
 			ent->teamMaster = next;
 		}
 		next->teamMaster = next;
@@ -2102,7 +2102,7 @@ void idEntity::RemoveBinds( void ) {
 	idEntity *ent;
 	idEntity *next;
 
-	for( ent = teamChain; ent != NULL; ent = next ) {
+	for ( ent = teamChain; ent != NULL; ent = next ) {
 		next = ent->teamChain;
 		if ( ent->bindMaster == this ) {
 			ent->Unbind();
@@ -2365,7 +2365,7 @@ void idEntity::GetWorldVelocities( idVec3 &linearVelocity, idVec3 &angularVeloci
 
 		// linear velocity relative to master plus master linear and angular velocity
 		linearVelocity = linearVelocity * masterAxis + masterLinearVelocity +
-								masterAngularVelocity.Cross( GetPhysics()->GetOrigin() - masterOrigin );
+						 masterAngularVelocity.Cross( GetPhysics()->GetOrigin() - masterOrigin );
 	}
 }
 
@@ -2401,7 +2401,7 @@ void idEntity::JoinTeam( idEntity *teammember ) {
 		teammember->teamChain = this;
 
 		// make anyone who's bound to me part of the new team
-		for( ent = teamChain; ent != NULL; ent = ent->teamChain ) {
+		for ( ent = teamChain; ent != NULL; ent = ent->teamChain ) {
 			ent->teamMaster = master;
 		}
 	} else {
@@ -2411,13 +2411,13 @@ void idEntity::JoinTeam( idEntity *teammember ) {
 		if ( bindMaster ) {
 			// if we have a bindMaster, join after any entities bound to the entity
 			// we're joining
-			while( next && next->IsBoundTo( teammember ) ) {
+			while ( next && next->IsBoundTo( teammember ) ) {
 				prev = next;
 				next = next->teamChain;
 			}
 		} else {
 			// if we're not bound to someone, then put us at the end of the team
-			while( next ) {
+			while ( next ) {
 				prev = next;
 				next = next->teamChain;
 			}
@@ -2425,17 +2425,17 @@ void idEntity::JoinTeam( idEntity *teammember ) {
 
 		// make anyone who's bound to me part of the new team and
 		// also find the last member of my team
-		for( ent = this; ent->teamChain != NULL; ent = ent->teamChain ) {
+		for ( ent = this; ent->teamChain != NULL; ent = ent->teamChain ) {
 			ent->teamChain->teamMaster = master;
 		}
 
-    	prev->teamChain = this;
+		prev->teamChain = this;
 		ent->teamChain = next;
 	}
 
 	teamMaster = master;
 
-	// reorder the active entity list 
+	// reorder the active entity list
 	gameLocal.sortTeamMasters = true;
 }
 
@@ -2459,7 +2459,7 @@ void idEntity::QuitTeam( void ) {
 			teamChain->teamMaster = NULL;
 		} else {
 			// yes, so make the first teammate the teamMaster
-			for( ent = teamChain; ent; ent = ent->teamChain ) {
+			for ( ent = teamChain; ent; ent = ent->teamChain ) {
 				ent->teamMaster = teamChain;
 			}
 		}
@@ -2469,7 +2469,7 @@ void idEntity::QuitTeam( void ) {
 
 		// find the previous member of the teamChain
 		ent = teamMaster;
-		while( ent->teamChain != this ) {
+		while ( ent->teamChain != this ) {
 			assert( ent->teamChain ); // this should never happen
 			ent = ent->teamChain;
 		}
@@ -2490,7 +2490,7 @@ void idEntity::QuitTeam( void ) {
 /***********************************************************************
 
   Physics.
-	
+
 ***********************************************************************/
 
 /*
@@ -2518,7 +2518,7 @@ void idEntity::InitDefaultPhysics( const idVec3 &origin, const idMat3 &axis ) {
 			bool setClipModel = false;
 
 			if ( spawnArgs.GetVector( "mins", NULL, bounds[0] ) &&
-				spawnArgs.GetVector( "maxs", NULL, bounds[1] ) ) {
+					spawnArgs.GetVector( "maxs", NULL, bounds[1] ) ) {
 				setClipModel = true;
 				if ( bounds[0][0] > bounds[1][0] || bounds[0][1] > bounds[1][1] || bounds[0][2] > bounds[1][2] ) {
 					gameLocal.Error( "Invalid bounds '%s'-'%s' on entity '%s'", bounds[0].ToString(), bounds[1].ToString(), name.c_str() );
@@ -2615,7 +2615,7 @@ idEntity::RunPhysics
 */
 bool idEntity::RunPhysics( void ) {
 	int			i, reachedTime, startTime, endTime;
-	idEntity *	part, *blockedPart, *blockingEntity;
+	idEntity 	*part, *blockedPart, *blockingEntity;
 	trace_t		results;
 	bool		moved;
 
@@ -2765,9 +2765,9 @@ void idEntity::UpdateFromPhysics( bool moveBack ) {
 		if ( GetBindMaster() ) {
 			idAngles delta = actor->GetDeltaViewAngles();
 			if ( moveBack ) {
-				delta.yaw -= static_cast<idPhysics_Actor *>(physics)->GetMasterDeltaYaw();
+				delta.yaw -= static_cast<idPhysics_Actor *>( physics )->GetMasterDeltaYaw();
 			} else {
-				delta.yaw += static_cast<idPhysics_Actor *>(physics)->GetMasterDeltaYaw();
+				delta.yaw += static_cast<idPhysics_Actor *>( physics )->GetMasterDeltaYaw();
 			}
 			actor->SetDeltaViewAngles( delta );
 		}
@@ -2796,7 +2796,7 @@ idEntity::SetAxis
 void idEntity::SetAxis( const idMat3 &axis ) {
 
 	if ( GetPhysics()->IsType( idPhysics_Actor::Type ) ) {
-		static_cast<idActor *>(this)->viewAxis = axis;
+		static_cast<idActor *>( this )->viewAxis = axis;
 	} else {
 		GetPhysics()->SetAxis( axis );
 	}
@@ -2947,7 +2947,7 @@ void idEntity::RemoveContactEntity( idEntity *ent ) {
 /***********************************************************************
 
 	Damage
-	
+
 ***********************************************************************/
 
 /*
@@ -3058,8 +3058,8 @@ inflictor, attacker, dir, and point can be NULL for environmental effects
 
 ============
 */
-void idEntity::Damage( idEntity *inflictor, idEntity *attacker, const idVec3 &dir, 
-					  const char *damageDefName, const float damageScale, const int location ) {
+void idEntity::Damage( idEntity *inflictor, idEntity *attacker, const idVec3 &dir,
+					   const char *damageDefName, const float damageScale, const int location ) {
 	if ( !fl.takedamage ) {
 		return;
 	}
@@ -3167,7 +3167,7 @@ void idEntity::Killed( idEntity *inflictor, idEntity *attacker, int damage, cons
 /***********************************************************************
 
   Script functions
-	
+
 ***********************************************************************/
 
 /*
@@ -3279,7 +3279,7 @@ void idEntity::SetSignal( signalNum_t signalnum, idThread *thread, const functio
 	threadnum = thread->GetThreadNum();
 
 	num = signals->signal[ signalnum ].Num();
-	for( i = 0; i < num; i++ ) {
+	for ( i = 0; i < num; i++ ) {
 		if ( signals->signal[ signalnum ][ i ].threadnum == threadnum ) {
 			signals->signal[ signalnum ][ i ].function = function;
 			return;
@@ -3336,7 +3336,7 @@ void idEntity::ClearSignalThread( signalNum_t signalnum, idThread *thread ) {
 	threadnum = thread->GetThreadNum();
 
 	num = signals->signal[ signalnum ].Num();
-	for( i = 0; i < num; i++ ) {
+	for ( i = 0; i < num; i++ ) {
 		if ( signals->signal[ signalnum ][ i ].threadnum == threadnum ) {
 			signals->signal[ signalnum ].RemoveIndex( i );
 			return;
@@ -3366,14 +3366,14 @@ void idEntity::Signal( signalNum_t signalnum ) {
 	// we don't have to worry about the list changing as we're
 	// processing it.
 	num = signals->signal[ signalnum ].Num();
-	for( i = 0; i < num; i++ ) {
+	for ( i = 0; i < num; i++ ) {
 		sigs[ i ] = signals->signal[ signalnum ][ i ];
 	}
 
 	// clear out the signal list so that we don't get into an infinite loop
 	signals->signal[ signalnum ].Clear();
 
-	for( i = 0; i < num; i++ ) {
+	for ( i = 0; i < num; i++ ) {
 		thread = idThread::GetThread( sigs[ i ].threadnum );
 		if ( thread ) {
 			thread->CallFunction( this, sigs[ i ].function, true );
@@ -3402,7 +3402,7 @@ void idEntity::SignalEvent( idThread *thread, signalNum_t signalnum ) {
 /***********************************************************************
 
   Guis.
-	
+
 ***********************************************************************/
 
 
@@ -3432,7 +3432,7 @@ bool idEntity::HandleGuiCommands( idEntity *entityGui, const char *cmds ) {
 		idLexer src;
 		idToken token, token2, token3, token4;
 		src.LoadMemory( cmds, strlen( cmds ), "guiCommands" );
-		while( 1 ) {
+		while ( 1 ) {
 
 			if ( !src.ReadToken( &token ) ) {
 				return ret;
@@ -3469,7 +3469,7 @@ bool idEntity::HandleGuiCommands( idEntity *entityGui, const char *cmds ) {
 
 			if ( token.Icmp( "runScript" ) == 0 ) {
 				if ( src.ReadToken( &token2 ) ) {
-					while( src.CheckTokenString( "::" ) ) {
+					while ( src.CheckTokenString( "::" ) ) {
 						idToken token3;
 						if ( !src.ReadToken( &token3 ) ) {
 							gameLocal.Error( "Expecting function name following '::' in gui for entity '%s'", entityGui->name.c_str() );
@@ -3487,16 +3487,16 @@ bool idEntity::HandleGuiCommands( idEntity *entityGui, const char *cmds ) {
 				continue;
 			}
 
-			if ( token.Icmp("play") == 0 ) {
+			if ( token.Icmp( "play" ) == 0 ) {
 				if ( src.ReadToken( &token2 ) ) {
-					const idSoundShader *shader = declManager->FindSound(token2);
+					const idSoundShader *shader = declManager->FindSound( token2 );
 					entityGui->StartSoundShader( shader, SND_CHANNEL_ANY, 0, false, NULL );
 				}
 				continue;
 			}
 
 			if ( token.Icmp( "setkeyval" ) == 0 ) {
-				if ( src.ReadToken( &token2 ) && src.ReadToken(&token3) && src.ReadToken( &token4 ) ) {
+				if ( src.ReadToken( &token2 ) && src.ReadToken( &token3 ) && src.ReadToken( &token4 ) ) {
 					idEntity *ent = gameLocal.FindEntity( token2 );
 					if ( ent ) {
 						ent->spawnArgs.Set( token3, token4 );
@@ -3508,14 +3508,14 @@ bool idEntity::HandleGuiCommands( idEntity *entityGui, const char *cmds ) {
 			}
 
 			if ( token.Icmp( "setshaderparm" ) == 0 ) {
-				if ( src.ReadToken( &token2 ) && src.ReadToken(&token3) ) {
+				if ( src.ReadToken( &token2 ) && src.ReadToken( &token3 ) ) {
 					entityGui->SetShaderParm( atoi( token2 ), atof( token3 ) );
 					entityGui->UpdateVisuals();
 				}
 				continue;
 			}
 
-			if ( token.Icmp("close") == 0 ) {
+			if ( token.Icmp( "close" ) == 0 ) {
 				ret = true;
 				continue;
 			}
@@ -3558,7 +3558,7 @@ bool idEntity::HandleGuiCommands( idEntity *entityGui, const char *cmds ) {
 			}
 
 			// if we get to this point we don't know how to handle it
-			src.UnreadToken(&token);
+			src.UnreadToken( &token );
 			if ( !HandleSingleGuiCommand( entityGui, &src ) ) {
 				// not handled there see if entity or any of its targets can handle it
 				// this will only work for one target atm
@@ -3568,7 +3568,7 @@ bool idEntity::HandleGuiCommands( idEntity *entityGui, const char *cmds ) {
 
 				int c = entityGui->targets.Num();
 				int i;
-				for ( i = 0; i < c; i++) {
+				for ( i = 0; i < c; i++ ) {
 					targetEnt = entityGui->targets[ i ].GetEntity();
 					if ( targetEnt && targetEnt->HandleSingleGuiCommand( entityGui, &src ) ) {
 						break;
@@ -3599,7 +3599,7 @@ bool idEntity::HandleSingleGuiCommand( idEntity *entityGui, idLexer *src ) {
 /***********************************************************************
 
   Targets
-	
+
 ***********************************************************************/
 
 /*
@@ -3618,7 +3618,7 @@ void idEntity::FindTargets( void ) {
 	gameLocal.GetTargets( spawnArgs, targets, "target" );
 
 	// ensure that we don't target ourselves since that could cause an infinite loop when activating entities
-	for( i = 0; i < targets.Num(); i++ ) {
+	for ( i = 0; i < targets.Num(); i++ ) {
 		if ( targets[ i ].GetEntity() == this ) {
 			gameLocal.Error( "Entity '%s' is targeting itself", name.c_str() );
 		}
@@ -3633,7 +3633,7 @@ idEntity::RemoveNullTargets
 void idEntity::RemoveNullTargets( void ) {
 	int i;
 
-	for( i = targets.Num() - 1; i >= 0; i-- ) {
+	for ( i = targets.Num() - 1; i >= 0; i-- ) {
 		if ( !targets[ i ].GetEntity() ) {
 			targets.RemoveIndex( i );
 		}
@@ -3650,8 +3650,8 @@ idEntity::ActivateTargets
 void idEntity::ActivateTargets( idEntity *activator ) const {
 	idEntity	*ent;
 	int			i, j;
-	
-	for( i = 0; i < targets.Num(); i++ ) {
+
+	for ( i = 0; i < targets.Num(); i++ ) {
 		ent = targets[ i ].GetEntity();
 		if ( !ent ) {
 			continue;
@@ -3659,7 +3659,7 @@ void idEntity::ActivateTargets( idEntity *activator ) const {
 		if ( ent->RespondsTo( EV_Activate ) || ent->HasSignal( SIG_TRIGGER ) ) {
 			ent->Signal( SIG_TRIGGER );
 			ent->ProcessEvent( &EV_Activate, activator );
-		} 		
+		}
 		for ( j = 0; j < MAX_RENDERENTITY_GUI; j++ ) {
 			if ( ent->renderEntity.gui[ j ] ) {
 				ent->renderEntity.gui[ j ]->Trigger( gameLocal.time );
@@ -3671,7 +3671,7 @@ void idEntity::ActivateTargets( idEntity *activator ) const {
 /***********************************************************************
 
   Misc.
-	
+
 ***********************************************************************/
 
 /*
@@ -3695,9 +3695,9 @@ idEntity::TouchTriggers
 */
 bool idEntity::TouchTriggers( void ) const {
 	int				i, numClipModels, numEntities;
-	idClipModel *	cm;
-	idClipModel *	clipModels[ MAX_GENTITIES ];
-	idEntity *		ent;
+	idClipModel 	*cm;
+	idClipModel 	*clipModels[ MAX_GENTITIES ];
+	idEntity 		*ent;
 	trace_t			trace;
 
 	memset( &trace, 0, sizeof( trace ) );
@@ -3803,7 +3803,7 @@ void idEntity::ShowEditingDialog( void ) {
 /***********************************************************************
 
    Events
-	
+
 ***********************************************************************/
 
 /*
@@ -3889,7 +3889,7 @@ void idEntity::Event_RandomTarget( const char *ignore ) {
 
 	ignoreNum = -1;
 	if ( ignore && ( ignore[ 0 ] != 0 ) && ( targets.Num() > 1 ) ) {
-		for( i = 0; i < targets.Num(); i++ ) {
+		for ( i = 0; i < targets.Num(); i++ ) {
 			ent = targets[ i ].GetEntity();
 			if ( ent && ( ent->name == ignore ) ) {
 				ignoreNum = i;
@@ -3970,7 +3970,7 @@ void idEntity::Event_SpawnBind( void ) {
 	const idAnim	*anim;
 	int				animNum;
 	idAnimator		*parentAnimator;
-	
+
 	if ( spawnArgs.GetString( "bind", "", &bind ) ) {
 		if ( idStr::Icmp( bind, "worldspawn" ) == 0 ) {
 			//FIXME: Completely unneccessary since the worldspawn is called "world"
@@ -4160,7 +4160,7 @@ idEntity::Event_StartSoundShader
 void idEntity::Event_StartSoundShader( const char *soundName, int channel ) {
 	int length;
 
-	StartSoundShader( declManager->FindSound( soundName ), (s_channelType)channel, 0, false, &length );
+	StartSoundShader( declManager->FindSound( soundName ), ( s_channelType )channel, 0, false, &length );
 	idThread::ReturnFloat( MS2SEC( length ) );
 }
 
@@ -4175,12 +4175,12 @@ void idEntity::Event_StopSound( int channel, int netSync ) {
 
 /*
 ================
-idEntity::Event_StartSound 
+idEntity::Event_StartSound
 ================
 */
 void idEntity::Event_StartSound( const char *soundName, int channel, int netSync ) {
 	int time;
-	
+
 	StartSound( soundName, ( s_channelType )channel, 0, ( netSync != 0 ), &time );
 	idThread::ReturnFloat( MS2SEC( time ) );
 }
@@ -4491,7 +4491,7 @@ void idEntity::Event_RestorePosition( void ) {
 	idVec3		org;
 	idAngles	angles;
 	idMat3		axis;
-	idEntity *	part;
+	idEntity 	*part;
 
 	spawnArgs.GetVector( "origin", "0 0 0", org );
 
@@ -4499,9 +4499,9 @@ void idEntity::Event_RestorePosition( void ) {
 	if ( spawnArgs.GetMatrix( "rotation", "1 0 0 0 1 0 0 0 1", axis ) ) {
 		angles = axis.ToAngles();
 	} else {
-   		angles[ 0 ] = 0;
-   		angles[ 1 ] = spawnArgs.GetFloat( "angle" );
-   		angles[ 2 ] = 0;
+		angles[ 0 ] = 0;
+		angles[ 1 ] = spawnArgs.GetFloat( "angle" );
+		angles[ 2 ] = 0;
 	}
 
 	Teleport( org, angles, NULL );
@@ -4511,7 +4511,7 @@ void idEntity::Event_RestorePosition( void ) {
 			continue;
 		}
 		if ( part->GetPhysics()->IsType( idPhysics_Parametric::Type ) ) {
-			if ( static_cast<idPhysics_Parametric *>(part->GetPhysics())->IsPusher() ) {
+			if ( static_cast<idPhysics_Parametric *>( part->GetPhysics() )->IsPusher() ) {
 				gameLocal.Warning( "teleported '%s' which has the pushing mover '%s' bound to it\n", GetName(), part->GetName() );
 			}
 		} else if ( part->GetPhysics()->IsType( idPhysics_AF::Type ) ) {
@@ -4536,14 +4536,14 @@ void idEntity::Event_UpdateCameraTarget( void ) {
 
 	if ( cameraTarget ) {
 		kv = cameraTarget->spawnArgs.MatchPrefix( "target", NULL );
-		while( kv ) {
+		while ( kv ) {
 			idEntity *ent = gameLocal.FindEntity( kv->GetValue() );
-			if ( ent && idStr::Icmp( ent->GetEntityDefName(), "target_null" ) == 0) {
+			if ( ent && idStr::Icmp( ent->GetEntityDefName(), "target_null" ) == 0 ) {
 				dir = ent->GetPhysics()->GetOrigin() - cameraTarget->GetPhysics()->GetOrigin();
 				dir.Normalize();
 				cameraTarget->SetAxis( dir.ToMat3() );
-				SetAxis(dir.ToMat3());
-				break;						
+				SetAxis( dir.ToMat3() );
+				break;
 			}
 			kv = cameraTarget->spawnArgs.MatchPrefix( "target", kv );
 		}
@@ -4592,7 +4592,7 @@ idEntity::Event_WaitFrame
 */
 void idEntity::Event_WaitFrame( void ) {
 	idThread *thread;
-	
+
 	thread = idThread::CurrentThread();
 	if ( thread ) {
 		thread->WaitFrame();
@@ -4678,18 +4678,18 @@ idEntity::Event_SetGui
 * BSM Nerve: Allows guis to be changed at runtime. Guis that are
 * loaded after the level loads should be precahced using PrecacheGui.
 */
-void idEntity::Event_SetGui( int guiNum, const char *guiName) {
-	idUserInterface** gui = NULL;
+void idEntity::Event_SetGui( int guiNum, const char *guiName ) {
+	idUserInterface **gui = NULL;
 
 	if ( guiNum >= 1 && guiNum <= MAX_RENDERENTITY_GUI ) {
-		gui = &renderEntity.gui[ guiNum-1 ];
+		gui = &renderEntity.gui[ guiNum - 1 ];
 	}
 
-	if( gui ) {
+	if ( gui ) {
 		*gui = uiManager->FindGui( guiName, true, false );
 		UpdateGuiParms( *gui, &spawnArgs );
 		UpdateChangeableSpawnArgs( NULL );
-		gameRenderWorld->UpdateEntityDef(modelDefHandle, &renderEntity);
+		gameRenderWorld->UpdateEntityDef( modelDefHandle, &renderEntity );
 
 	} else {
 		gameLocal.Error( "Entity '%s' doesn't have a GUI %d", name.c_str(), guiNum );
@@ -4708,25 +4708,25 @@ void idEntity::Event_PrecacheGui( const char *guiName ) {
 	uiManager->FindGui( guiName, true, true );
 }
 
-void idEntity::Event_GetGuiParm(int guiNum, const char *key) {
-	if(renderEntity.gui[guiNum-1]) {
-		idThread::ReturnString(renderEntity.gui[guiNum-1]->GetStateString(key));
+void idEntity::Event_GetGuiParm( int guiNum, const char *key ) {
+	if ( renderEntity.gui[guiNum - 1] ) {
+		idThread::ReturnString( renderEntity.gui[guiNum - 1]->GetStateString( key ) );
 		return;
 	}
-	idThread::ReturnString("");
+	idThread::ReturnString( "" );
 }
 
-void idEntity::Event_GetGuiParmFloat(int guiNum, const char *key) {
-	if(renderEntity.gui[guiNum-1]) {
-		idThread::ReturnFloat(renderEntity.gui[guiNum-1]->GetStateFloat(key));
+void idEntity::Event_GetGuiParmFloat( int guiNum, const char *key ) {
+	if ( renderEntity.gui[guiNum - 1] ) {
+		idThread::ReturnFloat( renderEntity.gui[guiNum - 1]->GetStateFloat( key ) );
 		return;
 	}
-	idThread::ReturnFloat(0.0f);
+	idThread::ReturnFloat( 0.0f );
 }
 
-void idEntity::Event_GuiNamedEvent(int guiNum, const char *event) {
-	if(renderEntity.gui[guiNum-1]) {
-		renderEntity.gui[guiNum-1]->HandleNamedEvent(event);
+void idEntity::Event_GuiNamedEvent( int guiNum, const char *event ) {
+	if ( renderEntity.gui[guiNum - 1] ) {
+		renderEntity.gui[guiNum - 1]->HandleNamedEvent( event );
 	}
 }
 
@@ -4735,7 +4735,7 @@ void idEntity::Event_GuiNamedEvent(int guiNum, const char *event) {
 /***********************************************************************
 
    Network
-	
+
 ***********************************************************************/
 
 /*
@@ -4790,9 +4790,9 @@ void idEntity::ReadBindFromSnapshot( const idBitMsgDelta &msg ) {
 
 		bindOrientated = ( bindInfo >> GENTITYNUM_BITS ) & 1;
 		bindPos = ( bindInfo >> ( GENTITYNUM_BITS + 3 ) );
-		switch( ( bindInfo >> ( GENTITYNUM_BITS + 1 ) ) & 3 ) {
+		switch ( ( bindInfo >> ( GENTITYNUM_BITS + 1 ) ) & 3 ) {
 			case 1: {
-				BindToJoint( master, (jointHandle_t) bindPos, bindOrientated );
+				BindToJoint( master, ( jointHandle_t ) bindPos, bindOrientated );
 				break;
 			}
 			case 2: {
@@ -4909,7 +4909,7 @@ void idEntity::ServerSendEvent( int eventId, const idBitMsg *msg, bool saveEvent
 
 	outMsg.Init( msgBuf, sizeof( msgBuf ) );
 	outMsg.BeginWriting();
-	outMsg.WriteByte( GAME_RELIABLE_MESSAGE_EVENT );	
+	outMsg.WriteByte( GAME_RELIABLE_MESSAGE_EVENT );
 	outMsg.WriteBits( gameLocal.GetSpawnId( this ), 32 );
 	outMsg.WriteByte( eventId );
 	outMsg.WriteLong( gameLocal.time );
@@ -4971,7 +4971,7 @@ idEntity::ServerReceiveEvent
 ================
 */
 bool idEntity::ServerReceiveEvent( int event, int time, const idBitMsg &msg ) {
-	switch( event ) {
+	switch ( event ) {
 		case 0: {
 		}
 		default: {
@@ -4990,7 +4990,7 @@ bool idEntity::ClientReceiveEvent( int event, int time, const idBitMsg &msg ) {
 	const idSoundShader	*shader;
 	s_channelType		channel;
 
-	switch( event ) {
+	switch ( event ) {
 		case EVENT_STARTSOUNDSHADER: {
 			// the sound stuff would early out
 			assert( gameLocal.isNewFrame );
@@ -5002,7 +5002,7 @@ bool idEntity::ClientReceiveEvent( int event, int time, const idBitMsg &msg ) {
 			index = gameLocal.ClientRemapDecl( DECL_SOUND, msg.ReadLong() );
 			if ( index >= 0 && index < declManager->GetNumDecls( DECL_SOUND ) ) {
 				shader = declManager->SoundByIndex( index, false );
-				channel = (s_channelType)msg.ReadByte();
+				channel = ( s_channelType )msg.ReadByte();
 				StartSoundShader( shader, channel, 0, false, NULL );
 			}
 			return true;
@@ -5010,7 +5010,7 @@ bool idEntity::ClientReceiveEvent( int event, int time, const idBitMsg &msg ) {
 		case EVENT_STOPSOUNDSHADER: {
 			// the sound stuff would early out
 			assert( gameLocal.isNewFrame );
-			channel = (s_channelType)msg.ReadByte();
+			channel = ( s_channelType )msg.ReadByte();
 			StopSound( channel, false );
 			return true;
 		}
@@ -5030,8 +5030,7 @@ idEntity::DetermineTimeGroup
 void idEntity::DetermineTimeGroup( bool slowmo ) {
 	if ( slowmo || gameLocal.isMultiplayer ) {
 		timeGroup = TIME_GROUP1;
-	}
-	else {
+	} else {
 		timeGroup = TIME_GROUP2;
 	}
 }
@@ -5072,13 +5071,13 @@ const idEventDef EV_GetJointPos( "getJointPos", "d", 'v' );
 const idEventDef EV_GetJointAngle( "getJointAngle", "d", 'v' );
 
 CLASS_DECLARATION( idEntity, idAnimatedEntity )
-	EVENT( EV_GetJointHandle,		idAnimatedEntity::Event_GetJointHandle )
-	EVENT( EV_ClearAllJoints,		idAnimatedEntity::Event_ClearAllJoints )
-	EVENT( EV_ClearJoint,			idAnimatedEntity::Event_ClearJoint )
-	EVENT( EV_SetJointPos,			idAnimatedEntity::Event_SetJointPos )
-	EVENT( EV_SetJointAngle,		idAnimatedEntity::Event_SetJointAngle )
-	EVENT( EV_GetJointPos,			idAnimatedEntity::Event_GetJointPos )
-	EVENT( EV_GetJointAngle,		idAnimatedEntity::Event_GetJointAngle )
+EVENT( EV_GetJointHandle,		idAnimatedEntity::Event_GetJointHandle )
+EVENT( EV_ClearAllJoints,		idAnimatedEntity::Event_ClearAllJoints )
+EVENT( EV_ClearJoint,			idAnimatedEntity::Event_ClearJoint )
+EVENT( EV_SetJointPos,			idAnimatedEntity::Event_SetJointPos )
+EVENT( EV_SetJointAngle,		idAnimatedEntity::Event_SetJointAngle )
+EVENT( EV_GetJointPos,			idAnimatedEntity::Event_GetJointPos )
+EVENT( EV_GetJointAngle,		idAnimatedEntity::Event_GetJointAngle )
 END_CLASS
 
 /*
@@ -5281,7 +5280,7 @@ bool idAnimatedEntity::GetJointTransformForAnim( jointHandle_t jointHandle, int 
 
 	offset = frame[ jointHandle ].ToVec3();
 	axis = frame[ jointHandle ].ToMat3();
-	
+
 	return true;
 }
 
@@ -5329,7 +5328,7 @@ void idAnimatedEntity::AddDamageEffect( const trace_t &collision, const idVec3 &
 
 		msg.Init( msgBuf, sizeof( msgBuf ) );
 		msg.BeginWriting();
-		msg.WriteShort( (int)jointNum );
+		msg.WriteShort( ( int )jointNum );
 		msg.WriteFloat( localOrigin[0] );
 		msg.WriteFloat( localOrigin[1] );
 		msg.WriteFloat( localOrigin[2] );
@@ -5480,9 +5479,9 @@ bool idAnimatedEntity::ClientReceiveEvent( int event, int time, const idBitMsg &
 	jointHandle_t jointNum;
 	idVec3 localOrigin, localNormal, localDir;
 
-	switch( event ) {
+	switch ( event ) {
 		case EVENT_ADD_DAMAGE_EFFECT: {
-			jointNum = (jointHandle_t) msg.ReadShort();
+			jointNum = ( jointHandle_t ) msg.ReadShort();
 			localOrigin[0] = msg.ReadFloat();
 			localOrigin[1] = msg.ReadFloat();
 			localOrigin[2] = msg.ReadFloat();

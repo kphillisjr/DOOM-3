@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -53,7 +53,7 @@ void Sys_GetCallStack( address_t *callStack, const int callStackSize ) {
 Sys_GetCallStackStr
 ==================
 */
-const char * Sys_GetCallStackStr( const address_t *callStack, const int callStackSize ) {
+const char *Sys_GetCallStackStr( const address_t *callStack, const int callStackSize ) {
 	return "";
 }
 
@@ -62,7 +62,7 @@ const char * Sys_GetCallStackStr( const address_t *callStack, const int callStac
 Sys_GetCallStackStr
 ==================
 */
-const char * Sys_GetCallStackCurStr( int depth ) {
+const char *Sys_GetCallStackCurStr( int depth ) {
 	return "";
 }
 
@@ -71,7 +71,7 @@ const char * Sys_GetCallStackCurStr( int depth ) {
 Sys_GetCallStackCurAddressStr
 ==================
 */
-const char *	Sys_GetCallStackCurAddressStr( int depth ) {
+const char 	*Sys_GetCallStackCurAddressStr( int depth ) {
 	return "";
 }
 
@@ -86,8 +86,8 @@ Sys_GetCallStack
 */
 void Sys_GetCallStack( address_t *callStack, const int callStackSize ) {
 	int i;
-	i = backtrace( (void **)callStack, callStackSize );	
-	while( i < callStackSize ) {
+	i = backtrace( ( void ** )callStack, callStackSize );
+	while ( i < callStackSize ) {
 		callStack[i++] = 0;
 	}
 }
@@ -97,18 +97,18 @@ void Sys_GetCallStack( address_t *callStack, const int callStackSize ) {
 Sys_GetCallStackStr
 ==================
 */
-const char *	Sys_GetCallStackStr( const address_t *callStack, int callStackSize ) {
-	static char string[MAX_STRING_CHARS*2];
+const char 	*Sys_GetCallStackStr( const address_t *callStack, int callStackSize ) {
+	static char string[MAX_STRING_CHARS * 2];
 	char **strings;
 	int i;
-	
-	strings = backtrace_symbols( (void **)callStack, callStackSize );
+
+	strings = backtrace_symbols( ( void ** )callStack, callStackSize );
 	string[ 0 ] = '\0';
 	for ( i = 0; i < callStackSize; i++ ) {
-		idStr::snPrintf( string + strlen( string ), MAX_STRING_CHARS*2 - strlen( string ) - 1, "%s\n", strings[ i ] );
+		idStr::snPrintf( string + strlen( string ), MAX_STRING_CHARS * 2 - strlen( string ) - 1, "%s\n", strings[ i ] );
 	}
 	free( strings );
-	return string;	
+	return string;
 }
 
 
@@ -117,12 +117,12 @@ const char *	Sys_GetCallStackStr( const address_t *callStack, int callStackSize 
 Sys_GetCallStackStr
 ==================
 */
-const char * Sys_GetCallStackCurStr( int depth ) {
+const char *Sys_GetCallStackCurStr( int depth ) {
 	address_t array[ 32 ];
 	size_t size;
-	
-	size = backtrace( (void **)array, Min( 32, depth ) );
-	return Sys_GetCallStackStr( array, (int)size );
+
+	size = backtrace( ( void ** )array, Min( 32, depth ) );
+	return Sys_GetCallStackStr( array, ( int )size );
 }
 
 /*
@@ -130,7 +130,7 @@ const char * Sys_GetCallStackCurStr( int depth ) {
 Sys_GetCallStackCurAddressStr
 ==================
 */
-const char * Sys_GetCallStackCurAddressStr( int depth ) {
+const char *Sys_GetCallStackCurAddressStr( int depth ) {
 	return Sys_GetCallStackCurStr( depth );
 }
 

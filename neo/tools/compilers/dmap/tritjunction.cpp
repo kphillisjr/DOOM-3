@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -46,7 +46,7 @@ If you have questions concerning this license or the applicable additional terms
 
   Snaping verts can drag some triangles backwards or collapse them to points,
   which will cause them to be removed.
-  
+
 
   When snapping to ints, a point can move a maximum of sqrt(3)/2 distance
   Two points that were an epsilon apart can then become sqrt(3) apart
@@ -116,7 +116,7 @@ struct hashVert_s	*GetHashVert( idVec3 &v ) {
 
 	// snap the vert to integral values
 	for ( i = 0 ; i < 3 ; i++ ) {
-		iv[i] = floor( ( v[i] + 0.5/SNAP_FRACTIONS ) * SNAP_FRACTIONS );
+		iv[i] = floor( ( v[i] + 0.5 / SNAP_FRACTIONS ) * SNAP_FRACTIONS );
 		block[i] = ( iv[i] - hashIntMins[i] ) / hashIntScale[i];
 		if ( block[i] < 0 ) {
 			block[i] = 0;
@@ -148,8 +148,8 @@ struct hashVert_s	*GetHashVert( idVec3 &v ) {
 #endif
 	}
 
-	// create a new one 
-	hv = (hashVert_t *)Mem_Alloc( sizeof( *hv ) );
+	// create a new one
+	hv = ( hashVert_t * )Mem_Alloc( sizeof( *hv ) );
 
 	hv->next = hashVerts[block[0]][block[1]][block[2]];
 	hashVerts[block[0]][block[1]][block[2]] = hv;
@@ -158,9 +158,9 @@ struct hashVert_s	*GetHashVert( idVec3 &v ) {
 	hv->iv[1] = iv[1];
 	hv->iv[2] = iv[2];
 
-	hv->v[0] = (float)iv[0] / SNAP_FRACTIONS;
-	hv->v[1] = (float)iv[1] / SNAP_FRACTIONS;
-	hv->v[2] = (float)iv[2] / SNAP_FRACTIONS;
+	hv->v[0] = ( float )iv[0] / SNAP_FRACTIONS;
+	hv->v[1] = ( float )iv[1] / SNAP_FRACTIONS;
+	hv->v[2] = ( float )iv[2] / SNAP_FRACTIONS;
 
 	VectorCopy( hv->v, v );
 
@@ -322,8 +322,8 @@ static mapTri_t *FixTriangleAgainstHashVert( const mapTri_t *a, const hashVert_t
 	// edges, but we only want to split by one of them
 	for ( i = 0 ; i < 3 ; i++ ) {
 		v1 = &a->v[i];
-		v2 = &a->v[(i+1)%3];
-		v3 = &a->v[(i+2)%3];
+		v2 = &a->v[( i + 1 ) % 3];
+		v3 = &a->v[( i + 2 ) % 3];
 		VectorSubtract( v2->xyz, v1->xyz, dir );
 		len = dir.Normalize();
 
@@ -355,8 +355,8 @@ static mapTri_t *FixTriangleAgainstHashVert( const mapTri_t *a, const hashVert_t
 
 		// split the tri
 		new1 = CopyMapTri( a );
-		new1->v[(i+1)%3] = split;
-		new1->hashVert[(i+1)%3] = hv;
+		new1->v[( i + 1 ) % 3] = split;
+		new1->hashVert[( i + 1 ) % 3] = hv;
 		new1->next = NULL;
 
 		new2 = CopyMapTri( a );
@@ -404,8 +404,8 @@ static mapTri_t	*FixTriangleAgainstHash( const mapTri_t *tri ) {
 	// do nothing (this shouldn't happen, because they should
 	// be removed as they are hashed)
 	if ( tri->hashVert[0] == tri->hashVert[1]
-		|| tri->hashVert[0] == tri->hashVert[2]
-		|| tri->hashVert[1] == tri->hashVert[2] ) {
+			|| tri->hashVert[0] == tri->hashVert[2]
+			|| tri->hashVert[1] == tri->hashVert[2] ) {
 		return NULL;
 	}
 
@@ -614,7 +614,7 @@ void	FixGlobalTjunctions( uEntity_t *e ) {
 				} else {
 					axis.Identity();
 				}
-			}		
+			}
 
 			idVec3	origin = entity->mapEntity->epairs.GetVector( "origin" );
 
@@ -627,7 +627,7 @@ void	FixGlobalTjunctions( uEntity_t *e ) {
 				mapTri.material = surface->shader;
 				// don't let discretes (autosprites, etc) merge together
 				if ( mapTri.material->IsDiscrete() ) {
-					mapTri.mergeGroup = (void *)surface;
+					mapTri.mergeGroup = ( void * )surface;
 				}
 				for ( int j = 0 ; j < tri->numVerts ; j += 3 ) {
 					idVec3 v = tri->verts[j].xyz * axis + origin;

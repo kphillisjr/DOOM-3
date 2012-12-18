@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -51,7 +51,7 @@ double Sys_GetClockTicks( void ) {
 	LARGE_INTEGER li;
 
 	QueryPerformanceCounter( &li );
-	return = (double ) li.LowPart + (double) 0xFFFFFFFF * li.HighPart;
+	return = ( double ) li.LowPart + ( double ) 0xFFFFFFFF * li.HighPart;
 
 #else
 
@@ -66,7 +66,7 @@ double Sys_GetClockTicks( void ) {
 		mov hi, edx
 		pop ebx
 	}
-	return (double ) lo + (double) 0xFFFFFFFF * hi;
+	return ( double ) lo + ( double ) 0xFFFFFFFF * hi;
 
 #endif
 }
@@ -96,17 +96,17 @@ double Sys_ClockTicksPerSecond( void ) {
 		if ( !RegOpenKeyEx( HKEY_LOCAL_MACHINE, "HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0", 0, KEY_READ, &hKey ) ) {
 			ProcSpeed = 0;
 			buflen = sizeof( ProcSpeed );
-			ret = RegQueryValueEx( hKey, "~MHz", NULL, NULL, (LPBYTE) &ProcSpeed, &buflen );
+			ret = RegQueryValueEx( hKey, "~MHz", NULL, NULL, ( LPBYTE ) &ProcSpeed, &buflen );
 			// If we don't succeed, try some other spellings.
 			if ( ret != ERROR_SUCCESS ) {
-				ret = RegQueryValueEx( hKey, "~Mhz", NULL, NULL, (LPBYTE) &ProcSpeed, &buflen );
+				ret = RegQueryValueEx( hKey, "~Mhz", NULL, NULL, ( LPBYTE ) &ProcSpeed, &buflen );
 			}
 			if ( ret != ERROR_SUCCESS ) {
-				ret = RegQueryValueEx( hKey, "~mhz", NULL, NULL, (LPBYTE) &ProcSpeed, &buflen );
+				ret = RegQueryValueEx( hKey, "~mhz", NULL, NULL, ( LPBYTE ) &ProcSpeed, &buflen );
 			}
 			RegCloseKey( hKey );
 			if ( ret == ERROR_SUCCESS ) {
-				ticks = (double) ((unsigned long)ProcSpeed) * 1000000;
+				ticks = ( double )( ( unsigned long )ProcSpeed ) * 1000000;
 			}
 		}
 	}
@@ -130,8 +130,7 @@ HasCPUID
 ================
 */
 static bool HasCPUID( void ) {
-	__asm 
-	{
+	__asm {
 		pushfd						// save eflags
 		pop		eax
 		test	eax, 0x00200000		// check ID bit
@@ -144,7 +143,7 @@ static bool HasCPUID( void ) {
 		test	eax, 0x00200000		// check ID bit
 		jz		good
 		jmp		err					// cpuid not supported
-set21:
+		set21:
 		or		eax, 0x00200000		// set ID bit
 		push	eax					// store new value
 		popfd						// store new value in EFLAGS
@@ -155,9 +154,9 @@ set21:
 		jmp		err
 	}
 
-err:
+	err:
 	return false;
-good:
+	good:
 	return true;
 }
 
@@ -341,8 +340,8 @@ LogicalProcPerPhysicalProc
 ================
 */
 #define NUM_LOGICAL_BITS   0x00FF0000     // EBX[23:16] Bit 16-23 in ebx contains the number of logical
-                                          // processors per physical processor when execute cpuid with 
-                                          // eax set to 1
+// processors per physical processor when execute cpuid with
+// eax set to 1
 static unsigned char LogicalProcPerPhysicalProc( void ) {
 	unsigned int regebx = 0;
 	__asm {
@@ -350,7 +349,7 @@ static unsigned char LogicalProcPerPhysicalProc( void ) {
 		cpuid
 		mov regebx, ebx
 	}
-	return (unsigned char) ((regebx & NUM_LOGICAL_BITS) >> 16);
+	return ( unsigned char )( ( regebx & NUM_LOGICAL_BITS ) >> 16 );
 }
 
 /*
@@ -359,8 +358,8 @@ GetAPIC_ID
 ================
 */
 #define INITIAL_APIC_ID_BITS  0xFF000000  // EBX[31:24] Bits 24-31 (8 bits) return the 8-bit unique 
-                                          // initial APIC ID for the processor this code is running on.
-                                          // Default value = 0xff if HT is not supported
+// initial APIC ID for the processor this code is running on.
+// Default value = 0xff if HT is not supported
 static unsigned char GetAPIC_ID( void ) {
 	unsigned int regebx = 0;
 	__asm {
@@ -368,7 +367,7 @@ static unsigned char GetAPIC_ID( void ) {
 		cpuid
 		mov regebx, ebx
 	}
-	return (unsigned char) ((regebx & INITIAL_APIC_ID_BITS) >> 24);
+	return ( unsigned char )( ( regebx & INITIAL_APIC_ID_BITS ) >> 24 );
 }
 
 /*
@@ -395,11 +394,11 @@ int CPUCount( int &logicalNum, int &physicalNum ) {
 	statusFlag = HT_NOT_CAPABLE;
 
 	info.dwNumberOfProcessors = 0;
-	GetSystemInfo (&info);
+	GetSystemInfo( &info );
 
 	// Number of physical processors in a non-Intel system
 	// or in a 32-bit Intel system with Hyper-Threading technology disabled
-	physicalNum = info.dwNumberOfProcessors;  
+	physicalNum = info.dwNumberOfProcessors;
 
 	unsigned char HT_Enabled = 0;
 
@@ -411,17 +410,17 @@ int CPUCount( int &logicalNum, int &physicalNum ) {
 		DWORD  dwSystemAffinity;
 		DWORD  dwAffinityMask;
 
-		// Calculate the appropriate  shifts and mask based on the 
+		// Calculate the appropriate  shifts and mask based on the
 		// number of logical processors.
 
 		unsigned char i = 1, PHY_ID_MASK  = 0xFF, PHY_ID_SHIFT = 0;
 
-		while( i < logicalNum ) {
+		while ( i < logicalNum ) {
 			i *= 2;
- 			PHY_ID_MASK  <<= 1;
+			PHY_ID_MASK  <<= 1;
 			PHY_ID_SHIFT++;
 		}
-		
+
 		hCurrentProcessHandle = GetCurrentProcess();
 		GetProcessAffinityMask( hCurrentProcessHandle, &dwProcessAffinity, &dwSystemAffinity );
 
@@ -453,10 +452,10 @@ int CPUCount( int &logicalNum, int &physicalNum ) {
 			}
 			dwAffinityMask = dwAffinityMask << 1;
 		}
-	        
+
 		// Reset the processor affinity
 		SetProcessAffinityMask( hCurrentProcessHandle, dwProcessAffinity );
-	    
+
 		if ( logicalNum == 1 ) {  // Normal P4 : HT is disabled in hardware
 			statusFlag = HT_DISABLED;
 		} else {
@@ -502,7 +501,7 @@ HasHTT
 ================
 */
 static bool HasDAZ( void ) {
-	__declspec(align(16)) unsigned char FXSaveArea[512];
+	__declspec( align( 16 ) ) unsigned char FXSaveArea[512];
 	unsigned char *FXArea = FXSaveArea;
 	DWORD dwMask = 0;
 	unsigned regs[4];
@@ -522,7 +521,7 @@ static bool HasDAZ( void ) {
 		FXSAVE	[eax]
 	}
 
-	dwMask = *(DWORD *)&FXArea[28];						// Read the MXCSR Mask
+	dwMask = *( DWORD * )&FXArea[28];						// Read the MXCSR Mask
 	return ( ( dwMask & ( 1 << 6 ) ) == ( 1 << 6 ) );	// Return if the DAZ bit is set
 }
 
@@ -586,7 +585,7 @@ cpuid_t Sys_GetCPUId( void ) {
 		flags |= CPUID_DAZ;
 	}
 
-	return (cpuid_t)flags;
+	return ( cpuid_t )flags;
 }
 
 
@@ -599,7 +598,7 @@ cpuid_t Sys_GetCPUId( void ) {
 */
 
 typedef struct bitFlag_s {
-	char *		name;
+	char 		*name;
 	int			bit;
 } bitFlag_t;
 
@@ -648,29 +647,29 @@ Sys_FPU_PrintStateFlags
 int Sys_FPU_PrintStateFlags( char *ptr, int ctrl, int stat, int tags, int inof, int inse, int opof, int opse ) {
 	int i, length = 0;
 
-	length += sprintf( ptr+length,	"CTRL = %08x\n"
-									"STAT = %08x\n"
-									"TAGS = %08x\n"
-									"INOF = %08x\n"
-									"INSE = %08x\n"
-									"OPOF = %08x\n"
-									"OPSE = %08x\n"
-									"\n",
-									ctrl, stat, tags, inof, inse, opof, opse );
+	length += sprintf( ptr + length,	"CTRL = %08x\n"
+					   "STAT = %08x\n"
+					   "TAGS = %08x\n"
+					   "INOF = %08x\n"
+					   "INSE = %08x\n"
+					   "OPOF = %08x\n"
+					   "OPSE = %08x\n"
+					   "\n",
+					   ctrl, stat, tags, inof, inse, opof, opse );
 
-	length += sprintf( ptr+length, "Control Word:\n" );
+	length += sprintf( ptr + length, "Control Word:\n" );
 	for ( i = 0; controlWordFlags[i].name[0]; i++ ) {
-		length += sprintf( ptr+length, "  %-30s = %s\n", controlWordFlags[i].name, ( ctrl & ( 1 << controlWordFlags[i].bit ) ) ? "true" : "false" );
+		length += sprintf( ptr + length, "  %-30s = %s\n", controlWordFlags[i].name, ( ctrl & ( 1 << controlWordFlags[i].bit ) ) ? "true" : "false" );
 	}
-	length += sprintf( ptr+length, "  %-30s = %s\n", "Precision control", precisionControlField[(ctrl>>8)&3] );
-	length += sprintf( ptr+length, "  %-30s = %s\n", "Rounding control", roundingControlField[(ctrl>>10)&3] );
+	length += sprintf( ptr + length, "  %-30s = %s\n", "Precision control", precisionControlField[( ctrl >> 8 ) & 3] );
+	length += sprintf( ptr + length, "  %-30s = %s\n", "Rounding control", roundingControlField[( ctrl >> 10 ) & 3] );
 
-	length += sprintf( ptr+length, "Status Word:\n" );
+	length += sprintf( ptr + length, "Status Word:\n" );
 	for ( i = 0; statusWordFlags[i].name[0]; i++ ) {
-		ptr += sprintf( ptr+length, "  %-30s = %s\n", statusWordFlags[i].name, ( stat & ( 1 << statusWordFlags[i].bit ) ) ? "true" : "false" );
+		ptr += sprintf( ptr + length, "  %-30s = %s\n", statusWordFlags[i].name, ( stat & ( 1 << statusWordFlags[i].bit ) ) ? "true" : "false" );
 	}
-	length += sprintf( ptr+length, "  %-30s = %d%d%d%d\n", "Condition code", (stat>>8)&1, (stat>>9)&1, (stat>>10)&1, (stat>>14)&1 );
-	length += sprintf( ptr+length, "  %-30s = %d\n", "Top of stack pointer", (stat>>11)&7 );
+	length += sprintf( ptr + length, "  %-30s = %d%d%d%d\n", "Condition code", ( stat >> 8 ) & 1, ( stat >> 9 ) & 1, ( stat >> 10 ) & 1, ( stat >> 14 ) & 1 );
+	length += sprintf( ptr + length, "  %-30s = %d\n", "Top of stack pointer", ( stat >> 11 ) & 7 );
 
 	return length;
 }
@@ -690,7 +689,7 @@ bool Sys_FPU_StackIsEmpty( void ) {
 		jz			empty
 	}
 	return false;
-empty:
+	empty:
 	return true;
 }
 
@@ -705,15 +704,15 @@ void Sys_FPU_ClearStack( void ) {
 		fnstenv		[eax]
 		mov			eax, [eax+8]
 		xor			eax, 0xFFFFFFFF
-		mov			edx, (3<<14)
-	emptyStack:
+		mov			edx, ( 3<<14 )
+		emptyStack:
 		mov			ecx, eax
 		and			ecx, edx
 		jz			done
 		fstp		st
 		shr			edx, 2
 		jmp			emptyStack
-	done:
+		done:
 	}
 }
 
@@ -736,7 +735,7 @@ const char *Sys_FPU_GetState( void ) {
 		fnstenv		[esi]
 		mov			esi, [esi+8]
 		xor			esi, 0xFFFFFFFF
-		mov			edx, (3<<14)
+		mov			edx, ( 3<<14 )
 		xor			eax, eax
 		mov			ecx, esi
 		and			ecx, edx
@@ -747,73 +746,73 @@ const char *Sys_FPU_GetState( void ) {
 		mov			ecx, esi
 		and			ecx, edx
 		jz			done
-		fxch		st(1)
+		fxch		st( 1 )
 		fst			qword ptr [edi+8]
 		inc			eax
-		fxch		st(1)
+		fxch		st( 1 )
 		shr			edx, 2
 		mov			ecx, esi
 		and			ecx, edx
 		jz			done
-		fxch		st(2)
+		fxch		st( 2 )
 		fst			qword ptr [edi+16]
 		inc			eax
-		fxch		st(2)
+		fxch		st( 2 )
 		shr			edx, 2
 		mov			ecx, esi
 		and			ecx, edx
 		jz			done
-		fxch		st(3)
+		fxch		st( 3 )
 		fst			qword ptr [edi+24]
 		inc			eax
-		fxch		st(3)
+		fxch		st( 3 )
 		shr			edx, 2
 		mov			ecx, esi
 		and			ecx, edx
 		jz			done
-		fxch		st(4)
+		fxch		st( 4 )
 		fst			qword ptr [edi+32]
 		inc			eax
-		fxch		st(4)
+		fxch		st( 4 )
 		shr			edx, 2
 		mov			ecx, esi
 		and			ecx, edx
 		jz			done
-		fxch		st(5)
+		fxch		st( 5 )
 		fst			qword ptr [edi+40]
 		inc			eax
-		fxch		st(5)
+		fxch		st( 5 )
 		shr			edx, 2
 		mov			ecx, esi
 		and			ecx, edx
 		jz			done
-		fxch		st(6)
+		fxch		st( 6 )
 		fst			qword ptr [edi+48]
 		inc			eax
-		fxch		st(6)
+		fxch		st( 6 )
 		shr			edx, 2
 		mov			ecx, esi
 		and			ecx, edx
 		jz			done
-		fxch		st(7)
+		fxch		st( 7 )
 		fst			qword ptr [edi+56]
 		inc			eax
-		fxch		st(7)
-	done:
+		fxch		st( 7 )
+		done:
 		mov			numValues, eax
 	}
 
-	int ctrl = *(int *)&fpuState[0];
-	int stat = *(int *)&fpuState[4];
-	int tags = *(int *)&fpuState[8];
-	int inof = *(int *)&fpuState[12];
-	int inse = *(int *)&fpuState[16];
-	int opof = *(int *)&fpuState[20];
-	int opse = *(int *)&fpuState[24];
+	int ctrl = *( int * )&fpuState[0];
+	int stat = *( int * )&fpuState[4];
+	int tags = *( int * )&fpuState[8];
+	int inof = *( int * )&fpuState[12];
+	int inse = *( int * )&fpuState[16];
+	int opof = *( int * )&fpuState[20];
+	int opse = *( int * )&fpuState[24];
 
 	ptr = fpuString;
-	ptr += sprintf( ptr,"FPU State:\n"
-						"num values on stack = %d\n", numValues );
+	ptr += sprintf( ptr, "FPU State:\n"
+					"num values on stack = %d\n", numValues );
 	for ( i = 0; i < 8; i++ ) {
 		ptr += sprintf( ptr, "ST%d = %1.10e\n", i, fpuStack[i] );
 	}
@@ -901,7 +900,7 @@ void Sys_FPU_SetDAZ( bool enable ) {
 		shl		ecx, 6
 		STMXCSR	dword ptr dwData
 		mov		eax, dwData
-		and		eax, ~(1<<6)	// clear DAX bit
+		and		eax, ~( 1<<6 )	// clear DAX bit
 		or		eax, ecx		// set the DAZ bit
 		mov		dwData, eax
 		LDMXCSR	dword ptr dwData
@@ -922,7 +921,7 @@ void Sys_FPU_SetFTZ( bool enable ) {
 		shl		ecx, 15
 		STMXCSR	dword ptr dwData
 		mov		eax, dwData
-		and		eax, ~(1<<15)	// clear FTZ bit
+		and		eax, ~( 1<<15 )	// clear FTZ bit
 		or		eax, ecx		// set the FTZ bit
 		mov		dwData, eax
 		LDMXCSR	dword ptr dwData

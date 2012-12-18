@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -42,67 +42,55 @@ PFN_ERR_NUM *g_pfnErrorNum = NULL;
 PFN_PRINTF_NUM *g_pfnPrintfNum = NULL;
 
 
-void Error(const char *pFormat, ...)
-{
-	if (g_pfnError)
-	{
+void Error( const char *pFormat, ... ) {
+	if ( g_pfnError ) {
 		va_list arg_ptr;
-		va_start(arg_ptr, pFormat);
-		g_pfnError(pFormat, arg_ptr);
-		va_end(arg_ptr);
+		va_start( arg_ptr, pFormat );
+		g_pfnError( pFormat, arg_ptr );
+		va_end( arg_ptr );
 	}
 }
 
-void Printf(const char *pFormat, ...)
-{
-	if (g_pfnPrintf)
-	{
+void Printf( const char *pFormat, ... ) {
+	if ( g_pfnPrintf ) {
 		va_list arg_ptr;
-		va_start(arg_ptr, pFormat);
-		g_pfnPrintf(pFormat, arg_ptr);
-		va_end(arg_ptr);
+		va_start( arg_ptr, pFormat );
+		g_pfnPrintf( pFormat, arg_ptr );
+		va_end( arg_ptr );
 	}
 }
 
-void ErrorNum(int nErr, const char *pFormat, ...)
-{
-	if (g_pfnErrorNum)
-	{
+void ErrorNum( int nErr, const char *pFormat, ... ) {
+	if ( g_pfnErrorNum ) {
 		va_list arg_ptr;
-		va_start(arg_ptr, pFormat);
-		g_pfnErrorNum(nErr, pFormat, arg_ptr);
-		va_end(arg_ptr);
+		va_start( arg_ptr, pFormat );
+		g_pfnErrorNum( nErr, pFormat, arg_ptr );
+		va_end( arg_ptr );
 	}
 }
 
-void PrintfNum(int nErr, const char *pFormat, ...)
-{
-	if (g_pfnPrintfNum)
-	{
+void PrintfNum( int nErr, const char *pFormat, ... ) {
+	if ( g_pfnPrintfNum ) {
 		va_list arg_ptr;
-		va_start(arg_ptr, pFormat);
-		g_pfnPrintfNum(nErr, pFormat, arg_ptr);
-		va_end(arg_ptr);
+		va_start( arg_ptr, pFormat );
+		g_pfnPrintfNum( nErr, pFormat, arg_ptr );
+		va_end( arg_ptr );
 	}
 }
 
-void SetErrorHandler(PFN_ERR pe)
-{
+void SetErrorHandler( PFN_ERR pe ) {
 	g_pfnError = pe;
 }
 
-void SetPrintfHandler(PFN_PRINTF pe)
-{
+void SetPrintfHandler( PFN_PRINTF pe ) {
 	g_pfnPrintf = pe;
 }
 
-void SetErrorHandlerNum(PFN_ERR_NUM pe)
-{
+void SetErrorHandlerNum( PFN_ERR_NUM pe ) {
 	g_pfnErrorNum = pe;
 }
 
-void SetPrintfHandler(PFN_PRINTF_NUM pe)
-{
+void SetPrintfHandler( PFN_PRINTF_NUM pe ) {
 	g_pfnPrintfNum = pe;
 }
 
@@ -112,15 +100,14 @@ void SetPrintfHandler(PFN_PRINTF_NUM pe)
 Q_filelength
 ================
 */
-int Q_filelength (FILE *f)
-{
+int Q_filelength( FILE *f ) {
 	int		pos;
 	int		end;
 
-	pos = ftell (f);
-	fseek (f, 0, SEEK_END);
-	end = ftell (f);
-	fseek (f, pos, SEEK_SET);
+	pos = ftell( f );
+	fseek( f, 0, SEEK_END );
+	end = ftell( f );
+	fseek( f, pos, SEEK_SET );
 
 	return end;
 }
@@ -130,15 +117,14 @@ int Q_filelength (FILE *f)
 LoadFile
 ==============
 */
-int LoadFile (const char *filename, void **bufferptr)
-{
+int LoadFile( const char *filename, void **bufferptr ) {
 	FILE	*f;
 	int    length;
 	void    *buffer;
 
 	*bufferptr = NULL;
 
-	if ( filename == NULL || strlen(filename) == 0 ) {
+	if ( filename == NULL || strlen( filename ) == 0 ) {
 		return -1;
 	}
 
@@ -147,9 +133,9 @@ int LoadFile (const char *filename, void **bufferptr)
 		return -1;
 	}
 	length = Q_filelength( f );
-	buffer = Mem_ClearedAlloc( length+1 );
-	((char *)buffer)[length] = 0;
-	if ( (int)fread( buffer, 1, length, f ) != length ) {
+	buffer = Mem_ClearedAlloc( length + 1 );
+	( ( char * )buffer )[length] = 0;
+	if ( ( int )fread( buffer, 1, length, f ) != length ) {
 		Error( "File read failure" );
 	}
 	fclose( f );
@@ -163,23 +149,21 @@ int LoadFile (const char *filename, void **bufferptr)
 DefaultExtension
 ==============
 */
-void DefaultExtension (char *path, char *extension)
-{
+void DefaultExtension( char *path, char *extension ) {
 	char    *src;
 	//
 	// if path doesn't have a .EXT, append extension
 	// (extension should include the .)
 	//
-	src = path + strlen(path) - 1;
+	src = path + strlen( path ) - 1;
 
-	while (*src != PATHSEPERATOR && src != path)
-	{
-		if (*src == '.')
+	while ( *src != PATHSEPERATOR && src != path ) {
+		if ( *src == '.' )
 			return;                 // it has an extension
 		src--;
 	}
 
-	strcat (path, extension);
+	strcat( path, extension );
 }
 
 /*
@@ -187,15 +171,14 @@ void DefaultExtension (char *path, char *extension)
 DefaultPath
 ==============
 */
-void DefaultPath (char *path, char *basepath)
-{
+void DefaultPath( char *path, char *basepath ) {
 	char    temp[128];
 
-	if (path[0] == PATHSEPERATOR)
+	if ( path[0] == PATHSEPERATOR )
 		return;                   // absolute path location
-	strcpy (temp,path);
-	strcpy (path,basepath);
-	strcat (path,temp);
+	strcpy( temp, path );
+	strcpy( path, basepath );
+	strcat( path, temp );
 }
 
 /*
@@ -203,12 +186,11 @@ void DefaultPath (char *path, char *basepath)
 StripFilename
 ==============
 */
-void StripFilename (char *path)
-{
+void StripFilename( char *path ) {
 	int             length;
 
-	length = strlen(path)-1;
-	while (length > 0 && path[length] != PATHSEPERATOR) {
+	length = strlen( path ) - 1;
+	while ( length > 0 && path[length] != PATHSEPERATOR ) {
 		length--;
 	}
 	path[length] = 0;
@@ -219,18 +201,16 @@ void StripFilename (char *path)
 StripExtension
 ==============
 */
-void StripExtension (char *path)
-{
+void StripExtension( char *path ) {
 	int             length;
 
-	length = strlen(path)-1;
-	while (length > 0 && path[length] != '.')
-	{
+	length = strlen( path ) - 1;
+	while ( length > 0 && path[length] != '.' ) {
 		length--;
-		if (path[length] == '/')
+		if ( path[length] == '/' )
 			return;		// no extension
 	}
-	if (length) {
+	if ( length ) {
 		path[length] = 0;
 	}
 }

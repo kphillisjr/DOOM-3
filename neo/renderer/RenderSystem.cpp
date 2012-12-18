@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -44,66 +44,66 @@ only be called when the back end thread is idle.
 */
 static void R_PerformanceCounters( void ) {
 	if ( r_showPrimitives.GetInteger() != 0 ) {
-		
-		float megaBytes = globalImages->SumOfUsedImages() / ( 1024*1024.0 );
+
+		float megaBytes = globalImages->SumOfUsedImages() / ( 1024 * 1024.0 );
 
 		if ( r_showPrimitives.GetInteger() > 1 ) {
 			common->Printf( "v:%i ds:%i t:%i/%i v:%i/%i st:%i sv:%i image:%5.1f MB\n",
-				tr.pc.c_numViews,
-				backEnd.pc.c_drawElements + backEnd.pc.c_shadowElements,
-				backEnd.pc.c_drawIndexes / 3,
-				( backEnd.pc.c_drawIndexes - backEnd.pc.c_drawRefIndexes ) / 3,
-				backEnd.pc.c_drawVertexes,
-				( backEnd.pc.c_drawVertexes - backEnd.pc.c_drawRefVertexes ),
-				backEnd.pc.c_shadowIndexes / 3,
-				backEnd.pc.c_shadowVertexes,
-				megaBytes
-				);
+							tr.pc.c_numViews,
+							backEnd.pc.c_drawElements + backEnd.pc.c_shadowElements,
+							backEnd.pc.c_drawIndexes / 3,
+							( backEnd.pc.c_drawIndexes - backEnd.pc.c_drawRefIndexes ) / 3,
+							backEnd.pc.c_drawVertexes,
+							( backEnd.pc.c_drawVertexes - backEnd.pc.c_drawRefVertexes ),
+							backEnd.pc.c_shadowIndexes / 3,
+							backEnd.pc.c_shadowVertexes,
+							megaBytes
+						  );
 		} else {
 			common->Printf( "views:%i draws:%i tris:%i (shdw:%i) (vbo:%i) image:%5.1f MB\n",
-				tr.pc.c_numViews,
-				backEnd.pc.c_drawElements + backEnd.pc.c_shadowElements,
-				( backEnd.pc.c_drawIndexes + backEnd.pc.c_shadowIndexes ) / 3,
-				backEnd.pc.c_shadowIndexes / 3,
-				backEnd.pc.c_vboIndexes / 3,
-				megaBytes
-				);
+							tr.pc.c_numViews,
+							backEnd.pc.c_drawElements + backEnd.pc.c_shadowElements,
+							( backEnd.pc.c_drawIndexes + backEnd.pc.c_shadowIndexes ) / 3,
+							backEnd.pc.c_shadowIndexes / 3,
+							backEnd.pc.c_vboIndexes / 3,
+							megaBytes
+						  );
 		}
 	}
 
 	if ( r_showDynamic.GetBool() ) {
 		common->Printf( "callback:%i md5:%i dfrmVerts:%i dfrmTris:%i tangTris:%i guis:%i\n",
-			tr.pc.c_entityDefCallbacks,
-			tr.pc.c_generateMd5,
-			tr.pc.c_deformedVerts,
-			tr.pc.c_deformedIndexes/3,
-			tr.pc.c_tangentIndexes/3,
-			tr.pc.c_guiSurfs
-			); 
+						tr.pc.c_entityDefCallbacks,
+						tr.pc.c_generateMd5,
+						tr.pc.c_deformedVerts,
+						tr.pc.c_deformedIndexes / 3,
+						tr.pc.c_tangentIndexes / 3,
+						tr.pc.c_guiSurfs
+					  );
 	}
 
 	if ( r_showCull.GetBool() ) {
 		common->Printf( "%i sin %i sclip  %i sout %i bin %i bout\n",
-			tr.pc.c_sphere_cull_in, tr.pc.c_sphere_cull_clip, tr.pc.c_sphere_cull_out, 
-			tr.pc.c_box_cull_in, tr.pc.c_box_cull_out );
+						tr.pc.c_sphere_cull_in, tr.pc.c_sphere_cull_clip, tr.pc.c_sphere_cull_out,
+						tr.pc.c_box_cull_in, tr.pc.c_box_cull_out );
 	}
-	
+
 	if ( r_showAlloc.GetBool() ) {
 		common->Printf( "alloc:%i free:%i\n", tr.pc.c_alloc, tr.pc.c_free );
 	}
 
 	if ( r_showInteractions.GetBool() ) {
 		common->Printf( "createInteractions:%i createLightTris:%i createShadowVolumes:%i\n",
-			tr.pc.c_createInteractions, tr.pc.c_createLightTris, tr.pc.c_createShadowVolumes );
- 	}
+						tr.pc.c_createInteractions, tr.pc.c_createLightTris, tr.pc.c_createShadowVolumes );
+	}
 	if ( r_showDefs.GetBool() ) {
 		common->Printf( "viewEntities:%i  shadowEntities:%i  viewLights:%i\n", tr.pc.c_visibleViewEntities,
-			tr.pc.c_shadowViewEntities, tr.pc.c_viewLights );
+						tr.pc.c_shadowViewEntities, tr.pc.c_viewLights );
 	}
 	if ( r_showUpdates.GetBool() ) {
-		common->Printf( "entityUpdates:%i  entityRefs:%i  lightUpdates:%i  lightRefs:%i\n", 
-			tr.pc.c_entityUpdates, tr.pc.c_entityReferences,
-			tr.pc.c_lightUpdates, tr.pc.c_lightReferences );
+		common->Printf( "entityUpdates:%i  entityRefs:%i  lightUpdates:%i  lightRefs:%i\n",
+						tr.pc.c_entityUpdates, tr.pc.c_entityReferences,
+						tr.pc.c_lightUpdates, tr.pc.c_lightReferences );
 	}
 	if ( r_showMemory.GetBool() ) {
 		int	m1 = frameData ? frameData->memoryHighwater : 0;
@@ -128,7 +128,7 @@ Called by R_EndFrame each frame
 */
 static void R_IssueRenderCommands( void ) {
 	if ( frameData->cmdHead->commandId == RC_NOP
-		&& !frameData->cmdHead->next ) {
+			&& !frameData->cmdHead->next ) {
 		// nothing to issue
 		return;
 	}
@@ -152,7 +152,7 @@ static void R_IssueRenderCommands( void ) {
 ============
 R_GetCommandBuffer
 
-Returns memory for a command buffer (stretchPicCommand_t, 
+Returns memory for a command buffer (stretchPicCommand_t,
 drawSurfsCommand_t, etc) and links it to the end of the
 current command chain.
 ============
@@ -160,12 +160,12 @@ current command chain.
 void *R_GetCommandBuffer( int bytes ) {
 	emptyCommand_t	*cmd;
 
-	cmd = (emptyCommand_t *)R_FrameAlloc( bytes );
+	cmd = ( emptyCommand_t * )R_FrameAlloc( bytes );
 	cmd->next = NULL;
 	frameData->cmdTail->next = &cmd->commandId;
 	frameData->cmdTail = cmd;
 
-	return (void *)cmd;
+	return ( void * )cmd;
 }
 
 
@@ -179,7 +179,7 @@ and by R_ToggleSmpFrame
 */
 void R_ClearCommandChain( void ) {
 	// clear the command chain
-	frameData->cmdHead = frameData->cmdTail = (emptyCommand_t *)R_FrameAlloc( sizeof( *frameData->cmdHead ) );
+	frameData->cmdHead = frameData->cmdTail = ( emptyCommand_t * )R_FrameAlloc( sizeof( *frameData->cmdHead ) );
 	frameData->cmdHead->commandId = RC_NOP;
 	frameData->cmdHead->next = NULL;
 }
@@ -208,7 +208,7 @@ have multiple views if a mirror, portal, or dynamic texture is present.
 void	R_AddDrawViewCmd( viewDef_t *parms ) {
 	drawSurfsCommand_t	*cmd;
 
-	cmd = (drawSurfsCommand_t *)R_GetCommandBuffer( sizeof( *cmd ) );
+	cmd = ( drawSurfsCommand_t * )R_GetCommandBuffer( sizeof( *cmd ) );
 	cmd->commandId = RC_DRAW_VIEW;
 
 	cmd->viewDef = parms;
@@ -250,17 +250,17 @@ void R_LockSurfaceScene( viewDef_t *parms ) {
 	// set the matrix for world space to eye space
 	R_SetViewMatrix( parms );
 	tr.lockSurfacesCmd.viewDef->worldSpace = parms->worldSpace;
-	
+
 	// update the view origin and axis, and all
 	// the entity matricies
-	for( vModel = tr.lockSurfacesCmd.viewDef->viewEntitys ; vModel ; vModel = vModel->next ) {
-		myGlMultMatrix( vModel->modelMatrix, 
-			tr.lockSurfacesCmd.viewDef->worldSpace.modelViewMatrix,
-			vModel->modelViewMatrix );
+	for ( vModel = tr.lockSurfacesCmd.viewDef->viewEntitys ; vModel ; vModel = vModel->next ) {
+		myGlMultMatrix( vModel->modelMatrix,
+						tr.lockSurfacesCmd.viewDef->worldSpace.modelViewMatrix,
+						vModel->modelViewMatrix );
 	}
 
 	// add the stored off surface commands again
-	cmd = (drawSurfsCommand_t *)R_GetCommandBuffer( sizeof( *cmd ) );
+	cmd = ( drawSurfsCommand_t * )R_GetCommandBuffer( sizeof( *cmd ) );
 	*cmd = tr.lockSurfacesCmd;
 }
 
@@ -329,10 +329,10 @@ void idRenderSystemLocal::SetColor4( float r, float g, float b, float a ) {
 DrawStretchPic
 =============
 */
-void idRenderSystemLocal::DrawStretchPic( const idDrawVert *verts, const glIndex_t *indexes, int vertCount, int indexCount, const idMaterial *material, 
-									   bool clip, float min_x, float min_y, float max_x, float max_y ) {
+void idRenderSystemLocal::DrawStretchPic( const idDrawVert *verts, const glIndex_t *indexes, int vertCount, int indexCount, const idMaterial *material,
+		bool clip, float min_x, float min_y, float max_x, float max_y ) {
 	guiModel->DrawStretchPic( verts, indexes, vertCount, indexCount, material,
-		clip, min_x, min_y, max_x, max_y );
+							  clip, min_x, min_y, max_x, max_y );
 }
 
 /*
@@ -371,7 +371,7 @@ void idRenderSystemLocal::GlobalToNormalizedDeviceCoordinates( const idVec3 &glo
 GlobalToNormalizedDeviceCoordinates
 =============
 */
-void idRenderSystemLocal::GetGLSettings( int& width, int& height ) {
+void idRenderSystemLocal::GetGLSettings( int &width, int &height ) {
 	width = glConfig.vidWidth;
 	height = glConfig.vidHeight;
 }
@@ -406,9 +406,9 @@ void idRenderSystemLocal::DrawSmallChar( int x, int y, int ch, const idMaterial 
 	size = 0.0625f;
 
 	DrawStretchPic( x, y, SMALLCHAR_WIDTH, SMALLCHAR_HEIGHT,
-					   fcol, frow, 
-					   fcol + size, frow + size, 
-					   material );
+					fcol, frow,
+					fcol + size, frow + size,
+					material );
 }
 
 /*
@@ -427,16 +427,16 @@ void idRenderSystemLocal::DrawSmallStringExt( int x, int y, const char *string, 
 	int			xx;
 
 	// draw the colored text
-	s = (const unsigned char*)string;
+	s = ( const unsigned char * )string;
 	xx = x;
 	SetColor( setColor );
 	while ( *s ) {
-		if ( idStr::IsColor( (const char*)s ) ) {
+		if ( idStr::IsColor( ( const char * )s ) ) {
 			if ( !forceColor ) {
-				if ( *(s+1) == C_COLOR_DEFAULT ) {
+				if ( *( s + 1 ) == C_COLOR_DEFAULT ) {
 					SetColor( setColor );
 				} else {
-					color = idStr::ColorForIndex( *(s+1) );
+					color = idStr::ColorForIndex( *( s + 1 ) );
 					color[3] = setColor[3];
 					SetColor( color );
 				}
@@ -479,9 +479,9 @@ void idRenderSystemLocal::DrawBigChar( int x, int y, int ch, const idMaterial *m
 	size = 0.0625f;
 
 	DrawStretchPic( x, y, BIGCHAR_WIDTH, BIGCHAR_HEIGHT,
-					   fcol, frow, 
-					   fcol + size, frow + size, 
-					   material );
+					fcol, frow,
+					fcol + size, frow + size,
+					material );
 }
 
 /*
@@ -506,10 +506,10 @@ void idRenderSystemLocal::DrawBigStringExt( int x, int y, const char *string, co
 	while ( *s ) {
 		if ( idStr::IsColor( s ) ) {
 			if ( !forceColor ) {
-				if ( *(s+1) == C_COLOR_DEFAULT ) {
+				if ( *( s + 1 ) == C_COLOR_DEFAULT ) {
 					SetColor( setColor );
 				} else {
-					color = idStr::ColorForIndex( *(s+1) );
+					color = idStr::ColorForIndex( *( s + 1 ) );
 					color[3] = setColor[3];
 					SetColor( color );
 				}
@@ -582,28 +582,28 @@ void idRenderSystemLocal::SetBackEndRenderer() {
 	backEndRendererHasVertexPrograms = false;
 	backEndRendererMaxLight = 1.0;
 
-	switch( backEndRenderer ) {
-	case BE_ARB:
-		common->Printf( "using ARB renderSystem\n" );
-		break;
-	case BE_NV10:
-		common->Printf( "using NV10 renderSystem\n" );
-		break;
-	case BE_NV20:
-		common->Printf( "using NV20 renderSystem\n" );
-		backEndRendererHasVertexPrograms = true;
-		break;
-	case BE_R200:
-		common->Printf( "using R200 renderSystem\n" );
-		backEndRendererHasVertexPrograms = true;
-		break;
-	case BE_ARB2:
-		common->Printf( "using ARB2 renderSystem\n" );
-		backEndRendererHasVertexPrograms = true;
-		backEndRendererMaxLight = 999;
-		break;
-	default:
-		common->FatalError( "SetbackEndRenderer: bad back end" );
+	switch ( backEndRenderer ) {
+		case BE_ARB:
+			common->Printf( "using ARB renderSystem\n" );
+			break;
+		case BE_NV10:
+			common->Printf( "using NV10 renderSystem\n" );
+			break;
+		case BE_NV20:
+			common->Printf( "using NV20 renderSystem\n" );
+			backEndRendererHasVertexPrograms = true;
+			break;
+		case BE_R200:
+			common->Printf( "using R200 renderSystem\n" );
+			backEndRendererHasVertexPrograms = true;
+			break;
+		case BE_ARB2:
+			common->Printf( "using ARB2 renderSystem\n" );
+			backEndRendererHasVertexPrograms = true;
+			backEndRendererMaxLight = 999;
+			break;
+		default:
+			common->FatalError( "SetbackEndRenderer: bad back end" );
 	}
 
 	// clear the vertex cache if we are changing between
@@ -677,14 +677,14 @@ void idRenderSystemLocal::BeginFrame( int windowWidth, int windowHeight ) {
 	//
 	// draw buffer stuff
 	//
-	cmd = (setBufferCommand_t *)R_GetCommandBuffer( sizeof( *cmd ) );
+	cmd = ( setBufferCommand_t * )R_GetCommandBuffer( sizeof( *cmd ) );
 	cmd->commandId = RC_SET_BUFFER;
 	cmd->frameCount = frameCount;
 
 	if ( r_frontBuffer.GetBool() ) {
-		cmd->buffer = (int)GL_FRONT;
+		cmd->buffer = ( int )GL_FRONT;
 	} else {
-		cmd->buffer = (int)GL_BACK;
+		cmd->buffer = ( int )GL_BACK;
 	}
 }
 
@@ -730,11 +730,11 @@ void idRenderSystemLocal::EndFrame( int *frontEndMsec, int *backEndMsec ) {
 	// check for dynamic changes that require some initialization
 	R_CheckCvars();
 
-    // check for errors
+	// check for errors
 	GL_CheckErrors();
 
 	// add the swapbuffers command
-	cmd = (emptyCommand_t *)R_GetCommandBuffer( sizeof( *cmd ) );
+	cmd = ( emptyCommand_t * )R_GetCommandBuffer( sizeof( *cmd ) );
 	cmd->commandId = RC_SWAP_BUFFERS;
 
 	// start the back end up again with the new command list
@@ -767,8 +767,8 @@ Converts from SCREEN_WIDTH / SCREEN_HEIGHT coordinates to current cropped pixel 
 void idRenderSystemLocal::RenderViewToViewport( const renderView_t *renderView, idScreenRect *viewport ) {
 	renderCrop_t	*rc = &renderCrops[currentRenderCrop];
 
-	float wRatio = (float)rc->width / SCREEN_WIDTH;
-	float hRatio = (float)rc->height / SCREEN_HEIGHT;
+	float wRatio = ( float )rc->width / SCREEN_WIDTH;
+	float hRatio = ( float )rc->height / SCREEN_HEIGHT;
 
 	viewport->x1 = idMath::Ftoi( rc->x + renderView->x * wRatio );
 	viewport->x2 = idMath::Ftoi( rc->x + floor( ( renderView->x + renderView->width ) * wRatio + 0.5f ) - 1 );
@@ -784,10 +784,10 @@ static int RoundDownToPowerOfTwo( int v ) {
 			return v;
 		}
 		if ( ( 1 << i ) > v ) {
-			return 1 << ( i-1 );
+			return 1 << ( i - 1 );
 		}
 	}
-	return 1<<i;
+	return 1 << i;
 }
 
 /*
@@ -928,11 +928,11 @@ void idRenderSystemLocal::CaptureRenderToImage( const char *imageName ) {
 
 	// look up the image before we create the render command, because it
 	// may need to sync to create the image
-	idImage	*image = globalImages->ImageFromFile(imageName, TF_DEFAULT, true, TR_REPEAT, TD_DEFAULT);
+	idImage	*image = globalImages->ImageFromFile( imageName, TF_DEFAULT, true, TR_REPEAT, TD_DEFAULT );
 
 	renderCrop_t *rc = &renderCrops[currentRenderCrop];
 
-	copyRenderCommand_t *cmd = (copyRenderCommand_t *)R_GetCommandBuffer( sizeof( *cmd ) );
+	copyRenderCommand_t *cmd = ( copyRenderCommand_t * )R_GetCommandBuffer( sizeof( *cmd ) );
 	cmd->commandId = RC_COPY_RENDER;
 	cmd->x = rc->x;
 	cmd->y = rc->y;
@@ -964,11 +964,11 @@ void idRenderSystemLocal::CaptureRenderToFile( const char *fileName, bool fixAlp
 
 	// include extra space for OpenGL padding to word boundaries
 	int	c = ( rc->width + 3 ) * rc->height;
-	byte *data = (byte *)R_StaticAlloc( c * 3 );
-	
-	qglReadPixels( rc->x, rc->y, rc->width, rc->height, GL_RGB, GL_UNSIGNED_BYTE, data ); 
+	byte *data = ( byte * )R_StaticAlloc( c * 3 );
 
-	byte *data2 = (byte *)R_StaticAlloc( c * 4 );
+	qglReadPixels( rc->x, rc->y, rc->width, rc->height, GL_RGB, GL_UNSIGNED_BYTE, data );
+
+	byte *data2 = ( byte * )R_StaticAlloc( c * 4 );
 
 	for ( int i = 0 ; i < c ; i++ ) {
 		data2[ i * 4 ] = data[ i * 3 ];
@@ -1005,7 +1005,7 @@ void idRenderSystemLocal::FreeRenderWorld( idRenderWorld *rw ) {
 	if ( primaryWorld == rw ) {
 		primaryWorld = NULL;
 	}
-	worlds.Remove( static_cast<idRenderWorldLocal *>(rw) );
+	worlds.Remove( static_cast<idRenderWorldLocal *>( rw ) );
 	delete rw;
 }
 
@@ -1030,7 +1030,7 @@ void idRenderSystemLocal::PrintMemInfo( MemInfo_t *mi ) {
 idRenderSystemLocal::UploadImage
 ===============
 */
-bool idRenderSystemLocal::UploadImage( const char *imageName, const byte *data, int width, int height  ) {
+bool idRenderSystemLocal::UploadImage( const char *imageName, const byte *data, int width, int height ) {
 	idImage *image = globalImages->GetImage( imageName );
 	if ( !image ) {
 		return false;

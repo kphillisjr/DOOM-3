@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -47,10 +47,10 @@ idCVar bearTurretForce( "bearTurretForce", "200", CVAR_FLOAT, "" );
 
 /*
 *****************************************************************************
-* BSEntity	
+* BSEntity
 ****************************************************************************
 */
-BSEntity::BSEntity(idGameBearShootWindow* _game) {
+BSEntity::BSEntity( idGameBearShootWindow *_game ) {
 	game = _game;
 	visible = true;
 
@@ -79,18 +79,18 @@ void BSEntity::WriteToSaveGame( idFile *savefile ) {
 
 	game->WriteSaveGameString( materialName, savefile );
 
-	savefile->Write( &width, sizeof(width) );
-	savefile->Write( &height, sizeof(height) );
-	savefile->Write( &visible, sizeof(visible) );
+	savefile->Write( &width, sizeof( width ) );
+	savefile->Write( &height, sizeof( height ) );
+	savefile->Write( &visible, sizeof( visible ) );
 
-	savefile->Write( &entColor, sizeof(entColor) );
-	savefile->Write( &position, sizeof(position) );
-	savefile->Write( &rotation, sizeof(rotation) );
-	savefile->Write( &rotationSpeed, sizeof(rotationSpeed) );
-	savefile->Write( &velocity, sizeof(velocity) );
+	savefile->Write( &entColor, sizeof( entColor ) );
+	savefile->Write( &position, sizeof( position ) );
+	savefile->Write( &rotation, sizeof( rotation ) );
+	savefile->Write( &rotationSpeed, sizeof( rotationSpeed ) );
+	savefile->Write( &velocity, sizeof( velocity ) );
 
-	savefile->Write( &fadeIn, sizeof(fadeIn) );
-	savefile->Write( &fadeOut, sizeof(fadeOut) );
+	savefile->Write( &fadeIn, sizeof( fadeIn ) );
+	savefile->Write( &fadeOut, sizeof( fadeOut ) );
 }
 
 /*
@@ -98,24 +98,24 @@ void BSEntity::WriteToSaveGame( idFile *savefile ) {
 BSEntity::ReadFromSaveGame
 ======================
 */
-void BSEntity::ReadFromSaveGame( idFile *savefile, idGameBearShootWindow* _game ) {
+void BSEntity::ReadFromSaveGame( idFile *savefile, idGameBearShootWindow *_game ) {
 	game = _game;
 
 	game->ReadSaveGameString( materialName, savefile );
 	SetMaterial( materialName );
 
-	savefile->Read( &width, sizeof(width) );
-	savefile->Read( &height, sizeof(height) );
-	savefile->Read( &visible, sizeof(visible) );
+	savefile->Read( &width, sizeof( width ) );
+	savefile->Read( &height, sizeof( height ) );
+	savefile->Read( &visible, sizeof( visible ) );
 
-	savefile->Read( &entColor, sizeof(entColor) );
-	savefile->Read( &position, sizeof(position) );
-	savefile->Read( &rotation, sizeof(rotation) );
-	savefile->Read( &rotationSpeed, sizeof(rotationSpeed) );
-	savefile->Read( &velocity, sizeof(velocity) );
+	savefile->Read( &entColor, sizeof( entColor ) );
+	savefile->Read( &position, sizeof( position ) );
+	savefile->Read( &rotation, sizeof( rotation ) );
+	savefile->Read( &rotationSpeed, sizeof( rotationSpeed ) );
+	savefile->Read( &velocity, sizeof( velocity ) );
 
-	savefile->Read( &fadeIn, sizeof(fadeIn) );
-	savefile->Read( &fadeOut, sizeof(fadeOut) );
+	savefile->Read( &fadeIn, sizeof( fadeIn ) );
+	savefile->Read( &fadeOut, sizeof( fadeOut ) );
 }
 
 /*
@@ -123,7 +123,7 @@ void BSEntity::ReadFromSaveGame( idFile *savefile, idGameBearShootWindow* _game 
 BSEntity::SetMaterial
 ======================
 */
-void BSEntity::SetMaterial(const char* name) {
+void BSEntity::SetMaterial( const char *name ) {
 	materialName = name;
 	material = declManager->FindMaterial( name );
 	material->SetSort( SS_GUI );
@@ -154,7 +154,7 @@ BSEntity::Update
 ======================
 */
 void BSEntity::Update( float timeslice ) {
-	
+
 	if ( !visible ) {
 		return;
 	}
@@ -187,9 +187,9 @@ void BSEntity::Update( float timeslice ) {
 BSEntity::Draw
 ======================
 */
-void BSEntity::Draw(idDeviceContext *dc) {
+void BSEntity::Draw( idDeviceContext *dc ) {
 	if ( visible ) {
-		dc->DrawMaterialRotated( position.x, position.y, width, height, material, entColor, 1.0f, 1.0f, DEG2RAD(rotation) );
+		dc->DrawMaterialRotated( position.x, position.y, width, height, material, entColor, 1.0f, 1.0f, DEG2RAD( rotation ) );
 	}
 }
 
@@ -198,19 +198,19 @@ void BSEntity::Draw(idDeviceContext *dc) {
 * idGameBearShootWindow
 ****************************************************************************
 */
-idGameBearShootWindow::idGameBearShootWindow(idDeviceContext *d, idUserInterfaceLocal *g) : idWindow(d, g) {
+idGameBearShootWindow::idGameBearShootWindow( idDeviceContext *d, idUserInterfaceLocal *g ) : idWindow( d, g ) {
 	dc = d;
 	gui = g;
 	CommonInit();
 }
 
-idGameBearShootWindow::idGameBearShootWindow(idUserInterfaceLocal *g) : idWindow(g) {
+idGameBearShootWindow::idGameBearShootWindow( idUserInterfaceLocal *g ) : idWindow( g ) {
 	gui = g;
 	CommonInit();
 }
 
 idGameBearShootWindow::~idGameBearShootWindow() {
-	entities.DeleteContents(true);
+	entities.DeleteContents( true );
 }
 
 /*
@@ -226,45 +226,45 @@ void idGameBearShootWindow::WriteToSaveGame( idFile *savefile ) {
 	onContinue.WriteToSaveGame( savefile );
 	onNewGame.WriteToSaveGame( savefile );
 
-	savefile->Write( &timeSlice, sizeof(timeSlice) );
-	savefile->Write( &timeRemaining, sizeof(timeRemaining) );
-	savefile->Write( &gameOver, sizeof(gameOver) );
+	savefile->Write( &timeSlice, sizeof( timeSlice ) );
+	savefile->Write( &timeRemaining, sizeof( timeRemaining ) );
+	savefile->Write( &gameOver, sizeof( gameOver ) );
 
-	savefile->Write( &currentLevel, sizeof(currentLevel) );
-	savefile->Write( &goalsHit, sizeof(goalsHit) );
-	savefile->Write( &updateScore, sizeof(updateScore) );
-	savefile->Write( &bearHitTarget, sizeof(bearHitTarget) );
+	savefile->Write( &currentLevel, sizeof( currentLevel ) );
+	savefile->Write( &goalsHit, sizeof( goalsHit ) );
+	savefile->Write( &updateScore, sizeof( updateScore ) );
+	savefile->Write( &bearHitTarget, sizeof( bearHitTarget ) );
 
-	savefile->Write( &bearScale, sizeof(bearScale) );
-	savefile->Write( &bearIsShrinking, sizeof(bearIsShrinking) );
-	savefile->Write( &bearShrinkStartTime, sizeof(bearShrinkStartTime) );
+	savefile->Write( &bearScale, sizeof( bearScale ) );
+	savefile->Write( &bearIsShrinking, sizeof( bearIsShrinking ) );
+	savefile->Write( &bearShrinkStartTime, sizeof( bearShrinkStartTime ) );
 
-	savefile->Write( &turretAngle, sizeof(turretAngle) );
-	savefile->Write( &turretForce, sizeof(turretForce) );
+	savefile->Write( &turretAngle, sizeof( turretAngle ) );
+	savefile->Write( &turretForce, sizeof( turretForce ) );
 
-	savefile->Write( &windForce, sizeof(windForce) );
-	savefile->Write( &windUpdateTime, sizeof(windUpdateTime) );
+	savefile->Write( &windForce, sizeof( windForce ) );
+	savefile->Write( &windUpdateTime, sizeof( windUpdateTime ) );
 
 	int numberOfEnts = entities.Num();
-	savefile->Write( &numberOfEnts, sizeof(numberOfEnts) );
+	savefile->Write( &numberOfEnts, sizeof( numberOfEnts ) );
 
-	for ( int i=0; i<numberOfEnts; i++ ) {
+	for ( int i = 0; i < numberOfEnts; i++ ) {
 		entities[i]->WriteToSaveGame( savefile );
 	}
 
 	int index;
 	index = entities.FindIndex( turret );
-	savefile->Write( &index, sizeof(index) );
+	savefile->Write( &index, sizeof( index ) );
 	index = entities.FindIndex( bear );
-	savefile->Write( &index, sizeof(index) );
+	savefile->Write( &index, sizeof( index ) );
 	index = entities.FindIndex( helicopter );
-	savefile->Write( &index, sizeof(index) );
+	savefile->Write( &index, sizeof( index ) );
 	index = entities.FindIndex( goal );
-	savefile->Write( &index, sizeof(index) );
+	savefile->Write( &index, sizeof( index ) );
 	index = entities.FindIndex( wind );
-	savefile->Write( &index, sizeof(index) );
+	savefile->Write( &index, sizeof( index ) );
 	index = entities.FindIndex( gunblast );
-	savefile->Write( &index, sizeof(index) );
+	savefile->Write( &index, sizeof( index ) );
 }
 
 /*
@@ -276,36 +276,36 @@ void idGameBearShootWindow::ReadFromSaveGame( idFile *savefile ) {
 	idWindow::ReadFromSaveGame( savefile );
 
 	// Remove all existing entities
-	entities.DeleteContents(true);
+	entities.DeleteContents( true );
 
 	gamerunning.ReadFromSaveGame( savefile );
 	onFire.ReadFromSaveGame( savefile );
 	onContinue.ReadFromSaveGame( savefile );
 	onNewGame.ReadFromSaveGame( savefile );
 
-	savefile->Read( &timeSlice, sizeof(timeSlice) );
-	savefile->Read( &timeRemaining, sizeof(timeRemaining) );
-	savefile->Read( &gameOver, sizeof(gameOver) );
+	savefile->Read( &timeSlice, sizeof( timeSlice ) );
+	savefile->Read( &timeRemaining, sizeof( timeRemaining ) );
+	savefile->Read( &gameOver, sizeof( gameOver ) );
 
-	savefile->Read( &currentLevel, sizeof(currentLevel) );
-	savefile->Read( &goalsHit, sizeof(goalsHit) );
-	savefile->Read( &updateScore, sizeof(updateScore) );
-	savefile->Read( &bearHitTarget, sizeof(bearHitTarget) );
+	savefile->Read( &currentLevel, sizeof( currentLevel ) );
+	savefile->Read( &goalsHit, sizeof( goalsHit ) );
+	savefile->Read( &updateScore, sizeof( updateScore ) );
+	savefile->Read( &bearHitTarget, sizeof( bearHitTarget ) );
 
-	savefile->Read( &bearScale, sizeof(bearScale) );
-	savefile->Read( &bearIsShrinking, sizeof(bearIsShrinking) );
-	savefile->Read( &bearShrinkStartTime, sizeof(bearShrinkStartTime) );
+	savefile->Read( &bearScale, sizeof( bearScale ) );
+	savefile->Read( &bearIsShrinking, sizeof( bearIsShrinking ) );
+	savefile->Read( &bearShrinkStartTime, sizeof( bearShrinkStartTime ) );
 
-	savefile->Read( &turretAngle, sizeof(turretAngle) );
-	savefile->Read( &turretForce, sizeof(turretForce) );
+	savefile->Read( &turretAngle, sizeof( turretAngle ) );
+	savefile->Read( &turretForce, sizeof( turretForce ) );
 
-	savefile->Read( &windForce, sizeof(windForce) );
-	savefile->Read( &windUpdateTime, sizeof(windUpdateTime) );
+	savefile->Read( &windForce, sizeof( windForce ) );
+	savefile->Read( &windUpdateTime, sizeof( windUpdateTime ) );
 
 	int numberOfEnts;
-	savefile->Read( &numberOfEnts, sizeof(numberOfEnts) );
+	savefile->Read( &numberOfEnts, sizeof( numberOfEnts ) );
 
-	for ( int i=0; i<numberOfEnts; i++ ) {
+	for ( int i = 0; i < numberOfEnts; i++ ) {
 		BSEntity *ent;
 
 		ent = new BSEntity( this );
@@ -314,17 +314,17 @@ void idGameBearShootWindow::ReadFromSaveGame( idFile *savefile ) {
 	}
 
 	int index;
-	savefile->Read( &index, sizeof(index) );
+	savefile->Read( &index, sizeof( index ) );
 	turret = entities[index];
-	savefile->Read( &index, sizeof(index) );
+	savefile->Read( &index, sizeof( index ) );
 	bear = entities[index];
-	savefile->Read( &index, sizeof(index) );
+	savefile->Read( &index, sizeof( index ) );
 	helicopter = entities[index];
-	savefile->Read( &index, sizeof(index) );
+	savefile->Read( &index, sizeof( index ) );
 	goal = entities[index];
-	savefile->Read( &index, sizeof(index) );
+	savefile->Read( &index, sizeof( index ) );
 	wind = entities[index];
-	savefile->Read( &index, sizeof(index) );
+	savefile->Read( &index, sizeof( index ) );
 	gunblast = entities[index];
 }
 
@@ -363,7 +363,7 @@ idGameBearShootWindow::CommonInit
 =============================
 */
 void idGameBearShootWindow::CommonInit() {
-	BSEntity *			ent;
+	BSEntity 			*ent;
 
 	// Precache sounds
 	declManager->FindSound( "arcade_beargroan" );
@@ -439,19 +439,19 @@ void idGameBearShootWindow::CommonInit() {
 idGameBearShootWindow::HandleEvent
 =============================
 */
-const char *idGameBearShootWindow::HandleEvent(const sysEvent_t *event, bool *updateVisuals) {
+const char *idGameBearShootWindow::HandleEvent( const sysEvent_t *event, bool *updateVisuals ) {
 	int key = event->evValue;
 
 	// need to call this to allow proper focus and capturing on embedded children
-	const char *ret = idWindow::HandleEvent(event, updateVisuals);
+	const char *ret = idWindow::HandleEvent( event, updateVisuals );
 
 	if ( event->evType == SE_KEY ) {
 
 		if ( !event->evValue2 ) {
 			return ret;
 		}
-		if ( key == K_MOUSE1) {
-			// Mouse was clicked	
+		if ( key == K_MOUSE1 ) {
+			// Mouse was clicked
 		} else {
 			return ret;
 		}
@@ -465,25 +465,25 @@ const char *idGameBearShootWindow::HandleEvent(const sysEvent_t *event, bool *up
 idGameBearShootWindow::ParseInternalVar
 =============================
 */
-bool idGameBearShootWindow::ParseInternalVar(const char *_name, idParser *src) {
-	if ( idStr::Icmp(_name, "gamerunning") == 0 ) {
+bool idGameBearShootWindow::ParseInternalVar( const char *_name, idParser *src ) {
+	if ( idStr::Icmp( _name, "gamerunning" ) == 0 ) {
 		gamerunning = src->ParseBool();
 		return true;
 	}
-	if ( idStr::Icmp(_name, "onFire") == 0 ) {
+	if ( idStr::Icmp( _name, "onFire" ) == 0 ) {
 		onFire = src->ParseBool();
 		return true;
 	}
-	if ( idStr::Icmp(_name, "onContinue") == 0 ) {
+	if ( idStr::Icmp( _name, "onContinue" ) == 0 ) {
 		onContinue = src->ParseBool();
 		return true;
 	}
-	if ( idStr::Icmp(_name, "onNewGame") == 0 ) {
+	if ( idStr::Icmp( _name, "onNewGame" ) == 0 ) {
 		onNewGame = src->ParseBool();
 		return true;
 	}
 
-	return idWindow::ParseInternalVar(_name, src);
+	return idWindow::ParseInternalVar( _name, src );
 }
 
 /*
@@ -491,24 +491,24 @@ bool idGameBearShootWindow::ParseInternalVar(const char *_name, idParser *src) {
 idGameBearShootWindow::GetWinVarByName
 =============================
 */
-idWinVar *idGameBearShootWindow::GetWinVarByName(const char *_name, bool winLookup, drawWin_t** owner) {
+idWinVar *idGameBearShootWindow::GetWinVarByName( const char *_name, bool winLookup, drawWin_t **owner ) {
 	idWinVar *retVar = NULL;
 
-	if ( idStr::Icmp(_name, "gamerunning") == 0 ) {
+	if ( idStr::Icmp( _name, "gamerunning" ) == 0 ) {
 		retVar = &gamerunning;
-	} else 	if ( idStr::Icmp(_name, "onFire") == 0 ) {
+	} else 	if ( idStr::Icmp( _name, "onFire" ) == 0 ) {
 		retVar = &onFire;
-	} else 	if ( idStr::Icmp(_name, "onContinue") == 0 ) {
+	} else 	if ( idStr::Icmp( _name, "onContinue" ) == 0 ) {
 		retVar = &onContinue;
-	} else 	if ( idStr::Icmp(_name, "onNewGame") == 0 ) {
+	} else 	if ( idStr::Icmp( _name, "onNewGame" ) == 0 ) {
 		retVar = &onNewGame;
 	}
 
-	if(retVar) {
+	if ( retVar ) {
 		return retVar;
 	}
 
-	return idWindow::GetWinVarByName(_name, winLookup, owner);
+	return idWindow::GetWinVarByName( _name, winLookup, owner );
 }
 
 /*
@@ -525,14 +525,14 @@ void idGameBearShootWindow::PostParse() {
 idGameBearShootWindow::Draw
 =============================
 */
-void idGameBearShootWindow::Draw(int time, float x, float y) {
+void idGameBearShootWindow::Draw( int time, float x, float y ) {
 	int i;
 
 	//Update the game every frame before drawing
 	UpdateGame();
 
-	for( i = entities.Num()-1; i >= 0; i-- ) {
-		entities[i]->Draw(dc);
+	for ( i = entities.Num() - 1; i >= 0; i-- ) {
+		entities[i]->Draw( dc );
 	}
 }
 
@@ -541,7 +541,7 @@ void idGameBearShootWindow::Draw(int time, float x, float y) {
 idGameBearShootWindow::Activate
 =============================
 */
-const char *idGameBearShootWindow::Activate(bool activate) {
+const char *idGameBearShootWindow::Activate( bool activate ) {
 	return "";
 }
 
@@ -593,11 +593,11 @@ void idGameBearShootWindow::UpdateBear() {
 		idVec2 bearCenter;
 		bool	collision = false;
 
-		bearCenter.x = bear->position.x + bear->width/2;
-		bearCenter.y = bear->position.y + bear->height/2;
+		bearCenter.x = bear->position.x + bear->width / 2;
+		bearCenter.y = bear->position.y + bear->height / 2;
 
-		if ( bearCenter.x > (helicopter->position.x + 16) && bearCenter.x < (helicopter->position.x + helicopter->width - 29) ) {
-			if ( bearCenter.y > (helicopter->position.y + 12) && bearCenter.y < (helicopter->position.y + helicopter->height - 7) ) {
+		if ( bearCenter.x > ( helicopter->position.x + 16 ) && bearCenter.x < ( helicopter->position.x + helicopter->width - 29 ) ) {
+			if ( bearCenter.y > ( helicopter->position.y + 12 ) && bearCenter.y < ( helicopter->position.y + helicopter->height - 7 ) ) {
 				collision = true;
 			}
 		}
@@ -660,9 +660,9 @@ void idGameBearShootWindow::UpdateBear() {
 
 	if ( bearIsShrinking ) {
 		if ( bearHitTarget ) {
-			bearScale = 1 - ( (float)(time - bearShrinkStartTime) / BEAR_SHRINK_TIME );
+			bearScale = 1 - ( ( float )( time - bearShrinkStartTime ) / BEAR_SHRINK_TIME );
 		} else {
-			bearScale = 1 - ( (float)(time - bearShrinkStartTime) / 750 );
+			bearScale = 1 - ( ( float )( time - bearShrinkStartTime ) / 750 );
 		}
 		bearScale *= BEAR_SIZE;
 		bear->SetSize( bearScale, bearScale );
@@ -677,11 +677,11 @@ void idGameBearShootWindow::UpdateBear() {
 				goal->position.x = 550;
 				goal->position.y = 164;
 				goal->velocity.Zero();
-				goal->velocity.y = (currentLevel-1) * 30;
+				goal->velocity.y = ( currentLevel - 1 ) * 30;
 				goal->entColor.w = 0.f;
 				goal->fadeIn = true;
 				goal->fadeOut = false;
-				
+
 				helicopter->SetVisible( true );
 				helicopter->SetMaterial( "game/bearshoot/helicopter" );
 				helicopter->position.x = 550;
@@ -717,7 +717,7 @@ void idGameBearShootWindow::UpdateHelicopter() {
 		}
 	} else if ( currentLevel > 1 ) {
 		int height = helicopter->position.y;
-		float speed = (currentLevel-1) * 30;
+		float speed = ( currentLevel - 1 ) * 30;
 
 		if ( height > 240 ) {
 			helicopter->velocity.y = -speed;
@@ -746,9 +746,9 @@ void idGameBearShootWindow::UpdateButtons() {
 		bearScale = 1.f;
 		bear->SetSize( BEAR_SIZE, BEAR_SIZE );
 
-		vec.x = idMath::Cos( DEG2RAD(turretAngle) );
+		vec.x = idMath::Cos( DEG2RAD( turretAngle ) );
 		vec.x += ( 1 - vec.x ) * 0.18f;
-		vec.y = -idMath::Sin( DEG2RAD(turretAngle) );
+		vec.y = -idMath::Sin( DEG2RAD( turretAngle ) );
 
 		turretForce = bearTurretForce.GetFloat();
 
@@ -783,12 +783,12 @@ void idGameBearShootWindow::UpdateScore() {
 	}
 
 	goalsHit++;
-	gui->SetStateString( "player_score", va("%i", goalsHit ) );
+	gui->SetStateString( "player_score", va( "%i", goalsHit ) );
 
 	// Check for level progression
-	if ( !(goalsHit % 5) ) {
+	if ( !( goalsHit % 5 ) ) {
 		currentLevel++;
-		gui->SetStateString( "current_level", va("%i", currentLevel ) );
+		gui->SetStateString( "current_level", va( "%i", currentLevel ) );
 		session->sw->PlayShaderDirectly( "arcade_levelcomplete1", 3 );
 
 		timeRemaining += 30;
@@ -826,7 +826,7 @@ void idGameBearShootWindow::UpdateGame() {
 		onContinue = false;
 	}
 
-	if(gamerunning == true) {
+	if ( gamerunning == true ) {
 		int current_time = gui->GetTime();
 		idRandom rnd( current_time );
 
@@ -846,7 +846,7 @@ void idGameBearShootWindow::UpdateGame() {
 			int		width;
 
 			windForce = rnd.CRandomFloat() * ( MAX_WINDFORCE * 0.75f );
-			if (windForce > 0) {
+			if ( windForce > 0 ) {
 				windForce += ( MAX_WINDFORCE * 0.25f );
 				wind->rotation = 0;
 			} else {
@@ -854,8 +854,8 @@ void idGameBearShootWindow::UpdateGame() {
 				wind->rotation = 180;
 			}
 
-			scale = 1.f - (( MAX_WINDFORCE - idMath::Fabs(windForce) ) / MAX_WINDFORCE);
-			width = 100*scale;
+			scale = 1.f - ( ( MAX_WINDFORCE - idMath::Fabs( windForce ) ) / MAX_WINDFORCE );
+			width = 100 * scale;
 
 			if ( windForce < 0 ) {
 				wind->position.x = 500 - width + 1;
@@ -864,7 +864,7 @@ void idGameBearShootWindow::UpdateGame() {
 			}
 			wind->SetSize( width, 40 );
 
-			windUpdateTime = current_time + 7000 + rnd.RandomInt(5000);
+			windUpdateTime = current_time + 7000 + rnd.RandomInt( 5000 );
 		}
 
 		// Update turret rotation angle
@@ -873,14 +873,14 @@ void idGameBearShootWindow::UpdateGame() {
 			turret->rotation = turretAngle;
 		}
 
-		for( i = 0; i < entities.Num(); i++ ) {
+		for ( i = 0; i < entities.Num(); i++ ) {
 			entities[i]->Update( timeSlice );
 		}
 
 		// Update countdown timer
 		timeRemaining -= timeSlice;
 		timeRemaining = idMath::ClampFloat( 0.f, 99999.f, timeRemaining );
-		gui->SetStateString( "time_remaining", va("%2.1f", timeRemaining ) );
+		gui->SetStateString( "time_remaining", va( "%2.1f", timeRemaining ) );
 
 		if ( timeRemaining <= 0.f && !gameOver ) {
 			gameOver = true;

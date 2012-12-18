@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -78,16 +78,14 @@ void idCollisionModelManagerLocal::TraceTrmThroughNode( cm_traceWork_t *tw, cm_n
 				return;
 			}
 		}
-	}
-	else if ( tw->rotation ) {
+	} else if ( tw->rotation ) {
 		// rotate through all polygons in this leaf
 		for ( pref = node->polygons; pref; pref = pref->next ) {
 			if ( idCollisionModelManagerLocal::RotateTrmThroughPolygon( tw, pref->p ) ) {
 				return;
 			}
 		}
-	}
-	else {
+	} else {
 		// trace through all polygons in this leaf
 		for ( pref = node->polygons; pref; pref = pref->next ) {
 			if ( idCollisionModelManagerLocal::TranslateTrmThroughPolygon( tw, pref->p ) ) {
@@ -104,7 +102,7 @@ idCollisionModelManagerLocal::TraceThroughAxialBSPTree_r
 */
 //#define NO_SPATIAL_SUBDIVISION
 
-void idCollisionModelManagerLocal::TraceThroughAxialBSPTree_r( cm_traceWork_t *tw, cm_node_t *node, float p1f, float p2f, idVec3 &p1, idVec3 &p2) {
+void idCollisionModelManagerLocal::TraceThroughAxialBSPTree_r( cm_traceWork_t *tw, cm_node_t *node, float p1f, float p2f, idVec3 &p1, idVec3 &p2 ) {
 	float		t1, t2, offset;
 	float		frac, frac2;
 	float		idist;
@@ -125,7 +123,7 @@ void idCollisionModelManagerLocal::TraceThroughAxialBSPTree_r( cm_traceWork_t *t
 	}
 
 	// if we need to test this node for collisions
-	if ( node->polygons || (tw->positionTest && node->brushes) ) {
+	if ( node->polygons || ( tw->positionTest && node->brushes ) ) {
 		// trace through node with collision data
 		idCollisionModelManagerLocal::TraceTrmThroughNode( tw, node );
 	}
@@ -159,15 +157,15 @@ void idCollisionModelManagerLocal::TraceThroughAxialBSPTree_r( cm_traceWork_t *t
 	}
 
 	if ( t1 < t2 ) {
-		idist = 1.0f / (t1-t2);
+		idist = 1.0f / ( t1 - t2 );
 		side = 1;
-		frac2 = (t1 + offset) * idist;
-		frac = (t1 - offset) * idist;
-	} else if (t1 > t2) {
-		idist = 1.0f / (t1-t2);
+		frac2 = ( t1 + offset ) * idist;
+		frac = ( t1 - offset ) * idist;
+	} else if ( t1 > t2 ) {
+		idist = 1.0f / ( t1 - t2 );
 		side = 0;
-		frac2 = (t1 - offset) * idist;
-		frac = (t1 + offset) * idist;
+		frac2 = ( t1 - offset ) * idist;
+		frac = ( t1 + offset ) * idist;
 	} else {
 		side = 0;
 		frac = 1.0f;
@@ -177,16 +175,15 @@ void idCollisionModelManagerLocal::TraceThroughAxialBSPTree_r( cm_traceWork_t *t
 	// move up to the node
 	if ( frac < 0.0f ) {
 		frac = 0.0f;
-	}
-	else if ( frac > 1.0f ) {
+	} else if ( frac > 1.0f ) {
 		frac = 1.0f;
 	}
 
-	midf = p1f + (p2f - p1f)*frac;
+	midf = p1f + ( p2f - p1f ) * frac;
 
-	mid[0] = p1[0] + frac*(p2[0] - p1[0]);
-	mid[1] = p1[1] + frac*(p2[1] - p1[1]);
-	mid[2] = p1[2] + frac*(p2[2] - p1[2]);
+	mid[0] = p1[0] + frac * ( p2[0] - p1[0] );
+	mid[1] = p1[1] + frac * ( p2[1] - p1[1] );
+	mid[2] = p1[2] + frac * ( p2[2] - p1[2] );
 
 	idCollisionModelManagerLocal::TraceThroughAxialBSPTree_r( tw, node->children[side], p1f, midf, p1, mid );
 
@@ -194,18 +191,17 @@ void idCollisionModelManagerLocal::TraceThroughAxialBSPTree_r( cm_traceWork_t *t
 	// go past the node
 	if ( frac2 < 0.0f ) {
 		frac2 = 0.0f;
-	}
-	else if ( frac2 > 1.0f ) {
+	} else if ( frac2 > 1.0f ) {
 		frac2 = 1.0f;
 	}
-		
-	midf = p1f + (p2f - p1f)*frac2;
 
-	mid[0] = p1[0] + frac2*(p2[0] - p1[0]);
-	mid[1] = p1[1] + frac2*(p2[1] - p1[1]);
-	mid[2] = p1[2] + frac2*(p2[2] - p1[2]);
+	midf = p1f + ( p2f - p1f ) * frac2;
 
-	idCollisionModelManagerLocal::TraceThroughAxialBSPTree_r( tw, node->children[side^1], midf, p2f, mid, p2 );
+	mid[0] = p1[0] + frac2 * ( p2[0] - p1[0] );
+	mid[1] = p1[1] + frac2 * ( p2[1] - p1[1] );
+	mid[2] = p1[2] + frac2 * ( p2[2] - p1[2] );
+
+	idCollisionModelManagerLocal::TraceThroughAxialBSPTree_r( tw, node->children[side ^ 1], midf, p2f, mid, p2 );
 }
 
 /*
@@ -222,21 +218,20 @@ void idCollisionModelManagerLocal::TraceThroughModel( cm_traceWork_t *tw ) {
 	if ( !tw->rotation ) {
 		// trace through spatial subdivision and then through leafs
 		idCollisionModelManagerLocal::TraceThroughAxialBSPTree_r( tw, tw->model->node, 0, 1, tw->start, tw->end );
-	}
-	else {
+	} else {
 		// approximate the rotation with a series of straight line movements
 		// total length covered along circle
 		d = tw->radius * DEG2RAD( tw->angle );
 		// if more than one step
 		if ( d > CIRCLE_APPROXIMATION_LENGTH ) {
 			// number of steps for the approximation
-			numSteps = (int) (CIRCLE_APPROXIMATION_LENGTH / d);
+			numSteps = ( int )( CIRCLE_APPROXIMATION_LENGTH / d );
 			// start of approximation
 			start = tw->start;
 			// trace circle approximation steps through the BSP tree
 			for ( i = 0; i < numSteps; i++ ) {
 				// calculate next point on approximated circle
-				rot.Set( tw->origin, tw->axis, tw->angle * ((float) (i+1) / numSteps) );
+				rot.Set( tw->origin, tw->axis, tw->angle * ( ( float )( i + 1 ) / numSteps ) );
 				end = start * rot;
 				// trace through spatial subdivision and then through leafs
 				idCollisionModelManagerLocal::TraceThroughAxialBSPTree_r( tw, tw->model->node, 0, 1, start, end );
@@ -246,8 +241,7 @@ void idCollisionModelManagerLocal::TraceThroughModel( cm_traceWork_t *tw ) {
 				}
 				start = end;
 			}
-		}
-		else {
+		} else {
 			start = tw->start;
 		}
 		// last step of the approximation

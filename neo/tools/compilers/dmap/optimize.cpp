@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -157,7 +157,7 @@ static	void UnlinkEdge( optEdge_t *e, optIsland_t *island ) {
 	RemoveEdgeFromVert( e, e->v1 );
 	RemoveEdgeFromVert( e, e->v2 );
 
-	for ( prev = &island->edges ; *prev ; prev = &(*prev)->islandLink ) {
+	for ( prev = &island->edges ; *prev ; prev = &( *prev )->islandLink ) {
 		if ( *prev == e ) {
 			*prev = e->islandLink;
 			return;
@@ -212,7 +212,7 @@ static optVertex_t *FindOptVertex( idDrawVert *v, optimizeGroup_t *opt ) {
 		common->Error( "MAX_OPT_VERTEXES" );
 		return NULL;
 	}
-	
+
 	numOptVerts++;
 
 	vert = &optVerts[i];
@@ -345,8 +345,8 @@ This should only be called if PointsStraddleLine returned true
 Will return NULL if the lines are colinear
 ====================
 */
-static	optVertex_t *EdgeIntersection( const optVertex_t *p1, const optVertex_t *p2, 
-									  const optVertex_t *l1, const optVertex_t *l2, optimizeGroup_t *opt ) {
+static	optVertex_t *EdgeIntersection( const optVertex_t *p1, const optVertex_t *p2,
+									   const optVertex_t *l1, const optVertex_t *l2, optimizeGroup_t *opt ) {
 	float	f;
 	idDrawVert	*v;
 	idVec3	dir1, dir2, cross1, cross2;
@@ -366,7 +366,7 @@ static	optVertex_t *EdgeIntersection( const optVertex_t *p1, const optVertex_t *
 	f = cross1[2] / ( cross1[2] - cross2[2] );
 
 	// FIXME: how are we freeing this, since it doesn't belong to a tri?
-	v = (idDrawVert *)Mem_Alloc( sizeof( *v ) );
+	v = ( idDrawVert * )Mem_Alloc( sizeof( *v ) );
 	memset( v, 0, sizeof( *v ) );
 
 	v->xyz = p1->v.xyz * ( 1.0 - f ) + p2->v.xyz * f;
@@ -484,7 +484,7 @@ static	bool TryAddNewEdge( optVertex_t *v1, optVertex_t *v2, optIsland_t *island
 
 	if ( dmapGlobals.drawflag ) {
 		qglBegin( GL_LINES );
-		qglColor3f( 0, ( 128 + orandom.RandomInt( 127 ) )/ 255.0, 0 );
+		qglColor3f( 0, ( 128 + orandom.RandomInt( 127 ) ) / 255.0, 0 );
 		qglVertex3fv( v1->pv.ToFloatPtr() );
 		qglVertex3fv( v2->pv.ToFloatPtr() );
 		qglEnd();
@@ -515,8 +515,8 @@ typedef struct {
 static	int LengthSort( const void *a, const void *b ) {
 	const edgeLength_t	*ea, *eb;
 
-	ea = (const edgeLength_t	*)a;
-	eb = (const edgeLength_t	*)b;
+	ea = ( const edgeLength_t * )a;
+	eb = ( const edgeLength_t * )b;
 	if ( ea->length < eb->length ) {
 		return -1;
 	}
@@ -553,7 +553,7 @@ static	void AddInteriorEdges( optIsland_t *island ) {
 	}
 
 	// allocate space for all the lengths
-	lengths = (edgeLength_t *)Mem_Alloc( sizeof( *lengths ) * c_verts * c_verts / 2 );
+	lengths = ( edgeLength_t * )Mem_Alloc( sizeof( *lengths ) * c_verts * c_verts / 2 );
 	numLengths = 0;
 	for ( vert = island->verts ; vert ; vert = vert->islandLink ) {
 		if ( !vert->edges ) {
@@ -715,8 +715,8 @@ static	void RemoveIfColinear( optVertex_t *ov, optIsland_t *island ) {
 	// sliver triangle out of existance, and all the edges
 	// can be removed
 	for ( e = island->edges ; e ; e = e->islandLink ) {
-		if ( ( e->v1 == v1 && e->v2 == v3 ) 
-		|| ( e->v1 == v3 && e->v2 == v1 ) ) {
+		if ( ( e->v1 == v1 && e->v2 == v3 )
+				|| ( e->v1 == v3 && e->v2 == v1 ) ) {
 			UnlinkEdge( e, island );
 			RemoveIfColinear( v1, island );
 			RemoveIfColinear( v3, island );
@@ -852,7 +852,7 @@ static bool IsTriangleDegenerate( const optVertex_t *v1, const optVertex_t *v2, 
 	}
 	return false;
 #else
-	return (bool)!IsTriangleValid( v1, v2, v3 );
+	return ( bool )!IsTriangleValid( v1, v2, v3 );
 #endif
 }
 
@@ -903,8 +903,8 @@ LinkTriToEdge
 */
 static void LinkTriToEdge( optTri_t *optTri, optEdge_t *edge ) {
 	if ( ( edge->v1 == optTri->v[0] && edge->v2 == optTri->v[1] )
-		|| ( edge->v1 == optTri->v[1] && edge->v2 == optTri->v[2] )
-		|| ( edge->v1 == optTri->v[2] && edge->v2 == optTri->v[0] ) ) {
+			|| ( edge->v1 == optTri->v[1] && edge->v2 == optTri->v[2] )
+			|| ( edge->v1 == optTri->v[2] && edge->v2 == optTri->v[0] ) ) {
 		if ( edge->backTri ) {
 			common->Printf( "Warning: LinkTriToEdge: already in use\n" );
 			return;
@@ -913,8 +913,8 @@ static void LinkTriToEdge( optTri_t *optTri, optEdge_t *edge ) {
 		return;
 	}
 	if ( ( edge->v1 == optTri->v[1] && edge->v2 == optTri->v[0] )
-		|| ( edge->v1 == optTri->v[2] && edge->v2 == optTri->v[1] )
-		|| ( edge->v1 == optTri->v[0] && edge->v2 == optTri->v[2] ) ) {
+			|| ( edge->v1 == optTri->v[2] && edge->v2 == optTri->v[1] )
+			|| ( edge->v1 == optTri->v[0] && edge->v2 == optTri->v[2] ) ) {
 		if ( edge->frontTri ) {
 			common->Printf( "Warning: LinkTriToEdge: already in use\n" );
 			return;
@@ -958,15 +958,15 @@ static void CreateOptTri( optVertex_t *first, optEdge_t *e1, optEdge_t *e2, optI
 
 //DrawEdges( island );
 
-		// identify the third edge
+	// identify the third edge
 	if ( dmapGlobals.drawflag ) {
-		qglColor3f(1,1,0);
+		qglColor3f( 1, 1, 0 );
 		qglBegin( GL_LINES );
 		qglVertex3fv( e1->v1->pv.ToFloatPtr() );
 		qglVertex3fv( e1->v2->pv.ToFloatPtr() );
 		qglEnd();
 		qglFlush();
-		qglColor3f(0,1,1);
+		qglColor3f( 0, 1, 1 );
 		qglBegin( GL_LINES );
 		qglVertex3fv( e2->v1->pv.ToFloatPtr() );
 		qglVertex3fv( e2->v2->pv.ToFloatPtr() );
@@ -993,7 +993,7 @@ static void CreateOptTri( optVertex_t *first, optEdge_t *e1, optEdge_t *e2, optI
 	}
 
 	if ( dmapGlobals.drawflag ) {
-		qglColor3f(1,0,1);
+		qglColor3f( 1, 0, 1 );
 		qglBegin( GL_LINES );
 		qglVertex3fv( opposite->v1->pv.ToFloatPtr() );
 		qglVertex3fv( opposite->v2->pv.ToFloatPtr() );
@@ -1002,7 +1002,7 @@ static void CreateOptTri( optVertex_t *first, optEdge_t *e1, optEdge_t *e2, optI
 	}
 
 	// create new triangle
-	optTri = (optTri_t *)Mem_Alloc( sizeof( *optTri ) );
+	optTri = ( optTri_t * )Mem_Alloc( sizeof( *optTri ) );
 	optTri->v[0] = first;
 	optTri->v[1] = second;
 	optTri->v[2] = third;
@@ -1033,7 +1033,7 @@ static void CreateOptTri( optVertex_t *first, optEdge_t *e1, optEdge_t *e2, optI
 	}
 	if ( dmapGlobals.drawflag ) {
 		if ( optTri->filled ) {
-			qglColor3f( ( 128 + orandom.RandomInt( 127 ) )/ 255.0, 0, 0 );
+			qglColor3f( ( 128 + orandom.RandomInt( 127 ) ) / 255.0, 0, 0 );
 		} else {
 			qglColor3f( 0, ( 128 + orandom.RandomInt( 127 ) ) / 255.0, 0 );
 		}
@@ -1110,21 +1110,21 @@ static void BuildOptTriangles( optIsland_t *island ) {
 		}
 
 #if 0
-if ( dmapGlobals.drawflag && ov == (optVertex_t *)0x1845a60 ) {
-for ( e1 = ov->edges ; e1 ; e1 = e1Next ) {
-	qglBegin( GL_LINES );
-	qglColor3f( 0,1,0 );
-	qglVertex3fv( e1->v1->pv.ToFloatPtr() );
-	qglVertex3fv( e1->v2->pv.ToFloatPtr() );
-	qglEnd();
-	qglFlush();
-	if ( e1->v1 == ov ) {
-		e1Next = e1->v1link;
-	} else if ( e1->v2 == ov ) {
-		e1Next = e1->v2link;
-	}
-}
-}
+		if ( dmapGlobals.drawflag && ov == ( optVertex_t * )0x1845a60 ) {
+			for ( e1 = ov->edges ; e1 ; e1 = e1Next ) {
+				qglBegin( GL_LINES );
+				qglColor3f( 0, 1, 0 );
+				qglVertex3fv( e1->v1->pv.ToFloatPtr() );
+				qglVertex3fv( e1->v2->pv.ToFloatPtr() );
+				qglEnd();
+				qglFlush();
+				if ( e1->v1 == ov ) {
+					e1Next = e1->v1link;
+				} else if ( e1->v2 == ov ) {
+					e1Next = e1->v2link;
+				}
+			}
+		}
 #endif
 		for ( e1 = ov->edges ; e1 ; e1 = e1Next ) {
 			if ( e1->v1 == ov ) {
@@ -1183,8 +1183,8 @@ for ( e1 = ov->edges ; e1 ; e1 = e1Next ) {
 						continue;
 					}
 
-					if ( IsTriangleValid( ov, second, middle ) 
-						&& IsTriangleValid( ov, middle, third ) ) {
+					if ( IsTriangleValid( ov, second, middle )
+							&& IsTriangleValid( ov, middle, third ) ) {
 						break;	// should use the subdivided ones
 					}
 				}
@@ -1398,7 +1398,7 @@ static void AddOriginalTriangle( optVertex_t *v[3] ) {
 
 	for ( int i = 0 ; i < 3 ; i++ ) {
 		v1 = v[i];
-		v2 = v[(i+1)%3];
+		v2 = v[( i + 1 ) % 3];
 
 		if ( v1 == v2 ) {
 			// this probably shouldn't happen, because the
@@ -1444,7 +1444,7 @@ static	void AddOriginalEdges( optimizeGroup_t *opt ) {
 
 	// allocate space for max possible edges
 	numTris = CountTriList( opt->triList );
-	originalEdges = (originalEdges_t *)Mem_Alloc( numTris * 3 * sizeof( *originalEdges ) );
+	originalEdges = ( originalEdges_t * )Mem_Alloc( numTris * 3 * sizeof( *originalEdges ) );
 	numOriginalEdges = 0;
 
 	// add all unique triangle edges
@@ -1482,7 +1482,7 @@ void SplitOriginalEdgesAtCrossings( optimizeGroup_t *opt ) {
 	dmapGlobals.drawBounds[1][1] += 2;
 
 	// generate crossing points between all the original edges
-	crossings = (edgeCrossing_t **)Mem_ClearedAlloc( numOriginalEdges * sizeof( *crossings ) );
+	crossings = ( edgeCrossing_t ** )Mem_ClearedAlloc( numOriginalEdges * sizeof( *crossings ) );
 
 	for ( i = 0 ; i < numOriginalEdges ; i++ ) {
 		if ( dmapGlobals.drawflag ) {
@@ -1495,7 +1495,7 @@ void SplitOriginalEdgesAtCrossings( optimizeGroup_t *opt ) {
 			qglEnd();
 			qglFlush();
 		}
-		for ( j = i+1 ; j < numOriginalEdges ; j++ ) {
+		for ( j = i + 1 ; j < numOriginalEdges ; j++ ) {
 			optVertex_t	*v1, *v2, *v3, *v4;
 			optVertex_t	*newVert;
 			edgeCrossing_t	*cross;
@@ -1516,32 +1516,32 @@ void SplitOriginalEdgesAtCrossings( optimizeGroup_t *opt ) {
 			newVert = EdgeIntersection( v1, v2, v3, v4, opt );
 
 			if ( !newVert ) {
-//common->Printf( "lines %i (%i to %i) and %i (%i to %i) are colinear\n", i, v1 - optVerts, v2 - optVerts, 
+//common->Printf( "lines %i (%i to %i) and %i (%i to %i) are colinear\n", i, v1 - optVerts, v2 - optVerts,
 //		   j, v3 - optVerts, v4 - optVerts );	// !@#
 				// colinear, so add both verts of each edge to opposite
 				if ( VertexBetween( v3, v1, v2 ) ) {
-					cross = (edgeCrossing_t *)Mem_ClearedAlloc( sizeof( *cross ) );
+					cross = ( edgeCrossing_t * )Mem_ClearedAlloc( sizeof( *cross ) );
 					cross->ov = v3;
 					cross->next = crossings[i];
 					crossings[i] = cross;
 				}
 
 				if ( VertexBetween( v4, v1, v2 ) ) {
-					cross = (edgeCrossing_t *)Mem_ClearedAlloc( sizeof( *cross ) );
+					cross = ( edgeCrossing_t * )Mem_ClearedAlloc( sizeof( *cross ) );
 					cross->ov = v4;
 					cross->next = crossings[i];
 					crossings[i] = cross;
 				}
 
 				if ( VertexBetween( v1, v3, v4 ) ) {
-					cross = (edgeCrossing_t *)Mem_ClearedAlloc( sizeof( *cross ) );
+					cross = ( edgeCrossing_t * )Mem_ClearedAlloc( sizeof( *cross ) );
 					cross->ov = v1;
 					cross->next = crossings[j];
 					crossings[j] = cross;
 				}
 
 				if ( VertexBetween( v2, v3, v4 ) ) {
-					cross = (edgeCrossing_t *)Mem_ClearedAlloc( sizeof( *cross ) );
+					cross = ( edgeCrossing_t * )Mem_ClearedAlloc( sizeof( *cross ) );
 					cross->ov = v2;
 					cross->next = crossings[j];
 					crossings[j] = cross;
@@ -1550,23 +1550,23 @@ void SplitOriginalEdgesAtCrossings( optimizeGroup_t *opt ) {
 				continue;
 			}
 #if 0
-if ( newVert && newVert != v1 && newVert != v2 && newVert != v3 && newVert != v4 ) {
-common->Printf( "lines %i (%i to %i) and %i (%i to %i) cross at new point %i\n", i, v1 - optVerts, v2 - optVerts, 
-		   j, v3 - optVerts, v4 - optVerts, newVert - optVerts );
-} else if ( newVert ) {
-common->Printf( "lines %i (%i to %i) and %i (%i to %i) intersect at old point %i\n", i, v1 - optVerts, v2 - optVerts, 
-		  j, v3 - optVerts, v4 - optVerts, newVert - optVerts );
-}
+			if ( newVert && newVert != v1 && newVert != v2 && newVert != v3 && newVert != v4 ) {
+				common->Printf( "lines %i (%i to %i) and %i (%i to %i) cross at new point %i\n", i, v1 - optVerts, v2 - optVerts,
+								j, v3 - optVerts, v4 - optVerts, newVert - optVerts );
+			} else if ( newVert ) {
+				common->Printf( "lines %i (%i to %i) and %i (%i to %i) intersect at old point %i\n", i, v1 - optVerts, v2 - optVerts,
+								j, v3 - optVerts, v4 - optVerts, newVert - optVerts );
+			}
 #endif
 			if ( newVert != v1 && newVert != v2 ) {
-				cross = (edgeCrossing_t *)Mem_ClearedAlloc( sizeof( *cross ) );
+				cross = ( edgeCrossing_t * )Mem_ClearedAlloc( sizeof( *cross ) );
 				cross->ov = newVert;
 				cross->next = crossings[i];
 				crossings[i] = cross;
 			}
 
 			if ( newVert != v3 && newVert != v4 ) {
-				cross = (edgeCrossing_t *)Mem_ClearedAlloc( sizeof( *cross ) );
+				cross = ( edgeCrossing_t * )Mem_ClearedAlloc( sizeof( *cross ) );
 				cross->ov = newVert;
 				cross->next = crossings[j];
 				crossings[j] = cross;
@@ -1588,7 +1588,7 @@ common->Printf( "lines %i (%i to %i) and %i (%i to %i) intersect at old point %i
 			numCross++;
 		}
 		numCross += 2;	// account for originals
-		sorted = (optVertex_t **)Mem_Alloc( numCross * sizeof( *sorted ) );
+		sorted = ( optVertex_t ** )Mem_Alloc( numCross * sizeof( *sorted ) );
 		sorted[0] = originalEdges[i].v1;
 		sorted[1] = originalEdges[i].v2;
 		j = 2;
@@ -1602,7 +1602,7 @@ common->Printf( "lines %i (%i to %i) and %i (%i to %i) intersect at old point %i
 		// add all possible fragment combinations that aren't divided
 		// by another point
 		for ( j = 0 ; j < numCross ; j++ ) {
-			for ( k = j+1 ; k < numCross ; k++ ) {
+			for ( k = j + 1 ; k < numCross ; k++ ) {
 				for ( l = 0 ; l < numCross ; l++ ) {
 					if ( sorted[l] == sorted[j] || sorted[l] == sorted[k] ) {
 						continue;
@@ -1630,9 +1630,9 @@ common->Printf( "lines %i (%i to %i) and %i (%i to %i) intersect at old point %i
 
 	// check for duplicated edges
 	for ( i = 0 ; i < numOptEdges ; i++ ) {
-		for ( j = i+1 ; j < numOptEdges ; j++ ) {
-			if ( ( optEdges[i].v1 == optEdges[j].v1 && optEdges[i].v2 == optEdges[j].v2 ) 
-				|| ( optEdges[i].v1 == optEdges[j].v2 && optEdges[i].v2 == optEdges[j].v1 ) ) {
+		for ( j = i + 1 ; j < numOptEdges ; j++ ) {
+			if ( ( optEdges[i].v1 == optEdges[j].v1 && optEdges[i].v2 == optEdges[j].v2 )
+					|| ( optEdges[i].v1 == optEdges[j].v2 && optEdges[i].v2 == optEdges[j].v1 ) ) {
 				common->Printf( "duplicated optEdge\n" );
 			}
 		}
@@ -1675,7 +1675,7 @@ static void CullUnusedVerts( optIsland_t *island ) {
 		} else {
 			edge = vert->edges;
 			if ( ( edge->v1 == vert && !edge->v1link )
-				|| ( edge->v2 == vert && !edge->v2link ) ) {
+					|| ( edge->v2 == vert && !edge->v2link ) ) {
 				// is is occasionally possible to get a vert
 				// with only a single edge when colinear optimizations
 				// crunch down a complex sliver

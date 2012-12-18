@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -37,47 +37,59 @@ idCVar s_device( "s_device", "-1", CVAR_SYSTEM | CVAR_ARCHIVE | CVAR_INTEGER, "S
 class idAudioHardwareOSX : public idAudioHardware {
 public:
 	idAudioHardwareOSX();
-    ~idAudioHardwareOSX();
+	~idAudioHardwareOSX();
 
-    bool	Initialize( );
+	bool	Initialize( );
 
 	// OSX driver doesn't support memory map API
-	bool	Lock( void **pDSLockedBuffer, ulong *dwDSLockedBufferSize ) { return false; }
-	bool	Unlock( void *pDSLockedBuffer, dword dwDSLockedBufferSize ) { return false; }
-	bool	GetCurrentPosition( ulong *pdwCurrentWriteCursor ) { return false; }
-	int		GetMixBufferSize( void )  { return 0; }
-	
+	bool	Lock( void **pDSLockedBuffer, ulong *dwDSLockedBufferSize ) {
+		return false;
+	}
+	bool	Unlock( void *pDSLockedBuffer, dword dwDSLockedBufferSize ) {
+		return false;
+	}
+	bool	GetCurrentPosition( ulong *pdwCurrentWriteCursor ) {
+		return false;
+	}
+	int		GetMixBufferSize( void )  {
+		return 0;
+	}
+
 	int		GetNumberOfSpeakers( void );
 
 	// OSX driver doesn't support write API
-	bool	Flush( void ) { return false; }
+	bool	Flush( void ) {
+		return false;
+	}
 	void	Write( bool ) { }
-	short*	GetMixBuffer( void ) { return NULL; }
-	
+	short	*GetMixBuffer( void ) {
+		return NULL;
+	}
+
 private:
 	AudioDeviceID		selectedDevice;
 	bool				activeIOProc;
 
 	void				Reset( void );
 	void				InitFailed( void );
-	const char*			ExtractStatus( OSStatus status );
+	const char			*ExtractStatus( OSStatus status );
 	void				GetAvailableNominalSampleRates( void );
 
 	// AudioDevicePropertyListenerProc
 	static OSStatus		DeviceListener(	AudioDeviceID			inDevice,
-	   									UInt32					inChannel,
+										UInt32					inChannel,
 										Boolean					isInput,
 										AudioDevicePropertyID	inPropertyID,
-										void*					inClientData );
+										void					*inClientData );
 
 	// AudioDeviceIOProc
 	static OSStatus		DeviceIOProc( AudioDeviceID				inDevice,
-									  const AudioTimeStamp*		inNow,
-									  const AudioBufferList*	inInputData,
-									  const AudioTimeStamp*		inInputTime,
-									  AudioBufferList*			outOutputData, 
-									  const AudioTimeStamp*		inOutputTime,
-									  void*						inClientData );
+									  const AudioTimeStamp		*inNow,
+									  const AudioBufferList	*inInputData,
+									  const AudioTimeStamp		*inInputTime,
+									  AudioBufferList			*outOutputData,
+									  const AudioTimeStamp		*inOutputTime,
+									  void						*inClientData );
 };
 
 /*
@@ -85,7 +97,9 @@ private:
 iAudioHardware::Alloc
 ==========
 */
-idAudioHardware *idAudioHardware::Alloc() { return new idAudioHardwareOSX; }
+idAudioHardware *idAudioHardware::Alloc() {
+	return new idAudioHardwareOSX;
+}
 
 /*
 ==========
@@ -139,8 +153,8 @@ void idAudioHardwareOSX::Reset() {
 /*
 =================
 idAudioHardwareOSX::InitFailed
-=================	
-*/	
+=================
+*/
 void idAudioHardwareOSX::InitFailed() {
 	Reset();
 	cvarSystem->SetCVarBool( "s_noSound", true );
@@ -154,10 +168,10 @@ idAudioHardwareOSX::DeviceListener
 ==========
 */
 OSStatus idAudioHardwareOSX::DeviceListener(	AudioDeviceID			inDevice,
-												UInt32					inChannel,
-												Boolean					isInput,
-												AudioDevicePropertyID	inPropertyID,
-												void*					inClientData) {
+		UInt32					inChannel,
+		Boolean					isInput,
+		AudioDevicePropertyID	inPropertyID,
+		void					*inClientData ) {
 	common->Printf( "DeviceListener\n" );
 	return kAudioHardwareNoError;
 }
@@ -168,20 +182,20 @@ idAudioHardwareOSX::DeviceIOProc
 ==========
 */
 OSStatus idAudioHardwareOSX::DeviceIOProc( AudioDeviceID			inDevice,
-										   const AudioTimeStamp*	inNow,
-										   const AudioBufferList*	inInputData,
-										   const AudioTimeStamp*	inInputTime,
-										   AudioBufferList*			outOutputData, 
-										   const AudioTimeStamp*	inOutputTime,
-										   void*					inClientData ) {
+		const AudioTimeStamp	*inNow,
+		const AudioBufferList	*inInputData,
+		const AudioTimeStamp	*inInputTime,
+		AudioBufferList			*outOutputData,
+		const AudioTimeStamp	*inOutputTime,
+		void					*inClientData ) {
 
 	// setup similar to async thread
 	Sys_EnterCriticalSection();
-	soundSystem->AsyncMix( (int)inOutputTime->mSampleTime, (float*)outOutputData->mBuffers[ 0 ].mData );
+	soundSystem->AsyncMix( ( int )inOutputTime->mSampleTime, ( float * )outOutputData->mBuffers[ 0 ].mData );
 	Sys_LeaveCriticalSection();
 
 	// doom mixes sound to -32768.0f 32768.0f range, scale down to -1.0f 1.0f
-	SIMDProcessor->Mul( (Float32*)outOutputData->mBuffers[ 0 ].mData, 1.0f / 32768.0f, (Float32*)outOutputData->mBuffers[ 0 ].mData, MIXBUFFER_SAMPLES * 2 );
+	SIMDProcessor->Mul( ( Float32 * )outOutputData->mBuffers[ 0 ].mData, 1.0f / 32768.0f, ( Float32 * )outOutputData->mBuffers[ 0 ].mData, MIXBUFFER_SAMPLES * 2 );
 
 	return kAudioHardwareNoError;
 }
@@ -191,9 +205,9 @@ OSStatus idAudioHardwareOSX::DeviceIOProc( AudioDeviceID			inDevice,
 idAudioHardwareOSX::ExtractStatus
 ==========
 */
-const char*	idAudioHardwareOSX::ExtractStatus( OSStatus status ) {
+const char	*idAudioHardwareOSX::ExtractStatus( OSStatus status ) {
 	static char buf[ sizeof( OSStatus ) + 1 ];
-	strncpy( buf, (const char *)&status, sizeof( OSStatus ) );
+	strncpy( buf, ( const char * )&status, sizeof( OSStatus ) );
 	buf[ sizeof( OSStatus ) ] = '\0';
 	return buf;
 }
@@ -225,7 +239,7 @@ bool idAudioHardwareOSX::Initialize( ) {
 		return false;
 	}
 
-	deviceList = (AudioDeviceID*)malloc( size );
+	deviceList = ( AudioDeviceID * )malloc( size );
 	status = AudioHardwareGetProperty( kAudioHardwarePropertyDevices, &size, deviceList );
 	if ( status != kAudioHardwareNoError ) {
 		common->Warning( "AudioHardwareGetProperty kAudioHardwarePropertyDevices failed. status: %s", ExtractStatus( status ) );
@@ -235,7 +249,7 @@ bool idAudioHardwareOSX::Initialize( ) {
 	}
 
 	common->Printf( "%d sound device(s)\n", deviceCount );
-	for( i = 0; i < deviceCount; i++ ) {
+	for ( i = 0; i < deviceCount; i++ ) {
 		size = 1024;
 		status = AudioDeviceGetProperty( deviceList[ i ], 0, false, kAudioDevicePropertyDeviceName, &size, buf );
 		if ( status != kAudioHardwareNoError ) {
@@ -300,7 +314,7 @@ bool idAudioHardwareOSX::Initialize( ) {
 		GetAvailableNominalSampleRates();
 
 		sampleRate = PRIMARYFREQ;
-		common->Printf( "setting rate to: %g\n", sampleRate );		
+		common->Printf( "setting rate to: %g\n", sampleRate );
 		status = AudioDeviceSetProperty( selectedDevice, NULL, 0, false, kAudioDevicePropertyNominalSampleRate, size, &sampleRate );
 		if ( status != kAudioHardwareNoError ) {
 			common->Warning( "AudioDeviceSetProperty %d kAudioDevicePropertyNominalSampleRate %g failed. status: %s", selectedDevice, sampleRate, ExtractStatus( status ) );
@@ -336,7 +350,7 @@ bool idAudioHardwareOSX::Initialize( ) {
 		return false;
 	}
 
-	if ( frameSize != (unsigned int)MIXBUFFER_SAMPLES ) {
+	if ( frameSize != ( unsigned int )MIXBUFFER_SAMPLES ) {
 		frameSize = MIXBUFFER_SAMPLES;
 		common->Printf( "setting frame size to: %d\n", frameSize );
 		size = sizeof( frameSize );
@@ -405,7 +419,7 @@ void idAudioHardwareOSX::GetAvailableNominalSampleRates( void ) {
 		return;
 	}
 	rangeCount = size / sizeof( AudioValueRange );
-	rangeArray = (AudioValueRange *)malloc( size );
+	rangeArray = ( AudioValueRange * )malloc( size );
 
 	common->Printf( "%d possible rate(s)\n", rangeCount );
 
@@ -416,7 +430,7 @@ void idAudioHardwareOSX::GetAvailableNominalSampleRates( void ) {
 		return;
 	}
 
-	for( i = 0; i < rangeCount; i++ ) {
+	for ( i = 0; i < rangeCount; i++ ) {
 		common->Printf( "  %d: min %g max %g\n", i, rangeArray[ i ].mMinimum, rangeArray[ i ].mMaximum );
 	}
 
@@ -440,7 +454,7 @@ int	idAudioHardwareOSX::GetNumberOfSpeakers() {
 bool Sys_LoadOpenAL( void ) {
 	OSErr	err;
 	long gestaltOSVersion;
-	err = Gestalt(gestaltSystemVersion, &gestaltOSVersion);
+	err = Gestalt( gestaltSystemVersion, &gestaltOSVersion );
 	if ( err || gestaltOSVersion < 0x1040 ) {
 		return false;
 	}

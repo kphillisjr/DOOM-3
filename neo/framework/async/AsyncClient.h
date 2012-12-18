@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -75,7 +75,7 @@ typedef struct {
 
 class idAsyncClient {
 public:
-						idAsyncClient();
+	idAsyncClient();
 
 	void				Shutdown( void );
 	bool				InitPort( void );
@@ -91,10 +91,16 @@ public:
 	void				ListServers( void );
 	void				ClearServers( void );
 	void				RemoteConsole( const char *command );
-	bool				IsPortInitialized() { return clientPort.GetPort() != 0; }
+	bool				IsPortInitialized() {
+		return clientPort.GetPort() != 0;
+	}
 
-	bool				IsActive( void ) const { return active; }
-	int					GetLocalClientNum( void ) const { return clientNum; }
+	bool				IsActive( void ) const {
+		return active;
+	}
+	int					GetLocalClientNum( void ) const {
+		return clientNum;
+	}
 	int					GetPrediction( void ) const;
 	int					GetTimeSinceLastPacket( void ) const;
 	int					GetOutgoingRate( void ) const;
@@ -102,7 +108,9 @@ public:
 	float				GetOutgoingCompression( void ) const;
 	float				GetIncomingCompression( void ) const;
 	float				GetIncomingPacketLoss( void ) const;
-	int					GetPredictedFrames( void ) const { return lastFrameDelta; }
+	int					GetPredictedFrames( void ) const {
+		return lastFrameDelta;
+	}
 
 	void				RunFrame( void );
 	void				SendReliableGameMessage( const idBitMsg &msg );
@@ -133,7 +141,7 @@ private:
 	int					serverId;					// server identification
 	int					serverChallenge;			// challenge from server
 	int					serverMessageSequence;		// sequence number of last server message
-	
+
 	netadr_t			lastRconAddress;			// last rcon address we emitted to
 	int					lastRconTime;				// when last rcon emitted
 
@@ -154,7 +162,7 @@ private:
 
 	usercmd_t			userCmds[MAX_USERCMD_BACKUP][MAX_ASYNC_CLIENTS];
 
-	idUserInterface *	guiNetMenu;
+	idUserInterface 	*guiNetMenu;
 
 	clientUpdateState_t updateState;
 	int					updateSentTime;
@@ -203,13 +211,13 @@ private:
 	void				ProcessPureMessage( const netadr_t from, const idBitMsg &msg );
 	bool				ValidatePureServerChecksums( const netadr_t from, const idBitMsg &msg );
 	void				ProcessReliableMessagePure( const idBitMsg &msg );
-	static const char*	HandleGuiCommand( const char *cmd );
-	const char*			HandleGuiCommandInternal( const char *cmd );
+	static const char	*HandleGuiCommand( const char *cmd );
+	const char			*HandleGuiCommandInternal( const char *cmd );
 	void				SendVersionDLUpdate( int state );
 	void				HandleDownloads( void );
 	void				Idle( void );
 	int					UpdateTime( int clamp );
-	void				ReadLocalizedServerString( const idBitMsg &msg, char* out, int maxLen );
+	void				ReadLocalizedServerString( const idBitMsg &msg, char *out, int maxLen );
 	bool				CheckTimeout( void );
 	void				ProcessDownloadInfoMessage( const netadr_t from, const idBitMsg &msg );
 	int					GetDownloadRequest( const int checksums[ MAX_PURE_PAKS ], int count, int gamePakChecksum );

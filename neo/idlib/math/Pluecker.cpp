@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -69,9 +69,9 @@ float idPluecker::Distance3DSqr( const idPluecker &a ) const {
 	if ( dir[0] == 0.0f && dir[1] == 0.0f && dir[2] == 0.0f ) {
 		return -1.0f;	// FIXME: implement for parallel lines
 	}
-	d = a.p[4] * ( p[2]*dir[1] - -p[5]*dir[0]) +
-		a.p[5] * ( p[2]*dir[2] -  p[4]*dir[0]) +
-		a.p[2] * (-p[5]*dir[2] -  p[4]*dir[1]);
+	d = a.p[4] * ( p[2] * dir[1] - -p[5] * dir[0] ) +
+		a.p[5] * ( p[2] * dir[2] -  p[4] * dir[0] ) +
+		a.p[2] * ( -p[5] * dir[2] -  p[4] * dir[1] );
 	s = PermutedInnerProduct( a ) / d;
 	return ( dir * dir ) * ( s * s );
 }

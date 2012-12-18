@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -47,23 +47,29 @@ typedef struct jointConversion_s {
 } jointConversion_t;
 
 typedef struct afTouch_s {
-	idEntity *				touchedEnt;
-	idClipModel *			touchedClipModel;
-	idAFBody *				touchedByBody;
+	idEntity 				*touchedEnt;
+	idClipModel 			*touchedClipModel;
+	idAFBody 				*touchedByBody;
 } afTouch_t;
 
 class idAF {
 public:
-							idAF( void );
-							~idAF( void );
+	idAF( void );
+	~idAF( void );
 
 	void					Save( idSaveGame *savefile ) const;
 	void					Restore( idRestoreGame *savefile );
 
-	void					SetAnimator( idAnimator *a ) { animator = a; }
+	void					SetAnimator( idAnimator *a ) {
+		animator = a;
+	}
 	bool					Load( idEntity *ent, const char *fileName );
-	bool					IsLoaded( void ) const { return isLoaded && self != NULL; }
-	const char *			GetName( void ) const { return name.c_str(); }
+	bool					IsLoaded( void ) const {
+		return isLoaded && self != NULL;
+	}
+	const char 			*GetName( void ) const {
+		return name.c_str();
+	}
 	void					SetupPose( idEntity *ent, int time );
 	void					ChangePose( idEntity *ent, int time );
 	int						EntitiesTouchingAF( afTouch_t touchList[ MAX_GENTITIES ] ) const;
@@ -71,11 +77,17 @@ public:
 	void					StartFromCurrentPose( int inheritVelocityTime );
 	void					Stop( void );
 	void					Rest( void );
-	bool					IsActive( void ) const { return isActive; }
+	bool					IsActive( void ) const {
+		return isActive;
+	}
 	void					SetConstraintPosition( const char *name, const idVec3 &pos );
 
-	idPhysics_AF *			GetPhysics( void ) { return &physicsObj; }
-	const idPhysics_AF *	GetPhysics( void ) const { return &physicsObj; }
+	idPhysics_AF 			*GetPhysics( void ) {
+		return &physicsObj;
+	}
+	const idPhysics_AF 	*GetPhysics( void ) const {
+		return &physicsObj;
+	}
 	idBounds				GetBounds( void ) const;
 	bool					UpdateAnimation( void );
 
@@ -94,8 +106,8 @@ public:
 protected:
 	idStr					name;				// name of the loaded .af file
 	idPhysics_AF			physicsObj;			// articulated figure physics
-	idEntity *				self;				// entity using the animated model
-	idAnimator *			animator;			// animator on entity
+	idEntity 				*self;				// entity using the animated model
+	idAnimator 			*animator;			// animator on entity
 	int						modifiedAnim;		// anim to modify
 	idVec3					baseOrigin;			// offset of base body relative to skeletal model origin
 	idMat3					baseAxis;			// axis of base body relative to skeletal model origin

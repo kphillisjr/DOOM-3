@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -49,7 +49,7 @@ void idCmdArgs::operator=( const idCmdArgs &args ) {
 idCmdArgs::Args
 ============
 */
-const char *idCmdArgs::Args(  int start, int end, bool escapeArgs ) const {
+const char *idCmdArgs::Args( int start, int end, bool escapeArgs ) const {
 	static char cmd_args[MAX_COMMAND_STRING];
 	int		i;
 
@@ -78,7 +78,7 @@ const char *idCmdArgs::Args(  int start, int end, bool escapeArgs ) const {
 				} else {
 					int l = strlen( cmd_args );
 					cmd_args[ l ] = *p;
-					cmd_args[ l+1 ] = '\0';
+					cmd_args[ l + 1 ] = '\0';
 				}
 				p++;
 			}
@@ -117,11 +117,11 @@ void idCmdArgs::TokenizeString( const char *text, bool keepAsStrings ) {
 
 	lex.LoadMemory( text, strlen( text ), "idCmdSystemLocal::TokenizeString" );
 	lex.SetFlags( LEXFL_NOERRORS
-				| LEXFL_NOWARNINGS
-				| LEXFL_NOSTRINGCONCAT
-				| LEXFL_ALLOWPATHNAMES
-				| LEXFL_NOSTRINGESCAPECHARS
-				| LEXFL_ALLOWIPADDRESSES | ( keepAsStrings ? LEXFL_ONLYSTRINGS : 0 ) );
+				  | LEXFL_NOWARNINGS
+				  | LEXFL_NOSTRINGCONCAT
+				  | LEXFL_ALLOWPATHNAMES
+				  | LEXFL_NOSTRINGESCAPECHARS
+				  | LEXFL_ALLOWIPADDRESSES | ( keepAsStrings ? LEXFL_ONLYSTRINGS : 0 ) );
 
 	totalLen = 0;
 
@@ -180,7 +180,7 @@ void idCmdArgs::AppendArg( const char *text ) {
 		argv[ 0 ] = tokenized;
 		idStr::Copynz( tokenized, text, sizeof( tokenized ) );
 	} else {
-		argv[ argc ] = argv[ argc-1 ] + strlen( argv[ argc-1 ] ) + 1;
+		argv[ argc ] = argv[ argc - 1 ] + strlen( argv[ argc - 1 ] ) + 1;
 		idStr::Copynz( argv[ argc ], text, sizeof( tokenized ) - ( argv[ argc ] - tokenized ) );
 		argc++;
 	}
@@ -193,6 +193,6 @@ idCmdArgs::GetArgs
 */
 const char **idCmdArgs::GetArgs( int *_argc ) {
 	*_argc = argc;
-	return (const char **)&argv[0];
+	return ( const char ** )&argv[0];
 }
 

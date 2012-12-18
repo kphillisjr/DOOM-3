@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -55,7 +55,7 @@ class idEntityFx : public idEntity {
 public:
 	CLASS_PROTOTYPE( idEntityFx );
 
-							idEntityFx();
+	idEntityFx();
 	virtual					~idEntityFx();
 
 	void					Spawn( void );
@@ -69,27 +69,27 @@ public:
 	void					Start( int time );
 	void					Stop( void );
 	const int				Duration( void );
-	const char *			EffectName( void );
-	const char *			Joint( void );
+	const char 			*EffectName( void );
+	const char 			*Joint( void );
 	const bool				Done();
 
 	virtual void			WriteToSnapshot( idBitMsgDelta &msg ) const;
 	virtual void			ReadFromSnapshot( const idBitMsgDelta &msg );
 	virtual void			ClientPredictionThink( void );
 
-	static idEntityFx *		StartFx( const char *fx, const idVec3 *useOrigin, const idMat3 *useAxis, idEntity *ent, bool bind );
+	static idEntityFx 		*StartFx( const char *fx, const idVec3 *useOrigin, const idMat3 *useAxis, idEntity *ent, bool bind );
 
 protected:
 	void					Event_Trigger( idEntity *activator );
 	void					Event_ClearFx( void );
 
 	void					CleanUp( void );
-	void					CleanUpSingleAction( const idFXSingleAction& fxaction, idFXLocalAction& laction );
-	void					ApplyFade( const idFXSingleAction& fxaction, idFXLocalAction& laction, const int time, const int actualStart );
+	void					CleanUpSingleAction( const idFXSingleAction &fxaction, idFXLocalAction &laction );
+	void					ApplyFade( const idFXSingleAction &fxaction, idFXLocalAction &laction, const int time, const int actualStart );
 
 	int						started;
 	int						nextTriggerTime;
-	const idDeclFX *		fxEffect;				// GetFX() should be called before using fxEffect as a pointer
+	const idDeclFX 		*fxEffect;				// GetFX() should be called before using fxEffect as a pointer
 	idList<idFXLocalAction>	actions;
 	idStr					systemName;
 };

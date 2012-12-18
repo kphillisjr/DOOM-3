@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -45,13 +45,13 @@ If you have questions concerning this license or the applicable additional terms
 //#define DUMP_GAMELOCAL
 
 
-typedef void (*WriteVariableType_t)( const char *varName, const char *varType, const char *scope, const char *prefix, const char *postfix, const char *value, const void *varPtr, int varSize );
+typedef void ( *WriteVariableType_t )( const char *varName, const char *varType, const char *scope, const char *prefix, const char *postfix, const char *value, const void *varPtr, int varSize );
 
 
 class idTypeInfoTools {
 public:
-	static const classTypeInfo_t *	FindClassInfo( const char *typeName );
-	static const enumTypeInfo_t *	FindEnumInfo( const char *typeName );
+	static const classTypeInfo_t 	*FindClassInfo( const char *typeName );
+	static const enumTypeInfo_t 	*FindEnumInfo( const char *typeName );
 	static bool						IsSubclassOf( const char *typeName, const char *superType );
 	static void						PrintType( const void *typePtr, const char *typeName );
 	static void						WriteTypeToFile( idFile *fp, const void *typePtr, const char *typeName );
@@ -60,13 +60,13 @@ public:
 	static void						CompareGameState( const char *fileName );
 
 private:
-	static idFile *					fp;
+	static idFile 					*fp;
 	static int						initValue;
 	static WriteVariableType_t		Write;
-	static idLexer *				src;
+	static idLexer 				*src;
 	static bool						typeError;
 
-	static const char *				OutputString( const char *string );
+	static const char 				*OutputString( const char *string );
 	static bool						ParseTemplateArguments( idLexer &src, idStr &arguments );
 	static void						PrintVariable( const char *varName, const char *varType, const char *scope, const char *prefix, const char *postfix, const char *value, const void *varPtr, int varSize );
 	static void						WriteVariable( const char *varName, const char *varType, const char *scope, const char *prefix, const char *postfix, const char *value, const void *varPtr, int varSize );
@@ -77,10 +77,10 @@ private:
 	static void						WriteClass_r( const void *classPtr, const char *className, const char *classType, const char *scope, const char *prefix, const int pointerDepth );
 };
 
-idFile *							idTypeInfoTools::fp			= NULL;
+idFile 							*idTypeInfoTools::fp			= NULL;
 int									idTypeInfoTools::initValue	= 0;
 WriteVariableType_t					idTypeInfoTools::Write		= NULL;
-idLexer *							idTypeInfoTools::src		= NULL;
+idLexer 							*idTypeInfoTools::src		= NULL;
 bool								idTypeInfoTools::typeError	= false;
 
 
@@ -116,7 +116,7 @@ const char *GetTypeVariableName( const char *typeName, int offset ) {
 	if ( i == 0 ) {
 		idStr::snPrintf( varName, sizeof( varName ), "%s::<unknown>", classInfo.typeName );
 	} else {
-		idStr::snPrintf( varName, sizeof( varName ), "%s::%s", classInfo.typeName, classInfo.variables[i-1].name );
+		idStr::snPrintf( varName, sizeof( varName ), "%s::%s", classInfo.typeName, classInfo.variables[i - 1].name );
 	}
 	return varName;
 }
@@ -161,7 +161,7 @@ idTypeInfoTools::IsSubclassOf
 bool idTypeInfoTools::IsSubclassOf( const char *typeName, const char *superType ) {
 	int i;
 
-	while( *typeName != '\0' ) {
+	while ( *typeName != '\0' ) {
 		if ( idStr::Cmp( typeName, superType ) == 0 ) {
 			return true;
 		}
@@ -199,14 +199,33 @@ const char *idTypeInfoTools::OutputString( const char *string ) {
 
 	for ( i = 0; i < sizeof( buffers[0] ) - 2; i++ ) {
 		c = *string++;
-		switch( c ) {
-			case '\0': out[i] = '\0'; return out;
-			case '\\': out[i++] = '\\'; out[i] = '\\'; break;
-			case '\n': out[i++] = '\\'; out[i] = 'n'; break;
-			case '\r': out[i++] = '\\'; out[i] = 'r'; break;
-			case '\t': out[i++] = '\\'; out[i] = 't'; break;
-			case '\v': out[i++] = '\\'; out[i] = 'v'; break;
-			default: out[i] = c; break;
+		switch ( c ) {
+			case '\0':
+				out[i] = '\0';
+				return out;
+			case '\\':
+				out[i++] = '\\';
+				out[i] = '\\';
+				break;
+			case '\n':
+				out[i++] = '\\';
+				out[i] = 'n';
+				break;
+			case '\r':
+				out[i++] = '\\';
+				out[i] = 'r';
+				break;
+			case '\t':
+				out[i++] = '\\';
+				out[i] = 't';
+				break;
+			case '\v':
+				out[i++] = '\\';
+				out[i] = 'v';
+				break;
+			default:
+				out[i] = c;
+				break;
 		}
 	}
 	out[i] = '\0';
@@ -229,7 +248,7 @@ bool idTypeInfoTools::ParseTemplateArguments( idLexer &src, idStr &arguments ) {
 	}
 
 	indent = 1;
-	while( indent ) {
+	while ( indent ) {
 		if ( !src.ReadToken( &token ) ) {
 			break;
 		}
@@ -332,7 +351,7 @@ bool IsAllowedToChangedFromSaveGames( const char *varName, const char *varType, 
 		}
 	}
 
-	if ( idStr::Icmpn( prefix, "idAFEntity_Base::af.idAF::physicsObj.idPhysics_AF", 49) == 0 ) {
+	if ( idStr::Icmpn( prefix, "idAFEntity_Base::af.idAF::physicsObj.idPhysics_AF", 49 ) == 0 ) {
 		return true;
 	}
 
@@ -428,12 +447,12 @@ idTypeInfoTools::WriteVariable
 */
 void idTypeInfoTools::WriteVariable( const char *varName, const char *varType, const char *scope, const char *prefix, const char *postfix, const char *value, const void *varPtr, int varSize ) {
 
-	for ( int i = idStr::FindChar( value, '#', 0 ); i >= 0; i = idStr::FindChar( value, '#', i+1 ) ) {
-		if (	idStr::Icmpn( value+i+1, "INF", 3 ) == 0 ||
-				idStr::Icmpn( value+i+1, "IND", 3 ) == 0 ||
-				idStr::Icmpn( value+i+1, "NAN", 3 ) == 0 ||
-				idStr::Icmpn( value+i+1, "QNAN", 4 ) == 0 ||
-				idStr::Icmpn( value+i+1, "SNAN", 4 ) == 0 ) {
+	for ( int i = idStr::FindChar( value, '#', 0 ); i >= 0; i = idStr::FindChar( value, '#', i + 1 ) ) {
+		if (	idStr::Icmpn( value + i + 1, "INF", 3 ) == 0 ||
+				idStr::Icmpn( value + i + 1, "IND", 3 ) == 0 ||
+				idStr::Icmpn( value + i + 1, "NAN", 3 ) == 0 ||
+				idStr::Icmpn( value + i + 1, "QNAN", 4 ) == 0 ||
+				idStr::Icmpn( value + i + 1, "SNAN", 4 ) == 0 ) {
 			common->Warning( "%s%s::%s%s = \"%s\"", prefix, scope, varName, postfix, value );
 			break;
 		}
@@ -448,12 +467,12 @@ idTypeInfoTools::WriteGameStateVariable
 */
 void idTypeInfoTools::WriteGameStateVariable( const char *varName, const char *varType, const char *scope, const char *prefix, const char *postfix, const char *value, const void *varPtr, int varSize ) {
 
-	for ( int i = idStr::FindChar( value, '#', 0 ); i >= 0; i = idStr::FindChar( value, '#', i+1 ) ) {
-		if (	idStr::Icmpn( value+i+1, "INF", 3 ) == 0 ||
-				idStr::Icmpn( value+i+1, "IND", 3 ) == 0 ||
-				idStr::Icmpn( value+i+1, "NAN", 3 ) == 0 ||
-				idStr::Icmpn( value+i+1, "QNAN", 4 ) == 0 ||
-				idStr::Icmpn( value+i+1, "SNAN", 4 ) == 0 ) {
+	for ( int i = idStr::FindChar( value, '#', 0 ); i >= 0; i = idStr::FindChar( value, '#', i + 1 ) ) {
+		if (	idStr::Icmpn( value + i + 1, "INF", 3 ) == 0 ||
+				idStr::Icmpn( value + i + 1, "IND", 3 ) == 0 ||
+				idStr::Icmpn( value + i + 1, "NAN", 3 ) == 0 ||
+				idStr::Icmpn( value + i + 1, "QNAN", 4 ) == 0 ||
+				idStr::Icmpn( value + i + 1, "SNAN", 4 ) == 0 ) {
 			common->Warning( "%s%s::%s%s = \"%s\"", prefix, scope, varName, postfix, value );
 			break;
 		}
@@ -481,7 +500,7 @@ void idTypeInfoTools::InitVariable( const char *varName, const char *varType, co
 		if ( IsRenderHandleVariable( varName, varType, scope, prefix, postfix, value ) ) {
 			return;
 		}
-		memset( const_cast<void*>(varPtr), initValue, varSize );
+		memset( const_cast<void *>( varPtr ), initValue, varSize );
 	}
 }
 
@@ -532,7 +551,7 @@ int idTypeInfoTools::WriteVariable_r( const void *varPtr, const char *varName, c
 
 	// create a type string without 'const', 'mutable', 'class', 'struct', 'union'
 	typeSrc.LoadMemory( varType, idStr::Length( varType ), varName );
-	while( typeSrc.ReadToken( &token ) ) {
+	while ( typeSrc.ReadToken( &token ) ) {
 		if ( token != "const" && token != "mutable" && token != "class" && token != "struct" && token != "union" ) {
 			typeString += token + " ";
 		}
@@ -555,7 +574,7 @@ int idTypeInfoTools::WriteVariable_r( const void *varPtr, const char *varName, c
 			if ( size == -1 ) {
 				break;
 			}
-			varPtr = (void *)( ( (byte *) varPtr ) + size );
+			varPtr = ( void * )( ( ( byte * ) varPtr ) + size );
 		}
 		return typeSize;
 	}
@@ -563,12 +582,12 @@ int idTypeInfoTools::WriteVariable_r( const void *varPtr, const char *varName, c
 	// if this is a pointer
 	isPointer = 0;
 	for ( i = typeString.Length(); i > 0 && typeString[i - 1] == '*'; i -= 2 ) {
-		if ( varPtr == (void *)0xcdcdcdcd || ( varPtr != NULL && *((unsigned long *)varPtr) == 0xcdcdcdcd ) ) {
+		if ( varPtr == ( void * )0xcdcdcdcd || ( varPtr != NULL && *( ( unsigned long * )varPtr ) == 0xcdcdcdcd ) ) {
 			common->Warning( "%s%s::%s%s references uninitialized memory", prefix, scope, varName, "" );
 			return typeSize;
 		}
-		if ( varPtr != NULL  ) {
-			varPtr = *((void **)varPtr);
+		if ( varPtr != NULL ) {
+			varPtr = *( ( void ** )varPtr );
 		}
 		isPointer++;
 	}
@@ -586,7 +605,7 @@ int idTypeInfoTools::WriteVariable_r( const void *varPtr, const char *varName, c
 	}
 
 	// get full type
-	while( typeSrc.CheckTokenString( "::" ) ) {
+	while ( typeSrc.CheckTokenString( "::" ) ) {
 		idToken newToken;
 		typeSrc.ExpectTokenType( TT_NAME, 0, &newToken );
 		token += "::" + newToken;
@@ -601,22 +620,22 @@ int idTypeInfoTools::WriteVariable_r( const void *varPtr, const char *varName, c
 		if ( token == "char" ) {
 
 			typeSize = sizeof( signed char );
-			Write( varName, varType, scope, prefix, "", va( "%d", *((signed char *)varPtr) ), varPtr, typeSize );
+			Write( varName, varType, scope, prefix, "", va( "%d", *( ( signed char * )varPtr ) ), varPtr, typeSize );
 
 		} else if ( token == "short" ) {
 
 			typeSize = sizeof( signed short );
-			Write( varName, varType, scope, prefix, "", va( "%d", *((signed short *)varPtr) ), varPtr, typeSize );
+			Write( varName, varType, scope, prefix, "", va( "%d", *( ( signed short * )varPtr ) ), varPtr, typeSize );
 
 		} else if ( token == "int" ) {
 
 			typeSize = sizeof( signed int );
-			Write( varName, varType, scope, prefix, "", va( "%d", *((signed int *)varPtr) ), varPtr, typeSize );
+			Write( varName, varType, scope, prefix, "", va( "%d", *( ( signed int * )varPtr ) ), varPtr, typeSize );
 
 		} else if ( token == "long" ) {
 
 			typeSize = sizeof( signed long );
-			Write( varName, varType, scope, prefix, "", va( "%ld", *((signed long *)varPtr) ), varPtr, typeSize );
+			Write( varName, varType, scope, prefix, "", va( "%ld", *( ( signed long * )varPtr ) ), varPtr, typeSize );
 
 		} else {
 
@@ -633,22 +652,22 @@ int idTypeInfoTools::WriteVariable_r( const void *varPtr, const char *varName, c
 		if ( token == "char" ) {
 
 			typeSize = sizeof( unsigned char );
-			Write( varName, varType, scope, prefix, "", va( "%d", *((unsigned char *)varPtr) ), varPtr, typeSize );
+			Write( varName, varType, scope, prefix, "", va( "%d", *( ( unsigned char * )varPtr ) ), varPtr, typeSize );
 
 		} else if ( token == "short" ) {
 
 			typeSize = sizeof( unsigned short );
-			Write( varName, varType, scope, prefix, "", va( "%d", *((unsigned short *)varPtr) ), varPtr, typeSize );
+			Write( varName, varType, scope, prefix, "", va( "%d", *( ( unsigned short * )varPtr ) ), varPtr, typeSize );
 
 		} else if ( token == "int" ) {
 
 			typeSize = sizeof( unsigned int );
-			Write( varName, varType, scope, prefix, "", va( "%d", *((unsigned int *)varPtr) ), varPtr, typeSize );
+			Write( varName, varType, scope, prefix, "", va( "%d", *( ( unsigned int * )varPtr ) ), varPtr, typeSize );
 
 		} else if ( token == "long" ) {
 
 			typeSize = sizeof( unsigned long );
-			Write( varName, varType, scope, prefix, "", va( "%lu", *((unsigned long *)varPtr) ), varPtr, typeSize );
+			Write( varName, varType, scope, prefix, "", va( "%lu", *( ( unsigned long * )varPtr ) ), varPtr, typeSize );
 
 		} else {
 
@@ -659,81 +678,81 @@ int idTypeInfoTools::WriteVariable_r( const void *varPtr, const char *varName, c
 	} else if ( token == "byte" ) {
 
 		typeSize = sizeof( byte );
-		Write( varName, varType, scope, prefix, "", va( "%d", *((byte *)varPtr) ), varPtr, typeSize );
+		Write( varName, varType, scope, prefix, "", va( "%d", *( ( byte * )varPtr ) ), varPtr, typeSize );
 
 	} else if ( token == "word" ) {
 
 		typeSize = sizeof( word );
-		Write( varName, varType, scope, prefix, "", va( "%d", *((word *)varPtr) ), varPtr, typeSize );
+		Write( varName, varType, scope, prefix, "", va( "%d", *( ( word * )varPtr ) ), varPtr, typeSize );
 
 	} else if ( token == "dword" ) {
 
 		typeSize = sizeof( dword );
-		Write( varName, varType, scope, prefix, "", va( "%d", *((dword *)varPtr) ), varPtr, typeSize );
+		Write( varName, varType, scope, prefix, "", va( "%d", *( ( dword * )varPtr ) ), varPtr, typeSize );
 
 	} else if ( token == "bool" ) {
 
 		typeSize = sizeof( bool );
-		Write( varName, varType, scope, prefix, "", va( "%d", *((bool *)varPtr) ), varPtr, typeSize );
+		Write( varName, varType, scope, prefix, "", va( "%d", *( ( bool * )varPtr ) ), varPtr, typeSize );
 
 	} else if ( token == "char" ) {
 
 		typeSize = sizeof( char );
-		Write( varName, varType, scope, prefix, "", va( "%d", *((char *)varPtr) ), varPtr, typeSize );
+		Write( varName, varType, scope, prefix, "", va( "%d", *( ( char * )varPtr ) ), varPtr, typeSize );
 
 	} else if ( token == "short" ) {
 
 		typeSize = sizeof( short );
-		Write( varName, varType, scope, prefix, "", va( "%d", *((short *)varPtr) ), varPtr, typeSize );
+		Write( varName, varType, scope, prefix, "", va( "%d", *( ( short * )varPtr ) ), varPtr, typeSize );
 
 	} else if ( token == "int" ) {
 
 		typeSize = sizeof( int );
-		Write( varName, varType, scope, prefix, "", va( "%d", *((int *)varPtr) ), varPtr, typeSize );
+		Write( varName, varType, scope, prefix, "", va( "%d", *( ( int * )varPtr ) ), varPtr, typeSize );
 
 	} else if ( token == "long" ) {
 
 		typeSize = sizeof( long );
-		Write( varName, varType, scope, prefix, "", va( "%ld", *((long *)varPtr) ), varPtr, typeSize );
+		Write( varName, varType, scope, prefix, "", va( "%ld", *( ( long * )varPtr ) ), varPtr, typeSize );
 
 	} else if ( token == "float" ) {
 
 		typeSize = sizeof( float );
-		Write( varName, varType, scope, prefix, "", idStr( *((float *)varPtr) ).c_str(), varPtr, typeSize );
+		Write( varName, varType, scope, prefix, "", idStr( *( ( float * )varPtr ) ).c_str(), varPtr, typeSize );
 
 	} else if ( token == "double" ) {
 
 		typeSize = sizeof( double );
-		Write( varName, varType, scope, prefix, "", idStr( (float)*((double *)varPtr) ).c_str(), varPtr, typeSize );
+		Write( varName, varType, scope, prefix, "", idStr( ( float ) * ( ( double * )varPtr ) ).c_str(), varPtr, typeSize );
 
 	} else if ( token == "idVec2" ) {
 
 		typeSize = sizeof( idVec2 );
-		Write( varName, varType, scope, prefix, "", ((idVec2 *)varPtr)->ToString( 8 ), varPtr, typeSize );
+		Write( varName, varType, scope, prefix, "", ( ( idVec2 * )varPtr )->ToString( 8 ), varPtr, typeSize );
 
 	} else if ( token == "idVec3" ) {
 
 		typeSize = sizeof( idVec3 );
-		Write( varName, varType, scope, prefix, "", ((idVec3 *)varPtr)->ToString( 8 ), varPtr, typeSize );
+		Write( varName, varType, scope, prefix, "", ( ( idVec3 * )varPtr )->ToString( 8 ), varPtr, typeSize );
 
 	} else if ( token == "idVec4" ) {
 
 		typeSize = sizeof( idVec4 );
-		Write( varName, varType, scope, prefix, "", ((idVec4 *)varPtr)->ToString( 8 ), varPtr, typeSize );
+		Write( varName, varType, scope, prefix, "", ( ( idVec4 * )varPtr )->ToString( 8 ), varPtr, typeSize );
 
 	} else if ( token == "idVec5" ) {
 
 		typeSize = sizeof( idVec5 );
-		Write( varName, varType, scope, prefix, "", ((idVec5 *)varPtr)->ToString( 8 ), varPtr, typeSize );
+		Write( varName, varType, scope, prefix, "", ( ( idVec5 * )varPtr )->ToString( 8 ), varPtr, typeSize );
 
 	} else if ( token == "idVec6" ) {
 
 		typeSize = sizeof( idVec6 );
-		Write( varName, varType, scope, prefix, "", ((idVec6 *)varPtr)->ToString( 8 ), varPtr, typeSize );
+		Write( varName, varType, scope, prefix, "", ( ( idVec6 * )varPtr )->ToString( 8 ), varPtr, typeSize );
 
 	} else if ( token == "idVecX" ) {
 
-		const idVecX *vec = ((idVecX *)varPtr);
+		const idVecX *vec = ( ( idVecX * )varPtr );
 		if ( vec->ToFloatPtr() != NULL ) {
 			Write( varName, varType, scope, prefix, "", vec->ToString( 8 ), vec->ToFloatPtr(), vec->GetSize() * sizeof( float ) );
 		} else {
@@ -744,32 +763,32 @@ int idTypeInfoTools::WriteVariable_r( const void *varPtr, const char *varName, c
 	} else if ( token == "idMat2" ) {
 
 		typeSize = sizeof( idMat2 );
-		Write( varName, varType, scope, prefix, "", ((idMat2 *)varPtr)->ToString( 8 ), varPtr, typeSize );
+		Write( varName, varType, scope, prefix, "", ( ( idMat2 * )varPtr )->ToString( 8 ), varPtr, typeSize );
 
 	} else if ( token == "idMat3" ) {
 
 		typeSize = sizeof( idMat3 );
-		Write( varName, varType, scope, prefix, "", ((idMat3 *)varPtr)->ToString( 8 ), varPtr, typeSize );
+		Write( varName, varType, scope, prefix, "", ( ( idMat3 * )varPtr )->ToString( 8 ), varPtr, typeSize );
 
 	} else if ( token == "idMat4" ) {
 
 		typeSize = sizeof( idMat4 );
-		Write( varName, varType, scope, prefix, "", ((idMat4 *)varPtr)->ToString( 8 ), varPtr, typeSize );
+		Write( varName, varType, scope, prefix, "", ( ( idMat4 * )varPtr )->ToString( 8 ), varPtr, typeSize );
 
 	} else if ( token == "idMat5" ) {
 
 		typeSize = sizeof( idMat5 );
-		Write( varName, varType, scope, prefix, "", ((idMat5 *)varPtr)->ToString( 8 ), varPtr, typeSize );
+		Write( varName, varType, scope, prefix, "", ( ( idMat5 * )varPtr )->ToString( 8 ), varPtr, typeSize );
 
 	} else if ( token == "idMat6" ) {
 
 		typeSize = sizeof( idMat6 );
-		Write( varName, varType, scope, prefix, "", ((idMat6 *)varPtr)->ToString( 8 ), varPtr, typeSize );
+		Write( varName, varType, scope, prefix, "", ( ( idMat6 * )varPtr )->ToString( 8 ), varPtr, typeSize );
 
 	} else if ( token == "idMatX" ) {
 
 		typeSize = sizeof( idMatX );
-		const idMatX *mat = ((idMatX *)varPtr);
+		const idMatX *mat = ( ( idMatX * )varPtr );
 		if ( mat->ToFloatPtr() != NULL ) {
 			Write( varName, varType, scope, prefix, "", mat->ToString( 8 ), mat->ToFloatPtr(), mat->GetNumColumns() * mat->GetNumRows() * sizeof( float ) );
 		} else {
@@ -779,26 +798,26 @@ int idTypeInfoTools::WriteVariable_r( const void *varPtr, const char *varName, c
 	} else if ( token == "idAngles" ) {
 
 		typeSize = sizeof( idAngles );
-		Write( varName, varType, scope, prefix, "", ((idAngles *)varPtr)->ToString( 8 ), varPtr, typeSize );
+		Write( varName, varType, scope, prefix, "", ( ( idAngles * )varPtr )->ToString( 8 ), varPtr, typeSize );
 
 	} else if ( token == "idQuat" ) {
 
 		typeSize = sizeof( idQuat );
-		Write( varName, varType, scope, prefix, "", ((idQuat *)varPtr)->ToString( 8 ), varPtr, typeSize );
+		Write( varName, varType, scope, prefix, "", ( ( idQuat * )varPtr )->ToString( 8 ), varPtr, typeSize );
 
 	} else if ( token == "idBounds" ) {
 
 		typeSize = sizeof( idBounds );
-		const idBounds *bounds = ((idBounds *)varPtr);
+		const idBounds *bounds = ( ( idBounds * )varPtr );
 		if ( bounds->IsCleared() ) {
 			Write( varName, varType, scope, prefix, "", "<cleared>", varPtr, typeSize );
 		} else {
-			Write( varName, varType, scope, prefix, "", va( "(%s)-(%s)", (*bounds)[0].ToString( 8 ), (*bounds)[1].ToString( 8 ) ), varPtr, typeSize );
+			Write( varName, varType, scope, prefix, "", va( "(%s)-(%s)", ( *bounds )[0].ToString( 8 ), ( *bounds )[1].ToString( 8 ) ), varPtr, typeSize );
 		}
 
 	} else if ( token == "idList" ) {
 
-		idList<int> *list = ((idList<int> *)varPtr);
+		idList<int> *list = ( ( idList<int> * )varPtr );
 		Write( varName, varType, scope, prefix, ".num", va( "%d", list->Num() ), NULL, 0 );
 		// NOTE: we don't care about the amount of memory allocated
 		//Write( varName, varType, scope, prefix, ".size", va( "%d", list->Size() ), NULL, 0 );
@@ -812,7 +831,7 @@ int idTypeInfoTools::WriteVariable_r( const void *varPtr, const char *varName, c
 				if ( size == -1 ) {
 					break;
 				}
-				listVarPtr = (void *)( ( (byte *) listVarPtr ) + size );
+				listVarPtr = ( void * )( ( ( byte * ) listVarPtr ) + size );
 			}
 		}
 
@@ -820,7 +839,7 @@ int idTypeInfoTools::WriteVariable_r( const void *varPtr, const char *varName, c
 
 	} else if ( token == "idStaticList" ) {
 
-		idStaticList<int, 1> *list = ((idStaticList<int, 1> *)varPtr);
+		idStaticList<int, 1> *list = ( ( idStaticList<int, 1> * )varPtr );
 		Write( varName, varType, scope, prefix, ".num", va( "%d", list->Num() ), NULL, 0 );
 
 		int totalSize = 0;
@@ -833,7 +852,7 @@ int idTypeInfoTools::WriteVariable_r( const void *varPtr, const char *varName, c
 					break;
 				}
 				totalSize += size;
-				listVarPtr = (void *)( ( (byte *) listVarPtr ) + size );
+				listVarPtr = ( void * )( ( ( byte * ) listVarPtr ) + size );
 			}
 		}
 
@@ -849,17 +868,17 @@ int idTypeInfoTools::WriteVariable_r( const void *varPtr, const char *varName, c
 
 		typeSize = sizeof( idStr );
 
-		const idStr *str = ((idStr *)varPtr);
+		const idStr *str = ( ( idStr * )varPtr );
 		Write( varName, varType, scope, prefix, "", OutputString( str->c_str() ), str->c_str(), str->Length() );
 
 	} else if ( token == "idStrList" ) {
 
 		typeSize = sizeof( idStrList );
 
-		const idStrList *list = ((idStrList *)varPtr);
+		const idStrList *list = ( ( idStrList * )varPtr );
 		if ( list->Num() ) {
 			for ( i = 0; i < list->Num(); i++ ) {
-				Write( varName, varType, scope, prefix, va("[%d]", i ), OutputString( (*list)[i].c_str() ), (*list)[i].c_str(), (*list)[i].Length() );
+				Write( varName, varType, scope, prefix, va( "[%d]", i ), OutputString( ( *list )[i].c_str() ), ( *list )[i].c_str(), ( *list )[i].Length() );
 			}
 		} else {
 			Write( varName, varType, scope, prefix, "", "<empty>", NULL, 0 );
@@ -869,11 +888,11 @@ int idTypeInfoTools::WriteVariable_r( const void *varPtr, const char *varName, c
 
 		typeSize = sizeof( idDict );
 
-		const idDict *dict = ((idDict *)varPtr);
+		const idDict *dict = ( ( idDict * )varPtr );
 		if ( dict->GetNumKeyVals() ) {
 			for ( i = 0; i < dict->GetNumKeyVals(); i++ ) {
 				const idKeyValue *kv = dict->GetKeyVal( i );
-				Write( varName, varType, scope, prefix, va("[%d]", i ), va( "\'%s\'  \'%s\'", OutputString( kv->GetKey().c_str() ), OutputString( kv->GetValue().c_str() ) ), NULL, 0 );
+				Write( varName, varType, scope, prefix, va( "[%d]", i ), va( "\'%s\'  \'%s\'", OutputString( kv->GetKey().c_str() ), OutputString( kv->GetValue().c_str() ) ), NULL, 0 );
 			}
 		} else {
 			Write( varName, varType, scope, prefix, "", "<empty>", NULL, 0 );
@@ -881,32 +900,32 @@ int idTypeInfoTools::WriteVariable_r( const void *varPtr, const char *varName, c
 
 	} else if ( token == "idExtrapolate" ) {
 
-		const idExtrapolate<float> *interpolate = ((idExtrapolate<float> *)varPtr);
+		const idExtrapolate<float> *interpolate = ( ( idExtrapolate<float> * )varPtr );
 		Write( varName, varType, scope, prefix, ".extrapolationType", idStr( interpolate->GetExtrapolationType() ).c_str(), &interpolate->extrapolationType, sizeof( interpolate->extrapolationType ) );
 		Write( varName, varType, scope, prefix, ".startTime", idStr( interpolate->GetStartTime() ).c_str(), &interpolate->startTime, sizeof( interpolate->startTime ) );
 		Write( varName, varType, scope, prefix, ".duration", idStr( interpolate->GetDuration() ).c_str(), &interpolate->duration, sizeof( interpolate->duration ) );
 
 		if ( ParseTemplateArguments( typeSrc, templateArgs ) ) {
 			if ( templateArgs == "int" ) {
-				const idExtrapolate<int> *interpolate = ((idExtrapolate<int> *)varPtr);
+				const idExtrapolate<int> *interpolate = ( ( idExtrapolate<int> * )varPtr );
 				Write( varName, varType, scope, prefix, ".startValue", idStr( interpolate->GetStartValue() ).c_str(), &interpolate->startValue, sizeof( interpolate->startValue ) );
 				Write( varName, varType, scope, prefix, ".baseSpeed", idStr( interpolate->GetBaseSpeed() ).c_str(), &interpolate->baseSpeed, sizeof( interpolate->baseSpeed ) );
 				Write( varName, varType, scope, prefix, ".speed", idStr( interpolate->GetSpeed() ).c_str(), &interpolate->speed, sizeof( interpolate->speed ) );
 				typeSize = sizeof( idExtrapolate<int> );
 			} else if ( templateArgs == "float" ) {
-				const idExtrapolate<float> *interpolate = ((idExtrapolate<float> *)varPtr);
+				const idExtrapolate<float> *interpolate = ( ( idExtrapolate<float> * )varPtr );
 				Write( varName, varType, scope, prefix, ".startValue", idStr( interpolate->GetStartValue() ).c_str(), &interpolate->startValue, sizeof( interpolate->startValue ) );
 				Write( varName, varType, scope, prefix, ".baseSpeed", idStr( interpolate->GetBaseSpeed() ).c_str(), &interpolate->baseSpeed, sizeof( interpolate->baseSpeed ) );
 				Write( varName, varType, scope, prefix, ".speed", idStr( interpolate->GetSpeed() ).c_str(), &interpolate->speed, sizeof( interpolate->speed ) );
 				typeSize = sizeof( idExtrapolate<float> );
 			} else if ( templateArgs == "idVec3" ) {
-				const idExtrapolate<idVec3> *interpolate = ((idExtrapolate<idVec3> *)varPtr);
+				const idExtrapolate<idVec3> *interpolate = ( ( idExtrapolate<idVec3> * )varPtr );
 				Write( varName, varType, scope, prefix, ".startValue", interpolate->GetStartValue().ToString( 8 ), &interpolate->startValue, sizeof( interpolate->startValue ) );
 				Write( varName, varType, scope, prefix, ".baseSpeed", interpolate->GetBaseSpeed().ToString( 8 ), &interpolate->baseSpeed, sizeof( interpolate->baseSpeed ) );
 				Write( varName, varType, scope, prefix, ".speed", interpolate->GetSpeed().ToString( 8 ), &interpolate->speed, sizeof( interpolate->speed ) );
 				typeSize = sizeof( idExtrapolate<idVec3> );
 			} else if ( templateArgs == "idAngles" ) {
-				const idExtrapolate<idAngles> *interpolate = ((idExtrapolate<idAngles> *)varPtr);
+				const idExtrapolate<idAngles> *interpolate = ( ( idExtrapolate<idAngles> * )varPtr );
 				Write( varName, varType, scope, prefix, ".startValue", interpolate->GetStartValue().ToString( 8 ), &interpolate->startValue, sizeof( interpolate->startValue ) );
 				Write( varName, varType, scope, prefix, ".baseSpeed", interpolate->GetBaseSpeed().ToString( 8 ), &interpolate->baseSpeed, sizeof( interpolate->baseSpeed ) );
 				Write( varName, varType, scope, prefix, ".speed", interpolate->GetSpeed().ToString( 8 ), &interpolate->speed, sizeof( interpolate->speed ) );
@@ -918,18 +937,18 @@ int idTypeInfoTools::WriteVariable_r( const void *varPtr, const char *varName, c
 
 	} else if ( token == "idInterpolate" ) {
 
-		const idInterpolate<float> *interpolate = ((idInterpolate<float> *)varPtr);
+		const idInterpolate<float> *interpolate = ( ( idInterpolate<float> * )varPtr );
 		Write( varName, varType, scope, prefix, ".startTime", idStr( interpolate->GetStartTime() ).c_str(), &interpolate->startTime, sizeof( interpolate->startTime ) );
 		Write( varName, varType, scope, prefix, ".duration", idStr( interpolate->GetDuration() ).c_str(), &interpolate->duration, sizeof( interpolate->duration ) );
 
 		if ( ParseTemplateArguments( typeSrc, templateArgs ) ) {
 			if ( templateArgs == "int" ) {
-				const idInterpolate<int> *interpolate = ((idInterpolate<int> *)varPtr);
+				const idInterpolate<int> *interpolate = ( ( idInterpolate<int> * )varPtr );
 				Write( varName, varType, scope, prefix, ".startValue", idStr( interpolate->GetStartValue() ).c_str(), &interpolate->startValue, sizeof( interpolate->startValue ) );
 				Write( varName, varType, scope, prefix, ".endValue", idStr( interpolate->GetEndValue() ).c_str(), &interpolate->endValue, sizeof( interpolate->endValue ) );
 				typeSize = sizeof( idInterpolate<int> );
 			} else if ( templateArgs == "float" ) {
-				const idInterpolate<float> *interpolate = ((idInterpolate<float> *)varPtr);
+				const idInterpolate<float> *interpolate = ( ( idInterpolate<float> * )varPtr );
 				Write( varName, varType, scope, prefix, ".startValue", idStr( interpolate->GetStartValue() ).c_str(), &interpolate->startValue, sizeof( interpolate->startValue ) );
 				Write( varName, varType, scope, prefix, ".endValue", idStr( interpolate->GetEndValue() ).c_str(), &interpolate->endValue, sizeof( interpolate->endValue ) );
 				typeSize = sizeof( idInterpolate<float> );
@@ -940,7 +959,7 @@ int idTypeInfoTools::WriteVariable_r( const void *varPtr, const char *varName, c
 
 	} else if ( token == "idInterpolateAccelDecelLinear" ) {
 
-		const idInterpolateAccelDecelLinear<float> *interpolate = ((idInterpolateAccelDecelLinear<float> *)varPtr);
+		const idInterpolateAccelDecelLinear<float> *interpolate = ( ( idInterpolateAccelDecelLinear<float> * )varPtr );
 		Write( varName, varType, scope, prefix, ".startTime", idStr( interpolate->GetStartTime() ).c_str(), &interpolate->startTime, sizeof( interpolate->startTime ) );
 		Write( varName, varType, scope, prefix, ".accelTime", idStr( interpolate->GetAcceleration() ).c_str(), &interpolate->accelTime, sizeof( interpolate->accelTime ) );
 		Write( varName, varType, scope, prefix, ".linearTime", idStr( interpolate->linearTime ).c_str(), &interpolate->linearTime, sizeof( interpolate->linearTime ) );
@@ -948,12 +967,12 @@ int idTypeInfoTools::WriteVariable_r( const void *varPtr, const char *varName, c
 
 		if ( ParseTemplateArguments( typeSrc, templateArgs ) ) {
 			if ( templateArgs == "int" ) {
-				const idInterpolateAccelDecelLinear<int> *interpolate = ((idInterpolateAccelDecelLinear<int> *)varPtr);
+				const idInterpolateAccelDecelLinear<int> *interpolate = ( ( idInterpolateAccelDecelLinear<int> * )varPtr );
 				Write( varName, varType, scope, prefix, ".startValue", idStr( interpolate->GetStartValue() ).c_str(), &interpolate->startValue, sizeof( interpolate->startValue ) );
 				Write( varName, varType, scope, prefix, ".endValue", idStr( interpolate->GetEndValue() ).c_str(), &interpolate->endValue, sizeof( interpolate->endValue ) );
 				typeSize = sizeof( idInterpolateAccelDecelLinear<int> );
 			} else if ( templateArgs == "float" ) {
-				const idInterpolateAccelDecelLinear<float> *interpolate = ((idInterpolateAccelDecelLinear<float> *)varPtr);
+				const idInterpolateAccelDecelLinear<float> *interpolate = ( ( idInterpolateAccelDecelLinear<float> * )varPtr );
 				Write( varName, varType, scope, prefix, ".startValue", idStr( interpolate->GetStartValue() ).c_str(), &interpolate->startValue, sizeof( interpolate->startValue ) );
 				Write( varName, varType, scope, prefix, ".endValue", idStr( interpolate->GetEndValue() ).c_str(), &interpolate->endValue, sizeof( interpolate->endValue ) );
 				typeSize = sizeof( idInterpolateAccelDecelLinear<float> );
@@ -964,7 +983,7 @@ int idTypeInfoTools::WriteVariable_r( const void *varPtr, const char *varName, c
 
 	} else if ( token == "idInterpolateAccelDecelSine" ) {
 
-		const idInterpolateAccelDecelSine<float> *interpolate = ((idInterpolateAccelDecelSine<float> *)varPtr);
+		const idInterpolateAccelDecelSine<float> *interpolate = ( ( idInterpolateAccelDecelSine<float> * )varPtr );
 		Write( varName, varType, scope, prefix, ".startTime", idStr( interpolate->GetStartTime() ).c_str(), &interpolate->startTime, sizeof( interpolate->startTime ) );
 		Write( varName, varType, scope, prefix, ".accelTime", idStr( interpolate->GetAcceleration() ).c_str(), &interpolate->accelTime, sizeof( interpolate->accelTime ) );
 		Write( varName, varType, scope, prefix, ".linearTime", idStr( interpolate->linearTime ).c_str(), &interpolate->linearTime, sizeof( interpolate->linearTime ) );
@@ -972,12 +991,12 @@ int idTypeInfoTools::WriteVariable_r( const void *varPtr, const char *varName, c
 
 		if ( ParseTemplateArguments( typeSrc, templateArgs ) ) {
 			if ( templateArgs == "int" ) {
-				const idInterpolateAccelDecelSine<int> *interpolate = ((idInterpolateAccelDecelSine<int> *)varPtr);
+				const idInterpolateAccelDecelSine<int> *interpolate = ( ( idInterpolateAccelDecelSine<int> * )varPtr );
 				Write( varName, varType, scope, prefix, ".startValue", idStr( interpolate->GetStartValue() ).c_str(), &interpolate->startValue, sizeof( interpolate->startValue ) );
 				Write( varName, varType, scope, prefix, ".endValue", idStr( interpolate->GetEndValue() ).c_str(), &interpolate->endValue, sizeof( interpolate->endValue ) );
 				typeSize = sizeof( idInterpolateAccelDecelSine<int> );
 			} else if ( templateArgs == "float" ) {
-				const idInterpolateAccelDecelSine<float> *interpolate = ((idInterpolateAccelDecelSine<float> *)varPtr);
+				const idInterpolateAccelDecelSine<float> *interpolate = ( ( idInterpolateAccelDecelSine<float> * )varPtr );
 				Write( varName, varType, scope, prefix, ".startValue", idStr( interpolate->GetStartValue() ).c_str(), &interpolate->startValue, sizeof( interpolate->startValue ) );
 				Write( varName, varType, scope, prefix, ".endValue", idStr( interpolate->GetEndValue() ).c_str(), &interpolate->endValue, sizeof( interpolate->endValue ) );
 				typeSize = sizeof( idInterpolateAccelDecelSine<float> );
@@ -989,30 +1008,30 @@ int idTypeInfoTools::WriteVariable_r( const void *varPtr, const char *varName, c
 	} else if ( token == "idUserInterface" ) {
 
 		typeSize = sizeof( idUserInterface );
-		const idUserInterface *gui = ((idUserInterface *)varPtr);
+		const idUserInterface *gui = ( ( idUserInterface * )varPtr );
 		Write( varName, varType, scope, prefix, "", gui->Name(), varPtr, sizeof( varPtr ) );
 
 	} else if ( token == "idRenderModel" ) {
 
 		typeSize = sizeof( idRenderModel );
-		const idRenderModel *model = ((idRenderModel *)varPtr);
+		const idRenderModel *model = ( ( idRenderModel * )varPtr );
 		Write( varName, varType, scope, prefix, "", model->Name(), varPtr, sizeof( varPtr ) );
 
 	} else if ( token == "qhandle_t" ) {
 
 		typeSize = sizeof( int );
-		Write( varName, varType, scope, prefix, "", va( "%d", *((int *)varPtr) ), varPtr, typeSize );
+		Write( varName, varType, scope, prefix, "", va( "%d", *( ( int * )varPtr ) ), varPtr, typeSize );
 
 	} else if ( token == "cmHandle_t" ) {
 
 		typeSize = sizeof( int );
-		Write( varName, varType, scope, prefix, "", va( "%d", *((int *)varPtr) ), varPtr, typeSize );
+		Write( varName, varType, scope, prefix, "", va( "%d", *( ( int * )varPtr ) ), varPtr, typeSize );
 
 	} else if ( token == "idEntityPtr" ) {
 
 		typeSize = sizeof( idEntityPtr<idEntity> );
 
-		const idEntityPtr<idEntity> *entPtr = ((idEntityPtr<idEntity> *)varPtr);
+		const idEntityPtr<idEntity> *entPtr = ( ( idEntityPtr<idEntity> * )varPtr );
 		if ( entPtr->GetEntity() ) {
 			idEntity *entity = entPtr->GetEntity();
 			Write( varName, varType, scope, prefix, ".", va( "entity %d: \'%s\'", entity->entityNumber, entity->name.c_str() ), varPtr, typeSize );
@@ -1022,7 +1041,7 @@ int idTypeInfoTools::WriteVariable_r( const void *varPtr, const char *varName, c
 
 	} else if ( token == "idEntity::entityFlags_s" ) {
 
-		const idEntity::entityFlags_s *flags = ((idEntity::entityFlags_s *)varPtr);
+		const idEntity::entityFlags_s *flags = ( ( idEntity::entityFlags_s * )varPtr );
 		Write( varName, varType, scope, prefix, ".notarget", flags->notarget ? "true" : "false", NULL, 0 );
 		Write( varName, varType, scope, prefix, ".noknockback", flags->noknockback ? "true" : "false", NULL, 0 );
 		Write( varName, varType, scope, prefix, ".takedamage", flags->takedamage ? "true" : "false", NULL, 0 );
@@ -1041,7 +1060,7 @@ int idTypeInfoTools::WriteVariable_r( const void *varPtr, const char *varName, c
 
 		typeSize = sizeof( idScriptBool );
 
-		const idScriptBool *scriptBool = ((idScriptBool *)varPtr);
+		const idScriptBool *scriptBool = ( ( idScriptBool * )varPtr );
 		if ( scriptBool->IsLinked() ) {
 			Write( varName, varType, scope, prefix, "", ( *scriptBool != 0 ) ? "true" : "false", varPtr, typeSize );
 		} else {
@@ -1066,29 +1085,29 @@ int idTypeInfoTools::WriteVariable_r( const void *varPtr, const char *varName, c
 
 			} else if ( token == "idAnim" ) {
 
-				const idAnim *anim = ((idAnim*)varPtr);
+				const idAnim *anim = ( ( idAnim * )varPtr );
 				Write( varName, varType, scope, prefix, "", anim->Name(), NULL, 0 );
 
 			} else if ( token == "idPhysics" ) {
 
-				const idPhysics *physics = ((idPhysics*)varPtr);
+				const idPhysics *physics = ( ( idPhysics * )varPtr );
 				Write( varName, varType, scope, prefix, "", physics->GetType()->classname, NULL, 0 );
 
 			} else if ( IsSubclassOf( token, "idEntity" ) ) {
 
-				const idEntity *entity = ((idEntity*)varPtr);
+				const idEntity *entity = ( ( idEntity * )varPtr );
 				Write( varName, varType, scope, prefix, "", va( "entity %d: \'%s\'", entity->entityNumber, entity->name.c_str() ), NULL, 0 );
 
 			} else if ( IsSubclassOf( token, "idDecl" ) ) {
 
-				const idDecl *decl = ((idDecl *)varPtr);
+				const idDecl *decl = ( ( idDecl * )varPtr );
 				Write( varName, varType, scope, prefix, "", decl->GetName(), NULL, 0 );
 
 			} else if ( pointerDepth == 0 && (
-						token == "idAFBody" ||
-						token == "idAFTree" ||
-						token == "idClipModel" ||
-						IsSubclassOf( token, "idAFConstraint" )
+							token == "idAFBody" ||
+							token == "idAFTree" ||
+							token == "idClipModel" ||
+							IsSubclassOf( token, "idAFConstraint" )
 						) ) {
 
 				char newPrefix[1024];
@@ -1110,14 +1129,14 @@ int idTypeInfoTools::WriteVariable_r( const void *varPtr, const char *varName, c
 				typeSize = sizeof( int );	// NOTE: assuming sizeof( enum ) is sizeof( int )
 
 				for ( i = 0; enumTypeInfo->values[i].name != NULL; i++ ) {
-					if ( *((int *)varPtr) == enumTypeInfo->values[i].value ) {
+					if ( *( ( int * )varPtr ) == enumTypeInfo->values[i].value ) {
 						break;
 					}
 				}
 				if ( enumTypeInfo->values[i].name != NULL ) {
 					Write( varName, varType, scope, prefix, "", enumTypeInfo->values[i].name, NULL, 0 );
 				} else {
-					Write( varName, varType, scope, prefix, "", va( "%d", *((int *)varPtr) ), NULL, 0 );
+					Write( varName, varType, scope, prefix, "", va( "%d", *( ( int * )varPtr ) ), NULL, 0 );
 				}
 
 			} else {
@@ -1129,11 +1148,11 @@ int idTypeInfoTools::WriteVariable_r( const void *varPtr, const char *varName, c
 
 	i = 0;
 	do {
-		if ( *((unsigned long *)varPtr) == 0xcdcdcdcd ) {
+		if ( *( ( unsigned long * )varPtr ) == 0xcdcdcdcd ) {
 			common->Warning( "%s%s::%s%s uses uninitialized memory", prefix, scope, varName, "" );
 			break;
 		}
-	} while( ++i < typeSize );
+	} while ( ++i < typeSize );
 
 	if ( isPointer ) {
 		return sizeof( void * );
@@ -1160,7 +1179,7 @@ void idTypeInfoTools::WriteClass_r( const void *classPtr, const char *className,
 	for ( i = 0; classInfo->variables[i].name != NULL; i++ ) {
 		const classVariableInfo_t &classVar = classInfo->variables[i];
 
-		void *varPtr = (void *) (((byte *)classPtr) + classVar.offset);
+		void *varPtr = ( void * )( ( ( byte * )classPtr ) + classVar.offset );
 
 		WriteVariable_r( varPtr, classVar.name, classVar.type, classType, prefix, pointerDepth );
 	}
@@ -1187,7 +1206,7 @@ void idTypeInfoTools::WriteGameState( const char *fileName ) {
 #ifdef DUMP_GAMELOCAL
 
 	file->WriteFloatString( "\ngameLocal {\n" );
-	WriteClass_r( (void *)&gameLocal, "", "idGameLocal", "idGameLocal", "", 0 );
+	WriteClass_r( ( void * )&gameLocal, "", "idGameLocal", "idGameLocal", "", 0 );
 	file->WriteFloatString( "}\n" );
 
 #endif
@@ -1198,7 +1217,7 @@ void idTypeInfoTools::WriteGameState( const char *fileName ) {
 			continue;
 		}
 		file->WriteFloatString( "\nentity %d %s {\n", i, ent->GetType()->classname );
-		WriteClass_r( (void *)ent, "", ent->GetType()->classname, ent->GetType()->classname, "", 0 );
+		WriteClass_r( ( void * )ent, "", ent->GetType()->classname, ent->GetType()->classname, "", 0 );
 		file->WriteFloatString( "}\n" );
 		num++;
 	}
@@ -1238,7 +1257,7 @@ void idTypeInfoTools::CompareGameState( const char *fileName ) {
 		return;
 	}
 
-	WriteClass_r( (void *)&gameLocal, "", "idGameLocal", "idGameLocal", "", 0 );
+	WriteClass_r( ( void * )&gameLocal, "", "idGameLocal", "idGameLocal", "", 0 );
 
 	if ( !src->ExpectTokenString( "}" ) ) {
 		delete src;
@@ -1248,7 +1267,7 @@ void idTypeInfoTools::CompareGameState( const char *fileName ) {
 
 #endif
 
-	while( src->ReadToken( &token ) ) {
+	while ( src->ReadToken( &token ) ) {
 		if ( token != "entity" ) {
 			break;
 		}
@@ -1287,7 +1306,7 @@ void idTypeInfoTools::CompareGameState( const char *fileName ) {
 			break;
 		}
 
-		WriteClass_r( (void *)ent, "", ent->GetType()->classname, ent->GetType()->classname, "", 0 );
+		WriteClass_r( ( void * )ent, "", ent->GetType()->classname, ent->GetType()->classname, "", 0 );
 
 		if ( !src->SkipBracedSection( false ) ) {
 			src->Warning( "entity %d missing trailing }", entityNum );
@@ -1308,7 +1327,7 @@ void WriteGameState_f( const idCmdArgs &args ) {
 	idStr fileName;
 
 	if ( args.Argc() > 1 ) {
-		fileName = args.Argv(1);
+		fileName = args.Argv( 1 );
 	} else {
 		fileName = "GameState.txt";
 	}
@@ -1326,7 +1345,7 @@ void CompareGameState_f( const idCmdArgs &args ) {
 	idStr fileName;
 
 	if ( args.Argc() > 1 ) {
-		fileName = args.Argv(1);
+		fileName = args.Argv( 1 );
 	} else {
 		fileName = "GameState.txt";
 	}
@@ -1356,8 +1375,7 @@ void TestSaveGame_f( const idCmdArgs &args ) {
 		name.Replace( "/", "_" );
 		cmdSystem->BufferCommandText( CMD_EXEC_NOW, va( "saveGame test_%s", name.c_str() ) );
 		cmdSystem->BufferCommandText( CMD_EXEC_NOW, va( "loadGame test_%s", name.c_str() ) );
-	}
-	catch( idException & ) {
+	} catch ( idException & ) {
 		// an ERR_DROP was thrown
 	}
 	cmdSystem->BufferCommandText( CMD_EXEC_NOW, "quit" );

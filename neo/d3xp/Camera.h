@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -44,8 +44,8 @@ public:
 
 	void					Spawn( void );
 	virtual void			GetViewParms( renderView_t *view ) = 0;
-	virtual renderView_t *	GetRenderView();
-	virtual void			Stop( void ){} ;
+	virtual renderView_t 	*GetRenderView();
+	virtual void			Stop( void ) {} ;
 };
 
 /*
@@ -59,7 +59,7 @@ idCameraView
 class idCameraView : public idCamera {
 public:
 	CLASS_PROTOTYPE( idCameraView );
-							idCameraView();
+	idCameraView();
 
 	// save games
 	void					Save( idSaveGame *savefile ) const;				// archives object for save game file
@@ -98,8 +98,8 @@ class idCameraAnim : public idCamera {
 public:
 	CLASS_PROTOTYPE( idCameraAnim );
 
-							idCameraAnim();
-							~idCameraAnim();
+	idCameraAnim();
+	~idCameraAnim();
 
 	// save games
 	void					Save( idSaveGame *savefile ) const;				// archives object for save game file

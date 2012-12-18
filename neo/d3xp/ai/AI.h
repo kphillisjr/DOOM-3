@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -70,7 +70,7 @@ typedef enum {
 
 	MOVE_TO_ENEMY = NUM_NONMOVING_COMMANDS,
 	MOVE_TO_ENEMYHEIGHT,
-	MOVE_TO_ENTITY, 
+	MOVE_TO_ENTITY,
 	MOVE_OUT_OF_RANGE,
 	MOVE_TO_ATTACK_POSITION,
 	MOVE_TO_COVER,
@@ -110,20 +110,20 @@ typedef enum {
 // obstacle avoidance
 typedef struct obstaclePath_s {
 	idVec3				seekPos;					// seek position avoiding obstacles
-	idEntity *			firstObstacle;				// if != NULL the first obstacle along the path
+	idEntity 			*firstObstacle;				// if != NULL the first obstacle along the path
 	idVec3				startPosOutsideObstacles;	// start position outside obstacles
-	idEntity *			startPosObstacle;			// if != NULL the obstacle containing the start position 
+	idEntity 			*startPosObstacle;			// if != NULL the obstacle containing the start position
 	idVec3				seekPosOutsideObstacles;	// seek position outside obstacles
-	idEntity *			seekPosObstacle;			// if != NULL the obstacle containing the seek position 
+	idEntity 			*seekPosObstacle;			// if != NULL the obstacle containing the seek position
 } obstaclePath_t;
 
 // path prediction
 typedef enum {
-	SE_BLOCKED			= BIT(0),
-	SE_ENTER_LEDGE_AREA	= BIT(1),
-	SE_ENTER_OBSTACLE	= BIT(2),
-	SE_FALL				= BIT(3),
-	SE_LAND				= BIT(4)
+	SE_BLOCKED			= BIT( 0 ),
+	SE_ENTER_LEDGE_AREA	= BIT( 1 ),
+	SE_ENTER_OBSTACLE	= BIT( 2 ),
+	SE_FALL				= BIT( 3 ),
+	SE_LAND				= BIT( 4 )
 } stopEvent_t;
 
 typedef struct predictedPath_s {
@@ -132,7 +132,7 @@ typedef struct predictedPath_s {
 	idVec3				endNormal;					// normal of blocking surface
 	int					endTime;					// time predicted
 	int					endEvent;					// event that stopped the prediction
-	const idEntity *	blockingEntity;				// entity that blocks the movement
+	const idEntity 	*blockingEntity;				// entity that blocks the movement
 } predictedPath_t;
 
 //
@@ -176,14 +176,14 @@ typedef struct particleEmitter_s {
 #ifdef _D3XP
 typedef struct funcEmitter_s {
 	char				name[64];
-	idFuncEmitter*		particle;
+	idFuncEmitter		*particle;
 	jointHandle_t		joint;
 } funcEmitter_t;
 #endif
 
 class idMoveState {
 public:
-							idMoveState();
+	idMoveState();
 
 	void					Save( idSaveGame *savefile ) const;
 	void					Restore( idRestoreGame *savefile );
@@ -211,8 +211,8 @@ public:
 
 class idAASFindCover : public idAASCallback {
 public:
-						idAASFindCover( const idVec3 &hideFromPos );
-						~idAASFindCover();
+	idAASFindCover( const idVec3 &hideFromPos );
+	~idAASFindCover();
 
 	virtual bool		TestArea( const idAAS *aas, int areaNum );
 
@@ -223,7 +223,7 @@ private:
 
 class idAASFindAreaOutOfRange : public idAASCallback {
 public:
-						idAASFindAreaOutOfRange( const idVec3 &targetPos, float maxDist );
+	idAASFindAreaOutOfRange( const idVec3 &targetPos, float maxDist );
 
 	virtual bool		TestArea( const idAAS *aas, int areaNum );
 
@@ -234,8 +234,8 @@ private:
 
 class idAASFindAttackPosition : public idAASCallback {
 public:
-						idAASFindAttackPosition( const idAI *self, const idMat3 &gravityAxis, idEntity *target, const idVec3 &targetPos, const idVec3 &fireOffset );
-						~idAASFindAttackPosition();
+	idAASFindAttackPosition( const idAI *self, const idMat3 &gravityAxis, idEntity *target, const idVec3 &targetPos, const idVec3 &fireOffset );
+	~idAASFindAttackPosition();
 
 	virtual bool		TestArea( const idAAS *aas, int areaNum );
 
@@ -254,8 +254,8 @@ class idAI : public idActor {
 public:
 	CLASS_PROTOTYPE( idAI );
 
-							idAI();
-							~idAI();
+	idAI();
+	~idAI();
 
 	void					Save( idSaveGame *savefile ) const;
 	void					Restore( idRestoreGame *savefile );
@@ -270,18 +270,18 @@ public:
 
 	void					TouchedByFlashlight( idActor *flashlight_owner );
 
-							// Outputs a list of all monsters to the console.
+	// Outputs a list of all monsters to the console.
 	static void				List_f( const idCmdArgs &args );
 
-							// Finds a path around dynamic obstacles.
+	// Finds a path around dynamic obstacles.
 	static bool				FindPathAroundObstacles( const idPhysics *physics, const idAAS *aas, const idEntity *ignore, const idVec3 &startPos, const idVec3 &seekPos, obstaclePath_t &path );
-							// Frees any nodes used for the dynamic obstacle avoidance.
+	// Frees any nodes used for the dynamic obstacle avoidance.
 	static void				FreeObstacleAvoidanceNodes( void );
-							// Predicts movement, returns true if a stop event was triggered.
+	// Predicts movement, returns true if a stop event was triggered.
 	static bool				PredictPath( const idEntity *ent, const idAAS *aas, const idVec3 &start, const idVec3 &velocity, int totalTime, int frameTime, int stopEvent, predictedPath_t &path );
-							// Return true if the trajectory of the clip model is collision free.
+	// Return true if the trajectory of the clip model is collision free.
 	static bool				TestTrajectory( const idVec3 &start, const idVec3 &end, float zVel, float gravity, float time, float max_height, const idClipModel *clip, int clipmask, const idEntity *ignore, const idEntity *targetEntity, int drawtime );
-							// Finds the best collision free trajectory for a clip model.
+	// Finds the best collision free trajectory for a clip model.
 	static bool				PredictTrajectory( const idVec3 &firePos, const idVec3 &target, float projectileSpeed, const idVec3 &projGravity, const idClipModel *clip, int clipmask, float max_height, const idEntity *ignore, const idEntity *targetEntity, int drawtime, idVec3 &aimDir );
 
 #ifdef _D3XP
@@ -290,7 +290,7 @@ public:
 
 protected:
 	// navigation
-	idAAS *					aas;
+	idAAS 					*aas;
 	int						travelFlags;
 
 	idMoveState				move;
@@ -333,7 +333,7 @@ protected:
 	bool					allowHiddenMovement;		// allows character to still move around while hidden
 	bool					disableGravity;				// disables gravity and allows vertical movement by the animation
 	bool					af_push_moveables;			// allow the articulated figure to push moveable objects
-	
+
 	// weapon/attack vars
 	bool					lastHitCheckResult;
 	int						lastHitCheckTime;
@@ -342,7 +342,7 @@ protected:
 	float					projectile_height_to_distance_ratio;	// calculates the maximum height a projectile can be thrown
 	idList<idVec3>			missileLaunchOffset;
 
-	const idDict *			projectileDef;
+	const idDict 			*projectileDef;
 	mutable idClipModel		*projectileClipModel;
 	float					projectileRadius;
 	float					projectileSpeed;
@@ -385,7 +385,7 @@ protected:
 	// special fx
 	float					shrivel_rate;
 	int						shrivel_start;
-	
+
 	bool					restartParticles;			// should smoke emissions restart
 	bool					useBoneAxis;				// use the bone vs the model axis
 	idList<particleEmitter_t> particles;				// particle data
@@ -549,10 +549,10 @@ protected:
 	void					TriggerParticles( const char *jointName );
 
 #ifdef _D3XP
-	void					TriggerFX( const char* joint, const char* fx );
-	idEntity*				StartEmitter( const char* name, const char* joint, const char* particle );
-	idEntity*				GetEmitter( const char* name );
-	void					StopEmitter( const char* name );
+	void					TriggerFX( const char *joint, const char *fx );
+	idEntity				*StartEmitter( const char *name, const char *joint, const char *particle );
+	idEntity				*GetEmitter( const char *name );
+	void					StopEmitter( const char *name );
 #endif
 
 	// AI script state management
@@ -695,12 +695,12 @@ protected:
 	void					Event_GetReachableEntityPosition( idEntity *ent );
 #ifdef _D3XP
 	void					Event_MoveToPositionDirect( const idVec3 &pos );
-	void					Event_AvoidObstacles( int ignore);
-	void					Event_TriggerFX( const char* joint, const char* fx );
+	void					Event_AvoidObstacles( int ignore );
+	void					Event_TriggerFX( const char *joint, const char *fx );
 
-	void					Event_StartEmitter( const char* name, const char* joint, const char* particle );
-	void					Event_GetEmitter( const char* name );
-	void					Event_StopEmitter( const char* name );
+	void					Event_StartEmitter( const char *name, const char *joint, const char *particle );
+	void					Event_GetEmitter( const char *name );
+	void					Event_StopEmitter( const char *name );
 #endif
 };
 
@@ -708,7 +708,7 @@ class idCombatNode : public idEntity {
 public:
 	CLASS_PROTOTYPE( idCombatNode );
 
-						idCombatNode();
+	idCombatNode();
 
 	void				Save( idSaveGame *savefile ) const;
 	void				Restore( idRestoreGame *savefile );

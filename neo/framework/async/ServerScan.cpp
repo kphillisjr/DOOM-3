@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@ idCVar gui_filter_gameType( "gui_filter_gameType", "0", CVAR_GUI | CVAR_INTEGER 
 idCVar gui_filter_idle( "gui_filter_idle", "0", CVAR_GUI | CVAR_INTEGER | CVAR_ARCHIVE, "Idle servers filter" );
 idCVar gui_filter_game( "gui_filter_game", "0", CVAR_GUI | CVAR_INTEGER | CVAR_ARCHIVE, "Game filter" );
 
-const char* l_gameTypes[] = {
+const char *l_gameTypes[] = {
 	"Deathmatch",
 	"Tourney",
 	"Team DM",
@@ -108,7 +108,7 @@ void idServerScan::Shutdown( ) {
 idServerScan::SetupLANScan
 ================
 */
-void idServerScan::SetupLANScan( ) {	
+void idServerScan::SetupLANScan( ) {
 	Clear();
 	GUIUpdateSelected();
 	scan_state = LAN_SCAN;
@@ -134,7 +134,7 @@ int idServerScan::InfoResponse( networkServer_t &server ) {
 		return false;
 	}
 
-	if ( scan_state == NET_SCAN ) {	
+	if ( scan_state == NET_SCAN ) {
 		const idKeyValue *info = net_info.FindKey( serv.c_str() );
 		if ( !info ) {
 			common->DPrintf( "idServerScan::InfoResponse NET_SCAN: reply from unknown %s\n", serv.c_str() );
@@ -151,7 +151,7 @@ int idServerScan::InfoResponse( networkServer_t &server ) {
 
 		// check for duplicate servers
 		for ( int i = 0; i < Num() ; i++ ) {
-			if ( memcmp( &(*this)[ i ].adr, &server.adr, sizeof(netadr_t) ) == 0 ) {
+			if ( memcmp( &( *this )[ i ].adr, &server.adr, sizeof( netadr_t ) ) == 0 ) {
 				common->DPrintf( "idServerScan::InfoResponse LAN_SCAN: duplicate server %s\n", serv.c_str() );
 				return true;
 			}
@@ -170,11 +170,11 @@ int idServerScan::InfoResponse( networkServer_t &server ) {
 
 	int index = Append( server );
 	// for now, don't maintain sorting when adding new info response servers
-	m_sortedServers.Append( Num()-1 );
+	m_sortedServers.Append( Num() - 1 );
 	if ( listGUI->IsConfigured( ) && !IsFiltered( server ) ) {
-		GUIAdd( Num()-1, server );
+		GUIAdd( Num() - 1, server );
 	}
-	if ( listGUI->GetSelection( NULL, 0 ) == ( Num()-1 ) ) {
+	if ( listGUI->GetSelection( NULL, 0 ) == ( Num() - 1 ) ) {
 		GUIUpdateSelected();
 	}
 
@@ -188,11 +188,11 @@ idServerScan::AddServer
 */
 void idServerScan::AddServer( int id, const char *srv ) {
 	inServer_t s;
-	
+
 	incoming_net = true;
 	incoming_lastTime = Sys_Milliseconds() + INCOMING_TIMEOUT;
 	s.id = id;
-	
+
 	// using IPs, not hosts
 	if ( !Sys_StringToNetAdr( srv, &s.adr, false ) ) {
 		common->DPrintf( "idServerScan::AddServer: failed to parse server %s\n", srv );
@@ -201,7 +201,7 @@ void idServerScan::AddServer( int id, const char *srv ) {
 	if ( !s.adr.port ) {
 		s.adr.port = PORT_SERVER;
 	}
-	
+
 	net_servers.Append( s );
 }
 
@@ -215,7 +215,7 @@ void idServerScan::EndServers( ) {
 	l_serverScan = this;
 	m_sortedServers.Sort( idServerScan::Cmp );
 	ApplyFilter();
-} 
+}
 
 /*
 ================
@@ -267,7 +267,7 @@ void idServerScan::NetScan( ) {
 
 	scan_state = NET_SCAN;
 	challenge++;
-	
+
 	idList<networkServer_t>::Clear();
 	m_sortedServers.Clear();
 	cur_info = 0;
@@ -275,7 +275,7 @@ void idServerScan::NetScan( ) {
 	listGUI->Clear();
 	GUIUpdateSelected();
 	common->DPrintf( "NetScan with challenge %d\n", challenge );
-	
+
 	while ( cur_info < Min( net_servers.Num(), MAX_PINGREQUESTS ) ) {
 		netadr_t serv = net_servers[ cur_info ].adr;
 		EmitGetInfo( serv );
@@ -293,18 +293,18 @@ idServerScan::ServerScanFrame
 void idServerScan::RunFrame( ) {
 	if ( scan_state == IDLE ) {
 		return;
-	} 
-	
+	}
+
 	if ( scan_state == WAIT_ON_INIT ) {
 		if ( Sys_Milliseconds() >= endWaitTime ) {
-				scan_state = IDLE;
-				NetScan();
-			}
+			scan_state = IDLE;
+			NetScan();
+		}
 		return;
-	} 
-	
+	}
+
 	int timeout_limit = Sys_Milliseconds() - REPLY_TIMEOUT;
-	
+
 	if ( scan_state == LAN_SCAN ) {
 		if ( timeout_limit > lan_pingtime ) {
 			common->Printf( "Scanned for servers on the LAN\n" );
@@ -312,9 +312,9 @@ void idServerScan::RunFrame( ) {
 		}
 		return;
 	}
-	
+
 	// if scan_state == NET_SCAN
-	
+
 	// check for timeouts
 	int i = 0;
 	while ( i < net_info.GetNumKeyVals() ) {
@@ -325,7 +325,7 @@ void idServerScan::RunFrame( ) {
 			i++;
 		}
 	}
-			
+
 	// possibly send more queries
 	while ( cur_info < net_servers.Num() && net_info.GetNumKeyVals() < MAX_PINGREQUESTS ) {
 		netadr_t serv = net_servers[ cur_info ].adr;
@@ -334,7 +334,7 @@ void idServerScan::RunFrame( ) {
 		net_info.SetInt( Sys_NetAdrToString( serv ), cur_info );
 		cur_info++;
 	}
-	
+
 	// update state
 	if ( ( !incoming_net || ( incoming_useTimeout && Sys_Milliseconds() > incoming_lastTime ) ) && net_info.GetNumKeyVals() == 0 ) {
 		EndServers();
@@ -355,10 +355,10 @@ bool idServerScan::GetBestPing( networkServer_t &serv ) {
 	if ( !ic ) {
 		return false;
 	}
-	serv = (*this)[ 0 ];
+	serv = ( *this )[ 0 ];
 	for ( i = 0 ; i < ic ; i++ ) {
-		if ( (*this)[ i ].ping < serv.ping ) {
-			serv = (*this)[ i ];
+		if ( ( *this )[ i ].ping < serv.ping ) {
+			serv = ( *this )[ i ];
 		}
 	}
 	return true;
@@ -405,20 +405,20 @@ void idServerScan::GUIUpdateSelected( void ) {
 		m_pGUI->SetStateString( "server_IP", "" );
 		m_pGUI->SetStateString( "server_passworded", "" );
 	} else {
-		m_pGUI->SetStateString( "server_name", (*this)[ i ].serverInfo.GetString( "si_name" ) );
+		m_pGUI->SetStateString( "server_name", ( *this )[ i ].serverInfo.GetString( "si_name" ) );
 		for ( int j = 0; j < 8; j++ ) {
-			if ( (*this)[i].clients > j ) {
-				m_pGUI->SetStateString( va( "player%i", j + 1 ) , (*this)[ i ].nickname[ j ] );
+			if ( ( *this )[i].clients > j ) {
+				m_pGUI->SetStateString( va( "player%i", j + 1 ) , ( *this )[ i ].nickname[ j ] );
 			} else {
 				m_pGUI->SetStateString( va( "player%i", j + 1 ) , "" );
 			}
 		}
-		m_pGUI->SetStateString( "server_map", (*this)[ i ].serverInfo.GetString( "si_mapName" ) );
-		fileSystem->FindMapScreenshot( (*this)[ i ].serverInfo.GetString( "si_map" ), screenshot, MAX_STRING_CHARS );
+		m_pGUI->SetStateString( "server_map", ( *this )[ i ].serverInfo.GetString( "si_mapName" ) );
+		fileSystem->FindMapScreenshot( ( *this )[ i ].serverInfo.GetString( "si_map" ), screenshot, MAX_STRING_CHARS );
 		m_pGUI->SetStateString( "browser_levelshot", screenshot );
-		m_pGUI->SetStateString( "server_gameType", (*this)[ i ].serverInfo.GetString( "si_gameType" ) );
-		m_pGUI->SetStateString( "server_IP", Sys_NetAdrToString( (*this)[ i ].adr ) );
-		if ( (*this)[ i ].serverInfo.GetBool( "si_usePass" ) ) {
+		m_pGUI->SetStateString( "server_gameType", ( *this )[ i ].serverInfo.GetString( "si_gameType" ) );
+		m_pGUI->SetStateString( "server_IP", Sys_NetAdrToString( ( *this )[ i ].adr ) );
+		if ( ( *this )[ i ].serverInfo.GetBool( "si_usePass" ) ) {
 			m_pGUI->SetStateString( "server_passworded", "PASSWORD REQUIRED" );
 		} else {
 			m_pGUI->SetStateString( "server_passworded", "" );
@@ -437,7 +437,7 @@ void idServerScan::GUIAdd( int id, const networkServer_t server ) {
 	bool mod = false;
 
 	if ( !idStr::Icmp( server.serverInfo.GetString( "fs_game" ), "d3xp" ) ||
-		 !idStr::Icmp( server.serverInfo.GetString( "fs_game_base" ), "d3xp" ) ) {
+			!idStr::Icmp( server.serverInfo.GetString( "fs_game_base" ), "d3xp" ) ) {
 		d3xp = true;
 	}
 	if ( server.serverInfo.GetString( "fs_game" )[ 0 ] != '\0' ) {
@@ -484,7 +484,7 @@ void idServerScan::ApplyFilter( ) {
 	for ( i = m_sortAscending ? 0 : m_sortedServers.Num() - 1;
 			m_sortAscending ? i < m_sortedServers.Num() : i >= 0;
 			m_sortAscending ? i++ : i-- ) {
-		serv = (*this)[ m_sortedServers[ i ] ];
+		serv = ( *this )[ m_sortedServers[ i ] ];
 		if ( !IsFiltered( serv ) ) {
 			GUIAdd( m_sortedServers[ i ], serv );
 		}
@@ -548,7 +548,7 @@ bool idServerScan::IsFiltered( const networkServer_t server ) {
 			}
 			i++;
 		}
-		if ( l_gameTypes[ i ] && i != gui_filter_gameType.GetInteger() -1 ) {
+		if ( l_gameTypes[ i ] && i != gui_filter_gameType.GetInteger() - 1 ) {
 			return true;
 		}
 	}
@@ -561,17 +561,17 @@ bool idServerScan::IsFiltered( const networkServer_t server ) {
 	}
 
 	// autofilter D3XP games if the user does not has the XP installed
-	if(!fileSystem->HasD3XP() && !idStr::Icmp(server.serverInfo.GetString( "fs_game" ), "d3xp")) {
+	if ( !fileSystem->HasD3XP() && !idStr::Icmp( server.serverInfo.GetString( "fs_game" ), "d3xp" ) ) {
 		return true;
 	}
 
 	// filter based on the game doom or XP
-	if(gui_filter_game.GetInteger() == 1) { //Only Doom
-		if(idStr::Icmp(server.serverInfo.GetString("fs_game"), "")) {
+	if ( gui_filter_game.GetInteger() == 1 ) { //Only Doom
+		if ( idStr::Icmp( server.serverInfo.GetString( "fs_game" ), "" ) ) {
 			return true;
 		}
-	} else if(gui_filter_game.GetInteger() == 2) { //Only D3XP
-		if(idStr::Icmp(server.serverInfo.GetString("fs_game"), "d3xp")) {
+	} else if ( gui_filter_game.GetInteger() == 2 ) { //Only D3XP
+		if ( idStr::Icmp( server.serverInfo.GetString( "fs_game" ), "d3xp" ) ) {
 			return true;
 		}
 	}
@@ -590,8 +590,8 @@ int idServerScan::Cmp( const int *a, const int *b ) {
 	idStr s1, s2;
 	int ret;
 
-	serv1 = (*l_serverScan)[ *a ];
-	serv2 = (*l_serverScan)[ *b ];
+	serv1 = ( *l_serverScan )[ *a ];
+	serv2 = ( *l_serverScan )[ *b ];
 	switch ( l_serverScan->m_sort ) {
 		case SORT_PING:
 			ret = serv1.ping < serv2.ping ? -1 : ( serv1.ping > serv2.ping ? 1 : 0 );

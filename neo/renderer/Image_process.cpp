@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -39,13 +39,13 @@ Used to resample images in a more general than quartering fashion.
 This will only have filter coverage if the resampled size
 is greater than half the original size.
 
-If a larger shrinking is needed, use the mipmap function 
+If a larger shrinking is needed, use the mipmap function
 after resampling to the next lower power of two.
 ================
 */
 #define	MAX_DIMENSION	4096
-byte *R_ResampleTexture( const byte *in, int inwidth, int inheight,  
-							int outwidth, int outheight ) {
+byte *R_ResampleTexture( const byte *in, int inwidth, int inheight,
+						 int outwidth, int outheight ) {
 	int		i, j;
 	const byte	*inrow, *inrow2;
 	unsigned int	frac, fracstep;
@@ -60,35 +60,35 @@ byte *R_ResampleTexture( const byte *in, int inwidth, int inheight,
 		outheight = MAX_DIMENSION;
 	}
 
-	out = (byte *)R_StaticAlloc( outwidth * outheight * 4 );
+	out = ( byte * )R_StaticAlloc( outwidth * outheight * 4 );
 	out_p = out;
 
-	fracstep = inwidth*0x10000/outwidth;
+	fracstep = inwidth * 0x10000 / outwidth;
 
-	frac = fracstep>>2;
-	for ( i=0 ; i<outwidth ; i++ ) {
-		p1[i] = 4*(frac>>16);
+	frac = fracstep >> 2;
+	for ( i = 0 ; i < outwidth ; i++ ) {
+		p1[i] = 4 * ( frac >> 16 );
 		frac += fracstep;
 	}
-	frac = 3*(fracstep>>2);
-	for ( i=0 ; i<outwidth ; i++ ) {
-		p2[i] = 4*(frac>>16);
+	frac = 3 * ( fracstep >> 2 );
+	for ( i = 0 ; i < outwidth ; i++ ) {
+		p2[i] = 4 * ( frac >> 16 );
 		frac += fracstep;
 	}
 
-	for (i=0 ; i<outheight ; i++, out_p += outwidth*4 ) {
-		inrow = in + 4 * inwidth * (int)( ( i + 0.25f ) * inheight / outheight );
-		inrow2 = in + 4 * inwidth * (int)( ( i + 0.75f ) * inheight / outheight );
+	for ( i = 0 ; i < outheight ; i++, out_p += outwidth * 4 ) {
+		inrow = in + 4 * inwidth * ( int )( ( i + 0.25f ) * inheight / outheight );
+		inrow2 = in + 4 * inwidth * ( int )( ( i + 0.75f ) * inheight / outheight );
 		frac = fracstep >> 1;
-		for (j=0 ; j<outwidth ; j++) {
+		for ( j = 0 ; j < outwidth ; j++ ) {
 			pix1 = inrow + p1[j];
 			pix2 = inrow + p2[j];
 			pix3 = inrow2 + p1[j];
 			pix4 = inrow2 + p2[j];
-			out_p[j*4+0] = (pix1[0] + pix2[0] + pix3[0] + pix4[0])>>2;
-			out_p[j*4+1] = (pix1[1] + pix2[1] + pix3[1] + pix4[1])>>2;
-			out_p[j*4+2] = (pix1[2] + pix2[2] + pix3[2] + pix4[2])>>2;
-			out_p[j*4+3] = (pix1[3] + pix2[3] + pix3[3] + pix4[3])>>2;
+			out_p[j * 4 + 0] = ( pix1[0] + pix2[0] + pix3[0] + pix4[0] ) >> 2;
+			out_p[j * 4 + 1] = ( pix1[1] + pix2[1] + pix3[1] + pix4[1] ) >> 2;
+			out_p[j * 4 + 2] = ( pix1[2] + pix2[2] + pix3[2] + pix4[2] ) >> 2;
+			out_p[j * 4 + 3] = ( pix1[3] + pix2[3] + pix3[3] + pix4[3] ) >> 2;
 		}
 	}
 
@@ -103,25 +103,25 @@ Used to resample images in a more general than quartering fashion.
 Normal maps and such should not be bilerped.
 ================
 */
-byte *R_Dropsample( const byte *in, int inwidth, int inheight,  
-							int outwidth, int outheight ) {
+byte *R_Dropsample( const byte *in, int inwidth, int inheight,
+					int outwidth, int outheight ) {
 	int		i, j, k;
 	const byte	*inrow;
 	const byte	*pix1;
 	byte		*out, *out_p;
 
-	out = (byte *)R_StaticAlloc( outwidth * outheight * 4 );
+	out = ( byte * )R_StaticAlloc( outwidth * outheight * 4 );
 	out_p = out;
 
-	for (i=0 ; i<outheight ; i++, out_p += outwidth*4 ) {
-		inrow = in + 4*inwidth*(int)((i+0.25)*inheight/outheight);
-		for (j=0 ; j<outwidth ; j++) {
+	for ( i = 0 ; i < outheight ; i++, out_p += outwidth * 4 ) {
+		inrow = in + 4 * inwidth * ( int )( ( i + 0.25 ) * inheight / outheight );
+		for ( j = 0 ; j < outwidth ; j++ ) {
 			k = j * inwidth / outwidth;
 			pix1 = inrow + k * 4;
-			out_p[j*4+0] = pix1[0];
-			out_p[j*4+1] = pix1[1];
-			out_p[j*4+2] = pix1[2];
-			out_p[j*4+3] = pix1[3];
+			out_p[j * 4 + 0] = pix1[0];
+			out_p[j * 4 + 1] = pix1[1];
+			out_p[j * 4 + 2] = pix1[2];
+			out_p[j * 4 + 3] = pix1[3];
 		}
 	}
 
@@ -140,28 +140,28 @@ void R_SetBorderTexels( byte *inBase, int width, int height, const byte border[4
 	byte	*out;
 
 	out = inBase;
-	for (i=0 ; i<height ; i++, out+=width*4) {
+	for ( i = 0 ; i < height ; i++, out += width * 4 ) {
 		out[0] = border[0];
 		out[1] = border[1];
 		out[2] = border[2];
 		out[3] = border[3];
 	}
-	out = inBase+(width-1)*4;
-	for (i=0 ; i<height ; i++, out+=width*4) {
+	out = inBase + ( width - 1 ) * 4;
+	for ( i = 0 ; i < height ; i++, out += width * 4 ) {
 		out[0] = border[0];
 		out[1] = border[1];
 		out[2] = border[2];
 		out[3] = border[3];
 	}
 	out = inBase;
-	for (i=0 ; i<width ; i++, out+=4) {
+	for ( i = 0 ; i < width ; i++, out += 4 ) {
 		out[0] = border[0];
 		out[1] = border[1];
 		out[2] = border[2];
 		out[3] = border[3];
 	}
-	out = inBase+width*4*(height-1);
-	for (i=0 ; i<width ; i++, out+=4) {
+	out = inBase + width * 4 * ( height - 1 );
+	for ( i = 0 ; i < width ; i++, out += 4 ) {
 		out[0] = border[0];
 		out[1] = border[1];
 		out[2] = border[2];
@@ -185,28 +185,28 @@ void R_SetBorderTexels3D( byte *inBase, int width, int height, int depth, const 
 
 	for ( j = 1 ; j < depth - 1 ; j++ ) {
 		out = inBase + j * plane;
-		for (i=0 ; i<height ; i++, out+=row) {
+		for ( i = 0 ; i < height ; i++, out += row ) {
 			out[0] = border[0];
 			out[1] = border[1];
 			out[2] = border[2];
 			out[3] = border[3];
 		}
-		out = inBase+(width-1)*4 + j * plane;
-		for (i=0 ; i<height ; i++, out+=row) {
+		out = inBase + ( width - 1 ) * 4 + j * plane;
+		for ( i = 0 ; i < height ; i++, out += row ) {
 			out[0] = border[0];
 			out[1] = border[1];
 			out[2] = border[2];
 			out[3] = border[3];
 		}
 		out = inBase + j * plane;
-		for (i=0 ; i<width ; i++, out+=4) {
+		for ( i = 0 ; i < width ; i++, out += 4 ) {
 			out[0] = border[0];
 			out[1] = border[1];
 			out[2] = border[2];
 			out[3] = border[3];
 		}
-		out = inBase+width*4*(height-1) + j * plane;
-		for (i=0 ; i<width ; i++, out+=4) {
+		out = inBase + width * 4 * ( height - 1 ) + j * plane;
+		for ( i = 0 ; i < width ; i++, out += 4 ) {
 			out[0] = border[0];
 			out[1] = border[1];
 			out[2] = border[2];
@@ -221,7 +221,7 @@ void R_SetBorderTexels3D( byte *inBase, int width, int height, int depth, const 
 		out[2] = border[2];
 		out[3] = border[3];
 	}
-	out = inBase+(depth-1)*plane;
+	out = inBase + ( depth - 1 ) * plane;
 	for ( i = 0 ; i < plane ; i += 4, out += 4 ) {
 		out[0] = border[0];
 		out[1] = border[1];
@@ -271,7 +271,7 @@ void	R_SetAlphaNormalDivergence( byte *in, int width, int height ) {
 					if ( yy == 0 && xx == 0 ) {
 						continue;
 					}
-					byte	*corner_p = in + ( ((y+yy)&(height-1)) * width + ((x+xx)&width-1) ) * 4;
+					byte	*corner_p = in + ( ( ( y + yy ) & ( height - 1 ) ) * width + ( ( x + xx )&width - 1 ) ) * 4;
 					idVec3	corner;
 					corner[0] = ( corner_p[0] - 128 ) / 127;
 					corner[1] = ( corner_p[1] - 128 ) / 127;
@@ -318,10 +318,10 @@ byte *R_MipMapWithAlphaSpecularity( const byte *in, int width, int height ) {
 
 	// convert the incoming texture to centered floating point
 	c = width * height;
-	fbuf = (float *)_alloca( c * 4 * sizeof( *fbuf ) );
+	fbuf = ( float * )_alloca( c * 4 * sizeof( *fbuf ) );
 	in_p = in;
 	fbuf_p = fbuf;
-	for ( i = 0 ; i < c ; i++, in_p+=4, fbuf_p += 4 ) {
+	for ( i = 0 ; i < c ; i++, in_p += 4, fbuf_p += 4 ) {
 		fbuf_p[0] = ( in_p[0] / 255.0 ) * 2.0 - 1.0;	// convert to a normal
 		fbuf_p[1] = ( in_p[1] / 255.0 ) * 2.0 - 1.0;
 		fbuf_p[2] = ( in_p[2] / 255.0 ) * 2.0 - 1.0;
@@ -338,13 +338,13 @@ byte *R_MipMapWithAlphaSpecularity( const byte *in, int width, int height ) {
 	if ( !newHeight ) {
 		newHeight = 1;
 	}
-	out = (byte *)R_StaticAlloc( newWidth * newHeight * 4 );
+	out = ( byte * )R_StaticAlloc( newWidth * newHeight * 4 );
 	out_p = out;
 
 	in_p = in;
 
-	for ( i=0 ; i<newHeight ; i++ ) {
-		for ( j=0 ; j<newWidth ; j++, out_p+=4 ) {
+	for ( i = 0 ; i < newHeight ; i++ ) {
+		for ( j = 0 ; j < newWidth ; j++, out_p += 4 ) {
 			idVec3	total;
 			float	totalSpec;
 
@@ -352,9 +352,9 @@ byte *R_MipMapWithAlphaSpecularity( const byte *in, int width, int height ) {
 			totalSpec = 0;
 			// find the average normal
 			for ( x = -1 ; x <= 1 ; x++ ) {
-				sx = ( j * 2 + x ) & (width-1);
+				sx = ( j * 2 + x ) & ( width - 1 );
 				for ( y = -1 ; y <= 1 ; y++ ) {
-					sy = ( i * 2 + y ) & (height-1);
+					sy = ( i * 2 + y ) & ( height - 1 );
 					fbuf_p = fbuf + ( sy * width + sx ) * 4;
 
 					total[0] += fbuf_p[0];
@@ -420,7 +420,7 @@ byte *R_MipMap( const byte *in, int width, int height, bool preserveBorder ) {
 	if ( !newHeight ) {
 		newHeight = 1;
 	}
-	out = (byte *)R_StaticAlloc( newWidth * newHeight * 4 );
+	out = ( byte * )R_StaticAlloc( newWidth * newHeight * 4 );
 	out_p = out;
 
 	in_p = in;
@@ -431,29 +431,29 @@ byte *R_MipMap( const byte *in, int width, int height, bool preserveBorder ) {
 	if ( width == 0 || height == 0 ) {
 		width += height;	// get largest
 		if ( preserveBorder ) {
-			for (i=0 ; i<width ; i++, out_p+=4 ) {
+			for ( i = 0 ; i < width ; i++, out_p += 4 ) {
 				out_p[0] = border[0];
 				out_p[1] = border[1];
 				out_p[2] = border[2];
 				out_p[3] = border[3];
 			}
 		} else {
-			for (i=0 ; i<width ; i++, out_p+=4, in_p+=8 ) {
-				out_p[0] = ( in_p[0] + in_p[4] )>>1;
-				out_p[1] = ( in_p[1] + in_p[5] )>>1;
-				out_p[2] = ( in_p[2] + in_p[6] )>>1;
-				out_p[3] = ( in_p[3] + in_p[7] )>>1;
+			for ( i = 0 ; i < width ; i++, out_p += 4, in_p += 8 ) {
+				out_p[0] = ( in_p[0] + in_p[4] ) >> 1;
+				out_p[1] = ( in_p[1] + in_p[5] ) >> 1;
+				out_p[2] = ( in_p[2] + in_p[6] ) >> 1;
+				out_p[3] = ( in_p[3] + in_p[7] ) >> 1;
 			}
 		}
 		return out;
 	}
 
-	for (i=0 ; i<height ; i++, in_p+=row) {
-		for (j=0 ; j<width ; j++, out_p+=4, in_p+=8) {
-			out_p[0] = (in_p[0] + in_p[4] + in_p[row+0] + in_p[row+4])>>2;
-			out_p[1] = (in_p[1] + in_p[5] + in_p[row+1] + in_p[row+5])>>2;
-			out_p[2] = (in_p[2] + in_p[6] + in_p[row+2] + in_p[row+6])>>2;
-			out_p[3] = (in_p[3] + in_p[7] + in_p[row+3] + in_p[row+7])>>2;
+	for ( i = 0 ; i < height ; i++, in_p += row ) {
+		for ( j = 0 ; j < width ; j++, out_p += 4, in_p += 8 ) {
+			out_p[0] = ( in_p[0] + in_p[4] + in_p[row + 0] + in_p[row + 4] ) >> 2;
+			out_p[1] = ( in_p[1] + in_p[5] + in_p[row + 1] + in_p[row + 5] ) >> 2;
+			out_p[2] = ( in_p[2] + in_p[6] + in_p[row + 2] + in_p[row + 6] ) >> 2;
+			out_p[3] = ( in_p[3] + in_p[7] + in_p[row + 3] + in_p[row + 7] ) >> 2;
 		}
 	}
 
@@ -507,7 +507,7 @@ byte *R_MipMap3D( const byte *in, int width, int height, int depth, bool preserv
 	newHeight = height >> 1;
 	newDepth = depth >> 1;
 
-	out = (byte *)R_StaticAlloc( newWidth * newHeight * newDepth * 4 );
+	out = ( byte * )R_StaticAlloc( newWidth * newHeight * newDepth * 4 );
 	out_p = out;
 
 	in_p = in;
@@ -516,21 +516,21 @@ byte *R_MipMap3D( const byte *in, int width, int height, int depth, bool preserv
 	height >>= 1;
 	depth >>= 1;
 
-	for (k=0 ; k<depth ; k++, in_p+=plane) {
-		for (i=0 ; i<height ; i++, in_p+=row) {
-			for (j=0 ; j<width ; j++, out_p+=4, in_p+=8) {
-				out_p[0] = (in_p[0] + in_p[4] + in_p[row+0] + in_p[row+4] +
-					in_p[plane+0] + in_p[plane+4] + in_p[plane+row+0] + in_p[plane+row+4]
-					)>>3;
-				out_p[1] = (in_p[1] + in_p[5] + in_p[row+1] + in_p[row+5] +
-					in_p[plane+1] + in_p[plane+5] + in_p[plane+row+1] + in_p[plane+row+5]
-					)>>3;
-				out_p[2] = (in_p[2] + in_p[6] + in_p[row+2] + in_p[row+6] +
-					in_p[plane+2] + in_p[plane+6] + in_p[plane+row+2] + in_p[plane+row+6]
-					)>>3;
-				out_p[3] = (in_p[3] + in_p[7] + in_p[row+3] + in_p[row+7] +
-					in_p[plane+3] + in_p[plane+6] + in_p[plane+row+3] + in_p[plane+row+6]
-					)>>3;
+	for ( k = 0 ; k < depth ; k++, in_p += plane ) {
+		for ( i = 0 ; i < height ; i++, in_p += row ) {
+			for ( j = 0 ; j < width ; j++, out_p += 4, in_p += 8 ) {
+				out_p[0] = ( in_p[0] + in_p[4] + in_p[row + 0] + in_p[row + 4] +
+							 in_p[plane + 0] + in_p[plane + 4] + in_p[plane + row + 0] + in_p[plane + row + 4]
+						   ) >> 3;
+				out_p[1] = ( in_p[1] + in_p[5] + in_p[row + 1] + in_p[row + 5] +
+							 in_p[plane + 1] + in_p[plane + 5] + in_p[plane + row + 1] + in_p[plane + row + 5]
+						   ) >> 3;
+				out_p[2] = ( in_p[2] + in_p[6] + in_p[row + 2] + in_p[row + 6] +
+							 in_p[plane + 2] + in_p[plane + 6] + in_p[plane + row + 2] + in_p[plane + row + 6]
+						   ) >> 3;
+				out_p[3] = ( in_p[3] + in_p[7] + in_p[row + 3] + in_p[row + 7] +
+							 in_p[plane + 3] + in_p[plane + 6] + in_p[plane + row + 3] + in_p[plane + row + 6]
+						   ) >> 3;
 			}
 		}
 	}
@@ -561,7 +561,7 @@ void R_BlendOverTexture( byte *data, int pixelCount, const byte blend[4] ) {
 	premult[1] = blend[1] * blend[3];
 	premult[2] = blend[2] * blend[3];
 
-	for ( i = 0 ; i < pixelCount ; i++, data+=4 ) {
+	for ( i = 0 ; i < pixelCount ; i++, data += 4 ) {
 		data[0] = ( data[0] * inverseAlpha + premult[0] ) >> 9;
 		data[1] = ( data[1] * inverseAlpha + premult[1] ) >> 9;
 		data[2] = ( data[2] * inverseAlpha + premult[2] ) >> 9;
@@ -582,9 +582,9 @@ void R_HorizontalFlip( byte *data, int width, int height ) {
 
 	for ( i = 0 ; i < height ; i++ ) {
 		for ( j = 0 ; j < width / 2 ; j++ ) {
-			temp = *( (int *)data + i * width + j );
-			*( (int *)data + i * width + j ) = *( (int *)data + i * width + width - 1 - j );
-			*( (int *)data + i * width + width - 1 - j ) = temp;
+			temp = *( ( int * )data + i * width + j );
+			*( ( int * )data + i * width + j ) = *( ( int * )data + i * width + width - 1 - j );
+			*( ( int * )data + i * width + width - 1 - j ) = temp;
 		}
 	}
 }
@@ -595,9 +595,9 @@ void R_VerticalFlip( byte *data, int width, int height ) {
 
 	for ( i = 0 ; i < width ; i++ ) {
 		for ( j = 0 ; j < height / 2 ; j++ ) {
-			temp = *( (int *)data + j * width + i );
-			*( (int *)data + j * width + i ) = *( (int *)data + ( height - 1 - j ) * width + i );
-			*( (int *)data + ( height - 1 - j ) * width + i ) = temp;
+			temp = *( ( int * )data + j * width + i );
+			*( ( int * )data + j * width + i ) = *( ( int * )data + ( height - 1 - j ) * width + i );
+			*( ( int * )data + ( height - 1 - j ) * width + i ) = temp;
 		}
 	}
 }
@@ -606,11 +606,11 @@ void R_RotatePic( byte *data, int width ) {
 	int		i, j;
 	int		*temp;
 
-	temp = (int *)R_StaticAlloc( width * width * 4 );
+	temp = ( int * )R_StaticAlloc( width * width * 4 );
 
 	for ( i = 0 ; i < width ; i++ ) {
 		for ( j = 0 ; j < width ; j++ ) {
-			*( temp + i * width + j ) = *( (int *)data + j * width + i );
+			*( temp + i * width + j ) = *( ( int * )data + j * width + i );
 		}
 	}
 

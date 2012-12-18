@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -48,18 +48,18 @@ void usercmd_t::ByteSwap( void ) {
 usercmd_t::operator==
 ================
 */
-bool usercmd_t::operator==( const usercmd_t &rhs ) const { 
+bool usercmd_t::operator==( const usercmd_t &rhs ) const {
 	return ( buttons == rhs.buttons &&
-			forwardmove == rhs.forwardmove &&
-			rightmove == rhs.rightmove &&
-			upmove == rhs.upmove &&
-			angles[0] == rhs.angles[0] &&
-			angles[1] == rhs.angles[1] &&
-			angles[2] == rhs.angles[2] &&
-			impulse == rhs.impulse &&
-			flags == rhs.flags &&
-			mx == rhs.mx &&
-			my == rhs.my );
+			 forwardmove == rhs.forwardmove &&
+			 rightmove == rhs.rightmove &&
+			 upmove == rhs.upmove &&
+			 angles[0] == rhs.angles[0] &&
+			 angles[1] == rhs.angles[1] &&
+			 angles[2] == rhs.angles[2] &&
+			 impulse == rhs.impulse &&
+			 flags == rhs.flags &&
+			 mx == rhs.mx &&
+			 my == rhs.my );
 }
 
 
@@ -264,12 +264,14 @@ userCmdString_t	userCmdStrings[] = {
 	{ NULL,				UB_NONE },
 };
 
- class buttonState_t {
- public:
+class buttonState_t {
+public:
 	int		on;
 	bool	held;
 
-			buttonState_t() { Clear(); };
+	buttonState_t() {
+		Clear();
+	};
 	void	Clear( void );
 	void	SetKeyState( int keystate, bool toggle );
 };
@@ -302,14 +304,14 @@ void buttonState_t::SetKeyState( int keystate, bool toggle ) {
 }
 
 
-const int NUM_USER_COMMANDS = sizeof(userCmdStrings) / sizeof(userCmdString_t);
+const int NUM_USER_COMMANDS = sizeof( userCmdStrings ) / sizeof( userCmdString_t );
 
 const int MAX_CHAT_BUFFER = 127;
 
 class idUsercmdGenLocal : public idUsercmdGen {
 public:
-					idUsercmdGenLocal( void );
-	
+	idUsercmdGenLocal( void );
+
 	void			Init( void );
 
 	void			InitForNewMap( void );
@@ -330,7 +332,7 @@ public:
 
 	int				GetNumUserCommands( void );
 
-	const char *	GetUserCommandName( int index );
+	const char 	*GetUserCommandName( int index );
 
 	void			MouseState( int *x, int *y, int *button, bool *down );
 
@@ -411,8 +413,8 @@ idCVar idUsercmdGenLocal::sensitivity( "sensitivity", "5", CVAR_SYSTEM | CVAR_AR
 idCVar idUsercmdGenLocal::m_pitch( "m_pitch", "0.022", CVAR_SYSTEM | CVAR_ARCHIVE | CVAR_FLOAT, "mouse pitch scale" );
 idCVar idUsercmdGenLocal::m_yaw( "m_yaw", "0.022", CVAR_SYSTEM | CVAR_ARCHIVE | CVAR_FLOAT, "mouse yaw scale" );
 idCVar idUsercmdGenLocal::m_strafeScale( "m_strafeScale", "6.25", CVAR_SYSTEM | CVAR_ARCHIVE | CVAR_FLOAT, "mouse strafe movement scale" );
-idCVar idUsercmdGenLocal::m_smooth( "m_smooth", "1", CVAR_SYSTEM | CVAR_ARCHIVE | CVAR_INTEGER, "number of samples blended for mouse viewing", 1, 8, idCmdSystem::ArgCompletion_Integer<1,8> );
-idCVar idUsercmdGenLocal::m_strafeSmooth( "m_strafeSmooth", "4", CVAR_SYSTEM | CVAR_ARCHIVE | CVAR_INTEGER, "number of samples blended for mouse moving", 1, 8, idCmdSystem::ArgCompletion_Integer<1,8> );
+idCVar idUsercmdGenLocal::m_smooth( "m_smooth", "1", CVAR_SYSTEM | CVAR_ARCHIVE | CVAR_INTEGER, "number of samples blended for mouse viewing", 1, 8, idCmdSystem::ArgCompletion_Integer<1, 8> );
+idCVar idUsercmdGenLocal::m_strafeSmooth( "m_strafeSmooth", "4", CVAR_SYSTEM | CVAR_ARCHIVE | CVAR_INTEGER, "number of samples blended for mouse moving", 1, 8, idCmdSystem::ArgCompletion_Integer<1, 8> );
 idCVar idUsercmdGenLocal::m_showMouseRate( "m_showMouseRate", "0", CVAR_SYSTEM | CVAR_BOOL, "shows mouse movement" );
 
 static idUsercmdGenLocal localUsercmdGen;
@@ -460,7 +462,7 @@ Returns (the fraction of the frame) that the key was down
 ===============
 */
 int	idUsercmdGenLocal::ButtonState( int key ) {
-	if ( key<0 || key>=UB_MAX_BUTTONS ) {
+	if ( key < 0 || key >= UB_MAX_BUTTONS ) {
 		return -1;
 	}
 	return ( buttonState[key] > 0 ) ? 1 : 0;
@@ -475,7 +477,7 @@ bk20060111
 ===============
 */
 int	idUsercmdGenLocal::KeyState( int key ) {
-	if ( key<0 || key>=K_LAST_KEY ) {
+	if ( key < 0 || key >= K_LAST_KEY ) {
 		return -1;
 	}
 	return ( keyState[key] ) ? 1 : 0;
@@ -500,7 +502,7 @@ idUsercmdGenLocal::GetNumUserCommands
 ================
 */
 const char *idUsercmdGenLocal::GetUserCommandName( int index ) {
-	if (index >= 0 && index < NUM_USER_COMMANDS) {
+	if ( index >= 0 && index < NUM_USER_COMMANDS ) {
 		return userCmdStrings[index].string;
 	}
 	return "";
@@ -514,7 +516,7 @@ is user cmd generation inhibited
 ================
 */
 bool idUsercmdGenLocal::Inhibited( void ) {
-	return ( inhibitCommands != 0);
+	return ( inhibitCommands != 0 );
 }
 
 /*
@@ -526,7 +528,7 @@ Moves the local angle positions
 */
 void idUsercmdGenLocal::AdjustAngles( void ) {
 	float	speed;
-	
+
 	if ( toggled_run.on ^ ( in_alwaysRun.GetBool() && idAsyncNetwork::IsActive() ) ) {
 		speed = idMath::M_MS2SEC * USERCMD_MSEC * in_angleSpeedKey.GetFloat();
 	} else {
@@ -585,9 +587,9 @@ void idUsercmdGenLocal::MouseMove( void ) {
 	static int	historyCounter;
 	int			i;
 
-	history[historyCounter&7][0] = mouseDx;
-	history[historyCounter&7][1] = mouseDy;
-	
+	history[historyCounter & 7][0] = mouseDx;
+	history[historyCounter & 7][1] = mouseDy;
+
 	// allow mouse movement to be smoothed together
 	int smooth = m_smooth.GetInteger();
 	if ( smooth < 1 ) {
@@ -599,8 +601,8 @@ void idUsercmdGenLocal::MouseMove( void ) {
 	mx = 0;
 	my = 0;
 	for ( i = 0 ; i < smooth ; i++ ) {
-		mx += history[ ( historyCounter - i + 8 ) & 7 ][0];
-		my += history[ ( historyCounter - i + 8 ) & 7 ][1];
+		mx += history[( historyCounter - i + 8 ) & 7 ][0];
+		my += history[( historyCounter - i + 8 ) & 7 ][1];
 	}
 	mx /= smooth;
 	my /= smooth;
@@ -616,8 +618,8 @@ void idUsercmdGenLocal::MouseMove( void ) {
 	strafeMx = 0;
 	strafeMy = 0;
 	for ( i = 0 ; i < smooth ; i++ ) {
-		strafeMx += history[ ( historyCounter - i + 8 ) & 7 ][0];
-		strafeMy += history[ ( historyCounter - i + 8 ) & 7 ][1];
+		strafeMx += history[( historyCounter - i + 8 ) & 7 ][0];
+		strafeMy += history[( historyCounter - i + 8 ) & 7 ][1];
 	}
 	strafeMx /= smooth;
 	strafeMy /= smooth;
@@ -658,13 +660,13 @@ void idUsercmdGenLocal::MouseMove( void ) {
 	if ( !ButtonState( UB_STRAFE ) ) {
 		viewangles[YAW] -= m_yaw.GetFloat() * mx;
 	} else {
-		cmd.rightmove = idMath::ClampChar( (int)(cmd.rightmove + strafeMx) );
+		cmd.rightmove = idMath::ClampChar( ( int )( cmd.rightmove + strafeMx ) );
 	}
 
 	if ( !ButtonState( UB_STRAFE ) && ( cmd.buttons & BUTTON_MLOOK ) ) {
 		viewangles[PITCH] += m_pitch.GetFloat() * my;
 	} else {
-		cmd.forwardmove = idMath::ClampChar( (int)(cmd.forwardmove - strafeMy) );
+		cmd.forwardmove = idMath::ClampChar( ( int )( cmd.forwardmove - strafeMy ) );
 	}
 }
 
@@ -704,8 +706,8 @@ void idUsercmdGenLocal::CmdButtons( void ) {
 	cmd.buttons = 0;
 
 	// figure button bits
-	for (i = 0 ; i <= 7 ; i++) {
-		if ( ButtonState( (usercmdButton_t)( UB_BUTTON0 + i ) ) ) {
+	for ( i = 0 ; i <= 7 ; i++ ) {
+		if ( ButtonState( ( usercmdButton_t )( UB_BUTTON0 + i ) ) ) {
 			cmd.buttons |= 1 << i;
 		}
 	}
@@ -764,7 +766,7 @@ void idUsercmdGenLocal::MakeCurrent( void ) {
 	int		i;
 
 	oldAngles = viewangles;
-	
+
 	if ( !Inhibited() ) {
 		// update toggled key states
 		toggled_crouch.SetKeyState( ButtonState( UB_DOWN ), in_toggleCrouch.GetBool() );
@@ -791,7 +793,7 @@ void idUsercmdGenLocal::MakeCurrent( void ) {
 			viewangles[PITCH] = oldAngles[PITCH] + 90;
 		} else if ( oldAngles[PITCH] - viewangles[PITCH] > 90 ) {
 			viewangles[PITCH] = oldAngles[PITCH] - 90;
-		} 
+		}
 	} else {
 		mouseDx = 0;
 		mouseDy = 0;
@@ -870,7 +872,7 @@ idUsercmdGenLocal::Clear
 ================
 */
 void idUsercmdGenLocal::Clear( void ) {
-	// clears all key states 
+	// clears all key states
 	memset( buttonState, 0, sizeof( buttonState ) );
 	memset( keyState, false, sizeof( keyState ) );
 
@@ -902,7 +904,7 @@ usercmd_t idUsercmdGenLocal::TicCmd( int ticNumber ) {
 	// the packetClient code can legally ask for com_ticNumber+1, because
 	// it is in the async code and com_ticNumber hasn't been updated yet,
 	// but all other code should never ask for anything > com_ticNumber
-	if ( ticNumber > com_ticNumber+1 ) {
+	if ( ticNumber > com_ticNumber + 1 ) {
 		common->Error( "idUsercmdGenLocal::TicCmd ticNumber > com_ticNumber" );
 	}
 
@@ -912,7 +914,7 @@ usercmd_t idUsercmdGenLocal::TicCmd( int ticNumber ) {
 		//common->Printf( "warning: idUsercmdGenLocal::TicCmd ticNumber <= com_ticNumber - MAX_BUFFERED_USERCMD\n" );
 	}
 
-	return buffered[ ticNumber & (MAX_BUFFERED_USERCMD-1) ];
+	return buffered[ ticNumber & ( MAX_BUFFERED_USERCMD - 1 ) ];
 }
 
 //======================================================================
@@ -939,7 +941,7 @@ void idUsercmdGenLocal::Key( int keyNum, bool down ) {
 
 		buttonState[ action ]++;
 
-		if ( !Inhibited()  ) {
+		if ( !Inhibited() ) {
 			if ( action >= UB_IMPULSE0 && action <= UB_IMPULSE61 ) {
 				cmd.impulse = action - UB_IMPULSE0;
 				cmd.flags ^= UCF_IMPULSE_SEQUENCE;
@@ -966,9 +968,9 @@ void idUsercmdGenLocal::Mouse( void ) {
 
 	if ( numEvents ) {
 		//
-	    // Study each of the buffer elements and process them.
+		// Study each of the buffer elements and process them.
 		//
-		for( i = 0; i < numEvents; i++ ) {
+		for ( i = 0; i < numEvents; i++ ) {
 			int action, value;
 			if ( Sys_ReturnMouseInputEvent( i, action, value ) ) {
 				if ( action >= M_ACTION1 && action <= M_ACTION8 ) {
@@ -988,7 +990,7 @@ void idUsercmdGenLocal::Mouse( void ) {
 						case M_DELTAZ:
 							int key = value < 0 ? K_MWHEELDOWN : K_MWHEELUP;
 							value = abs( value );
-							while( value-- > 0 ) {
+							while ( value-- > 0 ) {
 								Key( key, true );
 								Key( key, false );
 								mouseButton = key;
@@ -1015,13 +1017,13 @@ void idUsercmdGenLocal::Keyboard( void ) {
 
 	if ( numEvents ) {
 		//
-	    // Study each of the buffer elements and process them.
+		// Study each of the buffer elements and process them.
 		//
 		int key;
 		bool state;
-		for( int i = 0; i < numEvents; i++ ) {
-			if (Sys_ReturnKeyboardInputEvent( i, key, state )) {
-				Key ( key, state );
+		for ( int i = 0; i < numEvents; i++ ) {
+			if ( Sys_ReturnKeyboardInputEvent( i, key, state ) ) {
+				Key( key, state );
 			}
 		}
 	}
@@ -1067,9 +1069,9 @@ void idUsercmdGenLocal::UsercmdInterrupt( void ) {
 	MakeCurrent();
 
 	// save a number for debugging cmdDemos and networking
-	cmd.sequence = com_ticNumber+1;
+	cmd.sequence = com_ticNumber + 1;
 
-	buffered[(com_ticNumber+1) & (MAX_BUFFERED_USERCMD-1)] = cmd;
+	buffered[( com_ticNumber + 1 ) & ( MAX_BUFFERED_USERCMD - 1 )] = cmd;
 }
 
 /*

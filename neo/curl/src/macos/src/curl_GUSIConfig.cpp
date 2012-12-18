@@ -27,8 +27,7 @@ __END_DECLS
 
 /* Configure Socket Factories */
 
-void GUSISetupFactories()
-{
+void GUSISetupFactories() {
 #ifdef GUSISetupFactories_BeginHook
 	GUSISetupFactories_BeginHook
 #endif
@@ -47,8 +46,7 @@ __END_DECLS
 
 /* Configure File Devices */
 
-void GUSISetupDevices()
-{
+void GUSISetupDevices() {
 #ifdef GUSISetupDevices_BeginHook
 	GUSISetupDevices_BeginHook
 #endif
@@ -66,14 +64,13 @@ GUSIConfiguration::FileSuffix	sSuffices[] = {
 	"", '????', '????'
 };
 
-extern "C" void GUSISetupConfig()
-{
-	GUSIConfiguration * config =
-		GUSIConfiguration::CreateInstance(GUSIConfiguration::kNoResource);
+extern "C" void GUSISetupConfig() {
+	GUSIConfiguration *config =
+		GUSIConfiguration::CreateInstance( GUSIConfiguration::kNoResource );
 
-	config->ConfigureDefaultTypeCreator('TEXT', 'CWIE');
+	config->ConfigureDefaultTypeCreator( 'TEXT', 'CWIE' );
 	config->ConfigureSuffices(
-		sizeof(sSuffices)/sizeof(GUSIConfiguration::FileSuffix)-1, sSuffices);
+		sizeof( sSuffices ) / sizeof( GUSIConfiguration::FileSuffix ) - 1, sSuffices );
 }
 
 /**************** END GUSI CONFIGURATION *************************/

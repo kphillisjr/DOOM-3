@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -45,7 +45,7 @@ typedef struct {
 	short		combat;
 } logStats_t;
 
-static const int	MAX_LOGGED_STATS = 60 * 120;		// log every half second 
+static const int	MAX_LOGGED_STATS = 60 * 120;		// log every half second
 
 typedef enum {
 	MSG_OK,
@@ -58,7 +58,7 @@ typedef enum {
 	MSG_WAIT
 } msgBoxType_t;
 
-typedef const char * (*HandleGuiCommand_t)( const char * );
+typedef const char *( *HandleGuiCommand_t )( const char * );
 
 class idSession {
 public:
@@ -150,16 +150,16 @@ public:
 	virtual int		GetSaveGameVersion( void ) = 0;
 
 	// The render world and sound world used for this session.
-	idRenderWorld *	rw;
-	idSoundWorld *	sw;
+	idRenderWorld 	*rw;
+	idSoundWorld 	*sw;
 
 	// The renderer and sound system will write changes to writeDemo.
 	// Demos can be recorded and played at the same time when splicing.
-	idDemoFile *	readDemo;
-	idDemoFile *	writeDemo;
+	idDemoFile 	*readDemo;
+	idDemoFile 	*writeDemo;
 	int				renderdemoVersion;
 };
 
-extern	idSession *	session;
+extern	idSession 	*session;
 
 #endif /* !__SESSION_H__ */

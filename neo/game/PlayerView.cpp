@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -74,7 +74,7 @@ void idPlayerView::Save( idSaveGame *savefile ) const {
 	const screenBlob_t *blob;
 
 	blob = &screenBlobs[ 0 ];
-	for( i = 0; i < MAX_SCREEN_BLOBS; i++, blob++ ) {
+	for ( i = 0; i < MAX_SCREEN_BLOBS; i++, blob++ ) {
 		savefile->WriteMaterial( blob->material );
 		savefile->WriteFloat( blob->x );
 		savefile->WriteFloat( blob->y );
@@ -125,7 +125,7 @@ void idPlayerView::Restore( idRestoreGame *savefile ) {
 	screenBlob_t *blob;
 
 	blob = &screenBlobs[ 0 ];
-	for( i = 0; i < MAX_SCREEN_BLOBS; i++, blob++ ) {
+	for ( i = 0; i < MAX_SCREEN_BLOBS; i++, blob++ ) {
 		savefile->ReadMaterial( blob->material );
 		savefile->ReadFloat( blob->x );
 		savefile->ReadFloat( blob->y );
@@ -143,7 +143,7 @@ void idPlayerView::Restore( idRestoreGame *savefile ) {
 	savefile->ReadInt( dvFinishTime );
 	savefile->ReadMaterial( dvMaterial );
 	savefile->ReadInt( kickFinishTime );
-	savefile->ReadAngles( kickAngles );			
+	savefile->ReadAngles( kickAngles );
 	savefile->ReadBool( bfgVision );
 
 	savefile->ReadMaterial( tunnelMaterial );
@@ -250,7 +250,7 @@ void idPlayerView::DamageImpulse( idVec3 localKickDir, const idDict *damageDef )
 		kickAngles[0] = localKickDir[0];
 
 		// side kick will yaw view
-		kickAngles[1] = localKickDir[1]*0.5f;
+		kickAngles[1] = localKickDir[1] * 0.5f;
 
 		// up / down kick will pitch view
 		kickAngles[0] += localKickDir[2];
@@ -276,11 +276,11 @@ void idPlayerView::DamageImpulse( idVec3 localKickDir, const idDict *damageDef )
 		const char *materialName = damageDef->GetString( "mtr_blob" );
 		blob->material = declManager->FindMaterial( materialName );
 		blob->x = damageDef->GetFloat( "blob_x" );
-		blob->x += ( gameLocal.random.RandomInt()&63 ) - 32;
+		blob->x += ( gameLocal.random.RandomInt() & 63 ) - 32;
 		blob->y = damageDef->GetFloat( "blob_y" );
-		blob->y += ( gameLocal.random.RandomInt()&63 ) - 32;
-		
-		float scale = ( 256 + ( ( gameLocal.random.RandomInt()&63 ) - 32 ) ) / 256.0f;
+		blob->y += ( gameLocal.random.RandomInt() & 63 ) - 32;
+
+		float scale = ( 256 + ( ( gameLocal.random.RandomInt() & 63 ) - 32 ) ) / 256.0f;
 		blob->w = damageDef->GetFloat( "blob_width" ) * g_blobSize.GetFloat() * scale;
 		blob->h = damageDef->GetFloat( "blob_height" ) * g_blobSize.GetFloat() * scale;
 		blob->s1 = 0;
@@ -305,42 +305,42 @@ but having it localized here lets the material be pre-looked up etc.
 ==================
 */
 void idPlayerView::AddBloodSpray( float duration ) {
-/*
-	if ( duration <= 0 || bloodSprayMaterial == NULL || g_skipViewEffects.GetBool() ) {
-		return;
-	}
-	// visit this for chainsaw
-	screenBlob_t *blob = GetScreenBlob();
-	blob->startFadeTime = gameLocal.time;
-	blob->finishTime = gameLocal.time + ( duration * 1000 );
-	blob->material = bloodSprayMaterial;
-	blob->x = ( gameLocal.random.RandomInt() & 63 ) - 32;
-	blob->y = ( gameLocal.random.RandomInt() & 63 ) - 32;
-	blob->driftAmount = 0.5f + gameLocal.random.CRandomFloat() * 0.5;
-	float scale = ( 256 + ( ( gameLocal.random.RandomInt()&63 ) - 32 ) ) / 256.0f;
-	blob->w = 600 * g_blobSize.GetFloat() * scale;
-	blob->h = 480 * g_blobSize.GetFloat() * scale;
-	float s1 = 0.0f;
-	float t1 = 0.0f;
-	float s2 = 1.0f;
-	float t2 = 1.0f;
-	if ( blob->driftAmount < 0.6 ) {
-		s1 = 1.0f;
-		s2 = 0.0f;
-	} else if ( blob->driftAmount < 0.75 ) {
-		t1 = 1.0f;
-		t2 = 0.0f;
-	} else if ( blob->driftAmount < 0.85 ) {
-		s1 = 1.0f;
-		s2 = 0.0f;
-		t1 = 1.0f;
-		t2 = 0.0f;
-	}
-	blob->s1 = s1;
-	blob->t1 = t1;
-	blob->s2 = s2;
-	blob->t2 = t2;
-*/
+	/*
+		if ( duration <= 0 || bloodSprayMaterial == NULL || g_skipViewEffects.GetBool() ) {
+			return;
+		}
+		// visit this for chainsaw
+		screenBlob_t *blob = GetScreenBlob();
+		blob->startFadeTime = gameLocal.time;
+		blob->finishTime = gameLocal.time + ( duration * 1000 );
+		blob->material = bloodSprayMaterial;
+		blob->x = ( gameLocal.random.RandomInt() & 63 ) - 32;
+		blob->y = ( gameLocal.random.RandomInt() & 63 ) - 32;
+		blob->driftAmount = 0.5f + gameLocal.random.CRandomFloat() * 0.5;
+		float scale = ( 256 + ( ( gameLocal.random.RandomInt()&63 ) - 32 ) ) / 256.0f;
+		blob->w = 600 * g_blobSize.GetFloat() * scale;
+		blob->h = 480 * g_blobSize.GetFloat() * scale;
+		float s1 = 0.0f;
+		float t1 = 0.0f;
+		float s2 = 1.0f;
+		float t2 = 1.0f;
+		if ( blob->driftAmount < 0.6 ) {
+			s1 = 1.0f;
+			s2 = 0.0f;
+		} else if ( blob->driftAmount < 0.75 ) {
+			t1 = 1.0f;
+			t2 = 0.0f;
+		} else if ( blob->driftAmount < 0.85 ) {
+			s1 = 1.0f;
+			s2 = 0.0f;
+			t1 = 1.0f;
+			t2 = 0.0f;
+		}
+		blob->s1 = s1;
+		blob->t1 = t1;
+		blob->s2 = s2;
+		blob->t2 = t2;
+	*/
 }
 
 /*
@@ -361,7 +361,7 @@ void idPlayerView::WeaponFireFeedback( const idDict *weaponDef ) {
 		kickAngles = angles;
 		int	finish = gameLocal.time + g_kickTime.GetFloat() * recoilTime;
 		kickFinishTime = finish;
-	}	
+	}
 
 }
 
@@ -398,7 +398,7 @@ idMat3 idPlayerView::ShakeAxis() const {
 ===================
 idPlayerView::AngleOffset
 
-  kickVector, a world space direction that the attack should 
+  kickVector, a world space direction that the attack should
 ===================
 */
 idAngles idPlayerView::AngleOffset() const {
@@ -460,16 +460,16 @@ void idPlayerView::SingleView( idUserInterface *hud, const renderView_t *view ) 
 			if ( blob->finishTime <= gameLocal.time ) {
 				continue;
 			}
-			
+
 			blob->y += blob->driftAmount;
 
-			float	fade = (float)( blob->finishTime - gameLocal.time ) / ( blob->finishTime - blob->startFadeTime );
+			float	fade = ( float )( blob->finishTime - gameLocal.time ) / ( blob->finishTime - blob->startFadeTime );
 			if ( fade > 1.0f ) {
 				fade = 1.0f;
 			}
 			if ( fade ) {
-				renderSystem->SetColor4( 1,1,1,fade );
-				renderSystem->DrawStretchPic( blob->x, blob->y, blob->w, blob->h,blob->s1, blob->t1, blob->s2, blob->t2, blob->material );
+				renderSystem->SetColor4( 1, 1, 1, fade );
+				renderSystem->DrawStretchPic( blob->x, blob->y, blob->w, blob->h, blob->s1, blob->t1, blob->s2, blob->t2, blob->material );
 			}
 		}
 		player->DrawHUD( hud );
@@ -498,16 +498,16 @@ void idPlayerView::SingleView( idUserInterface *hud, const renderView_t *view ) 
 			alpha = 1.0f;
 		}
 
-		if ( alpha < 1.0f  ) {
+		if ( alpha < 1.0f ) {
 			renderSystem->SetColor4( ( player->health <= 0.0f ) ? MS2SEC( gameLocal.time ) : lastDamageTime, 1.0f, 1.0f, ( player->health <= 0.0f ) ? 0.0f : alpha );
 			renderSystem->DrawStretchPic( 0.0f, 0.0f, 640.0f, 480.0f, 0.0f, 0.0f, 1.0f, 1.0f, tunnelMaterial );
 		}
 
-		if ( player->PowerUpActive(BERSERK) ) {
+		if ( player->PowerUpActive( BERSERK ) ) {
 			int berserkTime = player->inventory.powerupEndTime[ BERSERK ] - gameLocal.time;
 			if ( berserkTime > 0 ) {
 				// start fading if within 10 seconds of going away
-				alpha = (berserkTime < 10000) ? (float)berserkTime / 10000 : 1.0f;
+				alpha = ( berserkTime < 10000 ) ? ( float )berserkTime / 10000 : 1.0f;
 				renderSystem->SetColor4( 1.0f, 1.0f, 1.0f, alpha );
 				renderSystem->DrawStretchPic( 0.0f, 0.0f, 640.0f, 480.0f, 0.0f, 0.0f, 1.0f, 1.0f, berserkMaterial );
 			}
@@ -517,7 +517,7 @@ void idPlayerView::SingleView( idUserInterface *hud, const renderView_t *view ) 
 			renderSystem->SetColor4( 1.0f, 1.0f, 1.0f, 1.0f );
 			renderSystem->DrawStretchPic( 0.0f, 0.0f, 640.0f, 480.0f, 0.0f, 0.0f, 1.0f, 1.0f, bfgMaterial );
 		}
-		
+
 	}
 
 	// test a single material drawn over everything
@@ -549,7 +549,7 @@ void idPlayerView::DoubleVision( idUserInterface *hud, const renderView_t *view,
 	if ( scale > 0.5f ) {
 		scale = 0.5f;
 	}
-	float shift = scale * sin( sqrtf( offset ) * g_dvFrequency.GetFloat() ); 
+	float shift = scale * sin( sqrtf( offset ) * g_dvFrequency.GetFloat() );
 	shift = fabs( shift );
 
 	// if double vision, render to a texture
@@ -559,7 +559,7 @@ void idPlayerView::DoubleVision( idUserInterface *hud, const renderView_t *view,
 	renderSystem->UnCrop();
 
 	// carry red tint if in berserk mode
-	idVec4 color(1, 1, 1, 1);
+	idVec4 color( 1, 1, 1, 1 );
 	if ( gameLocal.time < player->inventory.powerupEndTime[ BERSERK ] ) {
 		color.y = 0;
 		color.z = 0;
@@ -568,7 +568,7 @@ void idPlayerView::DoubleVision( idUserInterface *hud, const renderView_t *view,
 	renderSystem->SetColor4( color.x, color.y, color.z, 1.0f );
 	renderSystem->DrawStretchPic( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, shift, 1, 1, 0, dvMaterial );
 	renderSystem->SetColor4( color.x, color.y, color.z, 0.5f );
-	renderSystem->DrawStretchPic( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 1, 1-shift, 0, dvMaterial );
+	renderSystem->DrawStretchPic( 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 1, 1 - shift, 0, dvMaterial );
 }
 
 /*
@@ -593,8 +593,8 @@ idPlayerView::Flash
 flashes the player view with the given color
 =================
 */
-void idPlayerView::Flash(idVec4 color, int time ) {
-	Fade(idVec4(0, 0, 0, 0), time);
+void idPlayerView::Flash( idVec4 color, int time ) {
+	Fade( idVec4( 0, 0, 0, 0 ), time );
 	fadeFromColor = colorWhite;
 }
 
@@ -717,6 +717,6 @@ void idPlayerView::RenderPlayerView( idUserInterface *hud ) {
 	if ( net_clientLagOMeter.GetBool() && lagoMaterial && gameLocal.isClient ) {
 		renderSystem->SetColor4( 1.0f, 1.0f, 1.0f, 1.0f );
 		renderSystem->DrawStretchPic( 10.0f, 380.0f, 64.0f, 64.0f, 0.0f, 0.0f, 1.0f, 1.0f, lagoMaterial );
-	}	
+	}
 }
 

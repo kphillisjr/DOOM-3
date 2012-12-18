@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -251,22 +251,21 @@ void idSoundWorldLocal::ProcessDemoCommand( idDemoFile *readDemo ) {
 
 	soundDemoCommand_t	dc;
 
-	if ( !readDemo->ReadInt( (int&)dc ) ) {
+	if ( !readDemo->ReadInt( ( int & )dc ) ) {
 		return;
 	}
 
-	switch( dc ) {
-	case SCMD_STATE:
-		// we need to protect this from the async thread
-		// other instances of calling idSoundWorldLocal::ReadFromSaveGame do this while the sound code is muted
-		// setting muted and going right in may not be good enough here, as we async thread may already be in an async tick (in which case we could still race to it)
-		Sys_EnterCriticalSection();
-		ReadFromSaveGame( readDemo );
-		Sys_LeaveCriticalSection();
-		UnPause();
-		break;
-	case SCMD_PLACE_LISTENER:
-		{
+	switch ( dc ) {
+		case SCMD_STATE:
+			// we need to protect this from the async thread
+			// other instances of calling idSoundWorldLocal::ReadFromSaveGame do this while the sound code is muted
+			// setting muted and going right in may not be good enough here, as we async thread may already be in an async tick (in which case we could still race to it)
+			Sys_EnterCriticalSection();
+			ReadFromSaveGame( readDemo );
+			Sys_LeaveCriticalSection();
+			UnPause();
+			break;
+		case SCMD_PLACE_LISTENER: {
 			idVec3	origin;
 			idMat3	axis;
 			int		listenerId;
@@ -276,28 +275,27 @@ void idSoundWorldLocal::ProcessDemoCommand( idDemoFile *readDemo ) {
 			readDemo->ReadMat3( axis );
 			readDemo->ReadInt( listenerId );
 			readDemo->ReadInt( gameTime );
-			
+
 			PlaceListener( origin, axis, listenerId, gameTime, "" );
 		};
 		break;
-	case SCMD_ALLOC_EMITTER:
-		readDemo->ReadInt( index );
-		if ( index < 1 || index > emitters.Num() ) {
-			common->Error( "idSoundWorldLocal::ProcessDemoCommand: bad emitter number" );
-		}
-		if ( index == emitters.Num() ) {
-			// append a brand new one
-			def = new idSoundEmitterLocal;
-			emitters.Append( def );
-		}
-		def = emitters[ index ];
-		def->Clear();
-		def->index = index;
-		def->removeStatus = REMOVE_STATUS_ALIVE;
-		def->soundWorld = this;
-		break;
-	case SCMD_FREE:
-		{
+		case SCMD_ALLOC_EMITTER:
+			readDemo->ReadInt( index );
+			if ( index < 1 || index > emitters.Num() ) {
+				common->Error( "idSoundWorldLocal::ProcessDemoCommand: bad emitter number" );
+			}
+			if ( index == emitters.Num() ) {
+				// append a brand new one
+				def = new idSoundEmitterLocal;
+				emitters.Append( def );
+			}
+			def = emitters[ index ];
+			def->Clear();
+			def->index = index;
+			def->removeStatus = REMOVE_STATUS_ALIVE;
+			def->soundWorld = this;
+			break;
+		case SCMD_FREE: {
 			int	immediate;
 
 			readDemo->ReadInt( index );
@@ -305,8 +303,7 @@ void idSoundWorldLocal::ProcessDemoCommand( idDemoFile *readDemo ) {
 			EmitterForIndex( index )->Free( immediate != 0 );
 		}
 		break;
-	case SCMD_UPDATE:
-		{
+		case SCMD_UPDATE: {
 			idVec3 origin;
 			int listenerId;
 			soundShaderParms_t parms;
@@ -323,8 +320,7 @@ void idSoundWorldLocal::ProcessDemoCommand( idDemoFile *readDemo ) {
 			EmitterForIndex( index )->UpdateEmitter( origin, listenerId, &parms );
 		}
 		break;
-	case SCMD_START:
-		{
+		case SCMD_START: {
 			const idSoundShader *shader;
 			int			channel;
 			float		diversity;
@@ -335,11 +331,10 @@ void idSoundWorldLocal::ProcessDemoCommand( idDemoFile *readDemo ) {
 			readDemo->ReadInt( channel );
 			readDemo->ReadFloat( diversity );
 			readDemo->ReadInt( shaderFlags );
-			EmitterForIndex( index )->StartSound( shader, (s_channelType)channel, diversity, shaderFlags );
+			EmitterForIndex( index )->StartSound( shader, ( s_channelType )channel, diversity, shaderFlags );
 		}
 		break;
-	case SCMD_MODIFY:
-		{
+		case SCMD_MODIFY: {
 			int		channel;
 			soundShaderParms_t parms;
 
@@ -351,20 +346,18 @@ void idSoundWorldLocal::ProcessDemoCommand( idDemoFile *readDemo ) {
 			readDemo->ReadFloat( parms.shakes );
 			readDemo->ReadInt( parms.soundShaderFlags );
 			readDemo->ReadInt( parms.soundClass );
-			EmitterForIndex( index )->ModifySound( (s_channelType)channel, &parms );
+			EmitterForIndex( index )->ModifySound( ( s_channelType )channel, &parms );
 		}
 		break;
-	case SCMD_STOP:
-		{
+		case SCMD_STOP: {
 			int		channel;
 
 			readDemo->ReadInt( index );
 			readDemo->ReadInt( channel );
-			EmitterForIndex( index )->StopSound( (s_channelType)channel );
+			EmitterForIndex( index )->StopSound( ( s_channelType )channel );
 		}
 		break;
-	case SCMD_FADE:
-		{
+		case SCMD_FADE: {
 			int		channel;
 			float	to, over;
 
@@ -372,7 +365,7 @@ void idSoundWorldLocal::ProcessDemoCommand( idDemoFile *readDemo ) {
 			readDemo->ReadInt( channel );
 			readDemo->ReadFloat( to );
 			readDemo->ReadFloat( over );
-			EmitterForIndex( index )->FadeSound((s_channelType)channel, to, over );
+			EmitterForIndex( index )->FadeSound( ( s_channelType )channel, to, over );
 		}
 		break;
 	}
@@ -426,7 +419,7 @@ void idSoundWorldLocal::MixLoop( int current44kHz, int numSpeakers, float *final
 		if ( idSoundSystemLocal::useOpenAL )
 			alListenerf( AL_GAIN, 0.0f );
 		return;
-	} 
+	}
 
 	// update the listener position and orientation
 	if ( idSoundSystemLocal::useOpenAL ) {
@@ -457,19 +450,19 @@ void idSoundWorldLocal::MixLoop( int current44kHz, int numSpeakers, float *final
 				int EnvironmentID = -1;
 				idStr defaultStr( "default" );
 				idStr listenerAreaStr( listenerArea );
-				
+
 				soundSystemLocal.EFXDatabase.FindEffect( listenerAreaStr, &effect, &EnvironmentID );
-				if (!effect)
+				if ( !effect )
 					soundSystemLocal.EFXDatabase.FindEffect( listenerAreaName, &effect, &EnvironmentID );
-				if (!effect)
+				if ( !effect )
 					soundSystemLocal.EFXDatabase.FindEffect( defaultStr, &effect, &EnvironmentID );
-				
-				// only update if change in settings 
+
+				// only update if change in settings
 				if ( soundSystemLocal.s_muteEAXReverb.GetBool() || ( listenerEnvironmentID != EnvironmentID ) ) {
 					EAXREVERBPROPERTIES EnvironmentParameters;
-					
+
 					// get area reverb setting from EAX Manager
-					if ( ( effect ) && ( effect->data) && ( memcpy( &EnvironmentParameters, effect->data, effect->datasize ) ) ) {
+					if ( ( effect ) && ( effect->data ) && ( memcpy( &EnvironmentParameters, effect->data, effect->datasize ) ) ) {
 						if ( soundSystemLocal.s_muteEAXReverb.GetBool() ) {
 							EnvironmentParameters.lRoom = -10000;
 							EnvironmentID = -2;
@@ -576,7 +569,7 @@ This can be used to write wave files even if no sound hardware exists
 */
 void idSoundWorldLocal::AVIUpdate() {
 	int		numSpeakers;
-	
+
 	if ( game44kHz - lastAVI44kHz < MIXBUFFER_SAMPLES ) {
 		return;
 	}
@@ -587,18 +580,18 @@ void idSoundWorldLocal::AVIUpdate() {
 		numSpeakers = soundSystemLocal.snd_audio_hw->GetNumberOfSpeakers();
 	}
 
-	float	mix[MIXBUFFER_SAMPLES*6+16];
-	float	*mix_p = (float *)((( int)mix + 15 ) & ~15);	// SIMD align
+	float	mix[MIXBUFFER_SAMPLES * 6 + 16];
+	float	*mix_p = ( float * )( ( ( int )mix + 15 ) & ~15 );	// SIMD align
 
-	SIMDProcessor->Memset( mix_p, 0, MIXBUFFER_SAMPLES*sizeof(float)*numSpeakers );
+	SIMDProcessor->Memset( mix_p, 0, MIXBUFFER_SAMPLES * sizeof( float )*numSpeakers );
 
 	MixLoop( lastAVI44kHz, numSpeakers, mix_p );
 
 	for ( int i = 0; i < numSpeakers; i++ ) {
 		short outD[MIXBUFFER_SAMPLES];
 
-		for( int j = 0; j < MIXBUFFER_SAMPLES; j++ ) {
-			float s = mix_p[ j*numSpeakers + i];
+		for ( int j = 0; j < MIXBUFFER_SAMPLES; j++ ) {
+			float s = mix_p[ j * numSpeakers + i];
 			if ( s < -32768.0f ) {
 				outD[j] = -32768;
 			} else if ( s > 32767.0f ) {
@@ -608,7 +601,7 @@ void idSoundWorldLocal::AVIUpdate() {
 			}
 		}
 		// write to file
-		fpa[i]->Write( outD, MIXBUFFER_SAMPLES*sizeof(short) );
+		fpa[i]->Write( outD, MIXBUFFER_SAMPLES * sizeof( short ) );
 	}
 
 	lastAVI44kHz += MIXBUFFER_SAMPLES;
@@ -662,15 +655,15 @@ void idSoundWorldLocal::AVIClose( void ) {
 			common->Error( "Couldn't open %s", name.c_str() );
 		}
 
-		int numSamples = rL->Length()/2;
+		int numSamples = rL->Length() / 2;
 		mminfo_t	info;
 		pcmwaveformat_t format;
-		
+
 		info.ckid = fourcc_riff;
 		info.fccType = mmioFOURCC( 'W', 'A', 'V', 'E' );
-		info.cksize = (rL->Length()*2) - 8 + 4 + 16 + 8 + 8;
+		info.cksize = ( rL->Length() * 2 ) - 8 + 4 + 16 + 8 + 8;
 		info.dwDataOffset = 12;
-		
+
 		wO->Write( &info, 12 );
 
 		info.ckid = mmioFOURCC( 'f', 'm', 't', ' ' );
@@ -679,7 +672,7 @@ void idSoundWorldLocal::AVIClose( void ) {
 		wO->Write( &info, 8 );
 
 		format.wBitsPerSample = 16;
-		format.wf.nAvgBytesPerSec = 44100*4;		// sample rate * block align
+		format.wf.nAvgBytesPerSec = 44100 * 4;		// sample rate * block align
 		format.wf.nChannels = 2;
 		format.wf.nSamplesPerSec = 44100;
 		format.wf.wFormatTag = WAVE_FORMAT_TAG_PCM;
@@ -693,7 +686,7 @@ void idSoundWorldLocal::AVIClose( void ) {
 		wO->Write( &info, 8 );
 
 		short s0, s1;
-		for( i = 0; i < numSamples; i++ ) {
+		for ( i = 0; i < numSamples; i++ ) {
 			lL->Read( &s0, 2 );
 			rL->Read( &s1, 2 );
 			wO->Write( &s0, 2 );
@@ -731,7 +724,7 @@ set at maxDistance
 */
 static const int MAX_PORTAL_TRACE_DEPTH = 10;
 
-void idSoundWorldLocal::ResolveOrigin( const int stackDepth, const soundPortalTrace_t *prevStack, const int soundArea, const float dist, const idVec3& soundOrigin, idSoundEmitterLocal *def ) {
+void idSoundWorldLocal::ResolveOrigin( const int stackDepth, const soundPortalTrace_t *prevStack, const int soundArea, const float dist, const idVec3 &soundOrigin, idSoundEmitterLocal *def ) {
 
 	if ( dist >= def->distance ) {
 		// we can't possibly hear the sound through this chain of portals
@@ -739,7 +732,7 @@ void idSoundWorldLocal::ResolveOrigin( const int stackDepth, const soundPortalTr
 	}
 
 	if ( soundArea == listenerArea ) {
-		float	fullDist = dist + (soundOrigin - listenerQU).LengthFast();
+		float	fullDist = dist + ( soundOrigin - listenerQU ).LengthFast();
 		if ( fullDist < def->distance ) {
 			def->distance = fullDist;
 			def->spatializedOrigin = soundOrigin;
@@ -757,13 +750,13 @@ void idSoundWorldLocal::ResolveOrigin( const int stackDepth, const soundPortalTr
 	newStack.prevStack = prevStack;
 
 	int numPortals = rw->NumPortalsInArea( soundArea );
-	for( int p = 0; p < numPortals; p++ ) {
+	for ( int p = 0; p < numPortals; p++ ) {
 		exitPortal_t re = rw->GetPortal( soundArea, p );
 
 		float	occlusionDistance = 0;
 
 		// air blocking windows will block sound like closed doors
-		if ( (re.blockingBits & ( PS_BLOCK_VIEW | PS_BLOCK_AIR ) ) ) {
+		if ( ( re.blockingBits & ( PS_BLOCK_VIEW | PS_BLOCK_AIR ) ) ) {
 			// we could just completely cut sound off, but reducing the volume works better
 			// continue;
 			occlusionDistance = idSoundSystemLocal::s_doorDistanceAdd.GetFloat();
@@ -803,12 +796,12 @@ void idSoundWorldLocal::ResolveOrigin( const int stackDepth, const soundPortalTr
 			// if this point isn't inside the portal edges, slide it in
 			for ( int i = 0 ; i < re.w->GetNumPoints() ; i++ ) {
 				int j = ( i + 1 ) % re.w->GetNumPoints();
-				idVec3	edgeDir = (*(re.w))[j].ToVec3() - (*(re.w))[i].ToVec3();
+				idVec3	edgeDir = ( *( re.w ) )[j].ToVec3() - ( *( re.w ) )[i].ToVec3();
 				idVec3	edgeNormal;
 
 				edgeNormal.Cross( pl.Normal(), edgeDir );
 
-				idVec3	fromVert = source - (*(re.w))[j].ToVec3();
+				idVec3	fromVert = source - ( *( re.w ) )[j].ToVec3();
 
 				float	d = edgeNormal * fromVert;
 				if ( d > 0 ) {
@@ -831,8 +824,8 @@ void idSoundWorldLocal::ResolveOrigin( const int stackDepth, const soundPortalTr
 
 		for ( int i = 0 ; i < re.w->GetNumPoints() ; i++ ) {
 			int j = ( i + 1 ) % re.w->GetNumPoints();
-			idVec3	v1 = (*(re.w))[j].ToVec3() - soundOrigin;
-			idVec3	v2 = (*(re.w))[i].ToVec3() - soundOrigin;
+			idVec3	v1 = ( *( re.w ) )[j].ToVec3() - soundOrigin;
+			idVec3	v2 = ( *( re.w ) )[i].ToVec3() - soundOrigin;
 
 			v1.Normalize();
 			v2.Normalize();
@@ -845,7 +838,7 @@ void idSoundWorldLocal::ResolveOrigin( const int stackDepth, const soundPortalTr
 			float	d1 = edgeNormal * fromVert;
 
 			if ( d1 > 0.0f ) {
-				fromVert = mid - (*(re.w))[j].ToVec3();
+				fromVert = mid - ( *( re.w ) )[j].ToVec3();
 				float d2 = edgeNormal * fromVert;
 
 				// move it in
@@ -876,7 +869,7 @@ void idSoundWorldLocal::ResolveOrigin( const int stackDepth, const soundPortalTr
 		idVec3 tlen = source - soundOrigin;
 		float tlenLength = tlen.LengthFast();
 
-		ResolveOrigin( stackDepth+1, &newStack, otherArea, dist+tlenLength+occlusionDistance, source, def );
+		ResolveOrigin( stackDepth + 1, &newStack, otherArea, dist + tlenLength + occlusionDistance, source, def );
 	}
 }
 
@@ -888,8 +881,8 @@ idSoundWorldLocal::PlaceListener
   this is called by the main thread
 ===================
 */
-void idSoundWorldLocal::PlaceListener( const idVec3& origin, const idMat3& axis, 
-									const int listenerId, const int gameTime, const idStr& areaName  ) {
+void idSoundWorldLocal::PlaceListener( const idVec3 &origin, const idMat3 &axis,
+									   const int listenerId, const int gameTime, const idStr &areaName ) {
 
 	int current44kHzTime;
 
@@ -897,7 +890,7 @@ void idSoundWorldLocal::PlaceListener( const idVec3& origin, const idMat3& axis,
 		return;
 	}
 
-	if ( pause44kHz >= 0 ){
+	if ( pause44kHz >= 0 ) {
 		return;
 	}
 
@@ -1000,8 +993,8 @@ void idSoundWorldLocal::ForegroundUpdate( int current44kHzTime ) {
 				idBounds ref;
 				ref.Clear();
 				ref.AddPoint( idVec3( -10, -10, -10 ) );
-				ref.AddPoint( idVec3(  10,  10,  10 ) );
-				float vis = (1.0f - (def->distance / def->maxDistance));
+				ref.AddPoint( idVec3( 10,  10,  10 ) );
+				float vis = ( 1.0f - ( def->distance / def->maxDistance ) );
 
 				// draw a box
 				rw->DebugBounds( idVec4( vis, 0.25f, vis, vis ), ref, def->origin );
@@ -1014,7 +1007,7 @@ void idSoundWorldLocal::ForegroundUpdate( int current44kHzTime ) {
 				// draw the index
 				idVec3	textPos = def->origin;
 				textPos[2] -= 8;
-				rw->DrawText( va("%i", def->index), textPos, 0.1f, idVec4(1,0,0,1), listenerAxis );
+				rw->DrawText( va( "%i", def->index ), textPos, 0.1f, idVec4( 1, 0, 0, 1 ), listenerAxis );
 				textPos[2] += 8;
 
 				// run through all the channels
@@ -1030,9 +1023,9 @@ void idSoundWorldLocal::ForegroundUpdate( int current44kHzTime ) {
 					float	min = chan->parms.minDistance;
 					float	max = chan->parms.maxDistance;
 					const char	*defaulted = chan->leadinSample->defaultSound ? "(DEFAULTED)" : "";
-					sprintf( text, "%s (%i/%i %i/%i)%s", chan->soundShader->GetName(), (int)def->distance,
-						(int)def->realDistance, (int)min, (int)max, defaulted );
-					rw->DrawText( text, textPos, 0.1f, idVec4(1,0,0,1), listenerAxis );
+					sprintf( text, "%s (%i/%i %i/%i)%s", chan->soundShader->GetName(), ( int )def->distance,
+							 ( int )def->realDistance, ( int )min, ( int )max, defaulted );
+					rw->DrawText( text, textPos, 0.1f, idVec4( 1, 0, 0, 1 ), listenerAxis );
 					textPos[2] += 8;
 				}
 			}
@@ -1047,9 +1040,9 @@ void idSoundWorldLocal::ForegroundUpdate( int current44kHzTime ) {
 	if ( idSoundSystemLocal::s_showLevelMeter.GetInteger() ) {
 		const idMaterial *gui = declManager->FindMaterial( "guis/assets/soundmeter/audiobg", false );
 		if ( gui ) {
-			const shaderStage_t *foo = gui->GetStage(0);
+			const shaderStage_t *foo = gui->GetStage( 0 );
 			if ( !foo->texture.cinematic ) {
-				((shaderStage_t *)foo)->texture.cinematic = new idSndWindow;
+				( ( shaderStage_t * )foo )->texture.cinematic = new idSndWindow;
 			}
 		}
 	}
@@ -1103,15 +1096,15 @@ void idSoundWorldLocal::WriteToSaveGame( idFile *savefile ) {
 	}
 
 	// write listener data
-	savefile->WriteVec3(listenerQU);
-	savefile->WriteMat3(listenerAxis);
-	savefile->WriteInt(listenerPrivateId);
-	savefile->WriteInt(gameMsec);
-	savefile->WriteInt(game44kHz);
-	savefile->WriteInt(currentSoundTime);
+	savefile->WriteVec3( listenerQU );
+	savefile->WriteMat3( listenerAxis );
+	savefile->WriteInt( listenerPrivateId );
+	savefile->WriteInt( gameMsec );
+	savefile->WriteInt( game44kHz );
+	savefile->WriteInt( currentSoundTime );
 
 	num = emitters.Num();
-	savefile->WriteInt(num);
+	savefile->WriteInt( num );
 
 	for ( i = 1; i < emitters.Num(); i++ ) {
 		idSoundEmitterLocal *def = emitters[i];
@@ -1122,7 +1115,7 @@ void idSoundWorldLocal::WriteToSaveGame( idFile *savefile ) {
 			continue;
 		}
 
-		savefile->WriteInt(i);
+		savefile->WriteInt( i );
 
 		// Write the emitter data
 		savefile->WriteVec3( def->origin );
@@ -1130,7 +1123,7 @@ void idSoundWorldLocal::WriteToSaveGame( idFile *savefile ) {
 		WriteToSaveGameSoundShaderParams( savefile, &def->parms );
 		savefile->WriteFloat( def->amplitude );
 		savefile->WriteInt( def->ampTime );
-		for (int k = 0; k < SOUND_MAX_CHANNELS; k++) 
+		for ( int k = 0; k < SOUND_MAX_CHANNELS; k++ )
 			WriteToSaveGameSoundChannel( savefile, &def->channels[k] );
 		savefile->WriteFloat( def->distance );
 		savefile->WriteBool( def->hasShakes );
@@ -1142,7 +1135,7 @@ void idSoundWorldLocal::WriteToSaveGame( idFile *savefile ) {
 		savefile->WriteVec3( def->spatializedOrigin );
 
 		// write the channel data
-		for( j = 0; j < SOUND_MAX_CHANNELS; j++ ) {
+		for ( j = 0; j < SOUND_MAX_CHANNELS; j++ ) {
 			idSoundChannel *chan = &def->channels[ j ];
 
 			// Write out any sound commands for this def
@@ -1153,7 +1146,7 @@ void idSoundWorldLocal::WriteToSaveGame( idFile *savefile ) {
 				// write the pointers out separately
 				name = chan->soundShader->GetName();
 				savefile->WriteString( name );
-				
+
 				name = chan->leadinSample->name;
 				savefile->WriteString( name );
 			}
@@ -1176,12 +1169,12 @@ void idSoundWorldLocal::WriteToSaveGame( idFile *savefile ) {
  ===================
  */
 void idSoundWorldLocal::WriteToSaveGameSoundShaderParams( idFile *saveGame, soundShaderParms_t *params ) {
-	saveGame->WriteFloat(params->minDistance);
-	saveGame->WriteFloat(params->maxDistance);
-	saveGame->WriteFloat(params->volume);
-	saveGame->WriteFloat(params->shakes);
-	saveGame->WriteInt(params->soundShaderFlags);
-	saveGame->WriteInt(params->soundClass);
+	saveGame->WriteFloat( params->minDistance );
+	saveGame->WriteFloat( params->maxDistance );
+	saveGame->WriteFloat( params->volume );
+	saveGame->WriteFloat( params->shakes );
+	saveGame->WriteInt( params->soundShaderFlags );
+	saveGame->WriteInt( params->soundClass );
 }
 
 /*
@@ -1197,13 +1190,13 @@ void idSoundWorldLocal::WriteToSaveGameSoundChannel( idFile *saveGame, idSoundCh
 	saveGame->WriteInt( ch->trigger44kHzTime );
 	saveGame->WriteInt( ch->triggerGame44kHzTime );
 	WriteToSaveGameSoundShaderParams( saveGame, &ch->parms );
-	saveGame->WriteInt( (int)ch->leadinSample );
+	saveGame->WriteInt( ( int )ch->leadinSample );
 	saveGame->WriteInt( ch->triggerChannel );
-	saveGame->WriteInt( (int)ch->soundShader );
-	saveGame->WriteInt( (int)ch->decoder );
-	saveGame->WriteFloat(ch->diversity );
-	saveGame->WriteFloat(ch->lastVolume );
-	for (int m = 0; m < 6; m++)
+	saveGame->WriteInt( ( int )ch->soundShader );
+	saveGame->WriteInt( ( int )ch->decoder );
+	saveGame->WriteFloat( ch->diversity );
+	saveGame->WriteFloat( ch->lastVolume );
+	for ( int m = 0; m < 6; m++ )
 		saveGame->WriteFloat( ch->lastV[m] );
 	saveGame->WriteInt( ch->channelFade.fadeStart44kHz );
 	saveGame->WriteInt( ch->channelFade.fadeEnd44kHz );
@@ -1248,7 +1241,7 @@ void idSoundWorldLocal::ReadFromSaveGame( idFile *savefile ) {
 	// if there are extras.
 	savefile->ReadInt( num );
 
-	while( emitters.Num() < num ) {
+	while ( emitters.Num() < num ) {
 		def = new idSoundEmitterLocal;
 		def->index = emitters.Append( def );
 		def->soundWorld = this;
@@ -1274,7 +1267,7 @@ void idSoundWorldLocal::ReadFromSaveGame( idFile *savefile ) {
 		ReadFromSaveGameSoundShaderParams( savefile, &def->parms );
 		savefile->ReadFloat( def->amplitude );
 		savefile->ReadInt( def->ampTime );
-		for (int k = 0; k < SOUND_MAX_CHANNELS; k++) 
+		for ( int k = 0; k < SOUND_MAX_CHANNELS; k++ )
 			ReadFromSaveGameSoundChannel( savefile, &def->channels[k] );
 		savefile->ReadFloat( def->distance );
 		savefile->ReadBool( def->hasShakes );
@@ -1282,7 +1275,7 @@ void idSoundWorldLocal::ReadFromSaveGame( idFile *savefile ) {
 		savefile->ReadFloat( def->maxDistance );
 		savefile->ReadBool( def->playing );
 		savefile->ReadFloat( def->realDistance );
-		savefile->ReadInt( (int&)def->removeStatus );
+		savefile->ReadInt( ( int & )def->removeStatus );
 		savefile->ReadVec3( def->spatializedOrigin );
 
 		// read the individual channels
@@ -1346,12 +1339,12 @@ void idSoundWorldLocal::ReadFromSaveGame( idFile *savefile ) {
  ===================
  */
 void idSoundWorldLocal::ReadFromSaveGameSoundShaderParams( idFile *saveGame, soundShaderParms_t *params ) {
-	saveGame->ReadFloat(params->minDistance);
-	saveGame->ReadFloat(params->maxDistance);
-	saveGame->ReadFloat(params->volume);
-	saveGame->ReadFloat(params->shakes);
-	saveGame->ReadInt(params->soundShaderFlags);
-	saveGame->ReadInt(params->soundClass);
+	saveGame->ReadFloat( params->minDistance );
+	saveGame->ReadFloat( params->maxDistance );
+	saveGame->ReadFloat( params->volume );
+	saveGame->ReadFloat( params->shakes );
+	saveGame->ReadInt( params->soundShaderFlags );
+	saveGame->ReadInt( params->soundClass );
 }
 
 /*
@@ -1368,13 +1361,13 @@ void idSoundWorldLocal::ReadFromSaveGameSoundChannel( idFile *saveGame, idSoundC
 	saveGame->ReadInt( ch->trigger44kHzTime );
 	saveGame->ReadInt( ch->triggerGame44kHzTime );
 	ReadFromSaveGameSoundShaderParams( saveGame, &ch->parms );
-	saveGame->ReadInt( (int&)ch->leadinSample );
+	saveGame->ReadInt( ( int & )ch->leadinSample );
 	saveGame->ReadInt( ch->triggerChannel );
-	saveGame->ReadInt( (int&)ch->soundShader );
-	saveGame->ReadInt( (int&)ch->decoder );
-	saveGame->ReadFloat(ch->diversity );
-	saveGame->ReadFloat(ch->lastVolume );
-	for (int m = 0; m < 6; m++)
+	saveGame->ReadInt( ( int & )ch->soundShader );
+	saveGame->ReadInt( ( int & )ch->decoder );
+	saveGame->ReadFloat( ch->diversity );
+	saveGame->ReadFloat( ch->lastVolume );
+	for ( int m = 0; m < 6; m++ )
 		saveGame->ReadFloat( ch->lastV[m] );
 	saveGame->ReadInt( ch->channelFade.fadeStart44kHz );
 	saveGame->ReadInt( ch->channelFade.fadeEnd44kHz );
@@ -1407,7 +1400,7 @@ idSoundWorldLocal::StopAllSounds
 void idSoundWorldLocal::StopAllSounds() {
 
 	for ( int i = 0; i < emitters.Num(); i++ ) {
-		idSoundEmitterLocal * def = emitters[i];
+		idSoundEmitterLocal *def = emitters[i];
 		def->StopSound( SCHANNEL_ANY );
 	}
 }
@@ -1501,7 +1494,7 @@ Determine the volumes from each speaker for a given sound emitter
 ===============
 */
 void idSoundWorldLocal::CalcEars( int numSpeakers, idVec3 spatializedOrigin, idVec3 listenerPos,
-								 idMat3 listenerAxis, float ears[6], float spatialize ) {
+								  idMat3 listenerAxis, float ears[6], float spatialize ) {
 	idVec3 svec = spatializedOrigin - listenerPos;
 	idVec3 ovec;
 
@@ -1513,10 +1506,10 @@ void idSoundWorldLocal::CalcEars( int numSpeakers, idVec3 spatializedOrigin, idV
 
 	if ( numSpeakers == 6 ) {
 		static idVec3	speakerVector[6] = {
-			idVec3(  0.707f,  0.707f, 0.0f ),	// front left
-			idVec3(  0.707f, -0.707f, 0.0f ),	// front right
-			idVec3(  0.707f,  0.0f,   0.0f ),	// front center
-			idVec3(  0.0f,    0.0f,   0.0f ),	// sub
+			idVec3( 0.707f,  0.707f, 0.0f ),	// front left
+			idVec3( 0.707f, -0.707f, 0.0f ),	// front right
+			idVec3( 0.707f,  0.0f,   0.0f ),	// front center
+			idVec3( 0.0f,    0.0f,   0.0f ),	// sub
 			idVec3( -0.707f,  0.707f, 0.0f ),	// rear left
 			idVec3( -0.707f, -0.707f, 0.0f )	// rear right
 		};
@@ -1526,7 +1519,7 @@ void idSoundWorldLocal::CalcEars( int numSpeakers, idVec3 spatializedOrigin, idV
 				continue;
 			}
 			float dot = ovec * speakerVector[i];
-			ears[i] = (idSoundSystemLocal::s_dotbias6.GetFloat() + dot) / ( 1.0f + idSoundSystemLocal::s_dotbias6.GetFloat() );
+			ears[i] = ( idSoundSystemLocal::s_dotbias6.GetFloat() + dot ) / ( 1.0f + idSoundSystemLocal::s_dotbias6.GetFloat() );
 			if ( ears[i] < idSoundSystemLocal::s_minVolume6.GetFloat() ) {
 				ears[i] = idSoundSystemLocal::s_minVolume6.GetFloat();
 			}
@@ -1539,8 +1532,8 @@ void idSoundWorldLocal::CalcEars( int numSpeakers, idVec3 spatializedOrigin, idV
 		// so NPC voices right in front of us aren't quieter that off to the side
 		dotBias += ( idSoundSystemLocal::s_spatializationDecay.GetFloat() - dotBias ) * ( 1.0f - spatialize );
 
-		ears[0] = (idSoundSystemLocal::s_dotbias2.GetFloat() + dot) / ( 1.0f + dotBias );
-		ears[1] = (idSoundSystemLocal::s_dotbias2.GetFloat() - dot) / ( 1.0f + dotBias );
+		ears[0] = ( idSoundSystemLocal::s_dotbias2.GetFloat() + dot ) / ( 1.0f + dotBias );
+		ears[1] = ( idSoundSystemLocal::s_dotbias2.GetFloat() - dot ) / ( 1.0f + dotBias );
 
 		if ( ears[0] < idSoundSystemLocal::s_minVolume2.GetFloat() ) {
 			ears[0] = idSoundSystemLocal::s_minVolume2.GetFloat();
@@ -1549,10 +1542,10 @@ void idSoundWorldLocal::CalcEars( int numSpeakers, idVec3 spatializedOrigin, idV
 			ears[1] = idSoundSystemLocal::s_minVolume2.GetFloat();
 		}
 
-		ears[2] = 
-		ears[3] = 
-		ears[4] = 
-		ears[5] = 0.0f;
+		ears[2] =
+			ears[3] =
+				ears[4] =
+					ears[5] = 0.0f;
 	}
 }
 
@@ -1568,7 +1561,7 @@ finalMixBuffer
 ===============
 */
 void idSoundWorldLocal::AddChannelContribution( idSoundEmitterLocal *sound, idSoundChannel *chan,
-				   int current44kHz, int numSpeakers, float *finalMixBuffer ) {
+		int current44kHz, int numSpeakers, float *finalMixBuffer ) {
 	int j;
 	float volume;
 
@@ -1601,9 +1594,9 @@ void idSoundWorldLocal::AddChannelContribution( idSoundEmitterLocal *sound, idSo
 
 	float maxd = parms->maxDistance;
 	float mind = parms->minDistance;
-	
+
 	int  mask = shader->speakerMask;
-	bool omni = ( parms->soundShaderFlags & SSF_OMNIDIRECTIONAL) != 0;
+	bool omni = ( parms->soundShaderFlags & SSF_OMNIDIRECTIONAL ) != 0;
 	bool looping = ( parms->soundShaderFlags & SSF_LOOPING ) != 0;
 	bool global = ( parms->soundShaderFlags & SSF_GLOBAL ) != 0;
 	bool noOcclusion = ( parms->soundShaderFlags & SSF_NO_OCCLUSION ) || !idSoundSystemLocal::s_useOcclusion.GetBool();
@@ -1626,7 +1619,7 @@ void idSoundWorldLocal::AddChannelContribution( idSoundEmitterLocal *sound, idSo
 	//
 	// see if it's in range
 	//
-	
+
 	// convert volumes from decibels to float scale
 
 	// leadin volume scale for shattering lights
@@ -1649,7 +1642,7 @@ void idSoundWorldLocal::AddChannelContribution( idSoundEmitterLocal *sound, idSo
 
 	fadeDb = soundClassFade[parms->soundClass].FadeDbAt44kHz( current44kHz );
 	volume *= soundSystemLocal.dB2Scale( fadeDb );
-	
+
 
 	//
 	// if it's a global sound then
@@ -1674,7 +1667,7 @@ void idSoundWorldLocal::AddChannelContribution( idSoundEmitterLocal *sound, idSo
 		if ( dlen >= maxd ) {
 			volume = 0.0f;
 		} else if ( dlen > mind ) {
-			float frac = idMath::ClampFloat( 0.0f, 1.0f, 1.0f - ((dlen - mind) / (maxd - mind)));
+			float frac = idMath::ClampFloat( 0.0f, 1.0f, 1.0f - ( ( dlen - mind ) / ( maxd - mind ) ) );
 			if ( idSoundSystemLocal::s_quadraticFalloff.GetBool() ) {
 				frac *= frac;
 			}
@@ -1712,19 +1705,19 @@ void idSoundWorldLocal::AddChannelContribution( idSoundEmitterLocal *sound, idSo
 	// fetch the sound from the cache as 44kHz, 16 bit samples
 	//
 	int offset = current44kHz - chan->trigger44kHzTime;
-	float inputSamples[MIXBUFFER_SAMPLES*2+16];
-	float *alignedInputSamples = (float *) ( ( ( (int)inputSamples ) + 15 ) & ~15 );
+	float inputSamples[MIXBUFFER_SAMPLES * 2 + 16];
+	float *alignedInputSamples = ( float * )( ( ( ( int )inputSamples ) + 15 ) & ~15 );
 
 	//
 	// allocate and initialize hardware source
-	// 
+	//
 	if ( idSoundSystemLocal::useOpenAL && sound->removeStatus < REMOVE_STATUS_SAMPLEFINISHED ) {
 		if ( !alIsSource( chan->openalSource ) ) {
 			chan->openalSource = soundSystemLocal.AllocOpenALSource( chan, !chan->leadinSample->hardwareBuffer || !chan->soundShader->entries[0]->hardwareBuffer || looping, chan->leadinSample->objectInfo.nChannels == 2 );
 		}
 
 		if ( alIsSource( chan->openalSource ) ) {
-			
+
 			// stop source if needed..
 			if ( chan->triggered ) {
 				alSourceStop( chan->openalSource );
@@ -1732,24 +1725,24 @@ void idSoundWorldLocal::AddChannelContribution( idSoundEmitterLocal *sound, idSo
 
 			// update source parameters
 			if ( global || omni ) {
-				alSourcei( chan->openalSource, AL_SOURCE_RELATIVE, AL_TRUE);
+				alSourcei( chan->openalSource, AL_SOURCE_RELATIVE, AL_TRUE );
 				alSource3f( chan->openalSource, AL_POSITION, 0.0f, 0.0f, 0.0f );
 				alSourcef( chan->openalSource, AL_GAIN, ( volume ) < ( 1.0f ) ? ( volume ) : ( 1.0f ) );
 			} else {
-				alSourcei( chan->openalSource, AL_SOURCE_RELATIVE, AL_FALSE);
+				alSourcei( chan->openalSource, AL_SOURCE_RELATIVE, AL_FALSE );
 				alSource3f( chan->openalSource, AL_POSITION, -spatializedOriginInMeters.y, spatializedOriginInMeters.z, -spatializedOriginInMeters.x );
 				alSourcef( chan->openalSource, AL_GAIN, ( volume ) < ( 1.0f ) ? ( volume ) : ( 1.0f ) );
 			}
 			alSourcei( chan->openalSource, AL_LOOPING, ( looping && chan->soundShader->entries[0]->hardwareBuffer ) ? AL_TRUE : AL_FALSE );
-#if !defined(MACOS_X)		
+#if !defined(MACOS_X)
 			alSourcef( chan->openalSource, AL_REFERENCE_DISTANCE, mind );
 			alSourcef( chan->openalSource, AL_MAX_DISTANCE, maxd );
 #endif
 			alSourcef( chan->openalSource, AL_PITCH, ( slowmoActive && !chan->disallowSlow ) ? ( slowmoSpeed ) : ( 1.0f ) );
 #if ID_OPENAL
-			long lOcclusion = ( enviroSuitActive ? -1150 : 0);
+			long lOcclusion = ( enviroSuitActive ? -1150 : 0 );
 			if ( soundSystemLocal.alEAXSet ) {
-				soundSystemLocal.alEAXSet( &EAXPROPERTYID_EAX_Source, EAXSOURCE_OCCLUSION, chan->openalSource, &lOcclusion, sizeof(lOcclusion) );
+				soundSystemLocal.alEAXSet( &EAXPROPERTYID_EAX_Source, EAXSOURCE_OCCLUSION, chan->openalSource, &lOcclusion, sizeof( lOcclusion ) );
 			}
 #endif
 			if ( ( !looping && chan->leadinSample->hardwareBuffer ) || ( looping && chan->soundShader->entries[0]->hardwareBuffer ) ) {
@@ -1788,11 +1781,11 @@ void idSoundWorldLocal::AddChannelContribution( idSoundEmitterLocal *sound, idSo
 					chan->GatherChannelSamples( chan->openalStreamingOffset * sample->objectInfo.nChannels, MIXBUFFER_SAMPLES * sample->objectInfo.nChannels, alignedInputSamples );
 					for ( int i = 0; i < ( MIXBUFFER_SAMPLES * sample->objectInfo.nChannels ); i++ ) {
 						if ( alignedInputSamples[i] < -32768.0f )
-							((short *)alignedInputSamples)[i] = -32768;
+							( ( short * )alignedInputSamples )[i] = -32768;
 						else if ( alignedInputSamples[i] > 32767.0f )
-							((short *)alignedInputSamples)[i] = 32767;
+							( ( short * )alignedInputSamples )[i] = 32767;
 						else
-							((short *)alignedInputSamples)[i] = idMath::FtoiFast( alignedInputSamples[i] );
+							( ( short * )alignedInputSamples )[i] = idMath::FtoiFast( alignedInputSamples[i] );
 					}
 					alBufferData( buffers[j], chan->leadinSample->objectInfo.nChannels == 1 ? AL_FORMAT_MONO16 : AL_FORMAT_STEREO16, alignedInputSamples, MIXBUFFER_SAMPLES * sample->objectInfo.nChannels * sizeof( short ), 44100 );
 					chan->openalStreamingOffset += MIXBUFFER_SAMPLES;
@@ -1802,7 +1795,7 @@ void idSoundWorldLocal::AddChannelContribution( idSoundEmitterLocal *sound, idSo
 					alSourceQueueBuffers( chan->openalSource, finishedbuffers, &buffers[0] );
 				}
 			}
-			
+
 			// (re)start if needed..
 			if ( chan->triggered ) {
 				alSourcePlay( chan->openalSource );
@@ -1816,12 +1809,12 @@ void idSoundWorldLocal::AddChannelContribution( idSoundEmitterLocal *sound, idSo
 
 			slow.AttachSoundChannel( chan );
 
-				if ( sample->objectInfo.nChannels == 2 ) {
-					// need to add a stereo path, but very few samples go through this
-					memset( alignedInputSamples, 0, sizeof( alignedInputSamples[0] ) * MIXBUFFER_SAMPLES * 2 );
-				} else {
-					slow.GatherChannelSamples( offset, MIXBUFFER_SAMPLES, alignedInputSamples );
-				}
+			if ( sample->objectInfo.nChannels == 2 ) {
+				// need to add a stereo path, but very few samples go through this
+				memset( alignedInputSamples, 0, sizeof( alignedInputSamples[0] ) * MIXBUFFER_SAMPLES * 2 );
+			} else {
+				slow.GatherChannelSamples( offset, MIXBUFFER_SAMPLES, alignedInputSamples );
+			}
 
 			sound->SetSlowChannel( chan, slow );
 		} else {
@@ -1830,7 +1823,7 @@ void idSoundWorldLocal::AddChannelContribution( idSoundEmitterLocal *sound, idSo
 			// if we are getting a stereo sample adjust accordingly
 			if ( sample->objectInfo.nChannels == 2 ) {
 				// we should probably check to make sure any looping is also to a stereo sample...
-				chan->GatherChannelSamples( offset*2, MIXBUFFER_SAMPLES*2, alignedInputSamples );
+				chan->GatherChannelSamples( offset * 2, MIXBUFFER_SAMPLES * 2, alignedInputSamples );
 			} else {
 				chan->GatherChannelSamples( offset, MIXBUFFER_SAMPLES, alignedInputSamples );
 			}
@@ -1861,7 +1854,7 @@ void idSoundWorldLocal::AddChannelContribution( idSoundEmitterLocal *sound, idSo
 		}
 		// cleared mask bits set the mix volume to zero
 		for ( int i = 0 ; i < 6 ; i++ ) {
-			if ( !(mask & ( 1 << i ) ) ) {
+			if ( !( mask & ( 1 << i ) ) ) {
 				ears[i] = 0;
 			}
 		}
@@ -1869,7 +1862,7 @@ void idSoundWorldLocal::AddChannelContribution( idSoundEmitterLocal *sound, idSo
 		// if sounds are generally normalized, using a mixing volume over 1.0 will
 		// almost always cause clipping noise.  If samples aren't normalized, there
 		// is a good call to allow overvolumes
-		if ( idSoundSystemLocal::s_clipVolumes.GetBool() && !( parms->soundShaderFlags & SSF_UNCLAMPED )  ) {
+		if ( idSoundSystemLocal::s_clipVolumes.GetBool() && !( parms->soundShaderFlags & SSF_UNCLAMPED ) ) {
 			for ( int i = 0 ; i < 6 ; i++ ) {
 				if ( ears[i] > 1.0f ) {
 					ears[i] = 1.0f;
@@ -1923,13 +1916,13 @@ idSoundWorldLocal::FindAmplitude
   which would be problematic in multiplayer
 ===============
 */
-float idSoundWorldLocal::FindAmplitude( idSoundEmitterLocal *sound, const int localTime, const idVec3 *listenerPosition, 
-									   const s_channelType channel, bool shakesOnly ) {
+float idSoundWorldLocal::FindAmplitude( idSoundEmitterLocal *sound, const int localTime, const idVec3 *listenerPosition,
+										const s_channelType channel, bool shakesOnly ) {
 	int		i, j;
 	soundShaderParms_t *parms;
 	float	volume;
 	int		activeChannelCount;
-	static const int AMPLITUDE_SAMPLES = MIXBUFFER_SAMPLES/8;
+	static const int AMPLITUDE_SAMPLES = MIXBUFFER_SAMPLES / 8;
 	float	sourceBuffer[AMPLITUDE_SAMPLES];
 	float	sumBuffer[AMPLITUDE_SAMPLES];
 	// work out the distance from the listener to the emitter
@@ -1957,7 +1950,7 @@ float idSoundWorldLocal::FindAmplitude( idSoundEmitterLocal *sound, const int lo
 			continue;
 		}
 
-		if ( channel != SCHANNEL_ANY && chan->triggerChannel != channel) {
+		if ( channel != SCHANNEL_ANY && chan->triggerChannel != channel ) {
 			continue;
 		}
 
@@ -1986,7 +1979,7 @@ float idSoundWorldLocal::FindAmplitude( idSoundEmitterLocal *sound, const int lo
 				volume *= shakes;
 			}
 
-			if ( listenerPosition && !( parms->soundShaderFlags & SSF_GLOBAL )  ) {			
+			if ( listenerPosition && !( parms->soundShaderFlags & SSF_GLOBAL ) ) {
 				// check for overrides
 				float maxd = parms->maxDistance;
 				float mind = parms->minDistance;
@@ -1994,7 +1987,7 @@ float idSoundWorldLocal::FindAmplitude( idSoundEmitterLocal *sound, const int lo
 				if ( dlen >= maxd ) {
 					volume = 0.0f;
 				} else if ( dlen > mind ) {
-					float frac = idMath::ClampFloat( 0, 1, 1.0f - ((dlen - mind) / (maxd - mind)));
+					float frac = idMath::ClampFloat( 0, 1, 1.0f - ( ( dlen - mind ) / ( maxd - mind ) ) );
 					if ( idSoundSystemLocal::s_quadraticFalloff.GetBool() ) {
 						frac *= frac;
 					}
@@ -2014,21 +2007,21 @@ float idSoundWorldLocal::FindAmplitude( idSoundEmitterLocal *sound, const int lo
 		if ( !listenerPosition && chan->parms.soundShaderFlags & SSF_NO_FLICKER ) {
 			// the NO_FLICKER option is to allow a light to still play a sound, but
 			// not have it effect the intensity
-			for ( j = 0 ; j < (AMPLITUDE_SAMPLES); j++ ) {
+			for ( j = 0 ; j < ( AMPLITUDE_SAMPLES ); j++ ) {
 				sourceBuffer[j] = j & 1 ? 32767.0f : -32767.0f;
 			}
 		} else {
-			int offset = (localTime - localTriggerTimes);	// offset in samples
+			int offset = ( localTime - localTriggerTimes );	// offset in samples
 			int size = ( looping ? chan->soundShader->entries[0]->LengthIn44kHzSamples() : chan->leadinSample->LengthIn44kHzSamples() );
-			short *amplitudeData = (short *)( looping ? chan->soundShader->entries[0]->amplitudeData : chan->leadinSample->amplitudeData );
-	
+			short *amplitudeData = ( short * )( looping ? chan->soundShader->entries[0]->amplitudeData : chan->leadinSample->amplitudeData );
+
 			if ( amplitudeData ) {
 				// when the amplitudeData is present use that fill a dummy sourceBuffer
 				// this is to allow for amplitude based effect on hardware audio solutions
 				if ( looping ) offset %= size;
 				if ( offset < size ) {
-					for ( j = 0 ; j < (AMPLITUDE_SAMPLES); j++ ) {
-						sourceBuffer[j] = j & 1 ? amplitudeData[ ( offset / 512 ) * 2 ] : amplitudeData[ ( offset / 512 ) * 2 + 1 ];
+					for ( j = 0 ; j < ( AMPLITUDE_SAMPLES ); j++ ) {
+						sourceBuffer[j] = j & 1 ? amplitudeData[( offset / 512 ) * 2 ] : amplitudeData[( offset / 512 ) * 2 + 1 ];
 					}
 				}
 			} else {
@@ -2039,12 +2032,12 @@ float idSoundWorldLocal::FindAmplitude( idSoundEmitterLocal *sound, const int lo
 		activeChannelCount++;
 		if ( activeChannelCount == 1 ) {
 			// store to the buffer
-			for( j = 0; j < AMPLITUDE_SAMPLES; j++ ) {
+			for ( j = 0; j < AMPLITUDE_SAMPLES; j++ ) {
 				sumBuffer[ j ] = volume * sourceBuffer[ j ];
 			}
 		} else {
 			// add to the buffer
-			for( j = 0; j < AMPLITUDE_SAMPLES; j++ ) {
+			for ( j = 0; j < AMPLITUDE_SAMPLES; j++ ) {
 				sumBuffer[ j ] += volume * sourceBuffer[ j ];
 			}
 		}
@@ -2058,7 +2051,7 @@ float idSoundWorldLocal::FindAmplitude( idSoundEmitterLocal *sound, const int lo
 	float low = 32767.0f;
 
 	// use a 20th of a second
-	for( i = 0; i < (AMPLITUDE_SAMPLES); i++ ) {
+	for ( i = 0; i < ( AMPLITUDE_SAMPLES ); i++ ) {
 		float fabval = sumBuffer[i];
 		if ( high < fabval ) {
 			high = fabval;
@@ -2069,7 +2062,7 @@ float idSoundWorldLocal::FindAmplitude( idSoundEmitterLocal *sound, const int lo
 	}
 
 	float sout;
-	sout = atan( (high - low) / 32767.0f) / DEG2RAD(45);
+	sout = atan( ( high - low ) / 32767.0f ) / DEG2RAD( 45 );
 
 	return sout;
 }
@@ -2092,8 +2085,8 @@ void	idSoundWorldLocal::FadeSoundClasses( const int soundClass, const float to, 
 	int	length44kHz = soundSystemLocal.MillisecondsToSamples( over * 1000 );
 
 	// if it is already fading to this volume at this rate, don't change it
-	if ( fade->fadeEndVolume == to && 
-		fade->fadeEnd44kHz - fade->fadeStart44kHz == length44kHz ) {
+	if ( fade->fadeEndVolume == to &&
+			fade->fadeEnd44kHz - fade->fadeStart44kHz == length44kHz ) {
 		return;
 	}
 

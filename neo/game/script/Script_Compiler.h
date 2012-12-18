@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ If you have questions concerning this license or the applicable additional terms
 #ifndef __SCRIPT_COMPILER_H__
 #define __SCRIPT_COMPILER_H__
 
-const char * const RESULT_STRING = "<RESULT>";
+const char *const RESULT_STRING = "<RESULT>";
 
 typedef struct opcode_s {
 	char		*name;
@@ -68,7 +68,7 @@ enum {
 	OP_ADD_SV,
 	OP_SUB_F,
 	OP_SUB_V,
-	
+
 	OP_EQ_F,
 	OP_EQ_V,
 	OP_EQ_S,
@@ -76,7 +76,7 @@ enum {
 	OP_EQ_EO,
 	OP_EQ_OE,
 	OP_EQ_OO,
-	
+
 	OP_NE_F,
 	OP_NE_V,
 	OP_NE_S,
@@ -84,7 +84,7 @@ enum {
 	OP_NE_EO,
 	OP_NE_OE,
 	OP_NE_OO,
-	
+
 	OP_LE,
 	OP_GE,
 	OP_LT,
@@ -96,7 +96,7 @@ enum {
 	OP_INDIRECT_ENT,
 	OP_INDIRECT_BOOL,
 	OP_INDIRECT_OBJ,
-	
+
 	OP_ADDRESS,
 
 	OP_EVENTCALL,
@@ -184,7 +184,7 @@ enum {
 	OP_OR_BOOLF,
 	OP_OR_FBOOL,
 	OP_OR_BOOLBOOL,
-	
+
 	OP_BITAND,
 	OP_BITOR,
 
@@ -202,10 +202,10 @@ private:
 	idParser		parser;
 	idParser		*parserPtr;
 	idToken			token;
-					
+
 	idTypeDef		*immediateType;
 	eval_t			immediate;
-					
+
 	bool			eof;
 	bool			console;
 	bool			callthread;
@@ -214,13 +214,13 @@ private:
 	int				currentLineNumber;
 	int				currentFileNumber;
 	int				errorCount;
-					
+
 	idVarDef		*scope;				// the function being parsed, or NULL
 	const idVarDef	*basetype;			// for accessing fields
 
 	float			Divide( float numerator, float denominator );
-	void			Error( const char *error, ... ) const id_attribute((format(printf,2,3)));
-	void			Warning( const char *message, ... ) const id_attribute((format(printf,2,3)));
+	void			Error( const char *error, ... ) const id_attribute( ( format( printf, 2, 3 ) ) );
+	void			Warning( const char *message, ... ) const id_attribute( ( format( printf, 2, 3 ) ) );
 	idVarDef		*OptimizeOpcode( const opcode_t *op, idVarDef *var_a, idVarDef *var_b );
 	idVarDef		*EmitOpcode( const opcode_t *op, idVarDef *var_a, idVarDef *var_b );
 	idVarDef		*EmitOpcode( int op, idVarDef *var_a, idVarDef *var_b );
@@ -271,7 +271,7 @@ private:
 public :
 	static opcode_t	opcodes[];
 
-					idCompiler();
+	idCompiler();
 	void			CompileFile( const char *text, const char *filename, bool console );
 };
 

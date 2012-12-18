@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -59,9 +59,9 @@ static keyWord_t defaultKeyWords[] = {
 	{ NULL, SRE_COLOR_BLACK, "" }
 };
 
-BEGIN_MESSAGE_MAP(CSyntaxRichEditCtrl, CRichEditCtrl)
-	ON_NOTIFY_EX_RANGE(TTN_NEEDTEXTW, 0, 0xFFFF, OnToolTipNotify)
-	ON_NOTIFY_EX_RANGE(TTN_NEEDTEXTA, 0, 0xFFFF, OnToolTipNotify)
+BEGIN_MESSAGE_MAP( CSyntaxRichEditCtrl, CRichEditCtrl )
+	ON_NOTIFY_EX_RANGE( TTN_NEEDTEXTW, 0, 0xFFFF, OnToolTipNotify )
+	ON_NOTIFY_EX_RANGE( TTN_NEEDTEXTA, 0, 0xFFFF, OnToolTipNotify )
 	ON_WM_GETDLGCODE()
 	ON_WM_KEYDOWN()
 	ON_WM_CHAR()
@@ -70,11 +70,11 @@ BEGIN_MESSAGE_MAP(CSyntaxRichEditCtrl, CRichEditCtrl)
 	ON_WM_MOUSEMOVE()
 	ON_WM_VSCROLL()
 	ON_WM_SIZE()
-	ON_NOTIFY_REFLECT(EN_PROTECTED, OnProtected)
-	ON_CONTROL_REFLECT(EN_CHANGE, OnChange)
-	ON_LBN_SELCANCEL(IDC_LISTBOX_AUTOCOMPLETE, OnAutoCompleteListBoxChange)
-	ON_LBN_SELCHANGE(IDC_LISTBOX_AUTOCOMPLETE, OnAutoCompleteListBoxChange)
-	ON_LBN_DBLCLK(IDC_LISTBOX_AUTOCOMPLETE, OnAutoCompleteListBoxDblClk)
+	ON_NOTIFY_REFLECT( EN_PROTECTED, OnProtected )
+	ON_CONTROL_REFLECT( EN_CHANGE, OnChange )
+	ON_LBN_SELCANCEL( IDC_LISTBOX_AUTOCOMPLETE, OnAutoCompleteListBoxChange )
+	ON_LBN_SELCHANGE( IDC_LISTBOX_AUTOCOMPLETE, OnAutoCompleteListBoxChange )
+	ON_LBN_DBLCLK( IDC_LISTBOX_AUTOCOMPLETE, OnAutoCompleteListBoxDblClk )
 END_MESSAGE_MAP()
 
 
@@ -229,8 +229,8 @@ void CSyntaxRichEditCtrl::Init( void ) {
 
 	// get the Rich Edit ITextDocument to use the wonky TOM interface
 	IRichEditOle *ire = GetIRichEditOle();
-	IUnknown *iu = (IUnknown *)ire;
-	if ( iu == NULL || iu->QueryInterface( tom::IID_ITextDocument, (void**) &m_TextDoc ) != S_OK ) {
+	IUnknown *iu = ( IUnknown * )ire;
+	if ( iu == NULL || iu->QueryInterface( tom::IID_ITextDocument, ( void ** ) &m_TextDoc ) != S_OK ) {
 		m_TextDoc = NULL;
 	}
 
@@ -340,10 +340,10 @@ bool CSyntaxRichEditCtrl::LoadKeyWordsFromFile( const char *fileName ) {
 
 	FreeKeyWordsFromFile();
 
-	while( src.ReadToken( &token ) ) {
+	while ( src.ReadToken( &token ) ) {
 		if ( token.Icmp( "keywords" ) == 0 ) {
 			src.ExpectTokenString( "{" );
-			while( src.ReadToken( &token ) ) {
+			while ( src.ReadToken( &token ) ) {
 				if ( token == "}" ) {
 					break;
 				}
@@ -514,7 +514,7 @@ CHARRANGE CSyntaxRichEditCtrl::GetVisibleRange( void ) const {
 	firstLine = GetFirstVisibleLine();
 	GetClientRect( &rectArea );
 	lastLine = firstLine + ( rectArea.bottom / ( defaultCharFormat.yHeight / 20 ) );
-	
+
 	if ( lastLine >= GetLineCount() ) {
 		lastLine = GetLineCount() - 1;
 	}
@@ -659,14 +659,14 @@ void CSyntaxRichEditCtrl::HighlightSyntax( int startCharIndex, int endCharIndex 
 
 	// move the start index to the beginning of the line
 	for ( ; startCharIndex > 0; startCharIndex-- ) {
-		if ( idStr::CharIsNewLine( text[startCharIndex-1] ) ) {
+		if ( idStr::CharIsNewLine( text[startCharIndex - 1] ) ) {
 			break;
 		}
 	}
 
 	// move the end index to the end of the line
 	for ( ; endCharIndex < textLength - 1; endCharIndex++ ) {
-		if ( idStr::CharIsNewLine( text[endCharIndex+1] ) ) {
+		if ( idStr::CharIsNewLine( text[endCharIndex + 1] ) ) {
 			break;
 		}
 	}
@@ -690,9 +690,9 @@ void CSyntaxRichEditCtrl::HighlightSyntax( int startCharIndex, int endCharIndex 
 	// test if the start index is inside a multi-line comment
 	if ( startCharIndex > 0 ) {
 		// multi-line comments have a slightly different background color
-		if ( GetBackColor( startCharIndex-1 ) == MULTILINE_COMMENT_BACK_COLOR ) {
-			for( ; startCharIndex > 0; startCharIndex-- ) {
-				if ( text[startCharIndex] == '/' && text[startCharIndex+1] == '*' ) {
+		if ( GetBackColor( startCharIndex - 1 ) == MULTILINE_COMMENT_BACK_COLOR ) {
+			for ( ; startCharIndex > 0; startCharIndex-- ) {
+				if ( text[startCharIndex] == '/' && text[startCharIndex + 1] == '*' ) {
 					break;
 				}
 			}
@@ -702,9 +702,9 @@ void CSyntaxRichEditCtrl::HighlightSyntax( int startCharIndex, int endCharIndex 
 	// test if the end index is inside a multi-line comment
 	if ( endCharIndex < textLength - 1 ) {
 		// multi-line comments have a slightly different background color
-		if ( GetBackColor( endCharIndex+1 ) == MULTILINE_COMMENT_BACK_COLOR ) {
-			for( endCharIndex++; endCharIndex < textLength - 1; endCharIndex++ ) {
-				if ( text[endCharIndex-1] == '*' && text[endCharIndex] == '/' ) {
+		if ( GetBackColor( endCharIndex + 1 ) == MULTILINE_COMMENT_BACK_COLOR ) {
+			for ( endCharIndex++; endCharIndex < textLength - 1; endCharIndex++ ) {
+				if ( text[endCharIndex - 1] == '*' && text[endCharIndex] == '/' ) {
 					break;
 				}
 			}
@@ -719,10 +719,10 @@ void CSyntaxRichEditCtrl::HighlightSyntax( int startCharIndex, int endCharIndex 
 	SetDefaultFont( startCharIndex, endCharIndex + 1 );
 
 	// syntax based colors
-	for( charIndex = startCharIndex; charIndex <= endCharIndex; charIndex++ ) {
+	for ( charIndex = startCharIndex; charIndex <= endCharIndex; charIndex++ ) {
 
 		t = charType[text[charIndex]];
-		switch( t ) {
+		switch ( t ) {
 			case CT_WHITESPACE: {
 				if ( idStr::CharIsNewLine( text[charIndex] ) ) {
 					line++;
@@ -730,7 +730,7 @@ void CSyntaxRichEditCtrl::HighlightSyntax( int startCharIndex, int endCharIndex 
 				break;
 			}
 			case CT_COMMENT: {
-				c = text[charIndex+1];
+				c = text[charIndex + 1];
 				if ( c == '/' ) {
 					// single line comment
 					syntaxStart = charIndex;
@@ -744,7 +744,7 @@ void CSyntaxRichEditCtrl::HighlightSyntax( int startCharIndex, int endCharIndex 
 					// multi-line comment
 					syntaxStart = charIndex;
 					for ( charIndex += 2; charIndex < textLength; charIndex++ ) {
-						if ( text[charIndex] == '*' && text[charIndex+1] == '/' ) {
+						if ( text[charIndex] == '*' && text[charIndex + 1] == '/' ) {
 							break;
 						}
 					}
@@ -761,7 +761,7 @@ void CSyntaxRichEditCtrl::HighlightSyntax( int startCharIndex, int endCharIndex 
 				syntaxStart = charIndex;
 				for ( charIndex++; charIndex < textLength; charIndex++ ) {
 					c = text[charIndex];
-					if ( charType[c] == CT_STRING && text[charIndex-1] != '\\' ) {
+					if ( charType[c] == CT_STRING && text[charIndex - 1] != '\\' ) {
 						break;
 					}
 					if ( idStr::CharIsNewLine( c ) ) {
@@ -777,7 +777,7 @@ void CSyntaxRichEditCtrl::HighlightSyntax( int startCharIndex, int endCharIndex 
 				syntaxStart = charIndex;
 				for ( charIndex++; charIndex < textLength; charIndex++ ) {
 					c = text[charIndex];
-					if ( charType[c] == CT_LITERAL && text[charIndex-1] != '\\' ) {
+					if ( charType[c] == CT_LITERAL && text[charIndex - 1] != '\\' ) {
 						break;
 					}
 					if ( idStr::CharIsNewLine( c ) ) {
@@ -793,7 +793,7 @@ void CSyntaxRichEditCtrl::HighlightSyntax( int startCharIndex, int endCharIndex 
 			}
 			case CT_NAME: {
 				syntaxStart = charIndex;
-				keyWord = ((const char *)text) + charIndex;
+				keyWord = ( ( const char * )text ) + charIndex;
 				for ( charIndex++; charIndex < textLength; charIndex++ ) {
 					c = text[charIndex];
 					t = charType[c];
@@ -847,7 +847,7 @@ void CSyntaxRichEditCtrl::UpdateVisibleRange( void ) {
 	range->get_Font( &font );
 
 	range->SetRange( visRange.cpMin, visRange.cpMin );
-	while( 1 ) {
+	while ( 1 ) {
 		range->get_Start( &visRange.cpMin );
 		if ( visRange.cpMin >= visRange.cpMax ) {
 			break;
@@ -958,7 +958,7 @@ bool CSyntaxRichEditCtrl::FindNext( const char *find, bool matchCase, bool match
 		search = -selStart;
 	}
 
-	if ( range->FindShit( A2BSTR(find), search, flags, &length ) == S_OK ) {
+	if ( range->FindShit( A2BSTR( find ), search, flags, &length ) == S_OK ) {
 
 		m_TextDoc->Freeze( NULL );
 
@@ -967,7 +967,7 @@ bool CSyntaxRichEditCtrl::FindNext( const char *find, bool matchCase, bool match
 
 		SetSel( start, start + length );
 
-		int line = Max( (int) LineFromChar( start ) - 5, 0 );
+		int line = Max( ( int ) LineFromChar( start ) - 5, 0 );
 		LineScroll( line - GetFirstVisibleLine(), 0 );
 
 		UpdateVisibleRange();
@@ -1007,7 +1007,7 @@ int CSyntaxRichEditCtrl::ReplaceAll( const char *find, const char *replace, bool
 	search = GetTextLength();
 
 	numReplaced = 0;
-	while( range->FindShit( bstr, search, flags, &length ) == S_OK ) {
+	while ( range->FindShit( bstr, search, flags, &length ) == S_OK ) {
 		range->get_Start( &start );
 		ReplaceText( start, start + length, replace );
 		numReplaced++;
@@ -1191,7 +1191,7 @@ bool CSyntaxRichEditCtrl::BracedSectionEnd( char braceStartChar, char braceEndCh
 	GetSel( selStart, selEnd );
 	GetText( text, 0, GetTextLength() );
 
-	for ( brace = 1, i = Min( selStart-2, (long)text.Length()-1 ); i >= 0; i-- ) {
+	for ( brace = 1, i = Min( selStart - 2, ( long )text.Length() - 1 ); i >= 0; i-- ) {
 		if ( text[i] == braceStartChar ) {
 			brace--;
 			if ( brace == 0 ) {
@@ -1244,7 +1244,7 @@ void CSyntaxRichEditCtrl::BracedSectionAdjustEndTabs( void ) {
 	ReplaceText( lineIndex, lineIndex + column, text );
 
 	bracedSection[1] += numTabs - column;
-	SetSel( bracedSection[1]+1, bracedSection[1]+1 );
+	SetSel( bracedSection[1] + 1, bracedSection[1] + 1 );
 }
 
 /*
@@ -1291,9 +1291,9 @@ bool CSyntaxRichEditCtrl::GetNameBeforeCurrentSelection( CString &name, int &cha
 	column = selStart - LineIndex( line ) - 1;
 	do {
 		buffer[column--] = '\0';
-	} while( charType[buffer[column]] == CT_WHITESPACE );
+	} while ( charType[buffer[column]] == CT_WHITESPACE );
 	for ( length = 0; length < column; length++ ) {
-		if ( charType[buffer[column-length-1]] != CT_NAME ) {
+		if ( charType[buffer[column - length - 1]] != CT_NAME ) {
 			break;
 		}
 	}
@@ -1361,17 +1361,17 @@ void CSyntaxRichEditCtrl::GoToLine( int line ) {
 CSyntaxRichEditCtrl::OnToolHitTest
 ================
 */
-int CSyntaxRichEditCtrl::OnToolHitTest( CPoint point, TOOLINFO* pTI ) const {
+int CSyntaxRichEditCtrl::OnToolHitTest( CPoint point, TOOLINFO *pTI ) const {
 	CRichEditCtrl::OnToolHitTest( point, pTI );
 
-    pTI->hwnd = GetSafeHwnd();
-    pTI->uId = (UINT_PTR)GetSafeHwnd();
+	pTI->hwnd = GetSafeHwnd();
+	pTI->uId = ( UINT_PTR )GetSafeHwnd();
 	pTI->uFlags |= TTF_IDISHWND;
-    pTI->lpszText = LPSTR_TEXTCALLBACK;
-    pTI->rect = CRect( point, point );
+	pTI->lpszText = LPSTR_TEXTCALLBACK;
+	pTI->rect = CRect( point, point );
 	pTI->rect.right += 100;
 	pTI->rect.bottom += 20;
-    return pTI->uId;
+	return pTI->uId;
 }
 
 /*
@@ -1380,8 +1380,8 @@ CSyntaxRichEditCtrl::OnToolTipNotify
 ================
 */
 BOOL CSyntaxRichEditCtrl::OnToolTipNotify( UINT id, NMHDR *pNMHDR, LRESULT *pResult ) {
-	TOOLTIPTEXTA* pTTTA = (TOOLTIPTEXTA*)pNMHDR;
-	TOOLTIPTEXTW* pTTTW = (TOOLTIPTEXTW*)pNMHDR;
+	TOOLTIPTEXTA *pTTTA = ( TOOLTIPTEXTA * )pNMHDR;
+	TOOLTIPTEXTW *pTTTW = ( TOOLTIPTEXTW * )pNMHDR;
 
 	*pResult = 0;
 
@@ -1410,28 +1410,28 @@ BOOL CSyntaxRichEditCtrl::OnToolTipNotify( UINT id, NMHDR *pNMHDR, LRESULT *pRes
 		state->m_pToolTip->SetDelayTime( TTDT_AUTOPOP, 5000 + toolTip.GetLength() * 50 );
 
 #ifndef _UNICODE
-		if( pNMHDR->code == TTN_NEEDTEXTA ) {
+		if ( pNMHDR->code == TTN_NEEDTEXTA ) {
 			delete m_pchTip;
 			m_pchTip = new TCHAR[toolTip.GetLength() + 2];
 			lstrcpyn( m_pchTip, toolTip, toolTip.GetLength() + 1 );
-			pTTTW->lpszText = (WCHAR*)m_pchTip;
+			pTTTW->lpszText = ( WCHAR * )m_pchTip;
 		} else {
 			delete m_pwchTip;
 			m_pwchTip = new WCHAR[toolTip.GetLength() + 2];
 			_mbstowcsz( m_pwchTip, toolTip, toolTip.GetLength() + 1 );
-			pTTTW->lpszText = (WCHAR*)m_pwchTip;
+			pTTTW->lpszText = ( WCHAR * )m_pwchTip;
 		}
 #else
-		if( pNMHDR->code == TTN_NEEDTEXTA ) {
+		if ( pNMHDR->code == TTN_NEEDTEXTA ) {
 			delete m_pchTip;
 			m_pchTip = new TCHAR[toolTip.GetLength() + 2];
 			_wcstombsz( m_pchTip, toolTip, toolTip.GetLength() + 1 );
-			pTTTA->lpszText = (LPTSTR)m_pchTip;
+			pTTTA->lpszText = ( LPTSTR )m_pchTip;
 		} else {
 			delete m_pwchTip;
 			m_pwchTip = new WCHAR[toolTip.GetLength() + 2];
 			lstrcpyn( m_pwchTip, toolTip, toolTip.GetLength() + 1 );
-			pTTTA->lpszText = (LPTSTR) m_pwchTip;
+			pTTTA->lpszText = ( LPTSTR ) m_pwchTip;
 		}
 #endif
 
@@ -1464,7 +1464,7 @@ void CSyntaxRichEditCtrl::OnKeyDown( UINT nKey, UINT nRepCnt, UINT nFlags ) {
 	if ( autoCompleteStart >= 0 ) {
 		int sel;
 
-		switch( nKey ) {
+		switch ( nKey ) {
 			case VK_UP: {		// up arrow
 				sel = Max( 0, autoCompleteListBox.GetCurSel() - 1 );
 				autoCompleteListBox.SetCurSel( sel );
@@ -1510,7 +1510,7 @@ void CSyntaxRichEditCtrl::OnKeyDown( UINT nKey, UINT nRepCnt, UINT nFlags ) {
 
 	BracedSectionHide();
 
-	switch( nKey ) {
+	switch ( nKey ) {
 		case VK_TAB: {		// multi-line tabs
 			long selStart, selEnd;
 
@@ -1530,7 +1530,7 @@ void CSyntaxRichEditCtrl::OnKeyDown( UINT nKey, UINT nRepCnt, UINT nFlags ) {
 						if ( idStr::CharIsNewLine( text[i] ) ) {
 							do {
 								i++;
-							} while( idStr::CharIsNewLine( text[i] ) );
+							} while ( idStr::CharIsNewLine( text[i] ) );
 							if ( idStr::CharIsTab( text[i] ) ) {
 								text.Delete( i, 1 );
 							}
@@ -1542,7 +1542,7 @@ void CSyntaxRichEditCtrl::OnKeyDown( UINT nKey, UINT nRepCnt, UINT nFlags ) {
 						if ( idStr::CharIsNewLine( text[i] ) ) {
 							do {
 								i++;
-							} while( idStr::CharIsNewLine( text[i] ) );
+							} while ( idStr::CharIsNewLine( text[i] ) );
 							text.Insert( i, '\t' );
 						}
 					}
@@ -1653,8 +1653,8 @@ void CSyntaxRichEditCtrl::OnChar( UINT nChar, UINT nRepCnt, UINT nFlags ) {
 		line = LineFromChar( selStart );
 		length = GetLine( line, buffer, sizeof( buffer ) );
 		column = selStart - LineIndex( line );
-		if ( column <= 1 || charType[buffer[column-2]] == CT_WHITESPACE ) {
-			if ( column >= length-1 || charType[buffer[column]] == CT_WHITESPACE ) {
+		if ( column <= 1 || charType[buffer[column - 2]] == CT_WHITESPACE ) {
+			if ( column >= length - 1 || charType[buffer[column]] == CT_WHITESPACE ) {
 
 				autoCompleteListBox.ResetContent();
 				for ( i = 0; keyWords[i].keyWord; i++ ) {
@@ -1739,7 +1739,7 @@ BOOL CSyntaxRichEditCtrl::OnMouseWheel( UINT nFlags, short zDelta, CPoint pt ) {
 	if ( autoCompleteStart >= 0 ) {
 		int sel;
 
-		if ( zDelta > 0  ) {
+		if ( zDelta > 0 ) {
 			sel = Max( 0, autoCompleteListBox.GetCurSel() - ( zDelta / WHEEL_DELTA ) );
 		} else {
 			sel = Min( autoCompleteListBox.GetCount() - 1, autoCompleteListBox.GetCurSel() - ( zDelta / WHEEL_DELTA ) );
@@ -1750,7 +1750,7 @@ BOOL CSyntaxRichEditCtrl::OnMouseWheel( UINT nFlags, short zDelta, CPoint pt ) {
 
 	m_TextDoc->Freeze( NULL );
 
-	LineScroll( -3 * ( (int) zDelta ) / WHEEL_DELTA, 0 );
+	LineScroll( -3 * ( ( int ) zDelta ) / WHEEL_DELTA, 0 );
 
 	UpdateVisibleRange();
 
@@ -1798,7 +1798,7 @@ void CSyntaxRichEditCtrl::OnSize( UINT nType, int cx, int cy ) {
 CSyntaxRichEditCtrl::OnVScroll
 ================
 */
-void CSyntaxRichEditCtrl::OnVScroll( UINT nSBCode, UINT nPos, CScrollBar* pScrollBar ) {
+void CSyntaxRichEditCtrl::OnVScroll( UINT nSBCode, UINT nPos, CScrollBar *pScrollBar ) {
 	m_TextDoc->Freeze( NULL );
 
 	CRichEditCtrl::OnVScroll( nSBCode, nPos, pScrollBar );
@@ -1816,19 +1816,19 @@ CSyntaxRichEditCtrl::OnProtected
 ================
 */
 void CSyntaxRichEditCtrl::OnProtected( NMHDR *pNMHDR, LRESULT *pResult ) {
-	ENPROTECTED* pEP = (ENPROTECTED*)pNMHDR;
+	ENPROTECTED *pEP = ( ENPROTECTED * )pNMHDR;
 
 	*pResult = 0;
 
 	updateRange = pEP->chrg;
 
-	switch( pEP->msg ) {
+	switch ( pEP->msg ) {
 		case WM_MOUSEMOVE: {
 			break;
 		}
 		case WM_SETTEXT: {
 			updateRange.cpMin = pEP->chrg.cpMin;
-			updateRange.cpMax = pEP->chrg.cpMin + strlen( (LPCTSTR) pEP->lParam );
+			updateRange.cpMax = pEP->chrg.cpMin + strlen( ( LPCTSTR ) pEP->lParam );
 			break;
 		}
 		case WM_CUT: {
@@ -1875,7 +1875,7 @@ void CSyntaxRichEditCtrl::OnChange() {
 	pNMHDR.hwndFrom = GetSafeHwnd();
 	pNMHDR.idFrom = GetDlgCtrlID();
 	pNMHDR.code = EN_CHANGE;
-	GetParent()->SendMessage( WM_NOTIFY, ( EN_CHANGE << 16 ) | GetDlgCtrlID(), (LPARAM)&pNMHDR );
+	GetParent()->SendMessage( WM_NOTIFY, ( EN_CHANGE << 16 ) | GetDlgCtrlID(), ( LPARAM )&pNMHDR );
 }
 
 /*

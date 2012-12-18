@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -42,11 +42,11 @@ If you have questions concerning this license or the applicable additional terms
 
 class idWinding2D {
 public:
-					idWinding2D( void );
+	idWinding2D( void );
 
-	idWinding2D &	operator=( const idWinding2D &winding );
-	const idVec2 &	operator[]( const int index ) const;
-	idVec2 &		operator[]( const int index );
+	idWinding2D 	&operator=( const idWinding2D &winding );
+	const idVec2 	&operator[]( const int index ) const;
+	idVec2 		&operator[]( const int index );
 
 	void			Clear( void );
 	void			AddPoint( const idVec2 &point );
@@ -55,15 +55,15 @@ public:
 	void			Expand( const float d );
 	void			ExpandForAxialBox( const idVec2 bounds[2] );
 
-					// splits the winding into a front and back winding, the winding itself stays unchanged
-					// returns a SIDE_?
+	// splits the winding into a front and back winding, the winding itself stays unchanged
+	// returns a SIDE_?
 	int				Split( const idVec3 &plane, const float epsilon, idWinding2D **front, idWinding2D **back ) const;
-					// cuts off the part at the back side of the plane, returns true if some part was at the front
-					// if there is nothing at the front the number of points is set to zero
+	// cuts off the part at the back side of the plane, returns true if some part was at the front
+	// if there is nothing at the front the number of points is set to zero
 	bool			ClipInPlace( const idVec3 &plane, const float epsilon = ON_EPSILON, const bool keepOn = false );
 
-	idWinding2D *	Copy( void ) const;
-	idWinding2D *	Reverse( void ) const;
+	idWinding2D 	*Copy( void ) const;
+	idWinding2D 	*Reverse( void ) const;
 
 	float			GetArea( void ) const;
 	idVec2			GetCenter( void ) const;
@@ -154,7 +154,7 @@ ID_INLINE bool idWinding2D::Plane2DIntersection( const idVec3 &plane1, const idV
 	n11 = plane2.x * plane2.x + plane2.y * plane2.y;
 	det = n00 * n11 - n01 * n01;
 
-	if ( idMath::Fabs(det) < 1e-6f ) {
+	if ( idMath::Fabs( det ) < 1e-6f ) {
 		return false;
 	}
 

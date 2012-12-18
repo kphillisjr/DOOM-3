@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -74,12 +74,12 @@ class idPhysics_Player : public idPhysics_Actor {
 public:
 	CLASS_PROTOTYPE( idPhysics_Player );
 
-							idPhysics_Player( void );
+	idPhysics_Player( void );
 
 	void					Save( idSaveGame *savefile ) const;
 	void					Restore( idRestoreGame *savefile );
 
-							// initialisation
+	// initialisation
 	void					SetSpeed( const float newWalkSpeed, const float newCrouchSpeed );
 	void					SetMaxStepHeight( const float newMaxStepHeight );
 	float					GetMaxStepHeight( void ) const;
@@ -88,7 +88,7 @@ public:
 	void					SetPlayerInput( const usercmd_t &cmd, const idAngles &newViewAngles );
 	void					SetKnockBack( const int knockBackTime );
 	void					SetDebugLevel( bool set );
-							// feed back from last physics frame
+	// feed back from last physics frame
 	waterLevel_t			GetWaterLevel( void ) const;
 	int						GetWaterType( void ) const;
 	bool					HasJumped( void ) const;
@@ -96,7 +96,7 @@ public:
 	float					GetStepUp( void ) const;
 	bool					IsCrouching( void ) const;
 	bool					OnLadder( void ) const;
-	const idVec3 &			PlayerGetOrigin( void ) const;	// != GetOrigin
+	const idVec3 			&PlayerGetOrigin( void ) const;	// != GetOrigin
 
 public:	// common physics interface
 	bool					Evaluate( int timeStepMSec, int endTimeMSec );
@@ -119,10 +119,10 @@ public:	// common physics interface
 
 	void					SetLinearVelocity( const idVec3 &newLinearVelocity, int id = 0 );
 
-	const idVec3 &			GetLinearVelocity( int id = 0 ) const;
+	const idVec3 			&GetLinearVelocity( int id = 0 ) const;
 
 	void					SetPushed( int deltaTime );
-	const idVec3 &			GetPushedLinearVelocity( const int id = 0 ) const;
+	const idVec3 			&GetPushedLinearVelocity( const int id = 0 ) const;
 	void					ClearPushedVelocity( void );
 
 	void					SetMaster( idEntity *master, const bool orientated = true );
@@ -157,7 +157,7 @@ private:
 	bool					walking;
 	bool					groundPlane;
 	trace_t					groundTrace;
-	const idMaterial *		groundMaterial;
+	const idMaterial 		*groundMaterial;
 
 	// ladder movement
 	bool					ladder;

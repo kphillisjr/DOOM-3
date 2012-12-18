@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -36,18 +36,18 @@ If you have questions concerning this license or the applicable additional terms
 
 #if 0
 
-should we try and snap values very close to 0.5, 0.25, 0.125, etc?
+should we try and snap values very close to 0.5, 0.25, 0.125, etc ?
 
-  do we write out normals, or just a "smooth shade" flag?
-resolved: normals.  otherwise adjacent facet shaded surfaces get their
-		  vertexes merged, and they would have to be split apart before drawing
+	do we write out normals, or just a "smooth shade" flag ?
+		resolved : normals.  otherwise adjacent facet shaded surfaces get their
+		vertexes merged, and they would have to be split apart before drawing
 
-  do we save out "wings" for shadow silhouette info?
+		do we save out "wings" for shadow silhouette info ?
 
 
 #endif
 
-static	idFile	*procFile;
+			static	idFile	*procFile;
 
 #define	AREANUM_DIFFERENT	-2
 /*
@@ -88,12 +88,10 @@ int	PruneNodes_r( node_t *node ) {
 	return a1;
 }
 
-static void WriteFloat( idFile *f, float v )
-{
-	if ( idMath::Fabs(v - idMath::Rint(v)) < 0.001 ) {
-		f->WriteFloatString( "%i ", (int)idMath::Rint(v) );
-	}
-	else {
+static void WriteFloat( idFile *f, float v ) {
+	if ( idMath::Fabs( v - idMath::Rint( v ) ) < 0.001 ) {
+		f->WriteFloatString( "%i ", ( int )idMath::Rint( v ) );
+	} else {
 		f->WriteFloatString( "%f ", v );
 	}
 }
@@ -168,8 +166,8 @@ static bool MatchVert( const idDrawVert *a, const idDrawVert *b ) {
 	}
 
 	// if the normal is 0 (smoothed normals), consider it a match
-	if ( a->normal[0] == 0 && a->normal[1] == 0 && a->normal[2] == 0 
-		&& b->normal[0] == 0 && b->normal[1] == 0 && b->normal[2] == 0 ) {
+	if ( a->normal[0] == 0 && a->normal[1] == 0 && a->normal[2] == 0
+			&& b->normal[0] == 0 && b->normal[1] == 0 && b->normal[2] == 0 ) {
 		return true;
 	}
 
@@ -265,8 +263,8 @@ static void WriteUTriangles( const srfTriangles_t *uTris ) {
 	int			i;
 
 	// emit this chain
-	procFile->WriteFloatString( "/* numVerts = */ %i /* numIndexes = */ %i\n", 
-		uTris->numVerts, uTris->numIndexes );
+	procFile->WriteFloatString( "/* numVerts = */ %i /* numIndexes = */ %i\n",
+								uTris->numVerts, uTris->numIndexes );
 
 	// verts
 	col = 0;
@@ -323,8 +321,8 @@ static void WriteShadowTriangles( const srfTriangles_t *tri ) {
 	int			i;
 
 	// emit this chain
-	procFile->WriteFloatString( "/* numVerts = */ %i /* noCaps = */ %i /* noFrontCaps = */ %i /* numIndexes = */ %i /* planeBits = */ %i\n", 
-		tri->numVerts, tri->numShadowIndexesNoCaps, tri->numShadowIndexesNoFrontCaps, tri->numIndexes, tri->shadowCapPlaneBits );
+	procFile->WriteFloatString( "/* numVerts = */ %i /* noCaps = */ %i /* noFrontCaps = */ %i /* numIndexes = */ %i /* planeBits = */ %i\n",
+								tri->numVerts, tri->numShadowIndexesNoCaps, tri->numShadowIndexesNoFrontCaps, tri->numIndexes, tri->shadowCapPlaneBits );
 
 	// verts
 	col = 0;
@@ -390,11 +388,11 @@ static void WriteOutputSurfaces( int entityNum, int areaNum ) {
 //	int			col;
 	srfTriangles_t	*uTri;
 //	mapTri_t	*tri;
-typedef struct interactionTris_s {
-	struct interactionTris_s	*next;
-	mapTri_t	*triList;
-	mapLight_t	*light;
-} interactionTris_t;
+	typedef struct interactionTris_s {
+		struct interactionTris_s	*next;
+		mapTri_t	*triList;
+		mapLight_t	*light;
+	} interactionTris_t;
 
 	interactionTris_t	*interactions, *checkInter; //, *nextInter;
 
@@ -406,8 +404,8 @@ typedef struct interactionTris_s {
 
 
 	if ( entityNum == 0 ) {
-		procFile->WriteFloatString( "model { /* name = */ \"_area%i\" /* numSurfaces = */ %i\n\n", 
-			areaNum, numSurfaces );
+		procFile->WriteFloatString( "model { /* name = */ \"_area%i\" /* numSurfaces = */ %i\n\n",
+									areaNum, numSurfaces );
 	} else {
 		const char *name;
 
@@ -415,8 +413,8 @@ typedef struct interactionTris_s {
 		if ( !name[0] ) {
 			common->Error( "Entity %i has surfaces, but no name key", entityNum );
 		}
-		procFile->WriteFloatString( "model { /* name = */ \"%s\" /* numSurfaces = */ %i\n\n", 
-			name, numSurfaces );
+		procFile->WriteFloatString( "model { /* name = */ \"%s\" /* numSurfaces = */ %i\n\n",
+									name, numSurfaces );
 	}
 
 	surfaceNum = 0;
@@ -458,7 +456,7 @@ typedef struct interactionTris_s {
 				}
 				if ( !checkInter ) {
 					// create a new interaction
-					checkInter = (interactionTris_t *)Mem_ClearedAlloc( sizeof( *checkInter ) );
+					checkInter = ( interactionTris_t * )Mem_ClearedAlloc( sizeof( *checkInter ) );
 					checkInter->light = groupStep->groupLights[i];
 					checkInter->next = interactions;
 					interactions = checkInter;
@@ -521,7 +519,7 @@ static void WriteNode_r( node_t *node ) {
 
 	plane = &dmapGlobals.mapPlanes[node->planenum];
 
-	procFile->WriteFloatString( "/* node %i */ ", node->nodeNumber  );
+	procFile->WriteFloatString( "/* node %i */ ", node->nodeNumber );
 	Write1DMatrix( procFile, 4, plane->ToFloatPtr() );
 	procFile->WriteFloatString( "%i %i\n", child[0], child[1] );
 
@@ -578,17 +576,17 @@ static void WriteOutputPortals( uEntity_t *e ) {
 	interAreaPortal_t	*iap;
 	idWinding			*w;
 
-	procFile->WriteFloatString( "interAreaPortals { /* numAreas = */ %i /* numIAP = */ %i\n\n", 
-		e->numAreas, numInterAreaPortals );
+	procFile->WriteFloatString( "interAreaPortals { /* numAreas = */ %i /* numIAP = */ %i\n\n",
+								e->numAreas, numInterAreaPortals );
 	procFile->WriteFloatString( "/* interAreaPortal format is: numPoints positiveSideArea negativeSideArea ( point) ... */\n" );
 	for ( i = 0 ; i < numInterAreaPortals ; i++ ) {
 		iap = &interAreaPortals[i];
 		w = iap->side->winding;
-		procFile->WriteFloatString("/* iap %i */ %i %i %i ", i, w->GetNumPoints(), iap->area0, iap->area1 );
+		procFile->WriteFloatString( "/* iap %i */ %i %i %i ", i, w->GetNumPoints(), iap->area0, iap->area1 );
 		for ( j = 0 ; j < w->GetNumPoints() ; j++ ) {
-			Write1DMatrix( procFile, 3, (*w)[j].ToFloatPtr() );
+			Write1DMatrix( procFile, 3, ( *w )[j].ToFloatPtr() );
 		}
-		procFile->WriteFloatString("\n" );
+		procFile->WriteFloatString( "\n" );
 	}
 
 	procFile->WriteFloatString( "}\n\n" );
@@ -653,9 +651,9 @@ void WriteOutputFile( void ) {
 	procFile->WriteFloatString( "%s\n\n", PROC_FILE_ID );
 
 	// write the entity models and information, writing entities first
-	for ( i=dmapGlobals.num_entities - 1 ; i >= 0 ; i-- ) {
+	for ( i = dmapGlobals.num_entities - 1 ; i >= 0 ; i-- ) {
 		entity = &dmapGlobals.uEntities[i];
-	
+
 		if ( !entity->primitives ) {
 			continue;
 		}

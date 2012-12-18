@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -45,8 +45,8 @@ class idLight : public idEntity {
 public:
 	CLASS_PROTOTYPE( idLight );
 
-					idLight();
-					~idLight();
+	idLight();
+	~idLight();
 
 	void			Spawn( void );
 
@@ -64,7 +64,9 @@ public:
 	virtual void	SetColor( const idVec4 &color );
 	virtual void	GetColor( idVec3 &out ) const;
 	virtual void	GetColor( idVec4 &out ) const;
-	const idVec3 &	GetBaseColor( void ) const { return baseColor; }
+	const idVec3 	&GetBaseColor( void ) const {
+		return baseColor;
+	}
 	void			SetShader( const char *shadername );
 	void			SetLightParm( int parmnum, float value );
 	void			SetLightParms( float parm0, float parm1, float parm2, float parm3 );
@@ -77,8 +79,12 @@ public:
 	void			FadeIn( float time );
 	void			Killed( idEntity *inflictor, idEntity *attacker, int damage, const idVec3 &dir, int location );
 	void			BecomeBroken( idEntity *activator );
-	qhandle_t		GetLightDefHandle( void ) const { return lightDefHandle; }
-	void			SetLightParent( idEntity *lparent ) { lightParent = lparent; }
+	qhandle_t		GetLightDefHandle( void ) const {
+		return lightDefHandle;
+	}
+	void			SetLightParent( idEntity *lparent ) {
+		lightParent = lparent;
+	}
 	void			SetLightLevel( void );
 
 	virtual void	ShowEditingDialog( void );
@@ -105,7 +111,7 @@ private:
 	bool			breakOnTrigger;
 	int				count;
 	int				triggercount;
-	idEntity *		lightParent;
+	idEntity 		*lightParent;
 	idVec4			fadeFrom;
 	idVec4			fadeTo;
 	int				fadeStart;

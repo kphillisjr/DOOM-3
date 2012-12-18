@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -30,15 +30,15 @@ If you have questions concerning this license or the applicable additional terms
 #pragma hdrstop
 #include "sys_local.h"
 
-const char * sysLanguageNames[] = {
-	"english", "spanish", "italian", "german", "french", "russian", 
+const char *sysLanguageNames[] = {
+	"english", "spanish", "italian", "german", "french", "russian",
 	"polish", "korean", "japanese", "chinese", NULL
 };
 
 idCVar sys_lang( "sys_lang", "english", CVAR_SYSTEM | CVAR_ARCHIVE,  "", sysLanguageNames, idCmdSystem::ArgCompletion_String<sysLanguageNames> );
 
 idSysLocal			sysLocal;
-idSys *				sys = &sysLocal;
+idSys 				*sys = &sysLocal;
 
 void idSysLocal::DebugPrintf( const char *fmt, ... ) {
 	va_list argptr;
@@ -96,11 +96,11 @@ void idSysLocal::GetCallStack( address_t *callStack, const int callStackSize ) {
 	Sys_GetCallStack( callStack, callStackSize );
 }
 
-const char * idSysLocal::GetCallStackStr( const address_t *callStack, const int callStackSize ) {
+const char *idSysLocal::GetCallStackStr( const address_t *callStack, const int callStackSize ) {
 	return Sys_GetCallStackStr( callStack, callStackSize );
 }
 
-const char * idSysLocal::GetCallStackCurStr( int depth ) {
+const char *idSysLocal::GetCallStackCurStr( int depth ) {
 	return Sys_GetCallStackCurStr( depth );
 }
 
@@ -165,9 +165,9 @@ const char *Sys_TimeStampToStr( ID_TIME_T timeStamp ) {
 	static char timeString[MAX_STRING_CHARS];
 	timeString[0] = '\0';
 
-	tm*	time = localtime( &timeStamp );
+	tm	*time = localtime( &timeStamp );
 	idStr out;
-	
+
 	idStr lang = cvarSystem->GetCVarString( "sys_lang" );
 	if ( lang.Icmp( "english" ) == 0 ) {
 		// english gets "month/day/year  hour:min" + "am" or "pm"
@@ -180,12 +180,12 @@ const char *Sys_TimeStampToStr( ID_TIME_T timeStamp ) {
 		if ( time->tm_hour > 12 ) {
 			out += va( "%02d", time->tm_hour - 12 );
 		} else if ( time->tm_hour == 0 ) {
-				out += "12";
+			out += "12";
 		} else {
 			out += va( "%02d", time->tm_hour );
 		}
 		out += ":";
-		out +=va( "%02d", time->tm_min );
+		out += va( "%02d", time->tm_min );
 		if ( time->tm_hour >= 12 ) {
 			out += "pm";
 		} else {

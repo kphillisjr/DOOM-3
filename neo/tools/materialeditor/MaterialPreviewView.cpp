@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@ If you have questions concerning this license or the applicable additional terms
 
 
 // MaterialPreviewView
-IMPLEMENT_DYNCREATE(MaterialPreviewView, CView)
+IMPLEMENT_DYNCREATE( MaterialPreviewView, CView )
 
 MaterialPreviewView::MaterialPreviewView() {
 	// Initialize the rendered material
@@ -45,7 +45,7 @@ MaterialPreviewView::MaterialPreviewView() {
 MaterialPreviewView::~MaterialPreviewView() {
 }
 
-BEGIN_MESSAGE_MAP(MaterialPreviewView, CView)
+BEGIN_MESSAGE_MAP( MaterialPreviewView, CView )
 	ON_WM_CREATE()
 	ON_WM_SIZE()
 END_MESSAGE_MAP()
@@ -53,7 +53,7 @@ END_MESSAGE_MAP()
 
 // MaterialPreviewView drawing
 
-void MaterialPreviewView::OnDraw(CDC* pDC) {
+void MaterialPreviewView::OnDraw( CDC *pDC ) {
 }
 
 // MaterialPreviewView diagnostics
@@ -63,50 +63,47 @@ void MaterialPreviewView::AssertValid() const {
 	CView::AssertValid();
 }
 
-void MaterialPreviewView::Dump(CDumpContext& dc) const {
-	CView::Dump(dc);
+void MaterialPreviewView::Dump( CDumpContext &dc ) const {
+	CView::Dump( dc );
 }
 #endif //_DEBUG
 
 // MaterialPreviewView message handlers
 
-int MaterialPreviewView::OnCreate(LPCREATESTRUCT lpCreateStruct)
-{
-	if (CView::OnCreate(lpCreateStruct) == -1)
+int MaterialPreviewView::OnCreate( LPCREATESTRUCT lpCreateStruct ) {
+	if ( CView::OnCreate( lpCreateStruct ) == -1 )
 		return -1;
 
 	DWORD dwStyle;
 	CRect rc;
 
-	dwStyle = WS_CHILD|WS_VISIBLE;
+	dwStyle = WS_CHILD | WS_VISIBLE;
 
 	// Init the control's size to cover the entire client area
-	GetClientRect(rc);
+	GetClientRect( rc );
 
 	// Initialize the rendered window and material
 	renderWindow.Create( NULL, "renderWindow", dwStyle, rc, this, 1010 );
 
 	renderWindow.setDrawable( &renderedView );
-	renderWindow.SetWindowPos(NULL, 0, 0, rc.Width(), rc.Height(), SWP_SHOWWINDOW);
+	renderWindow.SetWindowPos( NULL, 0, 0, rc.Width(), rc.Height(), SWP_SHOWWINDOW );
 
 	return 0;
 }
 
-void MaterialPreviewView::OnSize(UINT nType, int cx, int cy)
-{
+void MaterialPreviewView::OnSize( UINT nType, int cx, int cy ) {
 	CRect rc;
 
 	CView::OnSize( nType, cx, cy );
 
 	GetClientRect( rc );
 
-	renderWindow.SetWindowPos(NULL, 0, 0, rc.Width(), rc.Height(), SWP_SHOWWINDOW);
+	renderWindow.SetWindowPos( NULL, 0, 0, rc.Width(), rc.Height(), SWP_SHOWWINDOW );
 	renderWindow.Invalidate();
 	renderWindow.RedrawWindow();
 }
 
-void MaterialPreviewView::MV_OnMaterialSelectionChange( MaterialDoc *pMaterial )
-{
+void MaterialPreviewView::MV_OnMaterialSelectionChange( MaterialDoc *pMaterial ) {
 	if ( pMaterial && pMaterial->renderMaterial ) {
 
 		currentMaterial = pMaterial->renderMaterial->GetName();
@@ -178,8 +175,8 @@ void MaterialPreviewView::OnShowLightsChange( bool showLights ) {
  =============================================================================
  */
 
-extern bool		Sys_KeyDown(int key);
-extern float	fDiff(float f1, float f2);
+extern bool		Sys_KeyDown( int key );
+extern float	fDiff( float f1, float f2 );
 
 idGLDrawableView::idGLDrawableView() {
 	material = NULL;
@@ -211,14 +208,14 @@ void idGLDrawableView::ResetView( void ) {
 
 	memset( &worldEntity, 0, sizeof( worldEntity ) );
 	spawnArgs.Clear();
-	spawnArgs.Set("classname", "func_static");
-	spawnArgs.Set("name", spawnArgs.GetString("model"));
-	spawnArgs.Set("origin", "0 0 0");
+	spawnArgs.Set( "classname", "func_static" );
+	spawnArgs.Set( "name", spawnArgs.GetString( "model" ) );
+	spawnArgs.Set( "origin", "0 0 0" );
 
-	gameEdit->ParseSpawnArgsToRenderEntity(&spawnArgs, &worldEntity);
+	gameEdit->ParseSpawnArgsToRenderEntity( &spawnArgs, &worldEntity );
 
 	// load a model and set the current material as its customshader
-	worldModel = renderModelManager->FindModel("models/materialeditor/cube128.ase");
+	worldModel = renderModelManager->FindModel( "models/materialeditor/cube128.ase" );
 	worldEntity.hModel = worldModel;
 
 	// current material
@@ -239,7 +236,7 @@ void idGLDrawableView::ResetView( void ) {
 }
 
 void idGLDrawableView::InitWorld() {
-	
+
 	if ( world == NULL ) {
 		world = renderSystem->AllocRenderWorld();
 	}
@@ -253,7 +250,7 @@ void idGLDrawableView::InitWorld() {
 	viewLights.Clear();
 }
 
-void idGLDrawableView::buttonDown(int _button, float x, float y) {
+void idGLDrawableView::buttonDown( int _button, float x, float y ) {
 	pressX = x;
 	pressY = y;
 	button = _button;
@@ -262,16 +259,16 @@ void idGLDrawableView::buttonDown(int _button, float x, float y) {
 	}
 }
 
-void idGLDrawableView::mouseMove(float x, float y) {
+void idGLDrawableView::mouseMove( float x, float y ) {
 	bool doZoom;
 	float sensitivity = 0.5f;
 
-	if (handleMove) {
+	if ( handleMove ) {
 
 		// Left mouse button rotates and zooms the view
-		if (button == MK_LBUTTON) {
-			doZoom = Sys_KeyDown(VK_MENU);
-			if (doZoom) {
+		if ( button == MK_LBUTTON ) {
+			doZoom = Sys_KeyDown( VK_MENU );
+			if ( doZoom ) {
 				if ( y != pressY ) {
 					viewDistance -= ( y - pressY );
 					pressY = y;
@@ -280,23 +277,23 @@ void idGLDrawableView::mouseMove(float x, float y) {
 				float xo = 0.f;
 				float yo = 0.f;
 
-				if (x != pressX) {
-					xo = (x - pressX);
+				if ( x != pressX ) {
+					xo = ( x - pressX );
 					pressX = x;
 				}
-				if (y != pressY) {
-					yo = (y - pressY);
+				if ( y != pressY ) {
+					yo = ( y - pressY );
 					pressY = y;
 				}
 
-				viewRotation.yaw += -(xo * sensitivity);
-				viewRotation.pitch += (yo * sensitivity);
+				viewRotation.yaw += -( xo * sensitivity );
+				viewRotation.pitch += ( yo * sensitivity );
 
 				viewRotation.pitch = idMath::ClampFloat( -89.9f, 89.9f, viewRotation.pitch );
 			}
 
-		// Right mouse button moves lights in the view plane
-		} else if (button == MK_RBUTTON) {
+			// Right mouse button moves lights in the view plane
+		} else if ( button == MK_RBUTTON ) {
 			int		i;
 			float	lightMovement = 0;
 			idVec3	lightForward, lightRight, lightUp;
@@ -305,8 +302,8 @@ void idGLDrawableView::mouseMove(float x, float y) {
 			lightMove.Zero();
 			viewRotation.ToVectors( &lightForward, &lightRight, &lightUp );
 
-			doZoom = Sys_KeyDown(VK_MENU);
-			if (doZoom) {
+			doZoom = Sys_KeyDown( VK_MENU );
+			if ( doZoom ) {
 				if ( y != pressY ) {
 					lightMovement = -( y - pressY ) * sensitivity;
 					pressY = y;
@@ -315,15 +312,15 @@ void idGLDrawableView::mouseMove(float x, float y) {
 					lightMove = lightForward * lightMovement;
 				}
 			} else {
-				if (x != pressX) {
-					lightMovement = (x - pressX) * sensitivity;
+				if ( x != pressX ) {
+					lightMovement = ( x - pressX ) * sensitivity;
 					pressX = x;
 
 					lightMovement = idMath::ClampFloat( -32.f, 32.f, lightMovement );
 					lightMove = lightRight * lightMovement;
 				}
-				if (y != pressY) {
-					lightMovement = -(y - pressY) * sensitivity;
+				if ( y != pressY ) {
+					lightMovement = -( y - pressY ) * sensitivity;
 					pressY = y;
 
 					lightMovement = idMath::ClampFloat( -32.f, 32.f, lightMovement );
@@ -334,18 +331,18 @@ void idGLDrawableView::mouseMove(float x, float y) {
 			// Go through the lights and move the ones that are set to allow movement
 			for ( i = 0; i < viewLights.Num(); i++ ) {
 				lightInfo_t	*vLight = &viewLights[i];
-                
+
 				if ( vLight->allowMove ) {
 					vLight->origin += lightMove;
 				}
 			}
 
-		// Middle mouse button moves object up and down
+			// Middle mouse button moves object up and down
 		} else if ( button == MK_MBUTTON ) {
 			float yo = 0.f;
 
-			if (y != pressY) {
-				yo = (y - pressY);
+			if ( y != pressY ) {
+				yo = ( y - pressY );
 				pressY = y;
 			}
 
@@ -366,7 +363,7 @@ void idGLDrawableView::addLight( void ) {
 
 	spawnArgs.Set( "classname", "light" );
 	spawnArgs.Set( "name", va( "light_%d", lightId ) );
-	spawnArgs.Set( "origin", va( "-128 0 %d", (lightId * 16) ) );
+	spawnArgs.Set( "origin", va( "-128 0 %d", ( lightId * 16 ) ) );
 	spawnArgs.Set( "light", "300" );
 	spawnArgs.Set( "texture", "lights/defaultPointLight" );
 	sprintf( str, "%f %f %f", 1.f, 1.f, 1.f );
@@ -412,36 +409,36 @@ void idGLDrawableView::UpdateCamera( renderView_t *refdef ) {
 
 void idGLDrawableView::UpdateModel( void ) {
 
-	switch( objectId ) {
+	switch ( objectId ) {
 		case 0:
-			worldModel = renderModelManager->FindModel("models/materialeditor/cube128.ase");
+			worldModel = renderModelManager->FindModel( "models/materialeditor/cube128.ase" );
 			break;
 		case 1:
-			worldModel = renderModelManager->FindModel("models/materialeditor/box128x64.ase");
+			worldModel = renderModelManager->FindModel( "models/materialeditor/box128x64.ase" );
 			break;
 		case 2:
-			worldModel = renderModelManager->FindModel("models/materialeditor/box128x32.ase");
+			worldModel = renderModelManager->FindModel( "models/materialeditor/box128x32.ase" );
 			break;
 		case 3:
-			worldModel = renderModelManager->FindModel("models/materialeditor/box64x128.ase");
+			worldModel = renderModelManager->FindModel( "models/materialeditor/box64x128.ase" );
 			break;
 		case 4:
-			worldModel = renderModelManager->FindModel("models/materialeditor/box32x128.ase");
+			worldModel = renderModelManager->FindModel( "models/materialeditor/box32x128.ase" );
 			break;
 		case 5:
-			worldModel = renderModelManager->FindModel("models/materialeditor/cylinder_v.ase");
+			worldModel = renderModelManager->FindModel( "models/materialeditor/cylinder_v.ase" );
 			break;
 		case 6:
-			worldModel = renderModelManager->FindModel("models/materialeditor/cylinder_h.ase");
+			worldModel = renderModelManager->FindModel( "models/materialeditor/cylinder_h.ase" );
 			break;
 		case 7:
-			worldModel = renderModelManager->FindModel("models/materialeditor/sphere64.ase");
+			worldModel = renderModelManager->FindModel( "models/materialeditor/sphere64.ase" );
 			break;
 		case -1:
 			worldModel = renderModelManager->FindModel( customModelName.c_str() );
 			break;
 		default:
-			worldModel = renderModelManager->FindModel("models/materialeditor/cube128.ase");
+			worldModel = renderModelManager->FindModel( "models/materialeditor/cube128.ase" );
 			break;
 	};
 
@@ -470,7 +467,7 @@ void idGLDrawableView::UpdateLights( void ) {
 		vLight->renderLight.shaderParms[ SHADERPARM_BLUE ] = vLight->color.z;
 
 		vLight->renderLight.lightRadius[0] = vLight->renderLight.lightRadius[1] =
-		vLight->renderLight.lightRadius[2] = vLight->radius;
+				vLight->renderLight.lightRadius[2] = vLight->radius;
 
 		vLight->renderLight.origin = vLight->origin;
 
@@ -481,7 +478,7 @@ void idGLDrawableView::UpdateLights( void ) {
 void idGLDrawableView::drawLights( renderView_t *refdef ) {
 	int i;
 
-	for ( i=0; i < viewLights.Num(); i++ ) {
+	for ( i = 0; i < viewLights.Num(); i++ ) {
 		lightInfo_t	*vLight = &viewLights[i];
 
 		idVec4 lColor;
@@ -490,43 +487,43 @@ void idGLDrawableView::drawLights( renderView_t *refdef ) {
 		lColor.z = vLight->color.z;
 		lColor.w = 1.f;
 
-		idSphere sphere(vLight->renderLight.origin, 4);
+		idSphere sphere( vLight->renderLight.origin, 4 );
 		session->rw->DebugSphere( lColor, sphere, 0, true );
-		session->rw->DrawText( va( "%d", i+1 ), vLight->renderLight.origin + idVec3(0,0,5), 0.25f, idVec4(1,1,0,1), refdef->viewaxis, 1, 0, true );
+		session->rw->DrawText( va( "%d", i + 1 ), vLight->renderLight.origin + idVec3( 0, 0, 5 ), 0.25f, idVec4( 1, 1, 0, 1 ), refdef->viewaxis, 1, 0, true );
 	}
 }
 
 
-void idGLDrawableView::draw(int x, int y, int w, int h) {
+void idGLDrawableView::draw( int x, int y, int w, int h ) {
 	int i;
 	renderView_t	refdef;
 	const idMaterial		*mat = material;
 
-	if (mat) {
-		qglViewport(x, y, w, h);
-		qglScissor(x, y, w, h);
-		qglMatrixMode(GL_PROJECTION);
+	if ( mat ) {
+		qglViewport( x, y, w, h );
+		qglScissor( x, y, w, h );
+		qglMatrixMode( GL_PROJECTION );
 		qglClearColor( 0.1f, 0.1f, 0.1f, 0.0f );
-		qglClear(GL_COLOR_BUFFER_BIT);
+		qglClear( GL_COLOR_BUFFER_BIT );
 
 		UpdateLights();
 
 		// render it
-		renderSystem->BeginFrame(w, h);
+		renderSystem->BeginFrame( w, h );
 
 		memset( &refdef, 0, sizeof( refdef ) );
 
 		UpdateCamera( &refdef );
 
 		// Copy global shaderparms to view
-		for( i = 0; i < MAX_GLOBAL_SHADER_PARMS; i++ ) {
+		for ( i = 0; i < MAX_GLOBAL_SHADER_PARMS; i++ ) {
 			refdef.shaderParms[ i ] = globalParms[ i ];
 		}
 
 		refdef.width = SCREEN_WIDTH;
 		refdef.height = SCREEN_HEIGHT;
 		refdef.fov_x = 90;
-		refdef.fov_y = 2 * atan((float)h / w) * idMath::M_RAD2DEG;
+		refdef.fov_y = 2 * atan( ( float )h / w ) * idMath::M_RAD2DEG;
 
 		refdef.time = eventLoop->Milliseconds();
 
@@ -549,11 +546,11 @@ void idGLDrawableView::draw(int x, int y, int w, int h) {
 // Interface to PropTree Window
 // ============================
 
-void idGLDrawableView::setMedia(const char *name) {
+void idGLDrawableView::setMedia( const char *name ) {
 	float	ratio = 1;
 
-	if (name && *name) {
-		material = declManager->FindMaterial(name);
+	if ( name && *name ) {
+		material = declManager->FindMaterial( name );
 	} else {
 		material = NULL;
 	}
@@ -562,8 +559,8 @@ void idGLDrawableView::setMedia(const char *name) {
 		material = declManager->FindMaterial( "_default" );
 	}
 
-	if ( material->GetStage(0)->texture.image ) {
-		ratio = (float)((float)material->GetImageWidth() / (float)material->GetImageHeight());
+	if ( material->GetStage( 0 )->texture.image ) {
+		ratio = ( float )( ( float )material->GetImageWidth() / ( float )material->GetImageHeight() );
 	}
 
 	if ( objectId == -1 ) {

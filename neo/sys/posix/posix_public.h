@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@ If you have questions concerning this license or the applicable additional terms
 #include <signal.h>
 
 void		Posix_QueEvent( sysEventType_t type, int value, int value2, int ptrLength, void *ptr );
-const char*	Posix_Cwd( void );
+const char	*Posix_Cwd( void );
 
 // called first thing. does InitSigs and various things
 void		Posix_EarlyInit( );
@@ -44,7 +44,7 @@ void		Posix_InitSigs( );
 void		Posix_ClearSigs( );
 
 void		Posix_Exit( int ret );
-void		Posix_SetExit(int ret); // override the exit code
+void		Posix_SetExit( int ret ); // override the exit code
 void		Posix_SetExitSpawn( const char *exeName ); // set the process to be spawned when we quit
 
 void		Posix_StartAsyncThread( void );

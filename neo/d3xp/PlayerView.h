@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -39,7 +39,7 @@ If you have questions concerning this license or the applicable additional terms
 
 // screenBlob_t are for the on-screen damage claw marks, etc
 typedef struct {
-	const idMaterial *	material;
+	const idMaterial 	*material;
 	float				x, y, w, h;
 	float				s1, t1, s2, t2;
 	int					finishTime;
@@ -109,7 +109,7 @@ class FxFader {
 	int						msec;
 
 public:
-							FxFader();
+	FxFader();
 
 	// primary functions
 	bool					SetTriggerState( bool active );
@@ -118,11 +118,17 @@ public:
 	virtual void			Restore( idRestoreGame *savefile );
 
 	// fader functions
-	void					SetFadeTime( int t )		{ msec = t; };
-	int						GetFadeTime()				{ return msec; };
+	void					SetFadeTime( int t )		{
+		msec = t;
+	};
+	int						GetFadeTime()				{
+		return msec;
+	};
 
 	// misc functions
-	float					GetAlpha()					{ return alpha; };
+	float					GetAlpha()					{
+		return alpha;
+	};
 };
 
 
@@ -138,7 +144,9 @@ protected:
 	FullscreenFXManager		*fxman;
 
 public:
-							FullscreenFX()							{ fxman = NULL; };
+	FullscreenFX()							{
+		fxman = NULL;
+	};
 	virtual					~FullscreenFX()							{ };
 
 	virtual void			Initialize()							= 0;
@@ -146,16 +154,30 @@ public:
 	virtual void			HighQuality()							= 0;
 	virtual void			LowQuality()							{ };
 	virtual void			AccumPass( const renderView_t *view )	{ };
-	virtual bool			HasAccum()								{ return false; };
+	virtual bool			HasAccum()								{
+		return false;
+	};
 
-	void					SetName( idStr n )						{ name = n; };
-	idStr					GetName()								{ return name; };
+	void					SetName( idStr n )						{
+		name = n;
+	};
+	idStr					GetName()								{
+		return name;
+	};
 
-	void					SetFXManager( FullscreenFXManager *fx )	{ fxman = fx; };
+	void					SetFXManager( FullscreenFXManager *fx )	{
+		fxman = fx;
+	};
 
-	bool					SetTriggerState( bool state )			{ return fader.SetTriggerState( state ); };
-	void					SetFadeSpeed( int msec )				{ fader.SetFadeTime( msec ); };
-	float					GetFadeAlpha()							{ return fader.GetAlpha(); };
+	bool					SetTriggerState( bool state )			{
+		return fader.SetTriggerState( state );
+	};
+	void					SetFadeSpeed( int msec )				{
+		fader.SetFadeTime( msec );
+	};
+	float					GetFadeAlpha()							{
+		return fader.GetAlpha();
+	};
 
 	virtual void			Save( idSaveGame *savefile );
 	virtual void			Restore( idRestoreGame *savefile );
@@ -167,11 +189,11 @@ FullscreenFX_Helltime
 ==================
 */
 class FullscreenFX_Helltime : public FullscreenFX {
-	const idMaterial*		acInitMaterials[3];
-	const idMaterial*		acCaptureMaterials[3];
-	const idMaterial*		acDrawMaterials[3];
-	const idMaterial*		crCaptureMaterials[3];
-	const idMaterial*		crDrawMaterials[3];
+	const idMaterial		*acInitMaterials[3];
+	const idMaterial		*acCaptureMaterials[3];
+	const idMaterial		*acDrawMaterials[3];
+	const idMaterial		*crCaptureMaterials[3];
+	const idMaterial		*crDrawMaterials[3];
 	bool					clearAccumBuffer;
 
 	int						DetermineLevel();
@@ -181,7 +203,9 @@ public:
 	virtual bool			Active();
 	virtual void			HighQuality();
 	virtual void			AccumPass( const renderView_t *view );
-	virtual bool			HasAccum()		{ return true; };
+	virtual bool			HasAccum()		{
+		return true;
+	};
 
 	virtual void			Restore( idRestoreGame *savefile );
 };
@@ -192,11 +216,11 @@ FullscreenFX_Multiplayer
 ==================
 */
 class FullscreenFX_Multiplayer : public FullscreenFX {
-	const idMaterial*		acInitMaterials;
-	const idMaterial*		acCaptureMaterials;
-	const idMaterial*		acDrawMaterials;
-	const idMaterial*		crCaptureMaterials;
-	const idMaterial*		crDrawMaterials;
+	const idMaterial		*acInitMaterials;
+	const idMaterial		*acCaptureMaterials;
+	const idMaterial		*acDrawMaterials;
+	const idMaterial		*crCaptureMaterials;
+	const idMaterial		*crDrawMaterials;
 	bool					clearAccumBuffer;
 
 	int						DetermineLevel();
@@ -206,7 +230,9 @@ public:
 	virtual bool			Active();
 	virtual void			HighQuality();
 	virtual void			AccumPass( const renderView_t *view );
-	virtual bool			HasAccum()		{ return true; };
+	virtual bool			HasAccum()		{
+		return true;
+	};
 
 	virtual void			Restore( idRestoreGame *savefile );
 };
@@ -217,7 +243,7 @@ FullscreenFX_Warp
 ==================
 */
 class FullscreenFX_Warp : public FullscreenFX {
-	const idMaterial*		material;
+	const idMaterial		*material;
 	bool					grabberEnabled;
 	int						startWarpTime;
 
@@ -228,7 +254,10 @@ public:
 	virtual bool			Active();
 	virtual void			HighQuality();
 
-	void					EnableGrabber( bool active )			{ grabberEnabled = active; startWarpTime = gameLocal.slow.time; };
+	void					EnableGrabber( bool active )			{
+		grabberEnabled = active;
+		startWarpTime = gameLocal.slow.time;
+	};
 
 	virtual void			Save( idSaveGame *savefile );
 	virtual void			Restore( idRestoreGame *savefile );
@@ -240,7 +269,7 @@ FullscreenFX_EnviroSuit
 ==================
 */
 class FullscreenFX_EnviroSuit : public FullscreenFX {
-	const idMaterial*		material;
+	const idMaterial		*material;
 
 public:
 	virtual void			Initialize();
@@ -254,7 +283,7 @@ FullscreenFX_DoubleVision
 ==================
 */
 class FullscreenFX_DoubleVision : public FullscreenFX {
-	const idMaterial*		material;
+	const idMaterial		*material;
 
 public:
 	virtual void			Initialize();
@@ -281,9 +310,9 @@ FullscreenFX_Bloom
 ==================
 */
 class FullscreenFX_Bloom : public FullscreenFX {
-	const idMaterial*		drawMaterial;
-	const idMaterial*		initMaterial;
-	const idMaterial*		currentMaterial;
+	const idMaterial		*drawMaterial;
+	const idMaterial		*initMaterial;
+	const idMaterial		*currentMaterial;
 
 	float					currentIntensity;
 	float					targetIntensity;
@@ -305,17 +334,17 @@ FullscreenFXManager
 ==================
 */
 class FullscreenFXManager {
-	idList<FullscreenFX*>	fx;
+	idList<FullscreenFX *>	fx;
 	bool					highQualityMode;
 	idVec2					shiftScale;
 
 	idPlayerView			*playerView;
-	const idMaterial*		blendBackMaterial;
+	const idMaterial		*blendBackMaterial;
 
 	void					CreateFX( idStr name, idStr fxtype, int fade );
 
 public:
-							FullscreenFXManager();
+	FullscreenFXManager();
 	virtual					~FullscreenFXManager();
 
 	void					Initialize( idPlayerView *pv );
@@ -324,13 +353,23 @@ public:
 	void					CaptureCurrentRender();
 	void					Blendback( float alpha );
 
-	idVec2					GetShiftScale()			{ return shiftScale; };
-	idPlayerView*			GetPlayerView()			{ return playerView; };
-	idPlayer*				GetPlayer()				{ return gameLocal.GetLocalPlayer(); };
+	idVec2					GetShiftScale()			{
+		return shiftScale;
+	};
+	idPlayerView			*GetPlayerView()			{
+		return playerView;
+	};
+	idPlayer				*GetPlayer()				{
+		return gameLocal.GetLocalPlayer();
+	};
 
-	int						GetNum()				{ return fx.Num(); };
-	FullscreenFX*			GetFX( int index )		{ return fx[index]; };
-	FullscreenFX*			FindFX( idStr name );
+	int						GetNum()				{
+		return fx.Num();
+	};
+	FullscreenFX			*GetFX( int index )		{
+		return fx[index];
+	};
+	FullscreenFX			*FindFX( idStr name );
 
 	void					Save( idSaveGame *savefile );
 	void					Restore( idRestoreGame *savefile );
@@ -348,7 +387,7 @@ public:
 
 class idPlayerView {
 public:
-						idPlayerView();
+	idPlayerView();
 
 	void				Save( idSaveGame *savefile ) const;
 	void				Restore( idRestoreGame *savefile );
@@ -378,32 +417,34 @@ public:
 	void				AddBloodSpray( float duration );
 
 	// temp for view testing
-	void				EnableBFGVision( bool b ) { bfgVision = b; };
+	void				EnableBFGVision( bool b ) {
+		bfgVision = b;
+	};
 
 private:
 	void				SingleView( idUserInterface *hud, const renderView_t *view );
 	void				ScreenFade();
 
-	screenBlob_t *		GetScreenBlob();
+	screenBlob_t 		*GetScreenBlob();
 
 	screenBlob_t		screenBlobs[MAX_SCREEN_BLOBS];
 
 public:
 	int					dvFinishTime;		// double vision will be stopped at this time
-	const idMaterial *	dvMaterial;			// material to take the double vision screen shot
+	const idMaterial 	*dvMaterial;			// material to take the double vision screen shot
 
 	int					kickFinishTime;		// view kick will be stopped at this time
-	idAngles			kickAngles;			
+	idAngles			kickAngles;
 
-	bool				bfgVision;			// 
+	bool				bfgVision;			//
 
-	const idMaterial *	tunnelMaterial;		// health tunnel vision
-	const idMaterial *	armorMaterial;		// armor damage view effect
-	const idMaterial *	berserkMaterial;	// berserk effect
-	const idMaterial *	irGogglesMaterial;	// ir effect
-	const idMaterial *	bloodSprayMaterial; // blood spray
-	const idMaterial *	bfgMaterial;		// when targeted with BFG
-	const idMaterial *	lagoMaterial;		// lagometer drawing
+	const idMaterial 	*tunnelMaterial;		// health tunnel vision
+	const idMaterial 	*armorMaterial;		// armor damage view effect
+	const idMaterial 	*berserkMaterial;	// berserk effect
+	const idMaterial 	*irGogglesMaterial;	// ir effect
+	const idMaterial 	*bloodSprayMaterial; // blood spray
+	const idMaterial 	*bfgMaterial;		// when targeted with BFG
+	const idMaterial 	*lagoMaterial;		// lagometer drawing
 	float				lastDamageTime;		// accentuate the tunnel effect for a while
 
 	idVec4				fadeColor;			// fade color
@@ -414,7 +455,7 @@ public:
 
 	idAngles			shakeAng;			// from the sound sources
 
-	idPlayer *			player;
+	idPlayer 			*player;
 	renderView_t		view;
 
 #ifdef _D3XP

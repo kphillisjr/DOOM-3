@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -40,14 +40,14 @@ If you have questions concerning this license or the applicable additional terms
   bit 5 = max z
 */
 static int boxVertPlanes[8] = {
-	( (1<<0) | (1<<2) | (1<<4) ),
-	( (1<<1) | (1<<2) | (1<<4) ),
-	( (1<<1) | (1<<3) | (1<<4) ),
-	( (1<<0) | (1<<3) | (1<<4) ),
-	( (1<<0) | (1<<2) | (1<<5) ),
-	( (1<<1) | (1<<2) | (1<<5) ),
-	( (1<<1) | (1<<3) | (1<<5) ),
-	( (1<<0) | (1<<3) | (1<<5) ),
+	( ( 1 << 0 ) | ( 1 << 2 ) | ( 1 << 4 ) ),
+	( ( 1 << 1 ) | ( 1 << 2 ) | ( 1 << 4 ) ),
+	( ( 1 << 1 ) | ( 1 << 3 ) | ( 1 << 4 ) ),
+	( ( 1 << 0 ) | ( 1 << 3 ) | ( 1 << 4 ) ),
+	( ( 1 << 0 ) | ( 1 << 2 ) | ( 1 << 5 ) ),
+	( ( 1 << 1 ) | ( 1 << 2 ) | ( 1 << 5 ) ),
+	( ( 1 << 1 ) | ( 1 << 3 ) | ( 1 << 5 ) ),
+	( ( 1 << 0 ) | ( 1 << 3 ) | ( 1 << 5 ) ),
 };
 
 /*
@@ -155,8 +155,8 @@ bool idFrustum::CullLocalBox( const idVec3 &localOrigin, const idVec3 &extents, 
 	// near plane
 	d1 = dNear - localOrigin.x;
 	d2 = idMath::Fabs( extents[0] * localAxis[0][0] ) +
-				idMath::Fabs( extents[1] * localAxis[1][0] ) +
-						idMath::Fabs( extents[2] * localAxis[2][0] );
+		 idMath::Fabs( extents[1] * localAxis[1][0] ) +
+		 idMath::Fabs( extents[2] * localAxis[2][0] );
 	if ( d1 - d2 > 0.0f ) {
 		return true;
 	}
@@ -180,8 +180,8 @@ bool idFrustum::CullLocalBox( const idVec3 &localOrigin, const idVec3 &extents, 
 	// test left/right planes
 	d1 = dFar * testOrigin.y - dLeft * testOrigin.x;
 	d2 = idMath::Fabs( extents[0] * ( dFar * testAxis[0][1] - dLeft * testAxis[0][0] ) ) +
-				idMath::Fabs( extents[1] * ( dFar * testAxis[1][1] - dLeft * testAxis[1][0] ) ) +
-					idMath::Fabs( extents[2] * ( dFar * testAxis[2][1] - dLeft * testAxis[2][0] ) );
+		 idMath::Fabs( extents[1] * ( dFar * testAxis[1][1] - dLeft * testAxis[1][0] ) ) +
+		 idMath::Fabs( extents[2] * ( dFar * testAxis[2][1] - dLeft * testAxis[2][0] ) );
 	if ( d1 - d2 > 0.0f ) {
 		return true;
 	}
@@ -196,8 +196,8 @@ bool idFrustum::CullLocalBox( const idVec3 &localOrigin, const idVec3 &extents, 
 	// test up/down planes
 	d1 = dFar * testOrigin.z - dUp * testOrigin.x;
 	d2 = idMath::Fabs( extents[0] * ( dFar * testAxis[0][2] - dUp * testAxis[0][0] ) ) +
-				idMath::Fabs( extents[1] * ( dFar * testAxis[1][2] - dUp * testAxis[1][0] ) ) +
-					idMath::Fabs( extents[2] * ( dFar * testAxis[2][2] - dUp * testAxis[2][0] ) );
+		 idMath::Fabs( extents[1] * ( dFar * testAxis[1][2] - dUp * testAxis[1][0] ) ) +
+		 idMath::Fabs( extents[2] * ( dFar * testAxis[2][2] - dUp * testAxis[2][0] ) );
 	if ( d1 - d2 > 0.0f ) {
 		return true;
 	}
@@ -424,8 +424,7 @@ bool idFrustum::CullLocalWinding( const idVec3 *points, const int numPoints, int
 		pCull = 0;
 		if ( p.x < dNear ) {
 			pCull = 1;
-		}
-		else if ( p.x > dFar ) {
+		} else if ( p.x > dFar ) {
 			pCull = 2;
 		}
 		if ( idMath::Fabs( p.y ) > p.x * leftScale ) {
@@ -451,8 +450,8 @@ bool idFrustum::CullWinding( const idWinding &winding ) const {
 	idVec3 *localPoints;
 	idMat3 transpose;
 
-	localPoints = (idVec3 *) _alloca16( winding.GetNumPoints() * sizeof( idVec3 ) );
-	pointCull = (int *) _alloca16( winding.GetNumPoints() * sizeof( int ) );
+	localPoints = ( idVec3 * ) _alloca16( winding.GetNumPoints() * sizeof( idVec3 ) );
+	pointCull = ( int * ) _alloca16( winding.GetNumPoints() * sizeof( int ) );
 
 	transpose = axis.Transpose();
 	for ( i = 0; i < winding.GetNumPoints(); i++ ) {
@@ -806,19 +805,19 @@ bool idFrustum::LocalFrustumIntersectsFrustum( const idVec3 points[8], const boo
 
 	// test if any edges of the other frustum intersect this frustum
 	for ( i = 0; i < 4; i++ ) {
-		if ( LocalLineIntersection( points[i], points[4+i] ) ) {
+		if ( LocalLineIntersection( points[i], points[4 + i] ) ) {
 			return true;
 		}
 	}
 	if ( testFirstSide ) {
 		for ( i = 0; i < 4; i++ ) {
-			if ( LocalLineIntersection( points[i], points[(i+1)&3] ) ) {
+			if ( LocalLineIntersection( points[i], points[( i + 1 ) & 3] ) ) {
 				return true;
 			}
 		}
 	}
 	for ( i = 0; i < 4; i++ ) {
-		if ( LocalLineIntersection( points[4+i], points[4+((i+1)&3)] ) ) {
+		if ( LocalLineIntersection( points[4 + i], points[4 + ( ( i + 1 ) & 3 )] ) ) {
 			return true;
 		}
 	}
@@ -836,19 +835,19 @@ bool idFrustum::LocalFrustumIntersectsBounds( const idVec3 points[8], const idBo
 
 	// test if any edges of the other frustum intersect this frustum
 	for ( i = 0; i < 4; i++ ) {
-		if ( bounds.LineIntersection( points[i], points[4+i] ) ) {
+		if ( bounds.LineIntersection( points[i], points[4 + i] ) ) {
 			return true;
 		}
 	}
 	if ( dNear > 0.0f ) {
 		for ( i = 0; i < 4; i++ ) {
-			if ( bounds.LineIntersection( points[i], points[(i+1)&3] ) ) {
+			if ( bounds.LineIntersection( points[i], points[( i + 1 ) & 3] ) ) {
 				return true;
 			}
 		}
 	}
 	for ( i = 0; i < 4; i++ ) {
-		if ( bounds.LineIntersection( points[4+i], points[4+((i+1)&3)] ) ) {
+		if ( bounds.LineIntersection( points[4 + i], points[4 + ( ( i + 1 ) & 3 )] ) ) {
 			return true;
 		}
 	}
@@ -970,12 +969,10 @@ bool idFrustum::IntersectsSphere( const idSphere &sphere ) const {
 		scale = dNear * invFar;
 		dir.y = idMath::Fabs( p.y ) - dLeft * scale;
 		dir.z = idMath::Fabs( p.z ) - dUp * scale;
-	}
-	else if ( p.x >= dFar ) {
+	} else if ( p.x >= dFar ) {
 		dir.y = idMath::Fabs( p.y ) - dLeft;
 		dir.z = idMath::Fabs( p.z ) - dUp;
-	}
-	else {
+	} else {
 		scale = p.x * invFar;
 		dir.y = idMath::Fabs( p.y ) - dLeft * scale;
 		dir.z = idMath::Fabs( p.z ) - dUp * scale;
@@ -994,52 +991,80 @@ bool idFrustum::IntersectsSphere( const idSphere &sphere ) const {
 				x = 1;
 			}
 		}
-	}
-	else {
+	} else {
 		if ( p.x > dFar ) {
 			x = 2;
-		}
-		else if ( p.x > dFar + ( dLeft - p.y ) * dLeft * invFar ) {
+		} else if ( p.x > dFar + ( dLeft - p.y ) * dLeft * invFar ) {
 			x = 2;
-		}
-		else if ( p.x > dFar + ( dUp - p.z ) * dUp * invFar ) {
+		} else if ( p.x > dFar + ( dUp - p.z ) * dUp * invFar ) {
 			x = 2;
 		}
 	}
 
 	r = sphere.GetRadius();
 	index = VORONOI_INDEX( x, y, z );
-	switch( index ) {
-		case VORONOI_INDEX( 0, 0, 0 ): return true;
-		case VORONOI_INDEX( 1, 0, 0 ): return ( dNear - p.x < r );
-		case VORONOI_INDEX( 2, 0, 0 ): return ( p.x - dFar < r );
-		case VORONOI_INDEX( 0, 1, 0 ): d = dFar * p.y - dLeft * p.x; return ( d * d < r * r * ( dFar * dFar + dLeft * dLeft ) );
-		case VORONOI_INDEX( 0, 2, 0 ): d = -dFar * p.z - dLeft * p.x; return ( d * d < r * r * ( dFar * dFar + dLeft * dLeft ) );
-		case VORONOI_INDEX( 0, 0, 1 ): d = dFar * p.z - dUp * p.x; return ( d * d < r * r * ( dFar * dFar + dUp * dUp ) );
-		case VORONOI_INDEX( 0, 0, 2 ): d = -dFar * p.z - dUp * p.x; return ( d * d < r * r * ( dFar * dFar + dUp * dUp ) );
+	switch ( index ) {
+		case VORONOI_INDEX( 0, 0, 0 ):
+			return true;
+		case VORONOI_INDEX( 1, 0, 0 ):
+			return ( dNear - p.x < r );
+		case VORONOI_INDEX( 2, 0, 0 ):
+			return ( p.x - dFar < r );
+		case VORONOI_INDEX( 0, 1, 0 ):
+			d = dFar * p.y - dLeft * p.x;
+			return ( d * d < r * r * ( dFar * dFar + dLeft * dLeft ) );
+		case VORONOI_INDEX( 0, 2, 0 ):
+			d = -dFar * p.z - dLeft * p.x;
+			return ( d * d < r * r * ( dFar * dFar + dLeft * dLeft ) );
+		case VORONOI_INDEX( 0, 0, 1 ):
+			d = dFar * p.z - dUp * p.x;
+			return ( d * d < r * r * ( dFar * dFar + dUp * dUp ) );
+		case VORONOI_INDEX( 0, 0, 2 ):
+			d = -dFar * p.z - dUp * p.x;
+			return ( d * d < r * r * ( dFar * dFar + dUp * dUp ) );
 		default: {
 			ToIndexPoints( points );
-			switch( index ) {
-				case VORONOI_INDEX( 1, 1, 1 ): return sphere.ContainsPoint( points[0] );
-				case VORONOI_INDEX( 2, 1, 1 ): return sphere.ContainsPoint( points[4] );
-				case VORONOI_INDEX( 1, 2, 1 ): return sphere.ContainsPoint( points[1] );
-				case VORONOI_INDEX( 2, 2, 1 ): return sphere.ContainsPoint( points[5] );
-				case VORONOI_INDEX( 1, 1, 2 ): return sphere.ContainsPoint( points[2] );
-				case VORONOI_INDEX( 2, 1, 2 ): return sphere.ContainsPoint( points[6] );
-				case VORONOI_INDEX( 1, 2, 2 ): return sphere.ContainsPoint( points[3] );
-				case VORONOI_INDEX( 2, 2, 2 ): return sphere.ContainsPoint( points[7] );
-				case VORONOI_INDEX( 1, 1, 0 ): return sphere.LineIntersection( points[0], points[2] );
-				case VORONOI_INDEX( 2, 1, 0 ): return sphere.LineIntersection( points[4], points[6] );
-				case VORONOI_INDEX( 1, 2, 0 ): return sphere.LineIntersection( points[1], points[3] );
-				case VORONOI_INDEX( 2, 2, 0 ): return sphere.LineIntersection( points[5], points[7] );
-				case VORONOI_INDEX( 1, 0, 1 ): return sphere.LineIntersection( points[0], points[1] );
-				case VORONOI_INDEX( 2, 0, 1 ): return sphere.LineIntersection( points[4], points[5] );
-				case VORONOI_INDEX( 0, 1, 1 ): return sphere.LineIntersection( points[0], points[4] );
-				case VORONOI_INDEX( 0, 2, 1 ): return sphere.LineIntersection( points[1], points[5] );
-				case VORONOI_INDEX( 1, 0, 2 ): return sphere.LineIntersection( points[2], points[3] );
-				case VORONOI_INDEX( 2, 0, 2 ): return sphere.LineIntersection( points[6], points[7] );
-				case VORONOI_INDEX( 0, 1, 2 ): return sphere.LineIntersection( points[2], points[6] );
-				case VORONOI_INDEX( 0, 2, 2 ): return sphere.LineIntersection( points[3], points[7] );
+			switch ( index ) {
+				case VORONOI_INDEX( 1, 1, 1 ):
+					return sphere.ContainsPoint( points[0] );
+				case VORONOI_INDEX( 2, 1, 1 ):
+					return sphere.ContainsPoint( points[4] );
+				case VORONOI_INDEX( 1, 2, 1 ):
+					return sphere.ContainsPoint( points[1] );
+				case VORONOI_INDEX( 2, 2, 1 ):
+					return sphere.ContainsPoint( points[5] );
+				case VORONOI_INDEX( 1, 1, 2 ):
+					return sphere.ContainsPoint( points[2] );
+				case VORONOI_INDEX( 2, 1, 2 ):
+					return sphere.ContainsPoint( points[6] );
+				case VORONOI_INDEX( 1, 2, 2 ):
+					return sphere.ContainsPoint( points[3] );
+				case VORONOI_INDEX( 2, 2, 2 ):
+					return sphere.ContainsPoint( points[7] );
+				case VORONOI_INDEX( 1, 1, 0 ):
+					return sphere.LineIntersection( points[0], points[2] );
+				case VORONOI_INDEX( 2, 1, 0 ):
+					return sphere.LineIntersection( points[4], points[6] );
+				case VORONOI_INDEX( 1, 2, 0 ):
+					return sphere.LineIntersection( points[1], points[3] );
+				case VORONOI_INDEX( 2, 2, 0 ):
+					return sphere.LineIntersection( points[5], points[7] );
+				case VORONOI_INDEX( 1, 0, 1 ):
+					return sphere.LineIntersection( points[0], points[1] );
+				case VORONOI_INDEX( 2, 0, 1 ):
+					return sphere.LineIntersection( points[4], points[5] );
+				case VORONOI_INDEX( 0, 1, 1 ):
+					return sphere.LineIntersection( points[0], points[4] );
+				case VORONOI_INDEX( 0, 2, 1 ):
+					return sphere.LineIntersection( points[1], points[5] );
+				case VORONOI_INDEX( 1, 0, 2 ):
+					return sphere.LineIntersection( points[2], points[3] );
+				case VORONOI_INDEX( 2, 0, 2 ):
+					return sphere.LineIntersection( points[6], points[7] );
+				case VORONOI_INDEX( 0, 1, 2 ):
+					return sphere.LineIntersection( points[2], points[6] );
+				case VORONOI_INDEX( 0, 2, 2 ):
+					return sphere.LineIntersection( points[3], points[7] );
 			}
 			break;
 		}
@@ -1106,8 +1131,8 @@ bool idFrustum::IntersectsWinding( const idWinding &winding ) const {
 	idMat3 transpose;
 	idPlane plane;
 
-	localPoints = (idVec3 *) _alloca16( winding.GetNumPoints() * sizeof( idVec3 ) );
-	pointCull = (int *) _alloca16( winding.GetNumPoints() * sizeof( int ) );
+	localPoints = ( idVec3 * ) _alloca16( winding.GetNumPoints() * sizeof( idVec3 ) );
+	pointCull = ( int * ) _alloca16( winding.GetNumPoints() * sizeof( int ) );
 
 	transpose = axis.Transpose();
 	for ( i = 0; i < winding.GetNumPoints(); i++ ) {
@@ -1131,7 +1156,7 @@ bool idFrustum::IntersectsWinding( const idWinding &winding ) const {
 
 	// test if any of the winding edges goes through the frustum
 	for ( i = 0; i < winding.GetNumPoints(); i++ ) {
-		j = (i+1)%winding.GetNumPoints();
+		j = ( i + 1 ) % winding.GetNumPoints();
 		if ( !( pointCull[i] & pointCull[j] ) ) {
 			if ( LocalLineIntersection( localPoints[i], localPoints[j] ) ) {
 				return true;
@@ -1144,19 +1169,19 @@ bool idFrustum::IntersectsWinding( const idWinding &winding ) const {
 
 	// test if any edges of the frustum intersect the winding
 	for ( i = 0; i < 4; i++ ) {
-		if ( winding.LineIntersection( plane, indexPoints[i], indexPoints[4+i] ) ) {
+		if ( winding.LineIntersection( plane, indexPoints[i], indexPoints[4 + i] ) ) {
 			return true;
 		}
 	}
 	if ( dNear > 0.0f ) {
 		for ( i = 0; i < 4; i++ ) {
-			if ( winding.LineIntersection( plane, indexPoints[i], indexPoints[(i+1)&3] ) ) {
+			if ( winding.LineIntersection( plane, indexPoints[i], indexPoints[( i + 1 ) & 3] ) ) {
 				return true;
 			}
 		}
 	}
 	for ( i = 0; i < 4; i++ ) {
-		if ( winding.LineIntersection( plane, indexPoints[4+i], indexPoints[4+((i+1)&3)] ) ) {
+		if ( winding.LineIntersection( plane, indexPoints[4 + i], indexPoints[4 + ( ( i + 1 ) & 3 )] ) ) {
 			return true;
 		}
 	}
@@ -1344,8 +1369,8 @@ bool idFrustum::FromProjection( const idBox &box, const idVec3 &projectionOrigin
 
 	for ( i = 0; i < 3; i++ ) {
 		dist[i] = idMath::Fabs( box.GetExtents()[0] * ( axis[i] * box.GetAxis()[0] ) ) +
-					idMath::Fabs( box.GetExtents()[1] * ( axis[i] * box.GetAxis()[1] ) ) +
-						idMath::Fabs( box.GetExtents()[2] * ( axis[i] * box.GetAxis()[2] ) );
+				  idMath::Fabs( box.GetExtents()[1] * ( axis[i] * box.GetAxis()[1] ) ) +
+				  idMath::Fabs( box.GetExtents()[2] * ( axis[i] * box.GetAxis()[2] ) );
 	}
 
 	dist[0] = axis[0] * ( box.GetCenter() - projectionOrigin ) - dist[0];
@@ -1509,9 +1534,9 @@ void idFrustum::ToPlanes( idPlane planes[6] ) const {
 	points[3] = scaled[0] - scaled[1];
 
 	for ( i = 0; i < 4; i++ ) {
-		planes[i+2].Normal() = points[i].Cross( points[(i+1)&3] - points[i] );
-		planes[i+2].Normalize();
-		planes[i+2].FitThroughPoint( points[i] );
+		planes[i + 2].Normal() = points[i].Cross( points[( i + 1 ) & 3] - points[i] );
+		planes[i + 2].Normalize();
+		planes[i + 2].FitThroughPoint( points[i] );
 	}
 }
 
@@ -1716,7 +1741,7 @@ void idFrustum::AddLocalLineToProjectionBoundsSetCull( const idVec3 &start, cons
 	int cull1, cull2;
 
 #ifdef FRUSTUM_DEBUG
-	static idCVar r_showInteractionScissors( "r_showInteractionScissors", "0", CVAR_RENDERER | CVAR_INTEGER, "", 0, 2, idCmdSystem::ArgCompletion_Integer<0,2> );
+	static idCVar r_showInteractionScissors( "r_showInteractionScissors", "0", CVAR_RENDERER | CVAR_INTEGER, "", 0, 2, idCmdSystem::ArgCompletion_Integer<0, 2> );
 	if ( r_showInteractionScissors.GetInteger() > 1 ) {
 		session->rw->DebugLine( colorGreen, origin + start * axis, origin + end * axis );
 	}
@@ -1762,7 +1787,7 @@ void idFrustum::AddLocalLineToProjectionBoundsSetCull( const idVec3 &start, cons
 			p.x = start.x + f * dir.x;
 			if ( p.x > 0.0f ) {
 				p.z = start.z + f * dir.z;
-				if ( idMath::Fabs( p.z  ) <= p.x * upScale ) {
+				if ( idMath::Fabs( p.z ) <= p.x * upScale ) {
 					p.y = -1.0f;
 					p.z = p.z * dFar / ( p.x * dUp );
 					bounds.AddPoint( p );
@@ -1860,7 +1885,7 @@ void idFrustum::AddLocalLineToProjectionBoundsUseCull( const idVec3 &start, cons
 	}
 
 #ifdef FRUSTUM_DEBUG
-	static idCVar r_showInteractionScissors( "r_showInteractionScissors", "0", CVAR_RENDERER | CVAR_INTEGER, "", 0, 2, idCmdSystem::ArgCompletion_Integer<0,2> );
+	static idCVar r_showInteractionScissors( "r_showInteractionScissors", "0", CVAR_RENDERER | CVAR_INTEGER, "", 0, 2, idCmdSystem::ArgCompletion_Integer<0, 2> );
 	if ( r_showInteractionScissors.GetInteger() > 1 ) {
 		session->rw->DebugLine( colorGreen, origin + start * axis, origin + end * axis );
 	}
@@ -1870,7 +1895,7 @@ void idFrustum::AddLocalLineToProjectionBoundsUseCull( const idVec3 &start, cons
 	upScale = dUp * invFar;
 	dir = end - start;
 
-	if ( clip & (1|2) ) {
+	if ( clip & ( 1 | 2 ) ) {
 
 		fstart = dFar * start.y;
 		fend = dFar * end.y;
@@ -1907,7 +1932,7 @@ void idFrustum::AddLocalLineToProjectionBoundsUseCull( const idVec3 &start, cons
 					p.x = start.x + f * dir.x;
 					if ( p.x > 0.0f ) {
 						p.z = start.z + f * dir.z;
-						if ( idMath::Fabs( p.z  ) <= p.x * upScale ) {
+						if ( idMath::Fabs( p.z ) <= p.x * upScale ) {
 							p.y = -1.0f;
 							p.z = p.z * dFar / ( p.x * dUp );
 							bounds.AddPoint( p );
@@ -1918,7 +1943,7 @@ void idFrustum::AddLocalLineToProjectionBoundsUseCull( const idVec3 &start, cons
 		}
 	}
 
-	if ( clip & (4|8) ) {
+	if ( clip & ( 4 | 8 ) ) {
 
 		fstart = dFar * start.z;
 		fend = dFar * end.z;
@@ -2106,13 +2131,13 @@ bool idFrustum::ProjectionBounds( const idBox &box, idBounds &projectionBounds )
 	// test the remaining edges of the bounds
 	for ( i = 0; i < 4; i++ ) {
 		p1 = i;
-		p2 = (i+1)&3;
+		p2 = ( i + 1 ) & 3;
 		AddLocalLineToProjectionBoundsUseCull( points[p1], points[p2], pointCull[p1], pointCull[p2], projectionBounds );
 	}
 
 	for ( i = 0; i < 4; i++ ) {
 		p1 = 4 + i;
-		p2 = 4 + ((i+1)&3);
+		p2 = 4 + ( ( i + 1 ) & 3 );
 		AddLocalLineToProjectionBoundsUseCull( points[p1], points[p2], pointCull[p1], pointCull[p2], projectionBounds );
 	}
 
@@ -2126,30 +2151,30 @@ bool idFrustum::ProjectionBounds( const idBox &box, idBounds &projectionBounds )
 		localScaled[2] *= dUp;
 
 		// test the outer edges of this frustum for intersection with the bounds
-		if ( (outside & 2) && (outside & 8) ) {
+		if ( ( outside & 2 ) && ( outside & 8 ) ) {
 			BoundsRayIntersection( bounds, localOrigin, localScaled[0] - localScaled[1] - localScaled[2], scale1, scale2 );
 			if ( scale1 <= scale2 && scale1 >= 0.0f ) {
 				projectionBounds.AddPoint( idVec3( scale1 * dFar, -1.0f, -1.0f ) );
 				projectionBounds.AddPoint( idVec3( scale2 * dFar, -1.0f, -1.0f ) );
 			}
 		}
-		if ( (outside & 2) && (outside & 4) ) {
+		if ( ( outside & 2 ) && ( outside & 4 ) ) {
 			BoundsRayIntersection( bounds, localOrigin, localScaled[0] - localScaled[1] + localScaled[2], scale1, scale2 );
-			if ( scale1 <= scale2 && scale1 >= 0.0f  ) {
+			if ( scale1 <= scale2 && scale1 >= 0.0f ) {
 				projectionBounds.AddPoint( idVec3( scale1 * dFar, -1.0f, 1.0f ) );
 				projectionBounds.AddPoint( idVec3( scale2 * dFar, -1.0f, 1.0f ) );
 			}
 		}
-		if ( (outside & 1) && (outside & 8) ) {
+		if ( ( outside & 1 ) && ( outside & 8 ) ) {
 			BoundsRayIntersection( bounds, localOrigin, localScaled[0] + localScaled[1] - localScaled[2], scale1, scale2 );
-			if ( scale1 <= scale2 && scale1 >= 0.0f  ) {
+			if ( scale1 <= scale2 && scale1 >= 0.0f ) {
 				projectionBounds.AddPoint( idVec3( scale1 * dFar, 1.0f, -1.0f ) );
 				projectionBounds.AddPoint( idVec3( scale2 * dFar, 1.0f, -1.0f ) );
 			}
 		}
-		if ( (outside & 1) && (outside & 2) ) {
+		if ( ( outside & 1 ) && ( outside & 2 ) ) {
 			BoundsRayIntersection( bounds, localOrigin, localScaled[0] + localScaled[1] + localScaled[2], scale1, scale2 );
-			if ( scale1 <= scale2 && scale1 >= 0.0f  ) {
+			if ( scale1 <= scale2 && scale1 >= 0.0f ) {
 				projectionBounds.AddPoint( idVec3( scale1 * dFar, 1.0f, 1.0f ) );
 				projectionBounds.AddPoint( idVec3( scale2 * dFar, 1.0f, 1.0f ) );
 			}
@@ -2257,14 +2282,14 @@ bool idFrustum::ProjectionBounds( const idFrustum &frustum, idBounds &projection
 	if ( localFrustum.dNear > 0.0f ) {
 		for ( i = 0; i < 4; i++ ) {
 			p1 = i;
-			p2 = (i+1)&3;
+			p2 = ( i + 1 ) & 3;
 			AddLocalLineToProjectionBoundsUseCull( points[p1], points[p2], pointCull[p1], pointCull[p2], projectionBounds );
 		}
 	}
 
 	for ( i = 0; i < 4; i++ ) {
 		p1 = 4 + i;
-		p2 = 4 + ((i+1)&3);
+		p2 = 4 + ( ( i + 1 ) & 3 );
 		AddLocalLineToProjectionBoundsUseCull( points[p1], points[p2], pointCull[p1], pointCull[p2], projectionBounds );
 	}
 
@@ -2278,30 +2303,30 @@ bool idFrustum::ProjectionBounds( const idFrustum &frustum, idBounds &projection
 		localScaled[2] *= dUp;
 
 		// test the outer edges of this frustum for intersection with the other frustum
-		if ( (outside & 2) && (outside & 8) ) {
+		if ( ( outside & 2 ) && ( outside & 8 ) ) {
 			frustum.LocalRayIntersection( localOrigin, localScaled[0] - localScaled[1] - localScaled[2], scale1, scale2 );
 			if ( scale1 <= scale2 && scale1 >= 0.0f ) {
 				projectionBounds.AddPoint( idVec3( scale1 * dFar, -1.0f, -1.0f ) );
 				projectionBounds.AddPoint( idVec3( scale2 * dFar, -1.0f, -1.0f ) );
 			}
 		}
-		if ( (outside & 2) && (outside & 4) ) {
+		if ( ( outside & 2 ) && ( outside & 4 ) ) {
 			frustum.LocalRayIntersection( localOrigin, localScaled[0] - localScaled[1] + localScaled[2], scale1, scale2 );
-			if ( scale1 <= scale2 && scale1 >= 0.0f  ) {
+			if ( scale1 <= scale2 && scale1 >= 0.0f ) {
 				projectionBounds.AddPoint( idVec3( scale1 * dFar, -1.0f, 1.0f ) );
 				projectionBounds.AddPoint( idVec3( scale2 * dFar, -1.0f, 1.0f ) );
 			}
 		}
-		if ( (outside & 1) && (outside & 8) ) {
+		if ( ( outside & 1 ) && ( outside & 8 ) ) {
 			frustum.LocalRayIntersection( localOrigin, localScaled[0] + localScaled[1] - localScaled[2], scale1, scale2 );
-			if ( scale1 <= scale2 && scale1 >= 0.0f  ) {
+			if ( scale1 <= scale2 && scale1 >= 0.0f ) {
 				projectionBounds.AddPoint( idVec3( scale1 * dFar, 1.0f, -1.0f ) );
 				projectionBounds.AddPoint( idVec3( scale2 * dFar, 1.0f, -1.0f ) );
 			}
 		}
-		if ( (outside & 1) && (outside & 2) ) {
+		if ( ( outside & 1 ) && ( outside & 2 ) ) {
 			frustum.LocalRayIntersection( localOrigin, localScaled[0] + localScaled[1] + localScaled[2], scale1, scale2 );
-			if ( scale1 <= scale2 && scale1 >= 0.0f  ) {
+			if ( scale1 <= scale2 && scale1 >= 0.0f ) {
 				projectionBounds.AddPoint( idVec3( scale1 * dFar, 1.0f, 1.0f ) );
 				projectionBounds.AddPoint( idVec3( scale2 * dFar, 1.0f, 1.0f ) );
 			}
@@ -2326,7 +2351,7 @@ bool idFrustum::ProjectionBounds( const idWinding &winding, idBounds &projection
 	projectionBounds.Clear();
 
 	// transform the winding points into the space of this frustum
-	localPoints = (idVec3 *) _alloca16( winding.GetNumPoints() * sizeof( idVec3 ) );
+	localPoints = ( idVec3 * ) _alloca16( winding.GetNumPoints() * sizeof( idVec3 ) );
 	transpose = axis.Transpose();
 	for ( i = 0; i < winding.GetNumPoints(); i++ ) {
 		localPoints[i] = ( winding[i].ToVec3() - origin ) * transpose;
@@ -2335,10 +2360,10 @@ bool idFrustum::ProjectionBounds( const idWinding &winding, idBounds &projection
 	// test the winding edges
 	culled = -1;
 	outside = 0;
-	pointCull = (int *) _alloca16( winding.GetNumPoints() * sizeof( int ) );
+	pointCull = ( int * ) _alloca16( winding.GetNumPoints() * sizeof( int ) );
 	for ( i = 0; i < winding.GetNumPoints(); i += 2 ) {
 		p1 = i;
-		p2 = (i+1)%winding.GetNumPoints();
+		p2 = ( i + 1 ) % winding.GetNumPoints();
 		AddLocalLineToProjectionBoundsSetCull( localPoints[p1], localPoints[p2], pointCull[p1], pointCull[p2], projectionBounds );
 		culled &= pointCull[p1] & pointCull[p2];
 		outside |= pointCull[p1] | pointCull[p2];
@@ -2357,7 +2382,7 @@ bool idFrustum::ProjectionBounds( const idWinding &winding, idBounds &projection
 	// test remaining winding edges
 	for ( i = 1; i < winding.GetNumPoints(); i += 2 ) {
 		p1 = i;
-		p2 = (i+1)%winding.GetNumPoints();
+		p2 = ( i + 1 ) % winding.GetNumPoints();
 		AddLocalLineToProjectionBoundsUseCull( localPoints[p1], localPoints[p2], pointCull[p1], pointCull[p2], projectionBounds );
 	}
 
@@ -2370,22 +2395,22 @@ bool idFrustum::ProjectionBounds( const idWinding &winding, idBounds &projection
 		scaled[2] = axis[2] * dUp;
 
 		// test the outer edges of this frustum for intersection with the winding
-		if ( (outside & 2) && (outside & 8) ) {
+		if ( ( outside & 2 ) && ( outside & 8 ) ) {
 			if ( winding.RayIntersection( plane, origin, scaled[0] - scaled[1] - scaled[2], scale ) ) {
 				projectionBounds.AddPoint( idVec3( scale * dFar, -1.0f, -1.0f ) );
 			}
 		}
-		if ( (outside & 2) && (outside & 4) ) {
+		if ( ( outside & 2 ) && ( outside & 4 ) ) {
 			if ( winding.RayIntersection( plane, origin, scaled[0] - scaled[1] + scaled[2], scale ) ) {
 				projectionBounds.AddPoint( idVec3( scale * dFar, -1.0f, 1.0f ) );
 			}
 		}
-		if ( (outside & 1) && (outside & 8) ) {
+		if ( ( outside & 1 ) && ( outside & 8 ) ) {
 			if ( winding.RayIntersection( plane, origin, scaled[0] + scaled[1] - scaled[2], scale ) ) {
 				projectionBounds.AddPoint( idVec3( scale * dFar, 1.0f, -1.0f ) );
 			}
 		}
-		if ( (outside & 1) && (outside & 2) ) {
+		if ( ( outside & 1 ) && ( outside & 2 ) ) {
 			if ( winding.RayIntersection( plane, origin, scaled[0] + scaled[1] + scaled[2], scale ) ) {
 				projectionBounds.AddPoint( idVec3( scale * dFar, 1.0f, 1.0f ) );
 			}
@@ -2499,8 +2524,14 @@ bool idFrustum::ClipLine( const idVec3 localPoints[8], const idVec3 points[8], i
 			x = localStart.x + f * localDir.x;
 			if ( x >= 0.0f ) {
 				if ( idMath::Fabs( localStart.z + f * localDir.z ) <= x * upScale ) {
-					if ( f < scale1 ) { scale1 = f; startClip = 0; }
-					if ( f > scale2 ) { scale2 = f; endClip = 0; }
+					if ( f < scale1 ) {
+						scale1 = f;
+						startClip = 0;
+					}
+					if ( f > scale2 ) {
+						scale2 = f;
+						endClip = 0;
+					}
 				}
 			}
 		}
@@ -2517,8 +2548,14 @@ bool idFrustum::ClipLine( const idVec3 localPoints[8], const idVec3 points[8], i
 			x = localStart.x + f * localDir.x;
 			if ( x >= 0.0f ) {
 				if ( idMath::Fabs( localStart.z + f * localDir.z ) <= x * upScale ) {
-					if ( f < scale1 ) { scale1 = f; startClip = 1; }
-					if ( f > scale2 ) { scale2 = f; endClip = 1; }
+					if ( f < scale1 ) {
+						scale1 = f;
+						startClip = 1;
+					}
+					if ( f > scale2 ) {
+						scale2 = f;
+						endClip = 1;
+					}
 				}
 			}
 		}
@@ -2540,8 +2577,14 @@ bool idFrustum::ClipLine( const idVec3 localPoints[8], const idVec3 points[8], i
 			x = localStart.x + f * localDir.x;
 			if ( x >= 0.0f ) {
 				if ( idMath::Fabs( localStart.y + f * localDir.y ) <= x * leftScale ) {
-					if ( f < scale1 ) { scale1 = f; startClip = 2; }
-					if ( f > scale2 ) { scale2 = f; endClip = 2; }
+					if ( f < scale1 ) {
+						scale1 = f;
+						startClip = 2;
+					}
+					if ( f > scale2 ) {
+						scale2 = f;
+						endClip = 2;
+					}
 				}
 			}
 		}
@@ -2558,8 +2601,14 @@ bool idFrustum::ClipLine( const idVec3 localPoints[8], const idVec3 points[8], i
 			x = localStart.x + f * localDir.x;
 			if ( x >= 0.0f ) {
 				if ( idMath::Fabs( localStart.y + f * localDir.y ) <= x * leftScale ) {
-					if ( f < scale1 ) { scale1 = f; startClip = 3; }
-					if ( f > scale2 ) { scale2 = f; endClip = 3; }
+					if ( f < scale1 ) {
+						scale1 = f;
+						startClip = 3;
+					}
+					if ( f > scale2 ) {
+						scale2 = f;
+						endClip = 3;
+					}
 				}
 			}
 		}
@@ -2570,20 +2619,17 @@ bool idFrustum::ClipLine( const idVec3 localPoints[8], const idVec3 points[8], i
 		start = points[startIndex];
 		end = points[endIndex];
 		return true;
-	}
-	else if ( scale1 <= scale2 ) {
+	} else if ( scale1 <= scale2 ) {
 		if ( !startCull ) {
 			start = points[startIndex];
 			startClip = -1;
-		}
-		else {
+		} else {
 			start = points[startIndex] + scale1 * ( points[endIndex] - points[startIndex] );
 		}
 		if ( !endCull ) {
 			end = points[endIndex];
 			endClip = -1;
-		}
-		else {
+		} else {
 			end = points[startIndex] + scale2 * ( points[endIndex] - points[startIndex] );
 		}
 		return true;
@@ -2668,7 +2714,7 @@ bool idFrustum::ClippedProjectionBounds( const idFrustum &frustum, const idBox &
 
 	// get cull bits for the clipped frustum
 	outside = clipPointCull[0] | clipPointCull[1] | clipPointCull[2] | clipPointCull[3] |
-					clipPointCull[4] | clipPointCull[5] | clipPointCull[6] | clipPointCull[7];
+			  clipPointCull[4] | clipPointCull[5] | clipPointCull[6] | clipPointCull[7];
 	nearCull = clipPointCull[0] & clipPointCull[1] & clipPointCull[2] & clipPointCull[3];
 	farCull = clipPointCull[4] & clipPointCull[5] & clipPointCull[6] & clipPointCull[7];
 
@@ -2679,7 +2725,7 @@ bool idFrustum::ClippedProjectionBounds( const idFrustum &frustum, const idBox &
 		if ( !nearCull && localFrustum.dNear > 0.0f ) {
 			for ( i = 0; i < 4; i++ ) {
 				p1 = i;
-				p2 = (i+1)&3;
+				p2 = ( i + 1 ) & 3;
 				AddLocalLineToProjectionBoundsUseCull( clipPoints[p1], clipPoints[p2], clipPointCull[p1], clipPointCull[p2], projectionBounds );
 			}
 		}
@@ -2687,7 +2733,7 @@ bool idFrustum::ClippedProjectionBounds( const idFrustum &frustum, const idBox &
 		if ( !farCull ) {
 			for ( i = 0; i < 4; i++ ) {
 				p1 = 4 + i;
-				p2 = 4 + ((i+1)&3);
+				p2 = 4 + ( ( i + 1 ) & 3 );
 				AddLocalLineToProjectionBoundsUseCull( clipPoints[p1], clipPoints[p2], clipPointCull[p1], clipPointCull[p2], projectionBounds );
 			}
 		}
@@ -2711,9 +2757,8 @@ bool idFrustum::ClippedProjectionBounds( const idFrustum &frustum, const idBox &
 		for ( i = 0; i < 8; i++ ) {
 			idVec3 &p = localPoints1[i];
 			if ( !( boxVertPlanes[i] & usedClipPlanes ) || p.x <= 0.0f ) {
-				boxPointCull[i] = 1|2|4|8;
-			}
-			else {
+				boxPointCull[i] = 1 | 2 | 4 | 8;
+			} else {
 				boxPointCull[i] = 0;
 				if ( idMath::Fabs( p.y ) > p.x * leftScale ) {
 					boxPointCull[i] |= 1 << FLOATSIGNBITSET( p.y );
@@ -2738,8 +2783,8 @@ bool idFrustum::ClippedProjectionBounds( const idFrustum &frustum, const idBox &
 			if ( !( boxPointCull[p1] & boxPointCull[p2] ) ) {
 				if ( frustum.ClipLine( localPoints1, localPoints2, p1, p2, start, end, startClip, endClip ) ) {
 					AddLocalLineToProjectionBoundsSetCull( start, end, pointCull[0], pointCull[1], projectionBounds );
-					AddLocalCapsToProjectionBounds( clipPoints+4, clipPointCull+4, start, pointCull[0], startClip, projectionBounds );
-					AddLocalCapsToProjectionBounds( clipPoints+4, clipPointCull+4, end, pointCull[1], endClip, projectionBounds );
+					AddLocalCapsToProjectionBounds( clipPoints + 4, clipPointCull + 4, start, pointCull[0], startClip, projectionBounds );
+					AddLocalCapsToProjectionBounds( clipPoints + 4, clipPointCull + 4, end, pointCull[1], endClip, projectionBounds );
 					outside |= pointCull[0] | pointCull[1];
 				}
 			}
@@ -2747,12 +2792,12 @@ bool idFrustum::ClippedProjectionBounds( const idFrustum &frustum, const idBox &
 
 		for ( i = 0; i < 4; i++ ) {
 			p1 = i;
-			p2 = (i+1)&3;
+			p2 = ( i + 1 ) & 3;
 			if ( !( boxPointCull[p1] & boxPointCull[p2] ) ) {
 				if ( frustum.ClipLine( localPoints1, localPoints2, p1, p2, start, end, startClip, endClip ) ) {
 					AddLocalLineToProjectionBoundsSetCull( start, end, pointCull[0], pointCull[1], projectionBounds );
-					AddLocalCapsToProjectionBounds( clipPoints+4, clipPointCull+4, start, pointCull[0], startClip, projectionBounds );
-					AddLocalCapsToProjectionBounds( clipPoints+4, clipPointCull+4, end, pointCull[1], endClip, projectionBounds );
+					AddLocalCapsToProjectionBounds( clipPoints + 4, clipPointCull + 4, start, pointCull[0], startClip, projectionBounds );
+					AddLocalCapsToProjectionBounds( clipPoints + 4, clipPointCull + 4, end, pointCull[1], endClip, projectionBounds );
 					outside |= pointCull[0] | pointCull[1];
 				}
 			}
@@ -2760,12 +2805,12 @@ bool idFrustum::ClippedProjectionBounds( const idFrustum &frustum, const idBox &
 
 		for ( i = 0; i < 4; i++ ) {
 			p1 = 4 + i;
-			p2 = 4 + ((i+1)&3);
+			p2 = 4 + ( ( i + 1 ) & 3 );
 			if ( !( boxPointCull[p1] & boxPointCull[p2] ) ) {
 				if ( frustum.ClipLine( localPoints1, localPoints2, p1, p2, start, end, startClip, endClip ) ) {
 					AddLocalLineToProjectionBoundsSetCull( start, end, pointCull[0], pointCull[1], projectionBounds );
-					AddLocalCapsToProjectionBounds( clipPoints+4, clipPointCull+4, start, pointCull[0], startClip, projectionBounds );
-					AddLocalCapsToProjectionBounds( clipPoints+4, clipPointCull+4, end, pointCull[1], endClip, projectionBounds );
+					AddLocalCapsToProjectionBounds( clipPoints + 4, clipPointCull + 4, start, pointCull[0], startClip, projectionBounds );
+					AddLocalCapsToProjectionBounds( clipPoints + 4, clipPointCull + 4, end, pointCull[1], endClip, projectionBounds );
 					outside |= pointCull[0] | pointCull[1];
 				}
 			}
@@ -2797,7 +2842,7 @@ bool idFrustum::ClippedProjectionBounds( const idFrustum &frustum, const idBox &
 		clipBounds[1] = clipBox.GetExtents();
 
 		// test the outer edges of this frustum for intersection with both the other frustum and the clip bounds
-		if ( (outside & 2) && (outside & 8) ) {
+		if ( ( outside & 2 ) && ( outside & 8 ) ) {
 			frustum.LocalRayIntersection( localOrigin1, localAxis1[0] - localAxis1[1] - localAxis1[2], s1, s2 );
 			if ( s1 <= s2 && s1 >= 0.0f ) {
 				BoundsRayIntersection( clipBounds, localOrigin2, localAxis2[0] - localAxis2[1] - localAxis2[2], t1, t2 );
@@ -2807,7 +2852,7 @@ bool idFrustum::ClippedProjectionBounds( const idFrustum &frustum, const idBox &
 				}
 			}
 		}
-		if ( (outside & 2) && (outside & 4) ) {
+		if ( ( outside & 2 ) && ( outside & 4 ) ) {
 			frustum.LocalRayIntersection( localOrigin1, localAxis1[0] - localAxis1[1] + localAxis1[2], s1, s2 );
 			if ( s1 <= s2 && s1 >= 0.0f ) {
 				BoundsRayIntersection( clipBounds, localOrigin2, localAxis2[0] - localAxis2[1] + localAxis2[2], t1, t2 );
@@ -2817,7 +2862,7 @@ bool idFrustum::ClippedProjectionBounds( const idFrustum &frustum, const idBox &
 				}
 			}
 		}
-		if ( (outside & 1) && (outside & 8) ) {
+		if ( ( outside & 1 ) && ( outside & 8 ) ) {
 			frustum.LocalRayIntersection( localOrigin1, localAxis1[0] + localAxis1[1] - localAxis1[2], s1, s2 );
 			if ( s1 <= s2 && s1 >= 0.0f ) {
 				BoundsRayIntersection( clipBounds, localOrigin2, localAxis2[0] + localAxis2[1] - localAxis2[2], t1, t2 );
@@ -2827,7 +2872,7 @@ bool idFrustum::ClippedProjectionBounds( const idFrustum &frustum, const idBox &
 				}
 			}
 		}
-		if ( (outside & 1) && (outside & 2) ) {
+		if ( ( outside & 1 ) && ( outside & 2 ) ) {
 			frustum.LocalRayIntersection( localOrigin1, localAxis1[0] + localAxis1[1] + localAxis1[2], s1, s2 );
 			if ( s1 <= s2 && s1 >= 0.0f ) {
 				BoundsRayIntersection( clipBounds, localOrigin2, localAxis2[0] + localAxis2[1] + localAxis2[2], t1, t2 );

@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -40,7 +40,7 @@ of the render model which can fracture.
 */
 
 typedef struct shard_s {
-	idClipModel *				clipModel;
+	idClipModel 				*clipModel;
 	idFixedWinding				winding;
 	idList<idFixedWinding *>	decals;
 	idList<bool>				edgeHasNeighbour;
@@ -57,7 +57,7 @@ class idBrittleFracture : public idEntity {
 public:
 	CLASS_PROTOTYPE( idBrittleFracture );
 
-								idBrittleFracture( void );
+	idBrittleFracture( void );
 	virtual						~idBrittleFracture( void );
 
 	void						Save( idSaveGame *savefile ) const;
@@ -86,8 +86,8 @@ public:
 
 private:
 	// setttings
-	const idMaterial *			material;
-	const idMaterial *			decalMaterial;
+	const idMaterial 			*material;
+	const idMaterial 			*decalMaterial;
 	float						decalSize;
 	float						maxShardArea;
 	float						maxShatterRadius;

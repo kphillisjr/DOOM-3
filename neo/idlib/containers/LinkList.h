@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -42,8 +42,8 @@ Circular linked list template
 template< class type >
 class idLinkList {
 public:
-						idLinkList();
-						~idLinkList();
+	idLinkList();
+	~idLinkList();
 
 	bool				IsListEmpty( void ) const;
 	bool				InList( void ) const;
@@ -57,21 +57,21 @@ public:
 
 	void				Remove( void );
 
-	type *				Next( void ) const;
-	type *				Prev( void ) const;
+	type 				*Next( void ) const;
+	type 				*Prev( void ) const;
 
-	type *				Owner( void ) const;
+	type 				*Owner( void ) const;
 	void				SetOwner( type *object );
 
-	idLinkList *		ListHead( void ) const;
-	idLinkList *		NextNode( void ) const;
-	idLinkList *		PrevNode( void ) const;
+	idLinkList 		*ListHead( void ) const;
+	idLinkList 		*NextNode( void ) const;
+	idLinkList 		*PrevNode( void ) const;
 
 private:
-	idLinkList *		head;
-	idLinkList *		next;
-	idLinkList *		prev;
-	type *				owner;
+	idLinkList 		*head;
+	idLinkList 		*next;
+	idLinkList 		*prev;
+	type 				*owner;
 };
 
 /*
@@ -84,7 +84,7 @@ Node is initialized to be the head of an empty list
 template< class type >
 idLinkList<type>::idLinkList() {
 	owner	= NULL;
-	head	= this;	
+	head	= this;
 	next	= this;
 	prev	= this;
 }
@@ -139,7 +139,7 @@ int idLinkList<type>::Num( void ) const {
 	int					num;
 
 	num = 0;
-	for( node = head->next; node != head; node = node->next ) {
+	for ( node = head->next; node != head; node = node->next ) {
 		num++;
 	}
 
@@ -156,7 +156,7 @@ If node is the head of the list, clears the list.  Otherwise it just removes the
 template< class type >
 void idLinkList<type>::Clear( void ) {
 	if ( head == this ) {
-		while( next != this ) {
+		while ( next != this ) {
 			next->Remove();
 		}
 	} else {

@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -46,7 +46,7 @@ If you have questions concerning this license or the applicable additional terms
 #define DEBUG_NEW new
 #endif
 
-extern HTREEITEM FindTreeItem(CTreeCtrl *tree, HTREEITEM root, const char *text, HTREEITEM forceParent);
+extern HTREEITEM FindTreeItem( CTreeCtrl *tree, HTREEITEM root, const char *text, HTREEITEM forceParent );
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -54,19 +54,18 @@ extern HTREEITEM FindTreeItem(CTreeCtrl *tree, HTREEITEM root, const char *text,
 CDialogSound *g_SoundDialog = NULL;
 
 
-CDialogSound::CDialogSound(CWnd* pParent /*=NULL*/)
-	: CDialog(CDialogSound::IDD, pParent)
-{
+CDialogSound::CDialogSound( CWnd *pParent /*=NULL*/ )
+	: CDialog( CDialogSound::IDD, pParent ) {
 	//{{AFX_DATA_INIT(CDialogSound)
-	strName = _T("");
+	strName = _T( "" );
 	fVolume = 0.0f;
 	fMax = 0.0f;
 	fMin = 0.0f;
-	strShader = _T("");
+	strShader = _T( "" );
 	bPlay = TRUE;
 	bTriggered = FALSE;
 	bOmni = FALSE;
-	strGroup = _T("");
+	strGroup = _T( "" );
 	bGroupOnly = FALSE;
 	bOcclusion = FALSE;
 	leadThrough = 0.0f;
@@ -81,66 +80,65 @@ CDialogSound::CDialogSound(CWnd* pParent /*=NULL*/)
 }
 
 
-void CDialogSound::DoDataExchange(CDataExchange* pDX)
-{
-	CDialog::DoDataExchange(pDX);
+void CDialogSound::DoDataExchange( CDataExchange *pDX ) {
+	CDialog::DoDataExchange( pDX );
 	//{{AFX_DATA_MAP(CDialogSound)
-	DDX_Control(pDX, IDC_COMBO_SPEAKERS, comboSpeakers);
-	DDX_Control(pDX, IDC_COMBO_GROUPS, comboGroups);
-	DDX_Control(pDX, IDC_EDIT_VOLUME, editVolume);
-	DDX_Control(pDX, IDC_TREE_SOUNDS, treeSounds);
-	DDX_Text(pDX, IDC_EDIT_SOUND_NAME, strName);
-	DDX_Text(pDX, IDC_EDIT_VOLUME, fVolume);
-	DDX_Text(pDX, IDC_EDIT_RANDOM, random);
-	DDX_Text(pDX, IDC_EDIT_WAIT, wait);
-	DDX_Text(pDX, IDC_EDIT_MAXDIST, fMax);
-	DDX_Text(pDX, IDC_EDIT_MINDIST, fMin);
-	DDX_Text(pDX, IDC_EDIT_SHADER, strShader);
-	DDX_Check(pDX, IDC_CHECK_PLAY, bPlay);
-	DDX_Check(pDX, IDC_CHECKP_TRIGGERED, bTriggered);
-	DDX_Check(pDX, IDC_CHECK_OMNI, bOmni);
-	DDX_Text(pDX, IDC_EDIT_GROUP, strGroup);
-	DDX_Check(pDX, IDC_CHECK_GROUPONLY, bGroupOnly);
-	DDX_Check(pDX, IDC_CHECK_OCCLUSION, bOcclusion);
-	DDX_Text(pDX, IDC_EDIT_LEADTHROUGH, leadThrough);
-	DDX_Check(pDX, IDC_CHECK_PLAIN, plain);
-	DDX_Check(pDX, IDC_CHECK_LOOPING, looping);
-	DDX_Check(pDX, IDC_CHECK_UNCLAMPED, unclamped);
-	DDX_Text(pDX, IDC_EDIT_SHAKES, shakes);
+	DDX_Control( pDX, IDC_COMBO_SPEAKERS, comboSpeakers );
+	DDX_Control( pDX, IDC_COMBO_GROUPS, comboGroups );
+	DDX_Control( pDX, IDC_EDIT_VOLUME, editVolume );
+	DDX_Control( pDX, IDC_TREE_SOUNDS, treeSounds );
+	DDX_Text( pDX, IDC_EDIT_SOUND_NAME, strName );
+	DDX_Text( pDX, IDC_EDIT_VOLUME, fVolume );
+	DDX_Text( pDX, IDC_EDIT_RANDOM, random );
+	DDX_Text( pDX, IDC_EDIT_WAIT, wait );
+	DDX_Text( pDX, IDC_EDIT_MAXDIST, fMax );
+	DDX_Text( pDX, IDC_EDIT_MINDIST, fMin );
+	DDX_Text( pDX, IDC_EDIT_SHADER, strShader );
+	DDX_Check( pDX, IDC_CHECK_PLAY, bPlay );
+	DDX_Check( pDX, IDC_CHECKP_TRIGGERED, bTriggered );
+	DDX_Check( pDX, IDC_CHECK_OMNI, bOmni );
+	DDX_Text( pDX, IDC_EDIT_GROUP, strGroup );
+	DDX_Check( pDX, IDC_CHECK_GROUPONLY, bGroupOnly );
+	DDX_Check( pDX, IDC_CHECK_OCCLUSION, bOcclusion );
+	DDX_Text( pDX, IDC_EDIT_LEADTHROUGH, leadThrough );
+	DDX_Check( pDX, IDC_CHECK_PLAIN, plain );
+	DDX_Check( pDX, IDC_CHECK_LOOPING, looping );
+	DDX_Check( pDX, IDC_CHECK_UNCLAMPED, unclamped );
+	DDX_Text( pDX, IDC_EDIT_SHAKES, shakes );
 	//}}AFX_DATA_MAP
 }
 
 
-BEGIN_MESSAGE_MAP(CDialogSound, CDialog)
+BEGIN_MESSAGE_MAP( CDialogSound, CDialog )
 	//{{AFX_MSG_MAP(CDialogSound)
-	ON_BN_CLICKED(IDC_BTN_SAVEMAP, OnBtnSavemap)
-	ON_BN_CLICKED(IDC_BTN_SWITCHTOGAME, OnBtnSwitchtogame)
-	ON_BN_CLICKED(IDC_BTN_APPLY_SOUND, OnBtnApply)
-	ON_EN_CHANGE(IDC_EDIT_VOLUME, OnChangeEditVolume)
-	ON_BN_CLICKED(IDC_BTN_REFRESH, OnBtnRefresh)
-	ON_BN_CLICKED(IDC_BTN_PLAYSOUND, OnBtnPlaysound)
-	ON_NOTIFY(NM_DBLCLK, IDC_TREE_SOUNDS, OnDblclkTreeSounds)
-	ON_NOTIFY(TVN_SELCHANGED, IDC_TREE_SOUNDS, OnSelchangedTreeSounds)
-	ON_BN_CLICKED(IDC_CHECK_PLAY, OnCheckPlay)
-	ON_BN_CLICKED(IDC_BTN_EDIT_SOUND, OnBtnEdit)
-	ON_BN_CLICKED(IDC_BTN_DROP, OnBtnDrop)
-	ON_BN_CLICKED(IDC_BTN_GROUP, OnBtnGroup)
-	ON_BN_CLICKED(IDC_BTN_SAVEMAPAS, OnBtnSavemapas)
-	ON_BN_CLICKED(IDC_BTN_YUP, OnBtnYup)
-	ON_BN_CLICKED(IDC_BTN_YDN, OnBtnYdn)
-	ON_BN_CLICKED(IDC_BTN_XDN, OnBtnXdn)
-	ON_BN_CLICKED(IDC_BTN_XUP, OnBtnXup)
-	ON_BN_CLICKED(IDC_BTN_ZUP, OnBtnZup)
-	ON_BN_CLICKED(IDC_BTN_ZDN, OnBtnZdn)
-	ON_BN_CLICKED(IDC_BTN_TRIGGER, OnBtnTrigger)
+	ON_BN_CLICKED( IDC_BTN_SAVEMAP, OnBtnSavemap )
+	ON_BN_CLICKED( IDC_BTN_SWITCHTOGAME, OnBtnSwitchtogame )
+	ON_BN_CLICKED( IDC_BTN_APPLY_SOUND, OnBtnApply )
+	ON_EN_CHANGE( IDC_EDIT_VOLUME, OnChangeEditVolume )
+	ON_BN_CLICKED( IDC_BTN_REFRESH, OnBtnRefresh )
+	ON_BN_CLICKED( IDC_BTN_PLAYSOUND, OnBtnPlaysound )
+	ON_NOTIFY( NM_DBLCLK, IDC_TREE_SOUNDS, OnDblclkTreeSounds )
+	ON_NOTIFY( TVN_SELCHANGED, IDC_TREE_SOUNDS, OnSelchangedTreeSounds )
+	ON_BN_CLICKED( IDC_CHECK_PLAY, OnCheckPlay )
+	ON_BN_CLICKED( IDC_BTN_EDIT_SOUND, OnBtnEdit )
+	ON_BN_CLICKED( IDC_BTN_DROP, OnBtnDrop )
+	ON_BN_CLICKED( IDC_BTN_GROUP, OnBtnGroup )
+	ON_BN_CLICKED( IDC_BTN_SAVEMAPAS, OnBtnSavemapas )
+	ON_BN_CLICKED( IDC_BTN_YUP, OnBtnYup )
+	ON_BN_CLICKED( IDC_BTN_YDN, OnBtnYdn )
+	ON_BN_CLICKED( IDC_BTN_XDN, OnBtnXdn )
+	ON_BN_CLICKED( IDC_BTN_XUP, OnBtnXup )
+	ON_BN_CLICKED( IDC_BTN_ZUP, OnBtnZup )
+	ON_BN_CLICKED( IDC_BTN_ZDN, OnBtnZdn )
+	ON_BN_CLICKED( IDC_BTN_TRIGGER, OnBtnTrigger )
 	ON_WM_HSCROLL()
-	ON_BN_CLICKED(IDC_CHECK_GROUPONLY, OnCheckGrouponly)
-	ON_CBN_SELCHANGE(IDC_COMBO_GROUPS, OnSelchangeComboGroups)
-	ON_CBN_SELCHANGE(IDC_COMBO_SPEAKERS, OnSelchangeComboSpeakers)
-	ON_BN_CLICKED(IDC_BTN_DOWN, OnBtnDown)
-	ON_BN_CLICKED(IDC_BTN_UP, OnBtnUp)
-	ON_BN_CLICKED(IDC_BTN_REFRESHSPEAKERS, OnBtnRefreshspeakers)
-	ON_BN_CLICKED(IDC_BTN_REFRESHWAVE, OnBtnRefreshwave)
+	ON_BN_CLICKED( IDC_CHECK_GROUPONLY, OnCheckGrouponly )
+	ON_CBN_SELCHANGE( IDC_COMBO_GROUPS, OnSelchangeComboGroups )
+	ON_CBN_SELCHANGE( IDC_COMBO_SPEAKERS, OnSelchangeComboSpeakers )
+	ON_BN_CLICKED( IDC_BTN_DOWN, OnBtnDown )
+	ON_BN_CLICKED( IDC_BTN_UP, OnBtnUp )
+	ON_BN_CLICKED( IDC_BTN_REFRESHSPEAKERS, OnBtnRefreshspeakers )
+	ON_BN_CLICKED( IDC_BTN_REFRESHWAVE, OnBtnRefreshwave )
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -151,7 +149,7 @@ void SoundEditorInit( const idDict *spawnArgs ) {
 
 	if ( renderSystem->IsFullScreen() ) {
 		common->Printf( "Cannot run the sound editor in fullscreen mode.\n"
-					"Set r_fullscreen to 0 and vid_restart.\n" );
+						"Set r_fullscreen to 0 and vid_restart.\n" );
 		return;
 	}
 
@@ -161,19 +159,19 @@ void SoundEditorInit( const idDict *spawnArgs ) {
 	}
 
 	if ( g_SoundDialog->GetSafeHwnd() == NULL ) {
-		g_SoundDialog->Create(IDD_DIALOG_SOUND);
-/*
-		// FIXME: restore position
-		CRect rct;
-		g_SoundDialog->SetWindowPos( NULL, rct.left, rct.top, 0,0, SWP_NOSIZE );
-*/
+		g_SoundDialog->Create( IDD_DIALOG_SOUND );
+		/*
+				// FIXME: restore position
+				CRect rct;
+				g_SoundDialog->SetWindowPos( NULL, rct.left, rct.top, 0,0, SWP_NOSIZE );
+		*/
 	}
 
 	idKeyInput::ClearStates();
 
 	g_SoundDialog->ShowWindow( SW_SHOW );
 	g_SoundDialog->SetFocus();
-	
+
 	if ( spawnArgs ) {
 		const char *name = spawnArgs->GetString( "name" );
 		const idDict *dict = gameEdit->MapGetEntityDict( name );
@@ -188,7 +186,7 @@ void SoundEditorRun( void ) {
 	MSG *msg = &m_msgCur;
 #endif
 
-	while( ::PeekMessage(msg, NULL, NULL, NULL, PM_NOREMOVE) ) {
+	while ( ::PeekMessage( msg, NULL, NULL, NULL, PM_NOREMOVE ) ) {
 		// pump message
 		if ( !AfxGetApp()->PumpMessage() ) {
 		}
@@ -240,17 +238,17 @@ void CDialogSound::Set( const idDict *source ) {
 	bTriggered = source->GetInt( "s_waitfortrigger", "-1" );
 	random = source->GetFloat( "random" );
 	wait = source->GetFloat( "wait" );
-	strName = source->GetString("name");
+	strName = source->GetString( "name" );
 	looping = source->GetBool( "s_looping" );
 	unclamped = source->GetBool( "s_unclamped" );
 	shakes = source->GetFloat( "s_shakes" );
-	if (comboSpeakers.SelectString(-1, strName) == CB_ERR) {
-		comboSpeakers.SetCurSel(-1);
+	if ( comboSpeakers.SelectString( -1, strName ) == CB_ERR ) {
+		comboSpeakers.SetCurSel( -1 );
 	}
-	if (comboGroups.SelectString(-1, strGroup) == CB_ERR) {
-		comboGroups.SetCurSel(-1);
+	if ( comboGroups.SelectString( -1, strGroup ) == CB_ERR ) {
+		comboGroups.SetCurSel( -1 );
 	}
-	UpdateData(FALSE);
+	UpdateData( FALSE );
 }
 
 void CDialogSound::Get( idDict *source ) {
@@ -266,7 +264,7 @@ void CDialogSound::Get( idDict *source ) {
 	source->Set( "s_shader", strShader );
 	source->SetInt( "s_omni", bOmni );
 	source->SetBool( "s_occlusion", ( bOcclusion != FALSE ) );
-	source->SetInt("s_waitfortrigger", bTriggered );
+	source->SetInt( "s_waitfortrigger", bTriggered );
 	source->Set( "soundgroup", strGroup );
 	source->Set( "name", strName );
 	source->SetFloat( "s_leadthrough", leadThrough );
@@ -278,19 +276,17 @@ void CDialogSound::Get( idDict *source ) {
 	source->SetFloat( "s_shakes", shakes );
 }
 
-void CDialogSound::OnBtnSavemap() 
-{
+void CDialogSound::OnBtnSavemap() {
 	OnBtnApply();
 	gameEdit->MapSave();
 }
 
-void CDialogSound::OnBtnSwitchtogame() 
-{
-	::SetFocus(win32.hWnd);
+void CDialogSound::OnBtnSwitchtogame() {
+	::SetFocus( win32.hWnd );
 }
 
 void CDialogSound::SetVolume( float vol ) {
-	idList<idEntity*> list;
+	idList<idEntity *> list;
 	list.SetNum( 128 );
 	int count = gameEdit->GetSelectedEntities( list.Ptr(), list.Num() );
 	list.SetNum( count );
@@ -302,7 +298,7 @@ void CDialogSound::SetVolume( float vol ) {
 			sw->PlayShaderDirectly( "" );
 		}
 
-		for (int i = 0; i < count; i++) {
+		for ( int i = 0; i < count; i++ ) {
 			const idDict *dict = gameEdit->EntityGetSpawnArgs( list[i] );
 			if ( dict == NULL ) {
 				continue;
@@ -315,13 +311,13 @@ void CDialogSound::SetVolume( float vol ) {
 				gameEdit->EntityUpdateChangeableSpawnArgs( list[i], dict2 );
 				fVolume = vol;
 				UpdateData( FALSE );
-			} 
+			}
 		}
 	}
 }
 
 void CDialogSound::ApplyChanges( bool volumeOnly, bool updateInUseTree ) {
-	idList<idEntity*> list;
+	idList<idEntity *> list;
 	float vol;
 
 	vol = fVolume;
@@ -337,7 +333,7 @@ void CDialogSound::ApplyChanges( bool volumeOnly, bool updateInUseTree ) {
 			sw->PlayShaderDirectly( "" );
 		}
 
-		for (int i = 0; i < count; i++) {
+		for ( int i = 0; i < count; i++ ) {
 			const idDict *dict = gameEdit->EntityGetSpawnArgs( list[i] );
 			if ( dict == NULL ) {
 				continue;
@@ -355,7 +351,7 @@ void CDialogSound::ApplyChanges( bool volumeOnly, bool updateInUseTree ) {
 					UpdateData( FALSE );
 				} else {
 					idDict src;
-					src.SetFloat( "s_volume", dict2->GetFloat( "s_volume" ));
+					src.SetFloat( "s_volume", dict2->GetFloat( "s_volume" ) );
 					Get( &src );
 					src.SetBool( "s_justVolume", true );
 					gameEdit->MapCopyDictToEntity( name, &src );
@@ -373,56 +369,52 @@ void CDialogSound::ApplyChanges( bool volumeOnly, bool updateInUseTree ) {
 	}
 }
 
-void CDialogSound::OnBtnApply() 
-{
+void CDialogSound::OnBtnApply() {
 	ApplyChanges();
 }
 
-void CDialogSound::OnChangeEditVolume() 
-{
+void CDialogSound::OnChangeEditVolume() {
 	// TODO: If this is a RICHEDIT control, the control will not
 	// send this notification unless you override the CDialog::OnInitDialog()
 	// function and call CRichEditCtrl().SetEventMask()
 	// with the ENM_CHANGE flag ORed into the mask.
-	
+
 	// TODO: Add your control notification handler code here
-	
+
 }
 
-HTREEITEM CDialogSound::AddStrList(const char *root, const idStrList &list, int id) {
+HTREEITEM CDialogSound::AddStrList( const char *root, const idStrList &list, int id ) {
 	idStr		out;
 
-	HTREEITEM	base = treeSounds.InsertItem(root);
+	HTREEITEM	base = treeSounds.InsertItem( root );
 	HTREEITEM	item = base;
 	HTREEITEM	add;
 
 	int count = list.Num();
 
 	idStr	last, path, path2;
-	for (int i = 0; i < count; i++) {
+	for ( int i = 0; i < count; i++ ) {
 		idStr name = list[i];
 
 		// now break the name down convert to slashes
 		name.BackSlashesToSlashes();
-		name.Strip(' ');
+		name.Strip( ' ' );
 
 		int index;
 		int len = last.Length();
-		if (len == 0) {
-			index = name.Last('/');
-			if (index >= 0) {
-				name.Left(index, last);
+		if ( len == 0 ) {
+			index = name.Last( '/' );
+			if ( index >= 0 ) {
+				name.Left( index, last );
 			}
-		}
-		else if (idStr::Icmpn(last, name, len) == 0 && name.Last('/') <= len) {
-			name.Right(name.Length() - len - 1, out);
-			add = treeSounds.InsertItem(out, item);
-			quickTree.Set(name, add);
-			treeSounds.SetItemData(add, id);
-			treeSounds.SetItemImage(add, 2, 2);
+		} else if ( idStr::Icmpn( last, name, len ) == 0 && name.Last( '/' ) <= len ) {
+			name.Right( name.Length() - len - 1, out );
+			add = treeSounds.InsertItem( out, item );
+			quickTree.Set( name, add );
+			treeSounds.SetItemData( add, id );
+			treeSounds.SetItemImage( add, 2, 2 );
 			continue;
-		}
-		else {
+		} else {
 			last.Empty();
 		}
 
@@ -430,35 +422,34 @@ HTREEITEM CDialogSound::AddStrList(const char *root, const idStrList &list, int 
 		item = base;
 		path = "";
 		path2 = "";
-		while (index >= 0) {
-			index = name.Find('/');
-			if (index >= 0) {
+		while ( index >= 0 ) {
+			index = name.Find( '/' );
+			if ( index >= 0 ) {
 				HTREEITEM newItem = NULL;
 				HTREEITEM *check = NULL;
 				name.Left( index, out );
 				path += out;
-				if (quickTree.Get(path, &check)) {
+				if ( quickTree.Get( path, &check ) ) {
 					newItem = *check;
 				}
 
 				//HTREEITEM newItem = FindTreeItem(&treeSounds, item, name.Left(index, out), item);
-				if (newItem == NULL) {
-					newItem = treeSounds.InsertItem(out, item);
-					quickTree.Set(path, newItem);
-					treeSounds.SetItemData(newItem, WAVEDIR);
-					treeSounds.SetItemImage(newItem, 0, 1);
+				if ( newItem == NULL ) {
+					newItem = treeSounds.InsertItem( out, item );
+					quickTree.Set( path, newItem );
+					treeSounds.SetItemData( newItem, WAVEDIR );
+					treeSounds.SetItemImage( newItem, 0, 1 );
 				}
 
-				assert(newItem);
+				assert( newItem );
 				item = newItem;
 				name.Right( name.Length() - index - 1, out );
 				name = out;
 				path += "/";
-			}
-			else {
-				add = treeSounds.InsertItem(name, item);
-				treeSounds.SetItemData(add, id);
-				treeSounds.SetItemImage(add, 2, 2);
+			} else {
+				add = treeSounds.InsertItem( name, item );
+				treeSounds.SetItemData( add, id );
+				treeSounds.SetItemImage( add, 2, 2 );
 				path = "";
 			}
 		}
@@ -466,40 +457,40 @@ HTREEITEM CDialogSound::AddStrList(const char *root, const idStrList &list, int 
 	return base;
 }
 
-void CDialogSound::AddSounds(bool rootItems) {
+void CDialogSound::AddSounds( bool rootItems ) {
 	int i, j;
-	idStrList list(1024);
-	idStrList list2(1024);
-	HTREEITEM base = treeSounds.InsertItem("Sound Shaders");
-	 
-	for( i = 0; i < declManager->GetNumDecls( DECL_SOUND ) ; i++ ) {
-		const idSoundShader *poo = declManager->SoundByIndex(i, false);
+	idStrList list( 1024 );
+	idStrList list2( 1024 );
+	HTREEITEM base = treeSounds.InsertItem( "Sound Shaders" );
+
+	for ( i = 0; i < declManager->GetNumDecls( DECL_SOUND ) ; i++ ) {
+		const idSoundShader *poo = declManager->SoundByIndex( i, false );
 		list.AddUnique( poo->GetFileName() );
 	}
 	list.Sort();
-	
+
 	for ( i = 0; i < list.Num(); i++ ) {
-		HTREEITEM child = treeSounds.InsertItem(list[i], base);
-		treeSounds.SetItemData(child, SOUNDPARENT);
-		treeSounds.SetItemImage(child, 0, 1);
+		HTREEITEM child = treeSounds.InsertItem( list[i], base );
+		treeSounds.SetItemData( child, SOUNDPARENT );
+		treeSounds.SetItemImage( child, 0, 1 );
 		list2.Clear();
-		for (j = 0; j < declManager->GetNumDecls( DECL_SOUND ); j++) {
-			const idSoundShader *poo = declManager->SoundByIndex(j, false);
+		for ( j = 0; j < declManager->GetNumDecls( DECL_SOUND ); j++ ) {
+			const idSoundShader *poo = declManager->SoundByIndex( j, false );
 			if ( idStr::Icmp( list[i], poo->GetFileName() ) == 0 ) {
 				list2.Append( poo->GetName() );
 			}
 		}
-		list2.Sort();		
-		for (j = 0; j < list2.Num(); j++) {
+		list2.Sort();
+		for ( j = 0; j < list2.Num(); j++ ) {
 			HTREEITEM child2 = treeSounds.InsertItem( list2[j], child );
-			treeSounds.SetItemData(child2, SOUNDS);
-			treeSounds.SetItemImage(child2, 2, 2);
+			treeSounds.SetItemData( child2, SOUNDS );
+			treeSounds.SetItemImage( child2, 2, 2 );
 		}
 	}
 
 	idFileList *files;
 	files = fileSystem->ListFilesTree( "sound", ".wav|.ogg", true );
-    AddStrList( "Wave files", files->GetList(), WAVES );
+	AddStrList( "Wave files", files->GetList(), WAVES );
 	fileSystem->FreeFileList( files );
 }
 
@@ -508,7 +499,7 @@ void CDialogSound::AddGroups() {
 	idStr work;
 	CWaitCursor cursor;
 
-	idList<const char*> list;
+	idList<const char *> list;
 	list.SetNum( 1024 );
 	int count = gameEdit->MapGetUniqueMatchingKeyVals( "soundgroup", list.Ptr(), list.Num() );
 	for ( int i = 0; i < count; i++ ) {
@@ -521,7 +512,7 @@ void CDialogSound::AddInUseSounds() {
 		treeSounds.DeleteItem( inUseTree );
 		inUseTree = NULL;
 	}
-	inUseTree = treeSounds.InsertItem("Sounds in use");
+	inUseTree = treeSounds.InsertItem( "Sounds in use" );
 	idList< const char *> list;
 	list.SetNum( 512 );
 	int i, count = gameEdit->MapGetEntitiesMatchingClassWithString( "speaker", "", list.Ptr(), list.Num() );
@@ -553,64 +544,60 @@ void CDialogSound::AddSpeakers() {
 	list.SetNum( 512 );
 
 	CString group( "" );
-	if (bGroupOnly && comboGroups.GetCurSel() >= 0) {
+	if ( bGroupOnly && comboGroups.GetCurSel() >= 0 ) {
 		comboGroups.GetLBText( comboGroups.GetCurSel(), group );
-	} 
+	}
 	int count = gameEdit->MapGetEntitiesMatchingClassWithString( "speaker", group, list.Ptr(), list.Num() );
 
 	for ( int i = 0; i < count; i++ ) {
-		comboSpeakers.AddString(list[i]);
+		comboSpeakers.AddString( list[i] );
 	}
 }
 
-BOOL CDialogSound::OnInitDialog() 
-{
+BOOL CDialogSound::OnInitDialog() {
 	CDialog::OnInitDialog();
-	
+
 	// Indicate the sound dialog is opened
 	com_editors |= EDITOR_SOUND;
-	
+
 	inUseTree = NULL;
-	AddSounds(true);
+	AddSounds( true );
 	AddGroups();
 	AddSpeakers();
 	AddInUseSounds();
 	SetWaveSize();
 
 	return TRUE;  // return TRUE unless you set the focus to a control
-	              // EXCEPTION: OCX Property Pages should return FALSE
+	// EXCEPTION: OCX Property Pages should return FALSE
 }
 
-void CDialogSound::OnBtnRefresh() 
-{
+void CDialogSound::OnBtnRefresh() {
 	CWaitCursor cursor;
 	treeSounds.DeleteAllItems();
 	quickTree.Clear();
 	declManager->Reload( false );
-	AddSounds(true);
+	AddSounds( true );
 }
 
-void CDialogSound::OnBtnPlaysound() 
-{
-	if (playSound.GetLength()) {
+void CDialogSound::OnBtnPlaysound() {
+	if ( playSound.GetLength() ) {
 		// we might be in either the game or the editor
 		idSoundWorld	*sw = soundSystem->GetPlayingSoundWorld();
 		if ( sw ) {
-			sw->PlayShaderDirectly(playSound);
+			sw->PlayShaderDirectly( playSound );
 		}
 	}
-	
+
 }
 
-void CDialogSound::OnDblclkTreeSounds(NMHDR* pNMHDR, LRESULT* pResult) 
-{
+void CDialogSound::OnDblclkTreeSounds( NMHDR *pNMHDR, LRESULT *pResult ) {
 	*pResult = 0;
 	CPoint pt;
 	GetCursorPos( &pt );
 	treeSounds.ScreenToClient( &pt );
 	HTREEITEM item = treeSounds.HitTest( pt );
-	
-	if (item) {
+
+	if ( item ) {
 		DWORD dw = treeSounds.GetItemData( item );
 		if ( dw == SOUNDS || dw == INUSESOUNDS ) {
 			if ( !treeSounds.ItemHasChildren( item ) ) {
@@ -634,43 +621,40 @@ void CDialogSound::SetWaveSize( const char *p ) {
 	}
 }
 
-void CDialogSound::OnSelchangedTreeSounds(NMHDR* pNMHDR, LRESULT* pResult) 
-{
-	NM_TREEVIEW* pNMTreeView = (NM_TREEVIEW*)pNMHDR;
+void CDialogSound::OnSelchangedTreeSounds( NMHDR *pNMHDR, LRESULT *pResult ) {
+	NM_TREEVIEW *pNMTreeView = ( NM_TREEVIEW * )pNMHDR;
 	HTREEITEM	item = treeSounds.GetSelectedItem();
 	SetWaveSize();
-	if (item) {
-		DWORD	dw = treeSounds.GetItemData(item);
+	if ( item ) {
+		DWORD	dw = treeSounds.GetItemData( item );
 		if ( dw == SOUNDS || dw == INUSESOUNDS ) {
-			playSound = treeSounds.GetItemText(item);
-			if (bPlay){
+			playSound = treeSounds.GetItemText( item );
+			if ( bPlay ) {
 				OnBtnPlaysound();
 			}
-		} else if (dw == WAVES) {
-			playSound = RebuildItemName("Wave Files", item);
+		} else if ( dw == WAVES ) {
+			playSound = RebuildItemName( "Wave Files", item );
 			float size = fileSystem->ReadFile( playSound, NULL );
-			SetWaveSize( va( "%0.2f mb", size / ( 1024 * 1024)  ) );
-			if (bPlay){
+			SetWaveSize( va( "%0.2f mb", size / ( 1024 * 1024 ) ) );
+			if ( bPlay ) {
 				OnBtnPlaysound();
 			}
 		}
 	}
-	
+
 	*pResult = 0;
 }
 
-void CDialogSound::OnCheckPlay() 
-{
-	UpdateData(TRUE);
+void CDialogSound::OnCheckPlay() {
+	UpdateData( TRUE );
 }
 
-void CDialogSound::OnBtnEdit() 
-{
+void CDialogSound::OnBtnEdit() {
 	const idDecl *decl = declManager->FindDeclWithoutParsing( DECL_SOUND, strShader, false );
 
 	if ( decl ) {
 		DialogDeclEditor *declEditor;
-        
+
 		declEditor = new DialogDeclEditor;
 		declEditor->Create( IDD_DIALOG_DECLEDITOR, GetParent() );
 		declEditor->LoadDecl( const_cast<idDecl *>( decl ) );
@@ -679,8 +663,7 @@ void CDialogSound::OnBtnEdit()
 	}
 }
 
-void CDialogSound::OnBtnDrop() 
-{
+void CDialogSound::OnBtnDrop() {
 	idStr		classname;
 	idStr		key;
 	idStr		value;
@@ -692,23 +675,23 @@ void CDialogSound::OnBtnDrop()
 	gameEdit->PlayerGetViewAngles( viewAngles );
 	gameEdit->PlayerGetEyePosition( org );
 	org += idAngles( 0, viewAngles.yaw, 0 ).ToForward() * 80 + idVec3( 0, 0, 1 );
-	args.Set("origin", org.ToString());
-	args.Set("classname", "speaker");
-	args.Set("angle", va( "%f", viewAngles.yaw + 180 ));
-	args.Set("s_shader", strShader);
-	args.Set("s_looping", "1" );
-	args.Set("s_shakes", "0" );
+	args.Set( "origin", org.ToString() );
+	args.Set( "classname", "speaker" );
+	args.Set( "angle", va( "%f", viewAngles.yaw + 180 ) );
+	args.Set( "s_shader", strShader );
+	args.Set( "s_looping", "1" );
+	args.Set( "s_shakes", "0" );
 
 
 	idStr name = gameEdit->GetUniqueEntityName( "speaker" );
 	bool nameValid = false;
-	while (!nameValid) {
-		DialogName dlg("Name Speaker", this);
+	while ( !nameValid ) {
+		DialogName dlg( "Name Speaker", this );
 		dlg.m_strName = name;
-		if (dlg.DoModal() == IDOK) {
-			idEntity *gameEnt = gameEdit->FindEntity(dlg.m_strName);
-			if (gameEnt) {
-				if (MessageBox("Please choose another name", "Duplicate Entity Name!", MB_OKCANCEL) == IDCANCEL) {
+		if ( dlg.DoModal() == IDOK ) {
+			idEntity *gameEnt = gameEdit->FindEntity( dlg.m_strName );
+			if ( gameEnt ) {
+				if ( MessageBox( "Please choose another name", "Duplicate Entity Name!", MB_OKCANCEL ) == IDCANCEL ) {
 					return;
 				}
 			} else {
@@ -718,11 +701,11 @@ void CDialogSound::OnBtnDrop()
 		}
 	}
 
-	args.Set("name", name.c_str());
+	args.Set( "name", name.c_str() );
 
 	idEntity *ent = NULL;
 	gameEdit->SpawnEntityDef( args, &ent );
-	if (ent) {
+	if ( ent ) {
 		gameEdit->EntityUpdateChangeableSpawnArgs( ent, NULL );
 		gameEdit->ClearEntitySelection();
 		gameEdit->AddSelectedEntity( ent );
@@ -735,25 +718,24 @@ void CDialogSound::OnBtnDrop()
 	AddSpeakers();
 }
 
-void CDialogSound::OnBtnGroup() 
-{
-	idList<idEntity*> list;
+void CDialogSound::OnBtnGroup() {
+	idList<idEntity *> list;
 
 	list.SetNum( 128 );
 	int count = gameEdit->GetSelectedEntities( list.Ptr(), list.Num() );
 	list.SetNum( count );
 
 	bool removed = false;
-	if (count) {
-		for (int i = 0; i < count; i++) {
+	if ( count ) {
+		for ( int i = 0; i < count; i++ ) {
 			const idDict *dict = gameEdit->EntityGetSpawnArgs( list[i] );
 			if ( dict == NULL ) {
 				continue;
 			}
-			const char *name = dict->GetString("name");
+			const char *name = dict->GetString( "name" );
 			dict = gameEdit->MapGetEntityDict( name );
 			if ( dict ) {
-				if (MessageBox("Are you Sure?", "Delete Selected Speakers", MB_YESNO) == IDYES) {
+				if ( MessageBox( "Are you Sure?", "Delete Selected Speakers", MB_YESNO ) == IDYES ) {
 					gameEdit->MapRemoveEntity( name );
 					idEntity *gameEnt = gameEdit->FindEntity( name );
 					if ( gameEnt ) {
@@ -766,17 +748,16 @@ void CDialogSound::OnBtnGroup()
 		}
 	}
 
-	if (removed) {
+	if ( removed ) {
 		AddGroups();
 		AddSpeakers();
 	}
 
 }
 
-void CDialogSound::OnBtnSavemapas() 
-{
-	CFileDialog dlgSave(FALSE,"map",NULL,OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT,"Map Files (*.map)|*.map||",AfxGetMainWnd());
-	if (dlgSave.DoModal() == IDOK) {
+void CDialogSound::OnBtnSavemapas() {
+	CFileDialog dlgSave( FALSE, "map", NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, "Map Files (*.map)|*.map||", AfxGetMainWnd() );
+	if ( dlgSave.DoModal() == IDOK ) {
 		OnBtnApply();
 		idStr work;
 		work = fileSystem->OSPathToRelativePath( dlgSave.m_ofn.lpstrFile );
@@ -784,33 +765,33 @@ void CDialogSound::OnBtnSavemapas()
 	}
 }
 
-idStr CDialogSound::RebuildItemName(const char *root, HTREEITEM item) {
+idStr CDialogSound::RebuildItemName( const char *root, HTREEITEM item ) {
 	// have to build the name back up
 	idStr strParent;
-	HTREEITEM parent = treeSounds.GetParentItem(item);
-	idStr name = treeSounds.GetItemText(item);
-	while (true && parent) {
-		idStr test = treeSounds.GetItemText(parent);
-		if ( idStr::Icmp(test, root) == 0 ) {
+	HTREEITEM parent = treeSounds.GetParentItem( item );
+	idStr name = treeSounds.GetItemText( item );
+	while ( true && parent ) {
+		idStr test = treeSounds.GetItemText( parent );
+		if ( idStr::Icmp( test, root ) == 0 ) {
 			break;
 		}
 		strParent = test;
 		strParent += "/";
 		strParent += name;
 		name = strParent;
-		parent = treeSounds.GetParentItem(parent);
-		if (parent == NULL) {
+		parent = treeSounds.GetParentItem( parent );
+		if ( parent == NULL ) {
 			break;
 		}
 	}
- 	return strParent;
+	return strParent;
 }
 
 
 void CDialogSound::UpdateSelectedOrigin( float x, float y, float z ) {
-	idList<idEntity*> list;
+	idList<idEntity *> list;
 	idVec3 origin;
-	idVec3 vec(x, y, z);
+	idVec3 vec( x, y, z );
 
 	list.SetNum( 128 );
 	int count = gameEdit->GetSelectedEntities( list.Ptr(), list.Num() );
@@ -830,46 +811,39 @@ void CDialogSound::UpdateSelectedOrigin( float x, float y, float z ) {
 	}
 }
 
-void CDialogSound::OnBtnYup() 
-{
-	UpdateSelectedOrigin(0, 8, 0);
+void CDialogSound::OnBtnYup() {
+	UpdateSelectedOrigin( 0, 8, 0 );
 }
 
-void CDialogSound::OnBtnYdn() 
-{
-	UpdateSelectedOrigin(0, -8, 0);
+void CDialogSound::OnBtnYdn() {
+	UpdateSelectedOrigin( 0, -8, 0 );
 }
 
-void CDialogSound::OnBtnXdn() 
-{
-	UpdateSelectedOrigin(-8, 0, 0);
+void CDialogSound::OnBtnXdn() {
+	UpdateSelectedOrigin( -8, 0, 0 );
 }
 
-void CDialogSound::OnBtnXup() 
-{
-	UpdateSelectedOrigin(8, 0, 0);
+void CDialogSound::OnBtnXup() {
+	UpdateSelectedOrigin( 8, 0, 0 );
 }
 
-void CDialogSound::OnBtnZup() 
-{
-	UpdateSelectedOrigin(0, 0, 8);
+void CDialogSound::OnBtnZup() {
+	UpdateSelectedOrigin( 0, 0, 8 );
 }
 
-void CDialogSound::OnBtnZdn() 
-{
-	UpdateSelectedOrigin(0, 0, -8);
+void CDialogSound::OnBtnZdn() {
+	UpdateSelectedOrigin( 0, 0, -8 );
 }
 
 void CDialogSound::OnBtnTrigger() {
 	gameEdit->TriggerSelected();
 }
 
-void CDialogSound::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar) {
+void CDialogSound::OnHScroll( UINT nSBCode, UINT nPos, CScrollBar *pScrollBar ) {
 }
 
 
-void CDialogSound::OnCheckGrouponly() 
-{
+void CDialogSound::OnCheckGrouponly() {
 	AddSpeakers();
 }
 
@@ -885,7 +859,7 @@ void CDialogSound::OnSelchangeComboGroups() {
 		int count = gameEdit->MapGetEntitiesMatchingClassWithString( "speaker", group, list.Ptr(), list.Num() );
 		for ( int i = 0; i < count; i++ ) {
 			idEntity *gameEnt = gameEdit->FindEntity( list[i] );
-			if (gameEnt) {
+			if ( gameEnt ) {
 				gameEdit->AddSelectedEntity( gameEnt );
 				Set( gameEdit->EntityGetSpawnArgs( gameEnt ) );
 			}
@@ -905,7 +879,7 @@ void CDialogSound::OnSelchangeComboSpeakers() {
 		int count = gameEdit->MapGetEntitiesMatchingClassWithString( "speaker", speaker, list.Ptr(), list.Num() );
 		for ( int i = 0; i < count; i++ ) {
 			idEntity *gameEnt = gameEdit->FindEntity( list[i] );
-			if (gameEnt) {
+			if ( gameEnt ) {
 				gameEdit->AddSelectedEntity( gameEnt );
 				Set( gameEdit->EntityGetSpawnArgs( gameEnt ) );
 			}
@@ -925,50 +899,47 @@ void CDialogSound::OnBtnUp() {
 	ApplyChanges( true, false );
 }
 
-void CDialogSound::OnBtnRefreshspeakers() 
-{
+void CDialogSound::OnBtnRefreshspeakers() {
 	AddGroups();
 	AddSpeakers();
 }
 
-void CDialogSound::OnBtnRefreshwave() 
-{
+void CDialogSound::OnBtnRefreshwave() {
 	HTREEITEM	item = treeSounds.GetSelectedItem();
-	if (item && treeSounds.GetItemData( item ) == WAVEDIR) {
+	if ( item && treeSounds.GetItemData( item ) == WAVEDIR ) {
 		idStr path = "sound/";
-		path += RebuildItemName("sound", item);
+		path += RebuildItemName( "sound", item );
 		idFileList *files;
 		files = fileSystem->ListFilesTree( path, ".wav" );
-		HTREEITEM child = treeSounds.GetChildItem(item);
-		while (child) {
-			HTREEITEM next = treeSounds.GetNextSiblingItem(child);
-			if (treeSounds.GetItemData(child) == WAVES) {
-				treeSounds.DeleteItem(child);
+		HTREEITEM child = treeSounds.GetChildItem( item );
+		while ( child ) {
+			HTREEITEM next = treeSounds.GetNextSiblingItem( child );
+			if ( treeSounds.GetItemData( child ) == WAVES ) {
+				treeSounds.DeleteItem( child );
 			}
 			child = next;
 		}
 		int c = files->GetNumFiles();
-		for (int i = 0; i < c; i++) {
+		for ( int i = 0; i < c; i++ ) {
 			idStr work = files->GetFile( i );
 			work.StripPath();
-			child = treeSounds.InsertItem(work, item);
+			child = treeSounds.InsertItem( work, item );
 			treeSounds.SetItemData( child, WAVES );
 			treeSounds.SetItemImage( child, 2, 2 );
 		}
 		fileSystem->FreeFileList( files );
-	} 
+	}
 }
 
-BOOL CDialogSound::PreTranslateMessage(MSG* pMsg)
-{
+BOOL CDialogSound::PreTranslateMessage( MSG *pMsg ) {
 	CWnd *wnd = GetDlgItem( IDC_EDIT_VOLUME );
 	if ( wnd && pMsg->hwnd == wnd->GetSafeHwnd() ) {
-		if (pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_RETURN ) {
+		if ( pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_RETURN ) {
 			CString str;
 			wnd->GetWindowText( str );
 			SetVolume( atof( str ) );
 			return TRUE;
 		}
 	}
-	return CDialog::PreTranslateMessage(pMsg);
+	return CDialog::PreTranslateMessage( pMsg );
 }

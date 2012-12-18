@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -41,7 +41,7 @@ void RemovePortalFromNode( uPortal_t *portal, node_t *l );
 node_t *NodeForPoint( node_t *node, idVec3 origin ) {
 	float	d;
 
-	while( node->planenum != PLANENUM_LEAF ) {
+	while ( node->planenum != PLANENUM_LEAF ) {
 		idPlane &plane = dmapGlobals.mapPlanes[node->planenum];
 		d = plane.Distance( origin );
 		if ( d >= 0 ) {
@@ -61,26 +61,23 @@ node_t *NodeForPoint( node_t *node, idVec3 origin ) {
 FreeTreePortals_r
 =============
 */
-void FreeTreePortals_r (node_t *node)
-{
+void FreeTreePortals_r( node_t *node ) {
 	uPortal_t	*p, *nextp;
 	int			s;
 
 	// free children
-	if (node->planenum != PLANENUM_LEAF)
-	{
-		FreeTreePortals_r (node->children[0]);
-		FreeTreePortals_r (node->children[1]);
+	if ( node->planenum != PLANENUM_LEAF ) {
+		FreeTreePortals_r( node->children[0] );
+		FreeTreePortals_r( node->children[1] );
 	}
 
 	// free portals
-	for (p=node->portals ; p ; p=nextp)
-	{
-		s = (p->nodes[1] == node);
+	for ( p = node->portals ; p ; p = nextp ) {
+		s = ( p->nodes[1] == node );
 		nextp = p->next[s];
 
-		RemovePortalFromNode (p, p->nodes[!s]);
-		FreePortal (p);
+		RemovePortalFromNode( p, p->nodes[!s] );
+		FreePortal( p );
 	}
 	node->portals = NULL;
 }
@@ -90,21 +87,19 @@ void FreeTreePortals_r (node_t *node)
 FreeTree_r
 =============
 */
-void FreeTree_r (node_t *node)
-{
+void FreeTree_r( node_t *node ) {
 	// free children
-	if (node->planenum != PLANENUM_LEAF)
-	{
-		FreeTree_r (node->children[0]);
-		FreeTree_r (node->children[1]);
+	if ( node->planenum != PLANENUM_LEAF ) {
+		FreeTree_r( node->children[0] );
+		FreeTree_r( node->children[1] );
 	}
 
 	// free brushes
-	FreeBrushList (node->brushlist);
+	FreeBrushList( node->brushlist );
 
 	// free the node
 	c_nodes--;
-	Mem_Free (node);
+	Mem_Free( node );
 }
 
 
@@ -117,29 +112,26 @@ void FreeTree( tree_t *tree ) {
 	if ( !tree ) {
 		return;
 	}
-	FreeTreePortals_r (tree->headnode);
-	FreeTree_r (tree->headnode);
-	Mem_Free (tree);
+	FreeTreePortals_r( tree->headnode );
+	FreeTree_r( tree->headnode );
+	Mem_Free( tree );
 }
 
 //===============================================================
 
-void PrintTree_r (node_t *node, int depth)
-{
+void PrintTree_r( node_t *node, int depth ) {
 	int			i;
 	uBrush_t	*bb;
 
-	for (i=0 ; i<depth ; i++)
-		common->Printf("  ");
-	if (node->planenum == PLANENUM_LEAF)
-	{
-		if (!node->brushlist)
-			common->Printf("NULL\n");
-		else
-		{
-			for (bb=node->brushlist ; bb ; bb=bb->next)
-				common->Printf("%i ", bb->original->brushnum);
-			common->Printf("\n");
+	for ( i = 0 ; i < depth ; i++ )
+		common->Printf( "  " );
+	if ( node->planenum == PLANENUM_LEAF ) {
+		if ( !node->brushlist )
+			common->Printf( "NULL\n" );
+		else {
+			for ( bb = node->brushlist ; bb ; bb = bb->next )
+				common->Printf( "%i ", bb->original->brushnum );
+			common->Printf( "\n" );
 		}
 		return;
 	}
@@ -147,8 +139,8 @@ void PrintTree_r (node_t *node, int depth)
 	idPlane &plane = dmapGlobals.mapPlanes[node->planenum];
 	common->Printf( "#%i (%5.2f %5.2f %5.2f %5.2f)\n", node->planenum,
 					plane[0], plane[1], plane[2], plane[3] );
-	PrintTree_r( node->children[0], depth+1 );
-	PrintTree_r( node->children[1], depth+1 );
+	PrintTree_r( node->children[0], depth + 1 );
+	PrintTree_r( node->children[1], depth + 1 );
 }
 
 /*
@@ -159,8 +151,8 @@ AllocBspFace
 bspface_t	*AllocBspFace( void ) {
 	bspface_t	*f;
 
-	f = (bspface_t *)Mem_Alloc(sizeof(*f));
-	memset( f, 0, sizeof(*f) );
+	f = ( bspface_t * )Mem_Alloc( sizeof( *f ) );
+	memset( f, 0, sizeof( *f ) );
 
 	return f;
 }
@@ -260,9 +252,9 @@ int SelectSplitPlaneNum( node_t *node, bspface_t *list ) {
 				back++;
 			}
 		}
-		value =  5*facing - 5*splits; // - abs(front-back);
+		value =  5 * facing - 5 * splits; // - abs(front-back);
 		if ( mapPlane->Type() < PLANETYPE_TRUEAXIAL ) {
-			value+=5;		// axial is better
+			value += 5;		// axial is better
 		}
 
 		if ( value > bestValue ) {
@@ -360,7 +352,7 @@ void	BuildFaceTree_r( node_t *node, bspface_t *list ) {
 	}
 
 	for ( i = 0 ; i < 2 ; i++ ) {
-		BuildFaceTree_r ( node->children[i], childLists[i]);
+		BuildFaceTree_r( node->children[i], childLists[i] );
 	}
 }
 
@@ -383,14 +375,14 @@ tree_t *FaceBSP( bspface_t *list ) {
 
 	common->Printf( "--- FaceBSP ---\n" );
 
-	tree = AllocTree ();
+	tree = AllocTree();
 
 	count = 0;
 	tree->bounds.Clear();
 	for ( face = list ; face ; face = face->next ) {
 		count++;
 		for ( i = 0 ; i < face->w->GetNumPoints() ; i++ ) {
-			tree->bounds.AddPoint( (*face->w)[i].ToVec3() );
+			tree->bounds.AddPoint( ( *face->w )[i].ToVec3() );
 		}
 	}
 	common->Printf( "%5i faces\n", count );
@@ -399,7 +391,7 @@ tree_t *FaceBSP( bspface_t *list ) {
 	tree->headnode->bounds = tree->bounds;
 	c_faceLeafs = 0;
 
-	BuildFaceTree_r ( tree->headnode, list );
+	BuildFaceTree_r( tree->headnode, list );
 
 	common->Printf( "%5i leafs\n", c_faceLeafs );
 
@@ -439,7 +431,7 @@ bspface_t	*MakeStructuralBspFaceList( primitive_t *list ) {
 			if ( !w ) {
 				continue;
 			}
-			if ( ( b->contents & CONTENTS_AREAPORTAL ) && ! ( s->material->GetContentFlags() & CONTENTS_AREAPORTAL ) ) {
+			if ( ( b->contents & CONTENTS_AREAPORTAL ) && !( s->material->GetContentFlags() & CONTENTS_AREAPORTAL ) ) {
 				continue;
 			}
 			f = AllocBspFace();

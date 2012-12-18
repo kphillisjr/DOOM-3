@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -47,22 +47,22 @@ char *idCompiler::punctuation[] = {
 
 opcode_t idCompiler::opcodes[] = {
 	{ "<RETURN>", "RETURN", -1, false, &def_void, &def_void, &def_void },
-		
+
 	{ "++", "UINC_F", 1, true, &def_float, &def_void, &def_void },
 	{ "++", "UINCP_F", 1, true, &def_object, &def_field, &def_float },
 	{ "--", "UDEC_F", 1, true, &def_float, &def_void, &def_void },
 	{ "--", "UDECP_F", 1, true, &def_object, &def_field, &def_float },
 
 	{ "~", "COMP_F", -1, false, &def_float, &def_void, &def_float },
-	
+
 	{ "*", "MUL_F", 3, false, &def_float, &def_float, &def_float },
 	{ "*", "MUL_V", 3, false, &def_vector, &def_vector, &def_float },
 	{ "*", "MUL_FV", 3, false, &def_float, &def_vector, &def_vector },
 	{ "*", "MUL_VF", 3, false, &def_vector, &def_float, &def_vector },
-	
+
 	{ "/", "DIV", 3, false, &def_float, &def_float, &def_float },
 	{ "%", "MOD_F",	3, false, &def_float, &def_float, &def_float },
-	
+
 	{ "+", "ADD_F", 4, false, &def_float, &def_float, &def_float },
 	{ "+", "ADD_V", 4, false, &def_vector, &def_vector, &def_vector },
 	{ "+", "ADD_S", 4, false, &def_string, &def_string, &def_string },
@@ -70,10 +70,10 @@ opcode_t idCompiler::opcodes[] = {
 	{ "+", "ADD_SF", 4, false, &def_string, &def_float, &def_string },
 	{ "+", "ADD_VS", 4, false, &def_vector, &def_string, &def_string },
 	{ "+", "ADD_SV", 4, false, &def_string, &def_vector, &def_string },
-	
+
 	{ "-", "SUB_F", 4, false, &def_float, &def_float, &def_float },
 	{ "-", "SUB_V", 4, false, &def_vector, &def_vector, &def_vector },
-	
+
 	{ "==", "EQ_F", 5, false, &def_float, &def_float, &def_float },
 	{ "==", "EQ_V", 5, false, &def_vector, &def_vector, &def_float },
 	{ "==", "EQ_S", 5, false, &def_string, &def_string, &def_float },
@@ -81,20 +81,20 @@ opcode_t idCompiler::opcodes[] = {
 	{ "==", "EQ_EO", 5, false, &def_entity, &def_object, &def_float },
 	{ "==", "EQ_OE", 5, false, &def_object, &def_entity, &def_float },
 	{ "==", "EQ_OO", 5, false, &def_object, &def_object, &def_float },
-	
+
 	{ "!=", "NE_F", 5, false, &def_float, &def_float, &def_float },
 	{ "!=", "NE_V", 5, false, &def_vector, &def_vector, &def_float },
 	{ "!=", "NE_S", 5, false, &def_string, &def_string, &def_float },
-    { "!=", "NE_E", 5, false, &def_entity, &def_entity, &def_float },
+	{ "!=", "NE_E", 5, false, &def_entity, &def_entity, &def_float },
 	{ "!=", "NE_EO", 5, false, &def_entity, &def_object, &def_float },
 	{ "!=", "NE_OE", 5, false, &def_object, &def_entity, &def_float },
 	{ "!=", "NE_OO", 5, false, &def_object, &def_object, &def_float },
-	
+
 	{ "<=", "LE", 5, false, &def_float, &def_float, &def_float },
 	{ ">=", "GE", 5, false, &def_float, &def_float, &def_float },
 	{ "<", "LT", 5, false, &def_float, &def_float, &def_float },
 	{ ">", "GT", 5, false, &def_float, &def_float, &def_float },
-	
+
 	{ ".", "INDIRECT_F", 1, false, &def_object, &def_field, &def_float },
 	{ ".", "INDIRECT_V", 1, false, &def_object, &def_field, &def_vector },
 	{ ".", "INDIRECT_S", 1, false, &def_object, &def_field, &def_string },
@@ -116,7 +116,7 @@ opcode_t idCompiler::opcodes[] = {
 	{ "=", "STORE_OBJENT", 6, true, &def_object, &def_entity, &def_object },
 	{ "=", "STORE_OBJ", 6, true, &def_object, &def_object, &def_object },
 	{ "=", "STORE_OBJENT", 6, true, &def_entity, &def_object, &def_object },
-	
+
 	{ "=", "STORE_FTOS", 6, true, &def_string, &def_float, &def_string },
 	{ "=", "STORE_BTOS", 6, true, &def_string, &def_boolean, &def_string },
 	{ "=", "STORE_VTOS", 6, true, &def_string, &def_vector, &def_string },
@@ -137,7 +137,7 @@ opcode_t idCompiler::opcodes[] = {
 	{ "<=>", "STOREP_VTOS", 6, true, &def_pointer, &def_vector, &def_string },
 	{ "<=>", "STOREP_FTOBOOL", 6, true, &def_pointer, &def_float, &def_boolean },
 	{ "<=>", "STOREP_BOOLTOF", 6, true, &def_pointer, &def_boolean, &def_float },
-	
+
 	{ "*=", "UMUL_F", 6, true, &def_float, &def_float, &def_void },
 	{ "*=", "UMUL_V", 6, true, &def_vector, &def_float, &def_void },
 	{ "/=", "UDIV_F", 6, true, &def_float, &def_float, &def_void },
@@ -149,7 +149,7 @@ opcode_t idCompiler::opcodes[] = {
 	{ "-=", "USUB_V", 6, true, &def_vector, &def_vector, &def_void },
 	{ "&=", "UAND_F", 6, true, &def_float, &def_float, &def_void },
 	{ "|=", "UOR_F", 6, true, &def_float, &def_float, &def_void },
-	
+
 	{ "!", "NOT_BOOL", -1, false, &def_boolean, &def_void, &def_float },
 	{ "!", "NOT_F", -1, false, &def_float, &def_void, &def_float },
 	{ "!", "NOT_V", -1, false, &def_vector, &def_void, &def_float },
@@ -160,15 +160,15 @@ opcode_t idCompiler::opcodes[] = {
 	{ "<NEG_V>", "NEG_V", -1, false, &def_vector, &def_void, &def_vector },
 
 	{ "int", "INT_F", -1, false, &def_float, &def_void, &def_float },
-	
+
 	{ "<IF>", "IF", -1, false, &def_float, &def_jumpoffset, &def_void },
 	{ "<IFNOT>", "IFNOT", -1, false, &def_float, &def_jumpoffset, &def_void },
-	
+
 	// calls returns REG_RETURN
 	{ "<CALL>", "CALL", -1, false, &def_function, &def_argsize, &def_void },
 	{ "<THREAD>", "THREAD", -1, false, &def_function, &def_argsize, &def_void },
 	{ "<THREAD>", "OBJTHREAD", -1, false, &def_function, &def_argsize, &def_void },
-	
+
 	{ "<PUSH>", "PUSH_F", -1, false, &def_float, &def_float, &def_void },
 	{ "<PUSH>", "PUSH_V", -1, false, &def_vector, &def_vector, &def_void },
 	{ "<PUSH>", "PUSH_S", -1, false, &def_string, &def_string, &def_void },
@@ -180,9 +180,9 @@ opcode_t idCompiler::opcodes[] = {
 	{ "<PUSH>", "PUSH_FTOB", -1, false, &def_boolean, &def_float, &def_void },
 	{ "<PUSH>", "PUSH_VTOS", -1, false, &def_string, &def_vector, &def_void },
 	{ "<PUSH>", "PUSH_BTOS", -1, false, &def_string, &def_boolean, &def_void },
-	
+
 	{ "<GOTO>", "GOTO", -1, false, &def_jumpoffset, &def_void, &def_void },
-	
+
 	{ "&&", "AND", 7, false, &def_float, &def_float, &def_float },
 	{ "&&", "AND_BOOLF", 7, false, &def_boolean, &def_float, &def_float },
 	{ "&&", "AND_FBOOL", 7, false, &def_float, &def_boolean, &def_float },
@@ -191,7 +191,7 @@ opcode_t idCompiler::opcodes[] = {
 	{ "||", "OR_BOOLF", 7, false, &def_boolean, &def_float, &def_float },
 	{ "||", "OR_FBOOL", 7, false, &def_float, &def_boolean, &def_float },
 	{ "||", "OR_BOOLBOOL", 7, false, &def_boolean, &def_boolean, &def_float },
-	
+
 	{ "&", "BITAND", 3, false, &def_float, &def_float, &def_float },
 	{ "|", "BITOR", 3, false, &def_float, &def_float, &def_float },
 
@@ -230,7 +230,7 @@ idCompiler::idCompiler() {
 
 	memset( &immediate, 0, sizeof( immediate ) );
 	memset( punctuationValid, 0, sizeof( punctuationValid ) );
-	for( ptr = punctuation; *ptr != NULL; ptr++ ) {
+	for ( ptr = punctuation; *ptr != NULL; ptr++ ) {
 		id = parserPtr->GetPunctuationId( *ptr );
 		if ( ( id >= 0 ) && ( id < 256 ) ) {
 			punctuationValid[ id ] = true;
@@ -289,7 +289,7 @@ ID_INLINE idVarDef *idCompiler::VirtualFunctionConstant( idVarDef *func ) {
 	if ( eval._int < 0 ) {
 		Error( "Function '%s' not found in scope '%s'", func->Name(), func->scope->Name() );
 	}
-    
+
 	return GetImmediate( &type_virtualfunction, &eval, "" );
 }
 
@@ -384,66 +384,66 @@ idVarDef *idCompiler::FindImmediate( const idTypeDef *type, const eval_t *eval, 
 	etype = type->Type();
 
 	// check for a constant with the same value
-	for( def = gameLocal.program.GetDefList( "<IMMEDIATE>" ); def != NULL; def = def->Next() ) {
+	for ( def = gameLocal.program.GetDefList( "<IMMEDIATE>" ); def != NULL; def = def->Next() ) {
 		if ( def->TypeDef() != type ) {
 			continue;
 		}
 
-		switch( etype ) {
-		case ev_field :
-			if ( *def->value.intPtr == eval->_int ) {
-				return def;
-			}
-			break;
+		switch ( etype ) {
+			case ev_field :
+				if ( *def->value.intPtr == eval->_int ) {
+					return def;
+				}
+				break;
 
-		case ev_argsize :
-			if ( def->value.argSize == eval->_int ) {
-				return def;
-			}
-			break;
+			case ev_argsize :
+				if ( def->value.argSize == eval->_int ) {
+					return def;
+				}
+				break;
 
-		case ev_jumpoffset :
-			if ( def->value.jumpOffset == eval->_int ) {
-				return def;
-			}
-			break;
+			case ev_jumpoffset :
+				if ( def->value.jumpOffset == eval->_int ) {
+					return def;
+				}
+				break;
 
-		case ev_entity :
-			if ( *def->value.intPtr == eval->entity ) {
-				return def;
-			}
-			break;
+			case ev_entity :
+				if ( *def->value.intPtr == eval->entity ) {
+					return def;
+				}
+				break;
 
-		case ev_string :
-			if ( idStr::Cmp( def->value.stringPtr, string ) == 0 ) {
-				return def;
-			}
-			break;
+			case ev_string :
+				if ( idStr::Cmp( def->value.stringPtr, string ) == 0 ) {
+					return def;
+				}
+				break;
 
-		case ev_float :
-			if ( *def->value.floatPtr == eval->_float ) {
-				return def;
-			}
-			break;
+			case ev_float :
+				if ( *def->value.floatPtr == eval->_float ) {
+					return def;
+				}
+				break;
 
-		case ev_virtualfunction :
-			if ( def->value.virtualFunction == eval->_int ) {
-				return def;
-			}
-			break;
+			case ev_virtualfunction :
+				if ( def->value.virtualFunction == eval->_int ) {
+					return def;
+				}
+				break;
 
 
-		case ev_vector :
-			if ( ( def->value.vectorPtr->x == eval->vector[ 0 ] ) && 
-				( def->value.vectorPtr->y == eval->vector[ 1 ] ) && 
-				( def->value.vectorPtr->z == eval->vector[ 2 ] ) ) {
-				return def;
-			}
-			break;
+			case ev_vector :
+				if ( ( def->value.vectorPtr->x == eval->vector[ 0 ] ) &&
+						( def->value.vectorPtr->y == eval->vector[ 1 ] ) &&
+						( def->value.vectorPtr->z == eval->vector[ 2 ] ) ) {
+					return def;
+				}
+				break;
 
-		default :
-			Error( "weird immediate type" );
-			break;
+			default :
+				Error( "weird immediate type" );
+				break;
 		}
 	}
 
@@ -497,48 +497,170 @@ idVarDef *idCompiler::OptimizeOpcode( const opcode_t *op, idVarDef *var_a, idVar
 	idVec3 &vec_c = *reinterpret_cast<idVec3 *>( &c.vector[ 0 ] );
 
 	memset( &c, 0, sizeof( c ) );
-	switch( op - opcodes ) {
-		case OP_ADD_F:		c._float = *var_a->value.floatPtr + *var_b->value.floatPtr; type = &type_float; break;
-		case OP_ADD_V:		vec_c = *var_a->value.vectorPtr + *var_b->value.vectorPtr; type = &type_vector; break;
-		case OP_SUB_F:		c._float = *var_a->value.floatPtr - *var_b->value.floatPtr; type = &type_float; break;
-		case OP_SUB_V:		vec_c = *var_a->value.vectorPtr - *var_b->value.vectorPtr; type = &type_vector; break;
-		case OP_MUL_F:		c._float = *var_a->value.floatPtr * *var_b->value.floatPtr; type = &type_float; break;
-		case OP_MUL_V:		c._float = *var_a->value.vectorPtr * *var_b->value.vectorPtr; type = &type_float; break;
-		case OP_MUL_FV:		vec_c = *var_b->value.vectorPtr * *var_a->value.floatPtr; type = &type_vector; break;
-		case OP_MUL_VF:		vec_c = *var_a->value.vectorPtr * *var_b->value.floatPtr; type = &type_vector; break;
-		case OP_DIV_F:		c._float = Divide( *var_a->value.floatPtr, *var_b->value.floatPtr ); type = &type_float; break;
-		case OP_MOD_F:		c._float = (int)*var_a->value.floatPtr % (int)*var_b->value.floatPtr; type = &type_float; break;
-		case OP_BITAND:		c._float = ( int )*var_a->value.floatPtr & ( int )*var_b->value.floatPtr; type = &type_float; break;
-		case OP_BITOR:		c._float = ( int )*var_a->value.floatPtr | ( int )*var_b->value.floatPtr; type = &type_float; break;
-		case OP_GE:			c._float = *var_a->value.floatPtr >= *var_b->value.floatPtr; type = &type_float; break;
-		case OP_LE:			c._float = *var_a->value.floatPtr <= *var_b->value.floatPtr; type = &type_float; break;
-		case OP_GT:			c._float = *var_a->value.floatPtr > *var_b->value.floatPtr; type = &type_float; break;
-		case OP_LT:			c._float = *var_a->value.floatPtr < *var_b->value.floatPtr; type = &type_float; break;
-		case OP_AND:		c._float = *var_a->value.floatPtr && *var_b->value.floatPtr; type = &type_float; break;
-		case OP_OR:			c._float = *var_a->value.floatPtr || *var_b->value.floatPtr; type = &type_float; break;
-		case OP_NOT_BOOL:	c._int = !*var_a->value.intPtr; type = &type_boolean; break;
-		case OP_NOT_F:		c._float = !*var_a->value.floatPtr; type = &type_float; break;
-		case OP_NOT_V:		c._float = !var_a->value.vectorPtr->x && !var_a->value.vectorPtr->y && !var_a->value.vectorPtr->z; type = &type_float; break;
-		case OP_NEG_F:		c._float = -*var_a->value.floatPtr; type = &type_float; break;
-		case OP_NEG_V:		vec_c = -*var_a->value.vectorPtr; type = &type_vector; break;
-		case OP_INT_F:		c._float = ( int )*var_a->value.floatPtr; type = &type_float; break;
-		case OP_EQ_F:		c._float = ( *var_a->value.floatPtr == *var_b->value.floatPtr ); type = &type_float; break;
-		case OP_EQ_V:		c._float = var_a->value.vectorPtr->Compare( *var_b->value.vectorPtr ); type = &type_float; break;
-		case OP_EQ_E:		c._float = ( *var_a->value.intPtr == *var_b->value.intPtr ); type = &type_float; break;
-		case OP_NE_F:		c._float = ( *var_a->value.floatPtr != *var_b->value.floatPtr ); type = &type_float; break;
-		case OP_NE_V:		c._float = !var_a->value.vectorPtr->Compare( *var_b->value.vectorPtr ); type = &type_float; break;
-		case OP_NE_E:		c._float = ( *var_a->value.intPtr != *var_b->value.intPtr ); type = &type_float; break;
-		case OP_UADD_F:		c._float = *var_b->value.floatPtr + *var_a->value.floatPtr; type = &type_float; break;
-		case OP_USUB_F:		c._float = *var_b->value.floatPtr - *var_a->value.floatPtr; type = &type_float; break;
-		case OP_UMUL_F:		c._float = *var_b->value.floatPtr * *var_a->value.floatPtr; type = &type_float; break;
-		case OP_UDIV_F:		c._float = Divide( *var_b->value.floatPtr, *var_a->value.floatPtr ); type = &type_float; break;
-		case OP_UMOD_F:		c._float = ( int ) *var_b->value.floatPtr % ( int )*var_a->value.floatPtr; type = &type_float; break;
-		case OP_UOR_F:		c._float = ( int )*var_b->value.floatPtr | ( int )*var_a->value.floatPtr; type = &type_float; break;
-		case OP_UAND_F: 	c._float = ( int )*var_b->value.floatPtr & ( int )*var_a->value.floatPtr; type = &type_float; break;
-		case OP_UINC_F:		c._float = *var_a->value.floatPtr + 1; type = &type_float; break;
-		case OP_UDEC_F:		c._float = *var_a->value.floatPtr - 1; type = &type_float; break;
-		case OP_COMP_F:		c._float = ( float )~( int )*var_a->value.floatPtr; type = &type_float; break;
-		default:			type = NULL; break;
+	switch ( op - opcodes ) {
+		case OP_ADD_F:
+			c._float = *var_a->value.floatPtr + *var_b->value.floatPtr;
+			type = &type_float;
+			break;
+		case OP_ADD_V:
+			vec_c = *var_a->value.vectorPtr + *var_b->value.vectorPtr;
+			type = &type_vector;
+			break;
+		case OP_SUB_F:
+			c._float = *var_a->value.floatPtr - *var_b->value.floatPtr;
+			type = &type_float;
+			break;
+		case OP_SUB_V:
+			vec_c = *var_a->value.vectorPtr - *var_b->value.vectorPtr;
+			type = &type_vector;
+			break;
+		case OP_MUL_F:
+			c._float = *var_a->value.floatPtr * *var_b->value.floatPtr;
+			type = &type_float;
+			break;
+		case OP_MUL_V:
+			c._float = *var_a->value.vectorPtr * *var_b->value.vectorPtr;
+			type = &type_float;
+			break;
+		case OP_MUL_FV:
+			vec_c = *var_b->value.vectorPtr * *var_a->value.floatPtr;
+			type = &type_vector;
+			break;
+		case OP_MUL_VF:
+			vec_c = *var_a->value.vectorPtr * *var_b->value.floatPtr;
+			type = &type_vector;
+			break;
+		case OP_DIV_F:
+			c._float = Divide( *var_a->value.floatPtr, *var_b->value.floatPtr );
+			type = &type_float;
+			break;
+		case OP_MOD_F:
+			c._float = ( int ) * var_a->value.floatPtr % ( int ) * var_b->value.floatPtr;
+			type = &type_float;
+			break;
+		case OP_BITAND:
+			c._float = ( int ) * var_a->value.floatPtr & ( int ) * var_b->value.floatPtr;
+			type = &type_float;
+			break;
+		case OP_BITOR:
+			c._float = ( int ) * var_a->value.floatPtr | ( int ) * var_b->value.floatPtr;
+			type = &type_float;
+			break;
+		case OP_GE:
+			c._float = *var_a->value.floatPtr >= *var_b->value.floatPtr;
+			type = &type_float;
+			break;
+		case OP_LE:
+			c._float = *var_a->value.floatPtr <= *var_b->value.floatPtr;
+			type = &type_float;
+			break;
+		case OP_GT:
+			c._float = *var_a->value.floatPtr > *var_b->value.floatPtr;
+			type = &type_float;
+			break;
+		case OP_LT:
+			c._float = *var_a->value.floatPtr < *var_b->value.floatPtr;
+			type = &type_float;
+			break;
+		case OP_AND:
+			c._float = *var_a->value.floatPtr && *var_b->value.floatPtr;
+			type = &type_float;
+			break;
+		case OP_OR:
+			c._float = *var_a->value.floatPtr || *var_b->value.floatPtr;
+			type = &type_float;
+			break;
+		case OP_NOT_BOOL:
+			c._int = !*var_a->value.intPtr;
+			type = &type_boolean;
+			break;
+		case OP_NOT_F:
+			c._float = !*var_a->value.floatPtr;
+			type = &type_float;
+			break;
+		case OP_NOT_V:
+			c._float = !var_a->value.vectorPtr->x && !var_a->value.vectorPtr->y && !var_a->value.vectorPtr->z;
+			type = &type_float;
+			break;
+		case OP_NEG_F:
+			c._float = -*var_a->value.floatPtr;
+			type = &type_float;
+			break;
+		case OP_NEG_V:
+			vec_c = -*var_a->value.vectorPtr;
+			type = &type_vector;
+			break;
+		case OP_INT_F:
+			c._float = ( int ) * var_a->value.floatPtr;
+			type = &type_float;
+			break;
+		case OP_EQ_F:
+			c._float = ( *var_a->value.floatPtr == *var_b->value.floatPtr );
+			type = &type_float;
+			break;
+		case OP_EQ_V:
+			c._float = var_a->value.vectorPtr->Compare( *var_b->value.vectorPtr );
+			type = &type_float;
+			break;
+		case OP_EQ_E:
+			c._float = ( *var_a->value.intPtr == *var_b->value.intPtr );
+			type = &type_float;
+			break;
+		case OP_NE_F:
+			c._float = ( *var_a->value.floatPtr != *var_b->value.floatPtr );
+			type = &type_float;
+			break;
+		case OP_NE_V:
+			c._float = !var_a->value.vectorPtr->Compare( *var_b->value.vectorPtr );
+			type = &type_float;
+			break;
+		case OP_NE_E:
+			c._float = ( *var_a->value.intPtr != *var_b->value.intPtr );
+			type = &type_float;
+			break;
+		case OP_UADD_F:
+			c._float = *var_b->value.floatPtr + *var_a->value.floatPtr;
+			type = &type_float;
+			break;
+		case OP_USUB_F:
+			c._float = *var_b->value.floatPtr - *var_a->value.floatPtr;
+			type = &type_float;
+			break;
+		case OP_UMUL_F:
+			c._float = *var_b->value.floatPtr * *var_a->value.floatPtr;
+			type = &type_float;
+			break;
+		case OP_UDIV_F:
+			c._float = Divide( *var_b->value.floatPtr, *var_a->value.floatPtr );
+			type = &type_float;
+			break;
+		case OP_UMOD_F:
+			c._float = ( int ) * var_b->value.floatPtr % ( int ) * var_a->value.floatPtr;
+			type = &type_float;
+			break;
+		case OP_UOR_F:
+			c._float = ( int ) * var_b->value.floatPtr | ( int ) * var_a->value.floatPtr;
+			type = &type_float;
+			break;
+		case OP_UAND_F:
+			c._float = ( int ) * var_b->value.floatPtr & ( int ) * var_a->value.floatPtr;
+			type = &type_float;
+			break;
+		case OP_UINC_F:
+			c._float = *var_a->value.floatPtr + 1;
+			type = &type_float;
+			break;
+		case OP_UDEC_F:
+			c._float = *var_a->value.floatPtr - 1;
+			type = &type_float;
+			break;
+		case OP_COMP_F:
+			c._float = ( float )~( int ) * var_a->value.floatPtr;
+			type = &type_float;
+			break;
+		default:
+			type = NULL;
+			break;
 	}
 
 	if ( !type ) {
@@ -583,11 +705,11 @@ idVarDef *idCompiler::EmitOpcode( const opcode_t *op, idVarDef *var_a, idVarDef 
 	if ( var_b && !strcmp( var_b->Name(), RESULT_STRING ) ) {
 		var_b->numUsers++;
 	}
-	
+
 	statement = gameLocal.program.AllocStatement();
 	statement->linenumber	= currentLineNumber;
 	statement->file 		= currentFileNumber;
-	
+
 	if ( ( op->type_c == &def_void ) || op->rightAssociative ) {
 		// ifs, gotos, and assignments don't need vars allocated
 		var_c = NULL;
@@ -634,7 +756,7 @@ bool idCompiler::EmitPush( idVarDef *expression, const idTypeDef *funcArg ) {
 	opcode_t *out;
 
 	out = NULL;
-	for( op = &opcodes[ OP_PUSH_F ]; op->name && !strcmp( op->name, "<PUSH>" ); op++ ) {
+	for ( op = &opcodes[ OP_PUSH_F ]; op->name && !strcmp( op->name, "<PUSH>" ); op++ ) {
 		if ( ( funcArg->Type() == op->type_a->Type() ) && ( expression->Type() == op->type_b->Type() ) ) {
 			out = op;
 			break;
@@ -668,8 +790,8 @@ void idCompiler::NextToken( void ) {
 	immediateType = NULL;
 	memset( &immediate, 0, sizeof( immediate ) );
 
-	// Save the token's line number and filename since when we emit opcodes the current 
-	// token is always the next one to be read 
+	// Save the token's line number and filename since when we emit opcodes the current
+	// token is always the next one to be read
 	currentLineNumber = token.line;
 	currentFileNumber = gameLocal.program.GetFilenum( parserPtr->GetFileName() );
 
@@ -693,70 +815,70 @@ void idCompiler::NextToken( void ) {
 		}
 	}
 
-	switch( token.type ) {
-	case TT_STRING:
-		// handle quoted strings as a unit
-		immediateType = &type_string;
-		return;
+	switch ( token.type ) {
+		case TT_STRING:
+			// handle quoted strings as a unit
+			immediateType = &type_string;
+			return;
 
-	case TT_LITERAL: {
-		// handle quoted vectors as a unit
-		immediateType = &type_vector;
-		idLexer lex( token, token.Length(), parserPtr->GetFileName(), LEXFL_NOERRORS );
-		idToken token2;
-		for( i = 0; i < 3; i++ ) {
-			if ( !lex.ReadToken( &token2 ) ) {
-				Error( "Couldn't read vector. '%s' is not in the form of 'x y z'", token.c_str() );
-			}
-			if ( token2.type == TT_PUNCTUATION && token2 == "-" ) {
-				if ( !lex.CheckTokenType( TT_NUMBER, 0, &token2 ) ) {
-					Error( "expected a number following '-' but found '%s' in vector '%s'", token2.c_str(), token.c_str() );
+		case TT_LITERAL: {
+			// handle quoted vectors as a unit
+			immediateType = &type_vector;
+			idLexer lex( token, token.Length(), parserPtr->GetFileName(), LEXFL_NOERRORS );
+			idToken token2;
+			for ( i = 0; i < 3; i++ ) {
+				if ( !lex.ReadToken( &token2 ) ) {
+					Error( "Couldn't read vector. '%s' is not in the form of 'x y z'", token.c_str() );
 				}
-				immediate.vector[ i ] = -token2.GetFloatValue();
-			} else if ( token2.type == TT_NUMBER ) {
-				immediate.vector[ i ] = token2.GetFloatValue();
-			} else {
-				Error( "vector '%s' is not in the form of 'x y z'.  expected float value, found '%s'", token.c_str(), token2.c_str() );
+				if ( token2.type == TT_PUNCTUATION && token2 == "-" ) {
+					if ( !lex.CheckTokenType( TT_NUMBER, 0, &token2 ) ) {
+						Error( "expected a number following '-' but found '%s' in vector '%s'", token2.c_str(), token.c_str() );
+					}
+					immediate.vector[ i ] = -token2.GetFloatValue();
+				} else if ( token2.type == TT_NUMBER ) {
+					immediate.vector[ i ] = token2.GetFloatValue();
+				} else {
+					Error( "vector '%s' is not in the form of 'x y z'.  expected float value, found '%s'", token.c_str(), token2.c_str() );
+				}
 			}
-		}
-		return;
-	}
-
-	case TT_NUMBER:
-		immediateType = &type_float;
-		immediate._float = token.GetFloatValue();
-		return;
-
-	case TT_PUNCTUATION:
-		// entity names
-		if ( token == "$" ) {
-			immediateType = &type_entity;
-			parserPtr->ReadToken( &token );
 			return;
 		}
 
-		if ( token == "{" ) {
-			braceDepth++;
+		case TT_NUMBER:
+			immediateType = &type_float;
+			immediate._float = token.GetFloatValue();
 			return;
-		}
 
-		if ( token == "}" ) {
-			braceDepth--;
+		case TT_PUNCTUATION:
+			// entity names
+			if ( token == "$" ) {
+				immediateType = &type_entity;
+				parserPtr->ReadToken( &token );
+				return;
+			}
+
+			if ( token == "{" ) {
+				braceDepth++;
+				return;
+			}
+
+			if ( token == "}" ) {
+				braceDepth--;
+				return;
+			}
+
+			if ( punctuationValid[ token.subtype ] ) {
+				return;
+			}
+
+			Error( "Unknown punctuation '%s'", token.c_str() );
+			break;
+
+		case TT_NAME:
 			return;
-		}
 
-		if ( punctuationValid[ token.subtype ] ) {
-			return;
-		}
-
-		Error( "Unknown punctuation '%s'", token.c_str() );
-		break;
-
-	case TT_NAME:
-		return;
-
-	default:
-		Error( "Unknown token '%s'", token.c_str() );
+		default:
+			Error( "Unknown token '%s'", token.c_str() );
 	}
 }
 
@@ -788,9 +910,9 @@ bool idCompiler::CheckToken( const char *string ) {
 	if ( token != string ) {
 		return false;
 	}
-		
+
 	NextToken();
-	
+
 	return true;
 }
 
@@ -818,7 +940,7 @@ For error recovery, pops out of nested braces
 ============
 */
 void idCompiler::SkipOutOfFunction( void ) {
-	while( braceDepth ) {
+	while ( braceDepth ) {
 		parserPtr->SkipBracedSection( false );
 		braceDepth--;
 	}
@@ -839,7 +961,7 @@ void idCompiler::SkipToSemicolon( void ) {
 		}
 
 		NextToken();
-	} while( !eof );
+	} while ( !eof );
 }
 
 /*
@@ -851,7 +973,7 @@ Parses a variable type, including functions types
 */
 idTypeDef *idCompiler::CheckType( void ) {
 	idTypeDef *type;
-	
+
 	if ( token == "float" ) {
 		type = &type_float;
 	} else if ( token == "vector" ) {
@@ -876,7 +998,7 @@ idTypeDef *idCompiler::CheckType( void ) {
 			type = NULL;
 		}
 	}
-	
+
 	return type;
 }
 
@@ -889,7 +1011,7 @@ Parses a variable type, including functions types
 */
 idTypeDef *idCompiler::ParseType( void ) {
 	idTypeDef *type;
-	
+
 	type = CheckType();
 	if ( !type ) {
 		Error( "\"%s\" is not a type", token.c_str() );
@@ -904,7 +1026,7 @@ idTypeDef *idCompiler::ParseType( void ) {
 	}
 
 	NextToken();
-	
+
 	return type;
 }
 
@@ -967,8 +1089,8 @@ idVarDef *idCompiler::EmitFunctionParms( int op, idVarDef *func, int startarg, i
 			}
 
 			arg++;
-		} while( CheckToken( "," ) );
-	
+		} while ( CheckToken( "," ) );
+
 		ExpectToken( ")" );
 	}
 
@@ -997,36 +1119,36 @@ idVarDef *idCompiler::EmitFunctionParms( int op, idVarDef *func, int startarg, i
 		gameLocal.program.returnDef->SetTypeDef( returnType );
 		returnDef = gameLocal.program.returnDef;
 
-		switch( returnType->Type() ) {
-		case ev_void :
-			resultOp = OP_STORE_F;
-			break;
+		switch ( returnType->Type() ) {
+			case ev_void :
+				resultOp = OP_STORE_F;
+				break;
 
-		case ev_boolean :
-			resultOp = OP_STORE_BOOL;
-			break;
+			case ev_boolean :
+				resultOp = OP_STORE_BOOL;
+				break;
 
-		case ev_float :
-			resultOp = OP_STORE_F;
-			break;
+			case ev_float :
+				resultOp = OP_STORE_F;
+				break;
 
-		case ev_vector :
-			resultOp = OP_STORE_V;
-			break;
+			case ev_vector :
+				resultOp = OP_STORE_V;
+				break;
 
-		case ev_entity :
-			resultOp = OP_STORE_ENT;
-			break;
+			case ev_entity :
+				resultOp = OP_STORE_ENT;
+				break;
 
-		case ev_object :
-			resultOp = OP_STORE_OBJ;
-			break;
+			case ev_object :
+				resultOp = OP_STORE_OBJ;
+				break;
 
-		default :
-			Error( "Invalid return type for function '%s'", func->Name() );
-			// shut up compiler
-			resultOp = OP_STORE_OBJ;
-			break;
+			default :
+				Error( "Invalid return type for function '%s'", func->Name() );
+				// shut up compiler
+				resultOp = OP_STORE_OBJ;
+				break;
 		}
 	}
 
@@ -1173,7 +1295,7 @@ idVarDef *idCompiler::LookupDef( const char *name, const idVarDef *baseobj ) {
 		const idVarDef *tdef;
 
 		def = NULL;
-		for( tdef = baseobj; tdef != &def_object; tdef = tdef->TypeDef()->SuperClass()->def ) {
+		for ( tdef = baseobj; tdef != &def_object; tdef = tdef->TypeDef()->SuperClass()->def ) {
 			def = gameLocal.program.GetDef( NULL, name, tdef );
 			if ( def ) {
 				break;
@@ -1199,7 +1321,7 @@ idVarDef *idCompiler::LookupDef( const char *name, const idVarDef *baseobj ) {
 					type_c = field->TypeDef()->ReturnType()->Type();
 				} else {
 					type_c = field->TypeDef()->FieldType()->Type();	// field access gets type from field
-	                if ( CheckToken( "++" ) ) {
+					if ( CheckToken( "++" ) ) {
 						if ( type_c != ev_float ) {
 							Error( "Invalid type for ++" );
 						}
@@ -1215,10 +1337,10 @@ idVarDef *idCompiler::LookupDef( const char *name, const idVarDef *baseobj ) {
 				}
 
 				op = &opcodes[ OP_INDIRECT_F ];
-				while( ( op->type_a->Type() != ev_object ) 
-					|| ( type_b != op->type_b->Type() ) || ( type_c != op->type_c->Type() ) ) {
-					if ( ( op->priority == FUNCTION_PRIORITY ) && ( op->type_a->Type() == ev_object ) && ( op->type_c->Type() == ev_void ) && 
-						( type_c != op->type_c->Type() ) ) {
+				while ( ( op->type_a->Type() != ev_object )
+						|| ( type_b != op->type_b->Type() ) || ( type_c != op->type_c->Type() ) ) {
+					if ( ( op->priority == FUNCTION_PRIORITY ) && ( op->type_a->Type() == ev_object ) && ( op->type_c->Type() == ev_void ) &&
+							( type_c != op->type_c->Type() ) ) {
 						// catches object calls that return a value
 						break;
 					}
@@ -1256,7 +1378,7 @@ idVarDef *idCompiler::ParseValue( void ) {
 	idVarDef	*def;
 	idVarDef	*namespaceDef;
 	idStr		name;
-	
+
 	if ( immediateType == &type_entity ) {
 		// if an immediate entity ($-prefaced name) then create or lookup a def for it.
 		// when entities are spawned, they'll lookup the def and point it to them.
@@ -1279,9 +1401,9 @@ idVarDef *idCompiler::ParseValue( void ) {
 		} else {
 			Error( "Unknown value \"%s\"", name.c_str() );
 		}
-	// if namespace, then look up the variable in that namespace
+		// if namespace, then look up the variable in that namespace
 	} else if ( def->Type() == ev_namespace ) {
-		while( def->Type() == ev_namespace ) {
+		while ( def->Type() == ev_namespace ) {
 			ExpectToken( "::" );
 			ParseName( name );
 			namespaceDef = def;
@@ -1304,20 +1426,20 @@ idCompiler::GetTerm
 idVarDef *idCompiler::GetTerm( void ) {
 	idVarDef	*e;
 	int 		op;
-	
+
 	if ( !immediateType && CheckToken( "~" ) ) {
 		e = GetExpression( TILDE_PRIORITY );
-		switch( e->Type() ) {
-		case ev_float :
-			op = OP_COMP_F;
-			break;
+		switch ( e->Type() ) {
+			case ev_float :
+				op = OP_COMP_F;
+				break;
 
-		default :
-			Error( "type mismatch for ~" );
+			default :
+				Error( "type mismatch for ~" );
 
-			// shut up compiler
-			op = OP_COMP_F;
-			break;
+				// shut up compiler
+				op = OP_COMP_F;
+				break;
 		}
 
 		return EmitOpcode( op, e, 0 );
@@ -1325,44 +1447,44 @@ idVarDef *idCompiler::GetTerm( void ) {
 
 	if ( !immediateType && CheckToken( "!" ) ) {
 		e = GetExpression( NOT_PRIORITY );
-		switch( e->Type() ) {
-		case ev_boolean :
-			op = OP_NOT_BOOL;
-			break;
+		switch ( e->Type() ) {
+			case ev_boolean :
+				op = OP_NOT_BOOL;
+				break;
 
-		case ev_float :
-			op = OP_NOT_F;
-			break;
+			case ev_float :
+				op = OP_NOT_F;
+				break;
 
-		case ev_string :
-			op = OP_NOT_S;
-			break;
+			case ev_string :
+				op = OP_NOT_S;
+				break;
 
-		case ev_vector :
-			op = OP_NOT_V;
-			break;
+			case ev_vector :
+				op = OP_NOT_V;
+				break;
 
-		case ev_entity :
-			op = OP_NOT_ENT;
-			break;
+			case ev_entity :
+				op = OP_NOT_ENT;
+				break;
 
-		case ev_function :
-			Error( "Invalid type for !" );
+			case ev_function :
+				Error( "Invalid type for !" );
 
-			// shut up compiler
-			op = OP_NOT_F;
-			break;
+				// shut up compiler
+				op = OP_NOT_F;
+				break;
 
-		case ev_object :
-			op = OP_NOT_ENT;
-			break;
+			case ev_object :
+				op = OP_NOT_ENT;
+				break;
 
-		default :
-			Error( "type mismatch for !" );
+			default :
+				Error( "type mismatch for !" );
 
-			// shut up compiler
-			op = OP_NOT_F;
-			break;
+				// shut up compiler
+				op = OP_NOT_F;
+				break;
 		}
 
 		return EmitOpcode( op, e, 0 );
@@ -1381,25 +1503,25 @@ idVarDef *idCompiler::GetTerm( void ) {
 			return ParseImmediate();
 		} else {
 			e = GetExpression( NOT_PRIORITY );
-			switch( e->Type() ) {
-			case ev_float :
-				op = OP_NEG_F;
-				break;
+			switch ( e->Type() ) {
+				case ev_float :
+					op = OP_NEG_F;
+					break;
 
-			case ev_vector :
-				op = OP_NEG_V;
-				break;
-			default :
-				Error( "type mismatch for -" );
+				case ev_vector :
+					op = OP_NEG_V;
+					break;
+				default :
+					Error( "type mismatch for -" );
 
-				// shut up compiler
-				op = OP_NEG_F;
-				break;
+					// shut up compiler
+					op = OP_NEG_F;
+					break;
 			}
 			return EmitOpcode( &opcodes[ op ], e, 0 );
 		}
 	}
-	
+
 	if ( CheckToken( "int" ) ) {
 		ExpectToken( "(" );
 
@@ -1412,7 +1534,7 @@ idVarDef *idCompiler::GetTerm( void ) {
 
 		return EmitOpcode( OP_INT_F, e, 0 );
 	}
-	
+
 	if ( CheckToken( "thread" ) ) {
 		callthread = true;
 		e = GetExpression( FUNCTION_PRIORITY );
@@ -1425,14 +1547,14 @@ idVarDef *idCompiler::GetTerm( void ) {
 		gameLocal.program.returnDef->SetTypeDef( &type_float );
 		return gameLocal.program.returnDef;
 	}
-	
+
 	if ( !immediateType && CheckToken( "(" ) ) {
 		e = GetExpression( TOP_PRIORITY );
 		ExpectToken( ")" );
 
 		return e;
 	}
-	
+
 	return ParseValue();
 }
 
@@ -1449,7 +1571,7 @@ bool idCompiler::TypeMatches( etype_t type1, etype_t type2 ) const {
 	//if ( ( type1 == ev_entity ) && ( type2 == ev_object ) ) {
 	//	return true;
 	//}
-		
+
 	//if ( ( type2 == ev_entity ) && ( type1 == ev_object ) ) {
 	//	return true;
 	//}
@@ -1471,18 +1593,18 @@ idVarDef *idCompiler::GetExpression( int priority ) {
 	etype_t 		type_a;
 	etype_t 		type_b;
 	etype_t 		type_c;
-	
+
 	if ( priority == 0 ) {
 		return GetTerm();
 	}
-		
+
 	e = GetExpression( priority - 1 );
 	if ( token == ";" ) {
 		// save us from searching through the opcodes unneccesarily
 		return e;
 	}
 
-	while( 1 ) {
+	while ( 1 ) {
 		if ( ( priority == FUNCTION_PRIORITY ) && CheckToken( "(" ) ) {
 			return ParseFunctionCall( e );
 		}
@@ -1492,7 +1614,7 @@ idVarDef *idCompiler::GetExpression( int priority ) {
 			break;
 		}
 
-		for( op = opcodes; op->name; op++ ) {
+		for ( op = opcodes; op->name; op++ ) {
 			if ( ( op->priority == priority ) && CheckToken( op->name ) ) {
 				break;
 			}
@@ -1536,7 +1658,7 @@ idVarDef *idCompiler::GetExpression( int priority ) {
 
 		// restore type
 		basetype = oldtype;
-			
+
 		// type check
 		type_a = e->Type();
 		type_b = e2->Type();
@@ -1556,8 +1678,8 @@ idVarDef *idCompiler::GetExpression( int priority ) {
 		}
 
 		oldop = op;
-		while( !TypeMatches( type_a, op->type_a->Type() ) || !TypeMatches( type_b, op->type_b->Type() ) ||
-			( ( type_c != ev_void ) && !TypeMatches( type_c, op->type_c->Type() ) ) ) {
+		while ( !TypeMatches( type_a, op->type_a->Type() ) || !TypeMatches( type_b, op->type_b->Type() ) ||
+				( ( type_c != ev_void ) && !TypeMatches( type_c, op->type_c->Type() ) ) ) {
 			if ( ( op->priority == FUNCTION_PRIORITY ) && TypeMatches( type_a, op->type_a->Type() ) && TypeMatches( type_b, op->type_b->Type() ) ) {
 				break;
 			}
@@ -1568,79 +1690,79 @@ idVarDef *idCompiler::GetExpression( int priority ) {
 			}
 		}
 
-		switch( op - opcodes ) {
-		case OP_SYSCALL :
-			ExpectToken( "(" );
-			e = ParseSysObjectCall( e2 );
-			break;
+		switch ( op - opcodes ) {
+			case OP_SYSCALL :
+				ExpectToken( "(" );
+				e = ParseSysObjectCall( e2 );
+				break;
 
-		case OP_OBJECTCALL :
-			ExpectToken( "(" );
-			if ( ( e2->initialized != idVarDef::uninitialized ) && e2->value.functionPtr->eventdef ) {
-				e = ParseEventCall( e, e2 );
-			} else {
-				e = ParseObjectCall( e, e2 );
-			}
-			break;
-		
-		case OP_EVENTCALL :
-			ExpectToken( "(" );
-			if ( ( e2->initialized != idVarDef::uninitialized ) && e2->value.functionPtr->eventdef ) {
-				e = ParseEventCall( e, e2 );
-			} else {
-				e = ParseObjectCall( e, e2 );
-			}
-			break;
-
-		default:
-			if ( callthread ) {
-				Error( "Expecting function call after 'thread'" );
-			}
-
-			if ( ( type_a == ev_pointer ) && ( type_b != e->TypeDef()->PointerType()->Type() ) ) {
-				// FIXME: need to make a general case for this
-				if ( ( op - opcodes == OP_STOREP_F ) && ( e->TypeDef()->PointerType()->Type() == ev_boolean ) ) {
-					// copy from float to boolean pointer
-					op = &opcodes[ OP_STOREP_FTOBOOL ];
-				} else if ( ( op - opcodes == OP_STOREP_BOOL ) && ( e->TypeDef()->PointerType()->Type() == ev_float ) ) {
-					// copy from boolean to float pointer
-					op = &opcodes[ OP_STOREP_BOOLTOF ];
-				} else if ( ( op - opcodes == OP_STOREP_F ) && ( e->TypeDef()->PointerType()->Type() == ev_string ) ) {
-					// copy from float to string pointer
-					op = &opcodes[ OP_STOREP_FTOS ];
-				} else if ( ( op - opcodes == OP_STOREP_BOOL ) && ( e->TypeDef()->PointerType()->Type() == ev_string ) ) {
-					// copy from boolean to string pointer
-					op = &opcodes[ OP_STOREP_BTOS ];
-				} else if ( ( op - opcodes == OP_STOREP_V ) && ( e->TypeDef()->PointerType()->Type() == ev_string ) ) {
-					// copy from vector to string pointer
-					op = &opcodes[ OP_STOREP_VTOS ];
-				} else if ( ( op - opcodes == OP_STOREP_ENT ) && ( e->TypeDef()->PointerType()->Type() == ev_object ) ) {
-					// store an entity into an object pointer
-					op = &opcodes[ OP_STOREP_OBJENT ];
+			case OP_OBJECTCALL :
+				ExpectToken( "(" );
+				if ( ( e2->initialized != idVarDef::uninitialized ) && e2->value.functionPtr->eventdef ) {
+					e = ParseEventCall( e, e2 );
 				} else {
-					Error( "type mismatch for '%s'", op->name );
+					e = ParseObjectCall( e, e2 );
 				}
-			}
-			
-			if ( op->rightAssociative ) {
-				e = EmitOpcode( op, e2, e );
-			} else {
-				e = EmitOpcode( op, e, e2 );
-			}
+				break;
 
-			if ( op - opcodes == OP_STOREP_OBJENT ) {
-				// statement.b points to type_pointer, which is just a temporary that gets its type reassigned, so we store the real type in statement.c
-				// so that we can do a type check during run time since we don't know what type the script object is at compile time because it
-				// comes from an entity
-				statement_t &statement = gameLocal.program.GetStatement( gameLocal.program.NumStatements() - 1 );
-				statement.c = type_pointer.PointerType()->def;
-			}
+			case OP_EVENTCALL :
+				ExpectToken( "(" );
+				if ( ( e2->initialized != idVarDef::uninitialized ) && e2->value.functionPtr->eventdef ) {
+					e = ParseEventCall( e, e2 );
+				} else {
+					e = ParseObjectCall( e, e2 );
+				}
+				break;
 
-			// field access gets type from field
-			if ( type_c != ev_void ) {
-				e->SetTypeDef( e2->TypeDef()->FieldType() );
-			}
-			break;
+			default:
+				if ( callthread ) {
+					Error( "Expecting function call after 'thread'" );
+				}
+
+				if ( ( type_a == ev_pointer ) && ( type_b != e->TypeDef()->PointerType()->Type() ) ) {
+					// FIXME: need to make a general case for this
+					if ( ( op - opcodes == OP_STOREP_F ) && ( e->TypeDef()->PointerType()->Type() == ev_boolean ) ) {
+						// copy from float to boolean pointer
+						op = &opcodes[ OP_STOREP_FTOBOOL ];
+					} else if ( ( op - opcodes == OP_STOREP_BOOL ) && ( e->TypeDef()->PointerType()->Type() == ev_float ) ) {
+						// copy from boolean to float pointer
+						op = &opcodes[ OP_STOREP_BOOLTOF ];
+					} else if ( ( op - opcodes == OP_STOREP_F ) && ( e->TypeDef()->PointerType()->Type() == ev_string ) ) {
+						// copy from float to string pointer
+						op = &opcodes[ OP_STOREP_FTOS ];
+					} else if ( ( op - opcodes == OP_STOREP_BOOL ) && ( e->TypeDef()->PointerType()->Type() == ev_string ) ) {
+						// copy from boolean to string pointer
+						op = &opcodes[ OP_STOREP_BTOS ];
+					} else if ( ( op - opcodes == OP_STOREP_V ) && ( e->TypeDef()->PointerType()->Type() == ev_string ) ) {
+						// copy from vector to string pointer
+						op = &opcodes[ OP_STOREP_VTOS ];
+					} else if ( ( op - opcodes == OP_STOREP_ENT ) && ( e->TypeDef()->PointerType()->Type() == ev_object ) ) {
+						// store an entity into an object pointer
+						op = &opcodes[ OP_STOREP_OBJENT ];
+					} else {
+						Error( "type mismatch for '%s'", op->name );
+					}
+				}
+
+				if ( op->rightAssociative ) {
+					e = EmitOpcode( op, e2, e );
+				} else {
+					e = EmitOpcode( op, e, e2 );
+				}
+
+				if ( op - opcodes == OP_STOREP_OBJENT ) {
+					// statement.b points to type_pointer, which is just a temporary that gets its type reassigned, so we store the real type in statement.c
+					// so that we can do a type check during run time since we don't know what type the script object is at compile time because it
+					// comes from an entity
+					statement_t &statement = gameLocal.program.GetStatement( gameLocal.program.NumStatements() - 1 );
+					statement.c = type_pointer.PointerType()->def;
+				}
+
+				// field access gets type from field
+				if ( type_c != ev_void ) {
+					e->SetTypeDef( e2->TypeDef()->FieldType() );
+				}
+				break;
 		}
 	}
 
@@ -1657,7 +1779,7 @@ void idCompiler::PatchLoop( int start, int continuePos ) {
 	statement_t	*pos;
 
 	pos = &gameLocal.program.GetStatement( start );
-	for( i = start; i < gameLocal.program.NumStatements(); i++, pos++ ) {
+	for ( i = start; i < gameLocal.program.NumStatements(); i++, pos++ ) {
 		if ( pos->op == OP_BREAK ) {
 			pos->op = OP_GOTO;
 			pos->a = JumpFrom( i );
@@ -1699,7 +1821,7 @@ void idCompiler::ParseReturnStatement( void ) {
 		return;
 	}
 
-	for( op = opcodes; op->name; op++ ) {
+	for ( op = opcodes; op->name; op++ ) {
 		if ( !strcmp( op->name, "=" ) ) {
 			break;
 		}
@@ -1707,7 +1829,7 @@ void idCompiler::ParseReturnStatement( void ) {
 
 	assert( op->name );
 
-	while( !TypeMatches( type_a, op->type_a->Type() ) || !TypeMatches( type_b, op->type_b->Type() ) ) {
+	while ( !TypeMatches( type_a, op->type_a->Type() ) || !TypeMatches( type_b, op->type_b->Type() ) ) {
 		op++;
 		if ( !op->name || strcmp( op->name, "=" ) ) {
 			Error( "type mismatch for return value" );
@@ -1723,7 +1845,7 @@ void idCompiler::ParseReturnStatement( void ) {
 	}
 	EmitOpcode( OP_RETURN, 0, 0 );
 }
-	
+
 /*
 ================
 idCompiler::ParseWhileStatement
@@ -1737,7 +1859,7 @@ void idCompiler::ParseWhileStatement( void ) {
 	loopDepth++;
 
 	ExpectToken( "(" );
-	
+
 	patch2 = gameLocal.program.NumStatements();
 	e = GetExpression( TOP_PRIORITY );
 	ExpectToken( ")" );
@@ -1748,7 +1870,7 @@ void idCompiler::ParseWhileStatement( void ) {
 		EmitOpcode( OP_GOTO, JumpTo( patch2 ), 0 );
 	} else {
 		patch1 = gameLocal.program.NumStatements();
-        EmitOpcode( OP_IFNOT, e, 0 );
+		EmitOpcode( OP_IFNOT, e, 0 );
 		ParseStatement();
 		EmitOpcode( OP_GOTO, JumpTo( patch2 ), 0 );
 		gameLocal.program.GetStatement( patch1 ).b = JumpFrom( patch1 );
@@ -1812,12 +1934,12 @@ void idCompiler::ParseForStatement( void ) {
 	start = gameLocal.program.NumStatements();
 
 	ExpectToken( "(" );
-	
+
 	// init
 	if ( !CheckToken( ";" ) ) {
 		do {
 			GetExpression( TOP_PRIORITY );
-		} while( CheckToken( "," ) );
+		} while ( CheckToken( "," ) );
 
 		ExpectToken( ";" );
 	}
@@ -1841,8 +1963,8 @@ void idCompiler::ParseForStatement( void ) {
 		patch2 = gameLocal.program.NumStatements();
 		do {
 			GetExpression( TOP_PRIORITY );
-		} while( CheckToken( "," ) );
-		
+		} while ( CheckToken( "," ) );
+
 		ExpectToken( ")" );
 
 		// goto patch4
@@ -1912,7 +2034,7 @@ void idCompiler::ParseIfStatement( void ) {
 	EmitOpcode( OP_IFNOT, e, 0 );
 
 	ParseStatement();
-	
+
 	if ( CheckToken( "else" ) ) {
 		patch2 = gameLocal.program.NumStatements();
 		EmitOpcode( OP_GOTO, 0, 0 );
@@ -1938,16 +2060,16 @@ void idCompiler::ParseStatement( void ) {
 	if ( CheckToken( "{" ) ) {
 		do {
 			ParseStatement();
-		} while( !CheckToken( "}" ) );
+		} while ( !CheckToken( "}" ) );
 
 		return;
-	} 
+	}
 
 	if ( CheckToken( "return" ) ) {
 		ParseReturnStatement();
 		return;
 	}
-	
+
 	if ( CheckToken( "while" ) ) {
 		ParseWhileStatement();
 		return;
@@ -1992,7 +2114,7 @@ void idCompiler::ParseStatement( void ) {
 	}
 
 	GetExpression( TOP_PRIORITY );
-	ExpectToken(";");
+	ExpectToken( ";" );
 }
 
 /*
@@ -2031,14 +2153,14 @@ void idCompiler::ParseObjectDef( const char *objname ) {
 			Error( "Objects may only inherit from objects." );
 		}
 	}
-	
+
 	objtype = gameLocal.program.AllocType( ev_object, NULL, objname, parentType == &type_object ? 0 : parentType->Size(), parentType );
 	objtype->def = gameLocal.program.AllocDef( objtype, objname, scope, true );
 	scope = objtype->def;
 
 	// inherit all the functions
 	num = parentType->NumFunctions();
-	for( i = 0; i < parentType->NumFunctions(); i++ ) {
+	for ( i = 0; i < parentType->NumFunctions(); i++ ) {
 		const function_t *func = parentType->GetFunction( i );
 		objtype->AddFunction( func );
 	}
@@ -2069,7 +2191,7 @@ void idCompiler::ParseObjectDef( const char *objname ) {
 			objtype->AddField( type, name );
 			ExpectToken( ";" );
 		}
-	} while( !CheckToken( "}" ) );
+	} while ( !CheckToken( "}" ) );
 
 	scope = oldscope;
 
@@ -2086,7 +2208,7 @@ parse a function type
 idTypeDef *idCompiler::ParseFunction( idTypeDef *returnType, const char *name ) {
 	idTypeDef	newtype( ev_function, NULL, name, type_function.Size(), returnType );
 	idTypeDef	*type;
-	
+
 	if ( scope->Type() != ev_namespace ) {
 		// create self pointer
 		newtype.AddFunctionParm( scope->TypeDef(), "self" );
@@ -2098,7 +2220,7 @@ idTypeDef *idCompiler::ParseFunction( idTypeDef *returnType, const char *name ) 
 			type = ParseType();
 			ParseName( parmName );
 			newtype.AddFunctionParm( type, parmName );
-		} while( CheckToken( "," ) );
+		} while ( CheckToken( "," ) );
 
 		ExpectToken( ")" );
 	}
@@ -2154,7 +2276,7 @@ void idCompiler::ParseFunctionDef( idTypeDef *returnType, const char *name ) {
 	// calculate stack space used by parms
 	numParms = type->NumParameters();
 	func->parmSize.SetNum( numParms );
-	for( i = 0; i < numParms; i++ ) {
+	for ( i = 0; i < numParms; i++ ) {
 		parmType = type->GetParmType( i );
 		if ( parmType->Inherits( &type_object ) ) {
 			func->parmSize[ i ] = type_object.Size();
@@ -2165,7 +2287,7 @@ void idCompiler::ParseFunctionDef( idTypeDef *returnType, const char *name ) {
 	}
 
 	// define the parms
-	for( i = 0; i < numParms; i++ ) {
+	for ( i = 0; i < numParms; i++ ) {
 		if ( gameLocal.program.GetDef( type->GetParmType( i ), type->GetParmName( i ), def ) ) {
 			Error( "'%s' defined more than once in function parameters", type->GetParmName( i ) );
 		}
@@ -2183,7 +2305,7 @@ void idCompiler::ParseFunctionDef( idTypeDef *returnType, const char *name ) {
 		function_t *constructorFunc = NULL;
 
 		// find the superclass constructor
-		for( superClass = oldscope->TypeDef()->SuperClass(); superClass != &type_object; superClass = superClass->SuperClass() ) {
+		for ( superClass = oldscope->TypeDef()->SuperClass(); superClass != &type_object; superClass = superClass->SuperClass() ) {
 			constructorFunc = gameLocal.program.FindFunction( va( "%s::init", superClass->Name() ) );
 			if ( constructorFunc ) {
 				break;
@@ -2200,7 +2322,7 @@ void idCompiler::ParseFunctionDef( idTypeDef *returnType, const char *name ) {
 	}
 
 	// parse regular statements
-	while( !CheckToken( "}" ) ) {
+	while ( !CheckToken( "}" ) ) {
 		ParseStatement();
 	}
 
@@ -2210,7 +2332,7 @@ void idCompiler::ParseFunctionDef( idTypeDef *returnType, const char *name ) {
 		function_t *destructorFunc = NULL;
 
 		// find the superclass destructor
-		for( superClass = oldscope->TypeDef()->SuperClass(); superClass != &type_object; superClass = superClass->SuperClass() ) {
+		for ( superClass = oldscope->TypeDef()->SuperClass(); superClass != &type_object; superClass = superClass->SuperClass() ) {
 			destructorFunc = gameLocal.program.FindFunction( va( "%s::destroy", superClass->Name() ) );
 			if ( destructorFunc ) {
 				break;
@@ -2221,7 +2343,7 @@ void idCompiler::ParseFunctionDef( idTypeDef *returnType, const char *name ) {
 			if ( func->firstStatement < gameLocal.program.NumStatements() ) {
 				// change all returns to point to the call to the destructor
 				pos = &gameLocal.program.GetStatement( func->firstStatement );
-				for( i = func->firstStatement; i < gameLocal.program.NumStatements(); i++, pos++ ) {
+				for ( i = func->firstStatement; i < gameLocal.program.NumStatements(); i++, pos++ ) {
 					if ( pos->op == OP_RETURN ) {
 						pos->op = OP_GOTO;
 						pos->a = JumpDef( i, gameLocal.program.NumStatements() );
@@ -2268,7 +2390,7 @@ void idCompiler::ParseVariableDef( idTypeDef *type, const char *name ) {
 	if ( def ) {
 		Error( "%s redeclared", name );
 	}
-	
+
 	def = gameLocal.program.AllocDef( type, name, scope, false );
 
 	// check for an initialization
@@ -2349,44 +2471,44 @@ idCompiler::GetTypeForEventArg
 idTypeDef *idCompiler::GetTypeForEventArg( char argType ) {
 	idTypeDef *type;
 
-	switch( argType ) {
-	case D_EVENT_INTEGER :
-		// this will get converted to int by the interpreter
-		type = &type_float;
-		break;
+	switch ( argType ) {
+		case D_EVENT_INTEGER :
+			// this will get converted to int by the interpreter
+			type = &type_float;
+			break;
 
-	case D_EVENT_FLOAT :
-		type = &type_float;
-		break;
+		case D_EVENT_FLOAT :
+			type = &type_float;
+			break;
 
-	case D_EVENT_VECTOR :
-		type = &type_vector;
-		break;
+		case D_EVENT_VECTOR :
+			type = &type_vector;
+			break;
 
-	case D_EVENT_STRING :
-		type = &type_string;
-		break;
+		case D_EVENT_STRING :
+			type = &type_string;
+			break;
 
-	case D_EVENT_ENTITY :
-	case D_EVENT_ENTITY_NULL :
-		type = &type_entity;
-		break;
+		case D_EVENT_ENTITY :
+		case D_EVENT_ENTITY_NULL :
+			type = &type_entity;
+			break;
 
-	case D_EVENT_VOID :
-		type = &type_void;
-		break;
+		case D_EVENT_VOID :
+			type = &type_void;
+			break;
 
-	case D_EVENT_TRACE :
-		// This data type isn't available from script
-		type = NULL;
-		break;
+		case D_EVENT_TRACE :
+			// This data type isn't available from script
+			type = NULL;
+			break;
 
-	default:
-		// probably a typo
-		type = NULL;
-		break;
+		default:
+			// probably a typo
+			type = NULL;
+			break;
 	}
-	
+
 	return type;
 }
 
@@ -2425,7 +2547,7 @@ void idCompiler::ParseEventDef( idTypeDef *returnType, const char *name ) {
 
 	format = ev->GetArgFormat();
 	num = strlen( format );
-	for( i = 0; i < num; i++ ) {
+	for ( i = 0; i < num; i++ ) {
 		expectedType = GetTypeForEventArg( format[ i ] );
 		if ( !expectedType || ( expectedType == &type_void ) ) {
 			Error( "Invalid parameter '%c' in definition of '%s' event.", format[ i ], name );
@@ -2434,8 +2556,8 @@ void idCompiler::ParseEventDef( idTypeDef *returnType, const char *name ) {
 		argType = ParseType();
 		ParseName( parmName );
 		if ( argType != expectedType ) {
-			Error( "The type of parm %d ('%s') does not match the internal type '%s' in definition of '%s' event.", 
-				i + 1, parmName.c_str(), expectedType->Name(), name );
+			Error( "The type of parm %d ('%s') does not match the internal type '%s' in definition of '%s' event.",
+				   i + 1, parmName.c_str(), expectedType->Name(), name );
 		}
 
 		newtype.AddFunctionParm( argType, "" );
@@ -2464,7 +2586,7 @@ void idCompiler::ParseEventDef( idTypeDef *returnType, const char *name ) {
 		function_t &func	= gameLocal.program.AllocFunction( type->def );
 		func.eventdef		= ev;
 		func.parmSize.SetNum( num );
-		for( i = 0; i < num; i++ ) {
+		for ( i = 0; i < num; i++ ) {
 			argType = newtype.GetParmType( i );
 			func.parmTotal		+= argType->Size();
 			func.parmSize[ i ]	= argType->Size();
@@ -2500,7 +2622,7 @@ void idCompiler::ParseDefs( void ) {
 		ParseEventDef( type, name );
 		return;
 	}
-    
+
 	ParseName( name );
 
 	if ( type == &type_namespace ) {
@@ -2527,7 +2649,7 @@ void idCompiler::ParseDefs( void ) {
 		ParseFunctionDef( type, name.c_str() );
 	} else {
 		ParseVariableDef( type, name.c_str() );
-		while( CheckToken( "," ) ) {
+		while ( CheckToken( "," ) ) {
 			ParseName( name );
 			ParseVariableDef( type, name.c_str() );
 		}
@@ -2550,7 +2672,7 @@ void idCompiler::ParseNamespace( idVarDef *newScope ) {
 		ExpectToken( "{" );
 	}
 
-	while( !eof ) {
+	while ( !eof ) {
 		scope		= newScope;
 		callthread	= false;
 
@@ -2586,7 +2708,7 @@ void idCompiler::CompileFile( const char *text, const char *filename, bool toCon
 	immediateType		= NULL;
 	currentLineNumber	= 0;
 	console				= toConsole;
-	
+
 	memset( &immediate, 0, sizeof( immediate ) );
 
 	parser.SetFlags( LEXFL_ALLOWMULTICHARLITERALS );
@@ -2619,13 +2741,13 @@ void idCompiler::CompileFile( const char *text, const char *filename, bool toCon
 	try {
 		// read first token
 		NextToken();
-		while( !eof && !error ) {
+		while ( !eof && !error ) {
 			// parse from global namespace
 			ParseNamespace( &def_namespace );
 		}
 	}
-		
-	catch( idCompileError &err ) {
+
+	catch ( idCompileError &err ) {
 		idStr error;
 
 		if ( console ) {

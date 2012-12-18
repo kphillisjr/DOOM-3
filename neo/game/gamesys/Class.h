@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -59,14 +59,38 @@ public:
 	int			type;
 	int			value;
 
-	idEventArg()								{ type = D_EVENT_INTEGER; value = 0; };
-	idEventArg( int data )						{ type = D_EVENT_INTEGER; value = data; };
-	idEventArg( float data )					{ type = D_EVENT_FLOAT; value = *reinterpret_cast<int *>( &data ); };
-	idEventArg( idVec3 &data )					{ type = D_EVENT_VECTOR; value = reinterpret_cast<int>( &data ); };
-	idEventArg( const idStr &data )				{ type = D_EVENT_STRING; value = reinterpret_cast<int>( data.c_str() ); };
-	idEventArg( const char *data )				{ type = D_EVENT_STRING; value = reinterpret_cast<int>( data ); };
-	idEventArg( const class idEntity *data )	{ type = D_EVENT_ENTITY; value = reinterpret_cast<int>( data ); };
-	idEventArg( const struct trace_s *data )	{ type = D_EVENT_TRACE; value = reinterpret_cast<int>( data ); };
+	idEventArg()								{
+		type = D_EVENT_INTEGER;
+		value = 0;
+	};
+	idEventArg( int data )						{
+		type = D_EVENT_INTEGER;
+		value = data;
+	};
+	idEventArg( float data )					{
+		type = D_EVENT_FLOAT;
+		value = *reinterpret_cast<int *>( &data );
+	};
+	idEventArg( idVec3 &data )					{
+		type = D_EVENT_VECTOR;
+		value = reinterpret_cast<int>( &data );
+	};
+	idEventArg( const idStr &data )				{
+		type = D_EVENT_STRING;
+		value = reinterpret_cast<int>( data.c_str() );
+	};
+	idEventArg( const char *data )				{
+		type = D_EVENT_STRING;
+		value = reinterpret_cast<int>( data );
+	};
+	idEventArg( const class idEntity *data )	{
+		type = D_EVENT_ENTITY;
+		value = reinterpret_cast<int>( data );
+	};
+	idEventArg( const struct trace_s *data )	{
+		type = D_EVENT_TRACE;
+		value = reinterpret_cast<int>( data );
+	};
 };
 
 class idAllocError : public idException {
@@ -102,7 +126,7 @@ CLASS_DECLARATION
 
 This macro must be included in the code to properly initialize variables
 used in type checking and run-time instanciation.  It also defines the list
-of events that the class responds to.  Take special care to ensure that the 
+of events that the class responds to.  Take special care to ensure that the
 proper superclass is indicated or the run-time type information will be
 incorrect.  Use this on concrete classes only.
 ================
@@ -178,8 +202,8 @@ public:
 #ifdef ID_REDIRECT_NEWDELETE
 #undef new
 #endif
-	void *						operator new( size_t );
-	void *						operator new( size_t s, int, int, char *, int );
+	void 						*operator new( size_t );
+	void 						*operator new( size_t s, int, int, char *, int );
 	void						operator delete( void * );
 	void						operator delete( void *, int, int, char *, int );
 #ifdef ID_REDIRECT_NEWDELETE
@@ -191,8 +215,8 @@ public:
 	void						Spawn( void );
 	void						CallSpawn( void );
 	bool						IsType( const idTypeInfo &c ) const;
-	const char *				GetClassname( void ) const;
-	const char *				GetSuperclass( void ) const;
+	const char 				*GetClassname( void ) const;
+	const char 				*GetSuperclass( void ) const;
 	void						FindUninitializedMemory( void );
 
 	void						Save( idSaveGame *savefile ) const {};
@@ -238,13 +262,17 @@ public:
 	// Static functions
 	static void					Init( void );
 	static void					Shutdown( void );
-	static idTypeInfo *			GetClass( const char *name );
+	static idTypeInfo 			*GetClass( const char *name );
 	static void					DisplayInfo_f( const idCmdArgs &args );
 	static void					ListClasses_f( const idCmdArgs &args );
-	static idClass *			CreateInstance( const char *name );
-	static int					GetNumTypes( void ) { return types.Num(); }
-	static int					GetTypeNumBits( void ) { return typeNumBits; }
-	static idTypeInfo *			GetType( int num );
+	static idClass 			*CreateInstance( const char *name );
+	static int					GetNumTypes( void ) {
+		return types.Num();
+	}
+	static int					GetTypeNumBits( void ) {
+		return typeNumBits;
+	}
+	static idTypeInfo 			*GetType( int num );
 
 private:
 	classSpawnFunc_t			CallSpawnFunc( idTypeInfo *cls );
@@ -270,27 +298,27 @@ private:
 
 class idTypeInfo {
 public:
-	const char *				classname;
-	const char *				superclass;
-	idClass *					( *CreateInstance )( void );
-	void						( idClass::*Spawn )( void );
-	void						( idClass::*Save )( idSaveGame *savefile ) const;
-	void						( idClass::*Restore )( idRestoreGame *savefile );
+	const char 				*classname;
+	const char 				*superclass;
+	idClass 					*( *CreateInstance )( void );
+	void	( idClass::*Spawn )( void );
+	void	( idClass::*Save )( idSaveGame *savefile ) const;
+	void	( idClass::*Restore )( idRestoreGame *savefile );
 
-	idEventFunc<idClass> *		eventCallbacks;
-	eventCallback_t *			eventMap;
-	idTypeInfo *				super;
-	idTypeInfo *				next;
+	idEventFunc<idClass> 		*eventCallbacks;
+	eventCallback_t 			*eventMap;
+	idTypeInfo 				*super;
+	idTypeInfo 				*next;
 	bool						freeEventMap;
 	int							typeNum;
 	int							lastChild;
 
 	idHierarchy<idTypeInfo>		node;
 
-								idTypeInfo( const char *classname, const char *superclass, 
-												idEventFunc<idClass> *eventCallbacks, idClass *( *CreateInstance )( void ), void ( idClass::*Spawn )( void ),
-												void ( idClass::*Save )( idSaveGame *savefile ) const, void	( idClass::*Restore )( idRestoreGame *savefile ) );
-								~idTypeInfo();
+	idTypeInfo( const char *classname, const char *superclass,
+				idEventFunc<idClass> *eventCallbacks, idClass * ( *CreateInstance )( void ), void ( idClass::*Spawn )( void ),
+				void ( idClass::*Save )( idSaveGame *savefile ) const, void	( idClass::*Restore )( idRestoreGame *savefile ) );
+	~idTypeInfo();
 
 	void						Init( void );
 	void						Shutdown( void );
@@ -303,7 +331,7 @@ public:
 ================
 idTypeInfo::IsType
 
-Checks if the object's class is a subclass of the class defined by the 
+Checks if the object's class is a subclass of the class defined by the
 passed in idTypeInfo.
 ================
 */
@@ -330,7 +358,7 @@ ID_INLINE bool idTypeInfo::RespondsTo( const idEventDef &ev ) const {
 ================
 idClass::IsType
 
-Checks if the object's class is a subclass of the class defined by the 
+Checks if the object's class is a subclass of the class defined by the
 passed in idTypeInfo.
 ================
 */

@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -82,8 +82,8 @@ public:
 
 class idTypeInfoGen {
 public:
-								idTypeInfoGen( void );
-								~idTypeInfoGen( void );
+	idTypeInfoGen( void );
+	~idTypeInfoGen( void );
 
 	void						AddDefine( const char *define );
 	void						CreateTypeInfo( const char *path );
@@ -103,13 +103,13 @@ private:
 	int							GetInheritance( const char *typeName ) const;
 	int							EvaluateIntegerString( const idStr &string );
 	float						EvaluateFloatString( const idStr &string );
-	idConstantInfo *			FindConstant( const char *name );
+	idConstantInfo 			*FindConstant( const char *name );
 	int							GetIntegerConstant( const char *scope, const char *name, idParser &src );
 	float						GetFloatConstant( const char *scope, const char *name, idParser &src );
 	int							ParseArraySize( const char *scope, idParser &src );
 	void						ParseConstantValue( const char *scope, idParser &src, idStr &value );
-	idEnumTypeInfo *			ParseEnumType( const char *scope, bool isTemplate, bool typeDef, idParser &src );
-	idClassTypeInfo *			ParseClassType( const char *scope, const char *templateArgs, bool isTemplate, bool typeDef, idParser &src );
+	idEnumTypeInfo 			*ParseEnumType( const char *scope, bool isTemplate, bool typeDef, idParser &src );
+	idClassTypeInfo 			*ParseClassType( const char *scope, const char *templateArgs, bool isTemplate, bool typeDef, idParser &src );
 	void						ParseScope( const char *scope, bool isTemplate, idParser &src, idClassTypeInfo *typeInfo );
 };
 

@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -35,31 +35,31 @@ const int LUDICROUS_INDEX	= 10000;
 
 typedef struct portal_s {
 	int						intoArea;		// area this portal leads to
-	idWinding *				w;				// winding points have counter clockwise ordering seen this area
+	idWinding 				*w;				// winding points have counter clockwise ordering seen this area
 	idPlane					plane;			// view must be on the positive side of the plane to cross
-	struct portal_s *		next;			// next portal of the area
-	struct doublePortal_s *	doublePortal;
+	struct portal_s 		*next;			// next portal of the area
+	struct doublePortal_s 	*doublePortal;
 } portal_t;
 
 
 typedef struct doublePortal_s {
-	struct portal_s	*		portals[2];
+	struct portal_s			*portals[2];
 	int						blockingBits;	// PS_BLOCK_VIEW, PS_BLOCK_AIR, etc, set by doors that shut them off
 
 	// A portal will be considered closed if it is past the
 	// fog-out point in a fog volume.  We only support a single
 	// fog volume over each portal.
-	idRenderLightLocal *		fogLight;
-	struct doublePortal_s *	nextFoggedPortal;
+	idRenderLightLocal 		*fogLight;
+	struct doublePortal_s 	*nextFoggedPortal;
 } doublePortal_t;
 
 
 typedef struct portalArea_s {
 	int				areaNum;
 	int				connectedAreaNum[NUM_PORTAL_ATTRIBUTES];	// if two areas have matching connectedAreaNum, they are
-									// not separated by a portal with the apropriate PS_BLOCK_* blockingBits
+	// not separated by a portal with the apropriate PS_BLOCK_* blockingBits
 	int				viewCount;		// set by R_FindViewLightsAndEntities
-	portal_t *		portals;		// never changes after load
+	portal_t 		*portals;		// never changes after load
 	areaReference_t	entityRefs;		// head/tail of doubly linked list, may change
 	areaReference_t	lightRefs;		// head/tail of doubly linked list, may change
 } portalArea_t;
@@ -71,13 +71,13 @@ typedef struct {
 	idPlane			plane;
 	int				children[2];		// negative numbers are (-1 - areaNumber), 0 = solid
 	int				commonChildrenArea;	// if all children are either solid or a single area,
-										// this is the area number, else CHILDREN_HAVE_MULTIPLE_AREAS
+	// this is the area number, else CHILDREN_HAVE_MULTIPLE_AREAS
 } areaNode_t;
 
 
 class idRenderWorldLocal : public idRenderWorld {
 public:
-							idRenderWorldLocal();
+	idRenderWorldLocal();
 	virtual					~idRenderWorldLocal();
 
 	virtual	qhandle_t		AddEntityDef( const renderEntity_t *re );
@@ -137,22 +137,22 @@ public:
 	idStr					mapName;				// ie: maps/tim_dm2.proc, written to demoFile
 	ID_TIME_T					mapTimeStamp;			// for fast reloads of the same level
 
-	areaNode_t *			areaNodes;
+	areaNode_t 			*areaNodes;
 	int						numAreaNodes;
 
-	portalArea_t *			portalAreas;
+	portalArea_t 			*portalAreas;
 	int						numPortalAreas;
 	int						connectedAreaNum;		// incremented every time a door portal state changes
 
-	idScreenRect *			areaScreenRect;
+	idScreenRect 			*areaScreenRect;
 
-	doublePortal_t *		doublePortals;
+	doublePortal_t 		*doublePortals;
 	int						numInterAreaPortals;
 
 	idList<idRenderModel *>	localModels;
 
-	idList<idRenderEntityLocal*>	entityDefs;
-	idList<idRenderLightLocal*>		lightDefs;
+	idList<idRenderEntityLocal *>	entityDefs;
+	idList<idRenderLightLocal *>		lightDefs;
 
 	idBlockAlloc<areaReference_t, 1024> areaReferenceAllocator;
 	idBlockAlloc<idInteraction, 256>	interactionAllocator;
@@ -163,7 +163,7 @@ public:
 	// cache access, because the table is accessed by light in idRenderWorldLocal::CreateLightDefInteractions()
 	// Growing this table is time consuming, so we add a pad value to the number
 	// of entityDefs and lightDefs
-	idInteraction **		interactionTable;
+	idInteraction 		**interactionTable;
 	int						interactionTableWidth;		// entityDefs
 	int						interactionTableHeight;		// lightDefs
 
@@ -173,8 +173,8 @@ public:
 	//-----------------------
 	// RenderWorld_load.cpp
 
-	idRenderModel *			ParseModel( idLexer *src );
-	idRenderModel *			ParseShadowModel( idLexer *src );
+	idRenderModel 			*ParseModel( idLexer *src );
+	idRenderModel 			*ParseShadowModel( idLexer *src );
 	void					SetupAreaRefs();
 	void					ParseInterAreaPortals( idLexer *src );
 	void					ParseNodes( idLexer *src );
@@ -196,8 +196,8 @@ public:
 	void					FlowViewThroughPortals( const idVec3 origin, int numPlanes, const idPlane *planes );
 	void					FloodLightThroughArea_r( idRenderLightLocal *light, int areaNum, const struct portalStack_s *ps );
 	void					FlowLightThroughPortals( idRenderLightLocal *light );
-	areaNumRef_t *			FloodFrustumAreas_r( const idFrustum &frustum, const int areaNum, const idBounds &bounds, areaNumRef_t *areas );
-	areaNumRef_t *			FloodFrustumAreas( const idFrustum &frustum, areaNumRef_t *areas );
+	areaNumRef_t 			*FloodFrustumAreas_r( const idFrustum &frustum, const int areaNum, const idBounds &bounds, areaNumRef_t *areas );
+	areaNumRef_t 			*FloodFrustumAreas( const idFrustum &frustum, areaNumRef_t *areas );
 	bool					CullEntityByPortals( const idRenderEntityLocal *entity, const struct portalStack_s *ps );
 	void					AddAreaEntityRefs( int areaNum, const struct portalStack_s *ps );
 	bool					CullLightByPortals( const idRenderLightLocal *light, const struct portalStack_s *ps );
@@ -213,7 +213,9 @@ public:
 	int						GetPortalState( qhandle_t portal );
 	bool					AreasAreConnected( int areaNum1, int areaNum2, portalConnection_t connection );
 	void					FloodConnectedAreas( portalArea_t *area, int portalAttributeIndex );
-	idScreenRect &			GetAreaScreenRect( int areaNum ) const { return areaScreenRect[areaNum]; }
+	idScreenRect 			&GetAreaScreenRect( int areaNum ) const {
+		return areaScreenRect[areaNum];
+	}
 	void					ShowPortals();
 
 	//--------------------------
@@ -232,7 +234,7 @@ public:
 	void					WriteRenderEntity( qhandle_t handle, const renderEntity_t *ent );
 	void					ReadRenderEntity();
 	void					ReadRenderLight();
-	
+
 
 	//--------------------------
 	// RenderWorld.cpp
@@ -250,9 +252,9 @@ public:
 
 	void					FreeInteractions();
 
-	void					PushVolumeIntoTree_r( idRenderEntityLocal *def, idRenderLightLocal *light, const idSphere *sphere, int numPoints, const idVec3 (*points), int nodeNum );
+	void					PushVolumeIntoTree_r( idRenderEntityLocal *def, idRenderLightLocal *light, const idSphere *sphere, int numPoints, const idVec3( *points ), int nodeNum );
 
-	void					PushVolumeIntoTree( idRenderEntityLocal *def, idRenderLightLocal *light, int numPoints, const idVec3 (*points) );
+	void					PushVolumeIntoTree( idRenderEntityLocal *def, idRenderLightLocal *light, int numPoints, const idVec3( *points ) );
 
 	//-------------------------------
 	// tr_light.c

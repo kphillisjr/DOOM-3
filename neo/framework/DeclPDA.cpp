@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -70,8 +70,8 @@ bool idDeclPDA::Parse( const char *text, const int textLength ) {
 	src.SkipUntilString( "{" );
 
 	// scan through, identifying each individual parameter
-	while( 1 ) {
-		
+	while ( 1 ) {
+
 		if ( !src.ReadToken( &token ) ) {
 			break;
 		}
@@ -80,66 +80,66 @@ bool idDeclPDA::Parse( const char *text, const int textLength ) {
 			break;
 		}
 
-		if ( !token.Icmp( "name") ) {
+		if ( !token.Icmp( "name" ) ) {
 			src.ReadToken( &token );
 			pdaName = token;
 			continue;
 		}
 
-		if ( !token.Icmp( "fullname") ) {
+		if ( !token.Icmp( "fullname" ) ) {
 			src.ReadToken( &token );
 			fullName = token;
 			continue;
 		}
 
-		if ( !token.Icmp( "icon") ) {
+		if ( !token.Icmp( "icon" ) ) {
 			src.ReadToken( &token );
 			icon = token;
 			continue;
 		}
 
-		if ( !token.Icmp( "id") ) {
+		if ( !token.Icmp( "id" ) ) {
 			src.ReadToken( &token );
 			id = token;
 			continue;
 		}
 
-		if ( !token.Icmp( "post") ) {
+		if ( !token.Icmp( "post" ) ) {
 			src.ReadToken( &token );
 			post = token;
 			continue;
 		}
 
-		if ( !token.Icmp( "title") ) {
+		if ( !token.Icmp( "title" ) ) {
 			src.ReadToken( &token );
 			title = token;
 			continue;
 		}
 
-		if ( !token.Icmp( "security") ) {
+		if ( !token.Icmp( "security" ) ) {
 			src.ReadToken( &token );
 			security = token;
 			continue;
 		}
 
-		if ( !token.Icmp( "pda_email") ) {
+		if ( !token.Icmp( "pda_email" ) ) {
 			src.ReadToken( &token );
 			emails.Append( token );
-			declManager->FindType(DECL_EMAIL, token);
+			declManager->FindType( DECL_EMAIL, token );
 			continue;
 		}
 
-		if ( !token.Icmp( "pda_audio") ) {
+		if ( !token.Icmp( "pda_audio" ) ) {
 			src.ReadToken( &token );
 			audios.Append( token );
-			declManager->FindType(DECL_AUDIO, token);
+			declManager->FindType( DECL_AUDIO, token );
 			continue;
 		}
 
-		if ( !token.Icmp( "pda_video") ) {
+		if ( !token.Icmp( "pda_video" ) ) {
 			src.ReadToken( &token );
 			videos.Append( token );
-			declManager->FindType(DECL_VIDEO, token);
+			declManager->FindType( DECL_VIDEO, token );
 			continue;
 		}
 
@@ -164,7 +164,7 @@ const char *idDeclPDA::DefaultDefinition( void ) const {
 	return
 		"{\n"
 		"\t"		"name  \"default pda\"\n"
-		"}"; 
+		"}";
 }
 
 /*
@@ -289,9 +289,9 @@ const int idDeclPDA::GetNumEmails() const {
 idDeclPDA::GetVideoByIndex
 =================
 */
-const idDeclVideo* idDeclPDA::GetVideoByIndex( int index ) const {
+const idDeclVideo *idDeclPDA::GetVideoByIndex( int index ) const {
 	if ( index >= 0 && index < videos.Num() ) {
-		return static_cast< const idDeclVideo* >( declManager->FindType( DECL_VIDEO, videos[index], false ) );
+		return static_cast< const idDeclVideo * >( declManager->FindType( DECL_VIDEO, videos[index], false ) );
 	}
 	return NULL;
 }
@@ -301,9 +301,9 @@ const idDeclVideo* idDeclPDA::GetVideoByIndex( int index ) const {
 idDeclPDA::GetAudioByIndex
 =================
 */
-const idDeclAudio* idDeclPDA::GetAudioByIndex( int index ) const {
+const idDeclAudio *idDeclPDA::GetAudioByIndex( int index ) const {
 	if ( index >= 0 && index < audios.Num() ) {
-		return static_cast< const idDeclAudio* >( declManager->FindType( DECL_AUDIO, audios[index], false ) );
+		return static_cast< const idDeclAudio * >( declManager->FindType( DECL_AUDIO, audios[index], false ) );
 	}
 	return NULL;
 }
@@ -313,9 +313,9 @@ const idDeclAudio* idDeclPDA::GetAudioByIndex( int index ) const {
 idDeclPDA::GetEmailByIndex
 =================
 */
-const idDeclEmail* idDeclPDA::GetEmailByIndex( int index ) const {
+const idDeclEmail *idDeclPDA::GetEmailByIndex( int index ) const {
 	if ( index >= 0 && index < emails.Num() ) {
-		return static_cast< const idDeclEmail* >( declManager->FindType( DECL_EMAIL, emails[index], false ) );
+		return static_cast< const idDeclEmail * >( declManager->FindType( DECL_EMAIL, emails[index], false ) );
 	}
 	return NULL;
 }
@@ -362,7 +362,7 @@ bool idDeclEmail::Parse( const char *_text, const int textLength ) {
 
 	text = "";
 	// scan through, identifying each individual parameter
-	while( 1 ) {
+	while ( 1 ) {
 
 		if ( !src.ReadToken( &token ) ) {
 			break;
@@ -372,31 +372,31 @@ bool idDeclEmail::Parse( const char *_text, const int textLength ) {
 			break;
 		}
 
-		if ( !token.Icmp( "subject") ) {
+		if ( !token.Icmp( "subject" ) ) {
 			src.ReadToken( &token );
 			subject = token;
 			continue;
 		}
 
-		if ( !token.Icmp( "to") ) {
+		if ( !token.Icmp( "to" ) ) {
 			src.ReadToken( &token );
 			to = token;
 			continue;
 		}
 
-		if ( !token.Icmp( "from") ) {
+		if ( !token.Icmp( "from" ) ) {
 			src.ReadToken( &token );
 			from = token;
 			continue;
 		}
 
-		if ( !token.Icmp( "date") ) {
+		if ( !token.Icmp( "date" ) ) {
 			src.ReadToken( &token );
 			date = token;
 			continue;
 		}
 
-		if ( !token.Icmp( "text") ) {
+		if ( !token.Icmp( "text" ) ) {
 			src.ReadToken( &token );
 			if ( token != "{" ) {
 				src.Warning( "Email decl '%s' had a parse error", GetName() );
@@ -408,7 +408,7 @@ bool idDeclEmail::Parse( const char *_text, const int textLength ) {
 			continue;
 		}
 
-		if ( !token.Icmp( "image") ) {
+		if ( !token.Icmp( "image" ) ) {
 			src.ReadToken( &token );
 			image = token;
 			continue;
@@ -435,7 +435,7 @@ const char *idDeclEmail::DefaultDefinition( void ) const {
 		"\t\t"		"subject\t5Nothing\n"
 		"\t\t"		"from\t5No one\n"
 		"\t"	"}\n"
-		"}"; 
+		"}";
 }
 
 /*
@@ -487,7 +487,7 @@ bool idDeclVideo::Parse( const char *text, const int textLength ) {
 	src.SkipUntilString( "{" );
 
 	// scan through, identifying each individual parameter
-	while( 1 ) {
+	while ( 1 ) {
 
 		if ( !src.ReadToken( &token ) ) {
 			break;
@@ -497,35 +497,35 @@ bool idDeclVideo::Parse( const char *text, const int textLength ) {
 			break;
 		}
 
-		if ( !token.Icmp( "name") ) {
+		if ( !token.Icmp( "name" ) ) {
 			src.ReadToken( &token );
 			videoName = token;
 			continue;
 		}
 
-		if ( !token.Icmp( "preview") ) {
+		if ( !token.Icmp( "preview" ) ) {
 			src.ReadToken( &token );
 			preview = token;
 			continue;
 		}
 
-		if ( !token.Icmp( "video") ) {
+		if ( !token.Icmp( "video" ) ) {
 			src.ReadToken( &token );
 			video = token;
-			declManager->FindMaterial( video );			
+			declManager->FindMaterial( video );
 			continue;
 		}
 
-		if ( !token.Icmp( "info") ) {
+		if ( !token.Icmp( "info" ) ) {
 			src.ReadToken( &token );
 			info = token;
 			continue;
 		}
 
-		if ( !token.Icmp( "audio") ) {
+		if ( !token.Icmp( "audio" ) ) {
 			src.ReadToken( &token );
 			audio = token;
-			declManager->FindSound(audio);
+			declManager->FindSound( audio );
 			continue;
 		}
 
@@ -549,7 +549,7 @@ const char *idDeclVideo::DefaultDefinition( void ) const {
 		"\t"	"{\n"
 		"\t\t"		"name\t5Default Video\n"
 		"\t"	"}\n"
-		"}"; 
+		"}";
 }
 
 /*
@@ -601,7 +601,7 @@ bool idDeclAudio::Parse( const char *text, const int textLength ) {
 	src.SkipUntilString( "{" );
 
 	// scan through, identifying each individual parameter
-	while( 1 ) {
+	while ( 1 ) {
 
 		if ( !src.ReadToken( &token ) ) {
 			break;
@@ -611,26 +611,26 @@ bool idDeclAudio::Parse( const char *text, const int textLength ) {
 			break;
 		}
 
-		if ( !token.Icmp( "name") ) {
+		if ( !token.Icmp( "name" ) ) {
 			src.ReadToken( &token );
 			audioName = token;
 			continue;
 		}
 
-		if ( !token.Icmp( "audio") ) {
+		if ( !token.Icmp( "audio" ) ) {
 			src.ReadToken( &token );
 			audio = token;
-			declManager->FindSound(audio);
+			declManager->FindSound( audio );
 			continue;
 		}
 
-		if ( !token.Icmp( "info") ) {
+		if ( !token.Icmp( "info" ) ) {
 			src.ReadToken( &token );
 			info = token;
 			continue;
 		}
 
-		if ( !token.Icmp( "preview") ) {
+		if ( !token.Icmp( "preview" ) ) {
 			src.ReadToken( &token );
 			preview = token;
 			continue;
@@ -656,7 +656,7 @@ const char *idDeclAudio::DefaultDefinition( void ) const {
 		"\t"	"{\n"
 		"\t\t"		"name\t5Default Audio\n"
 		"\t"	"}\n"
-		"}"; 
+		"}";
 }
 
 /*

@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -45,8 +45,8 @@ Every map should have exactly one worldspawn.
 ================
 */
 CLASS_DECLARATION( idEntity, idWorldspawn )
-	EVENT( EV_Remove,				idWorldspawn::Event_Remove )
-	EVENT( EV_SafeRemove,			idWorldspawn::Event_Remove )
+EVENT( EV_Remove,				idWorldspawn::Event_Remove )
+EVENT( EV_SafeRemove,			idWorldspawn::Event_Remove )
 END_CLASS
 
 /*
@@ -86,7 +86,7 @@ void idWorldspawn::Spawn( void ) {
 
 	// call any functions specified in worldspawn
 	kv = spawnArgs.MatchPrefix( "call" );
-	while( kv != NULL ) {
+	while ( kv != NULL ) {
 		func = gameLocal.program.FindFunction( kv->GetValue() );
 		if ( func == NULL ) {
 			gameLocal.Error( "Function '%s' not found in script for '%s' key on worldspawn", kv->GetValue().c_str(), kv->GetKey().c_str() );

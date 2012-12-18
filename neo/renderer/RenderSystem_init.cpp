@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -70,8 +70,8 @@ idCVar r_useTwoSidedStencil( "r_useTwoSidedStencil", "1", CVAR_RENDERER | CVAR_B
 idCVar r_useDeferredTangents( "r_useDeferredTangents", "1", CVAR_RENDERER | CVAR_BOOL, "defer tangents calculations after deform" );
 idCVar r_useCachedDynamicModels( "r_useCachedDynamicModels", "1", CVAR_RENDERER | CVAR_BOOL, "cache snapshots of dynamic models" );
 
-idCVar r_useVertexBuffers( "r_useVertexBuffers", "1", CVAR_RENDERER | CVAR_INTEGER, "use ARB_vertex_buffer_object for vertexes", 0, 1, idCmdSystem::ArgCompletion_Integer<0,1>  );
-idCVar r_useIndexBuffers( "r_useIndexBuffers", "0", CVAR_RENDERER | CVAR_ARCHIVE | CVAR_INTEGER, "use ARB_vertex_buffer_object for indexes", 0, 1, idCmdSystem::ArgCompletion_Integer<0,1>  );
+idCVar r_useVertexBuffers( "r_useVertexBuffers", "1", CVAR_RENDERER | CVAR_INTEGER, "use ARB_vertex_buffer_object for vertexes", 0, 1, idCmdSystem::ArgCompletion_Integer<0, 1> );
+idCVar r_useIndexBuffers( "r_useIndexBuffers", "0", CVAR_RENDERER | CVAR_ARCHIVE | CVAR_INTEGER, "use ARB_vertex_buffer_object for indexes", 0, 1, idCmdSystem::ArgCompletion_Integer<0, 1> );
 
 idCVar r_useStateCaching( "r_useStateCaching", "1", CVAR_RENDERER | CVAR_BOOL, "avoid redundant state changes in GL_*() calls" );
 idCVar r_useInfiniteFarZ( "r_useInfiniteFarZ", "1", CVAR_RENDERER | CVAR_BOOL, "use the no-far-clip-plane trick" );
@@ -115,14 +115,14 @@ idCVar r_skipROQ( "r_skipROQ", "0", CVAR_RENDERER | CVAR_BOOL, "skip ROQ decodin
 idCVar r_ignore( "r_ignore", "0", CVAR_RENDERER, "used for random debugging without defining new vars" );
 idCVar r_ignore2( "r_ignore2", "0", CVAR_RENDERER, "used for random debugging without defining new vars" );
 idCVar r_usePreciseTriangleInteractions( "r_usePreciseTriangleInteractions", "0", CVAR_RENDERER | CVAR_BOOL, "1 = do winding clipping to determine if each ambiguous tri should be lit" );
-idCVar r_useCulling( "r_useCulling", "2", CVAR_RENDERER | CVAR_INTEGER, "0 = none, 1 = sphere, 2 = sphere + box", 0, 2, idCmdSystem::ArgCompletion_Integer<0,2> );
-idCVar r_useLightCulling( "r_useLightCulling", "3", CVAR_RENDERER | CVAR_INTEGER, "0 = none, 1 = box, 2 = exact clip of polyhedron faces, 3 = also areas", 0, 3, idCmdSystem::ArgCompletion_Integer<0,3> );
+idCVar r_useCulling( "r_useCulling", "2", CVAR_RENDERER | CVAR_INTEGER, "0 = none, 1 = sphere, 2 = sphere + box", 0, 2, idCmdSystem::ArgCompletion_Integer<0, 2> );
+idCVar r_useLightCulling( "r_useLightCulling", "3", CVAR_RENDERER | CVAR_INTEGER, "0 = none, 1 = box, 2 = exact clip of polyhedron faces, 3 = also areas", 0, 3, idCmdSystem::ArgCompletion_Integer<0, 3> );
 idCVar r_useLightScissors( "r_useLightScissors", "1", CVAR_RENDERER | CVAR_BOOL, "1 = use custom scissor rectangle for each light" );
-idCVar r_useClippedLightScissors( "r_useClippedLightScissors", "1", CVAR_RENDERER | CVAR_INTEGER, "0 = full screen when near clipped, 1 = exact when near clipped, 2 = exact always", 0, 2, idCmdSystem::ArgCompletion_Integer<0,2> );
+idCVar r_useClippedLightScissors( "r_useClippedLightScissors", "1", CVAR_RENDERER | CVAR_INTEGER, "0 = full screen when near clipped, 1 = exact when near clipped, 2 = exact always", 0, 2, idCmdSystem::ArgCompletion_Integer<0, 2> );
 idCVar r_useEntityCulling( "r_useEntityCulling", "1", CVAR_RENDERER | CVAR_BOOL, "0 = none, 1 = box" );
 idCVar r_useEntityScissors( "r_useEntityScissors", "0", CVAR_RENDERER | CVAR_BOOL, "1 = use custom scissor rectangle for each entity" );
 idCVar r_useInteractionCulling( "r_useInteractionCulling", "1", CVAR_RENDERER | CVAR_BOOL, "1 = cull interactions" );
-idCVar r_useInteractionScissors( "r_useInteractionScissors", "2", CVAR_RENDERER | CVAR_INTEGER, "1 = use a custom scissor rectangle for each shadow interaction, 2 = also crop using portal scissors", -2, 2, idCmdSystem::ArgCompletion_Integer<-2,2> );
+idCVar r_useInteractionScissors( "r_useInteractionScissors", "2", CVAR_RENDERER | CVAR_INTEGER, "1 = use a custom scissor rectangle for each shadow interaction, 2 = also crop using portal scissors", -2, 2, idCmdSystem::ArgCompletion_Integer < -2, 2 > );
 idCVar r_useShadowCulling( "r_useShadowCulling", "1", CVAR_RENDERER | CVAR_BOOL, "try to cull shadows from partially visible lights" );
 idCVar r_useFrustumFarDistance( "r_useFrustumFarDistance", "0", CVAR_RENDERER | CVAR_FLOAT, "if != 0 force the view frustum far distance to this distance" );
 idCVar r_logFile( "r_logFile", "0", CVAR_RENDERER | CVAR_INTEGER, "number of frames to emit GL logs" );
@@ -133,8 +133,8 @@ idCVar r_shadowPolygonOffset( "r_shadowPolygonOffset", "-1", CVAR_RENDERER | CVA
 idCVar r_shadowPolygonFactor( "r_shadowPolygonFactor", "0", CVAR_RENDERER | CVAR_FLOAT, "scale value for stencil shadow drawing" );
 idCVar r_frontBuffer( "r_frontBuffer", "0", CVAR_RENDERER | CVAR_BOOL, "draw to front buffer for debugging" );
 idCVar r_skipSubviews( "r_skipSubviews", "0", CVAR_RENDERER | CVAR_INTEGER, "1 = don't render any gui elements on surfaces" );
-idCVar r_skipGuiShaders( "r_skipGuiShaders", "0", CVAR_RENDERER | CVAR_INTEGER, "1 = skip all gui elements on surfaces, 2 = skip drawing but still handle events, 3 = draw but skip events", 0, 3, idCmdSystem::ArgCompletion_Integer<0,3> );
-idCVar r_skipParticles( "r_skipParticles", "0", CVAR_RENDERER | CVAR_INTEGER, "1 = skip all particle systems", 0, 1, idCmdSystem::ArgCompletion_Integer<0,1> );
+idCVar r_skipGuiShaders( "r_skipGuiShaders", "0", CVAR_RENDERER | CVAR_INTEGER, "1 = skip all gui elements on surfaces, 2 = skip drawing but still handle events, 3 = draw but skip events", 0, 3, idCmdSystem::ArgCompletion_Integer<0, 3> );
+idCVar r_skipParticles( "r_skipParticles", "0", CVAR_RENDERER | CVAR_INTEGER, "1 = skip all particle systems", 0, 1, idCmdSystem::ArgCompletion_Integer<0, 1> );
 idCVar r_subviewOnly( "r_subviewOnly", "0", CVAR_RENDERER | CVAR_BOOL, "1 = don't render main view, allowing subviews to be debugged" );
 idCVar r_shadows( "r_shadows", "1", CVAR_RENDERER | CVAR_BOOL  | CVAR_ARCHIVE, "enable shadows" );
 idCVar r_testARBProgram( "r_testARBProgram", "0", CVAR_RENDERER | CVAR_BOOL, "experiment with vertex/fragment programs" );
@@ -143,9 +143,9 @@ idCVar r_testGammaBias( "r_testGammaBias", "0", CVAR_RENDERER | CVAR_FLOAT, "if 
 idCVar r_testStepGamma( "r_testStepGamma", "0", CVAR_RENDERER | CVAR_FLOAT, "if > 0 draw a grid pattern to test gamma levels" );
 idCVar r_lightScale( "r_lightScale", "2", CVAR_RENDERER | CVAR_FLOAT, "all light intensities are multiplied by this" );
 idCVar r_lightSourceRadius( "r_lightSourceRadius", "0", CVAR_RENDERER | CVAR_FLOAT, "for soft-shadow sampling" );
-idCVar r_flareSize( "r_flareSize", "1", CVAR_RENDERER | CVAR_FLOAT, "scale the flare deforms from the material def" ); 
+idCVar r_flareSize( "r_flareSize", "1", CVAR_RENDERER | CVAR_FLOAT, "scale the flare deforms from the material def" );
 
-idCVar r_useExternalShadows( "r_useExternalShadows", "1", CVAR_RENDERER | CVAR_INTEGER, "1 = skip drawing caps when outside the light volume, 2 = force to no caps for testing", 0, 2, idCmdSystem::ArgCompletion_Integer<0,2> );
+idCVar r_useExternalShadows( "r_useExternalShadows", "1", CVAR_RENDERER | CVAR_INTEGER, "1 = skip drawing caps when outside the light volume, 2 = force to no caps for testing", 0, 2, idCmdSystem::ArgCompletion_Integer<0, 2> );
 idCVar r_useOptimizedShadows( "r_useOptimizedShadows", "1", CVAR_RENDERER | CVAR_BOOL, "use the dmap generated static shadow volumes" );
 idCVar r_useScissor( "r_useScissor", "1", CVAR_RENDERER | CVAR_BOOL, "scissor clip as portals and lights are processed" );
 idCVar r_useCombinerDisplayLists( "r_useCombinerDisplayLists", "1", CVAR_RENDERER | CVAR_BOOL | CVAR_NOCHEAT, "put all nvidia register combiner programming in display lists" );
@@ -172,20 +172,20 @@ idCVar r_showDemo( "r_showDemo", "0", CVAR_RENDERER | CVAR_BOOL, "report reads a
 idCVar r_showDynamic( "r_showDynamic", "0", CVAR_RENDERER | CVAR_BOOL, "report stats on dynamic surface generation" );
 idCVar r_showLightScale( "r_showLightScale", "0", CVAR_RENDERER | CVAR_BOOL, "report the scale factor applied to drawing for overbrights" );
 idCVar r_showDefs( "r_showDefs", "0", CVAR_RENDERER | CVAR_BOOL, "report the number of modeDefs and lightDefs in view" );
-idCVar r_showTrace( "r_showTrace", "0", CVAR_RENDERER | CVAR_INTEGER, "show the intersection of an eye trace with the world", idCmdSystem::ArgCompletion_Integer<0,2> );
+idCVar r_showTrace( "r_showTrace", "0", CVAR_RENDERER | CVAR_INTEGER, "show the intersection of an eye trace with the world", idCmdSystem::ArgCompletion_Integer<0, 2> );
 idCVar r_showIntensity( "r_showIntensity", "0", CVAR_RENDERER | CVAR_BOOL, "draw the screen colors based on intensity, red = 0, green = 128, blue = 255" );
-idCVar r_showImages( "r_showImages", "0", CVAR_RENDERER | CVAR_INTEGER, "1 = show all images instead of rendering, 2 = show in proportional size", 0, 2, idCmdSystem::ArgCompletion_Integer<0,2> );
+idCVar r_showImages( "r_showImages", "0", CVAR_RENDERER | CVAR_INTEGER, "1 = show all images instead of rendering, 2 = show in proportional size", 0, 2, idCmdSystem::ArgCompletion_Integer<0, 2> );
 idCVar r_showSmp( "r_showSmp", "0", CVAR_RENDERER | CVAR_BOOL, "show which end (front or back) is blocking" );
-idCVar r_showLights( "r_showLights", "0", CVAR_RENDERER | CVAR_INTEGER, "1 = just print volumes numbers, highlighting ones covering the view, 2 = also draw planes of each volume, 3 = also draw edges of each volume", 0, 3, idCmdSystem::ArgCompletion_Integer<0,3> );
-idCVar r_showShadows( "r_showShadows", "0", CVAR_RENDERER | CVAR_INTEGER, "1 = visualize the stencil shadow volumes, 2 = draw filled in", 0, 3, idCmdSystem::ArgCompletion_Integer<0,3> );
-idCVar r_showShadowCount( "r_showShadowCount", "0", CVAR_RENDERER | CVAR_INTEGER, "colors screen based on shadow volume depth complexity, >= 2 = print overdraw count based on stencil index values, 3 = only show turboshadows, 4 = only show static shadows", 0, 4, idCmdSystem::ArgCompletion_Integer<0,4> );
+idCVar r_showLights( "r_showLights", "0", CVAR_RENDERER | CVAR_INTEGER, "1 = just print volumes numbers, highlighting ones covering the view, 2 = also draw planes of each volume, 3 = also draw edges of each volume", 0, 3, idCmdSystem::ArgCompletion_Integer<0, 3> );
+idCVar r_showShadows( "r_showShadows", "0", CVAR_RENDERER | CVAR_INTEGER, "1 = visualize the stencil shadow volumes, 2 = draw filled in", 0, 3, idCmdSystem::ArgCompletion_Integer<0, 3> );
+idCVar r_showShadowCount( "r_showShadowCount", "0", CVAR_RENDERER | CVAR_INTEGER, "colors screen based on shadow volume depth complexity, >= 2 = print overdraw count based on stencil index values, 3 = only show turboshadows, 4 = only show static shadows", 0, 4, idCmdSystem::ArgCompletion_Integer<0, 4> );
 idCVar r_showLightScissors( "r_showLightScissors", "0", CVAR_RENDERER | CVAR_BOOL, "show light scissor rectangles" );
 idCVar r_showEntityScissors( "r_showEntityScissors", "0", CVAR_RENDERER | CVAR_BOOL, "show entity scissor rectangles" );
-idCVar r_showInteractionFrustums( "r_showInteractionFrustums", "0", CVAR_RENDERER | CVAR_INTEGER, "1 = show a frustum for each interaction, 2 = also draw lines to light origin, 3 = also draw entity bbox", 0, 3, idCmdSystem::ArgCompletion_Integer<0,3> );
-idCVar r_showInteractionScissors( "r_showInteractionScissors", "0", CVAR_RENDERER | CVAR_INTEGER, "1 = show screen rectangle which contains the interaction frustum, 2 = also draw construction lines", 0, 2, idCmdSystem::ArgCompletion_Integer<0,2> );
-idCVar r_showLightCount( "r_showLightCount", "0", CVAR_RENDERER | CVAR_INTEGER, "1 = colors surfaces based on light count, 2 = also count everything through walls, 3 = also print overdraw", 0, 3, idCmdSystem::ArgCompletion_Integer<0,3> );
+idCVar r_showInteractionFrustums( "r_showInteractionFrustums", "0", CVAR_RENDERER | CVAR_INTEGER, "1 = show a frustum for each interaction, 2 = also draw lines to light origin, 3 = also draw entity bbox", 0, 3, idCmdSystem::ArgCompletion_Integer<0, 3> );
+idCVar r_showInteractionScissors( "r_showInteractionScissors", "0", CVAR_RENDERER | CVAR_INTEGER, "1 = show screen rectangle which contains the interaction frustum, 2 = also draw construction lines", 0, 2, idCmdSystem::ArgCompletion_Integer<0, 2> );
+idCVar r_showLightCount( "r_showLightCount", "0", CVAR_RENDERER | CVAR_INTEGER, "1 = colors surfaces based on light count, 2 = also count everything through walls, 3 = also print overdraw", 0, 3, idCmdSystem::ArgCompletion_Integer<0, 3> );
 idCVar r_showViewEntitys( "r_showViewEntitys", "0", CVAR_RENDERER | CVAR_INTEGER, "1 = displays the bounding boxes of all view models, 2 = print index numbers" );
-idCVar r_showTris( "r_showTris", "0", CVAR_RENDERER | CVAR_INTEGER, "enables wireframe rendering of the world, 1 = only draw visible ones, 2 = draw all front facing, 3 = draw all", 0, 3, idCmdSystem::ArgCompletion_Integer<0,3> );
+idCVar r_showTris( "r_showTris", "0", CVAR_RENDERER | CVAR_INTEGER, "enables wireframe rendering of the world, 1 = only draw visible ones, 2 = draw all front facing, 3 = draw all", 0, 3, idCmdSystem::ArgCompletion_Integer<0, 3> );
 idCVar r_showSurfaceInfo( "r_showSurfaceInfo", "0", CVAR_RENDERER | CVAR_BOOL, "show surface material name under crosshair" );
 idCVar r_showNormals( "r_showNormals", "0", CVAR_RENDERER | CVAR_FLOAT, "draws wireframe normals" );
 idCVar r_showMemory( "r_showMemory", "0", CVAR_RENDERER | CVAR_BOOL, "print frame memory utilization" );
@@ -196,20 +196,20 @@ idCVar r_showSurfaces( "r_showSurfaces", "0", CVAR_RENDERER | CVAR_BOOL, "report
 idCVar r_showPrimitives( "r_showPrimitives", "0", CVAR_RENDERER | CVAR_INTEGER, "report drawsurf/index/vertex counts" );
 idCVar r_showEdges( "r_showEdges", "0", CVAR_RENDERER | CVAR_BOOL, "draw the sil edges" );
 idCVar r_showTexturePolarity( "r_showTexturePolarity", "0", CVAR_RENDERER | CVAR_BOOL, "shade triangles by texture area polarity" );
-idCVar r_showTangentSpace( "r_showTangentSpace", "0", CVAR_RENDERER | CVAR_INTEGER, "shade triangles by tangent space, 1 = use 1st tangent vector, 2 = use 2nd tangent vector, 3 = use normal vector", 0, 3, idCmdSystem::ArgCompletion_Integer<0,3> );
+idCVar r_showTangentSpace( "r_showTangentSpace", "0", CVAR_RENDERER | CVAR_INTEGER, "shade triangles by tangent space, 1 = use 1st tangent vector, 2 = use 2nd tangent vector, 3 = use normal vector", 0, 3, idCmdSystem::ArgCompletion_Integer<0, 3> );
 idCVar r_showDominantTri( "r_showDominantTri", "0", CVAR_RENDERER | CVAR_BOOL, "draw lines from vertexes to center of dominant triangles" );
 idCVar r_showAlloc( "r_showAlloc", "0", CVAR_RENDERER | CVAR_BOOL, "report alloc/free counts" );
 idCVar r_showTextureVectors( "r_showTextureVectors", "0", CVAR_RENDERER | CVAR_FLOAT, " if > 0 draw each triangles texture (tangent) vectors" );
-idCVar r_showOverDraw( "r_showOverDraw", "0", CVAR_RENDERER | CVAR_INTEGER, "1 = geometry overdraw, 2 = light interaction overdraw, 3 = geometry and light interaction overdraw", 0, 3, idCmdSystem::ArgCompletion_Integer<0,3> );
+idCVar r_showOverDraw( "r_showOverDraw", "0", CVAR_RENDERER | CVAR_INTEGER, "1 = geometry overdraw, 2 = light interaction overdraw, 3 = geometry and light interaction overdraw", 0, 3, idCmdSystem::ArgCompletion_Integer<0, 3> );
 
 idCVar r_lockSurfaces( "r_lockSurfaces", "0", CVAR_RENDERER | CVAR_BOOL, "allow moving the view point without changing the composition of the scene, including culling" );
 idCVar r_useEntityCallbacks( "r_useEntityCallbacks", "1", CVAR_RENDERER | CVAR_BOOL, "if 0, issue the callback immediately at update time, rather than defering" );
 
-idCVar r_showSkel( "r_showSkel", "0", CVAR_RENDERER | CVAR_INTEGER, "draw the skeleton when model animates, 1 = draw model with skeleton, 2 = draw skeleton only", 0, 2, idCmdSystem::ArgCompletion_Integer<0,2> );
+idCVar r_showSkel( "r_showSkel", "0", CVAR_RENDERER | CVAR_INTEGER, "draw the skeleton when model animates, 1 = draw model with skeleton, 2 = draw skeleton only", 0, 2, idCmdSystem::ArgCompletion_Integer<0, 2> );
 idCVar r_jointNameScale( "r_jointNameScale", "0.02", CVAR_RENDERER | CVAR_FLOAT, "size of joint names when r_showskel is set to 1" );
 idCVar r_jointNameOffset( "r_jointNameOffset", "0.5", CVAR_RENDERER | CVAR_FLOAT, "offset of joint names when r_showskel is set to 1" );
 
-idCVar r_cgVertexProfile( "r_cgVertexProfile", "best", CVAR_RENDERER | CVAR_ARCHIVE, "arbvp1, vp20, vp30" );     
+idCVar r_cgVertexProfile( "r_cgVertexProfile", "best", CVAR_RENDERER | CVAR_ARCHIVE, "arbvp1, vp20, vp30" );
 idCVar r_cgFragmentProfile( "r_cgFragmentProfile", "best", CVAR_RENDERER | CVAR_ARCHIVE, "arbfp1, fp30" );
 
 idCVar r_debugLineDepthTest( "r_debugLineDepthTest", "0", CVAR_RENDERER | CVAR_ARCHIVE | CVAR_BOOL, "perform depth test on debug lines" );
@@ -221,29 +221,29 @@ idCVar r_materialOverride( "r_materialOverride", "", CVAR_RENDERER, "overrides a
 
 idCVar r_debugRenderToTexture( "r_debugRenderToTexture", "0", CVAR_RENDERER | CVAR_INTEGER, "" );
 
-void ( APIENTRY * qglMultiTexCoord2fARB )( GLenum texture, GLfloat s, GLfloat t );
-void ( APIENTRY * qglMultiTexCoord2fvARB )( GLenum texture, GLfloat *st );
-void ( APIENTRY * qglActiveTextureARB )( GLenum texture );
-void ( APIENTRY * qglClientActiveTextureARB )( GLenum texture );
+void ( APIENTRY *qglMultiTexCoord2fARB )( GLenum texture, GLfloat s, GLfloat t );
+void ( APIENTRY *qglMultiTexCoord2fvARB )( GLenum texture, GLfloat *st );
+void ( APIENTRY *qglActiveTextureARB )( GLenum texture );
+void ( APIENTRY *qglClientActiveTextureARB )( GLenum texture );
 
 void ( APIENTRY *qglCombinerParameterfvNV )( GLenum pname, const GLfloat *params );
 void ( APIENTRY *qglCombinerParameterivNV )( GLenum pname, const GLint *params );
 void ( APIENTRY *qglCombinerParameterfNV )( GLenum pname, const GLfloat param );
 void ( APIENTRY *qglCombinerParameteriNV )( GLenum pname, const GLint param );
 void ( APIENTRY *qglCombinerInputNV )( GLenum stage, GLenum portion, GLenum variable, GLenum input,
-											  GLenum mapping, GLenum componentUsage );
-void ( APIENTRY *qglCombinerOutputNV )( GLenum stage, GLenum portion, GLenum abOutput, GLenum cdOutput, 
-											   GLenum sumOutput, GLenum scale, GLenum bias, GLboolean abDotProduct,
-											   GLboolean cdDotProduct, GLboolean muxSum );
+									   GLenum mapping, GLenum componentUsage );
+void ( APIENTRY *qglCombinerOutputNV )( GLenum stage, GLenum portion, GLenum abOutput, GLenum cdOutput,
+										GLenum sumOutput, GLenum scale, GLenum bias, GLboolean abDotProduct,
+										GLboolean cdDotProduct, GLboolean muxSum );
 void ( APIENTRY *qglFinalCombinerInputNV )( GLenum variable, GLenum input, GLenum mapping, GLenum componentUsage );
 
 
-void (APIENTRY *qglVertexArrayRangeNV)( GLsizei length, void *pointer );
+void ( APIENTRY *qglVertexArrayRangeNV )( GLsizei length, void *pointer );
 // TTimo: wgl vs glX
 // http://oss.sgi.com/projects/ogl-sample/registry/NV/vertex_array_range.txt
 // since APIs are the same anyway, let's be wgl/glX agnostic
-void *(APIENTRY *qAllocateMemoryNV)( GLsizei size, float readFrequency, float writeFrequency, float priority);
-void (APIENTRY *qFreeMemoryNV)( void *pointer );
+void *( APIENTRY *qAllocateMemoryNV )( GLsizei size, float readFrequency, float writeFrequency, float priority );
+void ( APIENTRY *qFreeMemoryNV )( void *pointer );
 #ifdef GLX_VERSION_1_1
 #define Q_ALLOCATE_MEMORY_NV "glXAllocateMemoryNV"
 #define Q_FREE_MEMORY_NV "glXFreeMemoryNV"
@@ -252,9 +252,9 @@ void (APIENTRY *qFreeMemoryNV)( void *pointer );
 #define Q_FREE_MEMORY_NV "wglFreeMemoryNV"
 #endif
 
-void (APIENTRY *qglTexImage3D)(GLenum, GLint, GLint, GLsizei, GLsizei, GLsizei, GLint, GLenum, GLenum, const GLvoid *);
+void ( APIENTRY *qglTexImage3D )( GLenum, GLint, GLint, GLsizei, GLsizei, GLsizei, GLint, GLenum, GLenum, const GLvoid * );
 
-void (APIENTRY * qglColorTableEXT)( int, int, int, int, int, const void * );
+void ( APIENTRY *qglColorTableEXT )( int, int, int, int, int, const void * );
 
 
 // ATI_fragment_shader
@@ -337,19 +337,19 @@ static void R_CheckPortableExtensions( void ) {
 	// GL_ARB_multitexture
 	glConfig.multitextureAvailable = R_CheckExtension( "GL_ARB_multitexture" );
 	if ( glConfig.multitextureAvailable ) {
-		qglMultiTexCoord2fARB = (void(APIENTRY *)(GLenum, GLfloat, GLfloat))GLimp_ExtensionPointer( "glMultiTexCoord2fARB" );
-		qglMultiTexCoord2fvARB = (void(APIENTRY *)(GLenum, GLfloat *))GLimp_ExtensionPointer( "glMultiTexCoord2fvARB" );
-		qglActiveTextureARB = (void(APIENTRY *)(GLenum))GLimp_ExtensionPointer( "glActiveTextureARB" );
-		qglClientActiveTextureARB = (void(APIENTRY *)(GLenum))GLimp_ExtensionPointer( "glClientActiveTextureARB" );
-		qglGetIntegerv( GL_MAX_TEXTURE_UNITS_ARB, (GLint *)&glConfig.maxTextureUnits );
+		qglMultiTexCoord2fARB = ( void( APIENTRY * )( GLenum, GLfloat, GLfloat ) )GLimp_ExtensionPointer( "glMultiTexCoord2fARB" );
+		qglMultiTexCoord2fvARB = ( void( APIENTRY * )( GLenum, GLfloat * ) )GLimp_ExtensionPointer( "glMultiTexCoord2fvARB" );
+		qglActiveTextureARB = ( void( APIENTRY * )( GLenum ) )GLimp_ExtensionPointer( "glActiveTextureARB" );
+		qglClientActiveTextureARB = ( void( APIENTRY * )( GLenum ) )GLimp_ExtensionPointer( "glClientActiveTextureARB" );
+		qglGetIntegerv( GL_MAX_TEXTURE_UNITS_ARB, ( GLint * )&glConfig.maxTextureUnits );
 		if ( glConfig.maxTextureUnits > MAX_MULTITEXTURE_UNITS ) {
 			glConfig.maxTextureUnits = MAX_MULTITEXTURE_UNITS;
 		}
 		if ( glConfig.maxTextureUnits < 2 ) {
 			glConfig.multitextureAvailable = false;	// shouldn't ever happen
 		}
-		qglGetIntegerv( GL_MAX_TEXTURE_COORDS_ARB, (GLint *)&glConfig.maxTextureCoords );
-		qglGetIntegerv( GL_MAX_TEXTURE_IMAGE_UNITS_ARB, (GLint *)&glConfig.maxTextureImageUnits );
+		qglGetIntegerv( GL_MAX_TEXTURE_COORDS_ARB, ( GLint * )&glConfig.maxTextureCoords );
+		qglGetIntegerv( GL_MAX_TEXTURE_IMAGE_UNITS_ARB, ( GLint * )&glConfig.maxTextureImageUnits );
 	}
 
 	// GL_ARB_texture_env_combine
@@ -371,8 +371,8 @@ static void R_CheckPortableExtensions( void ) {
 	// DRI drivers may have GL_ARB_texture_compression but no GL_EXT_texture_compression_s3tc
 	if ( R_CheckExtension( "GL_ARB_texture_compression" ) && R_CheckExtension( "GL_EXT_texture_compression_s3tc" ) ) {
 		glConfig.textureCompressionAvailable = true;
-		qglCompressedTexImage2DARB = (PFNGLCOMPRESSEDTEXIMAGE2DARBPROC)GLimp_ExtensionPointer( "glCompressedTexImage2DARB" );
-		qglGetCompressedTexImageARB = (PFNGLGETCOMPRESSEDTEXIMAGEARBPROC)GLimp_ExtensionPointer( "glGetCompressedTexImageARB" );
+		qglCompressedTexImage2DARB = ( PFNGLCOMPRESSEDTEXIMAGE2DARBPROC )GLimp_ExtensionPointer( "glCompressedTexImage2DARB" );
+		qglGetCompressedTexImageARB = ( PFNGLGETCOMPRESSEDTEXIMAGEARBPROC )GLimp_ExtensionPointer( "glGetCompressedTexImageARB" );
 	} else {
 		glConfig.textureCompressionAvailable = false;
 	}
@@ -400,14 +400,14 @@ static void R_CheckPortableExtensions( void ) {
 	// GL_EXT_shared_texture_palette
 	glConfig.sharedTexturePaletteAvailable = R_CheckExtension( "GL_EXT_shared_texture_palette" );
 	if ( glConfig.sharedTexturePaletteAvailable ) {
-		qglColorTableEXT = ( void ( APIENTRY * ) ( int, int, int, int, int, const void * ) ) GLimp_ExtensionPointer( "glColorTableEXT" );
+		qglColorTableEXT = ( void ( APIENTRY * )( int, int, int, int, int, const void * ) ) GLimp_ExtensionPointer( "glColorTableEXT" );
 	}
 
 	// GL_EXT_texture3D (not currently used for anything)
 	glConfig.texture3DAvailable = R_CheckExtension( "GL_EXT_texture3D" );
 	if ( glConfig.texture3DAvailable ) {
-		qglTexImage3D = 
-			(void (APIENTRY *)(GLenum, GLint, GLint, GLsizei, GLsizei, GLsizei, GLint, GLenum, GLenum, const GLvoid *) )
+		qglTexImage3D =
+			( void ( APIENTRY * )( GLenum, GLint, GLint, GLsizei, GLsizei, GLsizei, GLint, GLenum, GLenum, const GLvoid * ) )
 			GLimp_ExtensionPointer( "glTexImage3D" );
 	}
 
@@ -426,87 +426,87 @@ static void R_CheckPortableExtensions( void ) {
 	// GL_NV_register_combiners
 	glConfig.registerCombinersAvailable = R_CheckExtension( "GL_NV_register_combiners" );
 	if ( glConfig.registerCombinersAvailable ) {
-		qglCombinerParameterfvNV = (void (APIENTRY *)( GLenum pname, const GLfloat *params ))
-			GLimp_ExtensionPointer( "glCombinerParameterfvNV" );
-		qglCombinerParameterivNV = (void (APIENTRY *)( GLenum pname, const GLint *params ))
-			GLimp_ExtensionPointer( "glCombinerParameterivNV" );
-		qglCombinerParameterfNV = (void (APIENTRY *)( GLenum pname, const GLfloat param ))
-			GLimp_ExtensionPointer( "glCombinerParameterfNV" );
-		qglCombinerParameteriNV = (void (APIENTRY *)( GLenum pname, const GLint param ))
-			GLimp_ExtensionPointer( "glCombinerParameteriNV" );
-		qglCombinerInputNV = (void (APIENTRY *)( GLenum stage, GLenum portion, GLenum variable, GLenum input,
-											  GLenum mapping, GLenum componentUsage ))
-			GLimp_ExtensionPointer( "glCombinerInputNV" );
-		qglCombinerOutputNV = (void (APIENTRY *)( GLenum stage, GLenum portion, GLenum abOutput, GLenum cdOutput, 
-											   GLenum sumOutput, GLenum scale, GLenum bias, GLboolean abDotProduct,
-											   GLboolean cdDotProduct, GLboolean muxSum ))
-			GLimp_ExtensionPointer( "glCombinerOutputNV" );
-		qglFinalCombinerInputNV = (void (APIENTRY *)( GLenum variable, GLenum input, GLenum mapping, GLenum componentUsage ))
-			GLimp_ExtensionPointer( "glFinalCombinerInputNV" );
+		qglCombinerParameterfvNV = ( void ( APIENTRY * )( GLenum pname, const GLfloat * params ) )
+								   GLimp_ExtensionPointer( "glCombinerParameterfvNV" );
+		qglCombinerParameterivNV = ( void ( APIENTRY * )( GLenum pname, const GLint * params ) )
+								   GLimp_ExtensionPointer( "glCombinerParameterivNV" );
+		qglCombinerParameterfNV = ( void ( APIENTRY * )( GLenum pname, const GLfloat param ) )
+								  GLimp_ExtensionPointer( "glCombinerParameterfNV" );
+		qglCombinerParameteriNV = ( void ( APIENTRY * )( GLenum pname, const GLint param ) )
+								  GLimp_ExtensionPointer( "glCombinerParameteriNV" );
+		qglCombinerInputNV = ( void ( APIENTRY * )( GLenum stage, GLenum portion, GLenum variable, GLenum input,
+							   GLenum mapping, GLenum componentUsage ) )
+							 GLimp_ExtensionPointer( "glCombinerInputNV" );
+		qglCombinerOutputNV = ( void ( APIENTRY * )( GLenum stage, GLenum portion, GLenum abOutput, GLenum cdOutput,
+								GLenum sumOutput, GLenum scale, GLenum bias, GLboolean abDotProduct,
+								GLboolean cdDotProduct, GLboolean muxSum ) )
+							  GLimp_ExtensionPointer( "glCombinerOutputNV" );
+		qglFinalCombinerInputNV = ( void ( APIENTRY * )( GLenum variable, GLenum input, GLenum mapping, GLenum componentUsage ) )
+								  GLimp_ExtensionPointer( "glFinalCombinerInputNV" );
 	}
 
 	// GL_EXT_stencil_two_side
 	glConfig.twoSidedStencilAvailable = R_CheckExtension( "GL_EXT_stencil_two_side" );
 	if ( glConfig.twoSidedStencilAvailable ) {
-		qglActiveStencilFaceEXT = (PFNGLACTIVESTENCILFACEEXTPROC)GLimp_ExtensionPointer( "glActiveStencilFaceEXT" );
+		qglActiveStencilFaceEXT = ( PFNGLACTIVESTENCILFACEEXTPROC )GLimp_ExtensionPointer( "glActiveStencilFaceEXT" );
 	} else {
 		glConfig.atiTwoSidedStencilAvailable = R_CheckExtension( "GL_ATI_separate_stencil" );
 		if ( glConfig.atiTwoSidedStencilAvailable ) {
-			qglStencilFuncSeparateATI  = (PFNGLSTENCILFUNCSEPARATEATIPROC)GLimp_ExtensionPointer( "glStencilFuncSeparateATI" );
-			qglStencilOpSeparateATI = (PFNGLSTENCILOPSEPARATEATIPROC)GLimp_ExtensionPointer( "glStencilOpSeparateATI" );
+			qglStencilFuncSeparateATI  = ( PFNGLSTENCILFUNCSEPARATEATIPROC )GLimp_ExtensionPointer( "glStencilFuncSeparateATI" );
+			qglStencilOpSeparateATI = ( PFNGLSTENCILOPSEPARATEATIPROC )GLimp_ExtensionPointer( "glStencilOpSeparateATI" );
 		}
 	}
 
 	// GL_ATI_fragment_shader
 	glConfig.atiFragmentShaderAvailable = R_CheckExtension( "GL_ATI_fragment_shader" );
-	if (! glConfig.atiFragmentShaderAvailable ) {
+	if ( ! glConfig.atiFragmentShaderAvailable ) {
 		// only on OSX: ATI_fragment_shader is faked through ATI_text_fragment_shader (macosx_glimp.cpp)
 		glConfig.atiFragmentShaderAvailable = R_CheckExtension( "GL_ATI_text_fragment_shader" );
 	}
 	if ( glConfig.atiFragmentShaderAvailable ) {
-		qglGenFragmentShadersATI = (PFNGLGENFRAGMENTSHADERSATIPROC)GLimp_ExtensionPointer( "glGenFragmentShadersATI" );
-		qglBindFragmentShaderATI = (PFNGLBINDFRAGMENTSHADERATIPROC)GLimp_ExtensionPointer( "glBindFragmentShaderATI" );
-		qglDeleteFragmentShaderATI = (PFNGLDELETEFRAGMENTSHADERATIPROC)GLimp_ExtensionPointer( "glDeleteFragmentShaderATI" );
-		qglBeginFragmentShaderATI = (PFNGLBEGINFRAGMENTSHADERATIPROC)GLimp_ExtensionPointer( "glBeginFragmentShaderATI" );
-		qglEndFragmentShaderATI = (PFNGLENDFRAGMENTSHADERATIPROC)GLimp_ExtensionPointer( "glEndFragmentShaderATI" );
-		qglPassTexCoordATI = (PFNGLPASSTEXCOORDATIPROC)GLimp_ExtensionPointer( "glPassTexCoordATI" );
-		qglSampleMapATI = (PFNGLSAMPLEMAPATIPROC)GLimp_ExtensionPointer( "glSampleMapATI" );
-		qglColorFragmentOp1ATI = (PFNGLCOLORFRAGMENTOP1ATIPROC)GLimp_ExtensionPointer( "glColorFragmentOp1ATI" );
-		qglColorFragmentOp2ATI = (PFNGLCOLORFRAGMENTOP2ATIPROC)GLimp_ExtensionPointer( "glColorFragmentOp2ATI" );
-		qglColorFragmentOp3ATI = (PFNGLCOLORFRAGMENTOP3ATIPROC)GLimp_ExtensionPointer( "glColorFragmentOp3ATI" );
-		qglAlphaFragmentOp1ATI = (PFNGLALPHAFRAGMENTOP1ATIPROC)GLimp_ExtensionPointer( "glAlphaFragmentOp1ATI" );
-		qglAlphaFragmentOp2ATI = (PFNGLALPHAFRAGMENTOP2ATIPROC)GLimp_ExtensionPointer( "glAlphaFragmentOp2ATI" );
-		qglAlphaFragmentOp3ATI = (PFNGLALPHAFRAGMENTOP3ATIPROC)GLimp_ExtensionPointer( "glAlphaFragmentOp3ATI" );
-		qglSetFragmentShaderConstantATI = (PFNGLSETFRAGMENTSHADERCONSTANTATIPROC)GLimp_ExtensionPointer( "glSetFragmentShaderConstantATI" );
+		qglGenFragmentShadersATI = ( PFNGLGENFRAGMENTSHADERSATIPROC )GLimp_ExtensionPointer( "glGenFragmentShadersATI" );
+		qglBindFragmentShaderATI = ( PFNGLBINDFRAGMENTSHADERATIPROC )GLimp_ExtensionPointer( "glBindFragmentShaderATI" );
+		qglDeleteFragmentShaderATI = ( PFNGLDELETEFRAGMENTSHADERATIPROC )GLimp_ExtensionPointer( "glDeleteFragmentShaderATI" );
+		qglBeginFragmentShaderATI = ( PFNGLBEGINFRAGMENTSHADERATIPROC )GLimp_ExtensionPointer( "glBeginFragmentShaderATI" );
+		qglEndFragmentShaderATI = ( PFNGLENDFRAGMENTSHADERATIPROC )GLimp_ExtensionPointer( "glEndFragmentShaderATI" );
+		qglPassTexCoordATI = ( PFNGLPASSTEXCOORDATIPROC )GLimp_ExtensionPointer( "glPassTexCoordATI" );
+		qglSampleMapATI = ( PFNGLSAMPLEMAPATIPROC )GLimp_ExtensionPointer( "glSampleMapATI" );
+		qglColorFragmentOp1ATI = ( PFNGLCOLORFRAGMENTOP1ATIPROC )GLimp_ExtensionPointer( "glColorFragmentOp1ATI" );
+		qglColorFragmentOp2ATI = ( PFNGLCOLORFRAGMENTOP2ATIPROC )GLimp_ExtensionPointer( "glColorFragmentOp2ATI" );
+		qglColorFragmentOp3ATI = ( PFNGLCOLORFRAGMENTOP3ATIPROC )GLimp_ExtensionPointer( "glColorFragmentOp3ATI" );
+		qglAlphaFragmentOp1ATI = ( PFNGLALPHAFRAGMENTOP1ATIPROC )GLimp_ExtensionPointer( "glAlphaFragmentOp1ATI" );
+		qglAlphaFragmentOp2ATI = ( PFNGLALPHAFRAGMENTOP2ATIPROC )GLimp_ExtensionPointer( "glAlphaFragmentOp2ATI" );
+		qglAlphaFragmentOp3ATI = ( PFNGLALPHAFRAGMENTOP3ATIPROC )GLimp_ExtensionPointer( "glAlphaFragmentOp3ATI" );
+		qglSetFragmentShaderConstantATI = ( PFNGLSETFRAGMENTSHADERCONSTANTATIPROC )GLimp_ExtensionPointer( "glSetFragmentShaderConstantATI" );
 	}
 
 	// ARB_vertex_buffer_object
 	glConfig.ARBVertexBufferObjectAvailable = R_CheckExtension( "GL_ARB_vertex_buffer_object" );
-	if(glConfig.ARBVertexBufferObjectAvailable) {
-		qglBindBufferARB = (PFNGLBINDBUFFERARBPROC)GLimp_ExtensionPointer( "glBindBufferARB");
-		qglDeleteBuffersARB = (PFNGLDELETEBUFFERSARBPROC)GLimp_ExtensionPointer( "glDeleteBuffersARB");
-		qglGenBuffersARB = (PFNGLGENBUFFERSARBPROC)GLimp_ExtensionPointer( "glGenBuffersARB");
-		qglIsBufferARB = (PFNGLISBUFFERARBPROC)GLimp_ExtensionPointer( "glIsBufferARB");
-		qglBufferDataARB = (PFNGLBUFFERDATAARBPROC)GLimp_ExtensionPointer( "glBufferDataARB");
-		qglBufferSubDataARB = (PFNGLBUFFERSUBDATAARBPROC)GLimp_ExtensionPointer( "glBufferSubDataARB");
-		qglGetBufferSubDataARB = (PFNGLGETBUFFERSUBDATAARBPROC)GLimp_ExtensionPointer( "glGetBufferSubDataARB");
-		qglMapBufferARB = (PFNGLMAPBUFFERARBPROC)GLimp_ExtensionPointer( "glMapBufferARB");
-		qglUnmapBufferARB = (PFNGLUNMAPBUFFERARBPROC)GLimp_ExtensionPointer( "glUnmapBufferARB");
-		qglGetBufferParameterivARB = (PFNGLGETBUFFERPARAMETERIVARBPROC)GLimp_ExtensionPointer( "glGetBufferParameterivARB");
-		qglGetBufferPointervARB = (PFNGLGETBUFFERPOINTERVARBPROC)GLimp_ExtensionPointer( "glGetBufferPointervARB");
+	if ( glConfig.ARBVertexBufferObjectAvailable ) {
+		qglBindBufferARB = ( PFNGLBINDBUFFERARBPROC )GLimp_ExtensionPointer( "glBindBufferARB" );
+		qglDeleteBuffersARB = ( PFNGLDELETEBUFFERSARBPROC )GLimp_ExtensionPointer( "glDeleteBuffersARB" );
+		qglGenBuffersARB = ( PFNGLGENBUFFERSARBPROC )GLimp_ExtensionPointer( "glGenBuffersARB" );
+		qglIsBufferARB = ( PFNGLISBUFFERARBPROC )GLimp_ExtensionPointer( "glIsBufferARB" );
+		qglBufferDataARB = ( PFNGLBUFFERDATAARBPROC )GLimp_ExtensionPointer( "glBufferDataARB" );
+		qglBufferSubDataARB = ( PFNGLBUFFERSUBDATAARBPROC )GLimp_ExtensionPointer( "glBufferSubDataARB" );
+		qglGetBufferSubDataARB = ( PFNGLGETBUFFERSUBDATAARBPROC )GLimp_ExtensionPointer( "glGetBufferSubDataARB" );
+		qglMapBufferARB = ( PFNGLMAPBUFFERARBPROC )GLimp_ExtensionPointer( "glMapBufferARB" );
+		qglUnmapBufferARB = ( PFNGLUNMAPBUFFERARBPROC )GLimp_ExtensionPointer( "glUnmapBufferARB" );
+		qglGetBufferParameterivARB = ( PFNGLGETBUFFERPARAMETERIVARBPROC )GLimp_ExtensionPointer( "glGetBufferParameterivARB" );
+		qglGetBufferPointervARB = ( PFNGLGETBUFFERPOINTERVARBPROC )GLimp_ExtensionPointer( "glGetBufferPointervARB" );
 	}
 
 	// ARB_vertex_program
 	glConfig.ARBVertexProgramAvailable = R_CheckExtension( "GL_ARB_vertex_program" );
-	if (glConfig.ARBVertexProgramAvailable) {
-		qglVertexAttribPointerARB = (PFNGLVERTEXATTRIBPOINTERARBPROC)GLimp_ExtensionPointer( "glVertexAttribPointerARB" );
-		qglEnableVertexAttribArrayARB = (PFNGLENABLEVERTEXATTRIBARRAYARBPROC)GLimp_ExtensionPointer( "glEnableVertexAttribArrayARB" );
-		qglDisableVertexAttribArrayARB = (PFNGLDISABLEVERTEXATTRIBARRAYARBPROC)GLimp_ExtensionPointer( "glDisableVertexAttribArrayARB" );
-		qglProgramStringARB = (PFNGLPROGRAMSTRINGARBPROC)GLimp_ExtensionPointer( "glProgramStringARB" );
-		qglBindProgramARB = (PFNGLBINDPROGRAMARBPROC)GLimp_ExtensionPointer( "glBindProgramARB" );
-		qglGenProgramsARB = (PFNGLGENPROGRAMSARBPROC)GLimp_ExtensionPointer( "glGenProgramsARB" );
-		qglProgramEnvParameter4fvARB = (PFNGLPROGRAMENVPARAMETER4FVARBPROC)GLimp_ExtensionPointer( "glProgramEnvParameter4fvARB" );
-		qglProgramLocalParameter4fvARB = (PFNGLPROGRAMLOCALPARAMETER4FVARBPROC)GLimp_ExtensionPointer( "glProgramLocalParameter4fvARB" );
+	if ( glConfig.ARBVertexProgramAvailable ) {
+		qglVertexAttribPointerARB = ( PFNGLVERTEXATTRIBPOINTERARBPROC )GLimp_ExtensionPointer( "glVertexAttribPointerARB" );
+		qglEnableVertexAttribArrayARB = ( PFNGLENABLEVERTEXATTRIBARRAYARBPROC )GLimp_ExtensionPointer( "glEnableVertexAttribArrayARB" );
+		qglDisableVertexAttribArrayARB = ( PFNGLDISABLEVERTEXATTRIBARRAYARBPROC )GLimp_ExtensionPointer( "glDisableVertexAttribArrayARB" );
+		qglProgramStringARB = ( PFNGLPROGRAMSTRINGARBPROC )GLimp_ExtensionPointer( "glProgramStringARB" );
+		qglBindProgramARB = ( PFNGLBINDPROGRAMARBPROC )GLimp_ExtensionPointer( "glBindProgramARB" );
+		qglGenProgramsARB = ( PFNGLGENPROGRAMSARBPROC )GLimp_ExtensionPointer( "glGenProgramsARB" );
+		qglProgramEnvParameter4fvARB = ( PFNGLPROGRAMENVPARAMETER4FVARBPROC )GLimp_ExtensionPointer( "glProgramEnvParameter4fvARB" );
+		qglProgramLocalParameter4fvARB = ( PFNGLPROGRAMLOCALPARAMETER4FVARBPROC )GLimp_ExtensionPointer( "glProgramLocalParameter4fvARB" );
 	}
 
 	// ARB_fragment_program
@@ -514,26 +514,26 @@ static void R_CheckPortableExtensions( void ) {
 		glConfig.ARBFragmentProgramAvailable = false;
 	} else {
 		glConfig.ARBFragmentProgramAvailable = R_CheckExtension( "GL_ARB_fragment_program" );
-		if (glConfig.ARBFragmentProgramAvailable) {
+		if ( glConfig.ARBFragmentProgramAvailable ) {
 			// these are the same as ARB_vertex_program
-			qglProgramStringARB = (PFNGLPROGRAMSTRINGARBPROC)GLimp_ExtensionPointer( "glProgramStringARB" );
-			qglBindProgramARB = (PFNGLBINDPROGRAMARBPROC)GLimp_ExtensionPointer( "glBindProgramARB" );
-			qglProgramEnvParameter4fvARB = (PFNGLPROGRAMENVPARAMETER4FVARBPROC)GLimp_ExtensionPointer( "glProgramEnvParameter4fvARB" );
-			qglProgramLocalParameter4fvARB = (PFNGLPROGRAMLOCALPARAMETER4FVARBPROC)GLimp_ExtensionPointer( "glProgramLocalParameter4fvARB" );
+			qglProgramStringARB = ( PFNGLPROGRAMSTRINGARBPROC )GLimp_ExtensionPointer( "glProgramStringARB" );
+			qglBindProgramARB = ( PFNGLBINDPROGRAMARBPROC )GLimp_ExtensionPointer( "glBindProgramARB" );
+			qglProgramEnvParameter4fvARB = ( PFNGLPROGRAMENVPARAMETER4FVARBPROC )GLimp_ExtensionPointer( "glProgramEnvParameter4fvARB" );
+			qglProgramLocalParameter4fvARB = ( PFNGLPROGRAMLOCALPARAMETER4FVARBPROC )GLimp_ExtensionPointer( "glProgramLocalParameter4fvARB" );
 		}
 	}
 
 	// check for minimum set
 	if ( !glConfig.multitextureAvailable || !glConfig.textureEnvCombineAvailable || !glConfig.cubeMapAvailable
-		|| !glConfig.envDot3Available ) {
-			common->Error( common->GetLanguageDict()->GetString( "#str_06780" ) );
+			|| !glConfig.envDot3Available ) {
+		common->Error( common->GetLanguageDict()->GetString( "#str_06780" ) );
 	}
 
- 	// GL_EXT_depth_bounds_test
- 	glConfig.depthBoundsTestAvailable = R_CheckExtension( "EXT_depth_bounds_test" );
- 	if ( glConfig.depthBoundsTestAvailable ) {
- 		qglDepthBoundsEXT = (PFNGLDEPTHBOUNDSEXTPROC)GLimp_ExtensionPointer( "glDepthBoundsEXT" );
- 	}
+	// GL_EXT_depth_bounds_test
+	glConfig.depthBoundsTestAvailable = R_CheckExtension( "EXT_depth_bounds_test" );
+	if ( glConfig.depthBoundsTestAvailable ) {
+		qglDepthBoundsEXT = ( PFNGLDEPTHBOUNDSEXTPROC )GLimp_ExtensionPointer( "glDepthBoundsEXT" );
+	}
 
 }
 
@@ -549,20 +549,20 @@ will be used instead.
 ====================
 */
 typedef struct vidmode_s {
-    const char *description;
-    int         width, height;
+	const char *description;
+	int         width, height;
 } vidmode_t;
 
 vidmode_t r_vidModes[] = {
-    { "Mode  0: 320x240",		320,	240 },
-    { "Mode  1: 400x300",		400,	300 },
-    { "Mode  2: 512x384",		512,	384 },
-    { "Mode  3: 640x480",		640,	480 },
-    { "Mode  4: 800x600",		800,	600 },
-    { "Mode  5: 1024x768",		1024,	768 },
-    { "Mode  6: 1152x864",		1152,	864 },
-    { "Mode  7: 1280x1024",		1280,	1024 },
-    { "Mode  8: 1600x1200",		1600,	1200 },
+	{ "Mode  0: 320x240",		320,	240 },
+	{ "Mode  1: 400x300",		400,	300 },
+	{ "Mode  2: 512x384",		512,	384 },
+	{ "Mode  3: 640x480",		640,	480 },
+	{ "Mode  4: 800x600",		800,	600 },
+	{ "Mode  5: 1024x768",		1024,	768 },
+	{ "Mode  6: 1152x864",		1152,	864 },
+	{ "Mode  7: 1280x1024",		1280,	1024 },
+	{ "Mode  8: 1600x1200",		1600,	1200 },
 };
 static int	s_numVidModes = ( sizeof( r_vidModes ) / sizeof( r_vidModes[0] ) );
 
@@ -573,8 +573,8 @@ static bool R_GetModeInfo( int *width, int *height, int mode ) {
 #endif
 	vidmode_t	*vm;
 
-    if ( mode < -1 ) {
-        return false;
+	if ( mode < -1 ) {
+		return false;
 	}
 	if ( mode >= s_numVidModes ) {
 		return false;
@@ -595,7 +595,7 @@ static bool R_GetModeInfo( int *width, int *height, int mode ) {
 		*height = vm->height;
 	}
 
-    return true;
+	return true;
 }
 
 
@@ -666,10 +666,10 @@ void R_InitOpenGL( void ) {
 	soundSystem->InitHW();
 
 	// get our config strings
-	glConfig.vendor_string = (const char *)qglGetString(GL_VENDOR);
-	glConfig.renderer_string = (const char *)qglGetString(GL_RENDERER);
-	glConfig.version_string = (const char *)qglGetString(GL_VERSION);
-	glConfig.extensions_string = (const char *)qglGetString(GL_EXTENSIONS);
+	glConfig.vendor_string = ( const char * )qglGetString( GL_VENDOR );
+	glConfig.renderer_string = ( const char * )qglGetString( GL_RENDERER );
+	glConfig.version_string = ( const char * )qglGetString( GL_VERSION );
+	glConfig.extensions_string = ( const char * )qglGetString( GL_EXTENSIONS );
 
 	// OpenGL driver constants
 	qglGetIntegerv( GL_MAX_TEXTURE_SIZE, &temp );
@@ -718,7 +718,7 @@ void R_InitOpenGL( void ) {
 				Sys_GrabMouseCursor( false );
 			}
 			int ret = MessageBox( NULL, "Please install OpenGL drivers from your graphics hardware vendor to run " GAME_NAME ".\nYour OpenGL functionality is limited.",
-				"Insufficient OpenGL capabilities", MB_OKCANCEL | MB_ICONWARNING | MB_TASKMODAL );
+								  "Insufficient OpenGL capabilities", MB_OKCANCEL | MB_ICONWARNING | MB_TASKMODAL );
 			if ( ret == IDCANCEL ) {
 				cmdSystem->BufferCommandText( CMD_EXEC_APPEND, "quit\n" );
 				cmdSystem->ExecuteCommandBuffer();
@@ -737,8 +737,8 @@ GL_CheckErrors
 ==================
 */
 void GL_CheckErrors( void ) {
-    int		err;
-    char	s[64];
+	int		err;
+	char	s[64];
 	int		i;
 
 	// check for up to 10 errors pending
@@ -747,7 +747,7 @@ void GL_CheckErrors( void ) {
 		if ( err == GL_NO_ERROR ) {
 			return;
 		}
-		switch( err ) {
+		switch ( err ) {
 			case GL_INVALID_ENUM:
 				strcpy( s, "GL_INVALID_ENUM" );
 				break;
@@ -767,7 +767,7 @@ void GL_CheckErrors( void ) {
 				strcpy( s, "GL_OUT_OF_MEMORY" );
 				break;
 			default:
-				idStr::snPrintf( s, sizeof(s), "%i", err);
+				idStr::snPrintf( s, sizeof( s ), "%i", err );
 				break;
 		}
 
@@ -787,7 +787,7 @@ Reload the material displayed by r_showSurfaceInfo
 static void R_ReloadSurface_f( const idCmdArgs &args ) {
 	modelTrace_t mt;
 	idVec3 start, end;
-	
+
 	// start far enough away that we don't hit the player model
 	start = tr.primaryView->renderView.vieworg + tr.primaryView->renderView.viewaxis[0] * 16;
 	end = start + tr.primaryView->renderView.viewaxis[0] * 1000.0f;
@@ -845,8 +845,8 @@ void R_TestImage_f( const idCmdArgs &args ) {
 		return;
 	}
 
-	if ( idStr::IsNumeric( args.Argv(1) ) ) {
-		imageNum = atoi( args.Argv(1) );
+	if ( idStr::IsNumeric( args.Argv( 1 ) ) ) {
+		imageNum = atoi( args.Argv( 1 ) );
 		if ( imageNum >= 0 && imageNum < globalImages->images.Num() ) {
 			tr.testImage = globalImages->images[imageNum];
 		}
@@ -904,13 +904,13 @@ static int R_QsortSurfaceAreas( const void *a, const void *b ) {
 	const idMaterial	*ea, *eb;
 	int	ac, bc;
 
-	ea = *(idMaterial **)a;
+	ea = *( idMaterial ** )a;
 	if ( !ea->EverReferenced() ) {
 		ac = 0;
 	} else {
 		ac = ea->GetSurfaceArea();
 	}
-	eb = *(idMaterial **)b;
+	eb = *( idMaterial ** )b;
 	if ( !eb->EverReferenced() ) {
 		bc = 0;
 	} else {
@@ -940,10 +940,10 @@ void R_ReportSurfaceAreas_f( const idCmdArgs &args ) {
 	idMaterial	**list;
 
 	count = declManager->GetNumDecls( DECL_MATERIAL );
-	list = (idMaterial **)_alloca( count * sizeof( *list ) );
+	list = ( idMaterial ** )_alloca( count * sizeof( *list ) );
 
 	for ( i = 0 ; i < count ; i++ ) {
-		list[i] = (idMaterial *)declManager->DeclByIndex( DECL_MATERIAL, i, false );
+		list[i] = ( idMaterial * )declManager->DeclByIndex( DECL_MATERIAL, i, false );
 	}
 
 	qsort( list, count, sizeof( list[0] ), R_QsortSurfaceAreas );
@@ -1018,7 +1018,7 @@ void R_ReportImageDuplication_f( const idCmdArgs &args ) {
 				continue;
 			}
 			if ( image2->uploadWidth != image1->uploadWidth
-				|| image2->uploadHeight != image1->uploadHeight ) {
+					|| image2->uploadHeight != image1->uploadHeight ) {
 				continue;
 			}
 			if ( !idStr::Icmp( image1->imgName, image2->imgName ) ) {
@@ -1036,7 +1036,7 @@ void R_ReportImageDuplication_f( const idCmdArgs &args ) {
 				continue;
 			}
 
-			if ( memcmp( data1, data2, w1*h1*4 ) ) {
+			if ( memcmp( data1, data2, w1 * h1 * 4 ) ) {
 				R_StaticFree( data2 );
 				continue;
 			}
@@ -1054,13 +1054,13 @@ void R_ReportImageDuplication_f( const idCmdArgs &args ) {
 	common->Printf( "%i / %i collisions\n", count, globalImages->images.Num() );
 }
 
-/* 
-============================================================================== 
- 
+/*
+==============================================================================
+
 						THROUGHPUT BENCHMARKING
- 
-============================================================================== 
-*/ 
+
+==============================================================================
+*/
 
 /*
 ================
@@ -1075,7 +1075,7 @@ static float R_RenderingFPS( const renderView_t *renderView ) {
 	int		end;
 	int		count = 0;
 
-	while( 1 ) {
+	while ( 1 ) {
 		// render
 		renderSystem->BeginFrame( glConfig.vidWidth, glConfig.vidHeight );
 		tr.primaryWorld->RenderScene( renderView );
@@ -1133,13 +1133,13 @@ void R_Benchmark_f( const idCmdArgs &args ) {
 }
 
 
-/* 
-============================================================================== 
- 
-						SCREEN SHOTS 
- 
-============================================================================== 
-*/ 
+/*
+==============================================================================
+
+						SCREEN SHOTS
+
+==============================================================================
+*/
 
 /*
 ====================
@@ -1153,7 +1153,7 @@ If ref isn't specified, the full session UpdateScreen will be done.
 */
 void R_ReadTiledPixels( int width, int height, byte *buffer, renderView_t *ref = NULL ) {
 	// include extra space for OpenGL padding to word boundaries
-	byte	*temp = (byte *)R_StaticAlloc( (glConfig.vidWidth+3) * glConfig.vidHeight * 3 );
+	byte	*temp = ( byte * )R_StaticAlloc( ( glConfig.vidWidth + 3 ) * glConfig.vidHeight * 3 );
 
 	int	oldWidth = glConfig.vidWidth;
 	int oldHeight = glConfig.vidHeight;
@@ -1187,13 +1187,13 @@ void R_ReadTiledPixels( int width, int height, byte *buffer, renderView_t *ref =
 			}
 
 			qglReadBuffer( GL_FRONT );
-			qglReadPixels( 0, 0, w, h, GL_RGB, GL_UNSIGNED_BYTE, temp ); 
+			qglReadPixels( 0, 0, w, h, GL_RGB, GL_UNSIGNED_BYTE, temp );
 
 			int	row = ( w * 3 + 3 ) & ~3;		// OpenGL pads to dword boundaries
 
 			for ( int y = 0 ; y < h ; y++ ) {
 				memcpy( buffer + ( ( yo + y )* width + xo ) * 3,
-					temp + y * row, w * 3 );
+						temp + y * row, w * 3 );
 			}
 		}
 	}
@@ -1213,7 +1213,7 @@ void R_ReadTiledPixels( int width, int height, byte *buffer, renderView_t *ref =
 
 
 /*
-================== 
+==================
 TakeScreenshot
 
 Move to tr_imagefiles.c...
@@ -1221,8 +1221,8 @@ Move to tr_imagefiles.c...
 Will automatically tile render large screen shots if necessary
 Downsample is the number of steps to mipmap the image before saving it
 If ref == NULL, session->updateScreen will be used
-================== 
-*/  
+==================
+*/
 void idRenderSystemLocal::TakeScreenshot( int width, int height, const char *fileName, int blends, renderView_t *ref ) {
 	byte		*buffer;
 	int			i, j, c, temp;
@@ -1231,14 +1231,14 @@ void idRenderSystemLocal::TakeScreenshot( int width, int height, const char *fil
 
 	int	pix = width * height;
 
-	buffer = (byte *)R_StaticAlloc(pix*3 + 18);
-	memset (buffer, 0, 18);
+	buffer = ( byte * )R_StaticAlloc( pix * 3 + 18 );
+	memset( buffer, 0, 18 );
 
 	if ( blends <= 1 ) {
 		R_ReadTiledPixels( width, height, buffer + 18, ref );
 	} else {
-		unsigned short *shortBuffer = (unsigned short *)R_StaticAlloc(pix*2*3);
-		memset (shortBuffer, 0, pix*2*3);
+		unsigned short *shortBuffer = ( unsigned short * )R_StaticAlloc( pix * 2 * 3 );
+		memset( shortBuffer, 0, pix * 2 * 3 );
 
 		// enable anti-aliasing jitter
 		r_jitter.SetBool( true );
@@ -1246,14 +1246,14 @@ void idRenderSystemLocal::TakeScreenshot( int width, int height, const char *fil
 		for ( i = 0 ; i < blends ; i++ ) {
 			R_ReadTiledPixels( width, height, buffer + 18, ref );
 
-			for ( j = 0 ; j < pix*3 ; j++ ) {
-				shortBuffer[j] += buffer[18+j];
+			for ( j = 0 ; j < pix * 3 ; j++ ) {
+				shortBuffer[j] += buffer[18 + j];
 			}
 		}
 
 		// divide back to bytes
-		for ( i = 0 ; i < pix*3 ; i++ ) {
-			buffer[18+i] = shortBuffer[i] / blends;
+		for ( i = 0 ; i < pix * 3 ; i++ ) {
+			buffer[18 + i] = shortBuffer[i] / blends;
 		}
 
 		R_StaticFree( shortBuffer );
@@ -1270,10 +1270,10 @@ void idRenderSystemLocal::TakeScreenshot( int width, int height, const char *fil
 
 	// swap rgb to bgr
 	c = 18 + width * height * 3;
-	for (i=18 ; i<c ; i+=3) {
+	for ( i = 18 ; i < c ; i += 3 ) {
 		temp = buffer[i];
-		buffer[i] = buffer[i+2];
-		buffer[i+2] = temp;
+		buffer[i] = buffer[i + 2];
+		buffer[i + 2] = temp;
 	}
 
 	// _D3XP adds viewnote screenie save to cdpath
@@ -1290,18 +1290,18 @@ void idRenderSystemLocal::TakeScreenshot( int width, int height, const char *fil
 }
 
 
-/* 
-================== 
+/*
+==================
 R_ScreenshotFilename
 
 Returns a filename with digits appended
 if we have saved a previous screenshot, don't scan
 from the beginning, because recording demo avis can involve
 thousands of shots
-================== 
-*/  
+==================
+*/
 void R_ScreenshotFilename( int &lastNumber, const char *base, idStr &fileName ) {
-	int	a,b,c,d, e;
+	int	a, b, c, d, e;
 
 	bool restrict = cvarSystem->GetCVarBool( "fs_restrict" );
 	cvarSystem->SetCVarBool( "fs_restrict", false );
@@ -1314,13 +1314,13 @@ void R_ScreenshotFilename( int &lastNumber, const char *base, idStr &fileName ) 
 		int	frac = lastNumber;
 
 		a = frac / 10000;
-		frac -= a*10000;
+		frac -= a * 10000;
 		b = frac / 1000;
-		frac -= b*1000;
+		frac -= b * 1000;
 		c = frac / 100;
-		frac -= c*100;
+		frac -= c * 100;
 		d = frac / 10;
-		frac -= d*10;
+		frac -= d * 10;
 		e = frac;
 
 		sprintf( fileName, "%s%i%i%i%i%i.tga", base, a, b, c, d, e );
@@ -1337,15 +1337,15 @@ void R_ScreenshotFilename( int &lastNumber, const char *base, idStr &fileName ) 
 }
 
 /*
-================== 
+==================
 R_BlendedScreenShot
 
 screenshot
 screenshot [filename]
 screenshot [width] [height]
 screenshot [width] [height] [samples]
-================== 
-*/ 
+==================
+*/
 #define	MAX_BLENDS	256	// to keep the accumulation in shorts
 void R_ScreenShot_f( const idCmdArgs &args ) {
 	static int lastNumber = 0;
@@ -1358,39 +1358,39 @@ void R_ScreenShot_f( const idCmdArgs &args ) {
 	int	blends = 0;
 
 	switch ( args.Argc() ) {
-	case 1:
-		width = glConfig.vidWidth;
-		height = glConfig.vidHeight;
-		blends = 1;
-		R_ScreenshotFilename( lastNumber, "screenshots/shot", checkname );
-		break;
-	case 2:
-		width = glConfig.vidWidth;
-		height = glConfig.vidHeight;
-		blends = 1;
-		checkname = args.Argv( 1 );
-		break;
-	case 3:
-		width = atoi( args.Argv( 1 ) );
-		height = atoi( args.Argv( 2 ) );
-		blends = 1;
-		R_ScreenshotFilename( lastNumber, "screenshots/shot", checkname );
-		break;
-	case 4:
-		width = atoi( args.Argv( 1 ) );
-		height = atoi( args.Argv( 2 ) );
-		blends = atoi( args.Argv( 3 ) );
-		if ( blends < 1 ) {
+		case 1:
+			width = glConfig.vidWidth;
+			height = glConfig.vidHeight;
 			blends = 1;
-		}
-		if ( blends > MAX_BLENDS ) {
-			blends = MAX_BLENDS;
-		}
-		R_ScreenshotFilename( lastNumber, "screenshots/shot", checkname );
-		break;
-	default:
-		common->Printf( "usage: screenshot\n       screenshot <filename>\n       screenshot <width> <height>\n       screenshot <width> <height> <blends>\n" );
-		return;
+			R_ScreenshotFilename( lastNumber, "screenshots/shot", checkname );
+			break;
+		case 2:
+			width = glConfig.vidWidth;
+			height = glConfig.vidHeight;
+			blends = 1;
+			checkname = args.Argv( 1 );
+			break;
+		case 3:
+			width = atoi( args.Argv( 1 ) );
+			height = atoi( args.Argv( 2 ) );
+			blends = 1;
+			R_ScreenshotFilename( lastNumber, "screenshots/shot", checkname );
+			break;
+		case 4:
+			width = atoi( args.Argv( 1 ) );
+			height = atoi( args.Argv( 2 ) );
+			blends = atoi( args.Argv( 3 ) );
+			if ( blends < 1 ) {
+				blends = 1;
+			}
+			if ( blends > MAX_BLENDS ) {
+				blends = MAX_BLENDS;
+			}
+			R_ScreenshotFilename( lastNumber, "screenshots/shot", checkname );
+			break;
+		default:
+			common->Printf( "usage: screenshot\n       screenshot <filename>\n       screenshot <width> <height>\n       screenshot <width> <height> <blends>\n" );
+			return;
 	}
 
 	// put the console away
@@ -1417,18 +1417,18 @@ void R_StencilShot( void ) {
 	int	pix = width * height;
 
 	c = pix * 3 + 18;
-	buffer = (byte *)Mem_Alloc(c);
-	memset (buffer, 0, 18);
+	buffer = ( byte * )Mem_Alloc( c );
+	memset( buffer, 0, 18 );
 
-	byte *byteBuffer = (byte *)Mem_Alloc(pix);
+	byte *byteBuffer = ( byte * )Mem_Alloc( pix );
 
-	qglReadPixels( 0, 0, width, height, GL_STENCIL_INDEX , GL_UNSIGNED_BYTE, byteBuffer ); 
+	qglReadPixels( 0, 0, width, height, GL_STENCIL_INDEX , GL_UNSIGNED_BYTE, byteBuffer );
 
 	for ( i = 0 ; i < pix ; i++ ) {
-		buffer[18+i*3] =
-		buffer[18+i*3+1] =
-			//		buffer[18+i*3+2] = ( byteBuffer[i] & 15 ) * 16;
-		buffer[18+i*3+2] = byteBuffer[i];
+		buffer[18 + i * 3] =
+			buffer[18 + i * 3 + 1] =
+				//		buffer[18+i*3+2] = ( byteBuffer[i] & 15 ) * 16;
+				buffer[18 + i * 3 + 2] = byteBuffer[i];
 	}
 
 	// fill in the header (this is vertically flipped, which qglReadPixels emits)
@@ -1442,18 +1442,18 @@ void R_StencilShot( void ) {
 	fileSystem->WriteFile( "screenshots/stencilShot.tga", buffer, c, "fs_savepath" );
 
 	Mem_Free( buffer );
-	Mem_Free( byteBuffer );	
+	Mem_Free( byteBuffer );
 }
 
-/* 
-================== 
+/*
+==================
 R_EnvShot_f
 
 envshot <basename>
 
 Saves out env/<basename>_ft.tga, etc
-================== 
-*/  
+==================
+*/
 void R_EnvShot_f( const idCmdArgs &args ) {
 	idStr		fullname;
 	const char	*baseName;
@@ -1462,8 +1462,9 @@ void R_EnvShot_f( const idCmdArgs &args ) {
 	renderView_t	ref;
 	viewDef_t	primary;
 	int			blends;
-	char	*extensions[6] =  { "_px.tga", "_nx.tga", "_py.tga", "_ny.tga", 
-		"_pz.tga", "_nz.tga" };
+	char	*extensions[6] =  { "_px.tga", "_nx.tga", "_py.tga", "_ny.tga",
+								"_pz.tga", "_nz.tga"
+						   };
 	int			size;
 
 	if ( args.Argc() != 2 && args.Argc() != 3 && args.Argc() != 4 ) {
@@ -1528,7 +1529,7 @@ void R_EnvShot_f( const idCmdArgs &args ) {
 	}
 
 	common->Printf( "Wrote %s, etc\n", fullname.c_str() );
-} 
+}
 
 //============================================================================
 
@@ -1544,9 +1545,9 @@ void R_SampleCubeMap( const idVec3 &dir, int size, byte *buffers[6], byte result
 	float	adir[3];
 	int		axis, x, y;
 
-	adir[0] = fabs(dir[0]);
-	adir[1] = fabs(dir[1]);
-	adir[2] = fabs(dir[2]);
+	adir[0] = fabs( dir[0] );
+	adir[1] = fabs( dir[1] );
+	adir[2] = fabs( dir[2] );
 
 	if ( dir[0] >= adir[1] && dir[0] >= adir[2] ) {
 		axis = 0;
@@ -1562,39 +1563,39 @@ void R_SampleCubeMap( const idVec3 &dir, int size, byte *buffers[6], byte result
 		axis = 5;
 	}
 
-	float	fx = (dir * cubeAxis[axis][1]) / (dir * cubeAxis[axis][0]);
-	float	fy = (dir * cubeAxis[axis][2]) / (dir * cubeAxis[axis][0]);
+	float	fx = ( dir * cubeAxis[axis][1] ) / ( dir * cubeAxis[axis][0] );
+	float	fy = ( dir * cubeAxis[axis][2] ) / ( dir * cubeAxis[axis][0] );
 
 	fx = -fx;
 	fy = -fy;
-	x = size * 0.5 * (fx + 1);
-	y = size * 0.5 * (fy + 1);
+	x = size * 0.5 * ( fx + 1 );
+	y = size * 0.5 * ( fy + 1 );
 	if ( x < 0 ) {
 		x = 0;
 	} else if ( x >= size ) {
-		x = size-1;
+		x = size - 1;
 	}
 	if ( y < 0 ) {
 		y = 0;
 	} else if ( y >= size ) {
-		y = size-1;
+		y = size - 1;
 	}
 
-	result[0] = buffers[axis][(y*size+x)*4+0];
-	result[1] = buffers[axis][(y*size+x)*4+1];
-	result[2] = buffers[axis][(y*size+x)*4+2];
-	result[3] = buffers[axis][(y*size+x)*4+3];
+	result[0] = buffers[axis][( y * size + x ) * 4 + 0];
+	result[1] = buffers[axis][( y * size + x ) * 4 + 1];
+	result[2] = buffers[axis][( y * size + x ) * 4 + 2];
+	result[3] = buffers[axis][( y * size + x ) * 4 + 3];
 }
 
-/* 
-================== 
+/*
+==================
 R_MakeAmbientMap_f
 
 R_MakeAmbientMap_f <basename> [size]
 
 Saves out env/<basename>_amb_ft.tga, etc
-================== 
-*/  
+==================
+*/
 void R_MakeAmbientMap_f( const idCmdArgs &args ) {
 	idStr fullname;
 	const char	*baseName;
@@ -1602,8 +1603,9 @@ void R_MakeAmbientMap_f( const idCmdArgs &args ) {
 	renderView_t	ref;
 	viewDef_t	primary;
 	int			downSample;
-	char	*extensions[6] =  { "_px.tga", "_nx.tga", "_py.tga", "_ny.tga", 
-		"_pz.tga", "_nz.tga" };
+	char	*extensions[6] =  { "_px.tga", "_nx.tga", "_py.tga", "_ny.tga",
+								"_pz.tga", "_nz.tga"
+						   };
 	int			outSize;
 	byte		*buffers[6];
 	int			width, height;
@@ -1664,7 +1666,7 @@ void R_MakeAmbientMap_f( const idCmdArgs &args ) {
 	// resample with hemispherical blending
 	int	samples = 1000;
 
-	byte	*outBuffer = (byte *)_alloca( outSize * outSize * 4 );
+	byte	*outBuffer = ( byte * )_alloca( outSize * outSize * 4 );
 
 	for ( int map = 0 ; map < 2 ; map++ ) {
 		for ( i = 0 ; i < 6 ; i++ ) {
@@ -1673,19 +1675,19 @@ void R_MakeAmbientMap_f( const idCmdArgs &args ) {
 					idVec3	dir;
 					float	total[3];
 
-					dir = cubeAxis[i][0] + -( -1 + 2.0*x/(outSize-1) ) * cubeAxis[i][1] + -( -1 + 2.0*y/(outSize-1) ) * cubeAxis[i][2];
+					dir = cubeAxis[i][0] + -( -1 + 2.0 * x / ( outSize - 1 ) ) * cubeAxis[i][1] + -( -1 + 2.0 * y / ( outSize - 1 ) ) * cubeAxis[i][2];
 					dir.Normalize();
 					total[0] = total[1] = total[2] = 0;
-	//samples = 1;
+					//samples = 1;
 					float	limit = map ? 0.95 : 0.25;		// small for specular, almost hemisphere for ambient
 
 					for ( int s = 0 ; s < samples ; s++ ) {
 						// pick a random direction vector that is inside the unit sphere but not behind dir,
 						// which is a robust way to evenly sample a hemisphere
 						idVec3	test;
-						while( 1 ) {
+						while ( 1 ) {
 							for ( int j = 0 ; j < 3 ; j++ ) {
-								test[j] = -1 + 2 * (rand()&0x7fff)/(float)0x7fff;
+								test[j] = -1 + 2 * ( rand() & 0x7fff ) / ( float )0x7fff;
 							}
 							if ( test.Length() > 1.0 ) {
 								continue;
@@ -1696,16 +1698,16 @@ void R_MakeAmbientMap_f( const idCmdArgs &args ) {
 							}
 						}
 						byte	result[4];
-	//test = dir;
+						//test = dir;
 						R_SampleCubeMap( test, width, buffers, result );
 						total[0] += result[0];
 						total[1] += result[1];
 						total[2] += result[2];
 					}
-					outBuffer[(y*outSize+x)*4+0] = total[0] / samples;
-					outBuffer[(y*outSize+x)*4+1] = total[1] / samples;
-					outBuffer[(y*outSize+x)*4+2] = total[2] / samples;
-					outBuffer[(y*outSize+x)*4+3] = 255;
+					outBuffer[( y * outSize + x ) * 4 + 0] = total[0] / samples;
+					outBuffer[( y * outSize + x ) * 4 + 1] = total[1] / samples;
+					outBuffer[( y * outSize + x ) * 4 + 2] = total[2] / samples;
+					outBuffer[( y * outSize + x ) * 4 + 3] = 255;
 				}
 			}
 
@@ -1725,7 +1727,7 @@ void R_MakeAmbientMap_f( const idCmdArgs &args ) {
 			Mem_Free( buffers[i] );
 		}
 	}
-} 
+}
 
 //============================================================================
 
@@ -1745,19 +1747,19 @@ void R_SetColorMappings( void ) {
 
 	for ( i = 0; i < 256; i++ ) {
 		j = i * b;
-		if (j > 255) {
+		if ( j > 255 ) {
 			j = 255;
 		}
 
 		if ( g == 1 ) {
-			inf = (j<<8) | j;
+			inf = ( j << 8 ) | j;
 		} else {
-			inf = 0xffff * pow ( j/255.0f, 1.0f / g ) + 0.5f;
+			inf = 0xffff * pow( j / 255.0f, 1.0f / g ) + 0.5f;
 		}
-		if (inf < 0) {
+		if ( inf < 0 ) {
 			inf = 0;
 		}
-		if (inf > 0xffff) {
+		if ( inf > 0xffff ) {
 			inf = 0xffff;
 		}
 
@@ -1774,8 +1776,7 @@ GfxInfo_f
 ================
 */
 void GfxInfo_f( const idCmdArgs &args ) {
-	const char *fsstrings[] =
-	{
+	const char *fsstrings[] = {
 		"windowed",
 		"fullscreen"
 	};
@@ -1838,10 +1839,10 @@ void GfxInfo_f( const idCmdArgs &args ) {
 		common->Printf( "glFinish not forced\n" );
 	}
 
-#ifdef _WIN32	
+#ifdef _WIN32
 // WGL_EXT_swap_interval
-typedef BOOL (WINAPI * PFNWGLSWAPINTERVALEXTPROC) (int interval);
-extern	PFNWGLSWAPINTERVALEXTPROC wglSwapIntervalEXT;
+	typedef BOOL ( WINAPI * PFNWGLSWAPINTERVALEXTPROC )( int interval );
+	extern	PFNWGLSWAPINTERVALEXTPROC wglSwapIntervalEXT;
 
 	if ( r_swapInterval.GetInteger() && wglSwapIntervalEXT ) {
 		common->Printf( "Forcing swapInterval %i\n", r_swapInterval.GetInteger() );
@@ -1849,7 +1850,7 @@ extern	PFNWGLSWAPINTERVALEXTPROC wglSwapIntervalEXT;
 		common->Printf( "swapInterval not forced\n" );
 	}
 #endif
-	
+
 	bool tss = glConfig.twoSidedStencilAvailable || glConfig.atiTwoSidedStencilAvailable;
 
 	if ( !r_useTwoSidedStencil.GetBool() && tss ) {
@@ -2046,7 +2047,7 @@ R_InitCommands
 =================
 */
 void R_InitCommands( void ) {
-	cmdSystem->AddCommand( "MakeMegaTexture", idMegaTexture::MakeMegaTexture_f, CMD_FL_RENDERER|CMD_FL_CHEAT, "processes giant images" );
+	cmdSystem->AddCommand( "MakeMegaTexture", idMegaTexture::MakeMegaTexture_f, CMD_FL_RENDERER | CMD_FL_CHEAT, "processes giant images" );
 	cmdSystem->AddCommand( "sizeUp", R_SizeUp_f, CMD_FL_RENDERER, "makes the rendered view larger" );
 	cmdSystem->AddCommand( "sizeDown", R_SizeDown_f, CMD_FL_RENDERER, "makes the rendered view smaller" );
 	cmdSystem->AddCommand( "reloadGuis", R_ReloadGuis_f, CMD_FL_RENDERER, "reloads guis" );
@@ -2054,7 +2055,7 @@ void R_InitCommands( void ) {
 	cmdSystem->AddCommand( "touchGui", R_TouchGui_f, CMD_FL_RENDERER, "touches a gui" );
 	cmdSystem->AddCommand( "screenshot", R_ScreenShot_f, CMD_FL_RENDERER, "takes a screenshot" );
 	cmdSystem->AddCommand( "envshot", R_EnvShot_f, CMD_FL_RENDERER, "takes an environment shot" );
-	cmdSystem->AddCommand( "makeAmbientMap", R_MakeAmbientMap_f, CMD_FL_RENDERER|CMD_FL_CHEAT, "makes an ambient map" );
+	cmdSystem->AddCommand( "makeAmbientMap", R_MakeAmbientMap_f, CMD_FL_RENDERER | CMD_FL_CHEAT, "makes an ambient map" );
 	cmdSystem->AddCommand( "benchmark", R_Benchmark_f, CMD_FL_RENDERER, "benchmark" );
 	cmdSystem->AddCommand( "gfxInfo", GfxInfo_f, CMD_FL_RENDERER, "show graphics info" );
 	cmdSystem->AddCommand( "modulateLights", R_ModulateLights_f, CMD_FL_RENDERER | CMD_FL_CHEAT, "modifies shader parms on all lights" );
@@ -2120,7 +2121,7 @@ void idRenderSystemLocal::Clear( void ) {
 idRenderSystemLocal::Init
 ===============
 */
-void idRenderSystemLocal::Init( void ) {	
+void idRenderSystemLocal::Init( void ) {
 
 	common->Printf( "------- Initializing renderSystem --------\n" );
 
@@ -2160,9 +2161,9 @@ void idRenderSystemLocal::Init( void ) {
 	renderModelManager->Init();
 
 	// set the identity space
-	identitySpace.modelMatrix[0*4+0] = 1.0f;
-	identitySpace.modelMatrix[1*4+1] = 1.0f;
-	identitySpace.modelMatrix[2*4+2] = 1.0f;
+	identitySpace.modelMatrix[0 * 4 + 0] = 1.0f;
+	identitySpace.modelMatrix[1 * 4 + 1] = 1.0f;
+	identitySpace.modelMatrix[2 * 4 + 2] = 1.0f;
 
 	// determine which back end we will use
 	// ??? this is invalid here as there is not enough information to set it up correctly
@@ -2177,7 +2178,7 @@ void idRenderSystemLocal::Init( void ) {
 idRenderSystemLocal::Shutdown
 ===============
 */
-void idRenderSystemLocal::Shutdown( void ) {	
+void idRenderSystemLocal::Shutdown( void ) {
 	common->Printf( "idRenderSystem::Shutdown()\n" );
 
 	R_DoneFreeType( );

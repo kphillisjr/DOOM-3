@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -37,8 +37,8 @@ class idRoutingCache {
 	friend class idAASLocal;
 
 public:
-								idRoutingCache( int size );
-								~idRoutingCache( void );
+	idRoutingCache( int size );
+	~idRoutingCache( void );
 
 	int							Size( void ) const;
 
@@ -48,13 +48,13 @@ private:
 	int							cluster;				// cluster of the cache
 	int							areaNum;				// area of the cache
 	int							travelFlags;			// combinations of the travel flags
-	idRoutingCache *			next;					// next in list
-	idRoutingCache *			prev;					// previous in list
-	idRoutingCache *			time_next;				// next in time based list
-	idRoutingCache *			time_prev;				// previous in time based list
+	idRoutingCache 			*next;					// next in list
+	idRoutingCache 			*prev;					// previous in list
+	idRoutingCache 			*time_next;				// next in time based list
+	idRoutingCache 			*time_prev;				// previous in time based list
 	unsigned short				startTravelTime;		// travel time to start with
-	unsigned char *				reachabilities;			// reachabilities used for routing
-	unsigned short *			travelTimes;			// travel time for every area
+	unsigned char 				*reachabilities;			// reachabilities used for routing
+	unsigned short 			*travelTimes;			// travel time for every area
 };
 
 
@@ -65,17 +65,17 @@ private:
 	int							cluster;				// cluster number of this update
 	int							areaNum;				// area number of this update
 	unsigned short				tmpTravelTime;			// temporary travel time
-	unsigned short *			areaTravelTimes;		// travel times within the area
+	unsigned short 			*areaTravelTimes;		// travel times within the area
 	idVec3						start;					// start point into area
-	idRoutingUpdate *			next;					// next in list
-	idRoutingUpdate *			prev;					// prev in list
+	idRoutingUpdate 			*next;					// next in list
+	idRoutingUpdate 			*prev;					// prev in list
 	bool						isInList;				// true if the update is in the list
 };
 
 
 class idRoutingObstacle {
 	friend class idAASLocal;
-								idRoutingObstacle( void ) { }
+	idRoutingObstacle( void ) { }
 
 private:
 	idBounds					bounds;					// obstacle bounds
@@ -85,7 +85,7 @@ private:
 
 class idAASLocal : public idAAS {
 public:
-								idAASLocal( void );
+	idAASLocal( void );
 	virtual						~idAASLocal( void );
 	virtual bool				Init( const idStr &mapName, unsigned int mapFileCRC );
 	virtual void				Shutdown( void );
@@ -100,7 +100,7 @@ public:
 	virtual int					AreaFlags( int areaNum ) const;
 	virtual int					AreaTravelFlags( int areaNum ) const;
 	virtual bool				Trace( aasTrace_t &trace, const idVec3 &start, const idVec3 &end ) const;
-	virtual const idPlane &		GetPlane( int planeNum ) const;
+	virtual const idPlane 		&GetPlane( int planeNum ) const;
 	virtual int					GetWallEdges( int areaNum, const idBounds &bounds, int travelFlags, int *edges, int maxEdges ) const;
 	virtual void				SortWallEdges( int *edges, int numEdges ) const;
 	virtual void				GetEdgeVertexNumbers( int edgeNum, int verts[2] ) const;
@@ -120,21 +120,21 @@ public:
 	virtual bool				FindNearestGoal( aasGoal_t &goal, int areaNum, const idVec3 origin, const idVec3 &target, int travelFlags, aasObstacle_t *obstacles, int numObstacles, idAASCallback &callback ) const;
 
 private:
-	idAASFile *					file;
+	idAASFile 					*file;
 	idStr						name;
 
 private:	// routing data
-	idRoutingCache ***			areaCacheIndex;			// for each area in each cluster the travel times to all other areas in the cluster
+	idRoutingCache **			*areaCacheIndex;			// for each area in each cluster the travel times to all other areas in the cluster
 	int							areaCacheIndexSize;		// number of area cache entries
-	idRoutingCache **			portalCacheIndex;		// for each area in the world the travel times from each portal
+	idRoutingCache 			**portalCacheIndex;		// for each area in the world the travel times from each portal
 	int							portalCacheIndexSize;	// number of portal cache entries
-	idRoutingUpdate *			areaUpdate;				// memory used to update the area routing cache
-	idRoutingUpdate *			portalUpdate;			// memory used to update the portal routing cache
-	unsigned short *			goalAreaTravelTimes;	// travel times to goal areas
-	unsigned short *			areaTravelTimes;		// travel times through the areas
+	idRoutingUpdate 			*areaUpdate;				// memory used to update the area routing cache
+	idRoutingUpdate 			*portalUpdate;			// memory used to update the portal routing cache
+	unsigned short 			*goalAreaTravelTimes;	// travel times to goal areas
+	unsigned short 			*areaTravelTimes;		// travel times through the areas
 	int							numAreaTravelTimes;		// number of area travel times
-	mutable idRoutingCache *	cacheListStart;			// start of list with cache sorted from oldest to newest
-	mutable idRoutingCache *	cacheListEnd;			// end of list with cache sorted from oldest to newest
+	mutable idRoutingCache 	*cacheListStart;			// start of list with cache sorted from oldest to newest
+	mutable idRoutingCache 	*cacheListEnd;			// end of list with cache sorted from oldest to newest
 	mutable int					totalCacheMemory;		// total cache memory used
 	idList<idRoutingObstacle *>	obstacleList;			// list with obstacles
 
@@ -152,12 +152,12 @@ private:	// routing
 	void						LinkCache( idRoutingCache *cache ) const;
 	void						UnlinkCache( idRoutingCache *cache ) const;
 	void						DeleteOldestCache( void ) const;
-	idReachability *			GetAreaReachability( int areaNum, int reachabilityNum ) const;
+	idReachability 			*GetAreaReachability( int areaNum, int reachabilityNum ) const;
 	int							ClusterAreaNum( int clusterNum, int areaNum ) const;
 	void						UpdateAreaRoutingCache( idRoutingCache *areaCache ) const;
-	idRoutingCache *			GetAreaRoutingCache( int clusterNum, int areaNum, int travelFlags ) const;
+	idRoutingCache 			*GetAreaRoutingCache( int clusterNum, int areaNum, int travelFlags ) const;
 	void						UpdatePortalRoutingCache( idRoutingCache *portalCache ) const;
-	idRoutingCache *			GetPortalRoutingCache( int clusterNum, int areaNum, int travelFlags ) const;
+	idRoutingCache 			*GetPortalRoutingCache( int clusterNum, int areaNum, int travelFlags ) const;
 	void						RemoveRoutingCacheUsingArea( int areaNum );
 	void						DisableArea( int areaNum );
 	void						EnableArea( int areaNum );
@@ -172,7 +172,7 @@ private:	// pathing
 	idVec3						SubSampleFlyPath( int areaNum, const idVec3 &origin, const idVec3 &start, const idVec3 &end, int travelFlags, int &endAreaNum ) const;
 
 private:	// debug
-	const idBounds &			DefaultSearchBounds( void ) const;
+	const idBounds 			&DefaultSearchBounds( void ) const;
 	void						DrawCone( const idVec3 &origin, const idVec3 &dir, float radius, const idVec4 &color ) const;
 	void						DrawArea( int areaNum ) const;
 	void						DrawFace( int faceNum, bool side ) const;

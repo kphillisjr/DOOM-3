@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -42,8 +42,8 @@ class idCursor3D : public idEntity {
 public:
 	CLASS_PROTOTYPE( idCursor3D );
 
-							idCursor3D( void );
-							~idCursor3D( void );
+	idCursor3D( void );
+	~idCursor3D( void );
 
 	void					Spawn( void );
 	void					Present( void );
@@ -64,13 +64,15 @@ public:
 
 class idDragEntity {
 public:
-							idDragEntity( void );
-							~idDragEntity( void );
+	idDragEntity( void );
+	~idDragEntity( void );
 
 	void					Clear();
 	void					Update( idPlayer *player );
 	void					SetSelected( idEntity *ent );
-	idEntity *				GetSelected( void ) const { return selected.GetEntity(); }
+	idEntity 				*GetSelected( void ) const {
+		return selected.GetEntity();
+	}
 	void					DeleteSelected( void );
 	void					BindSelected( void );
 	void					UnbindSelected( void );
@@ -82,7 +84,7 @@ private:
 	idVec3					localEntityPoint;	// dragged point in entity space
 	idVec3					localPlayerPoint;	// dragged point in player space
 	idStr					bodyName;			// name of the body being dragged
-	idCursor3D *			cursor;				// cursor entity
+	idCursor3D 			*cursor;				// cursor entity
 	idEntityPtr<idEntity>	selected;			// last dragged entity
 
 	void					StopDrag( void );
@@ -103,7 +105,7 @@ typedef struct selectedTypeInfo_s {
 
 class idEditEntities {
 public:
-							idEditEntities( void );
+	idEditEntities( void );
 	bool					SelectEntity( const idVec3 &origin, const idVec3 &dir, const idEntity *skip );
 	void					AddSelectedEntity( idEntity *ent );
 	void					RemoveSelectedEntity( idEntity *ent );

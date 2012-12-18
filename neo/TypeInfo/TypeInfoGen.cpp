@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -170,7 +170,7 @@ int idTypeInfoGen::ParseArraySize( const char *scope, idParser &src ) {
 
 	totalSize = 1;
 	sizeString = "";
-	while( src.ReadToken( &token ) ) {
+	while ( src.ReadToken( &token ) ) {
 		if ( token == "]" ) {
 			if ( sizeString.Length() ) {
 				size = EvaluateIntegerString( sizeString );
@@ -184,7 +184,7 @@ int idTypeInfoGen::ParseArraySize( const char *scope, idParser &src ) {
 			}
 		} else if ( token.type == TT_NAME ) {
 			constantString = token;
-			while( src.CheckTokenString( "::" ) ) {
+			while ( src.CheckTokenString( "::" ) ) {
 				src.ExpectTokenType( TT_NAME, 0, &token );
 				constantString += "::" + token;
 			}
@@ -207,7 +207,7 @@ void idTypeInfoGen::ParseConstantValue( const char *scope, idParser &src, idStr 
 	idStr constantString;
 
 	int indent = 0;
-	while( src.ReadToken( &token ) ) {
+	while ( src.ReadToken( &token ) ) {
 		if ( token == "(" ) {
 			indent++;
 		} else if ( token == ")" ) {
@@ -217,7 +217,7 @@ void idTypeInfoGen::ParseConstantValue( const char *scope, idParser &src, idStr 
 			break;
 		} else if ( token.type == TT_NAME ) {
 			constantString = token;
-			while( src.CheckTokenString( "::" ) ) {
+			while ( src.CheckTokenString( "::" ) ) {
 				src.ExpectTokenType( TT_NAME, 0, &token );
 				constantString += "::" + token;
 			}
@@ -259,7 +259,7 @@ idEnumTypeInfo *idTypeInfoGen::ParseEnumType( const char *scope, bool isTemplate
 	}
 
 	value = -1;
-	while( src.ExpectTokenType( TT_NAME, 0, &token ) ) {
+	while ( src.ExpectTokenType( TT_NAME, 0, &token ) ) {
 
 		enumValue.name = token;
 
@@ -329,7 +329,7 @@ idClassTypeInfo *idTypeInfoGen::ParseClassType( const char *scope, const char *t
 			delete typeInfo;
 			return NULL;
 		}
-		while(	token == "public" ||
+		while (	token == "public" ||
 				token == "protected" ||
 				token == "private" ) {
 
@@ -345,7 +345,7 @@ idClassTypeInfo *idTypeInfoGen::ParseClassType( const char *scope, const char *t
 
 				int indent = 1;
 				typeInfo->superType += "< ";
-				while( src.ReadToken( &token ) ) {
+				while ( src.ReadToken( &token ) ) {
 					if ( token == "<" ) {
 						indent++;
 					} else if ( token == ">" ) {
@@ -409,7 +409,7 @@ void idTypeInfoGen::ParseScope( const char *scope, bool isTemplate, idParser &sr
 	bool isStatic = false;
 
 	indent = 1;
-	while( indent ) {
+	while ( indent ) {
 		if ( !src.ReadToken( &token ) ) {
 			break;
 		}
@@ -423,7 +423,7 @@ void idTypeInfoGen::ParseScope( const char *scope, bool isTemplate, idParser &sr
 					indent--;
 				}
 				varType += token + " ";
-			} while( indent > 1 && src.ReadToken( &token ) );
+			} while ( indent > 1 && src.ReadToken( &token ) );
 
 		} else if ( token == "}" ) {
 
@@ -439,7 +439,7 @@ void idTypeInfoGen::ParseScope( const char *scope, bool isTemplate, idParser &sr
 					indent--;
 				}
 				varType += token + " ";
-			} while( indent > 1 && src.ReadToken( &token ) );
+			} while ( indent > 1 && src.ReadToken( &token ) );
 
 		} else if ( token == ";" ) {
 
@@ -459,7 +459,7 @@ void idTypeInfoGen::ParseScope( const char *scope, bool isTemplate, idParser &sr
 		} else if ( token == "friend" ) {
 
 			// skip friend classes/methods
-			while( src.ReadToken( &token ) ) {
+			while ( src.ReadToken( &token ) ) {
 				if ( token == "{" ) {
 					indent++;
 				} else if ( token == "}" ) {
@@ -484,7 +484,7 @@ void idTypeInfoGen::ParseScope( const char *scope, bool isTemplate, idParser &sr
 
 				int indent = 1;
 				varType += "< ";
-				while( src.ReadToken( &token ) ) {
+				while ( src.ReadToken( &token ) ) {
 					if ( token == "<" ) {
 						indent++;
 					} else if ( token == ">" ) {
@@ -509,7 +509,7 @@ void idTypeInfoGen::ParseScope( const char *scope, bool isTemplate, idParser &sr
 			} else {
 
 				// skip template methods
-				while( src.ReadToken( &token ) ) {
+				while ( src.ReadToken( &token ) ) {
 					if ( token == "{" ) {
 						indent++;
 					} else if ( token == "}" ) {
@@ -604,7 +604,7 @@ void idTypeInfoGen::ParseScope( const char *scope, bool isTemplate, idParser &sr
 			} else {
 
 				// skip other typedefs
-				while( src.ReadToken( &token ) ) {
+				while ( src.ReadToken( &token ) ) {
 					if ( token == "{" ) {
 						indent++;
 					} else if ( token == "}" ) {
@@ -630,12 +630,12 @@ void idTypeInfoGen::ParseScope( const char *scope, bool isTemplate, idParser &sr
 			isStatic = true;
 
 		} else if ( token.type == TT_NAME ) {
-	
+
 			assert( indent == 1 );
 
 			// if this is a class operator
 			if ( token == "operator" ) {
-				while( src.ReadToken( &token ) ) {
+				while ( src.ReadToken( &token ) ) {
 					if ( token == "(" ) {
 						src.UnreadToken( &token );
 						break;
@@ -647,7 +647,7 @@ void idTypeInfoGen::ParseScope( const char *scope, bool isTemplate, idParser &sr
 			if ( src.CheckTokenString( "(" ) ) {
 
 				indent++;
-				while( indent > 1 && src.ReadToken( &token ) ) {
+				while ( indent > 1 && src.ReadToken( &token ) ) {
 					if ( token == "(" ) {
 						indent++;
 					} else if ( token == ")" ) {
@@ -657,7 +657,7 @@ void idTypeInfoGen::ParseScope( const char *scope, bool isTemplate, idParser &sr
 
 				if ( src.CheckTokenString( "(" ) ) {
 					indent++;
-					while( indent > 1 && src.ReadToken( &token ) ) {
+					while ( indent > 1 && src.ReadToken( &token ) ) {
 						if ( token == "(" ) {
 							indent++;
 						} else if ( token == ")" ) {
@@ -675,7 +675,7 @@ void idTypeInfoGen::ParseScope( const char *scope, bool isTemplate, idParser &sr
 
 				} else if ( src.CheckTokenString( "{" ) ) {
 					indent++;
-					while( indent > 1 && src.ReadToken( &token ) ) {
+					while ( indent > 1 && src.ReadToken( &token ) ) {
 						if ( token == "{" ) {
 							indent++;
 						} else if ( token == "}" ) {
@@ -706,7 +706,7 @@ void idTypeInfoGen::ParseScope( const char *scope, bool isTemplate, idParser &sr
 			} else {
 
 				// check for class variables
-				while( 1 ) {
+				while ( 1 ) {
 
 					int arraySize = ParseArraySize( scope, src );
 
@@ -720,7 +720,7 @@ void idTypeInfoGen::ParseScope( const char *scope, bool isTemplate, idParser &sr
 						var.bits = 0;
 						typeInfo->variables.Append( var );
 						if ( !src.CheckTokenString( "," ) ) {
-                            varType = "";
+							varType = "";
 							isConst = false;
 							isStatic = false;
 							break;
@@ -767,7 +767,7 @@ void idTypeInfoGen::ParseScope( const char *scope, bool isTemplate, idParser &sr
 						}
 					}
 
-					while( src.CheckTokenString( "*" ) ) {
+					while ( src.CheckTokenString( "*" ) ) {
 						varType += "* ";
 					}
 
@@ -915,7 +915,7 @@ void idTypeInfoGen::WriteTypeInfo( const char *fileName ) const {
 		"===================================================================================\n"
 		"*/\n"
 		"\n", define.c_str(), define.c_str(), constants.Num(), enums.Num(), classes.Num(),
-				numTemplates, maxInheritance, maxInheritanceClass.c_str() );
+		numTemplates, maxInheritance, maxInheritanceClass.c_str() );
 
 	file->WriteFloatString(
 		"typedef struct {\n"

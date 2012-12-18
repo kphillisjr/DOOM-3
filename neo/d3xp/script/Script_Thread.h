@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -84,7 +84,7 @@ private:
 	idInterpreter				interpreter;
 
 	idDict						spawnArgs;
-								
+
 	int 						threadNum;
 	idStr 						threadName;
 
@@ -121,7 +121,7 @@ private:
 	void						Event_SetCvar( const char *name, const char *value ) const;
 	void						Event_GetCvar( const char *name ) const;
 	void						Event_Random( float range ) const;
-#ifdef _D3XP					
+#ifdef _D3XP
 	void						Event_RandomInt( int range ) const;
 #endif
 	void						Event_GetTime( void );
@@ -195,35 +195,39 @@ private:
 	void						Event_DrawText( const char *text, const idVec3 &origin, float scale, const idVec3 &color, const int align, const float lifetime );
 	void						Event_InfluenceActive( void );
 
-public:							
-								CLASS_PROTOTYPE( idThread );
-								
-								idThread();
-								idThread( idEntity *self, const function_t *func );
-								idThread( const function_t *func );
-								idThread( idInterpreter *source, const function_t *func, int args );
-								idThread( idInterpreter *source, idEntity *self, const function_t *func, int args );
+public:
+	CLASS_PROTOTYPE( idThread );
+
+	idThread();
+	idThread( idEntity *self, const function_t *func );
+	idThread( const function_t *func );
+	idThread( idInterpreter *source, const function_t *func, int args );
+	idThread( idInterpreter *source, idEntity *self, const function_t *func, int args );
 
 	virtual						~idThread();
 
-								// tells the thread manager not to delete this thread when it ends
+	// tells the thread manager not to delete this thread when it ends
 	void						ManualDelete( void );
 
 	// save games
 	void						Save( idSaveGame *savefile ) const;				// archives object for save game file
 	void						Restore( idRestoreGame *savefile );				// unarchives object from save game file
 
-	void						EnableDebugInfo( void ) { interpreter.debug = true; };
-	void						DisableDebugInfo( void ) { interpreter.debug = false; };
+	void						EnableDebugInfo( void ) {
+		interpreter.debug = true;
+	};
+	void						DisableDebugInfo( void ) {
+		interpreter.debug = false;
+	};
 
 	void						WaitMS( int time );
 	void						WaitSec( float time );
 	void						WaitFrame( void );
-								
-								// NOTE: If this is called from within a event called by this thread, the function arguments will be invalid after calling this function.
+
+	// NOTE: If this is called from within a event called by this thread, the function arguments will be invalid after calling this function.
 	void						CallFunction( const function_t	*func, bool clearStack );
 
-								// NOTE: If this is called from within a event called by this thread, the function arguments will be invalid after calling this function.
+	// NOTE: If this is called from within a event called by this thread, the function arguments will be invalid after calling this function.
 	void						CallFunction( idEntity *obj, const function_t *func, bool clearStack );
 
 	void						DisplayInfo();
@@ -231,21 +235,32 @@ public:
 	static void					ListThreads_f( const idCmdArgs &args );
 	static void					Restart( void );
 	static void					ObjectMoveDone( int threadnum, idEntity *obj );
-								
-	static idList<idThread*>&	GetThreads ( void );
-	
-	bool						IsDoneProcessing ( void );
-	bool						IsDying			 ( void );	
-								
+
+	static idList<idThread *>	&GetThreads( void );
+
+	bool						IsDoneProcessing( void );
+	bool						IsDying( void );
+
 	void						End( void );
 	static void					KillThread( const char *name );
 	static void					KillThread( int num );
 	bool						Execute( void );
-	void						ManualControl( void ) { manualControl = true; CancelEvents( &EV_Thread_Execute ); };
-	void						DoneProcessing( void ) { interpreter.doneProcessing = true; };
-	void						ContinueProcessing( void ) { interpreter.doneProcessing = false; };
-	bool						ThreadDying( void ) { return interpreter.threadDying; };
-	void						EndThread( void ) { interpreter.threadDying = true; };
+	void						ManualControl( void ) {
+		manualControl = true;
+		CancelEvents( &EV_Thread_Execute );
+	};
+	void						DoneProcessing( void ) {
+		interpreter.doneProcessing = true;
+	};
+	void						ContinueProcessing( void ) {
+		interpreter.doneProcessing = false;
+	};
+	bool						ThreadDying( void ) {
+		return interpreter.threadDying;
+	};
+	void						EndThread( void ) {
+		interpreter.threadDying = true;
+	};
 	bool						IsWaiting( void );
 	void						ClearWaitFor( void );
 	bool						IsWaitingFor( idEntity *obj );
@@ -259,9 +274,9 @@ public:
 	void						SetThreadName( const char *name );
 	const char					*GetThreadName( void );
 
-	void						Error( const char *fmt, ... ) const id_attribute((format(printf,2,3)));
-	void						Warning( const char *fmt, ... ) const id_attribute((format(printf,2,3)));
-								
+	void						Error( const char *fmt, ... ) const id_attribute( ( format( printf, 2, 3 ) ) );
+	void						Warning( const char *fmt, ... ) const id_attribute( ( format( printf, 2, 3 ) ) );
+
 	static idThread				*CurrentThread( void );
 	static int					CurrentThreadNum( void );
 	static bool					BeginMultiFrameEvent( idEntity *ent, const idEventDef *event );
@@ -315,16 +330,16 @@ ID_INLINE const char *idThread::GetThreadName( void ) {
 idThread::GetThreads
 ================
 */
-ID_INLINE idList<idThread*>& idThread::GetThreads ( void ) {
+ID_INLINE idList<idThread *> &idThread::GetThreads( void ) {
 	return threadList;
-}	
+}
 
 /*
 ================
 idThread::IsDoneProcessing
 ================
 */
-ID_INLINE bool idThread::IsDoneProcessing ( void ) {
+ID_INLINE bool idThread::IsDoneProcessing( void ) {
 	return interpreter.doneProcessing;
 }
 
@@ -333,7 +348,7 @@ ID_INLINE bool idThread::IsDoneProcessing ( void ) {
 idThread::IsDying
 ================
 */
-ID_INLINE bool idThread::IsDying ( void ) {
+ID_INLINE bool idThread::IsDying( void ) {
 	return interpreter.threadDying;
 }
 

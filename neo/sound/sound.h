@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -40,21 +40,21 @@ If you have questions concerning this license or the applicable additional terms
 // unfortunately, our minDistance / maxDistance is specified in meters, and
 // we have far too many of them to change at this time.
 const float DOOM_TO_METERS = 0.0254f;					// doom to meters
-const float METERS_TO_DOOM = (1.0f/DOOM_TO_METERS);	// meters to doom
+const float METERS_TO_DOOM = ( 1.0f / DOOM_TO_METERS );	// meters to doom
 
 class idSoundSample;
 
 // sound shader flags
-static const int	SSF_PRIVATE_SOUND =		BIT(0);	// only plays for the current listenerId
-static const int	SSF_ANTI_PRIVATE_SOUND =BIT(1);	// plays for everyone but the current listenerId
-static const int	SSF_NO_OCCLUSION =		BIT(2);	// don't flow through portals, only use straight line
-static const int	SSF_GLOBAL =			BIT(3);	// play full volume to all speakers and all listeners
-static const int	SSF_OMNIDIRECTIONAL =	BIT(4);	// fall off with distance, but play same volume in all speakers
-static const int	SSF_LOOPING =			BIT(5);	// repeat the sound continuously
-static const int	SSF_PLAY_ONCE =			BIT(6);	// never restart if already playing on any channel of a given emitter
-static const int	SSF_UNCLAMPED =			BIT(7);	// don't clamp calculated volumes at 1.0
-static const int	SSF_NO_FLICKER =		BIT(8);	// always return 1.0 for volume queries
-static const int	SSF_NO_DUPS =			BIT(9);	// try not to play the same sound twice in a row
+static const int	SSF_PRIVATE_SOUND =		BIT( 0 );	// only plays for the current listenerId
+static const int	SSF_ANTI_PRIVATE_SOUND = BIT( 1 );	// plays for everyone but the current listenerId
+static const int	SSF_NO_OCCLUSION =		BIT( 2 );	// don't flow through portals, only use straight line
+static const int	SSF_GLOBAL =			BIT( 3 );	// play full volume to all speakers and all listeners
+static const int	SSF_OMNIDIRECTIONAL =	BIT( 4 );	// fall off with distance, but play same volume in all speakers
+static const int	SSF_LOOPING =			BIT( 5 );	// repeat the sound continuously
+static const int	SSF_PLAY_ONCE =			BIT( 6 );	// never restart if already playing on any channel of a given emitter
+static const int	SSF_UNCLAMPED =			BIT( 7 );	// don't clamp calculated volumes at 1.0
+static const int	SSF_NO_FLICKER =		BIT( 8 );	// always return 1.0 for volume queries
+static const int	SSF_NO_DUPS =			BIT( 9 );	// try not to play the same sound twice in a row
 
 // these options can be overriden from sound shader defaults on a per-emitter and per-channel basis
 typedef struct {
@@ -77,17 +77,17 @@ const int		SOUND_MAX_CLASSES		= 4;
 // details here, but that doesn't fit easily with the decl manager at the moment.
 class idSoundShader : public idDecl {
 public:
-							idSoundShader( void );
+	idSoundShader( void );
 	virtual					~idSoundShader( void );
 
 	virtual size_t			Size( void ) const;
 	virtual bool			SetDefaultText( void );
-	virtual const char *	DefaultDefinition( void ) const;
+	virtual const char 	*DefaultDefinition( void ) const;
 	virtual bool			Parse( const char *text, const int textLength );
 	virtual void			FreeData( void );
 	virtual void			List( void ) const;
 
-	virtual const char *	GetDescription() const;
+	virtual const char 	*GetDescription() const;
 
 	// so the editor can draw correct default sound spheres
 	// this is currently defined as meters, which sucks, IMHO.
@@ -102,7 +102,7 @@ public:
 
 	virtual const soundShaderParms_t *GetParms() const;
 	virtual int				GetNumSounds() const;
-	virtual const char *	GetSound( int index ) const;
+	virtual const char 	*GetSound( int index ) const;
 
 	virtual bool			CheckShakesAndOgg( void ) const;
 
@@ -117,14 +117,14 @@ private:
 
 	bool					onDemand;					// only load when played, and free when finished
 	int						speakerMask;
-	const idSoundShader *	altSound;
+	const idSoundShader 	*altSound;
 	idStr					desc;						// description
 	bool					errorDuringParse;
 	float					leadinVolume;				// allows light breaking leadin sounds to be much louder than the broken loop
 
-	idSoundSample *	leadins[SOUND_MAX_LIST_WAVS];
+	idSoundSample 	*leadins[SOUND_MAX_LIST_WAVS];
 	int						numLeadins;
-	idSoundSample *	entries[SOUND_MAX_LIST_WAVS];
+	idSoundSample 	*entries[SOUND_MAX_LIST_WAVS];
 	int						numEntries;
 
 private:
@@ -142,7 +142,7 @@ private:
 
 // sound channels
 static const int SCHANNEL_ANY = 0;	// used in queries and commands to effect every channel at once, in
-									// startSound to have it not override any other channel
+// startSound to have it not override any other channel
 static const int SCHANNEL_ONE = 1;	// any following integer can be used as a channel number
 typedef int s_channelType;	// the game uses its own series of enums, and we don't want to require casts
 
@@ -215,7 +215,7 @@ public:
 	// listenerId allows listener-private and antiPrivate sounds to be filtered
 	// gameTime is in msec, and is used to time sound queries and removals so that they are independent
 	// of any race conditions with the async update
-	virtual	void			PlaceListener( const idVec3 &origin, const idMat3 &axis, const int listenerId, const int gameTime, const idStr& areaName ) = 0;
+	virtual	void			PlaceListener( const idVec3 &origin, const idMat3 &axis, const int listenerId, const int gameTime, const idStr &areaName ) = 0;
 
 	// fade all sounds in the world with a given shader soundClass
 	// to is in Db (sigh), over is in seconds
@@ -241,8 +241,8 @@ public:
 	// under the assumption that we are rendering out screenshots and the gameTime is going
 	// much slower than real time.
 	// path should not include an extension, and the generated filenames will be:
-	// <path>_left.raw, <path>_right.raw, or <path>_51left.raw, <path>_51right.raw, 
-	// <path>_51center.raw, <path>_51lfe.raw, <path>_51backleft.raw, <path>_51backright.raw, 
+	// <path>_left.raw, <path>_right.raw, or <path>_51left.raw, <path>_51right.raw,
+	// <path>_51center.raw, <path>_51lfe.raw, <path>_51backleft.raw, <path>_51backright.raw,
 	// If only two channel mixing is enabled, the left and right .raw files will also be
 	// combined into a stereo .wav file.
 	virtual void			AVIOpen( const char *path, const char *name ) = 0;
@@ -317,14 +317,14 @@ public:
 	virtual int				GetSoundDecoderInfo( int index, soundDecoderInfo_t &decoderInfo ) = 0;
 
 	// if rw == NULL, no portal occlusion or rendered debugging is available
-	virtual idSoundWorld *	AllocSoundWorld( idRenderWorld *rw ) = 0;
+	virtual idSoundWorld 	*AllocSoundWorld( idRenderWorld *rw ) = 0;
 
 	// specifying NULL will cause silence to be played
 	virtual void			SetPlayingSoundWorld( idSoundWorld *soundWorld ) = 0;
 
 	// some tools, like the sound dialog, may be used in both the game and the editor
 	// This can return NULL, so check!
-	virtual idSoundWorld *	GetPlayingSoundWorld( void ) = 0;
+	virtual idSoundWorld 	*GetPlayingSoundWorld( void ) = 0;
 
 	// Mark all soundSamples as currently unused,
 	// but don't free anything.

@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -39,11 +39,10 @@ extern void showCameraInspector();
 /////////////////////////////////////////////////////////////////////////////
 // CDlgCamera dialog
 
-class CDlgCamera : public CDialog
-{
+class CDlgCamera : public CDialog {
 // Construction
 public:
-	CDlgCamera(CWnd* pParent = NULL);   // standard constructor
+	CDlgCamera( CWnd *pParent = NULL ); // standard constructor
 	void setupFromCamera();
 
 // Dialog Data
@@ -65,8 +64,8 @@ public:
 // Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CDlgCamera)
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
+protected:
+	virtual void DoDataExchange( CDataExchange *pDX );  // DDX/DDV support
 	//}}AFX_VIRTUAL
 
 // Implementation
@@ -85,7 +84,7 @@ protected:
 	virtual void OnOK();
 	afx_msg void OnDestroy();
 	afx_msg void OnApply();
-	afx_msg void OnHScroll(UINT nSBCode, UINT nPos, CScrollBar* pScrollBar);
+	afx_msg void OnHScroll( UINT nSBCode, UINT nPos, CScrollBar *pScrollBar );
 	afx_msg void OnFileNew();
 	afx_msg void OnFileOpen();
 	afx_msg void OnFileSave();

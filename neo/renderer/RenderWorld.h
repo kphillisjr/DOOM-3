@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -74,11 +74,11 @@ const int SHADERPARM_PARTICLE_STOPTIME = 8;	// don't spawn any more particles af
 const int MAX_RENDERENTITY_GUI		= 3;
 
 
-typedef bool(*deferredEntityCallback_t)( renderEntity_s *, const renderView_s * );
+typedef bool( *deferredEntityCallback_t )( renderEntity_s *, const renderView_s * );
 
 
 typedef struct renderEntity_s {
-	idRenderModel *			hModel;				// this can only be null if callback is set
+	idRenderModel 			*hModel;				// this can only be null if callback is set
 
 	int						entityNum;
 	int						bodyId;
@@ -95,7 +95,7 @@ typedef struct renderEntity_s {
 	idBounds				bounds;					// only needs to be set for deferred models and md5s
 	deferredEntityCallback_t	callback;
 
-	void *					callbackData;			// used for whatever the callback wants
+	void 					*callbackData;			// used for whatever the callback wants
 
 	// player bodies and possibly player shadows should be suppressed in views from
 	// that player's eyes, but will show up in mirrors and other subviews
@@ -120,20 +120,20 @@ typedef struct renderEntity_s {
 	idMat3					axis;
 
 	// texturing
-	const idMaterial *		customShader;			// if non-0, all surfaces will use this
-	const idMaterial *		referenceShader;		// used so flares can reference the proper light shader
-	const idDeclSkin *		customSkin;				// 0 for no remappings
-	class idSoundEmitter *	referenceSound;			// for shader sound tables, allowing effects to vary with sounds
+	const idMaterial 		*customShader;			// if non-0, all surfaces will use this
+	const idMaterial 		*referenceShader;		// used so flares can reference the proper light shader
+	const idDeclSkin 		*customSkin;				// 0 for no remappings
+	class idSoundEmitter 	*referenceSound;			// for shader sound tables, allowing effects to vary with sounds
 	float					shaderParms[ MAX_ENTITY_SHADER_PARMS ];	// can be used in any way by shader or model generation
 
 	// networking: see WriteGUIToSnapshot / ReadGUIFromSnapshot
-	class idUserInterface * gui[ MAX_RENDERENTITY_GUI ];
+	class idUserInterface *gui[ MAX_RENDERENTITY_GUI ];
 
-	struct renderView_s	*	remoteRenderView;		// any remote camera surfaces will use this
+	struct renderView_s		*remoteRenderView;		// any remote camera surfaces will use this
 
 	int						numJoints;
-	idJointMat *			joints;					// array of joints that will modify vertices.
-													// NULL if non-deformable model.  NOT freed by renderer
+	idJointMat 			*joints;					// array of joints that will modify vertices.
+	// NULL if non-deformable model.  NOT freed by renderer
 
 	float					modelDepthHack;			// squash depth range so particle effects don't clip into walls
 
@@ -142,12 +142,12 @@ typedef struct renderEntity_s {
 	bool					noShadow;				// no shadow at all
 
 	bool					noDynamicInteractions;	// don't create any light / shadow interactions after
-													// the level load is completed.  This is a performance hack
-													// for the gigantic outdoor meshes in the monorail map, so
-													// all the lights in the moving monorail don't touch the meshes
+	// the level load is completed.  This is a performance hack
+	// for the gigantic outdoor meshes in the monorail map, so
+	// all the lights in the moving monorail don't touch the meshes
 
 	bool					weaponDepthHack;		// squash depth range so view weapons don't poke into walls
-													// this automatically implies noShadow
+	// this automatically implies noShadow
 	int						forceUpdate;			// force an update (NOTE: not a bool to keep this struct a multiple of 4 bytes)
 	int						timeGroup;
 	int						xrayIndex;
@@ -177,7 +177,7 @@ typedef struct renderLight_s {
 	bool					parallel;			// lightCenter gives the direction to the light at infinity
 	idVec3					lightRadius;		// xyz radius for point lights
 	idVec3					lightCenter;		// offset the lighting direction for shading and
-												// shadows, relative to origin
+	// shadows, relative to origin
 
 	// frustum definition for projected lights, all reletive to origin
 	// FIXME: we should probably have real plane equations here, and offer
@@ -191,15 +191,15 @@ typedef struct renderLight_s {
 	// Dmap will generate an optimized shadow volume named _prelight_<lightName>
 	// for the light against all the _area* models in the map.  The renderer will
 	// ignore this value if the light has been moved after initial creation
-	idRenderModel *			prelightModel;
+	idRenderModel 			*prelightModel;
 
 	// muzzle flash lights will not cast shadows from player and weapon world models
 	int						lightId;
 
 
-	const idMaterial *		shader;				// NULL = either lights/defaultPointLight or lights/defaultProjectedLight
+	const idMaterial 		*shader;				// NULL = either lights/defaultPointLight or lights/defaultProjectedLight
 	float					shaderParms[MAX_ENTITY_SHADER_PARMS];		// can be used in any way by shader
-	idSoundEmitter *		referenceSound;		// for shader sound tables, allowing effects to vary with sounds
+	idSoundEmitter 		*referenceSound;		// for shader sound tables, allowing effects to vary with sounds
 } renderLight_t;
 
 
@@ -216,7 +216,7 @@ typedef struct renderView_s {
 	idMat3					viewaxis;			// transformation matrix, view looks down the positive X axis
 
 	bool					cramZNear;			// for cinematics, we want to set ZNear much lower
-	bool					forceUpdate;		// for an update 
+	bool					forceUpdate;		// for an update
 
 	// time in milliseconds for shader effects and other time dependent rendering issues
 	int						time;
@@ -228,7 +228,7 @@ typedef struct renderView_s {
 // exitPortal_t is returned by idRenderWorld::GetPortal()
 typedef struct {
 	int					areas[2];		// areas connected by this portal
-	const idWinding	*	w;				// winding points have counter clockwise ordering seen from areas[0]
+	const idWinding		*w;				// winding points have counter clockwise ordering seen from areas[0]
 	int					blockingBits;	// PS_BLOCK_VIEW, PS_BLOCK_AIR, etc
 	qhandle_t			portalHandle;
 } exitPortal_t;
@@ -246,8 +246,8 @@ typedef struct modelTrace_s {
 	float					fraction;			// fraction of trace completed
 	idVec3					point;				// end point of trace in global space
 	idVec3					normal;				// hit triangle normal vector in global space
-	const idMaterial *		material;			// material of hit surface
-	const renderEntity_t *	entity;				// render entity that was hit
+	const idMaterial 		*material;			// material of hit surface
+	const renderEntity_t 	*entity;				// render entity that was hit
 	int						jointNumber;		// md5 joint nearest to the hit triangle
 } modelTrace_t;
 
@@ -261,7 +261,7 @@ typedef enum {
 	PS_BLOCK_LOCATION = 2,		// game map location strings often stop in hallways
 	PS_BLOCK_AIR = 4,			// windows between pressurized and unpresurized areas
 
-	PS_BLOCK_ALL = (1<<NUM_PORTAL_ATTRIBUTES)-1
+	PS_BLOCK_ALL = ( 1 << NUM_PORTAL_ATTRIBUTES ) - 1
 } portalConnection_t;
 
 
@@ -394,7 +394,7 @@ public:
 	// the next renderScene
 	virtual bool			ProcessDemoCommand( idDemoFile *readDemo, renderView_t *demoRenderView, int *demoTimeOffset ) = 0;
 
-	// this is used to regenerate all interactions ( which is currently only done during influences ), there may be a less 
+	// this is used to regenerate all interactions ( which is currently only done during influences ), there may be a less
 	// expensive way to do it
 	virtual void			RegenerateWorld() = 0;
 

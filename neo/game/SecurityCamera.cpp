@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -42,7 +42,7 @@ If you have questions concerning this license or the applicable additional terms
 /***********************************************************************
 
   idSecurityCamera
-	
+
 ***********************************************************************/
 
 const idEventDef EV_SecurityCam_ReverseSweep( "<reverseSweep>" );
@@ -52,11 +52,11 @@ const idEventDef EV_SecurityCam_Alert( "<alert>" );
 const idEventDef EV_SecurityCam_AddLight( "<addLight>" );
 
 CLASS_DECLARATION( idEntity, idSecurityCamera )
-	EVENT( EV_SecurityCam_ReverseSweep,		idSecurityCamera::Event_ReverseSweep )
-	EVENT( EV_SecurityCam_ContinueSweep,	idSecurityCamera::Event_ContinueSweep )
-	EVENT( EV_SecurityCam_Pause,			idSecurityCamera::Event_Pause )
-	EVENT( EV_SecurityCam_Alert,			idSecurityCamera::Event_Alert )
-	EVENT( EV_SecurityCam_AddLight,			idSecurityCamera::Event_AddLight )
+EVENT( EV_SecurityCam_ReverseSweep,		idSecurityCamera::Event_ReverseSweep )
+EVENT( EV_SecurityCam_ContinueSweep,	idSecurityCamera::Event_ContinueSweep )
+EVENT( EV_SecurityCam_Pause,			idSecurityCamera::Event_Pause )
+EVENT( EV_SecurityCam_Alert,			idSecurityCamera::Event_Alert )
+EVENT( EV_SecurityCam_AddLight,			idSecurityCamera::Event_AddLight )
 END_CLASS
 
 /*
@@ -71,7 +71,7 @@ void idSecurityCamera::Save( idSaveGame *savefile ) const {
 	savefile->WriteBool( flipAxis );
 	savefile->WriteFloat( scanDist );
 	savefile->WriteFloat( scanFov );
-							
+
 	savefile->WriteFloat( sweepStart );
 	savefile->WriteFloat( sweepEnd );
 	savefile->WriteBool( negativeSweep );
@@ -81,7 +81,7 @@ void idSecurityCamera::Save( idSaveGame *savefile ) const {
 	savefile->WriteFloat( scanFovCos );
 
 	savefile->WriteVec3( viewOffset );
-							
+
 	savefile->WriteInt( pvsArea );
 	savefile->WriteStaticObject( physicsObj );
 	savefile->WriteTraceModel( trm );
@@ -99,7 +99,7 @@ void idSecurityCamera::Restore( idRestoreGame *savefile ) {
 	savefile->ReadBool( flipAxis );
 	savefile->ReadFloat( scanDist );
 	savefile->ReadFloat( scanFov );
-							
+
 	savefile->ReadFloat( sweepStart );
 	savefile->ReadFloat( sweepEnd );
 	savefile->ReadBool( negativeSweep );
@@ -109,7 +109,7 @@ void idSecurityCamera::Restore( idRestoreGame *savefile ) {
 	savefile->ReadFloat( scanFovCos );
 
 	savefile->ReadVec3( viewOffset );
-							
+
 	savefile->ReadInt( pvsArea );
 	savefile->ReadStaticObject( physicsObj );
 	savefile->ReadTraceModel( trm );
@@ -190,24 +190,24 @@ void idSecurityCamera::Event_AddLight( void ) {
 	float	radius;
 	idVec3	lightOffset;
 	idLight	*spotLight;
-	
+
 	dir = GetAxis();
 	dir.NormalVectors( right, up );
 	target = GetPhysics()->GetOrigin() + dir * scanDist;
-		
+
 	radius = tan( scanFov * idMath::PI / 360.0f );
 	up = dir + up * radius;
 	up.Normalize();
 	up = GetPhysics()->GetOrigin() + up * scanDist;
 	up -= target;
-	
+
 	right = dir + right * radius;
 	right.Normalize();
 	right = GetPhysics()->GetOrigin() + right * scanDist;
 	right -= target;
 
 	spawnArgs.GetVector( "lightOffset", "0 0 0", lightOffset );
-	
+
 	args.Set( "origin", ( GetPhysics()->GetOrigin() + lightOffset ).ToString() );
 	args.Set( "light_target", target.ToString() );
 	args.Set( "light_right", right.ToString() );
@@ -228,7 +228,7 @@ void idSecurityCamera::DrawFov( void ) {
 	int i;
 	float radius, a, s, c, halfRadius;
 	idVec3 right, up;
-	idVec4 color(1, 0, 0, 1), color2(0, 0, 1, 1);
+	idVec4 color( 1, 0, 0, 1 ), color2( 0, 0, 1, 1 );
 	idVec3 lastPoint, point, lastHalfPoint, halfPoint, center;
 
 	idVec3 dir = GetAxis();
@@ -294,7 +294,7 @@ bool idSecurityCamera::CanSeePlayer( void ) {
 	handle = gameLocal.pvs.SetupCurrentPVS( pvsArea );
 
 	for ( i = 0; i < gameLocal.numClients; i++ ) {
-		ent = static_cast<idPlayer*>(gameLocal.entities[ i ]);
+		ent = static_cast<idPlayer *>( gameLocal.entities[ i ] );
 
 		if ( !ent || ( ent->fl.notarget ) ) {
 			continue;
@@ -338,7 +338,7 @@ idSecurityCamera::SetAlertMode
 ================
 */
 void idSecurityCamera::SetAlertMode( int alert ) {
-	if (alert >= SCANNING && alert <= ACTIVATED) {
+	if ( alert >= SCANNING && alert <= ACTIVATED ) {
 		alertMode = alert;
 	}
 	renderEntity.shaderParms[ SHADERPARM_MODE ] = alertMode;
@@ -359,7 +359,7 @@ void idSecurityCamera::Think( void ) {
 			DrawFov();
 		}
 
-		if (health <= 0) {
+		if ( health <= 0 ) {
 			BecomeInactive( TH_THINK );
 			return;
 		}
@@ -369,13 +369,13 @@ void idSecurityCamera::Think( void ) {
 	RunPhysics();
 
 	if ( thinkFlags & TH_THINK ) {
-		if (CanSeePlayer()) {
-			if (alertMode == SCANNING) {
+		if ( CanSeePlayer() ) {
+			if ( alertMode == SCANNING ) {
 				float	sightTime;
 
-				SetAlertMode(ALERT);
+				SetAlertMode( ALERT );
 				stopSweeping = gameLocal.time;
-				if (sweeping) {
+				if ( sweeping ) {
 					CancelEvents( &EV_SecurityCam_Pause );
 				} else {
 					CancelEvents( &EV_SecurityCam_ReverseSweep );
@@ -385,15 +385,15 @@ void idSecurityCamera::Think( void ) {
 				StartSound( "snd_sight", SND_CHANNEL_BODY, 0, false, NULL );
 
 				sightTime = spawnArgs.GetFloat( "sightTime", "5" );
-				PostEventSec(&EV_SecurityCam_Alert, sightTime);
+				PostEventSec( &EV_SecurityCam_Alert, sightTime );
 			}
 		} else {
-			if (alertMode == ALERT) {
+			if ( alertMode == ALERT ) {
 				float	sightResume;
 
-				SetAlertMode(LOSINGINTEREST);
+				SetAlertMode( LOSINGINTEREST );
 				CancelEvents( &EV_SecurityCam_Alert );
-				
+
 				sightResume = spawnArgs.GetFloat( "sightResume", "1.5" );
 				PostEventSec( &EV_SecurityCam_ContinueSweep, sightResume );
 			}
@@ -422,7 +422,7 @@ idSecurityCamera::GetAxis
 ================
 */
 const idVec3 idSecurityCamera::GetAxis( void ) const {
-	return (flipAxis) ? -GetPhysics()->GetAxis()[modelAxis] : GetPhysics()->GetAxis()[modelAxis];
+	return ( flipAxis ) ? -GetPhysics()->GetAxis()[modelAxis] : GetPhysics()->GetAxis()[modelAxis];
 };
 
 /*
@@ -446,7 +446,7 @@ void idSecurityCamera::StartSweep( void ) {
 	sweepStart = gameLocal.time;
 	speed = SEC2MS( SweepSpeed() );
 	sweepEnd = sweepStart + speed;
-   	PostEventMS( &EV_SecurityCam_Pause, speed );
+	PostEventMS( &EV_SecurityCam_Pause, speed );
 	StartSound( "snd_moving", SND_CHANNEL_BODY, 0, false, NULL );
 }
 
@@ -456,16 +456,16 @@ idSecurityCamera::Event_ContinueSweep
 ================
 */
 void idSecurityCamera::Event_ContinueSweep( void ) {
-	float pct = (stopSweeping - sweepStart) / (sweepEnd - sweepStart);
-	float f = gameLocal.time - (sweepEnd - sweepStart) * pct;
+	float pct = ( stopSweeping - sweepStart ) / ( sweepEnd - sweepStart );
+	float f = gameLocal.time - ( sweepEnd - sweepStart ) * pct;
 	int speed;
 
 	sweepStart = f;
 	speed = MS2SEC( SweepSpeed() );
 	sweepEnd = sweepStart + speed;
-   	PostEventMS( &EV_SecurityCam_Pause, speed * (1.0 - pct));
+	PostEventMS( &EV_SecurityCam_Pause, speed * ( 1.0 - pct ) );
 	StartSound( "snd_moving", SND_CHANNEL_BODY, 0, false, NULL );
-	SetAlertMode(SCANNING);
+	SetAlertMode( SCANNING );
 	sweeping = true;
 }
 
@@ -477,10 +477,10 @@ idSecurityCamera::Event_Alert
 void idSecurityCamera::Event_Alert( void ) {
 	float	wait;
 
-	SetAlertMode(ACTIVATED);
+	SetAlertMode( ACTIVATED );
 	StopSound( SND_CHANNEL_ANY, false );
 	StartSound( "snd_activate", SND_CHANNEL_BODY, 0, false, NULL );
-	ActivateTargets(this);
+	ActivateTargets( this );
 	CancelEvents( &EV_SecurityCam_ContinueSweep );
 
 	wait = spawnArgs.GetFloat( "wait", "20" );
@@ -510,7 +510,7 @@ void idSecurityCamera::Event_Pause( void ) {
 	sweeping = false;
 	StopSound( SND_CHANNEL_ANY, false );
 	StartSound( "snd_stop", SND_CHANNEL_BODY, 0, false, NULL );
-   	PostEventSec( &EV_SecurityCam_ReverseSweep, sweepWait );
+	PostEventSec( &EV_SecurityCam_ReverseSweep, sweepWait );
 }
 
 /*

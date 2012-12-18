@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -68,7 +68,7 @@ idVec3 idAASFileLocal::FaceCenter( int faceNum ) const {
 		for ( i = 0; i < face->numEdges; i++ ) {
 			edgeNum = edgeIndex[ face->firstEdge + i ];
 			edge = &edges[ abs( edgeNum ) ];
-			center += vertices[ edge->vertexNum[ INTSIGNBITSET(edgeNum) ] ];
+			center += vertices[ edge->vertexNum[ INTSIGNBITSET( edgeNum ) ] ];
 		}
 		center /= face->numEdges;
 	}
@@ -91,7 +91,7 @@ idVec3 idAASFileLocal::AreaCenter( int areaNum ) const {
 	if ( area->numFaces > 0 ) {
 		for ( i = 0; i < area->numFaces; i++ ) {
 			faceNum = faceIndex[area->firstFace + i];
-			center += FaceCenter( abs(faceNum) );
+			center += FaceCenter( abs( faceNum ) );
 		}
 		center /= area->numFaces;
 	}
@@ -112,7 +112,7 @@ idVec3 idAASFileLocal::AreaReachableGoal( int areaNum ) const {
 
 	area = &areas[areaNum];
 
-	if ( !(area->flags & (AREA_REACHABLE_WALK|AREA_REACHABLE_FLY)) || (area->flags & AREA_LIQUID) ) {
+	if ( !( area->flags & ( AREA_REACHABLE_WALK | AREA_REACHABLE_FLY ) ) || ( area->flags & AREA_LIQUID ) ) {
 		return AreaCenter( areaNum );
 	}
 
@@ -121,10 +121,10 @@ idVec3 idAASFileLocal::AreaReachableGoal( int areaNum ) const {
 	numFaces = 0;
 	for ( i = 0; i < area->numFaces; i++ ) {
 		faceNum = faceIndex[area->firstFace + i];
-		if ( !(faces[abs(faceNum)].flags & FACE_FLOOR) ) {
+		if ( !( faces[abs( faceNum )].flags & FACE_FLOOR ) ) {
 			continue;
 		}
-		center += FaceCenter( abs(faceNum) );
+		center += FaceCenter( abs( faceNum ) );
 		numFaces++;
 	}
 	if ( numFaces > 0 ) {
@@ -170,7 +170,7 @@ idBounds idAASFileLocal::FaceBounds( int faceNum ) const {
 	for ( i = 0; i < face->numEdges; i++ ) {
 		edgeNum = edgeIndex[ face->firstEdge + i ];
 		edge = &edges[ abs( edgeNum ) ];
-		bounds.AddPoint( vertices[ edge->vertexNum[ INTSIGNBITSET(edgeNum) ] ] );
+		bounds.AddPoint( vertices[ edge->vertexNum[ INTSIGNBITSET( edgeNum ) ] ] );
 	}
 	return bounds;
 }
@@ -190,7 +190,7 @@ idBounds idAASFileLocal::AreaBounds( int areaNum ) const {
 
 	for ( i = 0; i < area->numFaces; i++ ) {
 		faceNum = faceIndex[area->firstFace + i];
-		bounds += FaceBounds( abs(faceNum) );
+		bounds += FaceBounds( abs( faceNum ) );
 	}
 	return bounds;
 }
@@ -209,14 +209,13 @@ int idAASFileLocal::PointAreaNum( const idVec3 &origin ) const {
 		node = &nodes[nodeNum];
 		if ( planeList[node->planeNum].Side( origin ) == PLANESIDE_BACK ) {
 			nodeNum = node->children[1];
-		}
-		else {
+		} else {
 			nodeNum = node->children[0];
 		}
 		if ( nodeNum < 0 ) {
 			return -nodeNum;
 		}
-	} while( nodeNum );
+	} while ( nodeNum );
 
 	return 0;
 }
@@ -245,8 +244,7 @@ int idAASFileLocal::PointReachableAreaNum( const idVec3 &origin, const idBounds 
 		if ( ( areas[areaNum].flags & areaFlags ) && ( ( areas[areaNum].travelFlags & excludeTravelFlags ) == 0 ) ) {
 			return areaNum;
 		}
-	}
-	else {
+	} else {
 		// trace up
 		end = start;
 		end[2] += 32.0f;
@@ -293,7 +291,7 @@ int idAASFileLocal::BoundsReachableAreaNum_r( int nodeNum, const idBounds &bound
 	int res;
 	const aasNode_t *node;
 
-	while( nodeNum ) {
+	while ( nodeNum ) {
 		if ( nodeNum < 0 ) {
 			if ( ( areas[-nodeNum].flags & areaFlags ) && ( ( areas[-nodeNum].travelFlags & excludeTravelFlags ) == 0 ) ) {
 				return -nodeNum;
@@ -304,11 +302,9 @@ int idAASFileLocal::BoundsReachableAreaNum_r( int nodeNum, const idBounds &bound
 		res = bounds.PlaneSide( planeList[node->planeNum] );
 		if ( res == PLANESIDE_BACK ) {
 			nodeNum = node->children[1];
-		}
-		else if ( res == PLANESIDE_FRONT ) {
+		} else if ( res == PLANESIDE_FRONT ) {
 			nodeNum = node->children[0];
-		}
-		else {
+		} else {
 			nodeNum = BoundsReachableAreaNum_r( node->children[1], bounds, areaFlags, excludeTravelFlags );
 			if ( nodeNum ) {
 				return nodeNum;
@@ -364,8 +360,7 @@ idAASFileLocal::Trace
 */
 #define TRACEPLANE_EPSILON		0.125f
 
-typedef struct aasTraceStack_s
-{
+typedef struct aasTraceStack_s {
 	idVec3			start;
 	idVec3			end;
 	int				planeNum;
@@ -391,8 +386,8 @@ bool idAASFileLocal::Trace( aasTrace_t &trace, const idVec3 &start, const idVec3
 	tstack_p->planeNum = 0;
 	tstack_p->nodeNum = 1;		//start with the root of the tree
 	tstack_p++;
-	
-	while( 1 ) {
+
+	while ( 1 ) {
 
 		tstack_p--;
 		// if the trace stack is empty
@@ -401,8 +396,7 @@ bool idAASFileLocal::Trace( aasTrace_t &trace, const idVec3 &start, const idVec3
 				// completely in solid
 				trace.fraction = 0.0f;
 				trace.endpos = start;
-			}
-			else {
+			} else {
 				// nothing was hit
 				trace.fraction = 1.0f;
 				trace.endpos = end;
@@ -415,7 +409,7 @@ bool idAASFileLocal::Trace( aasTrace_t &trace, const idVec3 &start, const idVec3
 		nodeNum = tstack_p->nodeNum;
 
 		// if it is an area
-		if ( nodeNum < 0) {
+		if ( nodeNum < 0 ) {
 			// if can't enter the area
 			if ( ( areas[-nodeNum].flags & trace.flags ) || ( areas[-nodeNum].travelFlags & trace.travelFlags ) ) {
 				if ( !trace.lastAreaNum ) {
@@ -469,8 +463,7 @@ bool idAASFileLocal::Trace( aasTrace_t &trace, const idVec3 &start, const idVec3
 			}
 			if ( !trace.lastAreaNum && trace.getOutOfSolid ) {
 				continue;
-			}
-			else {
+			} else {
 				return true;
 			}
 		}
@@ -494,7 +487,7 @@ bool idAASFileLocal::Trace( aasTrace_t &trace, const idVec3 &start, const idVec3
 			tstack_p->nodeNum = node->children[0];
 			tstack_p++;
 			if ( tstack_p >= &tracestack[MAX_AAS_TREE_DEPTH] ) {
-				common->Error("idAASFileLocal::Trace: stack overflow\n" );
+				common->Error( "idAASFileLocal::Trace: stack overflow\n" );
 				return false;
 			}
 		}
@@ -505,7 +498,7 @@ bool idAASFileLocal::Trace( aasTrace_t &trace, const idVec3 &start, const idVec3
 			tstack_p->nodeNum = node->children[1];
 			tstack_p++;
 			if ( tstack_p >= &tracestack[MAX_AAS_TREE_DEPTH] ) {
-				common->Error("idAASFileLocal::Trace: stack overflow\n" );
+				common->Error( "idAASFileLocal::Trace: stack overflow\n" );
 				return false;
 			}
 		}
@@ -514,17 +507,15 @@ bool idAASFileLocal::Trace( aasTrace_t &trace, const idVec3 &start, const idVec3
 			tmpPlaneNum = tstack_p->planeNum;
 			// calculate the hit point with the node plane
 			// put the cross point TRACEPLANE_EPSILON on the near side
-			if (front < 0) {
-				frac = (front + TRACEPLANE_EPSILON) / ( front - back );
-			}
-			else {
-				frac = (front - TRACEPLANE_EPSILON) / ( front - back );
+			if ( front < 0 ) {
+				frac = ( front + TRACEPLANE_EPSILON ) / ( front - back );
+			} else {
+				frac = ( front - TRACEPLANE_EPSILON ) / ( front - back );
 			}
 
-			if (frac < 0) {
+			if ( frac < 0 ) {
 				frac = 0.001f; //0
-			}
-			else if (frac > 1) {
+			} else if ( frac > 1 ) {
 				frac = 0.999f; //1
 			}
 
@@ -539,7 +530,7 @@ bool idAASFileLocal::Trace( aasTrace_t &trace, const idVec3 &start, const idVec3
 			tstack_p->nodeNum = node->children[!side];
 			tstack_p++;
 			if ( tstack_p >= &tracestack[MAX_AAS_TREE_DEPTH] ) {
-				common->Error("idAASFileLocal::Trace: stack overflow\n" );
+				common->Error( "idAASFileLocal::Trace: stack overflow\n" );
 				return false;
 			}
 			// now put the part near the start of the line on the stack so we will
@@ -550,7 +541,7 @@ bool idAASFileLocal::Trace( aasTrace_t &trace, const idVec3 &start, const idVec3
 			tstack_p->nodeNum = node->children[side];
 			tstack_p++;
 			if ( tstack_p >= &tracestack[MAX_AAS_TREE_DEPTH] ) {
-				common->Error("idAASFileLocal::Trace: stack overflow\n" );
+				common->Error( "idAASFileLocal::Trace: stack overflow\n" );
 				return false;
 			}
 		}

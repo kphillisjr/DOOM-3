@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@ If you have questions concerning this license or the applicable additional terms
 #include "../idlib/precompiled.h"
 #pragma hdrstop
 
-idCVar idEventLoop::com_journal( "com_journal", "0", CVAR_INIT|CVAR_SYSTEM, "1 = record journal, 2 = play back journal", 0, 2, idCmdSystem::ArgCompletion_Integer<0,2> );
+idCVar idEventLoop::com_journal( "com_journal", "0", CVAR_INIT | CVAR_SYSTEM, "1 = record journal, 2 = play back journal", 0, 2, idCmdSystem::ArgCompletion_Integer<0, 2> );
 
 idEventLoop eventLoopLocal;
 idEventLoop *eventLoop = &eventLoopLocal;
@@ -65,8 +65,8 @@ sysEvent_t	idEventLoop::GetRealEvent( void ) {
 
 	// either get an event from the system or the journal file
 	if ( com_journal.GetInteger() == 2 ) {
-		r = com_journalFile->Read( &ev, sizeof(ev) );
-		if ( r != sizeof(ev) ) {
+		r = com_journalFile->Read( &ev, sizeof( ev ) );
+		if ( r != sizeof( ev ) ) {
 			common->FatalError( "Error reading from journal file" );
 		}
 		if ( ev.evPtrLength ) {
@@ -81,8 +81,8 @@ sysEvent_t	idEventLoop::GetRealEvent( void ) {
 
 		// write the journal value out if needed
 		if ( com_journal.GetInteger() == 1 ) {
-			r = com_journalFile->Write( &ev, sizeof(ev) );
-			if ( r != sizeof(ev) ) {
+			r = com_journalFile->Write( &ev, sizeof( ev ) );
+			if ( r != sizeof( ev ) ) {
 				common->FatalError( "Error writing to journal file" );
 			}
 			if ( ev.evPtrLength ) {
@@ -106,7 +106,7 @@ void idEventLoop::PushEvent( sysEvent_t *event ) {
 	sysEvent_t		*ev;
 	static			bool printedWarning;
 
-	ev = &com_pushedEvents[ com_pushedEventsHead & (MAX_PUSHED_EVENTS-1) ];
+	ev = &com_pushedEvents[ com_pushedEventsHead & ( MAX_PUSHED_EVENTS - 1 ) ];
 
 	if ( com_pushedEventsHead - com_pushedEventsTail >= MAX_PUSHED_EVENTS ) {
 
@@ -136,7 +136,7 @@ idEventLoop::GetEvent
 sysEvent_t idEventLoop::GetEvent( void ) {
 	if ( com_pushedEventsHead > com_pushedEventsTail ) {
 		com_pushedEventsTail++;
-		return com_pushedEvents[ (com_pushedEventsTail-1) & (MAX_PUSHED_EVENTS-1) ];
+		return com_pushedEvents[( com_pushedEventsTail - 1 ) & ( MAX_PUSHED_EVENTS - 1 ) ];
 	}
 	return GetRealEvent();
 }
@@ -154,7 +154,7 @@ void idEventLoop::ProcessEvent( sysEvent_t ev ) {
 
 	if ( ev.evType == SE_CONSOLE ) {
 		// from a text console outside the game window
-		cmdSystem->BufferCommandText( CMD_EXEC_APPEND, (char *)ev.evPtr );
+		cmdSystem->BufferCommandText( CMD_EXEC_APPEND, ( char * )ev.evPtr );
 		cmdSystem->BufferCommandText( CMD_EXEC_APPEND, "\n" );
 	} else {
 		session->ProcessEvent( &ev );
@@ -259,7 +259,7 @@ int idEventLoop::Milliseconds( void ) {
 			Com_PushEvent( &ev );
 		}
 	} while ( ev.evType != SE_NONE );
-	
+
 	return ev.evTime;
 #endif
 }

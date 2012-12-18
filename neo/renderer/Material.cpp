@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -193,11 +193,11 @@ idImage *idMaterial::GetEditorImage( void ) const {
 	}
 
 	// if we don't have an editorImageName, use the first stage image
-	if ( !editorImageName.Length()) {
+	if ( !editorImageName.Length() ) {
 		// _D3XP :: First check for a diffuse image, then use the first
 		if ( numStages && stages ) {
 			int i;
-			for( i = 0; i < numStages; i++ ) {
+			for ( i = 0; i < numStages; i++ ) {
 				if ( stages[i].lighting == SL_DIFFUSE ) {
 					editorImage = stages[i].texture.image;
 					break;
@@ -234,7 +234,7 @@ static infoParm_t	infoParms[] = {
 	{"water",		1,	0,	CONTENTS_WATER },		// used for water
 	{"playerclip",	0,	0,	CONTENTS_PLAYERCLIP },	// solid to players
 	{"monsterclip",	0,	0,	CONTENTS_MONSTERCLIP },	// solid to monsters
-	{"moveableclip",0,	0,	CONTENTS_MOVEABLECLIP },// solid to moveable entities
+	{"moveableclip", 0,	0,	CONTENTS_MOVEABLECLIP }, // solid to moveable entities
 	{"ikclip",		0,	0,	CONTENTS_IKCLIP },		// solid to IK
 	{"blood",		0,	0,	CONTENTS_BLOOD },		// used to detect blood decals
 	{"trigger",		0,	0,	CONTENTS_TRIGGER },		// used for triggers
@@ -242,16 +242,16 @@ static infoParm_t	infoParms[] = {
 	{"aasobstacle",	0,	0,	CONTENTS_AAS_OBSTACLE },// used to compile an obstacle into AAS that can be enabled/disabled
 	{"flashlight_trigger",	0,	0,	CONTENTS_FLASHLIGHT_TRIGGER }, // used for triggers that are activated by the flashlight
 	{"nonsolid",	1,	0,	0 },					// clears the solid flag
-	{"nullNormal",	0,	SURF_NULLNORMAL,0 },		// renderbump will draw as 0x80 0x80 0x80
+	{"nullNormal",	0,	SURF_NULLNORMAL, 0 },		// renderbump will draw as 0x80 0x80 0x80
 
 	// utility relevant attributes
 	{"areaportal",	1,	0,	CONTENTS_AREAPORTAL },	// divides areas
 	{"qer_nocarve",	1,	0,	CONTENTS_NOCSG},		// don't cut brushes in editor
 
 	{"discrete",	1,	SURF_DISCRETE,	0 },		// surfaces should not be automatically merged together or
-													// clipped to the world,
-													// because they represent discrete objects like gui shaders
-													// mirrors, or autosprites
+	// clipped to the world,
+	// because they represent discrete objects like gui shaders
+	// mirrors, or autosprites
 	{"noFragment",	0,	SURF_NOFRAGMENT,	0 },
 
 	{"slick",		0,	SURF_SLICK,		0 },
@@ -281,7 +281,7 @@ static infoParm_t	infoParms[] = {
 	{"surftype15",	0,	SURFTYPE_15,	0 },
 };
 
-static const int numInfoParms = sizeof(infoParms) / sizeof (infoParms[0]);
+static const int numInfoParms = sizeof( infoParms ) / sizeof( infoParms[0] );
 
 
 /*
@@ -343,7 +343,7 @@ void idMaterial::ParseSort( idLexer &src ) {
 		sort = SS_SUBVIEW;
 	} else if ( !token.Icmp( "opaque" ) ) {
 		sort = SS_OPAQUE;
-	}else if ( !token.Icmp( "decal" ) ) {
+	} else if ( !token.Icmp( "decal" ) ) {
 		sort = SS_DECAL;
 	} else if ( !token.Icmp( "far" ) ) {
 		sort = SS_FAR;
@@ -602,7 +602,7 @@ int idMaterial::ParseTerm( idLexer &src ) {
 		return EXP_REG_GLOBAL7;
 	}
 	if ( !token.Icmp( "fragmentPrograms" ) ) {
-		return GetExpressionConstant( (float) glConfig.ARBFragmentProgramAvailable );
+		return GetExpressionConstant( ( float ) glConfig.ARBFragmentProgramAvailable );
 	}
 
 	if ( !token.Icmp( "sound" ) ) {
@@ -614,7 +614,7 @@ int idMaterial::ParseTerm( idLexer &src ) {
 	if ( token == "-" ) {
 		src.ReadToken( &token );
 		if ( token.type == TT_NUMBER || token == "." ) {
-			return GetExpressionConstant( -(float) token.GetFloatValue() );
+			return GetExpressionConstant( -( float ) token.GetFloatValue() );
 		}
 		src.Warning( "Bad negative number '%s'", token.c_str() );
 		SetMaterialFlag( MF_DEFAULTED );
@@ -622,7 +622,7 @@ int idMaterial::ParseTerm( idLexer &src ) {
 	}
 
 	if ( token.type == TT_NUMBER || token == "." || token == "-" ) {
-		return GetExpressionConstant( (float) token.GetFloatValue() );
+		return GetExpressionConstant( ( float ) token.GetFloatValue() );
 	}
 
 	// see if it is a table name
@@ -740,9 +740,9 @@ void idMaterial::ClearStage( shaderStage_t *ss ) {
 	ss->drawStateBits = 0;
 	ss->conditionRegister = GetExpressionConstant( 1 );
 	ss->color.registers[0] =
-	ss->color.registers[1] =
-	ss->color.registers[2] =
-	ss->color.registers[3] = GetExpressionConstant( 1 );
+		ss->color.registers[1] =
+			ss->color.registers[2] =
+				ss->color.registers[3] = GetExpressionConstant( 1 );
 }
 
 /*
@@ -833,7 +833,7 @@ void idMaterial::ParseBlend( idLexer &src, shaderStage_t *stage ) {
 		stage->drawStateBits = GLS_SRCBLEND_DST_COLOR | GLS_DSTBLEND_ZERO;
 		return;
 	}
-	if (  !token.Icmp( "none" ) ) {
+	if ( !token.Icmp( "none" ) ) {
 		// none is used when defining an alpha mask that doesn't draw
 		stage->drawStateBits = GLS_SRCBLEND_ZERO | GLS_DSTBLEND_ONE;
 		return;
@@ -882,7 +882,7 @@ void idMaterial::ParseVertexParm( idLexer &src, newShaderStage_t *newStage ) {
 		return;
 	}
 	if ( parm >= newStage->numVertexParms ) {
-		newStage->numVertexParms = parm+1;
+		newStage->numVertexParms = parm + 1;
 	}
 
 	newStage->vertexParms[parm][0] = ParseExpression( src );
@@ -890,8 +890,8 @@ void idMaterial::ParseVertexParm( idLexer &src, newShaderStage_t *newStage ) {
 	src.ReadTokenOnLine( &token );
 	if ( !token[0] || token.Icmp( "," ) ) {
 		newStage->vertexParms[parm][1] =
-		newStage->vertexParms[parm][2] =
-		newStage->vertexParms[parm][3] = newStage->vertexParms[parm][0];
+			newStage->vertexParms[parm][2] =
+				newStage->vertexParms[parm][3] = newStage->vertexParms[parm][0];
 		return;
 	}
 
@@ -950,10 +950,10 @@ void idMaterial::ParseFragmentMap( idLexer &src, newShaderStage_t *newStage ) {
 	}
 
 	if ( unit >= newStage->numFragmentProgramImages ) {
-		newStage->numFragmentProgramImages = unit+1;
+		newStage->numFragmentProgramImages = unit + 1;
 	}
 
-	while( 1 ) {
+	while ( 1 ) {
 		src.ReadTokenOnLine( &token );
 
 		if ( !token.Icmp( "cubeMap" ) ) {
@@ -1010,7 +1010,7 @@ void idMaterial::ParseFragmentMap( idLexer &src, newShaderStage_t *newStage ) {
 	}
 	str = R_ParsePastImageProgram( src );
 
-	newStage->fragmentProgramImages[unit] = 
+	newStage->fragmentProgramImages[unit] =
 		globalImages->ImageFromFile( str, tf, allowPicmip, trp, td, cubeMap );
 	if ( !newStage->fragmentProgramImages[unit] ) {
 		newStage->fragmentProgramImages[unit] = globalImages->defaultImage;
@@ -1035,28 +1035,28 @@ void idMaterial::MultiplyTextureMatrix( textureStage_t *ts, int registers[2][3] 
 
 	// multiply the two maticies
 	ts->matrix[0][0] = EmitOp(
-							EmitOp( old[0][0], registers[0][0], OP_TYPE_MULTIPLY ),
-							EmitOp( old[0][1], registers[1][0], OP_TYPE_MULTIPLY ), OP_TYPE_ADD );
+						   EmitOp( old[0][0], registers[0][0], OP_TYPE_MULTIPLY ),
+						   EmitOp( old[0][1], registers[1][0], OP_TYPE_MULTIPLY ), OP_TYPE_ADD );
 	ts->matrix[0][1] = EmitOp(
-							EmitOp( old[0][0], registers[0][1], OP_TYPE_MULTIPLY ),
-							EmitOp( old[0][1], registers[1][1], OP_TYPE_MULTIPLY ), OP_TYPE_ADD );
-	ts->matrix[0][2] = EmitOp( 
-							EmitOp(
-								EmitOp( old[0][0], registers[0][2], OP_TYPE_MULTIPLY ),
-								EmitOp( old[0][1], registers[1][2], OP_TYPE_MULTIPLY ), OP_TYPE_ADD ),
-							old[0][2], OP_TYPE_ADD );
+						   EmitOp( old[0][0], registers[0][1], OP_TYPE_MULTIPLY ),
+						   EmitOp( old[0][1], registers[1][1], OP_TYPE_MULTIPLY ), OP_TYPE_ADD );
+	ts->matrix[0][2] = EmitOp(
+						   EmitOp(
+							   EmitOp( old[0][0], registers[0][2], OP_TYPE_MULTIPLY ),
+							   EmitOp( old[0][1], registers[1][2], OP_TYPE_MULTIPLY ), OP_TYPE_ADD ),
+						   old[0][2], OP_TYPE_ADD );
 
 	ts->matrix[1][0] = EmitOp(
-							EmitOp( old[1][0], registers[0][0], OP_TYPE_MULTIPLY ),
-							EmitOp( old[1][1], registers[1][0], OP_TYPE_MULTIPLY ), OP_TYPE_ADD );
+						   EmitOp( old[1][0], registers[0][0], OP_TYPE_MULTIPLY ),
+						   EmitOp( old[1][1], registers[1][0], OP_TYPE_MULTIPLY ), OP_TYPE_ADD );
 	ts->matrix[1][1] = EmitOp(
-							EmitOp( old[1][0], registers[0][1], OP_TYPE_MULTIPLY ),
-							EmitOp( old[1][1], registers[1][1], OP_TYPE_MULTIPLY ), OP_TYPE_ADD );
-	ts->matrix[1][2] = EmitOp( 
-							EmitOp(
-								EmitOp( old[1][0], registers[0][2], OP_TYPE_MULTIPLY ),
-								EmitOp( old[1][1], registers[1][2], OP_TYPE_MULTIPLY ), OP_TYPE_ADD ),
-							old[1][2], OP_TYPE_ADD );
+						   EmitOp( old[1][0], registers[0][1], OP_TYPE_MULTIPLY ),
+						   EmitOp( old[1][1], registers[1][1], OP_TYPE_MULTIPLY ), OP_TYPE_ADD );
+	ts->matrix[1][2] = EmitOp(
+						   EmitOp(
+							   EmitOp( old[1][0], registers[0][2], OP_TYPE_MULTIPLY ),
+							   EmitOp( old[1][1], registers[1][2], OP_TYPE_MULTIPLY ), OP_TYPE_ADD ),
+						   old[1][2], OP_TYPE_ADD );
 
 }
 
@@ -1126,7 +1126,7 @@ void idMaterial::ParseStage( idLexer &src, const textureRepeat_t trpDefault ) {
 		}
 
 		//BSM Nerve: Added for stage naming in the material editor
-		if( !token.Icmp( "name") ) {
+		if ( !token.Icmp( "name" ) ) {
 			src.SkipRestOfLine();
 			continue;
 		}
@@ -1137,20 +1137,20 @@ void idMaterial::ParseStage( idLexer &src, const textureRepeat_t trpDefault ) {
 			continue;
 		}
 
-		if (  !token.Icmp( "map" ) ) {
+		if ( !token.Icmp( "map" ) ) {
 			str = R_ParsePastImageProgram( src );
 			idStr::Copynz( imageName, str, sizeof( imageName ) );
 			continue;
 		}
 
-		if (  !token.Icmp( "remoteRenderMap" ) ) {
+		if ( !token.Icmp( "remoteRenderMap" ) ) {
 			ts->dynamic = DI_REMOTE_RENDER;
 			ts->width = src.ParseInt();
 			ts->height = src.ParseInt();
 			continue;
 		}
 
-		if (  !token.Icmp( "mirrorRenderMap" ) ) {
+		if ( !token.Icmp( "mirrorRenderMap" ) ) {
 			ts->dynamic = DI_MIRROR_RENDER;
 			ts->width = src.ParseInt();
 			ts->height = src.ParseInt();
@@ -1158,22 +1158,22 @@ void idMaterial::ParseStage( idLexer &src, const textureRepeat_t trpDefault ) {
 			continue;
 		}
 
-		if (  !token.Icmp( "xrayRenderMap" ) ) {
+		if ( !token.Icmp( "xrayRenderMap" ) ) {
 			ts->dynamic = DI_XRAY_RENDER;
 			ts->width = src.ParseInt();
 			ts->height = src.ParseInt();
 			ts->texgen = TG_SCREEN;
 			continue;
 		}
-		if (  !token.Icmp( "screen" ) ) {
+		if ( !token.Icmp( "screen" ) ) {
 			ts->texgen = TG_SCREEN;
 			continue;
 		}
-		if (  !token.Icmp( "screen2" ) ) {
+		if ( !token.Icmp( "screen2" ) ) {
 			ts->texgen = TG_SCREEN2;
 			continue;
 		}
-		if (  !token.Icmp( "glassWarp" ) ) {
+		if ( !token.Icmp( "glassWarp" ) ) {
 			ts->texgen = TG_GLASSWARP;
 			continue;
 		}
@@ -1390,15 +1390,15 @@ void idMaterial::ParseStage( idLexer &src, const textureRepeat_t trpDefault ) {
 			// this subtracts 0.5, then rotates, then adds 0.5
 			matrix[0][0] = cosReg;
 			matrix[0][1] = EmitOp( GetExpressionConstant( 0 ), sinReg, OP_TYPE_SUBTRACT );
-			matrix[0][2] = EmitOp( EmitOp( EmitOp( GetExpressionConstant( -0.5 ), cosReg, OP_TYPE_MULTIPLY ), 
-										EmitOp( GetExpressionConstant( 0.5 ), sinReg, OP_TYPE_MULTIPLY ), OP_TYPE_ADD ),
-										GetExpressionConstant( 0.5 ), OP_TYPE_ADD );
+			matrix[0][2] = EmitOp( EmitOp( EmitOp( GetExpressionConstant( -0.5 ), cosReg, OP_TYPE_MULTIPLY ),
+										   EmitOp( GetExpressionConstant( 0.5 ), sinReg, OP_TYPE_MULTIPLY ), OP_TYPE_ADD ),
+								   GetExpressionConstant( 0.5 ), OP_TYPE_ADD );
 
 			matrix[1][0] = sinReg;
 			matrix[1][1] = cosReg;
-			matrix[1][2] = EmitOp( EmitOp( EmitOp( GetExpressionConstant( -0.5 ), sinReg, OP_TYPE_MULTIPLY ), 
-										EmitOp( GetExpressionConstant( -0.5 ), cosReg, OP_TYPE_MULTIPLY ), OP_TYPE_ADD ),
-										GetExpressionConstant( 0.5 ), OP_TYPE_ADD );
+			matrix[1][2] = EmitOp( EmitOp( EmitOp( GetExpressionConstant( -0.5 ), sinReg, OP_TYPE_MULTIPLY ),
+										   EmitOp( GetExpressionConstant( -0.5 ), cosReg, OP_TYPE_MULTIPLY ), OP_TYPE_ADD ),
+								   GetExpressionConstant( 0.5 ), OP_TYPE_ADD );
 
 			MultiplyTextureMatrix( ts, matrix );
 			continue;
@@ -1408,33 +1408,33 @@ void idMaterial::ParseStage( idLexer &src, const textureRepeat_t trpDefault ) {
 		if ( !token.Icmp( "maskRed" ) ) {
 			ss->drawStateBits |= GLS_REDMASK;
 			continue;
-		}		
+		}
 		if ( !token.Icmp( "maskGreen" ) ) {
 			ss->drawStateBits |= GLS_GREENMASK;
 			continue;
-		}		
+		}
 		if ( !token.Icmp( "maskBlue" ) ) {
 			ss->drawStateBits |= GLS_BLUEMASK;
 			continue;
-		}		
+		}
 		if ( !token.Icmp( "maskAlpha" ) ) {
 			ss->drawStateBits |= GLS_ALPHAMASK;
 			continue;
-		}		
+		}
 		if ( !token.Icmp( "maskColor" ) ) {
 			ss->drawStateBits |= GLS_COLORMASK;
 			continue;
-		}		
+		}
 		if ( !token.Icmp( "maskDepth" ) ) {
 			ss->drawStateBits |= GLS_DEPTHMASK;
 			continue;
-		}		
+		}
 		if ( !token.Icmp( "alphaTest" ) ) {
 			ss->hasAlphaTest = true;
 			ss->alphaTestRegister = ParseExpression( src );
 			coverage = MC_PERFORATED;
 			continue;
-		}		
+		}
 
 		// shorthand for 2D modulated
 		if ( !token.Icmp( "colored" ) ) {
@@ -1473,13 +1473,13 @@ void idMaterial::ParseStage( idLexer &src, const textureRepeat_t trpDefault ) {
 			continue;
 		}
 		if ( !token.Icmp( "rgb" ) ) {
-			ss->color.registers[0] = ss->color.registers[1] = 
-				ss->color.registers[2] = ParseExpression( src );
+			ss->color.registers[0] = ss->color.registers[1] =
+										 ss->color.registers[2] = ParseExpression( src );
 			continue;
 		}
 		if ( !token.Icmp( "rgba" ) ) {
-			ss->color.registers[0] = ss->color.registers[1] = 
-				ss->color.registers[2] = ss->color.registers[3] = ParseExpression( src );
+			ss->color.registers[0] = ss->color.registers[1] =
+										 ss->color.registers[2] = ss->color.registers[3] = ParseExpression( src );
 			continue;
 		}
 
@@ -1526,7 +1526,7 @@ void idMaterial::ParseStage( idLexer &src, const textureRepeat_t trpDefault ) {
 			continue;
 		}
 
-		if (  !token.Icmp( "fragmentMap" ) ) {	
+		if ( !token.Icmp( "fragmentMap" ) ) {
 			ParseFragmentMap( src, &newStage );
 			continue;
 		}
@@ -1540,8 +1540,8 @@ void idMaterial::ParseStage( idLexer &src, const textureRepeat_t trpDefault ) {
 
 	// if we are using newStage, allocate a copy of it
 	if ( newStage.fragmentProgram || newStage.vertexProgram ) {
-		ss->newStage = (newShaderStage_t *)Mem_Alloc( sizeof( newStage ) );
-		*(ss->newStage) = newStage;
+		ss->newStage = ( newShaderStage_t * )Mem_Alloc( sizeof( newStage ) );
+		*( ss->newStage ) = newStage;
 	}
 
 	// successfully parsed a stage
@@ -1549,18 +1549,18 @@ void idMaterial::ParseStage( idLexer &src, const textureRepeat_t trpDefault ) {
 
 	// select a compressed depth based on what the stage is
 	if ( td == TD_DEFAULT ) {
-		switch( ss->lighting ) {
-		case SL_BUMP:
-			td = TD_BUMP;
-			break;
-		case SL_DIFFUSE:
-			td = TD_DIFFUSE;
-			break;
-		case SL_SPECULAR:
-			td = TD_SPECULAR;
-			break;
-		default:
-			break;
+		switch ( ss->lighting ) {
+			case SL_BUMP:
+				td = TD_BUMP;
+				break;
+			case SL_DIFFUSE:
+				td = TD_DIFFUSE;
+				break;
+			case SL_SPECULAR:
+				td = TD_SPECULAR;
+				break;
+			default:
+				break;
 		}
 	}
 
@@ -1710,7 +1710,7 @@ void idMaterial::AddImplicitStages( const textureRepeat_t trpDefault /* = TR_REP
 
 	if ( !hasBump ) {
 		idStr::snPrintf( buffer, sizeof( buffer ), "blend bumpmap\nmap _flat\n}\n" );
-		newSrc.LoadMemory( buffer, strlen(buffer), "bumpmap" );
+		newSrc.LoadMemory( buffer, strlen( buffer ), "bumpmap" );
 		newSrc.SetFlags( LEXFL_NOFATALERRORS | LEXFL_NOSTRINGCONCAT | LEXFL_NOSTRINGESCAPECHARS | LEXFL_ALLOWPATHNAMES );
 		ParseStage( newSrc, trpDefault );
 		newSrc.FreeSource();
@@ -1718,7 +1718,7 @@ void idMaterial::AddImplicitStages( const textureRepeat_t trpDefault /* = TR_REP
 
 	if ( !hasDiffuse && !hasSpecular && !hasReflection ) {
 		idStr::snPrintf( buffer, sizeof( buffer ), "blend diffusemap\nmap _white\n}\n" );
-		newSrc.LoadMemory( buffer, strlen(buffer), "diffusemap" );
+		newSrc.LoadMemory( buffer, strlen( buffer ), "diffusemap" );
 		newSrc.SetFlags( LEXFL_NOFATALERRORS | LEXFL_NOSTRINGCONCAT | LEXFL_NOSTRINGESCAPECHARS | LEXFL_ALLOWPATHNAMES );
 		ParseStage( newSrc, trpDefault );
 		newSrc.FreeSource();
@@ -1756,14 +1756,14 @@ void idMaterial::SortInteractionStages() {
 		}
 
 		// bubble sort everything bump / diffuse / specular
-		for ( int l = 1 ; l < j-i ; l++ ) {
-			for ( int k = i ; k < j-l ; k++ ) {
-				if ( pd->parseStages[k].lighting > pd->parseStages[k+1].lighting ) {
+		for ( int l = 1 ; l < j - i ; l++ ) {
+			for ( int k = i ; k < j - l ; k++ ) {
+				if ( pd->parseStages[k].lighting > pd->parseStages[k + 1].lighting ) {
 					shaderStage_t	temp;
 
 					temp = pd->parseStages[k];
-					pd->parseStages[k] = pd->parseStages[k+1];
-					pd->parseStages[k+1] = temp;
+					pd->parseStages[k] = pd->parseStages[k + 1];
+					pd->parseStages[k + 1] = temp;
 				}
 			}
 		}
@@ -1812,15 +1812,14 @@ void idMaterial::ParseMaterial( idLexer &src ) {
 		// end of material definition
 		if ( token == "}" ) {
 			break;
-		}
-		else if ( !token.Icmp( "qer_editorimage") ) {
+		} else if ( !token.Icmp( "qer_editorimage" ) ) {
 			src.ReadTokenOnLine( &token );
 			editorImageName = token.c_str();
 			src.SkipRestOfLine();
 			continue;
 		}
 		// description
-		else if ( !token.Icmp( "description") ) {
+		else if ( !token.Icmp( "description" ) ) {
 			src.ReadTokenOnLine( &token );
 			desc = token.c_str();
 			continue;
@@ -1846,12 +1845,10 @@ void idMaterial::ParseMaterial( idLexer &src ) {
 		else if ( !token.Icmp( "noShadows" ) ) {
 			SetMaterialFlag( MF_NOSHADOWS );
 			continue;
-		}
-		else if ( !token.Icmp( "suppressInSubview" ) ) {
+		} else if ( !token.Icmp( "suppressInSubview" ) ) {
 			suppressInSubview = true;
 			continue;
-		}
-		else if ( !token.Icmp( "portalSky" ) ) {
+		} else if ( !token.Icmp( "portalSky" ) ) {
 			portalSky = true;
 			continue;
 		}
@@ -2001,7 +1998,7 @@ void idMaterial::ParseMaterial( idLexer &src ) {
 			continue;
 		}
 		// renderbump <args...>
-		else if ( !token.Icmp( "renderbump") ) {
+		else if ( !token.Icmp( "renderbump" ) ) {
 			src.ParseRestOfLine( renderBump );
 			continue;
 		}
@@ -2009,7 +2006,7 @@ void idMaterial::ParseMaterial( idLexer &src ) {
 		else if ( !token.Icmp( "diffusemap" ) ) {
 			str = R_ParsePastImageProgram( src );
 			idStr::snPrintf( buffer, sizeof( buffer ), "blend diffusemap\nmap %s\n}\n", str );
-			newSrc.LoadMemory( buffer, strlen(buffer), "diffusemap" );
+			newSrc.LoadMemory( buffer, strlen( buffer ), "diffusemap" );
 			newSrc.SetFlags( LEXFL_NOFATALERRORS | LEXFL_NOSTRINGCONCAT | LEXFL_NOSTRINGESCAPECHARS | LEXFL_ALLOWPATHNAMES );
 			ParseStage( newSrc, trpDefault );
 			newSrc.FreeSource();
@@ -2019,7 +2016,7 @@ void idMaterial::ParseMaterial( idLexer &src ) {
 		else if ( !token.Icmp( "specularmap" ) ) {
 			str = R_ParsePastImageProgram( src );
 			idStr::snPrintf( buffer, sizeof( buffer ), "blend specularmap\nmap %s\n}\n", str );
-			newSrc.LoadMemory( buffer, strlen(buffer), "specularmap" );
+			newSrc.LoadMemory( buffer, strlen( buffer ), "specularmap" );
 			newSrc.SetFlags( LEXFL_NOFATALERRORS | LEXFL_NOSTRINGCONCAT | LEXFL_NOSTRINGESCAPECHARS | LEXFL_ALLOWPATHNAMES );
 			ParseStage( newSrc, trpDefault );
 			newSrc.FreeSource();
@@ -2029,7 +2026,7 @@ void idMaterial::ParseMaterial( idLexer &src ) {
 		else if ( !token.Icmp( "bumpmap" ) ) {
 			str = R_ParsePastImageProgram( src );
 			idStr::snPrintf( buffer, sizeof( buffer ), "blend bumpmap\nmap %s\n}\n", str );
-			newSrc.LoadMemory( buffer, strlen(buffer), "bumpmap" );
+			newSrc.LoadMemory( buffer, strlen( buffer ), "bumpmap" );
 			newSrc.SetFlags( LEXFL_NOFATALERRORS | LEXFL_NOSTRINGCONCAT | LEXFL_NOSTRINGESCAPECHARS | LEXFL_ALLOWPATHNAMES );
 			ParseStage( newSrc, trpDefault );
 			newSrc.FreeSource();
@@ -2051,13 +2048,11 @@ void idMaterial::ParseMaterial( idLexer &src ) {
 			// noShadows
 			SetMaterialFlag( MF_NOSHADOWS );
 			continue;
-		}
-		else if ( token == "{" ) {
+		} else if ( token == "{" ) {
 			// create the new stage
 			ParseStage( src, trpDefault );
 			continue;
-		}
-		else {
+		} else {
 			common->Warning( "unknown general material parameter '%s' in '%s'", token.c_str(), GetName() );
 			SetMaterialFlag( MF_DEFAULTED );
 			return;
@@ -2167,7 +2162,7 @@ bool idMaterial::Parse( const char *text, const int textLength ) {
 
 	// automatically determine coverage if not explicitly set
 	if ( coverage == MC_BAD ) {
-		// automatically set MC_TRANSLUCENT if we don't have any interaction stages and 
+		// automatically set MC_TRANSLUCENT if we don't have any interaction stages and
 		// the first stage is blended and not an alpha test mask or a subview
 		if ( !numStages ) {
 			// non-visible
@@ -2175,15 +2170,15 @@ bool idMaterial::Parse( const char *text, const int textLength ) {
 		} else if ( numStages != numAmbientStages ) {
 			// we have an interaction draw
 			coverage = MC_OPAQUE;
-		} else if ( 
+		} else if (
 			( pd->parseStages[0].drawStateBits & GLS_DSTBLEND_BITS ) != GLS_DSTBLEND_ZERO ||
 			( pd->parseStages[0].drawStateBits & GLS_SRCBLEND_BITS ) == GLS_SRCBLEND_DST_COLOR ||
 			( pd->parseStages[0].drawStateBits & GLS_SRCBLEND_BITS ) == GLS_SRCBLEND_ONE_MINUS_DST_COLOR ||
 			( pd->parseStages[0].drawStateBits & GLS_SRCBLEND_BITS ) == GLS_SRCBLEND_DST_ALPHA ||
 			( pd->parseStages[0].drawStateBits & GLS_SRCBLEND_BITS ) == GLS_SRCBLEND_ONE_MINUS_DST_ALPHA
-			) {
+		) {
 			// blended with the destination
-				coverage = MC_TRANSLUCENT;
+			coverage = MC_TRANSLUCENT;
 		} else {
 			coverage = MC_OPAQUE;
 		}
@@ -2206,7 +2201,7 @@ bool idMaterial::Parse( const char *text, const int textLength ) {
 
 	// the sorts can make reasonable defaults
 	if ( sort == SS_BAD ) {
-		if ( TestMaterialFlag(MF_POLYGONOFFSET) ) {
+		if ( TestMaterialFlag( MF_POLYGONOFFSET ) ) {
 			sort = SS_DECAL;
 		} else if ( coverage == MC_TRANSLUCENT ) {
 			sort = SS_MEDIUM;
@@ -2278,31 +2273,31 @@ bool idMaterial::Parse( const char *text, const int textLength ) {
 	// add a tiny offset to the sort orders, so that different materials
 	// that have the same sort value will at least sort consistantly, instead
 	// of flickering back and forth
-/* this messed up in-game guis
-	if ( sort != SS_SUBVIEW ) {
-		int	hash, l;
+	/* this messed up in-game guis
+		if ( sort != SS_SUBVIEW ) {
+			int	hash, l;
 
-		l = name.Length();
-		hash = 0;
-		for ( int i = 0 ; i < l ; i++ ) {
-			hash ^= name[i];
+			l = name.Length();
+			hash = 0;
+			for ( int i = 0 ; i < l ; i++ ) {
+				hash ^= name[i];
+			}
+			sort += hash * 0.01;
 		}
-		sort += hash * 0.01;
-	}
-*/
+	*/
 
-	if (numStages) {
-		stages = (shaderStage_t *)R_StaticAlloc( numStages * sizeof( stages[0] ) );
+	if ( numStages ) {
+		stages = ( shaderStage_t * )R_StaticAlloc( numStages * sizeof( stages[0] ) );
 		memcpy( stages, pd->parseStages, numStages * sizeof( stages[0] ) );
 	}
 
 	if ( numOps ) {
-		ops = (expOp_t *)R_StaticAlloc( numOps * sizeof( ops[0] ) );
+		ops = ( expOp_t * )R_StaticAlloc( numOps * sizeof( ops[0] ) );
 		memcpy( ops, pd->shaderOps, numOps * sizeof( ops[0] ) );
 	}
 
 	if ( numRegisters ) {
-		expressionRegisters = (float *)R_StaticAlloc( numRegisters * sizeof( expressionRegisters[0] ) );
+		expressionRegisters = ( float * )R_StaticAlloc( numRegisters * sizeof( expressionRegisters[0] ) );
 		memcpy( expressionRegisters, pd->shaderRegisters, numRegisters * sizeof( expressionRegisters[0] ) );
 	}
 
@@ -2429,63 +2424,62 @@ void idMaterial::EvaluateRegisters( float *registers, const float shaderParms[MA
 
 	op = ops;
 	for ( i = 0 ; i < numOps ; i++, op++ ) {
-		switch( op->opType ) {
-		case OP_TYPE_ADD:
-			registers[op->c] = registers[op->a] + registers[op->b];
-			break;
-		case OP_TYPE_SUBTRACT:
-			registers[op->c] = registers[op->a] - registers[op->b];
-			break;
-		case OP_TYPE_MULTIPLY:
-			registers[op->c] = registers[op->a] * registers[op->b];
-			break;
-		case OP_TYPE_DIVIDE:
-			registers[op->c] = registers[op->a] / registers[op->b];
-			break;
-		case OP_TYPE_MOD:
-			b = (int)registers[op->b];
-			b = b != 0 ? b : 1;
-			registers[op->c] = (int)registers[op->a] % b;
-			break;
-		case OP_TYPE_TABLE:
-			{
+		switch ( op->opType ) {
+			case OP_TYPE_ADD:
+				registers[op->c] = registers[op->a] + registers[op->b];
+				break;
+			case OP_TYPE_SUBTRACT:
+				registers[op->c] = registers[op->a] - registers[op->b];
+				break;
+			case OP_TYPE_MULTIPLY:
+				registers[op->c] = registers[op->a] * registers[op->b];
+				break;
+			case OP_TYPE_DIVIDE:
+				registers[op->c] = registers[op->a] / registers[op->b];
+				break;
+			case OP_TYPE_MOD:
+				b = ( int )registers[op->b];
+				b = b != 0 ? b : 1;
+				registers[op->c] = ( int )registers[op->a] % b;
+				break;
+			case OP_TYPE_TABLE: {
 				const idDeclTable *table = static_cast<const idDeclTable *>( declManager->DeclByIndex( DECL_TABLE, op->a ) );
 				registers[op->c] = table->TableLookup( registers[op->b] );
 			}
 			break;
-		case OP_TYPE_SOUND:
-			if ( soundEmitter ) {
-				registers[op->c] = soundEmitter->CurrentAmplitude();
-			} else {
-				registers[op->c] = 0;
-			}
-			break;
-		case OP_TYPE_GT:
-			registers[op->c] = registers[ op->a ] > registers[op->b];
-			break;
-		case OP_TYPE_GE:
-			registers[op->c] = registers[ op->a ] >= registers[op->b];
-			break;
-		case OP_TYPE_LT:
-			registers[op->c] = registers[ op->a ] < registers[op->b];
-			break;
-		case OP_TYPE_LE:
-			registers[op->c] = registers[ op->a ] <= registers[op->b];
-			break;
-		case OP_TYPE_EQ:
-			registers[op->c] = registers[ op->a ] == registers[op->b];
-			break;
-		case OP_TYPE_NE:
-			registers[op->c] = registers[ op->a ] != registers[op->b];
-			break;
-		case OP_TYPE_AND:
-			registers[op->c] = registers[ op->a ] && registers[op->b];
-			break;
-		case OP_TYPE_OR:
-			registers[op->c] = registers[ op->a ] || registers[op->b];
-			break;
-		default:
-			common->FatalError( "R_EvaluateExpression: bad opcode" );
+			case OP_TYPE_SOUND:
+				if ( soundEmitter ) {
+					registers[op->c] = soundEmitter->CurrentAmplitude();
+				} else {
+					registers[op->c] = 0;
+				}
+				break;
+			case OP_TYPE_GT:
+				registers[op->c] = registers[ op->a ] > registers[op->b];
+				break;
+			case OP_TYPE_GE:
+				registers[op->c] = registers[ op->a ] >= registers[op->b];
+				break;
+			case OP_TYPE_LT:
+				registers[op->c] = registers[ op->a ] < registers[op->b];
+				break;
+			case OP_TYPE_LE:
+				registers[op->c] = registers[ op->a ] <= registers[op->b];
+				break;
+			case OP_TYPE_EQ:
+				registers[op->c] = registers[ op->a ] == registers[op->b];
+				break;
+			case OP_TYPE_NE:
+				registers[op->c] = registers[ op->a ] != registers[op->b];
+				break;
+			case OP_TYPE_AND:
+				registers[op->c] = registers[ op->a ] && registers[op->b];
+				break;
+			case OP_TYPE_OR:
+				registers[op->c] = registers[ op->a ] || registers[op->b];
+				break;
+			default:
+				common->FatalError( "R_EvaluateExpression: bad opcode" );
 		}
 	}
 
@@ -2504,7 +2498,7 @@ texgen_t idMaterial::Texgen() const {
 			}
 		}
 	}
-	
+
 	return TG_EXPLICIT;
 }
 
@@ -2514,8 +2508,8 @@ idMaterial::GetImageWidth
 =============
 */
 int idMaterial::GetImageWidth( void ) const {
-	assert( GetStage(0) && GetStage(0)->texture.image );
-	return GetStage(0)->texture.image->uploadWidth;
+	assert( GetStage( 0 ) && GetStage( 0 )->texture.image );
+	return GetStage( 0 )->texture.image->uploadWidth;
 }
 
 /*
@@ -2524,8 +2518,8 @@ idMaterial::GetImageHeight
 =============
 */
 int idMaterial::GetImageHeight( void ) const {
-	assert( GetStage(0) && GetStage(0)->texture.image );
-	return GetStage(0)->texture.image->uploadHeight;
+	assert( GetStage( 0 ) && GetStage( 0 )->texture.image );
+	return GetStage( 0 )->texture.image->uploadHeight;
 }
 
 /*
@@ -2558,7 +2552,7 @@ idMaterial::CloseCinematic
 =============
 */
 void idMaterial::CloseCinematic( void ) const {
-	for( int i = 0; i < numStages; i++ ) {
+	for ( int i = 0; i < numStages; i++ ) {
 		if ( stages[i].texture.cinematic ) {
 			stages[i].texture.cinematic->Close();
 			delete stages[i].texture.cinematic;
@@ -2573,7 +2567,7 @@ idMaterial::ResetCinematicTime
 =============
 */
 void idMaterial::ResetCinematicTime( int time ) const {
-	for( int i = 0; i < numStages; i++ ) {
+	for ( int i = 0; i < numStages; i++ ) {
 		if ( stages[i].texture.cinematic ) {
 			stages[i].texture.cinematic->ResetTime( time );
 		}
@@ -2607,8 +2601,8 @@ void idMaterial::CheckForConstantRegisters() {
 		return;
 	}
 
-	// evaluate the registers once, and save them 
-	constantRegisters = (float *)R_ClearedStaticAlloc( GetNumRegisters() * sizeof( float ) );
+	// evaluate the registers once, and save them
+	constantRegisters = ( float * )R_ClearedStaticAlloc( GetNumRegisters() * sizeof( float ) );
 
 	float shaderParms[MAX_ENTITY_SHADER_PARMS];
 	memset( shaderParms, 0, sizeof( shaderParms ) );
@@ -2668,16 +2662,16 @@ bool idMaterial::SetDefaultText( void ) {
 	// if there exists an image with the same name
 	if ( 1 ) { //fileSystem->ReadFile( GetName(), NULL ) != -1 ) {
 		char generated[2048];
-		idStr::snPrintf( generated, sizeof( generated ), 
-						"material %s // IMPLICITLY GENERATED\n"
-						"{\n"
-						"{\n"
-						"blend blend\n"
-						"colored\n"
-						"map \"%s\"\n"
-						"clamp\n"
-						"}\n"
-						"}\n", GetName(), GetName() );
+		idStr::snPrintf( generated, sizeof( generated ),
+						 "material %s // IMPLICITLY GENERATED\n"
+						 "{\n"
+						 "{\n"
+						 "blend blend\n"
+						 "colored\n"
+						 "map \"%s\"\n"
+						 "clamp\n"
+						 "}\n"
+						 "}\n", GetName(), GetName() );
 		SetText( generated );
 		return true;
 	} else {
@@ -2693,10 +2687,10 @@ idMaterial::DefaultDefinition
 const char *idMaterial::DefaultDefinition() const {
 	return
 		"{\n"
-	"\t"	"{\n"
-	"\t\t"		"blend\tblend\n"
-	"\t\t"		"map\t\t_default\n"
-	"\t"	"}\n"
+		"\t"	"{\n"
+		"\t\t"		"blend\tblend\n"
+		"\t\t"		"map\t\t_default\n"
+		"\t"	"}\n"
 		"}";
 }
 
@@ -2720,8 +2714,7 @@ const shaderStage_t *idMaterial::GetBumpStage( void ) const {
 idMaterial::ReloadImages
 ===================
 */
-void idMaterial::ReloadImages( bool force ) const
-{
+void idMaterial::ReloadImages( bool force ) const {
 	for ( int i = 0 ; i < numStages ; i++ ) {
 		if ( stages[i].newStage ) {
 			for ( int j = 0 ; j < stages[i].newStage->numFragmentProgramImages ; j++ ) {

@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -37,7 +37,7 @@ CGcontext cg_context;
 
 static void cg_error_callback( void ) {
 	CGerror i = cgGetError();
-	common->Printf( "Cg error (%d): %s\n", i, cgGetErrorString(i) );
+	common->Printf( "Cg error (%d): %s\n", i, cgGetErrorString( i ) );
 }
 
 /*
@@ -90,18 +90,18 @@ void	RB_ARB2_DrawInteraction( const drawInteraction_t *din ) {
 	static const float negOne[4] = { -1, -1, -1, -1 };
 
 	switch ( din->vertexColor ) {
-	case SVC_IGNORE:
-		qglProgramEnvParameter4fvARB( GL_VERTEX_PROGRAM_ARB, PP_COLOR_MODULATE, zero );
-		qglProgramEnvParameter4fvARB( GL_VERTEX_PROGRAM_ARB, PP_COLOR_ADD, one );
-		break;
-	case SVC_MODULATE:
-		qglProgramEnvParameter4fvARB( GL_VERTEX_PROGRAM_ARB, PP_COLOR_MODULATE, one );
-		qglProgramEnvParameter4fvARB( GL_VERTEX_PROGRAM_ARB, PP_COLOR_ADD, zero );
-		break;
-	case SVC_INVERSE_MODULATE:
-		qglProgramEnvParameter4fvARB( GL_VERTEX_PROGRAM_ARB, PP_COLOR_MODULATE, negOne );
-		qglProgramEnvParameter4fvARB( GL_VERTEX_PROGRAM_ARB, PP_COLOR_ADD, one );
-		break;
+		case SVC_IGNORE:
+			qglProgramEnvParameter4fvARB( GL_VERTEX_PROGRAM_ARB, PP_COLOR_MODULATE, zero );
+			qglProgramEnvParameter4fvARB( GL_VERTEX_PROGRAM_ARB, PP_COLOR_ADD, one );
+			break;
+		case SVC_MODULATE:
+			qglProgramEnvParameter4fvARB( GL_VERTEX_PROGRAM_ARB, PP_COLOR_MODULATE, one );
+			qglProgramEnvParameter4fvARB( GL_VERTEX_PROGRAM_ARB, PP_COLOR_ADD, zero );
+			break;
+		case SVC_INVERSE_MODULATE:
+			qglProgramEnvParameter4fvARB( GL_VERTEX_PROGRAM_ARB, PP_COLOR_MODULATE, negOne );
+			qglProgramEnvParameter4fvARB( GL_VERTEX_PROGRAM_ARB, PP_COLOR_ADD, one );
+			break;
 	}
 
 	// set the constant colors
@@ -158,8 +158,8 @@ void RB_ARB2_CreateDrawInteractions( const drawSurf_t *surf ) {
 		qglBindProgramARB( GL_FRAGMENT_PROGRAM_ARB, FPROG_INTERACTION );
 	}
 
-	qglEnable(GL_VERTEX_PROGRAM_ARB);
-	qglEnable(GL_FRAGMENT_PROGRAM_ARB);
+	qglEnable( GL_VERTEX_PROGRAM_ARB );
+	qglEnable( GL_FRAGMENT_PROGRAM_ARB );
 
 	// enable the vertex arrays
 	qglEnableVertexAttribArrayARB( 8 );
@@ -185,11 +185,11 @@ void RB_ARB2_CreateDrawInteractions( const drawSurf_t *surf ) {
 	}
 
 
-	for ( ; surf ; surf=surf->nextOnLight ) {
+	for ( ; surf ; surf = surf->nextOnLight ) {
 		// perform setup here that will not change over multiple interaction passes
 
 		// set the vertex pointers
-		idDrawVert	*ac = (idDrawVert *)vertexCache.Position( surf->geo->ambientCache );
+		idDrawVert	*ac = ( idDrawVert * )vertexCache.Position( surf->geo->ambientCache );
 		qglColorPointer( 4, GL_UNSIGNED_BYTE, sizeof( idDrawVert ), ac->color );
 		qglVertexAttribPointerARB( 11, 3, GL_FLOAT, false, sizeof( idDrawVert ), ac->normal.ToFloatPtr() );
 		qglVertexAttribPointerARB( 10, 3, GL_FLOAT, false, sizeof( idDrawVert ), ac->tangents[1].ToFloatPtr() );
@@ -230,8 +230,8 @@ void RB_ARB2_CreateDrawInteractions( const drawSurf_t *surf ) {
 	backEnd.glState.currenttmu = -1;
 	GL_SelectTexture( 0 );
 
-	qglDisable(GL_VERTEX_PROGRAM_ARB);
-	qglDisable(GL_FRAGMENT_PROGRAM_ARB);
+	qglDisable( GL_VERTEX_PROGRAM_ARB );
+	qglDisable( GL_FRAGMENT_PROGRAM_ARB );
 }
 
 
@@ -262,7 +262,7 @@ void RB_ARB2_DrawInteractions( void ) {
 		}
 
 		if ( !vLight->localInteractions && !vLight->globalInteractions
-			&& !vLight->translucentInteractions ) {
+				&& !vLight->translucentInteractions ) {
 			continue;
 		}
 
@@ -272,10 +272,10 @@ void RB_ARB2_DrawInteractions( void ) {
 		if ( vLight->globalShadows || vLight->localShadows ) {
 			backEnd.currentScissor = vLight->scissorRect;
 			if ( r_useScissor.GetBool() ) {
-				qglScissor( backEnd.viewDef->viewport.x1 + backEnd.currentScissor.x1, 
-					backEnd.viewDef->viewport.y1 + backEnd.currentScissor.y1,
-					backEnd.currentScissor.x2 + 1 - backEnd.currentScissor.x1,
-					backEnd.currentScissor.y2 + 1 - backEnd.currentScissor.y1 );
+				qglScissor( backEnd.viewDef->viewport.x1 + backEnd.currentScissor.x1,
+							backEnd.viewDef->viewport.y1 + backEnd.currentScissor.y1,
+							backEnd.currentScissor.x2 + 1 - backEnd.currentScissor.x1,
+							backEnd.currentScissor.y2 + 1 - backEnd.currentScissor.y1 );
 			}
 			qglClear( GL_STENCIL_BUFFER_BIT );
 		} else {
@@ -375,14 +375,14 @@ void R_LoadARBProgram( int progIndex ) {
 
 	// load the program even if we don't support it, so
 	// fs_copyfiles can generate cross-platform data dumps
-	fileSystem->ReadFile( fullPath.c_str(), (void **)&fileBuffer, NULL );
+	fileSystem->ReadFile( fullPath.c_str(), ( void ** )&fileBuffer, NULL );
 	if ( !fileBuffer ) {
 		common->Printf( ": File not found\n" );
 		return;
 	}
 
 	// copy to stack memory and free
-	buffer = (char *)_alloca( strlen( fileBuffer ) + 1 );
+	buffer = ( char * )_alloca( strlen( fileBuffer ) + 1 );
 	strcpy( buffer, fileBuffer );
 	fileSystem->FreeFile( fileBuffer );
 
@@ -406,14 +406,14 @@ void R_LoadARBProgram( int progIndex ) {
 			common->Printf( ": GL_VERTEX_PROGRAM_ARB not available\n" );
 			return;
 		}
-		start = strstr( (char *)buffer, "!!ARBvp" );
+		start = strstr( ( char * )buffer, "!!ARBvp" );
 	}
 	if ( progs[progIndex].target == GL_FRAGMENT_PROGRAM_ARB ) {
 		if ( !glConfig.ARBFragmentProgramAvailable ) {
 			common->Printf( ": GL_FRAGMENT_PROGRAM_ARB not available\n" );
 			return;
 		}
-		start = strstr( (char *)buffer, "!!ARBfp" );
+		start = strstr( ( char * )buffer, "!!ARBfp" );
 	}
 	if ( !start ) {
 		common->Printf( ": !!ARB not found\n" );
@@ -431,16 +431,16 @@ void R_LoadARBProgram( int progIndex ) {
 	qglGetError();
 
 	qglProgramStringARB( progs[progIndex].target, GL_PROGRAM_FORMAT_ASCII_ARB,
-		strlen( start ), (unsigned char *)start );
+						 strlen( start ), ( unsigned char * )start );
 
 	err = qglGetError();
-	qglGetIntegerv( GL_PROGRAM_ERROR_POSITION_ARB, (GLint *)&ofs );
+	qglGetIntegerv( GL_PROGRAM_ERROR_POSITION_ARB, ( GLint * )&ofs );
 	if ( err == GL_INVALID_OPERATION ) {
 		const GLubyte *str = qglGetString( GL_PROGRAM_ERROR_STRING_ARB );
 		common->Printf( "\nGL_PROGRAM_ERROR_STRING_ARB: %s\n", str );
 		if ( ofs < 0 ) {
 			common->Printf( "GL_PROGRAM_ERROR_POSITION_ARB < 0 with error\n" );
-		} else if ( ofs >= (int)strlen( (char *)start ) ) {
+		} else if ( ofs >= ( int )strlen( ( char * )start ) ) {
 			common->Printf( "error at end of program\n" );
 		} else {
 			common->Printf( "error at %i:\n%s", ofs, start + ofs );
@@ -488,7 +488,7 @@ int R_FindARBProgram( GLenum target, const char *program ) {
 	}
 
 	// add it to the list and load it
-	progs[i].ident = (program_t)0;	// will be gen'd by R_LoadARBProgram
+	progs[i].ident = ( program_t )0;	// will be gen'd by R_LoadARBProgram
 	progs[i].target = target;
 	strncpy( progs[i].name, program, sizeof( progs[i].name ) - 1 );
 

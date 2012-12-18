@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -34,8 +34,8 @@ class idWinVar;
 
 class idRegister {
 public:
-						idRegister();
-						idRegister( const char *p, int t );
+	idRegister();
+	idRegister( const char *p, int t );
 
 	enum REGTYPE { VEC4 = 0, FLOAT, BOOL, INT, STRING, VEC2, VEC3, RECTANGLE, NUMTYPES } ;
 	static int REGCOUNT[NUMTYPES];
@@ -45,12 +45,14 @@ public:
 	idStr				name;
 	int					regCount;
 	unsigned short		regs[4];
-	idWinVar *			var;
+	idWinVar 			*var;
 
 	void				SetToRegs( float *registers );
 	void				GetFromRegs( float *registers );
 	void				CopyRegs( idRegister *src );
-	void				Enable( bool b ) { enabled = b; }
+	void				Enable( bool b ) {
+		enabled = b;
+	}
 	void				ReadFromDemoFile( idDemoFile *f );
 	void				WriteToDemoFile( idDemoFile *f );
 	void				WriteToSaveGame( idFile *savefile );
@@ -79,13 +81,13 @@ ID_INLINE void idRegister::CopyRegs( idRegister *src ) {
 class idRegisterList {
 public:
 
-						idRegisterList();
-						~idRegisterList();
+	idRegisterList();
+	~idRegisterList();
 
 	void				AddReg( const char *name, int type, idParser *src, idWindow *win, idWinVar *var );
 	void				AddReg( const char *name, int type, idVec4 data, idWindow *win, idWinVar *var );
 
-	idRegister *		FindReg( const char *name );
+	idRegister 		*FindReg( const char *name );
 	void				SetToRegs( float *registers );
 	void				GetFromRegs( float *registers );
 	void				Reset();
@@ -95,7 +97,7 @@ public:
 	void				ReadFromSaveGame( idFile *savefile );
 
 private:
-	idList<idRegister*>	regs;
+	idList<idRegister *>	regs;
 	idHashIndex			regHash;
 };
 

@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -158,8 +158,8 @@ void idGrabber::Restore( idRestoreGame *savefile ) {
 	savefile->ReadInt( savedContents );
 	savefile->ReadInt( savedClipmask );
 
-	savefile->ReadObject( reinterpret_cast<idClass *&>(beam) );
-	savefile->ReadObject( reinterpret_cast<idClass *&>(beamTarget) );
+	savefile->ReadObject( reinterpret_cast<idClass *&>( beam ) );
+	savefile->ReadObject( reinterpret_cast<idClass *&>( beamTarget ) );
 
 	savefile->ReadInt( warpId );
 }
@@ -193,8 +193,7 @@ void idGrabber::Initialize( void ) {
 
 		endTime = 0;
 		dragTraceDist = MAX_DRAG_TRACE_DISTANCE;
-	}
-	else {
+	} else {
 		beam = NULL;
 		beamTarget = NULL;
 		endTime = 0;
@@ -246,23 +245,23 @@ void idGrabber::StartDrag( idEntity *grabEnt, int id ) {
 
 	// Handle specific class types
 	if ( grabEnt->IsType( idProjectile::Type ) ) {
-		idProjectile* p = (idProjectile*)grabEnt;
+		idProjectile *p = ( idProjectile * )grabEnt;
 
 		p->CatchProjectile( thePlayer, "_catch" );
 
 		// Make the projectile non-solid to other projectiles/enemies (special hack for helltime hunter)
 		if ( !idStr::Cmp( grabEnt->GetEntityDefName(), "projectile_helltime_killer" ) ) {
 			savedContents = CONTENTS_PROJECTILE;
-			savedClipmask = MASK_SHOT_RENDERMODEL|CONTENTS_PROJECTILE;
+			savedClipmask = MASK_SHOT_RENDERMODEL | CONTENTS_PROJECTILE;
 		} else {
 			savedContents = grabEnt->GetPhysics()->GetContents();
 			savedClipmask = grabEnt->GetPhysics()->GetClipMask();
 		}
 		grabEnt->GetPhysics()->SetContents( 0 );
-		grabEnt->GetPhysics()->SetClipMask( CONTENTS_SOLID|CONTENTS_BODY );
+		grabEnt->GetPhysics()->SetClipMask( CONTENTS_SOLID | CONTENTS_BODY );
 
 	} else if ( grabEnt->IsType( idExplodingBarrel::Type ) ) {
-		idExplodingBarrel *ebarrel = static_cast<idExplodingBarrel*>(grabEnt);
+		idExplodingBarrel *ebarrel = static_cast<idExplodingBarrel *>( grabEnt );
 
 		ebarrel->StartBurning();
 
@@ -271,7 +270,7 @@ void idGrabber::StartDrag( idEntity *grabEnt, int id ) {
 		clipModelId = 0;
 
 		if ( grabbableAI( grabEnt->spawnArgs.GetString( "classname" ) ) ) {
-			idAI *aiEnt = static_cast<idAI*>(grabEnt);
+			idAI *aiEnt = static_cast<idAI *>( grabEnt );
 
 			aiEnt->StartRagdoll();
 		}
@@ -294,7 +293,7 @@ void idGrabber::StartDrag( idEntity *grabEnt, int id ) {
 
 	// Start up the Force_Drag to bring it in
 	drag.Init( g_grabberDamping.GetFloat() );
-	drag.SetPhysics( phys, clipModelId, thePlayer->firstPersonViewOrigin + localPlayerPoint * thePlayer->firstPersonViewAxis);
+	drag.SetPhysics( phys, clipModelId, thePlayer->firstPersonViewOrigin + localPlayerPoint * thePlayer->firstPersonViewAxis );
 
 	// start the screen warp
 	warpId = thePlayer->playerView.AddWarp( phys->GetOrigin(), SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 160, 2000 );
@@ -333,22 +332,22 @@ void idGrabber::StopDrag( bool dropOnly ) {
 		ent->timeGroup = TIME_GROUP1;
 
 		if ( holdingAF ) {
-			idAFEntity_Gibbable *af = static_cast<idAFEntity_Gibbable *>(ent);
-			idPhysics_AF	*af_Phys = static_cast<idPhysics_AF*>(af->GetPhysics());
+			idAFEntity_Gibbable *af = static_cast<idAFEntity_Gibbable *>( ent );
+			idPhysics_AF	*af_Phys = static_cast<idPhysics_AF *>( af->GetPhysics() );
 
 			if ( grabbableAI( ent->spawnArgs.GetString( "classname" ) ) ) {
-				idAI *aiEnt = static_cast<idAI*>(ent);
+				idAI *aiEnt = static_cast<idAI *>( ent );
 
 				aiEnt->Damage( thePlayer, thePlayer, vec3_origin, "damage_suicide", 1.0f, INVALID_JOINT );
 			}
-			
+
 			af->SetThrown( !dropOnly );
 
 			// Reset timers so that it isn't forcibly put to rest in mid-air
 			af_Phys->PutToRest();
 			af_Phys->Activate();
 
-			af_Phys->SetTimeScaleRamp( MS2SEC(gameLocal.slow.time) - 1.5f, MS2SEC(gameLocal.slow.time) + 1.0f );
+			af_Phys->SetTimeScaleRamp( MS2SEC( gameLocal.slow.time ) - 1.5f, MS2SEC( gameLocal.slow.time ) + 1.0f );
 		}
 
 		// If the object isn't near its goal, just drop it in place.
@@ -357,7 +356,7 @@ void idGrabber::StopDrag( bool dropOnly ) {
 			thePlayer->StartSoundShader( declManager->FindSound( "grabber_maindrop" ), SND_CHANNEL_WEAPON, 0, false, NULL );
 
 			if ( ent->IsType( idExplodingBarrel::Type ) ) {
-				idExplodingBarrel *ebarrel = static_cast<idExplodingBarrel*>(ent);
+				idExplodingBarrel *ebarrel = static_cast<idExplodingBarrel *>( ent );
 
 				ebarrel->SetStability( true );
 				ebarrel->StopBurning();
@@ -382,12 +381,12 @@ void idGrabber::StopDrag( bool dropOnly ) {
 
 			} else if ( ent->IsType( idMoveable::Type ) ) {
 				// Turn on damage for this object
-				idMoveable *obj = static_cast<idMoveable*>(ent);
+				idMoveable *obj = static_cast<idMoveable *>( ent );
 				obj->EnableDamage( true, 2.5f );
 				obj->SetAttacker( thePlayer );
 
 				if ( ent->IsType( idExplodingBarrel::Type ) ) {
-					idExplodingBarrel *ebarrel = static_cast<idExplodingBarrel*>(ent);
+					idExplodingBarrel *ebarrel = static_cast<idExplodingBarrel *>( ent );
 					ebarrel->SetStability( false );
 				}
 
@@ -438,7 +437,7 @@ int idGrabber::Update( idPlayer *player, bool hide ) {
 		bool abort = !dragEnt.IsValid();
 
 		if ( !abort && dragEnt.GetEntity()->IsType( idProjectile::Type ) ) {
-			idProjectile *proj = (idProjectile *)dragEnt.GetEntity();
+			idProjectile *proj = ( idProjectile * )dragEnt.GetEntity();
 
 			if ( proj->GetProjectileState() >= 3 ) {
 				abort = true;
@@ -448,10 +447,10 @@ int idGrabber::Update( idPlayer *player, bool hide ) {
 			abort = true;
 		}
 		// Not in multiplayer :: Pressing "reload" lets you carefully drop an item
-		if ( !gameLocal.isMultiplayer && !abort && (( player->usercmd.flags & UCF_IMPULSE_SEQUENCE ) != ( oldUcmdFlags & UCF_IMPULSE_SEQUENCE )) && (player->usercmd.impulse == IMPULSE_13) ) {
+		if ( !gameLocal.isMultiplayer && !abort && ( ( player->usercmd.flags & UCF_IMPULSE_SEQUENCE ) != ( oldUcmdFlags & UCF_IMPULSE_SEQUENCE ) ) && ( player->usercmd.impulse == IMPULSE_13 ) ) {
 			abort = true;
 		}
-        
+
 		if ( abort ) {
 			StopDrag( true );
 			return 3;
@@ -461,14 +460,14 @@ int idGrabber::Update( idPlayer *player, bool hide ) {
 	owner = player;
 
 	// if no entity selected for dragging
-    if ( !dragEnt.GetEntity() ) {
+	if ( !dragEnt.GetEntity() ) {
 		idBounds bounds;
 		idVec3 end = player->firstPersonViewOrigin + player->firstPersonViewAxis[0] * dragTraceDist;
 
 		bounds.Zero();
 		bounds.ExpandSelf( TRACE_BOUNDS_SIZE );
 
-		gameLocal.clip.TraceBounds( trace, player->firstPersonViewOrigin, end, bounds, MASK_SHOT_RENDERMODEL|CONTENTS_PROJECTILE|CONTENTS_MOVEABLECLIP, player );
+		gameLocal.clip.TraceBounds( trace, player->firstPersonViewOrigin, end, bounds, MASK_SHOT_RENDERMODEL | CONTENTS_PROJECTILE | CONTENTS_MOVEABLECLIP, player );
 		// If the trace hit something
 		if ( trace.fraction < 1.0f ) {
 			newEnt = gameLocal.entities[ trace.c.entityNum ];
@@ -480,9 +479,9 @@ int idGrabber::Update( idPlayer *player, bool hide ) {
 
 			// Check if this is a valid entity to hold
 			if ( newEnt && ( newEnt->IsType( idMoveable::Type ) ||
-					newEnt->IsType( idMoveableItem::Type ) ||
-					newEnt->IsType( idProjectile::Type ) ||
-					newEnt->IsType( idAFEntity_Gibbable::Type ) ) &&
+							 newEnt->IsType( idMoveableItem::Type ) ||
+							 newEnt->IsType( idProjectile::Type ) ||
+							 newEnt->IsType( idAFEntity_Gibbable::Type ) ) &&
 					newEnt->noGrab == false &&
 					newEnt->GetPhysics()->GetBounds().GetRadius() < MAX_PICKUP_SIZE &&
 					newEnt->GetPhysics()->GetLinearVelocity().LengthSqr() < MAX_PICKUP_VELOCITY ) {
@@ -490,7 +489,7 @@ int idGrabber::Update( idPlayer *player, bool hide ) {
 				bool validAF = true;
 
 				if ( newEnt->IsType( idAFEntity_Gibbable::Type ) ) {
-					idAFEntity_Gibbable *afEnt = static_cast<idAFEntity_Gibbable*>(newEnt);
+					idAFEntity_Gibbable *afEnt = static_cast<idAFEntity_Gibbable *>( newEnt );
 
 					if ( grabbableAI( newEnt->spawnArgs.GetString( "classname" ) ) ) {
 						// Make sure it's also active
@@ -590,7 +589,7 @@ int idGrabber::Update( idPlayer *player, bool hide ) {
 					int i, num;
 
 					num = entPhys->GetNumClipModels();
-					for ( i=0; i<num; i++ ) {
+					for ( i = 0; i < num; i++ ) {
 						entPhys->SetLinearVelocity( vec3_origin, i );
 					}
 				}
@@ -621,7 +620,7 @@ int idGrabber::Update( idPlayer *player, bool hide ) {
 
 		// If the object is stuck away from its intended position for more than 500ms, let it go.
 		if ( drag.GetDistanceToGoal() > DRAG_FAIL_LEN ) {
-			if ( dragFailTime < (gameLocal.slow.time - 500) ) {
+			if ( dragFailTime < ( gameLocal.slow.time - 500 ) ) {
 				StopDrag( true );
 				return 3;
 			}
@@ -681,7 +680,7 @@ idGrabber::ApplyShake
 ==============
 */
 void idGrabber::ApplyShake( void ) {
-	float u = 1 - (float)( endTime - gameLocal.time ) / ( g_grabberHoldSeconds.GetFloat() * 1000 );
+	float u = 1 - ( float )( endTime - gameLocal.time ) / ( g_grabberHoldSeconds.GetFloat() * 1000 );
 
 	if ( u >= 0.8f ) {
 		idVec3 point, impulse;
@@ -702,8 +701,7 @@ void idGrabber::ApplyShake( void ) {
 		// calc impulse
 		if ( shakeForceFlip ) {
 			impulse.Set( 0, 0, shakeForceMagnitude * u * mass );
-		}
-		else {
+		} else {
 			impulse.Set( 0, 0, -shakeForceMagnitude * u * mass );
 		}
 
@@ -720,11 +718,11 @@ bool idGrabber::grabbableAI( const char *aiName ) {
 	// skip "monster_"
 	aiName += 8;
 
-	if (!idStr::Cmpn( aiName, "flying_lostsoul", 15 ) ||
-		!idStr::Cmpn( aiName, "demon_trite", 11 ) ||
-		!idStr::Cmp( aiName, "flying_forgotten" ) ||
-		!idStr::Cmp( aiName, "demon_cherub" ) ||
-		!idStr::Cmp( aiName, "demon_tick" )) {
+	if ( !idStr::Cmpn( aiName, "flying_lostsoul", 15 ) ||
+			!idStr::Cmpn( aiName, "demon_trite", 11 ) ||
+			!idStr::Cmp( aiName, "flying_forgotten" ) ||
+			!idStr::Cmp( aiName, "demon_cherub" ) ||
+			!idStr::Cmp( aiName, "demon_tick" ) ) {
 
 		return true;
 	}

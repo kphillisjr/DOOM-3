@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -65,8 +65,7 @@ bool idAFVector::Parse( idLexer &src ) {
 		if ( !src.ReadToken( &token ) ) {
 			return false;
 		}
-	}
-	else {
+	} else {
 		negate = false;
 	}
 
@@ -78,15 +77,13 @@ bool idAFVector::Parse( idLexer &src ) {
 		src.ExpectTokenString( "," );
 		vec.z = src.ParseFloat();
 		src.ExpectTokenString( ")" );
-	}
-	else if ( token == "joint" ) {
+	} else if ( token == "joint" ) {
 		type = idAFVector::VEC_JOINT;
 		src.ExpectTokenString( "(" );
 		src.ReadToken( &token );
 		joint1 = token;
 		src.ExpectTokenString( ")" );
-	}
-	else if ( token == "bonecenter" ) {
+	} else if ( token == "bonecenter" ) {
 		type = idAFVector::VEC_BONECENTER;
 		src.ExpectTokenString( "(" );
 		src.ReadToken( &token );
@@ -95,8 +92,7 @@ bool idAFVector::Parse( idLexer &src ) {
 		src.ReadToken( &token );
 		joint2 = token;
 		src.ExpectTokenString( ")" );
-	}
-	else if ( token == "bonedir" ) {
+	} else if ( token == "bonedir" ) {
 		type = idAFVector::VEC_BONEDIR;
 		src.ExpectTokenString( "(" );
 		src.ReadToken( &token );
@@ -105,8 +101,7 @@ bool idAFVector::Parse( idLexer &src ) {
 		src.ReadToken( &token );
 		joint2 = token;
 		src.ExpectTokenString( ")" );
-	}
-	else {
+	} else {
 		src.Error( "unknown token %s in vector", token.c_str() );
 		return false;
 	}
@@ -123,7 +118,7 @@ bool idAFVector::Finish( const char *fileName, const getJointTransform_t GetJoin
 	idMat3 axis;
 	idVec3 start, end;
 
-	switch( type ) {
+	switch ( type ) {
 		case idAFVector::VEC_COORDS: {
 			break;
 		}
@@ -181,7 +176,7 @@ bool idAFVector::Write( idFile *f ) const {
 	if ( negate ) {
 		f->WriteFloatString( "-" );
 	}
-	switch( type ) {
+	switch ( type ) {
 		case idAFVector::VEC_COORDS: {
 			f->WriteFloatString( "( %f, %f, %f )", vec.x, vec.y, vec.z );
 			break;
@@ -212,7 +207,7 @@ idAFVector::ToString
 */
 const char *idAFVector::ToString( idStr &str, const int precision ) {
 
-	switch( type ) {
+	switch ( type ) {
 		case idAFVector::VEC_COORDS: {
 			char format[128];
 			sprintf( format, "( %%.%df, %%.%df, %%.%df )", precision, precision, precision );
@@ -281,8 +276,7 @@ void idDeclAF_Constraint::SetDefault( const idDeclAF *file ) {
 	type = DECLAF_CONSTRAINT_UNIVERSALJOINT;
 	if ( file->bodies.Num() ) {
 		body1 = file->bodies[0]->name;
-	}
-	else {
+	} else {
 		body1 = "world";
 	}
 	body2 = "world";
@@ -294,8 +288,8 @@ void idDeclAF_Constraint::SetDefault( const idDeclAF *file ) {
 	shaft[1].ToVec3().Set( 0.0f, 0.0f, 1.0f );
 	limit = idDeclAF_Constraint::LIMIT_NONE;
 	limitAngles[0] =
-	limitAngles[1] =
-	limitAngles[2] = 0.0f;
+		limitAngles[1] =
+			limitAngles[2] = 0.0f;
 	limitAxis.ToVec3().Set( 0.0f, 0.0f, -1.0f );
 }
 
@@ -310,9 +304,9 @@ bool idDeclAF::WriteBody( idFile *f, const idDeclAF_Body &body ) const {
 	f->WriteFloatString( "\nbody \"%s\" {\n", body.name.c_str() );
 	f->WriteFloatString( "\tjoint \"%s\"\n", body.jointName.c_str() );
 	f->WriteFloatString( "\tmod %s\n", JointModToString( body.jointMod ) );
-	switch( body.modelType ) {
+	switch ( body.modelType ) {
 		case TRM_BOX: {
-	        f->WriteFloatString( "\tmodel box( " );
+			f->WriteFloatString( "\tmodel box( " );
 			body.v1.Write( f );
 			f->WriteFloatString( ", " );
 			body.v2.Write( f );
@@ -320,7 +314,7 @@ bool idDeclAF::WriteBody( idFile *f, const idDeclAF_Body &body ) const {
 			break;
 		}
 		case TRM_OCTAHEDRON: {
-	        f->WriteFloatString( "\tmodel octahedron( " );
+			f->WriteFloatString( "\tmodel octahedron( " );
 			body.v1.Write( f );
 			f->WriteFloatString( ", " );
 			body.v2.Write( f );
@@ -328,7 +322,7 @@ bool idDeclAF::WriteBody( idFile *f, const idDeclAF_Body &body ) const {
 			break;
 		}
 		case TRM_DODECAHEDRON: {
-	        f->WriteFloatString( "\tmodel dodecahedron( " );
+			f->WriteFloatString( "\tmodel dodecahedron( " );
 			body.v1.Write( f );
 			f->WriteFloatString( ", " );
 			body.v2.Write( f );
@@ -336,15 +330,15 @@ bool idDeclAF::WriteBody( idFile *f, const idDeclAF_Body &body ) const {
 			break;
 		}
 		case TRM_CYLINDER: {
-	        f->WriteFloatString( "\tmodel cylinder( " );
+			f->WriteFloatString( "\tmodel cylinder( " );
 			body.v1.Write( f );
 			f->WriteFloatString( ", " );
 			body.v2.Write( f );
 			f->WriteFloatString( ", %d )\n", body.numSides );
 			break;
-		}	
+		}
 		case TRM_CONE: {
-	        f->WriteFloatString( "\tmodel cone( " );
+			f->WriteFloatString( "\tmodel cone( " );
 			body.v1.Write( f );
 			f->WriteFloatString( ", " );
 			body.v2.Write( f );
@@ -352,7 +346,7 @@ bool idDeclAF::WriteBody( idFile *f, const idDeclAF_Body &body ) const {
 			break;
 		}
 		case TRM_BONE: {
-	        f->WriteFloatString( "\tmodel bone( " );
+			f->WriteFloatString( "\tmodel bone( " );
 			body.v1.Write( f );
 			f->WriteFloatString( ", " );
 			body.v2.Write( f );
@@ -373,9 +367,9 @@ bool idDeclAF::WriteBody( idFile *f, const idDeclAF_Body &body ) const {
 	if ( body.inertiaScale != mat3_identity ) {
 		const idMat3 &ic = body.inertiaScale;
 		f->WriteFloatString( "\tinertiaScale (%f %f %f %f %f %f %f %f %f)\n",
-												ic[0][0], ic[0][1], ic[0][2],
-												ic[1][0], ic[1][1], ic[1][2],
-												ic[2][0], ic[2][1], ic[2][2] );
+							 ic[0][0], ic[0][1], ic[0][2],
+							 ic[1][0], ic[1][1], ic[1][2],
+							 ic[2][0], ic[2][1], ic[2][2] );
 	}
 	if ( body.linearFriction != -1 ) {
 		f->WriteFloatString( "\tfriction %f, %f, %f\n", body.linearFriction, body.angularFriction, body.contactFriction );
@@ -430,8 +424,7 @@ bool idDeclAF::WriteBallAndSocketJoint( idFile *f, const idDeclAF_Constraint &c 
 		f->WriteFloatString( ", %f, ", c.limitAngles[0] );
 		c.shaft[0].Write( f );
 		f->WriteFloatString( "\n" );
-	}
-	else if ( c.limit == idDeclAF_Constraint::LIMIT_PYRAMID ) {
+	} else if ( c.limit == idDeclAF_Constraint::LIMIT_PYRAMID ) {
 		f->WriteFloatString( "\tpyramidLimit " );
 		c.limitAxis.Write( f );
 		f->WriteFloatString( ", %f, %f, %f, ", c.limitAngles[0], c.limitAngles[1], c.limitAngles[2] );
@@ -464,8 +457,7 @@ bool idDeclAF::WriteUniversalJoint( idFile *f, const idDeclAF_Constraint &c ) co
 		f->WriteFloatString( "\tconeLimit " );
 		c.limitAxis.Write( f );
 		f->WriteFloatString( ", %f\n", c.limitAngles[0] );
-	}
-	else if ( c.limit == idDeclAF_Constraint::LIMIT_PYRAMID ) {
+	} else if ( c.limit == idDeclAF_Constraint::LIMIT_PYRAMID ) {
 		f->WriteFloatString( "\tpyramidLimit " );
 		c.limitAxis.Write( f );
 		f->WriteFloatString( ", %f, %f, %f\n", c.limitAngles[0], c.limitAngles[1], c.limitAngles[2] );
@@ -548,7 +540,7 @@ idDeclAF::WriteConstraint
 ================
 */
 bool idDeclAF::WriteConstraint( idFile *f, const idDeclAF_Constraint &c ) const {
-	switch( c.type ) {
+	switch ( c.type ) {
 		case DECLAF_CONSTRAINT_FIXED:
 			return WriteFixed( f, c );
 		case DECLAF_CONSTRAINT_BALLANDSOCKETJOINT:
@@ -603,7 +595,7 @@ bool idDeclAF::RebuildTextSource( void ) {
 	int i;
 	idFile_Memory f;
 
-	f.WriteFloatString("\n\n/*\n"
+	f.WriteFloatString( "\n\n/*\n"
 						"\tGenerated by the Articulated Figure Editor.\n"
 						"\tDo not edit directly but launch the game and type 'editAFs' on the console.\n"
 						"*/\n" );
@@ -656,29 +648,22 @@ int idDeclAF::ContentsFromString( const char *str ) {
 	idLexer src( str, idStr::Length( str ), "idDeclAF::ContentsFromString" );
 
 	c = 0;
-	while( src.ReadToken( &token ) ) {
+	while ( src.ReadToken( &token ) ) {
 		if ( token.Icmp( "none" ) == 0 ) {
 			c = 0;
-		}
-		else if ( token.Icmp( "solid" ) == 0 ) {
+		} else if ( token.Icmp( "solid" ) == 0 ) {
 			c |= CONTENTS_SOLID;
-		}
-		else if ( token.Icmp( "body" ) == 0 ) {
+		} else if ( token.Icmp( "body" ) == 0 ) {
 			c |= CONTENTS_BODY;
-		}
-		else if ( token.Icmp( "corpse" ) == 0 ) {
+		} else if ( token.Icmp( "corpse" ) == 0 ) {
 			c |= CONTENTS_CORPSE;
-		}
-		else if ( token.Icmp( "playerclip" ) == 0 ) {
+		} else if ( token.Icmp( "playerclip" ) == 0 ) {
 			c |= CONTENTS_PLAYERCLIP;
-		}
-		else if ( token.Icmp( "monsterclip" ) == 0 ) {
+		} else if ( token.Icmp( "monsterclip" ) == 0 ) {
 			c |= CONTENTS_MONSTERCLIP;
-		}
-		else if ( token == "," ) {
+		} else if ( token == "," ) {
 			continue;
-		}
-		else {
+		} else {
 			return c;
 		}
 	}
@@ -741,8 +726,8 @@ declAFJointMod_t idDeclAF::JointModFromString( const char *str ) {
 idDeclAF::JointModToString
 ================
 */
-const char * idDeclAF::JointModToString( declAFJointMod_t jointMod ) {
-	switch( jointMod ) {
+const char *idDeclAF::JointModToString( declAFJointMod_t jointMod ) {
+	switch ( jointMod ) {
 		case DECLAF_JOINTMOD_AXIS: {
 			return "orientation";
 		}
@@ -774,7 +759,7 @@ bool idDeclAF::ParseContents( idLexer &src, int &c ) const {
 	idToken token;
 	idStr str;
 
-	while( src.ReadToken( &token ) ) {
+	while ( src.ReadToken( &token ) ) {
 		str += token;
 		if ( !src.CheckTokenString( "," ) ) {
 			break;
@@ -811,7 +796,7 @@ bool idDeclAF::ParseBody( idLexer &src ) {
 		return false;
 	}
 
-	while( src.ReadToken( &token ) ) {
+	while ( src.ReadToken( &token ) ) {
 
 		if ( !token.Icmp( "model" ) ) {
 			if ( !src.ExpectTokenType( TT_NAME, 0, &token ) ) {
@@ -820,37 +805,37 @@ bool idDeclAF::ParseBody( idLexer &src ) {
 			if ( !token.Icmp( "box" ) ) {
 				body->modelType = TRM_BOX;
 				if ( !src.ExpectTokenString( "(" ) ||
-					!body->v1.Parse( src ) ||
-					!src.ExpectTokenString( "," ) ||
-					!body->v2.Parse( src ) ||
-					!src.ExpectTokenString( ")" ) ) {
+						!body->v1.Parse( src ) ||
+						!src.ExpectTokenString( "," ) ||
+						!body->v2.Parse( src ) ||
+						!src.ExpectTokenString( ")" ) ) {
 					return false;
 				}
 			} else if ( !token.Icmp( "octahedron" ) ) {
 				body->modelType = TRM_OCTAHEDRON;
 				if ( !src.ExpectTokenString( "(" ) ||
-					!body->v1.Parse( src ) ||
-					!src.ExpectTokenString( "," ) ||
-					!body->v2.Parse( src ) ||
-					!src.ExpectTokenString( ")" ) ) {
+						!body->v1.Parse( src ) ||
+						!src.ExpectTokenString( "," ) ||
+						!body->v2.Parse( src ) ||
+						!src.ExpectTokenString( ")" ) ) {
 					return false;
 				}
 			} else if ( !token.Icmp( "dodecahedron" ) ) {
 				body->modelType = TRM_DODECAHEDRON;
 				if ( !src.ExpectTokenString( "(" ) ||
-					!body->v1.Parse( src ) ||
-					!src.ExpectTokenString( "," ) ||
-					!body->v2.Parse( src ) ||
-					!src.ExpectTokenString( ")" ) ) {
+						!body->v1.Parse( src ) ||
+						!src.ExpectTokenString( "," ) ||
+						!body->v2.Parse( src ) ||
+						!src.ExpectTokenString( ")" ) ) {
 					return false;
 				}
 			} else if ( !token.Icmp( "cylinder" ) ) {
 				body->modelType = TRM_CYLINDER;
 				if ( !src.ExpectTokenString( "(" ) ||
-					!body->v1.Parse( src ) ||
-					!src.ExpectTokenString( "," ) ||
-					!body->v2.Parse( src ) ||
-					!src.ExpectTokenString( "," ) ) {
+						!body->v1.Parse( src ) ||
+						!src.ExpectTokenString( "," ) ||
+						!body->v2.Parse( src ) ||
+						!src.ExpectTokenString( "," ) ) {
 					return false;
 				}
 				body->numSides = src.ParseInt();
@@ -860,10 +845,10 @@ bool idDeclAF::ParseBody( idLexer &src ) {
 			} else if ( !token.Icmp( "cone" ) ) {
 				body->modelType = TRM_CONE;
 				if ( !src.ExpectTokenString( "(" ) ||
-					!body->v1.Parse( src ) ||
-					!src.ExpectTokenString( "," ) ||
-					!body->v2.Parse( src ) ||
-					!src.ExpectTokenString( "," ) ) {
+						!body->v1.Parse( src ) ||
+						!src.ExpectTokenString( "," ) ||
+						!body->v2.Parse( src ) ||
+						!src.ExpectTokenString( "," ) ) {
 					return false;
 				}
 				body->numSides = src.ParseInt();
@@ -873,10 +858,10 @@ bool idDeclAF::ParseBody( idLexer &src ) {
 			} else if ( !token.Icmp( "bone" ) ) {
 				body->modelType = TRM_BONE;
 				if ( !src.ExpectTokenString( "(" ) ||
-					!body->v1.Parse( src ) ||
-					!src.ExpectTokenString( "," ) ||
-					!body->v2.Parse( src ) ||
-					!src.ExpectTokenString( "," ) ) {
+						!body->v1.Parse( src ) ||
+						!src.ExpectTokenString( "," ) ||
+						!body->v2.Parse( src ) ||
+						!src.ExpectTokenString( "," ) ) {
 					return false;
 				}
 				body->width = src.ParseFloat();
@@ -982,7 +967,7 @@ bool idDeclAF::ParseFixed( idLexer &src ) {
 	constraint->type = DECLAF_CONSTRAINT_FIXED;
 	constraint->name = token;
 
-	while( src.ReadToken( &token ) ) {
+	while ( src.ReadToken( &token ) ) {
 
 		if ( !token.Icmp( "body1" ) ) {
 			src.ExpectTokenType( TT_STRING, 0, &token );
@@ -1025,7 +1010,7 @@ bool idDeclAF::ParseBallAndSocketJoint( idLexer &src ) {
 	constraint->anchor.ToVec3().Zero();
 	constraint->shaft[0].ToVec3().Zero();
 
-	while( src.ReadToken( &token ) ) {
+	while ( src.ReadToken( &token ) ) {
 
 		if ( !token.Icmp( "body1" ) ) {
 			src.ExpectTokenType( TT_STRING, 0, &token );
@@ -1039,19 +1024,19 @@ bool idDeclAF::ParseBallAndSocketJoint( idLexer &src ) {
 			}
 		} else if ( !token.Icmp( "conelimit" ) ) {
 			if ( !constraint->limitAxis.Parse( src ) ||
-				!src.ExpectTokenString( "," ) ) {
-					return false;
+					!src.ExpectTokenString( "," ) ) {
+				return false;
 			}
 			constraint->limitAngles[0] = src.ParseFloat();
 			if ( !src.ExpectTokenString( "," ) ||
-				!constraint->shaft[0].Parse( src ) ) {
+					!constraint->shaft[0].Parse( src ) ) {
 				return false;
 			}
 			constraint->limit = idDeclAF_Constraint::LIMIT_CONE;
 		} else if ( !token.Icmp( "pyramidlimit" ) ) {
 			if ( !constraint->limitAxis.Parse( src ) ||
-				!src.ExpectTokenString( "," ) ) {
-					return false;
+					!src.ExpectTokenString( "," ) ) {
+				return false;
 			}
 			constraint->limitAngles[0] = src.ParseFloat();
 			if ( !src.ExpectTokenString( "," ) ) {
@@ -1063,7 +1048,7 @@ bool idDeclAF::ParseBallAndSocketJoint( idLexer &src ) {
 			}
 			constraint->limitAngles[2] = src.ParseFloat();
 			if ( !src.ExpectTokenString( "," ) ||
-				!constraint->shaft[0].Parse( src ) ) {
+					!constraint->shaft[0].Parse( src ) ) {
 				return false;
 			}
 			constraint->limit = idDeclAF_Constraint::LIMIT_PYRAMID;
@@ -1105,7 +1090,7 @@ bool idDeclAF::ParseUniversalJoint( idLexer &src ) {
 	constraint->shaft[0].ToVec3().Zero();
 	constraint->shaft[1].ToVec3().Zero();
 
-	while( src.ReadToken( &token ) ) {
+	while ( src.ReadToken( &token ) ) {
 
 		if ( !token.Icmp( "body1" ) ) {
 			src.ExpectTokenType( TT_STRING, 0, &token );
@@ -1125,15 +1110,15 @@ bool idDeclAF::ParseUniversalJoint( idLexer &src ) {
 			}
 		} else if ( !token.Icmp( "conelimit" ) ) {
 			if ( !constraint->limitAxis.Parse( src ) ||
-				!src.ExpectTokenString( "," ) ) {
-					return false;
+					!src.ExpectTokenString( "," ) ) {
+				return false;
 			}
 			constraint->limitAngles[0] = src.ParseFloat();
 			constraint->limit = idDeclAF_Constraint::LIMIT_CONE;
 		} else if ( !token.Icmp( "pyramidlimit" ) ) {
 			if ( !constraint->limitAxis.Parse( src ) ||
-				!src.ExpectTokenString( "," ) ) {
-					return false;
+					!src.ExpectTokenString( "," ) ) {
+				return false;
 			}
 			constraint->limitAngles[0] = src.ParseFloat();
 			if ( !src.ExpectTokenString( "," ) ) {
@@ -1182,7 +1167,7 @@ bool idDeclAF::ParseHinge( idLexer &src ) {
 	constraint->anchor.ToVec3().Zero();
 	constraint->axis.ToVec3().Zero();
 
-	while( src.ReadToken( &token ) ) {
+	while ( src.ReadToken( &token ) ) {
 
 		if ( !token.Icmp( "body1" ) ) {
 			src.ExpectTokenType( TT_STRING, 0, &token );
@@ -1244,7 +1229,7 @@ bool idDeclAF::ParseSlider( idLexer &src ) {
 	constraint->name = token;
 	constraint->friction = 0.5f;
 
-	while( src.ReadToken( &token ) ) {
+	while ( src.ReadToken( &token ) ) {
 
 		if ( !token.Icmp( "body1" ) ) {
 			src.ExpectTokenType( TT_STRING, 0, &token );
@@ -1291,7 +1276,7 @@ bool idDeclAF::ParseSpring( idLexer &src ) {
 	constraint->name = token;
 	constraint->friction = 0.5f;
 
-	while( src.ReadToken( &token ) ) {
+	while ( src.ReadToken( &token ) ) {
 
 		if ( !token.Icmp( "body1" ) ) {
 			src.ExpectTokenType( TT_STRING, 0, &token );
@@ -1344,7 +1329,7 @@ bool idDeclAF::ParseSettings( idLexer &src ) {
 		return false;
 	}
 
-	while( src.ReadToken( &token ) ) {
+	while ( src.ReadToken( &token ) ) {
 
 		if ( !token.Icmp( "mesh" ) ) {
 			if ( !src.ExpectTokenType( TT_STRING, 0, &token ) ) {
@@ -1436,7 +1421,7 @@ bool idDeclAF::Parse( const char *text, const int textLength ) {
 	src.SetFlags( DECL_LEXER_FLAGS );
 	src.SkipUntilString( "{" );
 
-	while( src.ReadToken( &token ) ) {
+	while ( src.ReadToken( &token ) ) {
 
 		if ( !token.Icmp( "settings" ) ) {
 			if ( !ParseSettings( src ) ) {
@@ -1480,7 +1465,7 @@ bool idDeclAF::Parse( const char *text, const int textLength ) {
 
 	for ( i = 0; i < bodies.Num(); i++ ) {
 		// check for multiple bodies with the same name
-		for ( j = i+1; j < bodies.Num(); j++ ) {
+		for ( j = i + 1; j < bodies.Num(); j++ ) {
 			if ( bodies[i]->name == bodies[j]->name ) {
 				src.Error( "two bodies with the same name \"%s\"", bodies[i]->name.c_str() );
 			}
@@ -1489,7 +1474,7 @@ bool idDeclAF::Parse( const char *text, const int textLength ) {
 
 	for ( i = 0; i < constraints.Num(); i++ ) {
 		// check for multiple constraints with the same name
-		for ( j = i+1; j < constraints.Num(); j++ ) {
+		for ( j = i + 1; j < constraints.Num(); j++ ) {
 			if ( constraints[i]->name == constraints[j]->name ) {
 				src.Error( "two constraints with the same name \"%s\"", constraints[i]->name.c_str() );
 			}
@@ -1526,33 +1511,33 @@ idDeclAF::DefaultDefinition
 const char *idDeclAF::DefaultDefinition( void ) const {
 	return
 		"{\n"
-	"\t"	"settings {\n"
-	"\t\t"		"model \"\"\n"
-	"\t\t"		"skin \"\"\n"
-	"\t\t"		"friction 0.01, 0.01, 0.8, 0.5\n"
-	"\t\t"		"suspendSpeed 20, 30, 40, 60\n"
-	"\t\t"		"noMoveTime 1\n"
-	"\t\t"		"noMoveTranslation 10\n"
-	"\t\t"		"noMoveRotation 10\n"
-	"\t\t"		"minMoveTime -1\n"
-	"\t\t"		"maxMoveTime -1\n"
-	"\t\t"		"totalMass -1\n"
-	"\t\t"		"contents corpse\n"
-	"\t\t"		"clipMask solid, corpse\n"
-	"\t\t"		"selfCollision 1\n"
-	"\t"	"}\n"
-	"\t"	"body \"body\" {\n"
-	"\t\t"		"joint \"origin\"\n"
-	"\t\t"		"mod orientation\n"
-	"\t\t"		"model box( ( -10, -10, -10 ), ( 10, 10, 10 ) )\n"
-	"\t\t"		"origin ( 0, 0, 0 )\n"
-	"\t\t"		"density 0.2\n"
-	"\t\t"		"friction 0.01, 0.01, 0.8\n"
-	"\t\t"		"contents corpse\n"
-	"\t\t"		"clipMask solid, corpse\n"
-	"\t\t"		"selfCollision 1\n"
-	"\t\t"		"containedJoints \"*origin\"\n"
-	"\t"	"}\n"
+		"\t"	"settings {\n"
+		"\t\t"		"model \"\"\n"
+		"\t\t"		"skin \"\"\n"
+		"\t\t"		"friction 0.01, 0.01, 0.8, 0.5\n"
+		"\t\t"		"suspendSpeed 20, 30, 40, 60\n"
+		"\t\t"		"noMoveTime 1\n"
+		"\t\t"		"noMoveTranslation 10\n"
+		"\t\t"		"noMoveRotation 10\n"
+		"\t\t"		"minMoveTime -1\n"
+		"\t\t"		"maxMoveTime -1\n"
+		"\t\t"		"totalMass -1\n"
+		"\t\t"		"contents corpse\n"
+		"\t\t"		"clipMask solid, corpse\n"
+		"\t\t"		"selfCollision 1\n"
+		"\t"	"}\n"
+		"\t"	"body \"body\" {\n"
+		"\t\t"		"joint \"origin\"\n"
+		"\t\t"		"mod orientation\n"
+		"\t\t"		"model box( ( -10, -10, -10 ), ( 10, 10, 10 ) )\n"
+		"\t\t"		"origin ( 0, 0, 0 )\n"
+		"\t\t"		"density 0.2\n"
+		"\t\t"		"friction 0.01, 0.01, 0.8\n"
+		"\t\t"		"contents corpse\n"
+		"\t\t"		"clipMask solid, corpse\n"
+		"\t\t"		"selfCollision 1\n"
+		"\t\t"		"containedJoints \"*origin\"\n"
+		"\t"	"}\n"
 		"}\n";
 }
 
@@ -1670,7 +1655,7 @@ void idDeclAF::DeleteBody( const char *name ) {
 	}
 	for ( i = 0; i < constraints.Num(); i++ ) {
 		if ( constraints[i]->body1.Icmp( name ) == 0 ||
-			constraints[i]->body2.Icmp( name ) == 0 ) {
+				constraints[i]->body2.Icmp( name ) == 0 ) {
 			delete constraints[i];
 			constraints.RemoveIndex( i );
 			i--;

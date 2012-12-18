@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -63,8 +63,8 @@ public:
 	int						lastAnimBlendFrames;		// allows override anims to blend based on the last transition time
 
 public:
-							idAnimState();
-							~idAnimState();
+	idAnimState();
+	~idAnimState();
 
 	void					Save( idSaveGame *savefile ) const;
 	void					Restore( idRestoreGame *savefile );
@@ -85,9 +85,9 @@ public:
 	animFlags_t				GetAnimFlags( void ) const;
 
 private:
-	idActor *				self;
-	idAnimator *			animator;
-	idThread *				thread;
+	idActor 				*self;
+	idAnimator 			*animator;
+	idThread 				*thread;
 	int						channel;
 	bool					disabled;
 };
@@ -116,7 +116,7 @@ public:
 	idLinkList<idActor>		enemyList;			// list of characters that have targeted the player as their enemy
 
 public:
-							idActor( void );
+	idActor( void );
 	virtual					~idActor( void );
 
 	void					Spawn( void );
@@ -138,16 +138,16 @@ public:
 	virtual bool			GetPhysicsToVisualTransform( idVec3 &origin, idMat3 &axis );
 	virtual bool			GetPhysicsToSoundTransform( idVec3 &origin, idMat3 &axis );
 
-							// script state management
+	// script state management
 	void					ShutdownThreads( void );
 	virtual bool			ShouldConstructScriptObjectAtSpawn( void ) const;
-	virtual idThread *		ConstructScriptObject( void );
+	virtual idThread 		*ConstructScriptObject( void );
 	void					UpdateScript( void );
 	const function_t		*GetScriptFunction( const char *funcname );
 	void					SetState( const function_t *newState );
 	void					SetState( const char *statename );
 
-							// vision testing
+	// vision testing
 	void					SetEyeHeight( float height );
 	float					EyeHeight( void ) const;
 	idVec3					EyeOffset( void ) const;
@@ -159,30 +159,30 @@ public:
 	bool					PointVisible( const idVec3 &point ) const;
 	virtual void			GetAIAimTargets( const idVec3 &lastSightPos, idVec3 &headPos, idVec3 &chestPos );
 
-							// damage
+	// damage
 	void					SetupDamageGroups( void );
 	virtual	void			Damage( idEntity *inflictor, idEntity *attacker, const idVec3 &dir, const char *damageDefName, const float damageScale, const int location );
 	int						GetDamageForLocation( int damage, int location );
-	const char *			GetDamageGroup( int location );
+	const char 			*GetDamageGroup( int location );
 	void					ClearPain( void );
 	virtual bool			Pain( idEntity *inflictor, idEntity *attacker, int damage, const idVec3 &dir, int location );
 
-							// model/combat model/ragdoll
+	// model/combat model/ragdoll
 	void					SetCombatModel( void );
-	idClipModel *			GetCombatModel( void ) const;
+	idClipModel 			*GetCombatModel( void ) const;
 	virtual void			LinkCombat( void );
 	virtual void			UnlinkCombat( void );
 	bool					StartRagdoll( void );
 	void					StopRagdoll( void );
 	virtual bool			UpdateAnimationControllers( void );
 
-							// delta view angles to allow movers to rotate the view of the actor
-	const idAngles &		GetDeltaViewAngles( void ) const;
+	// delta view angles to allow movers to rotate the view of the actor
+	const idAngles 		&GetDeltaViewAngles( void ) const;
 	void					SetDeltaViewAngles( const idAngles &delta );
 
 	bool					HasEnemies( void ) const;
-	idActor *				ClosestEnemyToPoint( const idVec3 &pos );
-	idActor *				EnemyWithMostHealth();
+	idActor 				*ClosestEnemyToPoint( const idVec3 &pos );
+	idActor 				*EnemyWithMostHealth();
 
 	virtual bool			OnLadder( void ) const;
 
@@ -192,15 +192,15 @@ public:
 
 	virtual void			Teleport( const idVec3 &origin, const idAngles &angles, idEntity *destination );
 
-	virtual	renderView_t *	GetRenderView();	
-	
-							// animation state control
+	virtual	renderView_t 	*GetRenderView();
+
+	// animation state control
 	int						GetAnim( int channel, const char *name );
 	void					UpdateAnimState( void );
 	void					SetAnimState( int channel, const char *name, int blendFrames );
-	const char *			GetAnimState( int channel ) const;
+	const char 			*GetAnimState( int channel ) const;
 	bool					InAnimState( int channel, const char *name ) const;
-	const char *			WaitState( void ) const;
+	const char 			*WaitState( void ) const;
 	void					SetWaitState( const char *_waitstate );
 	bool					AnimDone( int channel, int blendFrames ) const;
 	virtual void			SpawnGibs( const idVec3 &dir, const char *damageDefName );
@@ -246,7 +246,7 @@ protected:
 	int						blink_max;
 
 	// script variables
-	idThread *				scriptThread;
+	idThread 				*scriptThread;
 	idStr					waitState;
 	idAnimState				headAnim;
 	idAnimState				torsoAnim;
@@ -262,10 +262,10 @@ protected:
 
 	virtual void			Gib( const idVec3 &dir, const char *damageDefName );
 
-							// removes attachments with "remove" set for when character dies
+	// removes attachments with "remove" set for when character dies
 	void					RemoveAttachments( void );
 
-							// copies animation from body to head joints
+	// copies animation from body to head joints
 	void					CopyJointsFromBodyToHead( void );
 
 private:

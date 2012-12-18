@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -41,8 +41,8 @@ class idTestModel : public idAnimatedEntity {
 public:
 	CLASS_PROTOTYPE( idTestModel );
 
-							idTestModel();
-							~idTestModel();
+	idTestModel();
+	~idTestModel();
 
 	void					Save( idSaveGame *savefile );
 	void					Restore( idRestoreGame *savefile );
@@ -60,12 +60,12 @@ public:
 
 	static void 			KeepTestModel_f( const idCmdArgs &args );
 	static void 			TestModel_f( const idCmdArgs &args );
-	static void				ArgCompletion_TestModel( const idCmdArgs &args, void(*callback)( const char *s ) );
+	static void				ArgCompletion_TestModel( const idCmdArgs &args, void( *callback )( const char *s ) );
 	static void 			TestSkin_f( const idCmdArgs &args );
 	static void 			TestShaderParm_f( const idCmdArgs &args );
 	static void 			TestParticleStopTime_f( const idCmdArgs &args );
 	static void 			TestAnim_f( const idCmdArgs &args );
-	static void				ArgCompletion_TestAnim( const idCmdArgs &args, void(*callback)( const char *s ) );
+	static void				ArgCompletion_TestAnim( const idCmdArgs &args, void( *callback )( const char *s ) );
 	static void 			TestBlend_f( const idCmdArgs &args );
 	static void 			TestModelNextAnim_f( const idCmdArgs &args );
 	static void 			TestModelPrevAnim_f( const idCmdArgs &args );

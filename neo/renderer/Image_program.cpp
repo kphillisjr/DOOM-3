@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -84,9 +84,9 @@ static void R_HeightmapToNormalMap( byte *data, int width, int height, float sca
 
 	// copy and convert to grey scale
 	j = width * height;
-	depth = (byte *)R_StaticAlloc( j );
+	depth = ( byte * )R_StaticAlloc( j );
 	for ( i = 0 ; i < j ; i++ ) {
-		depth[i] = ( data[i*4] + data[i*4+1] + data[i*4+2] ) / 3;
+		depth[i] = ( data[i * 4] + data[i * 4 + 1] + data[i * 4 + 2] ) / 3;
 	}
 
 	idVec3	dir, dir2;
@@ -98,10 +98,10 @@ static void R_HeightmapToNormalMap( byte *data, int width, int height, float sca
 			// FIXME: look at five points?
 
 			// look at three points to estimate the gradient
-			a1 = d1 = depth[ ( i * width + j ) ];
-			a2 = d2 = depth[ ( i * width + ( ( j + 1 ) & ( width - 1 ) ) ) ];
-			a3 = d3 = depth[ ( ( ( i + 1 ) & ( height - 1 ) ) * width + j ) ];
-			a4 = d4 = depth[ ( ( ( i + 1 ) & ( height - 1 ) ) * width + ( ( j + 1 ) & ( width - 1 ) ) ) ];
+			a1 = d1 = depth[( i * width + j ) ];
+			a2 = d2 = depth[( i * width + ( ( j + 1 ) & ( width - 1 ) ) ) ];
+			a3 = d3 = depth[( ( ( i + 1 ) & ( height - 1 ) ) * width + j ) ];
+			a4 = d4 = depth[( ( ( i + 1 ) & ( height - 1 ) ) * width + ( ( j + 1 ) & ( width - 1 ) ) ) ];
 
 			d2 -= d1;
 			d3 -= d1;
@@ -118,14 +118,14 @@ static void R_HeightmapToNormalMap( byte *data, int width, int height, float sca
 			dir2[1] = a1 * scale;
 			dir2[2] = 1;
 			dir2.NormalizeFast();
-	
+
 			dir += dir2;
 			dir.NormalizeFast();
 
 			a1 = ( i * width + j ) * 4;
-			data[ a1 + 0 ] = (byte)(dir[0] * 127 + 128);
-			data[ a1 + 1 ] = (byte)(dir[1] * 127 + 128);
-			data[ a1 + 2 ] = (byte)(dir[2] * 127 + 128);
+			data[ a1 + 0 ] = ( byte )( dir[0] * 127 + 128 );
+			data[ a1 + 1 ] = ( byte )( dir[1] * 127 + 128 );
+			data[ a1 + 2 ] = ( byte )( dir[2] * 127 + 128 );
 			data[ a1 + 3 ] = 255;
 		}
 	}
@@ -147,7 +147,7 @@ static void R_ImageScale( byte *data, int width, int height, float scale[4] ) {
 	c = width * height * 4;
 
 	for ( i = 0 ; i < c ; i++ ) {
-		j = (byte)(data[i] * scale[i&3]);
+		j = ( byte )( data[i] * scale[i & 3] );
 		if ( j < 0 ) {
 			j = 0;
 		} else if ( j > 255 ) {
@@ -166,10 +166,10 @@ static void R_InvertAlpha( byte *data, int width, int height ) {
 	int		i;
 	int		c;
 
-	c = width * height* 4;
+	c = width * height * 4;
 
-	for ( i = 0 ; i < c ; i+=4 ) {
-		data[i+3] = 255 - data[i+3];
+	for ( i = 0 ; i < c ; i += 4 ) {
+		data[i + 3] = 255 - data[i + 3];
 	}
 }
 
@@ -182,12 +182,12 @@ static void R_InvertColor( byte *data, int width, int height ) {
 	int		i;
 	int		c;
 
-	c = width * height* 4;
+	c = width * height * 4;
 
-	for ( i = 0 ; i < c ; i+=4 ) {
-		data[i+0] = 255 - data[i+0];
-		data[i+1] = 255 - data[i+1];
-		data[i+2] = 255 - data[i+2];
+	for ( i = 0 ; i < c ; i += 4 ) {
+		data[i + 0] = 255 - data[i + 0];
+		data[i + 1] = 255 - data[i + 1];
+		data[i + 2] = 255 - data[i + 2];
 	}
 }
 
@@ -228,16 +228,16 @@ static void R_AddNormalMaps( byte *data1, int width1, int height1, byte *data2, 
 			// this screws up compression, so we try to correct that here by instead fading it to 0,0,1
 			len = n.LengthFast();
 			if ( len < 1.0f ) {
-				n[2] = idMath::Sqrt(1.0 - (n[0]*n[0]) - (n[1]*n[1]));
+				n[2] = idMath::Sqrt( 1.0 - ( n[0] * n[0] ) - ( n[1] * n[1] ) );
 			}
 
 			n[0] += ( d2[0] - 128 ) / 127.0;
 			n[1] += ( d2[1] - 128 ) / 127.0;
 			n.Normalize();
 
-			d1[0] = (byte)(n[0] * 127 + 128);
-			d1[1] = (byte)(n[1] * 127 + 128);
-			d1[2] = (byte)(n[2] * 127 + 128);
+			d1[0] = ( byte )( n[0] * 127 + 128 );
+			d1[1] = ( byte )( n[1] * 127 + 128 );
+			d1[2] = ( byte )( n[2] * 127 + 128 );
 			d1[3] = 255;
 		}
 	}
@@ -263,7 +263,7 @@ static void R_SmoothNormalMap( byte *data, int width, int height ) {
 		{ 1, 1, 1 }
 	};
 
-	orig = (byte *)R_StaticAlloc( width * height * 4 );
+	orig = ( byte * )R_StaticAlloc( width * height * 4 );
 	memcpy( orig, data, width * height * 4 );
 
 	for ( i = 0 ; i < width ; i++ ) {
@@ -273,7 +273,7 @@ static void R_SmoothNormalMap( byte *data, int width, int height ) {
 				for ( l = -1 ; l < 2 ; l++ ) {
 					byte	*in;
 
-					in = orig + ( ((j+l)&(height-1))*width + ((i+k)&(width-1)) ) * 4;
+					in = orig + ( ( ( j + l ) & ( height - 1 ) ) * width + ( ( i + k ) & ( width - 1 ) ) ) * 4;
 
 					// ignore 000 and -1 -1 -1
 					if ( in[0] == 0 && in[1] == 0 && in[2] == 0 ) {
@@ -283,16 +283,16 @@ static void R_SmoothNormalMap( byte *data, int width, int height ) {
 						continue;
 					}
 
-					normal[0] += factors[k+1][l+1] * ( in[0] - 128 );
-					normal[1] += factors[k+1][l+1] * ( in[1] - 128 );
-					normal[2] += factors[k+1][l+1] * ( in[2] - 128 );
+					normal[0] += factors[k + 1][l + 1] * ( in[0] - 128 );
+					normal[1] += factors[k + 1][l + 1] * ( in[1] - 128 );
+					normal[2] += factors[k + 1][l + 1] * ( in[2] - 128 );
 				}
 			}
 			normal.Normalize();
 			out = data + ( j * width + i ) * 4;
-			out[0] = (byte)(128 + 127 * normal[0]);
-			out[1] = (byte)(128 + 127 * normal[1]);
-			out[2] = (byte)(128 + 127 * normal[2]);
+			out[0] = ( byte )( 128 + 127 * normal[0] );
+			out[1] = ( byte )( 128 + 127 * normal[1] );
+			out[2] = ( byte )( 128 + 127 * normal[2] );
 		}
 	}
 
@@ -375,7 +375,7 @@ used to parse an image program from a text stream.
 ===================
 */
 static bool R_ParseImageProgram_r( idLexer &src, byte **pic, int *width, int *height,
-								  ID_TIME_T *timestamps, textureDepth_t *depth ) {
+								   ID_TIME_T *timestamps, textureDepth_t *depth ) {
 	idToken		token;
 	float		scale;
 	ID_TIME_T		timestamp;
@@ -395,7 +395,7 @@ static bool R_ParseImageProgram_r( idLexer &src, byte **pic, int *width, int *he
 		src.ReadToken( &token );
 		AppendToken( token );
 		scale = token.GetFloatValue();
-		
+
 		// process it
 		if ( pic ) {
 			R_HeightmapToNormalMap( *pic, *width, *height, scale );
@@ -427,7 +427,7 @@ static bool R_ParseImageProgram_r( idLexer &src, byte **pic, int *width, int *he
 			}
 			return false;
 		}
-		
+
 		// process it
 		if ( pic ) {
 			R_AddNormalMaps( *pic, *width, *height, pic2, width2, height2 );
@@ -478,7 +478,7 @@ static bool R_ParseImageProgram_r( idLexer &src, byte **pic, int *width, int *he
 			}
 			return false;
 		}
-		
+
 		// process it
 		if ( pic ) {
 			R_ImageAdd( *pic, *width, *height, pic2, width2, height2 );
@@ -552,10 +552,10 @@ static bool R_ParseImageProgram_r( idLexer &src, byte **pic, int *width, int *he
 		if ( pic ) {
 			int		c;
 			c = *width * *height * 4;
-			for ( i = 0 ; i < c ; i+=4 ) {
-				(*pic)[i+1] = 
-				(*pic)[i+2] = 
-				(*pic)[i+3] = (*pic)[i];
+			for ( i = 0 ; i < c ; i += 4 ) {
+				( *pic )[i + 1] =
+					( *pic )[i + 2] =
+						( *pic )[i + 3] = ( *pic )[i];
 			}
 		}
 
@@ -574,11 +574,11 @@ static bool R_ParseImageProgram_r( idLexer &src, byte **pic, int *width, int *he
 		if ( pic ) {
 			int		c;
 			c = *width * *height * 4;
-			for ( i = 0 ; i < c ; i+=4 ) {
-				(*pic)[i+3] = ( (*pic)[i+0] + (*pic)[i+1] + (*pic)[i+2] ) / 3;
-				(*pic)[i+0] = 
-				(*pic)[i+1] = 
-				(*pic)[i+2] = 255;
+			for ( i = 0 ; i < c ; i += 4 ) {
+				( *pic )[i + 3] = ( ( *pic )[i + 0] + ( *pic )[i + 1] + ( *pic )[i + 2] ) / 3;
+				( *pic )[i + 0] =
+					( *pic )[i + 1] =
+						( *pic )[i + 2] = 255;
 			}
 		}
 
@@ -618,7 +618,7 @@ R_LoadImageProgram
 void R_LoadImageProgram( const char *name, byte **pic, int *width, int *height, ID_TIME_T *timestamps, textureDepth_t *depth ) {
 	idLexer src;
 
-	src.LoadMemory( name, strlen(name), name );
+	src.LoadMemory( name, strlen( name ), name );
 	src.SetFlags( LEXFL_NOFATALERRORS | LEXFL_NOSTRINGCONCAT | LEXFL_NOSTRINGESCAPECHARS | LEXFL_ALLOWPATHNAMES );
 
 	parseBuffer[0] = 0;

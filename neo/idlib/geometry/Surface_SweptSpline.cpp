@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -64,10 +64,10 @@ idSurface_SweptSpline::SetSweptCircle
 void idSurface_SweptSpline::SetSweptCircle( const float radius ) {
 	idCurve_NURBS<idVec4> *nurbs = new idCurve_NURBS<idVec4>();
 	nurbs->Clear();
-	nurbs->AddValue(   0.0f, idVec4(  radius,  radius, 0.0f, 0.00f ) );
+	nurbs->AddValue( 0.0f, idVec4( radius,  radius, 0.0f, 0.00f ) );
 	nurbs->AddValue( 100.0f, idVec4( -radius,  radius, 0.0f, 0.25f ) );
 	nurbs->AddValue( 200.0f, idVec4( -radius, -radius, 0.0f, 0.50f ) );
-	nurbs->AddValue( 300.0f, idVec4(  radius, -radius, 0.0f, 0.75f ) );
+	nurbs->AddValue( 300.0f, idVec4( radius, -radius, 0.0f, 0.75f ) );
 	nurbs->SetBoundaryType( idCurve_NURBS<idVec4>::BT_CLOSED );
 	nurbs->SetCloseTime( 100.0f );
 	if ( sweptSpline ) {
@@ -160,14 +160,14 @@ void idSurface_SweptSpline::Tessellate( const int splineSubdivisions, const int 
 	// calculate the points and first derivatives for the swept spline
 	totalTime = sweptSpline->GetTime( sweptSpline->GetNumValues() - 1 ) - sweptSpline->GetTime( 0 ) + sweptSpline->GetCloseTime();
 	sweptSplineDiv = sweptSpline->GetBoundaryType() == idCurve_Spline<idVec3>::BT_CLOSED ? sweptSplineSubdivisions : sweptSplineSubdivisions - 1;
-	baseOffset = (splineSubdivisions-1) * sweptSplineSubdivisions;
+	baseOffset = ( splineSubdivisions - 1 ) * sweptSplineSubdivisions;
 	for ( i = 0; i < sweptSplineSubdivisions; i++ ) {
 		t = totalTime * i / sweptSplineDiv;
 		splinePos = sweptSpline->GetCurrentValue( t );
 		splineD1 = sweptSpline->GetCurrentFirstDerivative( t );
-		verts[baseOffset+i].xyz = splinePos.ToVec3();
-		verts[baseOffset+i].st[0] = splinePos.w;
-		verts[baseOffset+i].tangents[0] = splineD1.ToVec3();
+		verts[baseOffset + i].xyz = splinePos.ToVec3();
+		verts[baseOffset + i].st[0] = splinePos.w;
+		verts[baseOffset + i].tangents[0] = splineD1.ToVec3();
 	}
 
 	// sweep the spline
@@ -184,11 +184,11 @@ void idSurface_SweptSpline::Tessellate( const int splineSubdivisions, const int 
 
 		offset = i * sweptSplineSubdivisions;
 		for ( j = 0; j < sweptSplineSubdivisions; j++ ) {
-			idDrawVert *v = &verts[offset+j];
-			v->xyz = splinePos.ToVec3() + verts[baseOffset+j].xyz * splineMat;
-			v->st[0] = verts[baseOffset+j].st[0];
+			idDrawVert *v = &verts[offset + j];
+			v->xyz = splinePos.ToVec3() + verts[baseOffset + j].xyz * splineMat;
+			v->st[0] = verts[baseOffset + j].st[0];
 			v->st[1] = splinePos.w;
-			v->tangents[0] = verts[baseOffset+j].tangents[0] * splineMat;
+			v->tangents[0] = verts[baseOffset + j].tangents[0] * splineMat;
 			v->tangents[1] = splineD1.ToVec3();
 			v->normal = v->tangents[1].Cross( v->tangents[0] );
 			v->normal.Normalize();
@@ -201,13 +201,13 @@ void idSurface_SweptSpline::Tessellate( const int splineSubdivisions, const int 
 	// create indexes for the triangles
 	for ( offset = i = 0; i < splineDiv; i++ ) {
 
-		i0 = (i+0) * sweptSplineSubdivisions;
-		i1 = (i+1) % splineSubdivisions * sweptSplineSubdivisions;
+		i0 = ( i + 0 ) * sweptSplineSubdivisions;
+		i1 = ( i + 1 ) % splineSubdivisions * sweptSplineSubdivisions;
 
 		for ( j = 0; j < sweptSplineDiv; j++ ) {
 
-			j0 = (j+0);
-			j1 = (j+1) % sweptSplineSubdivisions;
+			j0 = ( j + 0 );
+			j1 = ( j + 1 ) % sweptSplineSubdivisions;
 
 			indexes[offset++] = i0 + j0;
 			indexes[offset++] = i0 + j1;

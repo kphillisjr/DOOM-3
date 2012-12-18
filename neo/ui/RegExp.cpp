@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -52,39 +52,39 @@ void idRegister::SetToRegs( float *registers ) {
 		return;
 	}
 
-	switch( type ) {
+	switch ( type ) {
 		case VEC4: {
-			v = *static_cast<idWinVec4*>(var);
+			v = *static_cast<idWinVec4 *>( var );
 			break;
 		}
 		case RECTANGLE: {
-			rect = *static_cast<idWinRectangle*>(var);
+			rect = *static_cast<idWinRectangle *>( var );
 			v = rect.ToVec4();
 			break;
 		}
 		case VEC2: {
-			v2 = *static_cast<idWinVec2*>(var);
+			v2 = *static_cast<idWinVec2 *>( var );
 			v[0] = v2[0];
 			v[1] = v2[1];
 			break;
 		}
 		case VEC3: {
-			v3 = *static_cast<idWinVec3*>(var);
+			v3 = *static_cast<idWinVec3 *>( var );
 			v[0] = v3[0];
 			v[1] = v3[1];
 			v[2] = v3[2];
 			break;
 		}
 		case FLOAT: {
-			v[0] = *static_cast<idWinFloat*>(var);
+			v[0] = *static_cast<idWinFloat *>( var );
 			break;
 		}
 		case INT: {
-			v[0] = *static_cast<idWinInt*>(var);
+			v[0] = *static_cast<idWinInt *>( var );
 			break;
 		}
 		case BOOL: {
-			v[0] = *static_cast<idWinBool*>(var);
+			v[0] = *static_cast<idWinBool *>( var );
 			break;
 		}
 		default: {
@@ -106,17 +106,17 @@ void idRegister::GetFromRegs( float *registers ) {
 	idVec4 v;
 	idRectangle rect;
 
-	if (!enabled || var == NULL || (var && (var->GetDict() || !var->GetEval()))) {
+	if ( !enabled || var == NULL || ( var && ( var->GetDict() || !var->GetEval() ) ) ) {
 		return;
 	}
 
 	for ( int i = 0; i < regCount; i++ ) {
 		v[i] = registers[regs[i]];
 	}
-	
-	switch( type ) {
+
+	switch ( type ) {
 		case VEC4: {
-			*dynamic_cast<idWinVec4*>(var) = v;
+			*dynamic_cast<idWinVec4 *>( var ) = v;
 			break;
 		}
 		case RECTANGLE: {
@@ -124,27 +124,27 @@ void idRegister::GetFromRegs( float *registers ) {
 			rect.y = v.y;
 			rect.w = v.z;
 			rect.h = v.w;
-			*static_cast<idWinRectangle*>(var) = rect;
+			*static_cast<idWinRectangle *>( var ) = rect;
 			break;
 		}
 		case VEC2: {
-			*static_cast<idWinVec2*>(var) = v.ToVec2();
+			*static_cast<idWinVec2 *>( var ) = v.ToVec2();
 			break;
 		}
 		case VEC3: {
-			*static_cast<idWinVec3*>(var) = v.ToVec3();
+			*static_cast<idWinVec3 *>( var ) = v.ToVec3();
 			break;
 		}
 		case FLOAT: {
-			*static_cast<idWinFloat*>(var) = v[0];
+			*static_cast<idWinFloat *>( var ) = v[0];
 			break;
 		}
 		case INT: {
-			*static_cast<idWinInt*>(var) = v[0];
+			*static_cast<idWinInt *>( var ) = v[0];
 			break;
 		}
 		case BOOL: {
-			*static_cast<idWinBool*>(var) = ( v[0] != 0.0f );
+			*static_cast<idWinBool *>( var ) = ( v[0] != 0.0f );
 			break;
 		}
 		default: {
@@ -159,7 +159,7 @@ void idRegister::GetFromRegs( float *registers ) {
 idRegister::ReadFromDemoFile
 =================
 */
-void idRegister::ReadFromDemoFile(idDemoFile *f) {
+void idRegister::ReadFromDemoFile( idDemoFile *f ) {
 	f->ReadBool( enabled );
 	f->ReadShort( type );
 	f->ReadInt( regCount );
@@ -177,7 +177,7 @@ void idRegister::WriteToDemoFile( idDemoFile *f ) {
 	f->WriteBool( enabled );
 	f->WriteShort( type );
 	f->WriteInt( regCount );
-	for (int i = 0; i < 4; i++)
+	for ( int i = 0; i < 4; i++ )
 		f->WriteUnsignedShort( regs[i] );
 	f->WriteHashString( name );
 }
@@ -194,7 +194,7 @@ void idRegister::WriteToSaveGame( idFile *savefile ) {
 	savefile->Write( &type, sizeof( type ) );
 	savefile->Write( &regCount, sizeof( regCount ) );
 	savefile->Write( &regs[0], sizeof( regs ) );
-	
+
 	len = name.Length();
 	savefile->Write( &len, sizeof( len ) );
 	savefile->Write( name.c_str(), len );
@@ -234,7 +234,7 @@ void idRegisterList::AddReg( const char *name, int type, idVec4 data, idWindow *
 		idRegister *reg = new idRegister( name, type );
 		reg->var = var;
 		for ( int i = 0; i < numRegs; i++ ) {
-			reg->regs[i] = win->ExpressionConstant(data[i]);
+			reg->regs[i] = win->ExpressionConstant( data[i] );
 		}
 		int hash = regHash.GenerateKey( name, false );
 		regHash.Add( hash, regs.Append( reg ) );
@@ -247,12 +247,12 @@ idRegisterList::AddReg
 ====================
 */
 void idRegisterList::AddReg( const char *name, int type, idParser *src, idWindow *win, idWinVar *var ) {
-	idRegister* reg;
+	idRegister *reg;
 
 	reg = FindReg( name );
 
 	if ( reg == NULL ) {
-		assert(type >= 0 && type < idRegister::NUMTYPES);
+		assert( type >= 0 && type < idRegister::NUMTYPES );
 		int numRegs = idRegister::REGCOUNT[type];
 		reg = new idRegister( name, type );
 		reg->var = var;
@@ -264,9 +264,9 @@ void idRegisterList::AddReg( const char *name, int type, idParser *src, idWindow
 			}
 		} else {
 			for ( int i = 0; i < numRegs; i++ ) {
-				reg->regs[i] = win->ParseExpression(src, NULL);
-				if ( i < numRegs-1 ) {
-					src->ExpectTokenString(",");
+				reg->regs[i] = win->ParseExpression( src, NULL );
+				if ( i < numRegs - 1 ) {
+					src->ExpectTokenString( "," );
 				}
 			}
 		}
@@ -283,8 +283,8 @@ void idRegisterList::AddReg( const char *name, int type, idParser *src, idWindow
 		} else {
 			for ( int i = 0; i < numRegs; i++ ) {
 				reg->regs[i] = win->ParseExpression( src, NULL );
-				if ( i < numRegs-1 ) {
-					src->ExpectTokenString(",");
+				if ( i < numRegs - 1 ) {
+					src->ExpectTokenString( "," );
 				}
 			}
 		}
@@ -296,7 +296,7 @@ void idRegisterList::AddReg( const char *name, int type, idParser *src, idWindow
 idRegisterList::GetFromRegs
 ====================
 */
-void idRegisterList::GetFromRegs(float *registers) {
+void idRegisterList::GetFromRegs( float *registers ) {
 	for ( int i = 0; i < regs.Num(); i++ ) {
 		regs[i]->GetFromRegs( registers );
 	}
@@ -345,7 +345,7 @@ void idRegisterList::Reset() {
 idRegisterList::ReadFromSaveGame
 ====================
 */
-void idRegisterList::ReadFromDemoFile(idDemoFile *f) {
+void idRegisterList::ReadFromDemoFile( idDemoFile *f ) {
 	int c;
 
 	f->ReadInt( c );
@@ -362,12 +362,12 @@ void idRegisterList::ReadFromDemoFile(idDemoFile *f) {
 idRegisterList::ReadFromSaveGame
 ====================
 */
-void idRegisterList::WriteToDemoFile(idDemoFile *f) {
+void idRegisterList::WriteToDemoFile( idDemoFile *f ) {
 	int c = regs.Num();
 
 	f->WriteInt( c );
 	for ( int i = 0 ; i < c; i++ ) {
-		regs[i]->WriteToDemoFile(f);
+		regs[i]->WriteToDemoFile( f );
 	}
 }
 

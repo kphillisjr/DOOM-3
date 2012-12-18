@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -40,26 +40,20 @@ int idPlane::Type( void ) const {
 	if ( Normal()[0] == 0.0f ) {
 		if ( Normal()[1] == 0.0f ) {
 			return Normal()[2] > 0.0f ? PLANETYPE_Z : PLANETYPE_NEGZ;
-		}
-		else if ( Normal()[2] == 0.0f ) {
+		} else if ( Normal()[2] == 0.0f ) {
 			return Normal()[1] > 0.0f ? PLANETYPE_Y : PLANETYPE_NEGY;
-		}
-		else {
+		} else {
 			return PLANETYPE_ZEROX;
 		}
-	}
-	else if ( Normal()[1] == 0.0f ) {
+	} else if ( Normal()[1] == 0.0f ) {
 		if ( Normal()[2] == 0.0f ) {
 			return Normal()[0] > 0.0f ? PLANETYPE_X : PLANETYPE_NEGX;
-		}
-		else {
+		} else {
 			return PLANETYPE_ZEROY;
 		}
-	}
-	else if ( Normal()[2] == 0.0f ) {
+	} else if ( Normal()[2] == 0.0f ) {
 		return PLANETYPE_ZEROZ;
-	}
-	else {
+	} else {
 		return PLANETYPE_NONAXIAL;
 	}
 }
@@ -91,7 +85,7 @@ bool idPlane::HeightFit( const idVec3 *points, const int numPoints ) {
 	}
 
 	sum.Zero();
-	for ( i = 0; i < numPoints; i++) {
+	for ( i = 0; i < numPoints; i++ ) {
 		sum += points[i];
 	}
 	average = sum / numPoints;
@@ -131,7 +125,7 @@ bool idPlane::PlaneIntersection( const idPlane &plane, idVec3 &start, idVec3 &di
 	n11 = plane.Normal().LengthSqr();
 	det = n00 * n11 - n01 * n01;
 
-	if ( idMath::Fabs(det) < 1e-6f ) {
+	if ( idMath::Fabs( det ) < 1e-6f ) {
 		return false;
 	}
 

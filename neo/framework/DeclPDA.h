@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -40,21 +40,33 @@ If you have questions concerning this license or the applicable additional terms
 
 class idDeclEmail : public idDecl {
 public:
-							idDeclEmail() {}
+	idDeclEmail() {}
 
 	virtual size_t			Size( void ) const;
-	virtual const char *	DefaultDefinition( void ) const;
+	virtual const char 	*DefaultDefinition( void ) const;
 	virtual bool			Parse( const char *text, const int textLength );
 	virtual void			FreeData( void );
 	virtual void			Print( void ) const;
 	virtual void			List( void ) const;
 
-	const char *			GetFrom() const { return from; }
-	const char *			GetBody() const { return text; }
-	const char *			GetSubject() const { return subject; }
-	const char *			GetDate() const { return date; }
-	const char *			GetTo() const { return to; }
-	const char *			GetImage() const { return image; }
+	const char 			*GetFrom() const {
+		return from;
+	}
+	const char 			*GetBody() const {
+		return text;
+	}
+	const char 			*GetSubject() const {
+		return subject;
+	}
+	const char 			*GetDate() const {
+		return date;
+	}
+	const char 			*GetTo() const {
+		return to;
+	}
+	const char 			*GetImage() const {
+		return image;
+	}
 
 private:
 	idStr					text;
@@ -68,20 +80,30 @@ private:
 
 class idDeclVideo : public idDecl {
 public:
-							idDeclVideo() {};
+	idDeclVideo() {};
 
 	virtual size_t			Size( void ) const;
-	virtual const char *	DefaultDefinition( void ) const;
+	virtual const char 	*DefaultDefinition( void ) const;
 	virtual bool			Parse( const char *text, const int textLength );
 	virtual void			FreeData( void );
 	virtual void			Print( void ) const;
 	virtual void			List( void ) const;
 
-	const char *			GetRoq() const { return video; }
-	const char *			GetWave() const { return audio; }
-	const char *			GetVideoName() const { return videoName; }
-	const char *			GetInfo() const { return info; }
-	const char *			GetPreview() const { return preview; }
+	const char 			*GetRoq() const {
+		return video;
+	}
+	const char 			*GetWave() const {
+		return audio;
+	}
+	const char 			*GetVideoName() const {
+		return videoName;
+	}
+	const char 			*GetInfo() const {
+		return info;
+	}
+	const char 			*GetPreview() const {
+		return preview;
+	}
 
 private:
 	idStr					preview;
@@ -94,19 +116,27 @@ private:
 
 class idDeclAudio : public idDecl {
 public:
-							idDeclAudio() {};
+	idDeclAudio() {};
 
 	virtual size_t			Size( void ) const;
-	virtual const char *	DefaultDefinition( void ) const;
+	virtual const char 	*DefaultDefinition( void ) const;
 	virtual bool			Parse( const char *text, const int textLength );
 	virtual void			FreeData( void );
 	virtual void			Print( void ) const;
 	virtual void			List( void ) const;
 
-	const char *			GetAudioName() const { return audioName; }
-	const char *			GetWave() const { return audio; }
-	const char *			GetInfo() const { return info; }
-	const char *			GetPreview() const { return preview; }
+	const char 			*GetAudioName() const {
+		return audioName;
+	}
+	const char 			*GetWave() const {
+		return audio;
+	}
+	const char 			*GetInfo() const {
+		return info;
+	}
+	const char 			*GetPreview() const {
+		return preview;
+	}
 
 private:
 	idStr					audio;
@@ -118,10 +148,12 @@ private:
 
 class idDeclPDA : public idDecl {
 public:
-							idDeclPDA() { originalEmails = originalVideos = 0; };
+	idDeclPDA() {
+		originalEmails = originalVideos = 0;
+	};
 
 	virtual size_t			Size( void ) const;
-	virtual const char *	DefaultDefinition( void ) const;
+	virtual const char 	*DefaultDefinition( void ) const;
 	virtual bool			Parse( const char *text, const int textLength );
 	virtual void			FreeData( void );
 	virtual void			Print( void ) const;
@@ -141,13 +173,27 @@ public:
 
 	virtual void			SetSecurity( const char *sec ) const;
 
-	const char *			GetPdaName() const { return pdaName; }
-	const char *			GetSecurity() const {return security; }
-	const char *			GetFullName() const { return fullName; }
-	const char *			GetIcon() const { return icon; }
-	const char *			GetPost() const { return post; }
-	const char *			GetID() const { return id; }
-	const char *			GetTitle() const { return title; }
+	const char 			*GetPdaName() const {
+		return pdaName;
+	}
+	const char 			*GetSecurity() const {
+		return security;
+	}
+	const char 			*GetFullName() const {
+		return fullName;
+	}
+	const char 			*GetIcon() const {
+		return icon;
+	}
+	const char 			*GetPost() const {
+		return post;
+	}
+	const char 			*GetID() const {
+		return id;
+	}
+	const char 			*GetTitle() const {
+		return title;
+	}
 
 private:
 	mutable idStrList		videos;

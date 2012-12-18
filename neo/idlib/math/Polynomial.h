@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -40,28 +40,28 @@ If you have questions concerning this license or the applicable additional terms
 
 class idPolynomial {
 public:
-					idPolynomial( void );
-					explicit idPolynomial( int d );
-					explicit idPolynomial( float a, float b );
-					explicit idPolynomial( float a, float b, float c );
-					explicit idPolynomial( float a, float b, float c, float d );
-					explicit idPolynomial( float a, float b, float c, float d, float e );
+	idPolynomial( void );
+	explicit idPolynomial( int d );
+	explicit idPolynomial( float a, float b );
+	explicit idPolynomial( float a, float b, float c );
+	explicit idPolynomial( float a, float b, float c, float d );
+	explicit idPolynomial( float a, float b, float c, float d, float e );
 
 	float			operator[]( int index ) const;
-	float &			operator[]( int index );
+	float 			&operator[]( int index );
 
 	idPolynomial	operator-() const;
-	idPolynomial &	operator=( const idPolynomial &p );
+	idPolynomial 	&operator=( const idPolynomial &p );
 
 	idPolynomial	operator+( const idPolynomial &p ) const;
 	idPolynomial	operator-( const idPolynomial &p ) const;
 	idPolynomial	operator*( const float s ) const;
 	idPolynomial	operator/( const float s ) const;
 
-	idPolynomial &	operator+=( const idPolynomial &p );
-	idPolynomial &	operator-=( const idPolynomial &p );
-	idPolynomial &	operator*=( const float s );
-	idPolynomial &	operator/=( const float s );
+	idPolynomial 	&operator+=( const idPolynomial &p );
+	idPolynomial 	&operator-=( const idPolynomial &p );
+	idPolynomial 	&operator*=( const float s );
+	idPolynomial 	&operator/=( const float s );
 
 	bool			Compare( const idPolynomial &p ) const;						// exact compare, no epsilon
 	bool			Compare( const idPolynomial &p, const float epsilon ) const;// compare with epsilon
@@ -86,16 +86,16 @@ public:
 	static int		GetRoots3( float a, float b, float c, float d, float *roots );
 	static int		GetRoots4( float a, float b, float c, float d, float e, float *roots );
 
-	const float *	ToFloatPtr( void ) const;
-	float *			ToFloatPtr( void );
-	const char *	ToString( int precision = 2 ) const;
+	const float 	*ToFloatPtr( void ) const;
+	float 			*ToFloatPtr( void );
+	const char 	*ToString( int precision = 2 ) const;
 
 	static void		Test( void );
 
 private:
 	int				degree;
 	int				allocated;
-	float *			coefficient;
+	float 			*coefficient;
 
 	void			Resize( int d, bool keep );
 	int				Laguer( const idComplex *coef, const int degree, idComplex &r ) const;
@@ -161,7 +161,7 @@ ID_INLINE float idPolynomial::operator[]( int index ) const {
 	return coefficient[ index ];
 }
 
-ID_INLINE float& idPolynomial::operator[]( int index ) {
+ID_INLINE float &idPolynomial::operator[]( int index ) {
 	assert( index >= 0 && index <= degree );
 	return coefficient[ index ];
 }
@@ -177,7 +177,7 @@ ID_INLINE idPolynomial idPolynomial::operator-() const {
 	return n;
 }
 
-ID_INLINE idPolynomial &idPolynomial::operator=( const idPolynomial &p ) { 
+ID_INLINE idPolynomial &idPolynomial::operator=( const idPolynomial &p ) {
 	Resize( p.degree, false );
 	for ( int i = 0; i <= degree; i++ ) {
 		coefficient[i] = p.coefficient[i];
@@ -437,7 +437,7 @@ ID_INLINE idPolynomial idPolynomial::GetDerivative( void ) const {
 	}
 	n.Resize( degree - 1, false );
 	for ( int i = 1; i <= degree; i++ ) {
-		n.coefficient[i-1] = i * coefficient[i];
+		n.coefficient[i - 1] = i * coefficient[i];
 	}
 	return n;
 }
@@ -451,7 +451,7 @@ ID_INLINE idPolynomial idPolynomial::GetAntiDerivative( void ) const {
 	n.Resize( degree + 1, false );
 	n.coefficient[0] = 0.0f;
 	for ( int i = 0; i <= degree; i++ ) {
-		n.coefficient[i+1] = coefficient[i] / ( i + 1 );
+		n.coefficient[i + 1] = coefficient[i] / ( i + 1 );
 	}
 	return n;
 }
@@ -611,7 +611,7 @@ ID_INLINE float *idPolynomial::ToFloatPtr( void ) {
 ID_INLINE void idPolynomial::Resize( int d, bool keep ) {
 	int alloc = ( d + 1 + 3 ) & ~3;
 	if ( alloc > allocated ) {
-		float *ptr = (float *) Mem_Alloc16( alloc * sizeof( float ) );
+		float *ptr = ( float * ) Mem_Alloc16( alloc * sizeof( float ) );
 		if ( coefficient != NULL ) {
 			if ( keep ) {
 				for ( int i = 0; i <= degree; i++ ) {

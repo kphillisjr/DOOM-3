@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -64,30 +64,29 @@ toolTip_t DialogAFConstraintSpring::toolTips[] = {
 	{ 0, NULL }
 };
 
-IMPLEMENT_DYNAMIC(DialogAFConstraintSpring, CDialog)
+IMPLEMENT_DYNAMIC( DialogAFConstraintSpring, CDialog )
 
 /*
 ================
 DialogAFConstraintSpring::DialogAFConstraintSpring
 ================
 */
-DialogAFConstraintSpring::DialogAFConstraintSpring(CWnd* pParent /*=NULL*/)
-	: CDialog(DialogAFConstraintSpring::IDD, pParent)
-	, m_anchor_x(0)
-	, m_anchor_y(0)
-	, m_anchor_z(0)
-	, m_anchor2_x(0)
-	, m_anchor2_y(0)
-	, m_anchor2_z(0)
-	, m_stretch(0)
-	, m_compress(0)
-	, m_damping(0)
-	, m_restLength(0)
-	, m_minLength(0)
-	, m_maxLength(0)
-	, constraint(NULL)
-	, file(NULL)
-{
+DialogAFConstraintSpring::DialogAFConstraintSpring( CWnd *pParent /*=NULL*/ )
+	: CDialog( DialogAFConstraintSpring::IDD, pParent )
+	, m_anchor_x( 0 )
+	, m_anchor_y( 0 )
+	, m_anchor_z( 0 )
+	, m_anchor2_x( 0 )
+	, m_anchor2_y( 0 )
+	, m_anchor2_z( 0 )
+	, m_stretch( 0 )
+	, m_compress( 0 )
+	, m_damping( 0 )
+	, m_restLength( 0 )
+	, m_minLength( 0 )
+	, m_maxLength( 0 )
+	, constraint( NULL )
+	, file( NULL ) {
 	Create( IDD_DIALOG_AF_CONSTRAINT_SPRING, pParent );
 	EnableToolTips( TRUE );
 }
@@ -105,23 +104,23 @@ DialogAFConstraintSpring::~DialogAFConstraintSpring() {
 DialogAFConstraintSpring::DoDataExchange
 ================
 */
-void DialogAFConstraintSpring::DoDataExchange(CDataExchange* pDX) {
-	CDialog::DoDataExchange(pDX);
+void DialogAFConstraintSpring::DoDataExchange( CDataExchange *pDX ) {
+	CDialog::DoDataExchange( pDX );
 	//{{AFX_DATA_MAP(DialogAFConstraintSpring)
-	DDX_Control(pDX, IDC_COMBO_ANCHOR_JOINT, m_comboAnchorJoint);
-	DDX_Control(pDX, IDC_COMBO_ANCHOR2_JOINT, m_comboAnchor2Joint);
-	DDX_Text(pDX, IDC_EDIT_ANCHOR_X, m_anchor_x);
-	DDX_Text(pDX, IDC_EDIT_ANCHOR_Y, m_anchor_y);
-	DDX_Text(pDX, IDC_EDIT_ANCHOR_Z, m_anchor_z);
-	DDX_Text(pDX, IDC_EDIT_ANCHOR2_X, m_anchor2_x);
-	DDX_Text(pDX, IDC_EDIT_ANCHOR2_Y, m_anchor2_y);
-	DDX_Text(pDX, IDC_EDIT_ANCHOR2_Z, m_anchor2_z);
-	DDX_Text(pDX, IDC_EDIT_SPRING_STRETCH, m_stretch);
-	DDX_Text(pDX, IDC_EDIT_SPRING_COMPRESS, m_compress);
-	DDX_Text(pDX, IDC_EDIT_SPRING_DAMPING, m_damping);
-	DDX_Text(pDX, IDC_EDIT_SPRING_REST_LENGTH, m_restLength);
-	DDX_Text(pDX, IDC_EDIT_SPRING_MIN_LENGTH, m_minLength);
-	DDX_Text(pDX, IDC_EDIT_SPRING_MAX_LENGTH, m_maxLength);
+	DDX_Control( pDX, IDC_COMBO_ANCHOR_JOINT, m_comboAnchorJoint );
+	DDX_Control( pDX, IDC_COMBO_ANCHOR2_JOINT, m_comboAnchor2Joint );
+	DDX_Text( pDX, IDC_EDIT_ANCHOR_X, m_anchor_x );
+	DDX_Text( pDX, IDC_EDIT_ANCHOR_Y, m_anchor_y );
+	DDX_Text( pDX, IDC_EDIT_ANCHOR_Z, m_anchor_z );
+	DDX_Text( pDX, IDC_EDIT_ANCHOR2_X, m_anchor2_x );
+	DDX_Text( pDX, IDC_EDIT_ANCHOR2_Y, m_anchor2_y );
+	DDX_Text( pDX, IDC_EDIT_ANCHOR2_Z, m_anchor2_z );
+	DDX_Text( pDX, IDC_EDIT_SPRING_STRETCH, m_stretch );
+	DDX_Text( pDX, IDC_EDIT_SPRING_COMPRESS, m_compress );
+	DDX_Text( pDX, IDC_EDIT_SPRING_DAMPING, m_damping );
+	DDX_Text( pDX, IDC_EDIT_SPRING_REST_LENGTH, m_restLength );
+	DDX_Text( pDX, IDC_EDIT_SPRING_MIN_LENGTH, m_minLength );
+	DDX_Text( pDX, IDC_EDIT_SPRING_MAX_LENGTH, m_maxLength );
 	//}}AFX_DATA_MAP
 }
 
@@ -145,7 +144,7 @@ void DialogAFConstraintSpring::InitJointLists( void ) {
 
 	int numJoints = model->NumJoints();
 	for ( int i = 0; i < numJoints; i++ ) {
-		const char *jointName = model->GetJointName( (jointHandle_t) i );
+		const char *jointName = model->GetJointName( ( jointHandle_t ) i );
 		m_comboAnchorJoint.AddString( jointName );
 		m_comboAnchor2Joint.AddString( jointName );
 	}
@@ -188,8 +187,7 @@ void DialogAFConstraintSpring::LoadConstraint( idDeclAF_Constraint *c ) {
 	m_anchor_z = constraint->anchor.ToVec3().z;
 	if ( constraint->anchor.type == idAFVector::VEC_JOINT ) {
 		i = IDC_RADIO_ANCHOR_JOINT;
-	}
-	else {
+	} else {
 		i = IDC_RADIO_ANCHOR_COORDINATES;
 	}
 	CheckRadioButton( IDC_RADIO_ANCHOR_JOINT, IDC_RADIO_ANCHOR_COORDINATES, i );
@@ -201,8 +199,7 @@ void DialogAFConstraintSpring::LoadConstraint( idDeclAF_Constraint *c ) {
 	m_anchor2_z = constraint->anchor2.ToVec3().z;
 	if ( constraint->anchor2.type == idAFVector::VEC_JOINT ) {
 		i = IDC_RADIO_ANCHOR2_JOINT;
-	}
-	else {
+	} else {
 		i = IDC_RADIO_ANCHOR2_COORDINATES;
 	}
 	CheckRadioButton( IDC_RADIO_ANCHOR2_JOINT, IDC_RADIO_ANCHOR2_COORDINATES, i );
@@ -216,8 +213,7 @@ void DialogAFConstraintSpring::LoadConstraint( idDeclAF_Constraint *c ) {
 	// spring limits
 	if ( constraint->minLength > 0.0f ) {
 		i = IDC_RADIO_SPRING_MIN_LENGTH;
-	}
-	else {
+	} else {
 		i = IDC_RADIO_SPRING_NO_MIN_LENGTH;
 	}
 	CheckRadioButton( IDC_RADIO_SPRING_NO_MIN_LENGTH, IDC_RADIO_SPRING_MIN_LENGTH, i );
@@ -225,8 +221,7 @@ void DialogAFConstraintSpring::LoadConstraint( idDeclAF_Constraint *c ) {
 
 	if ( constraint->maxLength > 0.0f ) {
 		i = IDC_RADIO_SPRING_MAX_LENGTH;
-	}
-	else {
+	} else {
 		i = IDC_RADIO_SPRING_NO_MAX_LENGTH;
 	}
 	CheckRadioButton( IDC_RADIO_SPRING_NO_MAX_LENGTH, IDC_RADIO_SPRING_MAX_LENGTH, i );
@@ -293,49 +288,49 @@ void DialogAFConstraintSpring::UpdateFile( void ) {
 DialogAFConstraintSpring::OnToolHitTest
 ================
 */
-int DialogAFConstraintSpring::OnToolHitTest( CPoint point, TOOLINFO* pTI ) const {
+int DialogAFConstraintSpring::OnToolHitTest( CPoint point, TOOLINFO *pTI ) const {
 	CDialog::OnToolHitTest( point, pTI );
 	return DefaultOnToolHitTest( toolTips, this, point, pTI );
 }
 
 
-BEGIN_MESSAGE_MAP(DialogAFConstraintSpring, CDialog)
-	ON_NOTIFY_EX_RANGE(TTN_NEEDTEXTW, 0, 0xFFFF, OnToolTipNotify)
-	ON_NOTIFY_EX_RANGE(TTN_NEEDTEXTA, 0, 0xFFFF, OnToolTipNotify)
-	ON_BN_CLICKED(IDC_RADIO_ANCHOR_JOINT, OnBnClickedRadioAnchorJoint)
-	ON_BN_CLICKED(IDC_RADIO_ANCHOR_COORDINATES, OnBnClickedRadioAnchorCoordinates)
-	ON_CBN_SELCHANGE(IDC_COMBO_ANCHOR_JOINT, OnCbnSelchangeComboAnchorJoint)
-	ON_EN_CHANGE(IDC_EDIT_ANCHOR_X, OnEnChangeEditAnchorX)
-	ON_EN_CHANGE(IDC_EDIT_ANCHOR_Y, OnEnChangeEditAnchorY)
-	ON_EN_CHANGE(IDC_EDIT_ANCHOR_Z, OnEnChangeEditAnchorZ)
-	ON_NOTIFY(UDN_DELTAPOS, IDC_SPIN_ANCHOR_X, OnDeltaposSpinAnchorX)
-	ON_NOTIFY(UDN_DELTAPOS, IDC_SPIN_ANCHOR_Y, OnDeltaposSpinAnchorY)
-	ON_NOTIFY(UDN_DELTAPOS, IDC_SPIN_ANCHOR_Z, OnDeltaposSpinAnchorZ)
-	ON_BN_CLICKED(IDC_RADIO_ANCHOR2_JOINT, OnBnClickedRadioAnchor2Joint)
-	ON_BN_CLICKED(IDC_RADIO_ANCHOR2_COORDINATES, OnBnClickedRadioAnchor2Coordinates)
-	ON_CBN_SELCHANGE(IDC_COMBO_ANCHOR2_JOINT, OnCbnSelchangeComboAnchor2Joint)
-	ON_EN_CHANGE(IDC_EDIT_ANCHOR2_X, OnEnChangeEditAnchor2X)
-	ON_EN_CHANGE(IDC_EDIT_ANCHOR2_Y, OnEnChangeEditAnchor2Y)
-	ON_EN_CHANGE(IDC_EDIT_ANCHOR2_Z, OnEnChangeEditAnchor2Z)
-	ON_NOTIFY(UDN_DELTAPOS, IDC_SPIN_ANCHOR2_X, OnDeltaposSpinAnchor2X)
-	ON_NOTIFY(UDN_DELTAPOS, IDC_SPIN_ANCHOR2_Y, OnDeltaposSpinAnchor2Y)
-	ON_NOTIFY(UDN_DELTAPOS, IDC_SPIN_ANCHOR2_Z, OnDeltaposSpinAnchor2Z)
-	ON_EN_CHANGE(IDC_EDIT_SPRING_STRETCH, OnEnChangeEditSpringStretch)
-	ON_NOTIFY(UDN_DELTAPOS, IDC_SPIN_SPRING_STRETCH, OnDeltaposSpinSpringStretch)
-	ON_EN_CHANGE(IDC_EDIT_SPRING_COMPRESS, OnEnChangeEditSpringCompress)
-	ON_NOTIFY(UDN_DELTAPOS, IDC_SPIN_SPRING_COMPRESS, OnDeltaposSpinSpringCompress)
-	ON_EN_CHANGE(IDC_EDIT_SPRING_DAMPING, OnEnChangeEditSpringDamping)
-	ON_NOTIFY(UDN_DELTAPOS, IDC_SPIN_SPRING_DAMPING, OnDeltaposSpinSpringDamping)
-	ON_EN_CHANGE(IDC_EDIT_SPRING_REST_LENGTH, OnEnChangeEditSpringRestLength)
-	ON_NOTIFY(UDN_DELTAPOS, IDC_SPIN_SPRING_REST_LENGTH, OnDeltaposSpinSpringRestLength)
-	ON_BN_CLICKED(IDC_RADIO_SPRING_NO_MIN_LENGTH, OnBnClickedRadioLimitNoMinLength)
-	ON_BN_CLICKED(IDC_RADIO_SPRING_MIN_LENGTH, OnBnClickedRadioLimitMinLength)
-	ON_EN_CHANGE(IDC_EDIT_SPRING_MIN_LENGTH, OnEnChangeEditLimitMinLength)
-	ON_NOTIFY(UDN_DELTAPOS, IDC_SPIN_SPRING_MIN_LENGTH, OnDeltaposSpinLimitMinLength)
-	ON_BN_CLICKED(IDC_RADIO_SPRING_NO_MAX_LENGTH, OnBnClickedRadioLimitNoMaxLength)
-	ON_BN_CLICKED(IDC_RADIO_SPRING_MAX_LENGTH, OnBnClickedRadioLimitMaxLength)
-	ON_EN_CHANGE(IDC_EDIT_SPRING_MAX_LENGTH, OnEnChangeEditLimitMaxLength)
-	ON_NOTIFY(UDN_DELTAPOS, IDC_SPIN_SPRING_MAX_LENGTH, OnDeltaposSpinLimitMaxLength)
+BEGIN_MESSAGE_MAP( DialogAFConstraintSpring, CDialog )
+	ON_NOTIFY_EX_RANGE( TTN_NEEDTEXTW, 0, 0xFFFF, OnToolTipNotify )
+	ON_NOTIFY_EX_RANGE( TTN_NEEDTEXTA, 0, 0xFFFF, OnToolTipNotify )
+	ON_BN_CLICKED( IDC_RADIO_ANCHOR_JOINT, OnBnClickedRadioAnchorJoint )
+	ON_BN_CLICKED( IDC_RADIO_ANCHOR_COORDINATES, OnBnClickedRadioAnchorCoordinates )
+	ON_CBN_SELCHANGE( IDC_COMBO_ANCHOR_JOINT, OnCbnSelchangeComboAnchorJoint )
+	ON_EN_CHANGE( IDC_EDIT_ANCHOR_X, OnEnChangeEditAnchorX )
+	ON_EN_CHANGE( IDC_EDIT_ANCHOR_Y, OnEnChangeEditAnchorY )
+	ON_EN_CHANGE( IDC_EDIT_ANCHOR_Z, OnEnChangeEditAnchorZ )
+	ON_NOTIFY( UDN_DELTAPOS, IDC_SPIN_ANCHOR_X, OnDeltaposSpinAnchorX )
+	ON_NOTIFY( UDN_DELTAPOS, IDC_SPIN_ANCHOR_Y, OnDeltaposSpinAnchorY )
+	ON_NOTIFY( UDN_DELTAPOS, IDC_SPIN_ANCHOR_Z, OnDeltaposSpinAnchorZ )
+	ON_BN_CLICKED( IDC_RADIO_ANCHOR2_JOINT, OnBnClickedRadioAnchor2Joint )
+	ON_BN_CLICKED( IDC_RADIO_ANCHOR2_COORDINATES, OnBnClickedRadioAnchor2Coordinates )
+	ON_CBN_SELCHANGE( IDC_COMBO_ANCHOR2_JOINT, OnCbnSelchangeComboAnchor2Joint )
+	ON_EN_CHANGE( IDC_EDIT_ANCHOR2_X, OnEnChangeEditAnchor2X )
+	ON_EN_CHANGE( IDC_EDIT_ANCHOR2_Y, OnEnChangeEditAnchor2Y )
+	ON_EN_CHANGE( IDC_EDIT_ANCHOR2_Z, OnEnChangeEditAnchor2Z )
+	ON_NOTIFY( UDN_DELTAPOS, IDC_SPIN_ANCHOR2_X, OnDeltaposSpinAnchor2X )
+	ON_NOTIFY( UDN_DELTAPOS, IDC_SPIN_ANCHOR2_Y, OnDeltaposSpinAnchor2Y )
+	ON_NOTIFY( UDN_DELTAPOS, IDC_SPIN_ANCHOR2_Z, OnDeltaposSpinAnchor2Z )
+	ON_EN_CHANGE( IDC_EDIT_SPRING_STRETCH, OnEnChangeEditSpringStretch )
+	ON_NOTIFY( UDN_DELTAPOS, IDC_SPIN_SPRING_STRETCH, OnDeltaposSpinSpringStretch )
+	ON_EN_CHANGE( IDC_EDIT_SPRING_COMPRESS, OnEnChangeEditSpringCompress )
+	ON_NOTIFY( UDN_DELTAPOS, IDC_SPIN_SPRING_COMPRESS, OnDeltaposSpinSpringCompress )
+	ON_EN_CHANGE( IDC_EDIT_SPRING_DAMPING, OnEnChangeEditSpringDamping )
+	ON_NOTIFY( UDN_DELTAPOS, IDC_SPIN_SPRING_DAMPING, OnDeltaposSpinSpringDamping )
+	ON_EN_CHANGE( IDC_EDIT_SPRING_REST_LENGTH, OnEnChangeEditSpringRestLength )
+	ON_NOTIFY( UDN_DELTAPOS, IDC_SPIN_SPRING_REST_LENGTH, OnDeltaposSpinSpringRestLength )
+	ON_BN_CLICKED( IDC_RADIO_SPRING_NO_MIN_LENGTH, OnBnClickedRadioLimitNoMinLength )
+	ON_BN_CLICKED( IDC_RADIO_SPRING_MIN_LENGTH, OnBnClickedRadioLimitMinLength )
+	ON_EN_CHANGE( IDC_EDIT_SPRING_MIN_LENGTH, OnEnChangeEditLimitMinLength )
+	ON_NOTIFY( UDN_DELTAPOS, IDC_SPIN_SPRING_MIN_LENGTH, OnDeltaposSpinLimitMinLength )
+	ON_BN_CLICKED( IDC_RADIO_SPRING_NO_MAX_LENGTH, OnBnClickedRadioLimitNoMaxLength )
+	ON_BN_CLICKED( IDC_RADIO_SPRING_MAX_LENGTH, OnBnClickedRadioLimitMaxLength )
+	ON_EN_CHANGE( IDC_EDIT_SPRING_MAX_LENGTH, OnEnChangeEditLimitMaxLength )
+	ON_NOTIFY( UDN_DELTAPOS, IDC_SPIN_SPRING_MAX_LENGTH, OnDeltaposSpinLimitMaxLength )
 END_MESSAGE_MAP()
 
 
@@ -368,38 +363,34 @@ void DialogAFConstraintSpring::OnCbnSelchangeComboAnchorJoint() {
 }
 
 void DialogAFConstraintSpring::OnEnChangeEditAnchorX() {
-	if ( EditControlEnterHit( (CEdit *) GetDlgItem( IDC_EDIT_ANCHOR_X ) ) ) {
+	if ( EditControlEnterHit( ( CEdit * ) GetDlgItem( IDC_EDIT_ANCHOR_X ) ) ) {
 		UpdateFile();
-	}
-	else {
-		EditVerifyFloat( (CEdit *) GetDlgItem( IDC_EDIT_ANCHOR_X ) );
+	} else {
+		EditVerifyFloat( ( CEdit * ) GetDlgItem( IDC_EDIT_ANCHOR_X ) );
 	}
 }
 
 void DialogAFConstraintSpring::OnEnChangeEditAnchorY() {
-	if ( EditControlEnterHit( (CEdit *) GetDlgItem( IDC_EDIT_ANCHOR_Y ) ) ) {
+	if ( EditControlEnterHit( ( CEdit * ) GetDlgItem( IDC_EDIT_ANCHOR_Y ) ) ) {
 		UpdateFile();
-	}
-	else {
-		EditVerifyFloat( (CEdit *) GetDlgItem( IDC_EDIT_ANCHOR_Y ) );
+	} else {
+		EditVerifyFloat( ( CEdit * ) GetDlgItem( IDC_EDIT_ANCHOR_Y ) );
 	}
 }
 
 void DialogAFConstraintSpring::OnEnChangeEditAnchorZ() {
-	if ( EditControlEnterHit( (CEdit *) GetDlgItem( IDC_EDIT_ANCHOR_Z ) ) ) {
+	if ( EditControlEnterHit( ( CEdit * ) GetDlgItem( IDC_EDIT_ANCHOR_Z ) ) ) {
 		UpdateFile();
-	}
-	else {
-		EditVerifyFloat( (CEdit *) GetDlgItem( IDC_EDIT_ANCHOR_Z ) );
+	} else {
+		EditVerifyFloat( ( CEdit * ) GetDlgItem( IDC_EDIT_ANCHOR_Z ) );
 	}
 }
 
-void DialogAFConstraintSpring::OnDeltaposSpinAnchorX(NMHDR *pNMHDR, LRESULT *pResult) {
-	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>(pNMHDR);
+void DialogAFConstraintSpring::OnDeltaposSpinAnchorX( NMHDR *pNMHDR, LRESULT *pResult ) {
+	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>( pNMHDR );
 	if ( pNMUpDown->iDelta < 0 ) {
 		m_anchor_x += 1.0f;
-	}
-	else {
+	} else {
 		m_anchor_x -= 1.0f;
 	}
 	UpdateData( FALSE );
@@ -407,12 +398,11 @@ void DialogAFConstraintSpring::OnDeltaposSpinAnchorX(NMHDR *pNMHDR, LRESULT *pRe
 	*pResult = 0;
 }
 
-void DialogAFConstraintSpring::OnDeltaposSpinAnchorY(NMHDR *pNMHDR, LRESULT *pResult) {
-	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>(pNMHDR);
+void DialogAFConstraintSpring::OnDeltaposSpinAnchorY( NMHDR *pNMHDR, LRESULT *pResult ) {
+	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>( pNMHDR );
 	if ( pNMUpDown->iDelta < 0 ) {
 		m_anchor_y += 1.0f;
-	}
-	else {
+	} else {
 		m_anchor_y -= 1.0f;
 	}
 	UpdateData( FALSE );
@@ -420,12 +410,11 @@ void DialogAFConstraintSpring::OnDeltaposSpinAnchorY(NMHDR *pNMHDR, LRESULT *pRe
 	*pResult = 0;
 }
 
-void DialogAFConstraintSpring::OnDeltaposSpinAnchorZ(NMHDR *pNMHDR, LRESULT *pResult) {
-	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>(pNMHDR);
+void DialogAFConstraintSpring::OnDeltaposSpinAnchorZ( NMHDR *pNMHDR, LRESULT *pResult ) {
+	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>( pNMHDR );
 	if ( pNMUpDown->iDelta < 0 ) {
 		m_anchor_z += 1.0f;
-	}
-	else {
+	} else {
 		m_anchor_z -= 1.0f;
 	}
 	UpdateData( FALSE );
@@ -456,38 +445,34 @@ void DialogAFConstraintSpring::OnCbnSelchangeComboAnchor2Joint() {
 }
 
 void DialogAFConstraintSpring::OnEnChangeEditAnchor2X() {
-	if ( EditControlEnterHit( (CEdit *) GetDlgItem( IDC_EDIT_ANCHOR2_X ) ) ) {
+	if ( EditControlEnterHit( ( CEdit * ) GetDlgItem( IDC_EDIT_ANCHOR2_X ) ) ) {
 		UpdateFile();
-	}
-	else {
-		EditVerifyFloat( (CEdit *) GetDlgItem( IDC_EDIT_ANCHOR2_X ) );
+	} else {
+		EditVerifyFloat( ( CEdit * ) GetDlgItem( IDC_EDIT_ANCHOR2_X ) );
 	}
 }
 
 void DialogAFConstraintSpring::OnEnChangeEditAnchor2Y() {
-	if ( EditControlEnterHit( (CEdit *) GetDlgItem( IDC_EDIT_ANCHOR2_Y ) ) ) {
+	if ( EditControlEnterHit( ( CEdit * ) GetDlgItem( IDC_EDIT_ANCHOR2_Y ) ) ) {
 		UpdateFile();
-	}
-	else {
-		EditVerifyFloat( (CEdit *) GetDlgItem( IDC_EDIT_ANCHOR2_Y ) );
+	} else {
+		EditVerifyFloat( ( CEdit * ) GetDlgItem( IDC_EDIT_ANCHOR2_Y ) );
 	}
 }
 
 void DialogAFConstraintSpring::OnEnChangeEditAnchor2Z() {
-	if ( EditControlEnterHit( (CEdit *) GetDlgItem( IDC_EDIT_ANCHOR2_Z ) ) ) {
+	if ( EditControlEnterHit( ( CEdit * ) GetDlgItem( IDC_EDIT_ANCHOR2_Z ) ) ) {
 		UpdateFile();
-	}
-	else {
-		EditVerifyFloat( (CEdit *) GetDlgItem( IDC_EDIT_ANCHOR2_Z ) );
+	} else {
+		EditVerifyFloat( ( CEdit * ) GetDlgItem( IDC_EDIT_ANCHOR2_Z ) );
 	}
 }
 
-void DialogAFConstraintSpring::OnDeltaposSpinAnchor2X(NMHDR *pNMHDR, LRESULT *pResult) {
-	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>(pNMHDR);
+void DialogAFConstraintSpring::OnDeltaposSpinAnchor2X( NMHDR *pNMHDR, LRESULT *pResult ) {
+	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>( pNMHDR );
 	if ( pNMUpDown->iDelta < 0 ) {
 		m_anchor2_x += 1.0f;
-	}
-	else {
+	} else {
 		m_anchor2_x -= 1.0f;
 	}
 	UpdateData( FALSE );
@@ -495,12 +480,11 @@ void DialogAFConstraintSpring::OnDeltaposSpinAnchor2X(NMHDR *pNMHDR, LRESULT *pR
 	*pResult = 0;
 }
 
-void DialogAFConstraintSpring::OnDeltaposSpinAnchor2Y(NMHDR *pNMHDR, LRESULT *pResult) {
-	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>(pNMHDR);
+void DialogAFConstraintSpring::OnDeltaposSpinAnchor2Y( NMHDR *pNMHDR, LRESULT *pResult ) {
+	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>( pNMHDR );
 	if ( pNMUpDown->iDelta < 0 ) {
 		m_anchor2_y += 1.0f;
-	}
-	else {
+	} else {
 		m_anchor2_y -= 1.0f;
 	}
 	UpdateData( FALSE );
@@ -508,12 +492,11 @@ void DialogAFConstraintSpring::OnDeltaposSpinAnchor2Y(NMHDR *pNMHDR, LRESULT *pR
 	*pResult = 0;
 }
 
-void DialogAFConstraintSpring::OnDeltaposSpinAnchor2Z(NMHDR *pNMHDR, LRESULT *pResult) {
-	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>(pNMHDR);
+void DialogAFConstraintSpring::OnDeltaposSpinAnchor2Z( NMHDR *pNMHDR, LRESULT *pResult ) {
+	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>( pNMHDR );
 	if ( pNMUpDown->iDelta < 0 ) {
 		m_anchor2_z += 1.0f;
-	}
-	else {
+	} else {
 		m_anchor2_z -= 1.0f;
 	}
 	UpdateData( FALSE );
@@ -522,68 +505,63 @@ void DialogAFConstraintSpring::OnDeltaposSpinAnchor2Z(NMHDR *pNMHDR, LRESULT *pR
 }
 
 void DialogAFConstraintSpring::OnEnChangeEditSpringStretch() {
-	if ( EditControlEnterHit( (CEdit *) GetDlgItem( IDC_EDIT_SPRING_STRETCH ) ) ) {
+	if ( EditControlEnterHit( ( CEdit * ) GetDlgItem( IDC_EDIT_SPRING_STRETCH ) ) ) {
 		UpdateFile();
-	}
-	else {
-		EditVerifyFloat( (CEdit *) GetDlgItem( IDC_EDIT_SPRING_STRETCH ) );
+	} else {
+		EditVerifyFloat( ( CEdit * ) GetDlgItem( IDC_EDIT_SPRING_STRETCH ) );
 	}
 }
 
-void DialogAFConstraintSpring::OnDeltaposSpinSpringStretch(NMHDR *pNMHDR, LRESULT *pResult) {
-	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>(pNMHDR);
-	m_stretch = EditSpinFloat( (CEdit *)GetDlgItem( IDC_EDIT_SPRING_STRETCH ), pNMUpDown->iDelta < 0 );
+void DialogAFConstraintSpring::OnDeltaposSpinSpringStretch( NMHDR *pNMHDR, LRESULT *pResult ) {
+	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>( pNMHDR );
+	m_stretch = EditSpinFloat( ( CEdit * )GetDlgItem( IDC_EDIT_SPRING_STRETCH ), pNMUpDown->iDelta < 0 );
 	UpdateFile();
 	*pResult = 0;
 }
 
 void DialogAFConstraintSpring::OnEnChangeEditSpringCompress() {
-	if ( EditControlEnterHit( (CEdit *) GetDlgItem( IDC_EDIT_SPRING_COMPRESS ) ) ) {
+	if ( EditControlEnterHit( ( CEdit * ) GetDlgItem( IDC_EDIT_SPRING_COMPRESS ) ) ) {
 		UpdateFile();
-	}
-	else {
-		EditVerifyFloat( (CEdit *) GetDlgItem( IDC_EDIT_SPRING_COMPRESS ) );
+	} else {
+		EditVerifyFloat( ( CEdit * ) GetDlgItem( IDC_EDIT_SPRING_COMPRESS ) );
 	}
 }
 
-void DialogAFConstraintSpring::OnDeltaposSpinSpringCompress(NMHDR *pNMHDR, LRESULT *pResult) {
-	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>(pNMHDR);
-	m_compress = EditSpinFloat( (CEdit *)GetDlgItem( IDC_EDIT_SPRING_COMPRESS ), pNMUpDown->iDelta < 0 );
+void DialogAFConstraintSpring::OnDeltaposSpinSpringCompress( NMHDR *pNMHDR, LRESULT *pResult ) {
+	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>( pNMHDR );
+	m_compress = EditSpinFloat( ( CEdit * )GetDlgItem( IDC_EDIT_SPRING_COMPRESS ), pNMUpDown->iDelta < 0 );
 	UpdateFile();
 	*pResult = 0;
 }
 
 void DialogAFConstraintSpring::OnEnChangeEditSpringDamping() {
-	if ( EditControlEnterHit( (CEdit *) GetDlgItem( IDC_EDIT_SPRING_DAMPING ) ) ) {
+	if ( EditControlEnterHit( ( CEdit * ) GetDlgItem( IDC_EDIT_SPRING_DAMPING ) ) ) {
 		UpdateFile();
-	}
-	else {
-		EditVerifyFloat( (CEdit *) GetDlgItem( IDC_EDIT_SPRING_DAMPING ) );
+	} else {
+		EditVerifyFloat( ( CEdit * ) GetDlgItem( IDC_EDIT_SPRING_DAMPING ) );
 	}
 }
 
-void DialogAFConstraintSpring::OnDeltaposSpinSpringDamping(NMHDR *pNMHDR, LRESULT *pResult) {
-	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>(pNMHDR);
-	m_damping = EditSpinFloat( (CEdit *)GetDlgItem( IDC_EDIT_SPRING_DAMPING ), pNMUpDown->iDelta < 0 );
+void DialogAFConstraintSpring::OnDeltaposSpinSpringDamping( NMHDR *pNMHDR, LRESULT *pResult ) {
+	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>( pNMHDR );
+	m_damping = EditSpinFloat( ( CEdit * )GetDlgItem( IDC_EDIT_SPRING_DAMPING ), pNMUpDown->iDelta < 0 );
 	UpdateFile();
 	*pResult = 0;
 }
 
 void DialogAFConstraintSpring::OnEnChangeEditSpringRestLength() {
-	if ( EditControlEnterHit( (CEdit *) GetDlgItem( IDC_EDIT_SPRING_REST_LENGTH ) ) ) {
+	if ( EditControlEnterHit( ( CEdit * ) GetDlgItem( IDC_EDIT_SPRING_REST_LENGTH ) ) ) {
 		UpdateFile();
-	}
-	else {
-		EditVerifyFloat( (CEdit *) GetDlgItem( IDC_EDIT_SPRING_REST_LENGTH ) );
+	} else {
+		EditVerifyFloat( ( CEdit * ) GetDlgItem( IDC_EDIT_SPRING_REST_LENGTH ) );
 	}
 }
 
-void DialogAFConstraintSpring::OnDeltaposSpinSpringRestLength(NMHDR *pNMHDR, LRESULT *pResult) {
-	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>(pNMHDR);
+void DialogAFConstraintSpring::OnDeltaposSpinSpringRestLength( NMHDR *pNMHDR, LRESULT *pResult ) {
+	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>( pNMHDR );
 	if ( pNMUpDown->iDelta < 0 ) {
 		m_restLength += 1.0f;
-	}
-	else {
+	} else {
 		m_restLength -= 1.0f;
 	}
 	UpdateData( FALSE );
@@ -605,20 +583,18 @@ void DialogAFConstraintSpring::OnBnClickedRadioLimitMinLength() {
 }
 
 void DialogAFConstraintSpring::OnEnChangeEditLimitMinLength() {
-	if ( EditControlEnterHit( (CEdit *) GetDlgItem( IDC_EDIT_SPRING_MIN_LENGTH ) ) ) {
+	if ( EditControlEnterHit( ( CEdit * ) GetDlgItem( IDC_EDIT_SPRING_MIN_LENGTH ) ) ) {
 		UpdateFile();
-	}
-	else {
-		EditVerifyFloat( (CEdit *) GetDlgItem( IDC_EDIT_SPRING_MIN_LENGTH ) );
+	} else {
+		EditVerifyFloat( ( CEdit * ) GetDlgItem( IDC_EDIT_SPRING_MIN_LENGTH ) );
 	}
 }
 
-void DialogAFConstraintSpring::OnDeltaposSpinLimitMinLength(NMHDR *pNMHDR, LRESULT *pResult) {
-	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>(pNMHDR);
+void DialogAFConstraintSpring::OnDeltaposSpinLimitMinLength( NMHDR *pNMHDR, LRESULT *pResult ) {
+	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>( pNMHDR );
 	if ( pNMUpDown->iDelta < 0 ) {
 		m_minLength += 1.0f;
-	}
-	else {
+	} else {
 		m_minLength -= 1.0f;
 	}
 	UpdateData( FALSE );
@@ -640,20 +616,18 @@ void DialogAFConstraintSpring::OnBnClickedRadioLimitMaxLength() {
 }
 
 void DialogAFConstraintSpring::OnEnChangeEditLimitMaxLength() {
-	if ( EditControlEnterHit( (CEdit *) GetDlgItem( IDC_EDIT_SPRING_MAX_LENGTH ) ) ) {
+	if ( EditControlEnterHit( ( CEdit * ) GetDlgItem( IDC_EDIT_SPRING_MAX_LENGTH ) ) ) {
 		UpdateFile();
-	}
-	else {
-		EditVerifyFloat( (CEdit *) GetDlgItem( IDC_EDIT_SPRING_MAX_LENGTH ) );
+	} else {
+		EditVerifyFloat( ( CEdit * ) GetDlgItem( IDC_EDIT_SPRING_MAX_LENGTH ) );
 	}
 }
 
-void DialogAFConstraintSpring::OnDeltaposSpinLimitMaxLength(NMHDR *pNMHDR, LRESULT *pResult) {
-	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>(pNMHDR);
+void DialogAFConstraintSpring::OnDeltaposSpinLimitMaxLength( NMHDR *pNMHDR, LRESULT *pResult ) {
+	LPNMUPDOWN pNMUpDown = reinterpret_cast<LPNMUPDOWN>( pNMHDR );
 	if ( pNMUpDown->iDelta < 0 ) {
 		m_maxLength += 1.0f;
-	}
-	else {
+	} else {
 		m_maxLength -= 1.0f;
 	}
 	UpdateData( FALSE );

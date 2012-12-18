@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -167,10 +167,10 @@ void idEntityFx::Setup( const char *fx ) {
 
 		actions.AssureSize( fxEffect->events.Num(), localAction );
 
-		for( int i = 0; i<fxEffect->events.Num(); i++ ) {
-			const idFXSingleAction& fxaction = fxEffect->events[i];
+		for ( int i = 0; i < fxEffect->events.Num(); i++ ) {
+			const idFXSingleAction &fxaction = fxEffect->events[i];
 
-			idFXLocalAction& laction = actions[i];
+			idFXLocalAction &laction = actions[i];
 			if ( fxaction.random1 || fxaction.random2 ) {
 				laction.delay = fxaction.random1 + gameLocal.random.RandomFloat() * ( fxaction.random2 - fxaction.random1 );
 			} else {
@@ -214,10 +214,10 @@ void idEntityFx::CleanUp( void ) {
 	if ( !fxEffect ) {
 		return;
 	}
-	for( int i = 0; i < fxEffect->events.Num(); i++ ) {
-		const idFXSingleAction& fxaction = fxEffect->events[i];
-		idFXLocalAction& laction = actions[i];
-		CleanUpSingleAction( fxaction, laction );		
+	for ( int i = 0; i < fxEffect->events.Num(); i++ ) {
+		const idFXSingleAction &fxaction = fxEffect->events[i];
+		idFXLocalAction &laction = actions[i];
+		CleanUpSingleAction( fxaction, laction );
 	}
 }
 
@@ -226,7 +226,7 @@ void idEntityFx::CleanUp( void ) {
 idEntityFx::CleanUpSingleAction
 ================
 */
-void idEntityFx::CleanUpSingleAction( const idFXSingleAction& fxaction, idFXLocalAction& laction ) {
+void idEntityFx::CleanUpSingleAction( const idFXSingleAction &fxaction, idFXLocalAction &laction ) {
 	if ( laction.lightDefHandle != -1 && fxaction.sibling == -1 && fxaction.type != FX_ATTACHLIGHT ) {
 		gameRenderWorld->FreeLightDef( laction.lightDefHandle );
 		laction.lightDefHandle = -1;
@@ -248,8 +248,8 @@ void idEntityFx::Start( int time ) {
 		return;
 	}
 	started = time;
-	for( int i = 0; i < fxEffect->events.Num(); i++ ) {
-		idFXLocalAction& laction = actions[i];
+	for ( int i = 0; i < fxEffect->events.Num(); i++ ) {
+		idFXLocalAction &laction = actions[i];
 		laction.start = time;
 		laction.soundStarted = false;
 		laction.shakeStarted = false;
@@ -280,8 +280,8 @@ const int idEntityFx::Duration( void ) {
 	if ( !fxEffect ) {
 		return max;
 	}
-	for( int i = 0; i < fxEffect->events.Num(); i++ ) {
-		const idFXSingleAction& fxaction = fxEffect->events[i];
+	for ( int i = 0; i < fxEffect->events.Num(); i++ ) {
+		const idFXSingleAction &fxaction = fxEffect->events[i];
 		int d = ( fxaction.delay + fxaction.duration ) * 1000.0f;
 		if ( d > max ) {
 			max = d;
@@ -298,7 +298,7 @@ idEntityFx::Done
 ================
 */
 const bool idEntityFx::Done() {
-	if (started > 0 && gameLocal.time > started + Duration()) {
+	if ( started > 0 && gameLocal.time > started + Duration() ) {
 		return true;
 	}
 	return false;
@@ -309,23 +309,23 @@ const bool idEntityFx::Done() {
 idEntityFx::ApplyFade
 ================
 */
-void idEntityFx::ApplyFade( const idFXSingleAction& fxaction, idFXLocalAction& laction, const int time, const int actualStart ) {
+void idEntityFx::ApplyFade( const idFXSingleAction &fxaction, idFXLocalAction &laction, const int time, const int actualStart ) {
 	if ( fxaction.fadeInTime || fxaction.fadeOutTime ) {
-		float fadePct = (float)( time - actualStart ) / ( 1000.0f * ( ( fxaction.fadeInTime != 0 ) ? fxaction.fadeInTime : fxaction.fadeOutTime ) );
-		if (fadePct > 1.0) {
+		float fadePct = ( float )( time - actualStart ) / ( 1000.0f * ( ( fxaction.fadeInTime != 0 ) ? fxaction.fadeInTime : fxaction.fadeOutTime ) );
+		if ( fadePct > 1.0 ) {
 			fadePct = 1.0;
 		}
 		if ( laction.modelDefHandle != -1 ) {
-			laction.renderEntity.shaderParms[SHADERPARM_RED] = (fxaction.fadeInTime) ? fadePct : 1.0f - fadePct;
-			laction.renderEntity.shaderParms[SHADERPARM_GREEN] = (fxaction.fadeInTime) ? fadePct : 1.0f - fadePct;
-			laction.renderEntity.shaderParms[SHADERPARM_BLUE] = (fxaction.fadeInTime) ? fadePct : 1.0f - fadePct;
-	
+			laction.renderEntity.shaderParms[SHADERPARM_RED] = ( fxaction.fadeInTime ) ? fadePct : 1.0f - fadePct;
+			laction.renderEntity.shaderParms[SHADERPARM_GREEN] = ( fxaction.fadeInTime ) ? fadePct : 1.0f - fadePct;
+			laction.renderEntity.shaderParms[SHADERPARM_BLUE] = ( fxaction.fadeInTime ) ? fadePct : 1.0f - fadePct;
+
 			gameRenderWorld->UpdateEntityDef( laction.modelDefHandle, &laction.renderEntity );
 		}
 		if ( laction.lightDefHandle != -1 ) {
-			laction.renderLight.shaderParms[SHADERPARM_RED] = fxaction.lightColor.x * ( (fxaction.fadeInTime) ? fadePct : 1.0f - fadePct );
-			laction.renderLight.shaderParms[SHADERPARM_GREEN] = fxaction.lightColor.y * ( (fxaction.fadeInTime) ? fadePct : 1.0f - fadePct );
-			laction.renderLight.shaderParms[SHADERPARM_BLUE] = fxaction.lightColor.z * ( (fxaction.fadeInTime) ? fadePct : 1.0f - fadePct );
+			laction.renderLight.shaderParms[SHADERPARM_RED] = fxaction.lightColor.x * ( ( fxaction.fadeInTime ) ? fadePct : 1.0f - fadePct );
+			laction.renderLight.shaderParms[SHADERPARM_GREEN] = fxaction.lightColor.y * ( ( fxaction.fadeInTime ) ? fadePct : 1.0f - fadePct );
+			laction.renderLight.shaderParms[SHADERPARM_BLUE] = fxaction.lightColor.z * ( ( fxaction.fadeInTime ) ? fadePct : 1.0f - fadePct );
 
 			gameRenderWorld->UpdateLightDef( laction.lightDefHandle, &laction.renderLight );
 		}
@@ -347,9 +347,9 @@ void idEntityFx::Run( int time ) {
 		return;
 	}
 
-	for( ieff = 0; ieff < fxEffect->events.Num(); ieff++ ) {
-		const idFXSingleAction& fxaction = fxEffect->events[ieff];
-		idFXLocalAction& laction = actions[ieff];
+	for ( ieff = 0; ieff < fxEffect->events.Num(); ieff++ ) {
+		const idFXSingleAction &fxaction = fxEffect->events[ieff];
+		idFXLocalAction &laction = actions[ieff];
 
 		//
 		// if we're currently done with this one
@@ -362,7 +362,7 @@ void idEntityFx::Run( int time ) {
 		// see if it's delayed
 		//
 		if ( laction.delay ) {
-			if ( laction.start + (time - laction.start) < laction.start + (laction.delay * 1000) ) {
+			if ( laction.start + ( time - laction.start ) < laction.start + ( laction.delay * 1000 ) ) {
 				continue;
 			}
 		}
@@ -370,25 +370,25 @@ void idEntityFx::Run( int time ) {
 		//
 		// each event can have it's own delay and restart
 		//
-		int actualStart = laction.delay ? laction.start + (int)( laction.delay * 1000 ) : laction.start;
-		float pct = (float)( time - actualStart ) / (1000 * fxaction.duration );
+		int actualStart = laction.delay ? laction.start + ( int )( laction.delay * 1000 ) : laction.start;
+		float pct = ( float )( time - actualStart ) / ( 1000 * fxaction.duration );
 		if ( pct >= 1.0f ) {
 			laction.start = -1;
 			float totalDelay = 0.0f;
 			if ( fxaction.restart ) {
 				if ( fxaction.random1 || fxaction.random2 ) {
-					totalDelay = fxaction.random1 + gameLocal.random.RandomFloat() * (fxaction.random2 - fxaction.random1);
+					totalDelay = fxaction.random1 + gameLocal.random.RandomFloat() * ( fxaction.random2 - fxaction.random1 );
 				} else {
 					totalDelay = fxaction.delay;
 				}
 				laction.delay = totalDelay;
 				laction.start = time;
-			} 
+			}
 			continue;
 		}
 
 		if ( fxaction.fire.Length() ) {
-			for( j = 0; j < fxEffect->events.Num(); j++ ) {
+			for ( j = 0; j < fxEffect->events.Num(); j++ ) {
 				if ( fxEffect->events[j].name.Icmp( fxaction.fire ) == 0 ) {
 					actions[j].delay = 0;
 				}
@@ -403,7 +403,7 @@ void idEntityFx::Run( int time ) {
 		}
 		assert( useAction );
 
-		switch( fxaction.type ) {
+		switch ( fxaction.type ) {
 			case FX_ATTACHLIGHT:
 			case FX_LIGHT: {
 				if ( useAction->lightDefHandle == -1 ) {
@@ -428,8 +428,8 @@ void idEntityFx::Run( int time ) {
 						useAction->lightDefHandle = gameRenderWorld->AddLightDef( &useAction->renderLight );
 					}
 					if ( fxaction.noshadows ) {
-						for( j = 0; j < fxEffect->events.Num(); j++ ) {
-							idFXLocalAction& laction2 = actions[j];
+						for ( j = 0; j < fxEffect->events.Num(); j++ ) {
+							idFXLocalAction &laction2 = actions[j];
 							if ( laction2.modelDefHandle != -1 ) {
 								laction2.renderEntity.noShadow = true;
 							}
@@ -442,10 +442,10 @@ void idEntityFx::Run( int time ) {
 			case FX_SOUND: {
 				if ( !useAction->soundStarted ) {
 					useAction->soundStarted = true;
-					const idSoundShader *shader = declManager->FindSound(fxaction.data);
+					const idSoundShader *shader = declManager->FindSound( fxaction.data );
 					StartSoundShader( shader, SND_CHANNEL_ANY, 0, false, NULL );
-					for( j = 0; j < fxEffect->events.Num(); j++ ) {
-						idFXLocalAction& laction2 = actions[j];
+					for ( j = 0; j < fxEffect->events.Num(); j++ ) {
+						idFXLocalAction &laction2 = actions[j];
 						if ( laction2.lightDefHandle != -1 ) {
 							laction2.renderLight.referenceSound = refSound.referenceSound;
 							gameRenderWorld->UpdateLightDef( laction2.lightDefHandle, &laction2.renderLight );
@@ -457,7 +457,7 @@ void idEntityFx::Run( int time ) {
 			case FX_DECAL: {
 				if ( !useAction->decalDropped ) {
 					useAction->decalDropped = true;
-					gameLocal.ProjectDecal( GetPhysics()->GetOrigin(), GetPhysics()->GetGravity(), 8.0f, true, fxaction.size, fxaction.data ); 
+					gameLocal.ProjectDecal( GetPhysics()->GetOrigin(), GetPhysics()->GetGravity(), 8.0f, true, fxaction.size, fxaction.data );
 				}
 				break;
 			}
@@ -496,7 +496,7 @@ void idEntityFx::Run( int time ) {
 				if ( useAction->modelDefHandle == -1 ) {
 					memset( &useAction->renderEntity, 0, sizeof( renderEntity_t ) );
 					useAction->renderEntity.origin = GetPhysics()->GetOrigin() + fxaction.offset;
-					useAction->renderEntity.axis = (fxaction.explicitAxis) ? fxaction.axis : GetPhysics()->GetAxis();
+					useAction->renderEntity.axis = ( fxaction.explicitAxis ) ? fxaction.axis : GetPhysics()->GetAxis();
 					useAction->renderEntity.hModel = renderModelManager->FindModel( fxaction.data );
 					useAction->renderEntity.shaderParms[ SHADERPARM_RED ]		= 1.0f;
 					useAction->renderEntity.shaderParms[ SHADERPARM_GREEN ]		= 1.0f;
@@ -584,7 +584,7 @@ void idEntityFx::Spawn( void ) {
 	}
 	if ( !spawnArgs.GetBool( "triggered" ) ) {
 		Setup( fx );
-		if ( spawnArgs.GetBool( "test" ) || spawnArgs.GetBool( "start" ) || spawnArgs.GetFloat ( "restart" ) ) {
+		if ( spawnArgs.GetBool( "test" ) || spawnArgs.GetBool( "start" ) || spawnArgs.GetFloat( "restart" ) ) {
 			PostEventMS( &EV_Activate, 0, this );
 		}
 	}
@@ -627,10 +627,10 @@ void idEntityFx::Event_ClearFx( void ) {
 	CleanUp();
 	BecomeInactive( TH_THINK );
 
-	if ( spawnArgs.GetBool("test") ) {
+	if ( spawnArgs.GetBool( "test" ) ) {
 		PostEventMS( &EV_Activate, 0, this );
 	} else {
-		if ( spawnArgs.GetFloat( "restart" ) || !spawnArgs.GetBool( "triggered")) {
+		if ( spawnArgs.GetFloat( "restart" ) || !spawnArgs.GetBool( "triggered" ) ) {
 			float rest = spawnArgs.GetFloat( "restart", "0" );
 			if ( rest == 0.0f ) {
 				PostEventSec( &EV_Remove, 0.1f );
@@ -660,7 +660,7 @@ void idEntityFx::Event_Trigger( idEntity *activator ) {
 		return;
 	}
 
-	if ( spawnArgs.GetString( "fx", "", &fx) ) {
+	if ( spawnArgs.GetString( "fx", "", &fx ) ) {
 		Setup( fx );
 		Start( gameLocal.time );
 		PostEventMS( &EV_Fx_KillFx, Duration() );
@@ -697,8 +697,8 @@ idEntityFx *idEntityFx::StartFx( const char *fx, const idVec3 *useOrigin, const 
 		nfx->BindToJoint( ent, nfx->Joint(), true );
 		nfx->SetOrigin( vec3_origin );
 	} else {
-		nfx->SetOrigin( (useOrigin) ? *useOrigin : ent->GetPhysics()->GetOrigin() );
-		nfx->SetAxis( (useAxis) ? *useAxis : ent->GetPhysics()->GetAxis() );
+		nfx->SetOrigin( ( useOrigin ) ? *useOrigin : ent->GetPhysics()->GetOrigin() );
+		nfx->SetAxis( ( useAxis ) ? *useAxis : ent->GetPhysics()->GetAxis() );
 	}
 
 	if ( bind ) {
@@ -759,8 +759,8 @@ idEntityFx::ClientPredictionThink
 =================
 */
 void idEntityFx::ClientPredictionThink( void ) {
-	if ( gameLocal.isNewFrame ) { 
-		Run( gameLocal.time ); 
+	if ( gameLocal.isNewFrame ) {
+		Run( gameLocal.time );
 	}
 	RunPhysics();
 	Present();
@@ -770,12 +770,12 @@ void idEntityFx::ClientPredictionThink( void ) {
 ===============================================================================
 
   idTeleporter
-	
+
 ===============================================================================
 */
 
 CLASS_DECLARATION( idEntityFx, idTeleporter )
-	EVENT( EV_Fx_Action,	idTeleporter::Event_DoAction )
+EVENT( EV_Fx_Action,	idTeleporter::Event_DoAction )
 END_CLASS
 
 /*

@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@ If you have questions concerning this license or the applicable additional terms
 
 Model viewing can begin with either "testmodel <modelname>"
 
-The names must be the full pathname after the basedir, like 
+The names must be the full pathname after the basedir, like
 "models/weapons/v_launch/tris.md3" or "players/male/tris.md3"
 
 Extension will default to ".ase" if not specified.
@@ -54,8 +54,8 @@ move around it to view it from different angles.
 #include "../Game_local.h"
 
 CLASS_DECLARATION( idAnimatedEntity, idTestModel )
-	EVENT( EV_FootstepLeft,			idTestModel::Event_Footstep )
-	EVENT( EV_FootstepRight,		idTestModel::Event_Footstep )	
+EVENT( EV_FootstepLeft,			idTestModel::Event_Footstep )
+EVENT( EV_FootstepRight,		idTestModel::Event_Footstep )
 END_CLASS
 
 /*
@@ -120,7 +120,7 @@ void idTestModel::Spawn( void ) {
 	physicsObj.SetSelf( this );
 	physicsObj.SetOrigin( GetPhysics()->GetOrigin() );
 	physicsObj.SetAxis( GetPhysics()->GetAxis() );
-	
+
 	if ( spawnArgs.GetVector( "mins", NULL, bounds[0] ) ) {
 		spawnArgs.GetVector( "maxs", NULL, bounds[1] );
 		physicsObj.SetClipBox( bounds, 1.0f );
@@ -145,7 +145,7 @@ void idTestModel::Spawn( void ) {
 			// copy any sounds in case we have frame commands on the head
 			idDict				args;
 			const idKeyValue	*sndKV = spawnArgs.MatchPrefix( "snd_", NULL );
-			while( sndKV ) {
+			while ( sndKV ) {
 				args.Set( sndKV->GetKey(), sndKV->GetValue() );
 				sndKV = spawnArgs.MatchPrefix( "snd_", sndKV );
 			}
@@ -157,11 +157,11 @@ void idTestModel::Spawn( void ) {
 			head.GetEntity()->SetOrigin( origin );
 			head.GetEntity()->SetAxis( GetPhysics()->GetAxis() );
 			head.GetEntity()->BindToJoint( this, animator.GetJointName( joint ), true );
-		
+
 			headAnimator = head.GetEntity()->GetAnimator();
 
 			// set up the list of joints to copy to the head
-			for( kv = spawnArgs.MatchPrefix( "copy_joint", NULL ); kv != NULL; kv = spawnArgs.MatchPrefix( "copy_joint", kv ) ) {
+			for ( kv = spawnArgs.MatchPrefix( "copy_joint", NULL ); kv != NULL; kv = spawnArgs.MatchPrefix( "copy_joint", kv ) ) {
 				jointName = kv->GetKey();
 
 				if ( jointName.StripLeadingOnce( "copy_joint_world " ) ) {
@@ -193,7 +193,7 @@ void idTestModel::Spawn( void ) {
 
 	SetPhysics( &physicsObj );
 
-	gameLocal.Printf( "Added testmodel at origin = '%s',  angles = '%s'\n", GetPhysics()->GetOrigin().ToString(), GetPhysics()->GetAxis().ToAngles().ToString()  );
+	gameLocal.Printf( "Added testmodel at origin = '%s',  angles = '%s'\n", GetPhysics()->GetOrigin().ToString(), GetPhysics()->GetAxis().ToAngles().ToString() );
 	BecomeActive( TH_THINK );
 }
 
@@ -256,75 +256,75 @@ void idTestModel::Think( void ) {
 			if ( head.GetEntity() ) {
 				head.GetEntity()->StopSound( SND_CHANNEL_ANY, false );
 			}
-			switch( g_testModelAnimate.GetInteger() ) {
-			default:
-			case 0:
-				// cycle anim with origin reset
-				if ( animator.NumFrames( anim ) <= 1 ) {
-					// single frame animations end immediately, so just cycle it since it's the same result
+			switch ( g_testModelAnimate.GetInteger() ) {
+				default:
+				case 0:
+					// cycle anim with origin reset
+					if ( animator.NumFrames( anim ) <= 1 ) {
+						// single frame animations end immediately, so just cycle it since it's the same result
+						animator.CycleAnim( ANIMCHANNEL_ALL, anim, gameLocal.time, FRAME2MS( g_testModelBlend.GetInteger() ) );
+						if ( headAnim ) {
+							headAnimator->CycleAnim( ANIMCHANNEL_ALL, headAnim, gameLocal.time, FRAME2MS( g_testModelBlend.GetInteger() ) );
+						}
+					} else {
+						animator.PlayAnim( ANIMCHANNEL_ALL, anim, gameLocal.time, FRAME2MS( g_testModelBlend.GetInteger() ) );
+						if ( headAnim ) {
+							headAnimator->PlayAnim( ANIMCHANNEL_ALL, headAnim, gameLocal.time, FRAME2MS( g_testModelBlend.GetInteger() ) );
+							if ( headAnimator->AnimLength( headAnim ) > animator.AnimLength( anim ) ) {
+								// loop the body anim when the head anim is longer
+								animator.CurrentAnim( ANIMCHANNEL_ALL )->SetCycleCount( -1 );
+							}
+						}
+					}
+					animator.RemoveOriginOffset( false );
+					break;
+
+				case 1:
+					// cycle anim with fixed origin
 					animator.CycleAnim( ANIMCHANNEL_ALL, anim, gameLocal.time, FRAME2MS( g_testModelBlend.GetInteger() ) );
+					animator.RemoveOriginOffset( true );
 					if ( headAnim ) {
 						headAnimator->CycleAnim( ANIMCHANNEL_ALL, headAnim, gameLocal.time, FRAME2MS( g_testModelBlend.GetInteger() ) );
 					}
-				} else {
+					break;
+
+				case 2:
+					// cycle anim with continuous origin
+					animator.CycleAnim( ANIMCHANNEL_ALL, anim, gameLocal.time, FRAME2MS( g_testModelBlend.GetInteger() ) );
+					animator.RemoveOriginOffset( false );
+					if ( headAnim ) {
+						headAnimator->CycleAnim( ANIMCHANNEL_ALL, headAnim, gameLocal.time, FRAME2MS( g_testModelBlend.GetInteger() ) );
+					}
+					break;
+
+				case 3:
+					// frame by frame with continuous origin
+					animator.SetFrame( ANIMCHANNEL_ALL, anim, frame, gameLocal.time, FRAME2MS( g_testModelBlend.GetInteger() ) );
+					animator.RemoveOriginOffset( false );
+					if ( headAnim ) {
+						headAnimator->SetFrame( ANIMCHANNEL_ALL, headAnim, frame, gameLocal.time, FRAME2MS( g_testModelBlend.GetInteger() ) );
+					}
+					break;
+
+				case 4:
+					// play anim once
 					animator.PlayAnim( ANIMCHANNEL_ALL, anim, gameLocal.time, FRAME2MS( g_testModelBlend.GetInteger() ) );
+					animator.RemoveOriginOffset( false );
 					if ( headAnim ) {
 						headAnimator->PlayAnim( ANIMCHANNEL_ALL, headAnim, gameLocal.time, FRAME2MS( g_testModelBlend.GetInteger() ) );
-						if ( headAnimator->AnimLength( headAnim ) > animator.AnimLength( anim ) ) {
-							// loop the body anim when the head anim is longer
-							animator.CurrentAnim( ANIMCHANNEL_ALL )->SetCycleCount( -1 );
-						}
 					}
-				}
-				animator.RemoveOriginOffset( false );
-				break;
+					break;
 
-			case 1:
-				// cycle anim with fixed origin
-				animator.CycleAnim( ANIMCHANNEL_ALL, anim, gameLocal.time, FRAME2MS( g_testModelBlend.GetInteger() ) );
-				animator.RemoveOriginOffset( true );
-				if ( headAnim ) {
-					headAnimator->CycleAnim( ANIMCHANNEL_ALL, headAnim, gameLocal.time, FRAME2MS( g_testModelBlend.GetInteger() ) );
-				}
-				break;
-
-			case 2:
-				// cycle anim with continuous origin
-				animator.CycleAnim( ANIMCHANNEL_ALL, anim, gameLocal.time, FRAME2MS( g_testModelBlend.GetInteger() ) );
-				animator.RemoveOriginOffset( false );
-				if ( headAnim ) {
-					headAnimator->CycleAnim( ANIMCHANNEL_ALL, headAnim, gameLocal.time, FRAME2MS( g_testModelBlend.GetInteger() ) );
-				}
-				break;
-
-			case 3:
-				// frame by frame with continuous origin
-				animator.SetFrame( ANIMCHANNEL_ALL, anim, frame, gameLocal.time, FRAME2MS( g_testModelBlend.GetInteger() ) );
-				animator.RemoveOriginOffset( false );
-				if ( headAnim ) {
-					headAnimator->SetFrame( ANIMCHANNEL_ALL, headAnim, frame, gameLocal.time, FRAME2MS( g_testModelBlend.GetInteger() ) );
-				}
-				break;
-
-			case 4:
-				// play anim once
-				animator.PlayAnim( ANIMCHANNEL_ALL, anim, gameLocal.time, FRAME2MS( g_testModelBlend.GetInteger() ) );
-				animator.RemoveOriginOffset( false );
-				if ( headAnim ) {
-					headAnimator->PlayAnim( ANIMCHANNEL_ALL, headAnim, gameLocal.time, FRAME2MS( g_testModelBlend.GetInteger() ) );
-				}
-				break;
-
-			case 5:
-				// frame by frame with fixed origin
-				animator.SetFrame( ANIMCHANNEL_ALL, anim, frame, gameLocal.time, FRAME2MS( g_testModelBlend.GetInteger() ) );
-				animator.RemoveOriginOffset( true );
-				if ( headAnim ) {
-					headAnimator->SetFrame( ANIMCHANNEL_ALL, headAnim, frame, gameLocal.time, FRAME2MS( g_testModelBlend.GetInteger() ) );
-				}
-				break;
+				case 5:
+					// frame by frame with fixed origin
+					animator.SetFrame( ANIMCHANNEL_ALL, anim, frame, gameLocal.time, FRAME2MS( g_testModelBlend.GetInteger() ) );
+					animator.RemoveOriginOffset( true );
+					if ( headAnim ) {
+						headAnimator->SetFrame( ANIMCHANNEL_ALL, headAnim, frame, gameLocal.time, FRAME2MS( g_testModelBlend.GetInteger() ) );
+					}
+					break;
 			}
-			
+
 			mode = g_testModelAnimate.GetInteger();
 		}
 
@@ -343,7 +343,7 @@ void idTestModel::Think( void ) {
 
 		if ( headAnimator ) {
 			// copy the animation from the body to the head
-			for( i = 0; i < copyJoints.Num(); i++ ) {
+			for ( i = 0; i < copyJoints.Num(); i++ ) {
 				if ( copyJoints[ i ].mod == JOINTMOD_WORLD_OVERRIDE ) {
 					idMat3 mat = head.GetEntity()->GetPhysics()->GetAxis().Transpose();
 					GetJointWorldTransform( copyJoints[ i ].from, gameLocal.time, pos, axis );
@@ -362,7 +362,7 @@ void idTestModel::Think( void ) {
 		RunPhysics();
 
 		physicsObj.GetAngles( ang );
-		physicsObj.SetAngularExtrapolation( extrapolation_t(EXTRAPOLATION_LINEAR|EXTRAPOLATION_NOSTOP), gameLocal.time, 0, ang, idAngles( 0, g_testModelRotate.GetFloat() * 360.0f / 60.0f, 0 ), ang_zero );
+		physicsObj.SetAngularExtrapolation( extrapolation_t( EXTRAPOLATION_LINEAR | EXTRAPOLATION_NOSTOP ), gameLocal.time, 0, ang, idAngles( 0, g_testModelRotate.GetFloat() * 360.0f / 60.0f, 0 ), ang_zero );
 
 		idClipModel *clip = physicsObj.GetClipModel();
 		if ( clip && animator.ModelDef() ) {
@@ -382,10 +382,10 @@ void idTestModel::Think( void ) {
 
 	if ( ( gameLocal.testmodel == this ) && g_showTestModelFrame.GetInteger() && anim ) {
 		gameLocal.Printf( "^5 Anim: ^7%s  ^5Frame: ^7%d/%d  Time: %.3f\n", animator.AnimFullName( anim ), animator.CurrentAnim( ANIMCHANNEL_ALL )->GetFrameNumber( gameLocal.time ),
-			animator.CurrentAnim( ANIMCHANNEL_ALL )->NumFrames(), MS2SEC( gameLocal.time - animator.CurrentAnim( ANIMCHANNEL_ALL )->GetStartTime() ) );
+						  animator.CurrentAnim( ANIMCHANNEL_ALL )->NumFrames(), MS2SEC( gameLocal.time - animator.CurrentAnim( ANIMCHANNEL_ALL )->GetStartTime() ) );
 		if ( headAnim ) {
 			gameLocal.Printf( "^5 Head: ^7%s  ^5Frame: ^7%d/%d  Time: %.3f\n\n", headAnimator->AnimFullName( headAnim ), headAnimator->CurrentAnim( ANIMCHANNEL_ALL )->GetFrameNumber( gameLocal.time ),
-				headAnimator->CurrentAnim( ANIMCHANNEL_ALL )->NumFrames(), MS2SEC( gameLocal.time - headAnimator->CurrentAnim( ANIMCHANNEL_ALL )->GetStartTime() ) );
+							  headAnimator->CurrentAnim( ANIMCHANNEL_ALL )->NumFrames(), MS2SEC( gameLocal.time - headAnimator->CurrentAnim( ANIMCHANNEL_ALL )->GetStartTime() ) );
 		} else {
 			gameLocal.Printf( "\n\n" );
 		}
@@ -414,7 +414,7 @@ void idTestModel::NextAnim( const idCmdArgs &args ) {
 	headAnim = 0;
 	if ( headAnimator ) {
 		headAnimator->ClearAllAnims( gameLocal.time, 0 );
-        headAnim = headAnimator->GetAnim( animname );
+		headAnim = headAnimator->GetAnim( animname );
 		if ( !headAnim ) {
 			headAnim = headAnimator->GetAnim( "idle" );
 		}
@@ -456,7 +456,7 @@ void idTestModel::PrevAnim( const idCmdArgs &args ) {
 	headAnim = 0;
 	if ( headAnimator ) {
 		headAnimator->ClearAllAnims( gameLocal.time, 0 );
-        headAnim = headAnimator->GetAnim( animname );
+		headAnim = headAnimator->GetAnim( animname );
 		if ( !headAnim ) {
 			headAnim = headAnimator->GetAnim( "idle" );
 		}
@@ -565,7 +565,7 @@ void idTestModel::TestAnim( const idCmdArgs &args ) {
 	headAnim = 0;
 	if ( headAnimator ) {
 		headAnimator->ClearAllAnims( gameLocal.time, 0 );
-        headAnim = headAnimator->GetAnim( animname );
+		headAnim = headAnimator->GetAnim( animname );
 		if ( !headAnim ) {
 			headAnim = headAnimator->GetAnim( "idle" );
 			if ( !headAnim ) {
@@ -654,7 +654,7 @@ Sets a skin on an existing testModel
 void idTestModel::TestSkin_f( const idCmdArgs &args ) {
 	idVec3		offset;
 	idStr		name;
-	idPlayer *	player;
+	idPlayer 	*player;
 	idDict		dict;
 
 	player = gameLocal.GetLocalPlayer();
@@ -688,7 +688,7 @@ Sets a shaderParm on an existing testModel
 void idTestModel::TestShaderParm_f( const idCmdArgs &args ) {
 	idVec3		offset;
 	idStr		name;
-	idPlayer *	player;
+	idPlayer 	*player;
 	idDict		dict;
 
 	player = gameLocal.GetLocalPlayer();
@@ -734,8 +734,8 @@ can then be moved around
 void idTestModel::TestModel_f( const idCmdArgs &args ) {
 	idVec3			offset;
 	idStr			name;
-	idPlayer *		player;
-	const idDict *	entityDef;
+	idPlayer 		*player;
+	const idDict 	*entityDef;
 	idDict			dict;
 
 	player = gameLocal.GetLocalPlayer();
@@ -766,8 +766,8 @@ void idTestModel::TestModel_f( const idCmdArgs &args ) {
 			// without appending an ase
 			if ( name[ 0 ] != '_' ) {
 				name.DefaultFileExtension( ".ase" );
-			} 
-			
+			}
+
 			if ( strstr( name, ".ma" ) || strstr( name, ".mb" ) ) {
 				idModelExport exporter;
 				exporter.ExportModel( name );
@@ -795,7 +795,7 @@ void idTestModel::TestModel_f( const idCmdArgs &args ) {
 idTestModel::ArgCompletion_TestModel
 =====================
 */
-void idTestModel::ArgCompletion_TestModel( const idCmdArgs &args, void(*callback)( const char *s ) ) {
+void idTestModel::ArgCompletion_TestModel( const idCmdArgs &args, void( *callback )( const char *s ) ) {
 	int i, num;
 
 	num = declManager->GetNumDecls( DECL_ENTITYDEF );
@@ -844,10 +844,10 @@ void idTestModel::TestAnim_f( const idCmdArgs &args ) {
 idTestModel::ArgCompletion_TestAnim
 =====================
 */
-void idTestModel::ArgCompletion_TestAnim( const idCmdArgs &args, void(*callback)( const char *s ) ) {
+void idTestModel::ArgCompletion_TestAnim( const idCmdArgs &args, void( *callback )( const char *s ) ) {
 	if ( gameLocal.testmodel ) {
 		idAnimator *animator = gameLocal.testmodel->GetAnimator();
-		for( int i = 0; i < animator->NumAnims(); i++ ) {
+		for ( int i = 0; i < animator->NumAnims(); i++ ) {
 			callback( va( "%s %s", args.Argv( 0 ), animator->AnimFullName( i ) ) );
 		}
 	}

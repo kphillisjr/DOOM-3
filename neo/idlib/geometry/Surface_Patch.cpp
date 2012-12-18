@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -37,10 +37,10 @@ idSurface_Patch::SetSize
 */
 void idSurface_Patch::SetSize( int patchWidth, int patchHeight ) {
 	if ( patchWidth < 1 || patchWidth > maxWidth ) {
-		idLib::common->FatalError("idSurface_Patch::SetSize: invalid patchWidth");
+		idLib::common->FatalError( "idSurface_Patch::SetSize: invalid patchWidth" );
 	}
 	if ( patchHeight < 1 || patchHeight > maxHeight ) {
-		idLib::common->FatalError("idSurface_Patch::SetSize: invalid patchHeight");
+		idLib::common->FatalError( "idSurface_Patch::SetSize: invalid patchHeight" );
 	}
 	width = patchWidth;
 	height = patchHeight;
@@ -62,17 +62,17 @@ void idSurface_Patch::PutOnCurve( void ) {
 	// put all the approximating points on the curve
 	for ( i = 0; i < width; i++ ) {
 		for ( j = 1; j < height; j += 2 ) {
-			LerpVert( verts[j*maxWidth+i], verts[(j+1)*maxWidth+i], prev );
-			LerpVert( verts[j*maxWidth+i], verts[(j-1)*maxWidth+i], next );
-			LerpVert( prev, next, verts[j*maxWidth+i] );
+			LerpVert( verts[j * maxWidth + i], verts[( j + 1 )*maxWidth + i], prev );
+			LerpVert( verts[j * maxWidth + i], verts[( j - 1 )*maxWidth + i], next );
+			LerpVert( prev, next, verts[j * maxWidth + i] );
 		}
 	}
 
 	for ( j = 0; j < height; j++ ) {
 		for ( i = 1; i < width; i += 2 ) {
-			LerpVert( verts[j*maxWidth+i], verts[j*maxWidth+i+1], prev );
-			LerpVert( verts[j*maxWidth+i], verts[j*maxWidth+i-1], next );
-			LerpVert( prev, next, verts[j*maxWidth+i] );
+			LerpVert( verts[j * maxWidth + i], verts[j * maxWidth + i + 1], prev );
+			LerpVert( verts[j * maxWidth + i], verts[j * maxWidth + i - 1], next );
+			LerpVert( prev, next, verts[j * maxWidth + i] );
 		}
 	}
 }
@@ -89,7 +89,7 @@ void idSurface_Patch::ProjectPointOntoVector( const idVec3 &point, const idVec3 
 	vec = vEnd - vStart;
 	vec.Normalize();
 	// project onto the directional vector for this segment
-	vProj = vStart + (pVec * vec) * vec;
+	vProj = vStart + ( pVec * vec ) * vec;
 }
 
 /*
@@ -108,9 +108,9 @@ void idSurface_Patch::RemoveLinearColumnsRows( void ) {
 	for ( j = 1; j < width - 1; j++ ) {
 		maxLength = 0;
 		for ( i = 0; i < height; i++ ) {
-			idSurface_Patch::ProjectPointOntoVector( verts[i*maxWidth + j].xyz,
-									verts[i*maxWidth + j-1].xyz, verts[i*maxWidth + j+1].xyz, proj);
-			dir = verts[i*maxWidth + j].xyz - proj;
+			idSurface_Patch::ProjectPointOntoVector( verts[i * maxWidth + j].xyz,
+					verts[i * maxWidth + j - 1].xyz, verts[i * maxWidth + j + 1].xyz, proj );
+			dir = verts[i * maxWidth + j].xyz - proj;
 			len = dir.LengthSqr();
 			if ( len > maxLength ) {
 				maxLength = len;
@@ -120,7 +120,7 @@ void idSurface_Patch::RemoveLinearColumnsRows( void ) {
 			width--;
 			for ( i = 0; i < height; i++ ) {
 				for ( k = j; k < width; k++ ) {
-					verts[i*maxWidth + k] = verts[i*maxWidth + k+1];
+					verts[i * maxWidth + k] = verts[i * maxWidth + k + 1];
 				}
 			}
 			j--;
@@ -129,9 +129,9 @@ void idSurface_Patch::RemoveLinearColumnsRows( void ) {
 	for ( j = 1; j < height - 1; j++ ) {
 		maxLength = 0;
 		for ( i = 0; i < width; i++ ) {
-			idSurface_Patch::ProjectPointOntoVector( verts[j*maxWidth + i].xyz,
-									verts[(j-1)*maxWidth + i].xyz, verts[(j+1)*maxWidth + i].xyz, proj);
-			dir = verts[j*maxWidth + i].xyz - proj;
+			idSurface_Patch::ProjectPointOntoVector( verts[j * maxWidth + i].xyz,
+					verts[( j - 1 )*maxWidth + i].xyz, verts[( j + 1 )*maxWidth + i].xyz, proj );
+			dir = verts[j * maxWidth + i].xyz - proj;
 			len = dir.LengthSqr();
 			if ( len > maxLength ) {
 				maxLength = len;
@@ -141,7 +141,7 @@ void idSurface_Patch::RemoveLinearColumnsRows( void ) {
 			height--;
 			for ( i = 0; i < width; i++ ) {
 				for ( k = j; k < height; k++ ) {
-					verts[k*maxWidth + i] = verts[(k+1)*maxWidth + i];
+					verts[k * maxWidth + i] = verts[( k + 1 ) * maxWidth + i];
 				}
 			}
 			j--;
@@ -165,9 +165,9 @@ void idSurface_Patch::ResizeExpanded( int newHeight, int newWidth ) {
 		verts.SetNum( newHeight * newWidth );
 	}
 	// space out verts for new height and width
-	for ( j = maxHeight-1; j >= 0; j-- ) {
-		for ( i = maxWidth-1; i >= 0; i-- ) {
-			verts[j*newWidth + i] = verts[j*maxWidth + i];
+	for ( j = maxHeight - 1; j >= 0; j-- ) {
+		for ( i = maxWidth - 1; i >= 0; i-- ) {
+			verts[j * newWidth + i] = verts[j * maxWidth + i];
 		}
 	}
 	maxHeight = newHeight;
@@ -183,13 +183,13 @@ void idSurface_Patch::Collapse( void ) {
 	int i, j;
 
 	if ( !expanded ) {
-		idLib::common->FatalError("idSurface_Patch::Collapse: patch not expanded");
+		idLib::common->FatalError( "idSurface_Patch::Collapse: patch not expanded" );
 	}
 	expanded = false;
 	if ( width != maxWidth ) {
 		for ( j = 0; j < height; j++ ) {
 			for ( i = 0; i < width; i++ ) {
-				verts[j*width + i] = verts[j*maxWidth + i];
+				verts[j * width + i] = verts[j * maxWidth + i];
 			}
 		}
 	}
@@ -205,14 +205,14 @@ void idSurface_Patch::Expand( void ) {
 	int i, j;
 
 	if ( expanded ) {
-		idLib::common->FatalError("idSurface_Patch::Expand: patch alread expanded");
+		idLib::common->FatalError( "idSurface_Patch::Expand: patch alread expanded" );
 	}
 	expanded = true;
 	verts.SetNum( maxWidth * maxHeight, false );
 	if ( width != maxWidth ) {
-		for ( j = height-1; j >= 0; j-- ) {
-			for ( i = width-1; i >= 0; i-- ) {
-				verts[j*maxWidth + i] = verts[j*width + i];
+		for ( j = height - 1; j >= 0; j-- ) {
+			for ( i = width - 1; i >= 0; i-- ) {
+				verts[j * maxWidth + i] = verts[j * width + i];
 			}
 		}
 	}
@@ -256,7 +256,7 @@ void idSurface_Patch::GenerateNormals( void ) {
 	bool		good[8];
 	bool		wrapWidth, wrapHeight;
 	static int	neighbors[8][2] = {
-		{0,1}, {1,1}, {1,0}, {1,-1}, {0,-1}, {-1,-1}, {-1,0}, {-1,1}
+		{0, 1}, {1, 1}, {1, 0}, {1, -1}, {0, -1}, { -1, -1}, { -1, 0}, { -1, 1}
 	};
 
 	assert( expanded == false );
@@ -266,10 +266,10 @@ void idSurface_Patch::GenerateNormals( void ) {
 	//
 	idVec3		extent[3];
 	float		offset;
-	
+
 	extent[0] = verts[width - 1].xyz - verts[0].xyz;
-	extent[1] = verts[(height-1) * width + width - 1].xyz - verts[0].xyz;
-	extent[2] = verts[(height-1) * width].xyz - verts[0].xyz;
+	extent[1] = verts[( height - 1 ) * width + width - 1].xyz - verts[0].xyz;
+	extent[2] = verts[( height - 1 ) * width].xyz - verts[0].xyz;
 
 	norm = extent[0].Cross( extent[1] );
 	if ( norm.LengthSqr() == 0.0f ) {
@@ -302,7 +302,7 @@ void idSurface_Patch::GenerateNormals( void ) {
 	// check for wrapped edge cases, which should smooth across themselves
 	wrapWidth = false;
 	for ( i = 0; i < height; i++ ) {
-		delta = verts[i * width].xyz - verts[i * width + width-1].xyz;
+		delta = verts[i * width].xyz - verts[i * width + width - 1].xyz;
 		if ( delta.LengthSqr() > Square( 1.0f ) ) {
 			break;
 		}
@@ -313,7 +313,7 @@ void idSurface_Patch::GenerateNormals( void ) {
 
 	wrapHeight = false;
 	for ( i = 0; i < width; i++ ) {
-		delta = verts[i].xyz - verts[(height-1) * width + i].xyz;
+		delta = verts[i].xyz - verts[( height - 1 ) * width + i].xyz;
 		if ( delta.LengthSqr() > Square( 1.0f ) ) {
 			break;
 		}
@@ -364,10 +364,10 @@ void idSurface_Patch::GenerateNormals( void ) {
 
 			sum = vec3_origin;
 			for ( k = 0; k < 8; k++ ) {
-				if ( !good[k] || !good[(k+1)&7] ) {
+				if ( !good[k] || !good[( k + 1 ) & 7] ) {
 					continue;	// didn't get two points
 				}
-				norm = around[(k+1)&7].Cross( around[k] );
+				norm = around[( k + 1 ) & 7].Cross( around[k] );
 				if ( norm.Normalize() == 0.0f ) {
 					continue;
 				}
@@ -392,7 +392,7 @@ idSurface_Patch::GenerateIndexes
 void idSurface_Patch::GenerateIndexes( void ) {
 	int i, j, v1, v2, v3, v4, index;
 
-	indexes.SetNum( (width-1) * (height-1) * 2 * 3, false );
+	indexes.SetNum( ( width - 1 ) * ( height - 1 ) * 2 * 3, false );
 	index = 0;
 	for ( i = 0; i < width - 1; i++ ) {
 		for ( j = 0; j < height - 1; j++ ) {
@@ -432,13 +432,13 @@ void idSurface_Patch::SampleSinglePatchPoint( const idDrawVert ctrl[3][3], float
 				b = ctrl[1][vPoint].xyz[axis];
 				c = ctrl[2][vPoint].xyz[axis];
 			} else if ( axis < 6 ) {
-				a = ctrl[0][vPoint].normal[axis-3];
-				b = ctrl[1][vPoint].normal[axis-3];
-				c = ctrl[2][vPoint].normal[axis-3];
+				a = ctrl[0][vPoint].normal[axis - 3];
+				b = ctrl[1][vPoint].normal[axis - 3];
+				c = ctrl[2][vPoint].normal[axis - 3];
 			} else {
-				a = ctrl[0][vPoint].st[axis-6];
-				b = ctrl[1][vPoint].st[axis-6];
-				c = ctrl[2][vPoint].st[axis-6];
+				a = ctrl[0][vPoint].st[axis - 6];
+				b = ctrl[1][vPoint].st[axis - 6];
+				c = ctrl[2][vPoint].st[axis - 6];
 			}
 			qA = a - 2.0f * b + c;
 			qB = 2.0f * b - 2.0f * a;
@@ -462,9 +462,9 @@ void idSurface_Patch::SampleSinglePatchPoint( const idDrawVert ctrl[3][3], float
 		if ( axis < 3 ) {
 			out->xyz[axis] = qA * v * v + qB * v + qC;
 		} else if ( axis < 6 ) {
-			out->normal[axis-3] = qA * v * v + qB * v + qC;
+			out->normal[axis - 3] = qA * v * v + qB * v + qC;
 		} else {
-			out->st[axis-6] = qA * v * v + qB * v + qC;
+			out->st[axis - 6] = qA * v * v + qB * v + qC;
 		}
 	}
 }
@@ -482,9 +482,9 @@ void idSurface_Patch::SampleSinglePatch( const idDrawVert ctrl[3][3], int baseCo
 	vertSub++;
 	for ( i = 0; i < horzSub; i++ ) {
 		for ( j = 0; j < vertSub; j++ ) {
-			u = (float) i / ( horzSub - 1 );
-			v = (float) j / ( vertSub - 1 );
-			SampleSinglePatchPoint( ctrl, u, v, &outVerts[((baseRow + j) * width) + i + baseCol] );
+			u = ( float ) i / ( horzSub - 1 );
+			v = ( float ) j / ( vertSub - 1 );
+			SampleSinglePatchPoint( ctrl, u, v, &outVerts[( ( baseRow + j ) * width ) + i + baseCol] );
 		}
 	}
 }
@@ -497,8 +497,8 @@ idSurface_Patch::SubdivideExplicit
 void idSurface_Patch::SubdivideExplicit( int horzSubdivisions, int vertSubdivisions, bool genNormals, bool removeLinear ) {
 	int i, j, k, l;
 	idDrawVert sample[3][3];
-	int outWidth = ((width - 1) / 2 * horzSubdivisions) + 1;
-	int outHeight = ((height - 1) / 2 * vertSubdivisions) + 1;
+	int outWidth = ( ( width - 1 ) / 2 * horzSubdivisions ) + 1;
+	int outHeight = ( ( height - 1 ) / 2 * vertSubdivisions ) + 1;
 	idDrawVert *dv = new idDrawVert[ outWidth * outHeight ];
 
 	// generate normals for the control mesh
@@ -512,7 +512,7 @@ void idSurface_Patch::SubdivideExplicit( int horzSubdivisions, int vertSubdivisi
 		for ( j = 0; j + 2 < height; j += 2 ) {
 			for ( k = 0; k < 3; k++ ) {
 				for ( l = 0; l < 3; l++ ) {
-					sample[k][l] = verts[ ((j + l) * width) + i + k ];
+					sample[k][l] = verts[( ( j + l ) * width ) + i + k ];
 				}
 			}
 			SampleSinglePatch( sample, baseCol, baseRow, outWidth, horzSubdivisions, vertSubdivisions, dv );
@@ -575,10 +575,10 @@ void idSurface_Patch::Subdivide( float maxHorizontalError, float maxVerticalErro
 		// check subdivided midpoints against control points
 		for ( i = 0; i < height; i++ ) {
 			for ( l = 0; l < 3; l++ ) {
-				prevxyz[l] = verts[i*maxWidth + j+1].xyz[l] - verts[i*maxWidth + j  ].xyz[l];
-				nextxyz[l] = verts[i*maxWidth + j+2].xyz[l] - verts[i*maxWidth + j+1].xyz[l];
-				midxyz[l] = (verts[i*maxWidth + j  ].xyz[l] + verts[i*maxWidth + j+1].xyz[l] * 2.0f +
-														   verts[i*maxWidth + j+2].xyz[l] ) * 0.25f;
+				prevxyz[l] = verts[i * maxWidth + j + 1].xyz[l] - verts[i * maxWidth + j  ].xyz[l];
+				nextxyz[l] = verts[i * maxWidth + j + 2].xyz[l] - verts[i * maxWidth + j + 1].xyz[l];
+				midxyz[l] = ( verts[i * maxWidth + j  ].xyz[l] + verts[i * maxWidth + j + 1].xyz[l] * 2.0f +
+							  verts[i * maxWidth + j + 2].xyz[l] ) * 0.25f;
 			}
 
 			if ( maxLength > 0.0f ) {
@@ -588,7 +588,7 @@ void idSurface_Patch::Subdivide( float maxHorizontalError, float maxVerticalErro
 				}
 			}
 			// see if this midpoint is off far enough to subdivide
-			delta = verts[i*maxWidth + j+1].xyz - midxyz;
+			delta = verts[i * maxWidth + j + 1].xyz - midxyz;
 			if ( delta.LengthSqr() > maxHorizontalErrorSqr ) {
 				break;
 			}
@@ -606,16 +606,16 @@ void idSurface_Patch::Subdivide( float maxHorizontalError, float maxVerticalErro
 		width += 2;
 
 		for ( i = 0; i < height; i++ ) {
-			idSurface_Patch::LerpVert( verts[i*maxWidth + j  ], verts[i*maxWidth + j+1], prev );
-			idSurface_Patch::LerpVert( verts[i*maxWidth + j+1], verts[i*maxWidth + j+2], next );
+			idSurface_Patch::LerpVert( verts[i * maxWidth + j  ], verts[i * maxWidth + j + 1], prev );
+			idSurface_Patch::LerpVert( verts[i * maxWidth + j + 1], verts[i * maxWidth + j + 2], next );
 			idSurface_Patch::LerpVert( prev, next, mid );
 
 			for ( k = width - 1; k > j + 3; k-- ) {
-				verts[i*maxWidth + k] = verts[i*maxWidth + k-2];
+				verts[i * maxWidth + k] = verts[i * maxWidth + k - 2];
 			}
-			verts[i*maxWidth + j+1] = prev;
-			verts[i*maxWidth + j+2] = mid;
-			verts[i*maxWidth + j+3] = next;
+			verts[i * maxWidth + j + 1] = prev;
+			verts[i * maxWidth + j + 2] = mid;
+			verts[i * maxWidth + j + 3] = next;
 		}
 
 		// back up and recheck this set again, it may need more subdivision
@@ -627,10 +627,10 @@ void idSurface_Patch::Subdivide( float maxHorizontalError, float maxVerticalErro
 		// check subdivided midpoints against control points
 		for ( i = 0; i < width; i++ ) {
 			for ( l = 0; l < 3; l++ ) {
-				prevxyz[l] = verts[(j+1)*maxWidth + i].xyz[l] - verts[j*maxWidth + i].xyz[l];
-				nextxyz[l] = verts[(j+2)*maxWidth + i].xyz[l] - verts[(j+1)*maxWidth + i].xyz[l];
-				midxyz[l] = (verts[j*maxWidth + i].xyz[l] + verts[(j+1)*maxWidth + i].xyz[l] * 2.0f +
-														verts[(j+2)*maxWidth + i].xyz[l] ) * 0.25f;
+				prevxyz[l] = verts[( j + 1 ) * maxWidth + i].xyz[l] - verts[j * maxWidth + i].xyz[l];
+				nextxyz[l] = verts[( j + 2 ) * maxWidth + i].xyz[l] - verts[( j + 1 ) * maxWidth + i].xyz[l];
+				midxyz[l] = ( verts[j * maxWidth + i].xyz[l] + verts[( j + 1 ) * maxWidth + i].xyz[l] * 2.0f +
+							  verts[( j + 2 ) * maxWidth + i].xyz[l] ) * 0.25f;
 			}
 
 			if ( maxLength > 0.0f ) {
@@ -640,7 +640,7 @@ void idSurface_Patch::Subdivide( float maxHorizontalError, float maxVerticalErro
 				}
 			}
 			// see if this midpoint is off far enough to subdivide
-			delta = verts[(j+1)*maxWidth + i].xyz - midxyz;
+			delta = verts[( j + 1 ) * maxWidth + i].xyz - midxyz;
 			if ( delta.LengthSqr() > maxVerticalErrorSqr ) {
 				break;
 			}
@@ -658,16 +658,16 @@ void idSurface_Patch::Subdivide( float maxHorizontalError, float maxVerticalErro
 		height += 2;
 
 		for ( i = 0; i < width; i++ ) {
-			LerpVert( verts[j*maxWidth + i], verts[(j+1)*maxWidth + i], prev );
-			LerpVert( verts[(j+1)*maxWidth + i], verts[(j+2)*maxWidth + i], next );
+			LerpVert( verts[j * maxWidth + i], verts[( j + 1 )*maxWidth + i], prev );
+			LerpVert( verts[( j + 1 )*maxWidth + i], verts[( j + 2 )*maxWidth + i], next );
 			LerpVert( prev, next, mid );
 
 			for ( k = height - 1; k > j + 3; k-- ) {
-				verts[k*maxWidth + i] = verts[(k-2)*maxWidth + i];
+				verts[k * maxWidth + i] = verts[( k - 2 ) * maxWidth + i];
 			}
-			verts[(j+1)*maxWidth + i] = prev;
-			verts[(j+2)*maxWidth + i] = mid;
-			verts[(j+3)*maxWidth + i] = next;
+			verts[( j + 1 )*maxWidth + i] = prev;
+			verts[( j + 2 )*maxWidth + i] = mid;
+			verts[( j + 3 )*maxWidth + i] = next;
 		}
 
 		// back up and recheck this set again, it may need more subdivision

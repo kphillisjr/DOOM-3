@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -47,7 +47,8 @@ idScreenRect::Clear
 void idScreenRect::Clear() {
 	x1 = y1 = 32000;
 	x2 = y2 = -32000;
-	zmin = 0.0f; zmax = 1.0f;
+	zmin = 0.0f;
+	zmax = 1.0f;
 }
 
 /*
@@ -250,10 +251,10 @@ void R_InitFrameData( void ) {
 
 	R_ShutdownFrameData();
 
-	frameData = (frameData_t *)Mem_ClearedAlloc( sizeof( *frameData ));
+	frameData = ( frameData_t * )Mem_ClearedAlloc( sizeof( *frameData ) );
 	frame = frameData;
 	size = MEMORY_BLOCK_SIZE;
-	block = (frameMemoryBlock_t *)Mem_Alloc( size + sizeof( *block ) );
+	block = ( frameMemoryBlock_t * )Mem_Alloc( size + sizeof( *block ) );
 	if ( !block ) {
 		common->FatalError( "R_InitFrameData: Mem_Alloc() failed" );
 	}
@@ -278,7 +279,7 @@ int R_CountFrameData( void ) {
 
 	count = 0;
 	frame = frameData;
-	for ( block = frame->memory ; block ; block=block->next ) {
+	for ( block = frame->memory ; block ; block = block->next ) {
 		count += block->used;
 		if ( block == frame->alloc ) {
 			break;
@@ -305,7 +306,7 @@ void *R_StaticAlloc( int bytes ) {
 
 	tr.staticAllocCount += bytes;
 
-    buf = Mem_Alloc( bytes );
+	buf = Mem_Alloc( bytes );
 
 	// don't exit on failure on zero length allocations since the old code didn't
 	if ( !buf && ( bytes != 0 ) ) {
@@ -334,7 +335,7 @@ R_StaticFree
 */
 void R_StaticFree( void *data ) {
 	tr.pc.c_free++;
-    Mem_Free( data );
+	Mem_Free( data );
 }
 
 /*
@@ -366,8 +367,8 @@ void *R_FrameAlloc( int bytes ) {
 	frameData_t		*frame;
 	frameMemoryBlock_t	*block;
 	void			*buf;
-    
-	bytes = (bytes+16)&~15;
+
+	bytes = ( bytes + 16 )&~15;
 	// see if it can be satisfied in the current block
 	frame = frameData;
 	block = frame->alloc;
@@ -386,7 +387,7 @@ void *R_FrameAlloc( int bytes ) {
 		int		size;
 
 		size = MEMORY_BLOCK_SIZE;
-		block = (frameMemoryBlock_t *)Mem_Alloc( size + sizeof( *block ) );
+		block = ( frameMemoryBlock_t * )Mem_Alloc( size + sizeof( *block ) );
 		if ( !block ) {
 			common->FatalError( "R_FrameAlloc: Mem_Alloc() failed" );
 		}
@@ -399,7 +400,7 @@ void *R_FrameAlloc( int bytes ) {
 	// we could fix this if we needed to...
 	if ( bytes > block->size ) {
 		common->FatalError( "R_FrameAlloc of %i exceeded MEMORY_BLOCK_SIZE",
-			bytes );
+							bytes );
 	}
 
 	frame->alloc = block;
@@ -471,52 +472,52 @@ void R_LocalPointToGlobal( const float modelMatrix[16], const idVec3 &in, idVec3
 #if defined(MACOS_X) && defined(__i386__)
 	__m128 m0, m1, m2, m3;
 	__m128 in0, in1, in2;
-	float i0,i1,i2;
+	float i0, i1, i2;
 	i0 = in[0];
 	i1 = in[1];
 	i2 = in[2];
-	
-	m0 = _mm_loadu_ps(&modelMatrix[0]);
-	m1 = _mm_loadu_ps(&modelMatrix[4]);
-	m2 = _mm_loadu_ps(&modelMatrix[8]);
-	m3 = _mm_loadu_ps(&modelMatrix[12]);
-	
-	in0 = _mm_load1_ps(&i0);
-	in1 = _mm_load1_ps(&i1);
-	in2 = _mm_load1_ps(&i2);
-	
-	m0 = _mm_mul_ps(m0, in0);
-	m1 = _mm_mul_ps(m1, in1);
-	m2 = _mm_mul_ps(m2, in2);
 
-	m0 = _mm_add_ps(m0, m1);
-	m0 = _mm_add_ps(m0, m2);
-	m0 = _mm_add_ps(m0, m3);
-	
-	_mm_store_ss(&out[0], m0);
-	m1 = (__m128) _mm_shuffle_epi32((__m128i)m0, 0x55);
-	_mm_store_ss(&out[1], m1);
-	m2 = _mm_movehl_ps(m2, m0);
-	_mm_store_ss(&out[2], m2);
-#else	
+	m0 = _mm_loadu_ps( &modelMatrix[0] );
+	m1 = _mm_loadu_ps( &modelMatrix[4] );
+	m2 = _mm_loadu_ps( &modelMatrix[8] );
+	m3 = _mm_loadu_ps( &modelMatrix[12] );
+
+	in0 = _mm_load1_ps( &i0 );
+	in1 = _mm_load1_ps( &i1 );
+	in2 = _mm_load1_ps( &i2 );
+
+	m0 = _mm_mul_ps( m0, in0 );
+	m1 = _mm_mul_ps( m1, in1 );
+	m2 = _mm_mul_ps( m2, in2 );
+
+	m0 = _mm_add_ps( m0, m1 );
+	m0 = _mm_add_ps( m0, m2 );
+	m0 = _mm_add_ps( m0, m3 );
+
+	_mm_store_ss( &out[0], m0 );
+	m1 = ( __m128 ) _mm_shuffle_epi32( ( __m128i )m0, 0x55 );
+	_mm_store_ss( &out[1], m1 );
+	m2 = _mm_movehl_ps( m2, m0 );
+	_mm_store_ss( &out[2], m2 );
+#else
 	out[0] = in[0] * modelMatrix[0] + in[1] * modelMatrix[4]
-		+ in[2] * modelMatrix[8] + modelMatrix[12];
+			 + in[2] * modelMatrix[8] + modelMatrix[12];
 	out[1] = in[0] * modelMatrix[1] + in[1] * modelMatrix[5]
-		+ in[2] * modelMatrix[9] + modelMatrix[13];
+			 + in[2] * modelMatrix[9] + modelMatrix[13];
 	out[2] = in[0] * modelMatrix[2] + in[1] * modelMatrix[6]
-		+ in[2] * modelMatrix[10] + modelMatrix[14];
+			 + in[2] * modelMatrix[10] + modelMatrix[14];
 #endif
 }
 
 void R_PointTimesMatrix( const float modelMatrix[16], const idVec4 &in, idVec4 &out ) {
 	out[0] = in[0] * modelMatrix[0] + in[1] * modelMatrix[4]
-		+ in[2] * modelMatrix[8] + modelMatrix[12];
+			 + in[2] * modelMatrix[8] + modelMatrix[12];
 	out[1] = in[0] * modelMatrix[1] + in[1] * modelMatrix[5]
-		+ in[2] * modelMatrix[9] + modelMatrix[13];
+			 + in[2] * modelMatrix[9] + modelMatrix[13];
 	out[2] = in[0] * modelMatrix[2] + in[1] * modelMatrix[6]
-		+ in[2] * modelMatrix[10] + modelMatrix[14];
+			 + in[2] * modelMatrix[10] + modelMatrix[14];
 	out[3] = in[0] * modelMatrix[3] + in[1] * modelMatrix[7]
-		+ in[2] * modelMatrix[11] + modelMatrix[15];
+			 + in[2] * modelMatrix[11] + modelMatrix[15];
 }
 
 void R_GlobalPointToLocal( const float modelMatrix[16], const idVec3 &in, idVec3 &out ) {
@@ -531,11 +532,11 @@ void R_GlobalPointToLocal( const float modelMatrix[16], const idVec3 &in, idVec3
 
 void R_LocalVectorToGlobal( const float modelMatrix[16], const idVec3 &in, idVec3 &out ) {
 	out[0] = in[0] * modelMatrix[0] + in[1] * modelMatrix[4]
-		+ in[2] * modelMatrix[8];
+			 + in[2] * modelMatrix[8];
 	out[1] = in[0] * modelMatrix[1] + in[1] * modelMatrix[5]
-		+ in[2] * modelMatrix[9];
+			 + in[2] * modelMatrix[9];
 	out[2] = in[0] * modelMatrix[2] + in[1] * modelMatrix[6]
-		+ in[2] * modelMatrix[10];
+			 + in[2] * modelMatrix[10];
 }
 
 void R_GlobalVectorToLocal( const float modelMatrix[16], const idVec3 &in, idVec3 &out ) {
@@ -600,7 +601,7 @@ bool R_RadiusCullLocalBox( const idBounds &bounds, const float modelMatrix[16], 
 
 	R_LocalPointToGlobal( modelMatrix, localOrigin, worldOrigin );
 
-	worldRadius = (bounds[0] - localOrigin).Length();	// FIXME: won't be correct for scaled objects
+	worldRadius = ( bounds[0] - localOrigin ).Length();	// FIXME: won't be correct for scaled objects
 
 	for ( i = 0 ; i < numPlanes ; i++ ) {
 		frust = planes + i;
@@ -636,9 +637,9 @@ bool R_CornerCullLocalBox( const idBounds &bounds, const float modelMatrix[16], 
 
 	// transform into world space
 	for ( i = 0 ; i < 8 ; i++ ) {
-		v[0] = bounds[i&1][0];
-		v[1] = bounds[(i>>1)&1][1];
-		v[2] = bounds[(i>>2)&1][2];
+		v[0] = bounds[i & 1][0];
+		v[1] = bounds[( i >> 1 ) & 1][1];
+		v[2] = bounds[( i >> 2 ) & 1][2];
 
 		R_LocalPointToGlobal( modelMatrix, v, transformed[i] );
 	}
@@ -688,7 +689,7 @@ void R_TransformModelToClip( const idVec3 &src, const float *modelMatrix, const 
 	int i;
 
 	for ( i = 0 ; i < 4 ; i++ ) {
-		eye[i] = 
+		eye[i] =
 			src[0] * modelMatrix[ i + 0 * 4 ] +
 			src[1] * modelMatrix[ i + 1 * 4 ] +
 			src[2] * modelMatrix[ i + 2 * 4 ] +
@@ -696,7 +697,7 @@ void R_TransformModelToClip( const idVec3 &src, const float *modelMatrix, const 
 	}
 
 	for ( i = 0 ; i < 4 ; i++ ) {
-		dst[i] = 
+		dst[i] =
 			eye[0] * projectionMatrix[ i + 0 * 4 ] +
 			eye[1] * projectionMatrix[ i + 1 * 4 ] +
 			eye[2] * projectionMatrix[ i + 2 * 4 ] +
@@ -720,15 +721,15 @@ void R_GlobalToNormalizedDeviceCoordinates( const idVec3 &global, idVec3 &ndc ) 
 	if ( !tr.viewDef ) {
 
 		for ( i = 0 ; i < 4 ; i ++ ) {
-			view[i] = 
+			view[i] =
 				global[0] * tr.primaryView->worldSpace.modelViewMatrix[ i + 0 * 4 ] +
 				global[1] * tr.primaryView->worldSpace.modelViewMatrix[ i + 1 * 4 ] +
 				global[2] * tr.primaryView->worldSpace.modelViewMatrix[ i + 2 * 4 ] +
-					tr.primaryView->worldSpace.modelViewMatrix[ i + 3 * 4 ];
+				tr.primaryView->worldSpace.modelViewMatrix[ i + 3 * 4 ];
 		}
 
 		for ( i = 0 ; i < 4 ; i ++ ) {
-			clip[i] = 
+			clip[i] =
 				view[0] * tr.primaryView->projectionMatrix[ i + 0 * 4 ] +
 				view[1] * tr.primaryView->projectionMatrix[ i + 1 * 4 ] +
 				view[2] * tr.primaryView->projectionMatrix[ i + 2 * 4 ] +
@@ -738,7 +739,7 @@ void R_GlobalToNormalizedDeviceCoordinates( const idVec3 &global, idVec3 &ndc ) 
 	} else {
 
 		for ( i = 0 ; i < 4 ; i ++ ) {
-			view[i] = 
+			view[i] =
 				global[0] * tr.viewDef->worldSpace.modelViewMatrix[ i + 0 * 4 ] +
 				global[1] * tr.viewDef->worldSpace.modelViewMatrix[ i + 1 * 4 ] +
 				global[2] * tr.viewDef->worldSpace.modelViewMatrix[ i + 2 * 4 ] +
@@ -747,7 +748,7 @@ void R_GlobalToNormalizedDeviceCoordinates( const idVec3 &global, idVec3 &ndc ) 
 
 
 		for ( i = 0 ; i < 4 ; i ++ ) {
-			clip[i] = 
+			clip[i] =
 				view[0] * tr.viewDef->projectionMatrix[ i + 0 * 4 ] +
 				view[1] * tr.viewDef->projectionMatrix[ i + 1 * 4 ] +
 				view[2] * tr.viewDef->projectionMatrix[ i + 2 * 4 ] +
@@ -794,22 +795,22 @@ void myGlMultMatrix( const float a[16], const float b[16], float out[16] ) {
 		}
 	}
 #else
-	out[0*4+0] = a[0*4+0]*b[0*4+0] + a[0*4+1]*b[1*4+0] + a[0*4+2]*b[2*4+0] + a[0*4+3]*b[3*4+0];
-	out[0*4+1] = a[0*4+0]*b[0*4+1] + a[0*4+1]*b[1*4+1] + a[0*4+2]*b[2*4+1] + a[0*4+3]*b[3*4+1];
-	out[0*4+2] = a[0*4+0]*b[0*4+2] + a[0*4+1]*b[1*4+2] + a[0*4+2]*b[2*4+2] + a[0*4+3]*b[3*4+2];
-	out[0*4+3] = a[0*4+0]*b[0*4+3] + a[0*4+1]*b[1*4+3] + a[0*4+2]*b[2*4+3] + a[0*4+3]*b[3*4+3];
-	out[1*4+0] = a[1*4+0]*b[0*4+0] + a[1*4+1]*b[1*4+0] + a[1*4+2]*b[2*4+0] + a[1*4+3]*b[3*4+0];
-	out[1*4+1] = a[1*4+0]*b[0*4+1] + a[1*4+1]*b[1*4+1] + a[1*4+2]*b[2*4+1] + a[1*4+3]*b[3*4+1];
-	out[1*4+2] = a[1*4+0]*b[0*4+2] + a[1*4+1]*b[1*4+2] + a[1*4+2]*b[2*4+2] + a[1*4+3]*b[3*4+2];
-	out[1*4+3] = a[1*4+0]*b[0*4+3] + a[1*4+1]*b[1*4+3] + a[1*4+2]*b[2*4+3] + a[1*4+3]*b[3*4+3];
-	out[2*4+0] = a[2*4+0]*b[0*4+0] + a[2*4+1]*b[1*4+0] + a[2*4+2]*b[2*4+0] + a[2*4+3]*b[3*4+0];
-	out[2*4+1] = a[2*4+0]*b[0*4+1] + a[2*4+1]*b[1*4+1] + a[2*4+2]*b[2*4+1] + a[2*4+3]*b[3*4+1];
-	out[2*4+2] = a[2*4+0]*b[0*4+2] + a[2*4+1]*b[1*4+2] + a[2*4+2]*b[2*4+2] + a[2*4+3]*b[3*4+2];
-	out[2*4+3] = a[2*4+0]*b[0*4+3] + a[2*4+1]*b[1*4+3] + a[2*4+2]*b[2*4+3] + a[2*4+3]*b[3*4+3];
-	out[3*4+0] = a[3*4+0]*b[0*4+0] + a[3*4+1]*b[1*4+0] + a[3*4+2]*b[2*4+0] + a[3*4+3]*b[3*4+0];
-	out[3*4+1] = a[3*4+0]*b[0*4+1] + a[3*4+1]*b[1*4+1] + a[3*4+2]*b[2*4+1] + a[3*4+3]*b[3*4+1];
-	out[3*4+2] = a[3*4+0]*b[0*4+2] + a[3*4+1]*b[1*4+2] + a[3*4+2]*b[2*4+2] + a[3*4+3]*b[3*4+2];
-	out[3*4+3] = a[3*4+0]*b[0*4+3] + a[3*4+1]*b[1*4+3] + a[3*4+2]*b[2*4+3] + a[3*4+3]*b[3*4+3];
+	out[0 * 4 + 0] = a[0 * 4 + 0] * b[0 * 4 + 0] + a[0 * 4 + 1] * b[1 * 4 + 0] + a[0 * 4 + 2] * b[2 * 4 + 0] + a[0 * 4 + 3] * b[3 * 4 + 0];
+	out[0 * 4 + 1] = a[0 * 4 + 0] * b[0 * 4 + 1] + a[0 * 4 + 1] * b[1 * 4 + 1] + a[0 * 4 + 2] * b[2 * 4 + 1] + a[0 * 4 + 3] * b[3 * 4 + 1];
+	out[0 * 4 + 2] = a[0 * 4 + 0] * b[0 * 4 + 2] + a[0 * 4 + 1] * b[1 * 4 + 2] + a[0 * 4 + 2] * b[2 * 4 + 2] + a[0 * 4 + 3] * b[3 * 4 + 2];
+	out[0 * 4 + 3] = a[0 * 4 + 0] * b[0 * 4 + 3] + a[0 * 4 + 1] * b[1 * 4 + 3] + a[0 * 4 + 2] * b[2 * 4 + 3] + a[0 * 4 + 3] * b[3 * 4 + 3];
+	out[1 * 4 + 0] = a[1 * 4 + 0] * b[0 * 4 + 0] + a[1 * 4 + 1] * b[1 * 4 + 0] + a[1 * 4 + 2] * b[2 * 4 + 0] + a[1 * 4 + 3] * b[3 * 4 + 0];
+	out[1 * 4 + 1] = a[1 * 4 + 0] * b[0 * 4 + 1] + a[1 * 4 + 1] * b[1 * 4 + 1] + a[1 * 4 + 2] * b[2 * 4 + 1] + a[1 * 4 + 3] * b[3 * 4 + 1];
+	out[1 * 4 + 2] = a[1 * 4 + 0] * b[0 * 4 + 2] + a[1 * 4 + 1] * b[1 * 4 + 2] + a[1 * 4 + 2] * b[2 * 4 + 2] + a[1 * 4 + 3] * b[3 * 4 + 2];
+	out[1 * 4 + 3] = a[1 * 4 + 0] * b[0 * 4 + 3] + a[1 * 4 + 1] * b[1 * 4 + 3] + a[1 * 4 + 2] * b[2 * 4 + 3] + a[1 * 4 + 3] * b[3 * 4 + 3];
+	out[2 * 4 + 0] = a[2 * 4 + 0] * b[0 * 4 + 0] + a[2 * 4 + 1] * b[1 * 4 + 0] + a[2 * 4 + 2] * b[2 * 4 + 0] + a[2 * 4 + 3] * b[3 * 4 + 0];
+	out[2 * 4 + 1] = a[2 * 4 + 0] * b[0 * 4 + 1] + a[2 * 4 + 1] * b[1 * 4 + 1] + a[2 * 4 + 2] * b[2 * 4 + 1] + a[2 * 4 + 3] * b[3 * 4 + 1];
+	out[2 * 4 + 2] = a[2 * 4 + 0] * b[0 * 4 + 2] + a[2 * 4 + 1] * b[1 * 4 + 2] + a[2 * 4 + 2] * b[2 * 4 + 2] + a[2 * 4 + 3] * b[3 * 4 + 2];
+	out[2 * 4 + 3] = a[2 * 4 + 0] * b[0 * 4 + 3] + a[2 * 4 + 1] * b[1 * 4 + 3] + a[2 * 4 + 2] * b[2 * 4 + 3] + a[2 * 4 + 3] * b[3 * 4 + 3];
+	out[3 * 4 + 0] = a[3 * 4 + 0] * b[0 * 4 + 0] + a[3 * 4 + 1] * b[1 * 4 + 0] + a[3 * 4 + 2] * b[2 * 4 + 0] + a[3 * 4 + 3] * b[3 * 4 + 0];
+	out[3 * 4 + 1] = a[3 * 4 + 0] * b[0 * 4 + 1] + a[3 * 4 + 1] * b[1 * 4 + 1] + a[3 * 4 + 2] * b[2 * 4 + 1] + a[3 * 4 + 3] * b[3 * 4 + 1];
+	out[3 * 4 + 2] = a[3 * 4 + 0] * b[0 * 4 + 2] + a[3 * 4 + 1] * b[1 * 4 + 2] + a[3 * 4 + 2] * b[2 * 4 + 2] + a[3 * 4 + 3] * b[3 * 4 + 2];
+	out[3 * 4 + 3] = a[3 * 4 + 0] * b[0 * 4 + 3] + a[3 * 4 + 1] * b[1 * 4 + 3] + a[3 * 4 + 2] * b[2 * 4 + 3] + a[3 * 4 + 3] * b[3 * 4 + 3];
 #endif
 }
 
@@ -823,7 +824,7 @@ void R_TransposeGLMatrix( const float in[16], float out[16] ) {
 
 	for ( i = 0 ; i < 4 ; i++ ) {
 		for ( j = 0 ; j < 4 ; j++ ) {
-			out[i*4+j] = in[j*4+i];
+			out[i * 4 + j] = in[j * 4 + i];
 		}
 	}
 }
@@ -850,12 +851,12 @@ void R_SetViewMatrix( viewDef_t *viewDef ) {
 
 	world = &viewDef->worldSpace;
 
-	memset( world, 0, sizeof(*world) );
+	memset( world, 0, sizeof( *world ) );
 
 	// the model matrix is an identity
-	world->modelMatrix[0*4+0] = 1;
-	world->modelMatrix[1*4+1] = 1;
-	world->modelMatrix[2*4+2] = 1;
+	world->modelMatrix[0 * 4 + 0] = 1;
+	world->modelMatrix[1 * 4 + 1] = 1;
+	world->modelMatrix[2 * 4 + 2] = 1;
 
 	// transform by the camera placement
 	origin = viewDef->renderView.vieworg;
@@ -1049,8 +1050,8 @@ R_QsortSurfaces
 static int R_QsortSurfaces( const void *a, const void *b ) {
 	const drawSurf_t	*ea, *eb;
 
-	ea = *(drawSurf_t **)a;
-	eb = *(drawSurf_t **)b;
+	ea = *( drawSurf_t ** )a;
+	eb = *( drawSurf_t ** )b;
 
 	if ( ea->sort < eb->sort ) {
 		return -1;
@@ -1070,7 +1071,7 @@ R_SortDrawSurfs
 static void R_SortDrawSurfs( void ) {
 	// sort the drawsurfs by sort type, then orientation, then shader
 	qsort( tr.viewDef->drawSurfs, tr.viewDef->numDrawSurfs, sizeof( tr.viewDef->drawSurfs[0] ),
-		R_QsortSurfaces );
+		   R_QsortSurfaces );
 }
 
 
@@ -1121,7 +1122,7 @@ void R_RenderView( viewDef_t *parms ) {
 
 	// identify all the visible portalAreas, and the entityDefs and
 	// lightDefs that are in them and pass culling.
-	static_cast<idRenderWorldLocal *>(parms->renderWorld)->FindViewLightsAndEntities();
+	static_cast<idRenderWorldLocal *>( parms->renderWorld )->FindViewLightsAndEntities();
 
 	// constrain the view frustum to the view lights and entities
 	R_ConstrainViewFrustum();
@@ -1152,7 +1153,7 @@ void R_RenderView( viewDef_t *parms ) {
 
 	// write everything needed to the demo file
 	if ( session->writeDemo ) {
-		static_cast<idRenderWorldLocal *>(parms->renderWorld)->WriteVisibleDefs( tr.viewDef );
+		static_cast<idRenderWorldLocal *>( parms->renderWorld )->WriteVisibleDefs( tr.viewDef );
 	}
 
 	// add the rendering commands for this viewDef

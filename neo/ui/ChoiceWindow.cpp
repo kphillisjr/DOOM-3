@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -68,13 +68,13 @@ void idChoiceWindow::CommonInit() {
 	choices.Clear();
 }
 
-idChoiceWindow::idChoiceWindow(idDeviceContext *d, idUserInterfaceLocal *g) : idWindow(d, g) {
+idChoiceWindow::idChoiceWindow( idDeviceContext *d, idUserInterfaceLocal *g ) : idWindow( d, g ) {
 	dc = d;
 	gui = g;
 	CommonInit();
 }
 
-idChoiceWindow::idChoiceWindow(idUserInterfaceLocal *g) : idWindow(g) {
+idChoiceWindow::idChoiceWindow( idUserInterfaceLocal *g ) : idWindow( g ) {
 	gui = g;
 	CommonInit();
 }
@@ -83,9 +83,9 @@ idChoiceWindow::~idChoiceWindow() {
 
 }
 
-void idChoiceWindow::RunNamedEvent( const char* eventName ) {
+void idChoiceWindow::RunNamedEvent( const char *eventName ) {
 	idStr event, group;
-	
+
 	if ( !idStr::Cmpn( eventName, "cvar read ", 10 ) ) {
 		event = eventName;
 		group = event.Mid( 10, event.Length() - 10 );
@@ -108,7 +108,7 @@ void idChoiceWindow::UpdateVars( bool read, bool force ) {
 				cvarStr.Set( cvar->GetString() );
 			} else {
 				cvar->SetString( cvarStr.c_str() );
-			}	
+			}
 		}
 		if ( !read && guiStr.NeedsUpdate() ) {
 			guiStr.Set( va( "%i", currentChoice ) );
@@ -116,7 +116,7 @@ void idChoiceWindow::UpdateVars( bool read, bool force ) {
 	}
 }
 
-const char *idChoiceWindow::HandleEvent(const sysEvent_t *event, bool *updateVisuals) {
+const char *idChoiceWindow::HandleEvent( const sysEvent_t *event, bool *updateVisuals ) {
 	int key;
 	bool runAction = false;
 	bool runAction2 = false;
@@ -124,27 +124,27 @@ const char *idChoiceWindow::HandleEvent(const sysEvent_t *event, bool *updateVis
 	if ( event->evType == SE_KEY ) {
 		key = event->evValue;
 
-		if ( key == K_RIGHTARROW || key == K_KP_RIGHTARROW || key == K_MOUSE1)  {
+		if ( key == K_RIGHTARROW || key == K_KP_RIGHTARROW || key == K_MOUSE1 )  {
 			// never affects the state, but we want to execute script handlers anyway
 			if ( !event->evValue2 ) {
 				RunScript( ON_ACTIONRELEASE );
 				return cmd;
 			}
 			currentChoice++;
-			if (currentChoice >= choices.Num()) {
+			if ( currentChoice >= choices.Num() ) {
 				currentChoice = 0;
 			}
 			runAction = true;
 		}
 
-		if ( key == K_LEFTARROW || key == K_KP_LEFTARROW || key == K_MOUSE2) {
+		if ( key == K_LEFTARROW || key == K_KP_LEFTARROW || key == K_MOUSE2 ) {
 			// never affects the state, but we want to execute script handlers anyway
 			if ( !event->evValue2 ) {
 				RunScript( ON_ACTIONRELEASE );
 				return cmd;
 			}
 			currentChoice--;
-			if (currentChoice < 0) {
+			if ( currentChoice < 0 ) {
 				currentChoice = choices.Num() - 1;
 			}
 			runAction = true;
@@ -161,7 +161,7 @@ const char *idChoiceWindow::HandleEvent(const sysEvent_t *event, bool *updateVis
 
 		int potentialChoice = -1;
 		for ( int i = 0; i < choices.Num(); i++ ) {
-			if ( toupper(key) == toupper(choices[i][0]) ) {
+			if ( toupper( key ) == toupper( choices[i][0] ) ) {
 				if ( i < currentChoice && potentialChoice < 0 ) {
 					potentialChoice = i;
 				} else if ( i > currentChoice ) {
@@ -199,7 +199,7 @@ const char *idChoiceWindow::HandleEvent(const sysEvent_t *event, bool *updateVis
 	if ( runAction2 ) {
 		RunScript( ON_ACTIONRELEASE );
 	}
-	
+
 	return cmd;
 }
 
@@ -216,7 +216,7 @@ void idChoiceWindow::UpdateChoice() {
 	if ( !updateStr.Num() ) {
 		return;
 	}
-	UpdateVars( true );	
+	UpdateVars( true );
 	updateStr.Update();
 	if ( choiceType == 0 ) {
 		// ChoiceType 0 stores current as an integer in either cvar or gui
@@ -234,7 +234,7 @@ void idChoiceWindow::UpdateChoice() {
 				break;
 			}
 		}
-		if (i == c) {
+		if ( i == c ) {
 			i = 0;
 		}
 		currentChoice = i;
@@ -242,20 +242,20 @@ void idChoiceWindow::UpdateChoice() {
 	}
 }
 
-bool idChoiceWindow::ParseInternalVar(const char *_name, idParser *src) {
-	if (idStr::Icmp(_name, "choicetype") == 0) {
+bool idChoiceWindow::ParseInternalVar( const char *_name, idParser *src ) {
+	if ( idStr::Icmp( _name, "choicetype" ) == 0 ) {
 		choiceType = src->ParseInt();
 		return true;
 	}
-	if (idStr::Icmp(_name, "currentchoice") == 0) {
+	if ( idStr::Icmp( _name, "currentchoice" ) == 0 ) {
 		currentChoice = src->ParseInt();
 		return true;
 	}
-	return idWindow::ParseInternalVar(_name, src);
+	return idWindow::ParseInternalVar( _name, src );
 }
 
 
-idWinVar *idChoiceWindow::GetWinVarByName(const char *_name, bool fixup, drawWin_t** owner) {
+idWinVar *idChoiceWindow::GetWinVarByName( const char *_name, bool fixup, drawWin_t **owner ) {
 	if ( idStr::Icmp( _name, "choices" ) == 0 ) {
 		return &choicesStr;
 	}
@@ -274,8 +274,8 @@ idWinVar *idChoiceWindow::GetWinVarByName(const char *_name, bool fixup, drawWin
 	if ( idStr::Icmp( _name, "updateGroup" ) == 0 ) {
 		return &updateGroup;
 	}
-	
-	return idWindow::GetWinVarByName(_name, fixup, owner);
+
+	return idWindow::GetWinVarByName( _name, fixup, owner );
 }
 
 // update the lists whenever the WinVar have changed
@@ -290,12 +290,12 @@ void idChoiceWindow::UpdateChoicesAndVals( void ) {
 		src.SetFlags( LEXFL_NOFATALERRORS | LEXFL_ALLOWPATHNAMES | LEXFL_ALLOWMULTICHARLITERALS | LEXFL_ALLOWBACKSLASHSTRINGCONCAT );
 		src.LoadMemory( choicesStr, choicesStr.Length(), "<ChoiceList>" );
 		if ( src.IsLoaded() ) {
-			while( src.ReadToken( &token ) ) {
+			while ( src.ReadToken( &token ) ) {
 				if ( token == ";" ) {
 					if ( str2.Length() ) {
 						str2.StripTrailingWhitespace();
 						str2 = common->GetLanguageDict()->GetString( str2 );
-						choices.Append(str2);
+						choices.Append( str2 );
 						str2 = "";
 					}
 					continue;
@@ -318,13 +318,13 @@ void idChoiceWindow::UpdateChoicesAndVals( void ) {
 		str2 = "";
 		bool negNum = false;
 		if ( src.IsLoaded() ) {
-			while( src.ReadToken( &token ) ) {
-				if (token == "-") {
+			while ( src.ReadToken( &token ) ) {
+				if ( token == "-" ) {
 					negNum = true;
 					continue;
-				} 
-				if (token == ";") {
-					if (str2.Length()) {
+				}
+				if ( token == ";" ) {
+					if ( str2.Length() ) {
 						str2.StripTrailingWhitespace();
 						values.Append( str2 );
 						str2 = "";
@@ -344,7 +344,7 @@ void idChoiceWindow::UpdateChoicesAndVals( void ) {
 			}
 		}
 		if ( choices.Num() != values.Num() ) {
-			common->Warning( "idChoiceWindow:: gui '%s' window '%s' has value count unequal to choices count", gui->GetSourceFile(), name.c_str());
+			common->Warning( "idChoiceWindow:: gui '%s' window '%s' has value count unequal to choices count", gui->GetSourceFile(), name.c_str() );
 		}
 		latchedVals = choiceVals.c_str();
 	}
@@ -356,12 +356,12 @@ void idChoiceWindow::PostParse() {
 
 	InitVars();
 	UpdateChoice();
-	UpdateVars(false);
+	UpdateVars( false );
 
 	flags |= WIN_CANFOCUS;
 }
 
-void idChoiceWindow::Draw(int time, float x, float y) {
+void idChoiceWindow::Draw( int time, float x, float y ) {
 	idVec4 color = foreColor;
 
 	UpdateChoicesAndVals();
@@ -381,7 +381,7 @@ void idChoiceWindow::Draw(int time, float x, float y) {
 		dc->DrawText( shadowText, textScale, textAlign, colorBlack, shadowRect, false, -1 );
 	}
 
-	if ( hover && !noEvents && Contains(gui->CursorX(), gui->CursorY()) ) {
+	if ( hover && !noEvents && Contains( gui->CursorX(), gui->CursorY() ) ) {
 		color = hoverColor;
 	} else {
 		hover = false;

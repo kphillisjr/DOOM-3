@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -451,7 +451,7 @@ void idAF::AddBody( idAFBody *body, const idJointMat *joints, const char *jointN
 
 	handle = animator->GetJointHandle( jointName );
 	if ( handle == INVALID_JOINT ) {
-		gameLocal.Error( "idAF for entity '%s' at (%s) modifies unknown joint '%s'", self->name.c_str(), self->GetPhysics()->GetOrigin().ToString(0), jointName );
+		gameLocal.Error( "idAF for entity '%s' at (%s) modifies unknown joint '%s'", self->name.c_str(), self->GetPhysics()->GetOrigin().ToString( 0 ), jointName );
 	}
 
 	assert( handle < animator->NumJoints() );
@@ -502,7 +502,7 @@ bool idAF::LoadBody( const idDeclAF_Body *fb, const idJointMat *joints ) {
 	bounds[0] = fb->v1.ToVec3();
 	bounds[1] = fb->v2.ToVec3();
 
-	switch( fb->modelType ) {
+	switch ( fb->modelType ) {
 		case TRM_BOX: {
 			trm.SetupBox( bounds );
 			break;
@@ -559,8 +559,7 @@ bool idAF::LoadBody( const idDeclAF_Body *fb, const idJointMat *joints ) {
 		body->SetWorldOrigin( origin );
 		body->SetWorldAxis( axis );
 		id = physicsObj.GetBodyId( body );
-	}
-	else {
+	} else {
 		clip = new idClipModel( trm );
 		clip->SetContents( fb->contents );
 		clip->Link( gameLocal.clip, self, 0, origin, axis );
@@ -601,11 +600,11 @@ bool idAF::LoadBody( const idDeclAF_Body *fb, const idJointMat *joints ) {
 
 	// update table to find the nearest articulated figure body for a joint of the skeletal model
 	animator->GetJointList( fb->containedJoints, jointList );
-	for( i = 0; i < jointList.Num(); i++ ) {
+	for ( i = 0; i < jointList.Num(); i++ ) {
 		if ( jointBody[ jointList[ i ] ] != -1 ) {
 			gameLocal.Warning( "%s: joint '%s' is already contained by body '%s'",
-						name.c_str(), animator->GetJointName( (jointHandle_t)jointList[i] ),
-							physicsObj.GetBody( jointBody[ jointList[ i ] ] )->GetName().c_str() );
+							   name.c_str(), animator->GetJointName( ( jointHandle_t )jointList[i] ),
+							   physicsObj.GetBody( jointBody[ jointList[ i ] ] )->GetName().c_str() );
 		}
 		jointBody[ jointList[ i ] ] = id;
 	}
@@ -621,20 +620,19 @@ idAF::LoadConstraint
 bool idAF::LoadConstraint( const idDeclAF_Constraint *fc ) {
 	idAFBody *body1, *body2;
 	idAngles angles;
-	idMat3 axis;	
+	idMat3 axis;
 
 	body1 = physicsObj.GetBody( fc->body1 );
 	body2 = physicsObj.GetBody( fc->body2 );
 
-	switch( fc->type ) {
+	switch ( fc->type ) {
 		case DECLAF_CONSTRAINT_FIXED: {
 			idAFConstraint_Fixed *c;
-			c = static_cast<idAFConstraint_Fixed *>(physicsObj.GetConstraint( fc->name ));
+			c = static_cast<idAFConstraint_Fixed *>( physicsObj.GetConstraint( fc->name ) );
 			if ( c ) {
 				c->SetBody1( body1 );
 				c->SetBody2( body2 );
-			}
-			else {
+			} else {
 				c = new idAFConstraint_Fixed( fc->name, body1, body2 );
 				physicsObj.AddConstraint( c );
 			}
@@ -642,18 +640,17 @@ bool idAF::LoadConstraint( const idDeclAF_Constraint *fc ) {
 		}
 		case DECLAF_CONSTRAINT_BALLANDSOCKETJOINT: {
 			idAFConstraint_BallAndSocketJoint *c;
-			c = static_cast<idAFConstraint_BallAndSocketJoint *>(physicsObj.GetConstraint( fc->name ));
+			c = static_cast<idAFConstraint_BallAndSocketJoint *>( physicsObj.GetConstraint( fc->name ) );
 			if ( c ) {
 				c->SetBody1( body1 );
 				c->SetBody2( body2 );
-			}
-			else {
+			} else {
 				c = new idAFConstraint_BallAndSocketJoint( fc->name, body1, body2 );
 				physicsObj.AddConstraint( c );
 			}
 			c->SetAnchor( fc->anchor.ToVec3() );
 			c->SetFriction( fc->friction );
-			switch( fc->limit ) {
+			switch ( fc->limit ) {
 				case idDeclAF_Constraint::LIMIT_CONE: {
 					c->SetConeLimit( fc->limitAxis.ToVec3(), fc->limitAngles[0], fc->shaft[0].ToVec3() );
 					break;
@@ -674,19 +671,18 @@ bool idAF::LoadConstraint( const idDeclAF_Constraint *fc ) {
 		}
 		case DECLAF_CONSTRAINT_UNIVERSALJOINT: {
 			idAFConstraint_UniversalJoint *c;
-			c = static_cast<idAFConstraint_UniversalJoint *>(physicsObj.GetConstraint( fc->name ));
+			c = static_cast<idAFConstraint_UniversalJoint *>( physicsObj.GetConstraint( fc->name ) );
 			if ( c ) {
 				c->SetBody1( body1 );
 				c->SetBody2( body2 );
-			}
-			else {
+			} else {
 				c = new idAFConstraint_UniversalJoint( fc->name, body1, body2 );
 				physicsObj.AddConstraint( c );
 			}
 			c->SetAnchor( fc->anchor.ToVec3() );
 			c->SetShafts( fc->shaft[0].ToVec3(), fc->shaft[1].ToVec3() );
 			c->SetFriction( fc->friction );
-			switch( fc->limit ) {
+			switch ( fc->limit ) {
 				case idDeclAF_Constraint::LIMIT_CONE: {
 					c->SetConeLimit( fc->limitAxis.ToVec3(), fc->limitAngles[0] );
 					break;
@@ -707,19 +703,18 @@ bool idAF::LoadConstraint( const idDeclAF_Constraint *fc ) {
 		}
 		case DECLAF_CONSTRAINT_HINGE: {
 			idAFConstraint_Hinge *c;
-			c = static_cast<idAFConstraint_Hinge *>(physicsObj.GetConstraint( fc->name ));
+			c = static_cast<idAFConstraint_Hinge *>( physicsObj.GetConstraint( fc->name ) );
 			if ( c ) {
 				c->SetBody1( body1 );
 				c->SetBody2( body2 );
-			}
-			else {
+			} else {
 				c = new idAFConstraint_Hinge( fc->name, body1, body2 );
 				physicsObj.AddConstraint( c );
 			}
 			c->SetAnchor( fc->anchor.ToVec3() );
 			c->SetAxis( fc->axis.ToVec3() );
 			c->SetFriction( fc->friction );
-			switch( fc->limit ) {
+			switch ( fc->limit ) {
 				case idDeclAF_Constraint::LIMIT_CONE: {
 					idVec3 left, up, axis, shaft;
 					fc->axis.ToVec3().OrthogonalBasis( left, up );
@@ -737,12 +732,11 @@ bool idAF::LoadConstraint( const idDeclAF_Constraint *fc ) {
 		}
 		case DECLAF_CONSTRAINT_SLIDER: {
 			idAFConstraint_Slider *c;
-			c = static_cast<idAFConstraint_Slider *>(physicsObj.GetConstraint( fc->name ));
+			c = static_cast<idAFConstraint_Slider *>( physicsObj.GetConstraint( fc->name ) );
 			if ( c ) {
 				c->SetBody1( body1 );
 				c->SetBody2( body2 );
-			}
-			else {
+			} else {
 				c = new idAFConstraint_Slider( fc->name, body1, body2 );
 				physicsObj.AddConstraint( c );
 			}
@@ -751,12 +745,11 @@ bool idAF::LoadConstraint( const idDeclAF_Constraint *fc ) {
 		}
 		case DECLAF_CONSTRAINT_SPRING: {
 			idAFConstraint_Spring *c;
-			c = static_cast<idAFConstraint_Spring *>(physicsObj.GetConstraint( fc->name ));
+			c = static_cast<idAFConstraint_Spring *>( physicsObj.GetConstraint( fc->name ) );
 			if ( c ) {
 				c->SetBody1( body1 );
 				c->SetBody2( body2 );
-			}
-			else {
+			} else {
 				c = new idAFConstraint_Spring( fc->name, body1, body2 );
 				physicsObj.AddConstraint( c );
 			}
@@ -777,8 +770,8 @@ GetJointTransform
 static bool GetJointTransform( void *model, const idJointMat *frame, const char *jointName, idVec3 &origin, idMat3 &axis ) {
 	jointHandle_t	joint;
 
-	joint = reinterpret_cast<idAnimator *>(model)->GetJointHandle( jointName );
-	if ( ( joint >= 0 ) && ( joint < reinterpret_cast<idAnimator *>(model)->NumJoints() ) ) {
+	joint = reinterpret_cast<idAnimator *>( model )->GetJointHandle( jointName );
+	if ( ( joint >= 0 ) && ( joint < reinterpret_cast<idAnimator *>( model )->NumJoints() ) ) {
 		origin = frame[ joint ].ToVec3();
 		axis = frame[ joint ].ToMat3();
 		return true;
@@ -806,7 +799,7 @@ bool idAF::Load( idEntity *ent, const char *fileName ) {
 	physicsObj.SetSelf( self );
 
 	if ( animator == NULL ) {
-		gameLocal.Warning( "Couldn't load af '%s' for entity '%s' at (%s): NULL animator\n", name.c_str(), ent->name.c_str(), ent->GetPhysics()->GetOrigin().ToString(0) );
+		gameLocal.Warning( "Couldn't load af '%s' for entity '%s' at (%s): NULL animator\n", name.c_str(), ent->name.c_str(), ent->GetPhysics()->GetOrigin().ToString( 0 ) );
 		return false;
 	}
 
@@ -815,27 +808,27 @@ bool idAF::Load( idEntity *ent, const char *fileName ) {
 
 	file = static_cast<const idDeclAF *>( declManager->FindType( DECL_AF, name ) );
 	if ( !file ) {
-		gameLocal.Warning( "Couldn't load af '%s' for entity '%s' at (%s)\n", name.c_str(), ent->name.c_str(), ent->GetPhysics()->GetOrigin().ToString(0) );
+		gameLocal.Warning( "Couldn't load af '%s' for entity '%s' at (%s)\n", name.c_str(), ent->name.c_str(), ent->GetPhysics()->GetOrigin().ToString( 0 ) );
 		return false;
 	}
 
 	if ( file->bodies.Num() == 0 || file->bodies[0]->jointName != "origin" ) {
 		gameLocal.Warning( "idAF::Load: articulated figure '%s' for entity '%s' at (%s) has no body which modifies the origin joint.",
-							name.c_str(), ent->name.c_str(), ent->GetPhysics()->GetOrigin().ToString(0) );
+						   name.c_str(), ent->name.c_str(), ent->GetPhysics()->GetOrigin().ToString( 0 ) );
 		return false;
 	}
 
 	modelDef = animator->ModelDef();
 	if ( modelDef == NULL || modelDef->GetState() == DS_DEFAULTED ) {
 		gameLocal.Warning( "idAF::Load: articulated figure '%s' for entity '%s' at (%s) has no or defaulted modelDef '%s'",
-							name.c_str(), ent->name.c_str(), ent->GetPhysics()->GetOrigin().ToString(0), modelDef ? modelDef->GetName() : "" );
+						   name.c_str(), ent->name.c_str(), ent->GetPhysics()->GetOrigin().ToString( 0 ), modelDef ? modelDef->GetName() : "" );
 		return false;
 	}
 
 	model = animator->ModelHandle();
 	if ( model == NULL || model->IsDefaultModel() ) {
 		gameLocal.Warning( "idAF::Load: articulated figure '%s' for entity '%s' at (%s) has no or defaulted model '%s'",
-							name.c_str(), ent->name.c_str(), ent->GetPhysics()->GetOrigin().ToString(0), model ? model->Name() : "" );
+						   name.c_str(), ent->name.c_str(), ent->GetPhysics()->GetOrigin().ToString( 0 ), model ? model->Name() : "" );
 		return false;
 	}
 
@@ -843,7 +836,7 @@ bool idAF::Load( idEntity *ent, const char *fileName ) {
 	modifiedAnim = animator->GetAnim( ARTICULATED_FIGURE_ANIM );
 	if ( !modifiedAnim ) {
 		gameLocal.Warning( "idAF::Load: articulated figure '%s' for entity '%s' at (%s) has no modified animation '%s'",
-							name.c_str(), ent->name.c_str(), ent->GetPhysics()->GetOrigin().ToString(0), ARTICULATED_FIGURE_ANIM );
+						   name.c_str(), ent->name.c_str(), ent->GetPhysics()->GetOrigin().ToString( 0 ), ARTICULATED_FIGURE_ANIM );
 		return false;
 	}
 
@@ -915,10 +908,10 @@ bool idAF::Load( idEntity *ent, const char *fileName ) {
 	physicsObj.UpdateClipModels();
 
 	// check if each joint is contained by a body
-	for( i = 0; i < animator->NumJoints(); i++ ) {
+	for ( i = 0; i < animator->NumJoints(); i++ ) {
 		if ( jointBody[i] == -1 ) {
 			gameLocal.Warning( "idAF::Load: articulated figure '%s' for entity '%s' at (%s) joint '%s' is not contained by a body",
-				name.c_str(), self->name.c_str(), self->GetPhysics()->GetOrigin().ToString(0), animator->GetJointName( (jointHandle_t)i ) );
+							   name.c_str(), self->name.c_str(), self->GetPhysics()->GetOrigin().ToString( 0 ), animator->GetJointName( ( jointHandle_t )i ) );
 		}
 	}
 
@@ -983,7 +976,7 @@ bool idAF::TestSolid( void ) const {
 			body->SetWorldOrigin( body->GetWorldOrigin() + trace.c.normal * ( depth + 8.0f ) );
 
 			gameLocal.DWarning( "%s: body '%s' stuck in %d (normal = %.2f %.2f %.2f, depth = %.2f)", self->name.c_str(),
-						body->GetName().c_str(), trace.c.contents, trace.c.normal.x, trace.c.normal.y, trace.c.normal.z, depth );
+								body->GetName().c_str(), trace.c.contents, trace.c.normal.x, trace.c.normal.y, trace.c.normal.z, depth );
 			solid = true;
 
 		}
@@ -1013,8 +1006,7 @@ void idAF::StartFromCurrentPose( int inheritVelocityTime ) {
 
 		// change the pose for the current time and set velocities
 		ChangePose( self, gameLocal.time );
-	}
-	else {
+	} else {
 		// transform the articulated figure to reflect the current animation pose
 		SetupPose( self, gameLocal.time );
 	}
@@ -1076,19 +1068,19 @@ void idAF::SetConstraintPosition( const char *name, const idVec3 &pos ) {
 		return;
 	}
 
-	switch( constraint->GetType() ) {
+	switch ( constraint->GetType() ) {
 		case CONSTRAINT_BALLANDSOCKETJOINT: {
-			idAFConstraint_BallAndSocketJoint *bs = static_cast<idAFConstraint_BallAndSocketJoint *>(constraint);
+			idAFConstraint_BallAndSocketJoint *bs = static_cast<idAFConstraint_BallAndSocketJoint *>( constraint );
 			bs->Translate( pos - bs->GetAnchor() );
 			break;
 		}
 		case CONSTRAINT_UNIVERSALJOINT: {
-			idAFConstraint_UniversalJoint *uj = static_cast<idAFConstraint_UniversalJoint *>(constraint);
+			idAFConstraint_UniversalJoint *uj = static_cast<idAFConstraint_UniversalJoint *>( constraint );
 			uj->Translate( pos - uj->GetAnchor() );
 			break;
 		}
 		case CONSTRAINT_HINGE: {
-			idAFConstraint_Hinge *hinge = static_cast<idAFConstraint_Hinge *>(constraint);
+			idAFConstraint_Hinge *hinge = static_cast<idAFConstraint_Hinge *>( constraint );
 			hinge->Translate( pos - hinge->GetAnchor() );
 			break;
 		}
@@ -1143,7 +1135,7 @@ void idAF::LoadState( const idDict &args ) {
 			body->SetWorldOrigin( origin );
 			body->SetWorldAxis( angles.ToMat3() );
 		} else {
-			gameLocal.Warning("Unknown body part %s in articulated figure %s", name.c_str(), this->name.c_str()); 
+			gameLocal.Warning( "Unknown body part %s in articulated figure %s", name.c_str(), this->name.c_str() );
 		}
 
 		kv = args.MatchPrefix( "body ", kv );
@@ -1199,8 +1191,7 @@ void idAF::AddBindConstraints( void ) {
 
 			c = new idAFConstraint_Fixed( name, body, NULL );
 			physicsObj.AddConstraint( c );
-		}
-		else if ( type.Icmp( "ballAndSocket" ) == 0 ) {
+		} else if ( type.Icmp( "ballAndSocket" ) == 0 ) {
 			idAFConstraint_BallAndSocketJoint *c;
 
 			c = new idAFConstraint_BallAndSocketJoint( name, body, NULL );
@@ -1214,8 +1205,7 @@ void idAF::AddBindConstraints( void ) {
 
 			animator->GetJointTransform( joint, gameLocal.time, origin, axis );
 			c->SetAnchor( renderOrigin + origin * renderAxis );
-		}
-		else if ( type.Icmp( "universal" ) == 0 ) {
+		} else if ( type.Icmp( "universal" ) == 0 ) {
 			idAFConstraint_UniversalJoint *c;
 
 			c = new idAFConstraint_UniversalJoint( name, body, NULL );
@@ -1229,8 +1219,7 @@ void idAF::AddBindConstraints( void ) {
 			animator->GetJointTransform( joint, gameLocal.time, origin, axis );
 			c->SetAnchor( renderOrigin + origin * renderAxis );
 			c->SetShafts( idVec3( 0, 0, 1 ), idVec3( 0, 0, -1 ) );
-		}
-		else {
+		} else {
 			gameLocal.Warning( "idAF::AddBindConstraints: unknown constraint type '%s' on entity '%s'", type.c_str(), self->name.c_str() );
 		}
 
@@ -1261,7 +1250,7 @@ void idAF::RemoveBindConstraints( void ) {
 		name.Strip( "bindConstraint " );
 
 		if ( physicsObj.GetConstraint( name ) ) {
-            physicsObj.DeleteConstraint( name );
+			physicsObj.DeleteConstraint( name );
 		}
 
 		kv = args.MatchPrefix( "bindConstraint ", kv );

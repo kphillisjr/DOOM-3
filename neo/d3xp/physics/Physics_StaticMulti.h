@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -42,8 +42,8 @@ class idPhysics_StaticMulti : public idPhysics {
 public:
 	CLASS_PROTOTYPE( idPhysics_StaticMulti );
 
-							idPhysics_StaticMulti( void );
-							~idPhysics_StaticMulti( void );
+	idPhysics_StaticMulti( void );
+	~idPhysics_StaticMulti( void );
 
 	void					Save( idSaveGame *savefile ) const;
 	void					Restore( idRestoreGame *savefile );
@@ -55,7 +55,7 @@ public:	// common physics interface
 	void					SetSelf( idEntity *e );
 
 	void					SetClipModel( idClipModel *model, float density, int id = 0, bool freeOld = true );
-	idClipModel *			GetClipModel( int id = 0 ) const;
+	idClipModel 			*GetClipModel( int id = 0 ) const;
 	int						GetNumClipModels( void ) const;
 
 	void					SetMass( float mass, int id = -1 );
@@ -67,8 +67,8 @@ public:	// common physics interface
 	void					SetClipMask( int mask, int id = -1 );
 	int						GetClipMask( int id = -1 ) const;
 
-	const idBounds &		GetBounds( int id = -1 ) const;
-	const idBounds &		GetAbsBounds( int id = -1 ) const;
+	const idBounds 		&GetBounds( int id = -1 ) const;
+	const idBounds 		&GetAbsBounds( int id = -1 ) const;
 
 	bool					Evaluate( int timeStepMSec, int endTimeMSec );
 	void					UpdateTime( int endTimeMSec );
@@ -92,18 +92,18 @@ public:	// common physics interface
 	void					Translate( const idVec3 &translation, int id = -1 );
 	void					Rotate( const idRotation &rotation, int id = -1 );
 
-	const idVec3 &			GetOrigin( int id = 0 ) const;
-	const idMat3 &			GetAxis( int id = 0 ) const;
+	const idVec3 			&GetOrigin( int id = 0 ) const;
+	const idMat3 			&GetAxis( int id = 0 ) const;
 
 	void					SetLinearVelocity( const idVec3 &newLinearVelocity, int id = 0 );
 	void					SetAngularVelocity( const idVec3 &newAngularVelocity, int id = 0 );
 
-	const idVec3 &			GetLinearVelocity( int id = 0 ) const;
-	const idVec3 &			GetAngularVelocity( int id = 0 ) const;
+	const idVec3 			&GetLinearVelocity( int id = 0 ) const;
+	const idVec3 			&GetAngularVelocity( int id = 0 ) const;
 
 	void					SetGravity( const idVec3 &newGravity );
-	const idVec3 &			GetGravity( void ) const;
-	const idVec3 &			GetGravityNormal( void ) const;
+	const idVec3 			&GetGravity( void ) const;
+	const idVec3 			&GetGravityNormal( void ) const;
 
 	void					ClipTranslation( trace_t &results, const idVec3 &translation, const idClipModel *model ) const;
 	void					ClipRotation( trace_t &results, const idRotation &rotation, const idClipModel *model ) const;
@@ -117,7 +117,7 @@ public:	// common physics interface
 
 	bool					EvaluateContacts( void );
 	int						GetNumContacts( void ) const;
-	const contactInfo_t &	GetContact( int num ) const;
+	const contactInfo_t 	&GetContact( int num ) const;
 	void					ClearContacts( void );
 	void					AddContactEntity( idEntity *e );
 	void					RemoveContactEntity( idEntity *e );
@@ -127,13 +127,13 @@ public:	// common physics interface
 	bool					IsGroundClipModel( int entityNum, int id ) const;
 
 	void					SetPushed( int deltaTime );
-	const idVec3 &			GetPushedLinearVelocity( const int id = 0 ) const;
-	const idVec3 &			GetPushedAngularVelocity( const int id = 0 ) const;
+	const idVec3 			&GetPushedLinearVelocity( const int id = 0 ) const;
+	const idVec3 			&GetPushedAngularVelocity( const int id = 0 ) const;
 
 	void					SetMaster( idEntity *master, const bool orientated = true );
 
-	const trace_t *			GetBlockingInfo( void ) const;
-	idEntity *				GetBlockingEntity( void ) const;
+	const trace_t 			*GetBlockingInfo( void ) const;
+	idEntity 				*GetBlockingEntity( void ) const;
 
 	int						GetLinearEndTime( void ) const;
 	int						GetAngularEndTime( void ) const;
@@ -142,7 +142,7 @@ public:	// common physics interface
 	void					ReadFromSnapshot( const idBitMsgDelta &msg );
 
 protected:
-	idEntity *				self;					// entity using this physics object
+	idEntity 				*self;					// entity using this physics object
 	idList<staticPState_t>	current;				// physics state
 	idList<idClipModel *>	clipModels;				// collision model
 

@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -90,17 +90,35 @@ If you have questions concerning this license or the applicable additional terms
 #define IEEE_DBLE_EXPONENT_BIAS	0
 #define IEEE_DBLE_SIGN_BIT		79
 
-template<class T> ID_INLINE int	MaxIndex( T x, T y ) { return  ( x > y ) ? 0 : 1; }
-template<class T> ID_INLINE int	MinIndex( T x, T y ) { return ( x < y ) ? 0 : 1; }
+template<class T> ID_INLINE int	MaxIndex( T x, T y ) {
+	return ( x > y ) ? 0 : 1;
+}
+template<class T> ID_INLINE int	MinIndex( T x, T y ) {
+	return ( x < y ) ? 0 : 1;
+}
 
-template<class T> ID_INLINE T	Max3( T x, T y, T z ) { return ( x > y ) ? ( ( x > z ) ? x : z ) : ( ( y > z ) ? y : z ); }
-template<class T> ID_INLINE T	Min3( T x, T y, T z ) { return ( x < y ) ? ( ( x < z ) ? x : z ) : ( ( y < z ) ? y : z ); }
-template<class T> ID_INLINE int	Max3Index( T x, T y, T z ) { return ( x > y ) ? ( ( x > z ) ? 0 : 2 ) : ( ( y > z ) ? 1 : 2 ); }
-template<class T> ID_INLINE int	Min3Index( T x, T y, T z ) { return ( x < y ) ? ( ( x < z ) ? 0 : 2 ) : ( ( y < z ) ? 1 : 2 ); }
+template<class T> ID_INLINE T	Max3( T x, T y, T z ) {
+	return ( x > y ) ? ( ( x > z ) ? x : z ) : ( ( y > z ) ? y : z );
+}
+template<class T> ID_INLINE T	Min3( T x, T y, T z ) {
+	return ( x < y ) ? ( ( x < z ) ? x : z ) : ( ( y < z ) ? y : z );
+}
+template<class T> ID_INLINE int	Max3Index( T x, T y, T z ) {
+	return ( x > y ) ? ( ( x > z ) ? 0 : 2 ) : ( ( y > z ) ? 1 : 2 );
+}
+template<class T> ID_INLINE int	Min3Index( T x, T y, T z ) {
+	return ( x < y ) ? ( ( x < z ) ? 0 : 2 ) : ( ( y < z ) ? 1 : 2 );
+}
 
-template<class T> ID_INLINE T	Sign( T f ) { return ( f > 0 ) ? 1 : ( ( f < 0 ) ? -1 : 0 ); }
-template<class T> ID_INLINE T	Square( T x ) { return x * x; }
-template<class T> ID_INLINE T	Cube( T x ) { return x * x * x; }
+template<class T> ID_INLINE T	Sign( T f ) {
+	return ( f > 0 ) ? 1 : ( ( f < 0 ) ? -1 : 0 );
+}
+template<class T> ID_INLINE T	Square( T x ) {
+	return x * x;
+}
+template<class T> ID_INLINE T	Cube( T x ) {
+	return x * x * x;
+}
 
 
 class idMath {
@@ -218,13 +236,13 @@ public:
 
 private:
 	enum {
-		LOOKUP_BITS				= 8,							
-		EXP_POS					= 23,							
-		EXP_BIAS				= 127,							
-		LOOKUP_POS				= (EXP_POS-LOOKUP_BITS),
-		SEED_POS				= (EXP_POS-8),
-		SQRT_TABLE_SIZE			= (2<<LOOKUP_BITS),
-		LOOKUP_MASK				= (SQRT_TABLE_SIZE-1)
+		LOOKUP_BITS				= 8,
+		EXP_POS					= 23,
+		EXP_BIAS				= 127,
+		LOOKUP_POS				= ( EXP_POS - LOOKUP_BITS ),
+		SEED_POS				= ( EXP_POS - 8 ),
+		SQRT_TABLE_SIZE			= ( 2 << LOOKUP_BITS ),
+		LOOKUP_MASK				= ( SQRT_TABLE_SIZE - 1 )
 	};
 
 	union _flint {
@@ -251,41 +269,41 @@ ID_INLINE float idMath::RSqrt( float x ) {
 
 ID_INLINE float idMath::InvSqrt16( float x ) {
 
-	dword a = ((union _flint*)(&x))->i;
+	dword a = ( ( union _flint * )( &x ) )->i;
 	union _flint seed;
 
 	assert( initialized );
 
 	double y = x * 0.5f;
-	seed.i = (( ( (3*EXP_BIAS-1) - ( (a >> EXP_POS) & 0xFF) ) >> 1)<<EXP_POS) | iSqrt[(a >> (EXP_POS-LOOKUP_BITS)) & LOOKUP_MASK];
+	seed.i = ( ( ( ( 3 * EXP_BIAS - 1 ) - ( ( a >> EXP_POS ) & 0xFF ) ) >> 1 ) << EXP_POS ) | iSqrt[( a >> ( EXP_POS - LOOKUP_BITS ) ) & LOOKUP_MASK];
 	double r = seed.f;
 	r = r * ( 1.5f - r * r * y );
-	return (float) r;
+	return ( float ) r;
 }
 
 ID_INLINE float idMath::InvSqrt( float x ) {
 
-	dword a = ((union _flint*)(&x))->i;
+	dword a = ( ( union _flint * )( &x ) )->i;
 	union _flint seed;
 
 	assert( initialized );
 
 	double y = x * 0.5f;
-	seed.i = (( ( (3*EXP_BIAS-1) - ( (a >> EXP_POS) & 0xFF) ) >> 1)<<EXP_POS) | iSqrt[(a >> (EXP_POS-LOOKUP_BITS)) & LOOKUP_MASK];
+	seed.i = ( ( ( ( 3 * EXP_BIAS - 1 ) - ( ( a >> EXP_POS ) & 0xFF ) ) >> 1 ) << EXP_POS ) | iSqrt[( a >> ( EXP_POS - LOOKUP_BITS ) ) & LOOKUP_MASK];
 	double r = seed.f;
 	r = r * ( 1.5f - r * r * y );
 	r = r * ( 1.5f - r * r * y );
-	return (float) r;
+	return ( float ) r;
 }
 
 ID_INLINE double idMath::InvSqrt64( float x ) {
-	dword a = ((union _flint*)(&x))->i;
+	dword a = ( ( union _flint * )( &x ) )->i;
 	union _flint seed;
 
 	assert( initialized );
 
 	double y = x * 0.5f;
-	seed.i = (( ( (3*EXP_BIAS-1) - ( (a >> EXP_POS) & 0xFF) ) >> 1)<<EXP_POS) | iSqrt[(a >> (EXP_POS-LOOKUP_BITS)) & LOOKUP_MASK];
+	seed.i = ( ( ( ( 3 * EXP_BIAS - 1 ) - ( ( a >> EXP_POS ) & 0xFF ) ) >> 1 ) << EXP_POS ) | iSqrt[( a >> ( EXP_POS - LOOKUP_BITS ) ) & LOOKUP_MASK];
 	double r = seed.f;
 	r = r * ( 1.5f - r * r * y );
 	r = r * ( 1.5f - r * r * y );
@@ -585,7 +603,7 @@ ID_INLINE float idMath::ATan16( float a ) {
 		a = 1.0f / a;
 		s = a * a;
 		s = - ( ( ( ( ( ( ( ( ( 0.0028662257f * s - 0.0161657367f ) * s + 0.0429096138f ) * s - 0.0752896400f )
-				* s + 0.1065626393f ) * s - 0.1420889944f ) * s + 0.1999355085f ) * s - 0.3333314528f ) * s ) + 1.0f ) * a;
+						  * s + 0.1065626393f ) * s - 0.1420889944f ) * s + 0.1999355085f ) * s - 0.3333314528f ) * s ) + 1.0f ) * a;
 		if ( FLOATSIGNBITSET( a ) ) {
 			return s - HALF_PI;
 		} else {
@@ -594,7 +612,7 @@ ID_INLINE float idMath::ATan16( float a ) {
 	} else {
 		s = a * a;
 		return ( ( ( ( ( ( ( ( ( 0.0028662257f * s - 0.0161657367f ) * s + 0.0429096138f ) * s - 0.0752896400f )
-			* s + 0.1065626393f ) * s - 0.1420889944f ) * s + 0.1999355085f ) * s - 0.3333314528f ) * s ) + 1.0f ) * a;
+						   * s + 0.1065626393f ) * s - 0.1420889944f ) * s + 0.1999355085f ) * s - 0.3333314528f ) * s ) + 1.0f ) * a;
 	}
 }
 
@@ -613,7 +631,7 @@ ID_INLINE float idMath::ATan16( float y, float x ) {
 		a = x / y;
 		s = a * a;
 		s = - ( ( ( ( ( ( ( ( ( 0.0028662257f * s - 0.0161657367f ) * s + 0.0429096138f ) * s - 0.0752896400f )
-				* s + 0.1065626393f ) * s - 0.1420889944f ) * s + 0.1999355085f ) * s - 0.3333314528f ) * s ) + 1.0f ) * a;
+						  * s + 0.1065626393f ) * s - 0.1420889944f ) * s + 0.1999355085f ) * s - 0.3333314528f ) * s ) + 1.0f ) * a;
 		if ( FLOATSIGNBITSET( a ) ) {
 			return s - HALF_PI;
 		} else {
@@ -623,7 +641,7 @@ ID_INLINE float idMath::ATan16( float y, float x ) {
 		a = y / x;
 		s = a * a;
 		return ( ( ( ( ( ( ( ( ( 0.0028662257f * s - 0.0161657367f ) * s + 0.0429096138f ) * s - 0.0752896400f )
-			* s + 0.1065626393f ) * s - 0.1420889944f ) * s + 0.1999355085f ) * s - 0.3333314528f ) * s ) + 1.0f ) * a;
+						   * s + 0.1065626393f ) * s - 0.1420889944f ) * s + 0.1999355085f ) * s - 0.3333314528f ) * s ) + 1.0f ) * a;
 	}
 }
 
@@ -653,20 +671,20 @@ ID_INLINE float idMath::Exp16( float f ) {
 
 	x = f * 1.44269504088896340f;		// multiply with ( 1 / log( 2 ) )
 #if 1
-	i = *reinterpret_cast<int *>(&x);
+	i = *reinterpret_cast<int *>( &x );
 	s = ( i >> IEEE_FLT_SIGN_BIT );
 	e = ( ( i >> IEEE_FLT_MANTISSA_BITS ) & ( ( 1 << IEEE_FLT_EXPONENT_BITS ) - 1 ) ) - IEEE_FLT_EXPONENT_BIAS;
 	m = ( i & ( ( 1 << IEEE_FLT_MANTISSA_BITS ) - 1 ) ) | ( 1 << IEEE_FLT_MANTISSA_BITS );
 	i = ( ( m >> ( IEEE_FLT_MANTISSA_BITS - e ) ) & ~( e >> 31 ) ) ^ s;
 #else
-	i = (int) x;
+	i = ( int ) x;
 	if ( x < 0.0f ) {
 		i--;
 	}
 #endif
 	exponent = ( i + IEEE_FLT_EXPONENT_BIAS ) << IEEE_FLT_MANTISSA_BITS;
-	y = *reinterpret_cast<float *>(&exponent);
-	x -= (float) i;
+	y = *reinterpret_cast<float *>( &exponent );
+	x -= ( float ) i;
 	if ( x >= 0.5f ) {
 		x -= 0.5f;
 		y *= 1.4142135623730950488f;	// multiply with sqrt( 2 )
@@ -690,15 +708,15 @@ ID_INLINE float idMath::Log16( float f ) {
 	int i, exponent;
 	float y, y2;
 
-	i = *reinterpret_cast<int *>(&f);
+	i = *reinterpret_cast<int *>( &f );
 	exponent = ( ( i >> IEEE_FLT_MANTISSA_BITS ) & ( ( 1 << IEEE_FLT_EXPONENT_BITS ) - 1 ) ) - IEEE_FLT_EXPONENT_BIAS;
 	i -= ( exponent + 1 ) << IEEE_FLT_MANTISSA_BITS;	// get value in the range [.5, 1>
-	y = *reinterpret_cast<float *>(&i);
+	y = *reinterpret_cast<float *>( &i );
 	y *= 1.4142135623730950488f;						// multiply with sqrt( 2 )
 	y = ( y - 1.0f ) / ( y + 1.0f );
 	y2 = y * y;
 	y = y * ( 2.000000000046727f + y2 * ( 0.666666635059382f + y2 * ( 0.4000059794795f + y2 * ( 0.28525381498f + y2 * 0.2376245609f ) ) ) );
-	y += 0.693147180559945f * ( (float)exponent + 0.5f );
+	y += 0.693147180559945f * ( ( float )exponent + 0.5f );
 	return y;
 }
 
@@ -707,15 +725,19 @@ ID_INLINE double idMath::Log64( float f ) {
 }
 
 ID_INLINE int idMath::IPow( int x, int y ) {
-	int r; for( r = x; y > 1; y-- ) { r *= x; } return r;
+	int r;
+	for ( r = x; y > 1; y-- ) {
+		r *= x;
+	}
+	return r;
 }
 
 ID_INLINE int idMath::ILog2( float f ) {
-	return ( ( (*reinterpret_cast<int *>(&f)) >> IEEE_FLT_MANTISSA_BITS ) & ( ( 1 << IEEE_FLT_EXPONENT_BITS ) - 1 ) ) - IEEE_FLT_EXPONENT_BIAS;
+	return ( ( ( *reinterpret_cast<int *>( &f ) ) >> IEEE_FLT_MANTISSA_BITS ) & ( ( 1 << IEEE_FLT_EXPONENT_BITS ) - 1 ) ) - IEEE_FLT_EXPONENT_BIAS;
 }
 
 ID_INLINE int idMath::ILog2( int i ) {
-	return ILog2( (float)i );
+	return ILog2( ( float )i );
 }
 
 ID_INLINE int idMath::BitsForFloat( float f ) {
@@ -723,11 +745,11 @@ ID_INLINE int idMath::BitsForFloat( float f ) {
 }
 
 ID_INLINE int idMath::BitsForInteger( int i ) {
-	return ILog2( (float)i ) + 1;
+	return ILog2( ( float )i ) + 1;
 }
 
 ID_INLINE int idMath::MaskForFloatSign( float f ) {
-	return ( (*reinterpret_cast<int *>(&f)) >> 31 );
+	return ( ( *reinterpret_cast<int *>( &f ) ) >> 31 );
 }
 
 ID_INLINE int idMath::MaskForIntegerSign( int i ) {
@@ -770,8 +792,8 @@ ID_INLINE int idMath::BitReverse( int x ) {
 }
 
 ID_INLINE int idMath::Abs( int x ) {
-   int y = x >> 31;
-   return ( ( x ^ y ) - y );
+	int y = x >> 31;
+	return ( ( x ^ y ) - y );
 }
 
 ID_INLINE float idMath::Fabs( float f ) {
@@ -793,7 +815,7 @@ ID_INLINE float idMath::Rint( float f ) {
 }
 
 ID_INLINE int idMath::Ftoi( float f ) {
-	return (int) f;
+	return ( int ) f;
 }
 
 ID_INLINE int idMath::FtoiFast( float f ) {
@@ -804,7 +826,7 @@ ID_INLINE int idMath::FtoiFast( float f ) {
 	return i;
 #elif 0						// round chop (C/C++ standard)
 	int i, s, e, m, shift;
-	i = *reinterpret_cast<int *>(&f);
+	i = *reinterpret_cast<int *>( &f );
 	s = i >> IEEE_FLT_SIGN_BIT;
 	e = ( ( i >> IEEE_FLT_MANTISSA_BITS ) & ( ( 1 << IEEE_FLT_EXPONENT_BITS ) - 1 ) ) - IEEE_FLT_EXPONENT_BIAS;
 	m = ( i & ( ( 1 << IEEE_FLT_MANTISSA_BITS ) - 1 ) ) | ( 1 << IEEE_FLT_MANTISSA_BITS );
@@ -813,19 +835,19 @@ ID_INLINE int idMath::FtoiFast( float f ) {
 //#elif defined( __i386__ )
 #elif 0
 	int i = 0;
-	__asm__ __volatile__ (
-						  "fld %1\n" \
-						  "fistp %0\n" \
-						  : "=m" (i) \
-						  : "m" (f) );
+	__asm__ __volatile__(
+		"fld %1\n" \
+		"fistp %0\n" \
+		: "=m"( i ) \
+		: "m"( f ) );
 	return i;
 #else
-	return (int) f;
+	return ( int ) f;
 #endif
 }
 
 ID_INLINE unsigned long idMath::Ftol( float f ) {
-	return (unsigned long) f;
+	return ( unsigned long ) f;
 }
 
 ID_INLINE unsigned long idMath::FtolFast( float f ) {
@@ -837,7 +859,7 @@ ID_INLINE unsigned long idMath::FtolFast( float f ) {
 	return i;
 #elif 0						// round chop (C/C++ standard)
 	int i, s, e, m, shift;
-	i = *reinterpret_cast<int *>(&f);
+	i = *reinterpret_cast<int *>( &f );
 	s = i >> IEEE_FLT_SIGN_BIT;
 	e = ( ( i >> IEEE_FLT_MANTISSA_BITS ) & ( ( 1 << IEEE_FLT_EXPONENT_BITS ) - 1 ) ) - IEEE_FLT_EXPONENT_BIAS;
 	m = ( i & ( ( 1 << IEEE_FLT_MANTISSA_BITS ) - 1 ) ) | ( 1 << IEEE_FLT_MANTISSA_BITS );
@@ -847,14 +869,14 @@ ID_INLINE unsigned long idMath::FtolFast( float f ) {
 #elif 0
 	// for some reason, on gcc I need to make sure i == 0 before performing a fistp
 	int i = 0;
-	__asm__ __volatile__ (
-						  "fld %1\n" \
-						  "fistp %0\n" \
-						  : "=m" (i) \
-						  : "m" (f) );
+	__asm__ __volatile__(
+		"fld %1\n" \
+		"fistp %0\n" \
+		: "=m"( i ) \
+		: "m"( f ) );
 	return i;
 #else
-	return (unsigned long) f;
+	return ( unsigned long ) f;
 #endif
 }
 

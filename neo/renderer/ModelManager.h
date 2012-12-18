@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -56,20 +56,20 @@ public:
 	virtual void			EndLevelLoad() = 0;
 
 	// allocates a new empty render model.
-	virtual idRenderModel *	AllocModel() = 0;
+	virtual idRenderModel 	*AllocModel() = 0;
 
 	// frees a render model
 	virtual void			FreeModel( idRenderModel *model ) = 0;
 
 	// returns NULL if modelName is NULL or an empty string, otherwise
 	// it will create a default model if not loadable
-	virtual	idRenderModel *	FindModel( const char *modelName ) = 0;
+	virtual	idRenderModel 	*FindModel( const char *modelName ) = 0;
 
 	// returns NULL if not loadable
-	virtual	idRenderModel *	CheckModel( const char *modelName ) = 0;
+	virtual	idRenderModel 	*CheckModel( const char *modelName ) = 0;
 
 	// returns the default cube model
-	virtual	idRenderModel *	DefaultModel() = 0;
+	virtual	idRenderModel 	*DefaultModel() = 0;
 
 	// world map parsing will add all the inline models with this call
 	virtual	void			AddModel( idRenderModel *model ) = 0;

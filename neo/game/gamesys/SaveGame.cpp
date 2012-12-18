@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@ If you have questions concerning this license or the applicable additional terms
 /*
 Save game related helper classes.
 
-Save games are implemented in two classes, idSaveGame and idRestoreGame, that implement write/read functions for 
+Save games are implemented in two classes, idSaveGame and idRestoreGame, that implement write/read functions for
 common types.  They're passed in to each entity and object for them to archive themselves.  Each class
 implements save/restore functions for it's own data.  When restoring, all the objects are instantiated,
 then the restore function is called on each, superclass first, then subclasses.
@@ -98,7 +98,7 @@ void idSaveGame::Close( void ) {
 	// read trace models
 	idClipModel::SaveTraceModels( this );
 
-	for( i = 1; i < objects.Num(); i++ ) {
+	for ( i = 1; i < objects.Num(); i++ ) {
 		CallSave_r( objects[ i ]->GetType(), objects[ i ] );
 	}
 
@@ -120,7 +120,7 @@ void idSaveGame::WriteObjectList( void ) {
 	int i;
 
 	WriteInt( objects.Num() - 1 );
-	for( i = 1; i < objects.Num(); i++ ) {
+	for ( i = 1; i < objects.Num(); i++ ) {
 		WriteString( objects[ i ]->GetClassname() );
 	}
 }
@@ -138,7 +138,7 @@ void idSaveGame::CallSave_r( const idTypeInfo *cls, const idClass *obj ) {
 			return;
 		}
 	}
-	
+
 	( obj->*cls->Save )( this );
 }
 
@@ -175,7 +175,7 @@ idSaveGame::WriteJoint
 ================
 */
 void idSaveGame::WriteJoint( const jointHandle_t value ) {
-	file->WriteInt( (int&)value );
+	file->WriteInt( ( int & )value );
 }
 
 /*
@@ -227,13 +227,13 @@ void idSaveGame::WriteBool( const bool value ) {
 ================
 idSaveGame::WriteString
 ================
-*/  
+*/
 void idSaveGame::WriteString( const char *string ) {
 	int len;
 
 	len = strlen( string );
 	WriteInt( len );
-    file->Write( string, len );
+	file->Write( string, len );
 }
 
 /*
@@ -279,7 +279,7 @@ idSaveGame::WriteBounds
 */
 void idSaveGame::WriteBounds( const idBounds &bounds ) {
 	idBounds b = bounds;
-	LittleRevBytes( &b, sizeof(float), sizeof(b)/sizeof(float) );
+	LittleRevBytes( &b, sizeof( float ), sizeof( b ) / sizeof( float ) );
 	file->Write( &b, sizeof( b ) );
 }
 
@@ -288,15 +288,14 @@ void idSaveGame::WriteBounds( const idBounds &bounds ) {
 idSaveGame::WriteBounds
 ================
 */
-void idSaveGame::WriteWinding( const idWinding &w )
-{
+void idSaveGame::WriteWinding( const idWinding &w ) {
 	int i, num;
 	num = w.GetNumPoints();
 	file->WriteInt( num );
 	for ( i = 0; i < num; i++ ) {
 		idVec5 v = w[i];
-		LittleRevBytes(&v, sizeof(float), sizeof(v)/sizeof(float) );
-		file->Write( &v, sizeof(v) );
+		LittleRevBytes( &v, sizeof( float ), sizeof( v ) / sizeof( float ) );
+		file->Write( &v, sizeof( v ) );
 	}
 }
 
@@ -317,7 +316,7 @@ idSaveGame::WriteAngles
 */
 void idSaveGame::WriteAngles( const idAngles &angles ) {
 	idAngles v = angles;
-	LittleRevBytes(&v, sizeof(float), sizeof(v)/sizeof(float) );
+	LittleRevBytes( &v, sizeof( float ), sizeof( v ) / sizeof( float ) );
 	file->Write( &v, sizeof( v ) );
 }
 
@@ -364,7 +363,7 @@ void idSaveGame::WriteDict( const idDict *dict ) {
 	} else {
 		num = dict->GetNumKeyVals();
 		WriteInt( num );
-		for( i = 0; i < num; i++ ) {
+		for ( i = 0; i < num; i++ ) {
 			kv = dict->GetKeyVal( i );
 			WriteString( kv->GetKey() );
 			WriteString( kv->GetValue() );
@@ -524,11 +523,11 @@ void idSaveGame::WriteRenderEntity( const renderEntity_t &renderEntity ) {
 		WriteInt( 0 );
 	}
 
-	for( i = 0; i < MAX_ENTITY_SHADER_PARMS; i++ ) {
+	for ( i = 0; i < MAX_ENTITY_SHADER_PARMS; i++ ) {
 		WriteFloat( renderEntity.shaderParms[ i ] );
 	}
 
-	for( i = 0; i < MAX_RENDERENTITY_GUI; i++ ) {
+	for ( i = 0; i < MAX_RENDERENTITY_GUI; i++ ) {
 		WriteUserInterface( renderEntity.gui[ i ], renderEntity.gui[ i ] ? renderEntity.gui[ i ]->IsUniqued() : false );
 	}
 
@@ -576,7 +575,7 @@ void idSaveGame::WriteRenderLight( const renderLight_t &renderLight ) {
 
 	WriteMaterial( renderLight.shader );
 
-	for( i = 0; i < MAX_ENTITY_SHADER_PARMS; i++ ) {
+	for ( i = 0; i < MAX_ENTITY_SHADER_PARMS; i++ ) {
 		WriteFloat( renderLight.shaderParms[ i ] );
 	}
 
@@ -635,7 +634,7 @@ void idSaveGame::WriteRenderView( const renderView_t &view ) {
 
 	WriteInt( view.time );
 
-	for( i = 0; i < MAX_GLOBAL_SHADER_PARMS; i++ ) {
+	for ( i = 0; i < MAX_GLOBAL_SHADER_PARMS; i++ ) {
 		WriteFloat( view.shaderParms[ i ] );
 	}
 }
@@ -669,7 +668,7 @@ idSaveGame::WriteContactInfo
 ===================
 */
 void idSaveGame::WriteContactInfo( const contactInfo_t &contactInfo ) {
-	WriteInt( (int)contactInfo.type );
+	WriteInt( ( int )contactInfo.type );
 	WriteVec3( contactInfo.point );
 	WriteVec3( contactInfo.normal );
 	WriteFloat( contactInfo.dist );
@@ -700,14 +699,14 @@ void idSaveGame::WriteTrace( const trace_t &trace ) {
  */
 void idSaveGame::WriteTraceModel( const idTraceModel &trace ) {
 	int j, k;
-	
-	WriteInt( (int&)trace.type );
+
+	WriteInt( ( int & )trace.type );
 	WriteInt( trace.numVerts );
 	for ( j = 0; j < MAX_TRACEMODEL_VERTS; j++ ) {
 		WriteVec3( trace.verts[j] );
 	}
 	WriteInt( trace.numEdges );
-	for ( j = 0; j < (MAX_TRACEMODEL_EDGES+1); j++ ) {
+	for ( j = 0; j < ( MAX_TRACEMODEL_EDGES + 1 ); j++ ) {
 		WriteInt( trace.edges[j].v[0] );
 		WriteInt( trace.edges[j].v[1] );
 		WriteVec3( trace.edges[j].normal );
@@ -766,7 +765,7 @@ void idSaveGame::WriteBuildNumber( const int value ) {
 /***********************************************************************
 
 	idRestoreGame
-	
+
 ***********************************************************************/
 
 /*
@@ -802,7 +801,7 @@ void idRestoreGame::CreateObjects( void ) {
 	objects.SetNum( num + 1 );
 	memset( objects.Ptr(), 0, sizeof( objects[ 0 ] ) * objects.Num() );
 
-	for( i = 1; i < objects.Num(); i++ ) {
+	for ( i = 1; i < objects.Num(); i++ ) {
 		ReadString( classname );
 		type = idClass::GetClass( classname );
 		if ( !type ) {
@@ -830,12 +829,12 @@ void idRestoreGame::RestoreObjects( void ) {
 	idClipModel::RestoreTraceModels( this );
 
 	// restore all the objects
-	for( i = 1; i < objects.Num(); i++ ) {
+	for ( i = 1; i < objects.Num(); i++ ) {
 		CallRestore_r( objects[ i ]->GetType(), objects[ i ] );
 	}
 
 	// regenerate render entities and render lights because are not saved
-	for( i = 1; i < objects.Num(); i++ ) {
+	for ( i = 1; i < objects.Num(); i++ ) {
 		if ( objects[ i ]->IsType( idEntity::Type ) ) {
 			idEntity *ent = static_cast<idEntity *>( objects[ i ] );
 			ent->UpdateVisuals();
@@ -896,7 +895,7 @@ void idRestoreGame::CallRestore_r( const idTypeInfo *cls, idClass *obj ) {
 			return;
 		}
 	}
-	
+
 	( obj->*cls->Restore )( this );
 }
 
@@ -924,7 +923,7 @@ idRestoreGame::ReadJoint
 ================
 */
 void idRestoreGame::ReadJoint( jointHandle_t &value ) {
-	file->ReadInt( (int&)value );
+	file->ReadInt( ( int & )value );
 }
 
 /*
@@ -1032,7 +1031,7 @@ idRestoreGame::ReadBounds
 */
 void idRestoreGame::ReadBounds( idBounds &bounds ) {
 	file->Read( &bounds, sizeof( bounds ) );
-	LittleRevBytes( &bounds, sizeof(float), sizeof(bounds)/sizeof(float) );
+	LittleRevBytes( &bounds, sizeof( float ), sizeof( bounds ) / sizeof( float ) );
 }
 
 /*
@@ -1040,14 +1039,13 @@ void idRestoreGame::ReadBounds( idBounds &bounds ) {
 idRestoreGame::ReadWinding
 ================
 */
-void idRestoreGame::ReadWinding( idWinding &w )
-{
+void idRestoreGame::ReadWinding( idWinding &w ) {
 	int i, num;
 	file->ReadInt( num );
 	w.SetNumPoints( num );
 	for ( i = 0; i < num; i++ ) {
-		file->Read( &w[i], sizeof(idVec5) );
-		LittleRevBytes(&w[i], sizeof(float), sizeof(idVec5)/sizeof(float) );
+		file->Read( &w[i], sizeof( idVec5 ) );
+		LittleRevBytes( &w[i], sizeof( float ), sizeof( idVec5 ) / sizeof( float ) );
 	}
 }
 
@@ -1067,7 +1065,7 @@ idRestoreGame::ReadAngles
 */
 void idRestoreGame::ReadAngles( idAngles &angles ) {
 	file->Read( &angles, sizeof( angles ) );
-	LittleRevBytes(&angles, sizeof(float), sizeof(idAngles)/sizeof(float) );
+	LittleRevBytes( &angles, sizeof( float ), sizeof( idAngles ) / sizeof( float ) );
 }
 
 /*
@@ -1111,7 +1109,7 @@ void idRestoreGame::ReadDict( idDict *dict ) {
 		dict = NULL;
 	} else {
 		dict->Clear();
-		for( i = 0; i < num; i++ ) {
+		for ( i = 0; i < num; i++ ) {
 			ReadString( key );
 			ReadString( value );
 			dict->Set( key, value );
@@ -1291,11 +1289,11 @@ void idRestoreGame::ReadRenderEntity( renderEntity_t &renderEntity ) {
 	ReadInt( index );
 	renderEntity.referenceSound = gameSoundWorld->EmitterForIndex( index );
 
-	for( i = 0; i < MAX_ENTITY_SHADER_PARMS; i++ ) {
+	for ( i = 0; i < MAX_ENTITY_SHADER_PARMS; i++ ) {
 		ReadFloat( renderEntity.shaderParms[ i ] );
 	}
 
-	for( i = 0; i < MAX_RENDERENTITY_GUI; i++ ) {
+	for ( i = 0; i < MAX_RENDERENTITY_GUI; i++ ) {
 		ReadUserInterface( renderEntity.gui[ i ] );
 	}
 
@@ -1351,7 +1349,7 @@ void idRestoreGame::ReadRenderLight( renderLight_t &renderLight ) {
 
 	ReadMaterial( renderLight.shader );
 
-	for( i = 0; i < MAX_ENTITY_SHADER_PARMS; i++ ) {
+	for ( i = 0; i < MAX_ENTITY_SHADER_PARMS; i++ ) {
 		ReadFloat( renderLight.shaderParms[ i ] );
 	}
 
@@ -1406,7 +1404,7 @@ void idRestoreGame::ReadRenderView( renderView_t &view ) {
 
 	ReadInt( view.time );
 
-	for( i = 0; i < MAX_GLOBAL_SHADER_PARMS; i++ ) {
+	for ( i = 0; i < MAX_GLOBAL_SHADER_PARMS; i++ ) {
 		ReadFloat( view.shaderParms[ i ] );
 	}
 }
@@ -1440,7 +1438,7 @@ idRestoreGame::ReadContactInfo
 ===================
 */
 void idRestoreGame::ReadContactInfo( contactInfo_t &contactInfo ) {
-	ReadInt( (int &)contactInfo.type );
+	ReadInt( ( int & )contactInfo.type );
 	ReadVec3( contactInfo.point );
 	ReadVec3( contactInfo.normal );
 	ReadFloat( contactInfo.dist );
@@ -1471,14 +1469,14 @@ void idRestoreGame::ReadTrace( trace_t &trace ) {
  */
 void idRestoreGame::ReadTraceModel( idTraceModel &trace ) {
 	int j, k;
-	
-	ReadInt( (int&)trace.type );
+
+	ReadInt( ( int & )trace.type );
 	ReadInt( trace.numVerts );
 	for ( j = 0; j < MAX_TRACEMODEL_VERTS; j++ ) {
 		ReadVec3( trace.verts[j] );
 	}
 	ReadInt( trace.numEdges );
-	for ( j = 0; j < (MAX_TRACEMODEL_EDGES+1); j++ ) {
+	for ( j = 0; j < ( MAX_TRACEMODEL_EDGES + 1 ); j++ ) {
 		ReadInt( trace.edges[j].v[0] );
 		ReadInt( trace.edges[j].v[1] );
 		ReadVec3( trace.edges[j].normal );

@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -54,7 +54,7 @@ typedef struct parametricPState_s {
 	idExtrapolate<idAngles>					angularExtrapolation;	// extrapolation based description of the orientation over time
 	idInterpolateAccelDecelLinear<idVec3>	linearInterpolation;	// interpolation based description of the position over time
 	idInterpolateAccelDecelLinear<idAngles>	angularInterpolation;	// interpolation based description of the orientation over time
-	idCurve_Spline<idVec3> *				spline;					// spline based description of the position over time
+	idCurve_Spline<idVec3> 				*spline;					// spline based description of the position over time
 	idInterpolateAccelDecelLinear<float>	splineInterpolate;		// position along the spline over time
 	bool									useSplineAngles;		// set the orientation using the spline
 } parametricPState_t;
@@ -64,8 +64,8 @@ class idPhysics_Parametric : public idPhysics_Base {
 public:
 	CLASS_PROTOTYPE( idPhysics_Parametric );
 
-							idPhysics_Parametric( void );
-							~idPhysics_Parametric( void );
+	idPhysics_Parametric( void );
+	~idPhysics_Parametric( void );
 
 	void					Save( idSaveGame *savefile ) const;
 	void					Restore( idRestoreGame *savefile );
@@ -94,7 +94,7 @@ public:
 
 public:	// common physics interface
 	void					SetClipModel( idClipModel *model, float density, int id = 0, bool freeOld = true );
-	idClipModel *			GetClipModel( int id = 0 ) const;
+	idClipModel 			*GetClipModel( int id = 0 ) const;
 	int						GetNumClipModels( void ) const;
 
 	void					SetMass( float mass, int id = -1 );
@@ -103,8 +103,8 @@ public:	// common physics interface
 	void					SetContents( int contents, int id = -1 );
 	int						GetContents( int id = -1 ) const;
 
-	const idBounds &		GetBounds( int id = -1 ) const;
-	const idBounds &		GetAbsBounds( int id = -1 ) const;
+	const idBounds 		&GetBounds( int id = -1 ) const;
+	const idBounds 		&GetAbsBounds( int id = -1 ) const;
 
 	bool					Evaluate( int timeStepMSec, int endTimeMSec );
 	void					UpdateTime( int endTimeMSec );
@@ -124,14 +124,14 @@ public:	// common physics interface
 	void					Translate( const idVec3 &translation, int id = -1 );
 	void					Rotate( const idRotation &rotation, int id = -1 );
 
-	const idVec3 &			GetOrigin( int id = 0 ) const;
-	const idMat3 &			GetAxis( int id = 0 ) const;
+	const idVec3 			&GetOrigin( int id = 0 ) const;
+	const idMat3 			&GetAxis( int id = 0 ) const;
 
 	void					SetLinearVelocity( const idVec3 &newLinearVelocity, int id = 0 );
 	void					SetAngularVelocity( const idVec3 &newAngularVelocity, int id = 0 );
 
-	const idVec3 &			GetLinearVelocity( int id = 0 ) const;
-	const idVec3 &			GetAngularVelocity( int id = 0 ) const;
+	const idVec3 			&GetLinearVelocity( int id = 0 ) const;
+	const idVec3 			&GetAngularVelocity( int id = 0 ) const;
 
 	void					DisableClip( void );
 	void					EnableClip( void );
@@ -141,8 +141,8 @@ public:	// common physics interface
 
 	void					SetMaster( idEntity *master, const bool orientated = true );
 
-	const trace_t *			GetBlockingInfo( void ) const;
-	idEntity *				GetBlockingEntity( void ) const;
+	const trace_t 			*GetBlockingInfo( void ) const;
+	idEntity 				*GetBlockingEntity( void ) const;
 
 	int						GetLinearEndTime( void ) const;
 	int						GetAngularEndTime( void ) const;
@@ -157,7 +157,7 @@ private:
 
 	// pusher
 	bool					isPusher;
-	idClipModel *			clipModel;
+	idClipModel 			*clipModel;
 	int						pushFlags;
 
 	// results of last evaluate

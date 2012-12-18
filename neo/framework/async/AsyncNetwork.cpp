@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -34,18 +34,18 @@ If you have questions concerning this license or the applicable additional terms
 idAsyncServer		idAsyncNetwork::server;
 idAsyncClient		idAsyncNetwork::client;
 
-idCVar				idAsyncNetwork::verbose( "net_verbose", "0", CVAR_SYSTEM | CVAR_INTEGER | CVAR_NOCHEAT, "1 = verbose output, 2 = even more verbose output", 0, 2, idCmdSystem::ArgCompletion_Integer<0,2> );
+idCVar				idAsyncNetwork::verbose( "net_verbose", "0", CVAR_SYSTEM | CVAR_INTEGER | CVAR_NOCHEAT, "1 = verbose output, 2 = even more verbose output", 0, 2, idCmdSystem::ArgCompletion_Integer<0, 2> );
 idCVar				idAsyncNetwork::allowCheats( "net_allowCheats", "0", CVAR_SYSTEM | CVAR_BOOL | CVAR_NETWORKSYNC, "Allow cheats in network game" );
 #ifdef ID_DEDICATED
 // dedicated executable can only have a value of 1 for net_serverDedicated
 idCVar				idAsyncNetwork::serverDedicated( "net_serverDedicated", "1", CVAR_SERVERINFO | CVAR_SYSTEM | CVAR_INTEGER | CVAR_NOCHEAT | CVAR_ROM, "" );
 #else
-idCVar				idAsyncNetwork::serverDedicated( "net_serverDedicated", "0", CVAR_SERVERINFO | CVAR_SYSTEM | CVAR_INTEGER | CVAR_NOCHEAT, "1 = text console dedicated server, 2 = graphical dedicated server", 0, 2, idCmdSystem::ArgCompletion_Integer<0,2> );
+idCVar				idAsyncNetwork::serverDedicated( "net_serverDedicated", "0", CVAR_SERVERINFO | CVAR_SYSTEM | CVAR_INTEGER | CVAR_NOCHEAT, "1 = text console dedicated server, 2 = graphical dedicated server", 0, 2, idCmdSystem::ArgCompletion_Integer<0, 2> );
 #endif
 idCVar				idAsyncNetwork::serverSnapshotDelay( "net_serverSnapshotDelay", "50", CVAR_SYSTEM | CVAR_INTEGER | CVAR_NOCHEAT, "delay between snapshots in milliseconds" );
 idCVar				idAsyncNetwork::serverMaxClientRate( "net_serverMaxClientRate", "16000", CVAR_SYSTEM | CVAR_INTEGER | CVAR_ARCHIVE | CVAR_NOCHEAT, "maximum rate to a client in bytes/sec" );
 idCVar				idAsyncNetwork::clientMaxRate( "net_clientMaxRate", "16000", CVAR_SYSTEM | CVAR_INTEGER | CVAR_ARCHIVE | CVAR_NOCHEAT, "maximum rate requested by client from server in bytes/sec" );
-idCVar				idAsyncNetwork::serverMaxUsercmdRelay( "net_serverMaxUsercmdRelay", "5", CVAR_SYSTEM | CVAR_INTEGER | CVAR_NOCHEAT, "maximum number of usercmds from other clients the server relays to a client", 1, MAX_USERCMD_RELAY, idCmdSystem::ArgCompletion_Integer<1,MAX_USERCMD_RELAY> );
+idCVar				idAsyncNetwork::serverMaxUsercmdRelay( "net_serverMaxUsercmdRelay", "5", CVAR_SYSTEM | CVAR_INTEGER | CVAR_NOCHEAT, "maximum number of usercmds from other clients the server relays to a client", 1, MAX_USERCMD_RELAY, idCmdSystem::ArgCompletion_Integer<1, MAX_USERCMD_RELAY> );
 idCVar				idAsyncNetwork::serverZombieTimeout( "net_serverZombieTimeout", "5", CVAR_SYSTEM | CVAR_INTEGER | CVAR_NOCHEAT, "disconnected client timeout in seconds" );
 idCVar				idAsyncNetwork::serverClientTimeout( "net_serverClientTimeout", "40", CVAR_SYSTEM | CVAR_INTEGER | CVAR_NOCHEAT, "client time out in seconds" );
 idCVar				idAsyncNetwork::clientServerTimeout( "net_clientServerTimeout", "40", CVAR_SYSTEM | CVAR_INTEGER | CVAR_NOCHEAT, "server time out in seconds" );
@@ -129,7 +129,7 @@ idAsyncNetwork::GetMasterAddress
 bool idAsyncNetwork::GetMasterAddress( int index, netadr_t &adr ) {
 	if ( !masters[ index ].var ) {
 		return false;
-	}	
+	}
 	if ( masters[ index ].var->GetString()[0] == '\0' ) {
 		return false;
 	}
@@ -203,7 +203,7 @@ void idAsyncNetwork::WriteUserCmdDelta( idBitMsg &msg, const usercmd_t &cmd, con
 
 	msg.WriteLong( cmd.gameTime );
 	msg.WriteByte( cmd.buttons );
-    msg.WriteShort( cmd.mx );
+	msg.WriteShort( cmd.mx );
 	msg.WriteShort( cmd.my );
 	msg.WriteChar( cmd.forwardmove );
 	msg.WriteChar( cmd.rightmove );
@@ -236,8 +236,8 @@ void idAsyncNetwork::ReadUserCmdDelta( const idBitMsg &msg, usercmd_t &cmd, cons
 	}
 
 	cmd.gameTime = msg.ReadLong();
-    cmd.buttons = msg.ReadByte();
-    cmd.mx = msg.ReadShort();
+	cmd.buttons = msg.ReadByte();
+	cmd.mx = msg.ReadShort();
 	cmd.my = msg.ReadShort();
 	cmd.forwardmove = msg.ReadChar();
 	cmd.rightmove = msg.ReadChar();
@@ -295,8 +295,8 @@ idAsyncNetwork::SpawnServer_f
 */
 void idAsyncNetwork::SpawnServer_f( const idCmdArgs &args ) {
 
-	if(args.Argc() > 1) {
-		cvarSystem->SetCVarString("si_map", args.Argv(1));
+	if ( args.Argc() > 1 ) {
+		cvarSystem->SetCVarString( "si_map", args.Argv( 1 ) );
 	}
 
 	// don't let a server spawn with singleplayer game type - it will crash
@@ -434,7 +434,7 @@ void idAsyncNetwork::Kick_f( const idCmdArgs &args ) {
 		return;
 	}
 	iclient = atoi( clientId );
-	
+
 	if ( server.GetLocalClientNum() == iclient ) {
 		common->Printf( "can't kick the host\n" );
 		return;
@@ -458,7 +458,7 @@ idAsyncNetwork::CheckNewVersion_f
 ==================
 */
 void idAsyncNetwork::CheckNewVersion_f( const idCmdArgs &args ) {
-	client.SendVersionCheck(); 
+	client.SendVersionCheck();
 }
 
 /*
@@ -508,6 +508,6 @@ void idAsyncNetwork::BuildInvalidKeyMsg( idStr &msg, bool valid[ 2 ] ) {
 		msg += common->GetLanguageDict()->GetString( "#str_07195" );
 	}
 	msg += "\n";
-	msg += common->GetLanguageDict()->GetString( "#str_04304" );	
+	msg += common->GetLanguageDict()->GetString( "#str_04304" );
 }
 

@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -176,11 +176,11 @@ void idDragEntity::Update( idPlayer *player ) {
 	player->GetViewPos( viewPoint, viewAxis );
 
 	// if no entity selected for dragging
-    if ( !dragEnt.GetEntity() ) {
+	if ( !dragEnt.GetEntity() ) {
 
 		if ( player->usercmd.buttons & BUTTON_ATTACK ) {
 
-			gameLocal.clip.TracePoint( trace, viewPoint, viewPoint + viewAxis[0] * MAX_DRAG_TRACE_DISTANCE, (CONTENTS_SOLID|CONTENTS_RENDERMODEL|CONTENTS_BODY), player );
+			gameLocal.clip.TracePoint( trace, viewPoint, viewPoint + viewAxis[0] * MAX_DRAG_TRACE_DISTANCE, ( CONTENTS_SOLID | CONTENTS_RENDERMODEL | CONTENTS_BODY ), player );
 			if ( trace.fraction < 1.0f ) {
 
 				newEnt = gameLocal.entities[ trace.c.entityNum ];
@@ -195,8 +195,8 @@ void idDragEntity::Update( idPlayer *player ) {
 						newEnt = newEnt->GetBindMaster();
 					}
 
-					if ( newEnt->IsType( idAFEntity_Base::Type ) && static_cast<idAFEntity_Base *>(newEnt)->IsActiveAF() ) {
-						idAFEntity_Base *af = static_cast<idAFEntity_Base *>(newEnt);
+					if ( newEnt->IsType( idAFEntity_Base::Type ) && static_cast<idAFEntity_Base *>( newEnt )->IsActiveAF() ) {
+						idAFEntity_Base *af = static_cast<idAFEntity_Base *>( newEnt );
 
 						// joint being dragged
 						newJoint = CLIPMODEL_ID_TO_JOINT_HANDLE( trace.c.id );
@@ -243,7 +243,7 @@ void idDragEntity::Update( idPlayer *player ) {
 
 					if ( phys->IsType( idPhysics_AF::Type ) ||
 							phys->IsType( idPhysics_RigidBody::Type ) ||
-								phys->IsType( idPhysics_Monster::Type ) ) {
+							phys->IsType( idPhysics_Monster::Type ) ) {
 						cursor->BecomeActive( TH_THINK );
 					}
 				}
@@ -322,7 +322,7 @@ void idDragEntity::BindSelected( void ) {
 	const idKeyValue *kv;
 	idAFEntity_Base *af;
 
-	af = static_cast<idAFEntity_Base *>(dragEnt.GetEntity());
+	af = static_cast<idAFEntity_Base *>( dragEnt.GetEntity() );
 
 	if ( !af || !af->IsType( idAFEntity_Base::Type ) || !af->IsActiveAF() ) {
 		return;
@@ -374,7 +374,7 @@ void idDragEntity::UnbindSelected( void ) {
 	const idKeyValue *kv;
 	idAFEntity_Base *af;
 
-	af = static_cast<idAFEntity_Base *>(selected.GetEntity());
+	af = static_cast<idAFEntity_Base *>( selected.GetEntity() );
 
 	if ( !af || !af->IsType( idAFEntity_Base::Type ) || !af->IsActiveAF() ) {
 		return;
@@ -459,9 +459,9 @@ bool idEditEntities::SelectEntity( const idVec3 &origin, const idVec3 &dir, cons
 idEditEntities::AddSelectedEntity
 =============
 */
-void idEditEntities::AddSelectedEntity(idEntity *ent) {
+void idEditEntities::AddSelectedEntity( idEntity *ent ) {
 	ent->fl.selected = true;
-	selectedEntities.AddUnique(ent);
+	selectedEntities.AddUnique( ent );
 }
 
 /*
@@ -470,7 +470,7 @@ idEditEntities::RemoveSelectedEntity
 ==============
 */
 void idEditEntities::RemoveSelectedEntity( idEntity *ent ) {
-    if ( selectedEntities.Find( ent ) ) {
+	if ( selectedEntities.Find( ent ) ) {
 		selectedEntities.Remove( ent );
 	}
 }
@@ -506,15 +506,15 @@ bool idEditEntities::EntityIsSelectable( idEntity *ent, idVec4 *color, idStr *te
 				if ( ent->fl.selected ) {
 					*color = colorRed;
 				} else {
-					switch( i ) {
-					case 1 :
-						*color = colorYellow;
-						break;
-					case 2 :
-						*color = colorBlue;
-						break;
-					default:
-						*color = colorGreen;
+					switch ( i ) {
+						case 1 :
+							*color = colorYellow;
+							break;
+						case 2 :
+							*color = colorBlue;
+							break;
+						default:
+							*color = colorGreen;
 					}
 				}
 			}
@@ -539,7 +539,7 @@ void idEditEntities::DisplayEntities( void ) {
 	selectableEntityClasses.Clear();
 	selectedTypeInfo_t sit;
 
-	switch( g_editEntityMode.GetInteger() ) {
+	switch ( g_editEntityMode.GetInteger() ) {
 		case 1:
 			sit.typeInfo = &idLight::Type;
 			sit.textKey = "texture";
@@ -591,7 +591,7 @@ void idEditEntities::DisplayEntities( void ) {
 
 	idStr textKey;
 
-	for( ent = gameLocal.spawnedEntities.Next(); ent != NULL; ent = ent->spawnNode.Next() ) {
+	for ( ent = gameLocal.spawnedEntities.Next(); ent != NULL; ent = ent->spawnNode.Next() ) {
 
 		idVec4 color;
 
@@ -602,14 +602,14 @@ void idEditEntities::DisplayEntities( void ) {
 
 		bool drawArrows = false;
 		if ( ent->GetType() == &idAFEntity_Base::Type ) {
-			if ( !static_cast<idAFEntity_Base *>(ent)->IsActiveAF() ) {
+			if ( !static_cast<idAFEntity_Base *>( ent )->IsActiveAF() ) {
 				continue;
 			}
 		} else if ( ent->GetType() == &idSound::Type ) {
 			if ( ent->fl.selected ) {
 				drawArrows = true;
 			}
-			const idSoundShader * ss = declManager->FindSound( ent->spawnArgs.GetString( textKey ) );
+			const idSoundShader *ss = declManager->FindSound( ent->spawnArgs.GetString( textKey ) );
 			if ( ss->HasDefaultSound() || ss->base->GetState() == DS_DEFAULTED ) {
 				color.Set( 1.0f, 0.0f, 1.0f, 1.0f );
 			}
@@ -649,7 +649,7 @@ void idEditEntities::DisplayEntities( void ) {
 		if ( textKey.Length() ) {
 			const char *text = ent->spawnArgs.GetString( textKey );
 			if ( viewTextBounds.ContainsPoint( ent->GetPhysics()->GetOrigin() ) ) {
-				gameRenderWorld->DrawText( text, ent->GetPhysics()->GetOrigin() + idVec3(0, 0, 12), 0.25, colorWhite, axis, 1 );
+				gameRenderWorld->DrawText( text, ent->GetPhysics()->GetOrigin() + idVec3( 0, 0, 12 ), 0.25, colorWhite, axis, 1 );
 			}
 		}
 	}
@@ -665,7 +665,7 @@ void idEditEntities::DisplayEntities( void ) {
 */
 
 idGameEdit			gameEditLocal;
-idGameEdit *		gameEdit = &gameEditLocal;
+idGameEdit 		*gameEdit = &gameEditLocal;
 
 
 /*
@@ -677,7 +677,7 @@ int idGameEdit::GetSelectedEntities( idEntity *list[], int max ) {
 	int num = 0;
 	idEntity *ent;
 
-	for( ent = gameLocal.spawnedEntities.Next(); ent != NULL; ent = ent->spawnNode.Next() ) {
+	for ( ent = gameLocal.spawnedEntities.Next(); ent != NULL; ent = ent->spawnNode.Next() ) {
 		if ( ent->fl.selected ) {
 			list[num++] = ent;
 			if ( num >= max ) {
@@ -695,7 +695,7 @@ idGameEdit::TriggerSelected
 */
 void idGameEdit::TriggerSelected() {
 	idEntity *ent;
-	for( ent = gameLocal.spawnedEntities.Next(); ent != NULL; ent = ent->spawnNode.Next() ) {
+	for ( ent = gameLocal.spawnedEntities.Next(); ent != NULL; ent = ent->spawnNode.Next() ) {
 		if ( ent->fl.selected ) {
 			ent->ProcessEvent( &EV_Activate, gameLocal.GetLocalPlayer() );
 		}
@@ -710,7 +710,7 @@ idGameEdit::ClearEntitySelection
 void idGameEdit::ClearEntitySelection() {
 	idEntity *ent;
 
-	for( ent = gameLocal.spawnedEntities.Next(); ent != NULL; ent = ent->spawnNode.Next() ) {
+	for ( ent = gameLocal.spawnedEntities.Next(); ent != NULL; ent = ent->spawnNode.Next() ) {
 		ent->fl.selected = false;
 	}
 	gameLocal.editEntities->ClearSelectedEntities();
@@ -751,7 +751,7 @@ idGameEdit::FindEntity
 ================
 */
 idEntity *idGameEdit::FindEntity( const char *name ) const {
-	return gameLocal.FindEntity( name ); 
+	return gameLocal.FindEntity( name );
 }
 
 /*
@@ -766,7 +766,7 @@ const char *idGameEdit::GetUniqueEntityName( const char *classname ) const {
 	static char	name[1024];
 
 	// can only have MAX_GENTITIES, so if we have a spot available, we're guaranteed to find one
-	for( id = 0; id < MAX_GENTITIES; id++ ) {
+	for ( id = 0; id < MAX_GENTITIES; id++ ) {
 		idStr::snPrintf( name, sizeof( name ), "%s_%d", classname, id );
 		if ( !gameLocal.FindEntity( name ) ) {
 			return name;
@@ -874,13 +874,13 @@ idGameEdit::EntityChangeSpawnArgs
 */
 void idGameEdit::EntityChangeSpawnArgs( idEntity *ent, const idDict *newArgs ) {
 	if ( ent ) {
-		for ( int i = 0 ; i < newArgs->GetNumKeyVals () ; i ++ ) {
+		for ( int i = 0 ; i < newArgs->GetNumKeyVals() ; i ++ ) {
 			const idKeyValue *kv = newArgs->GetKeyVal( i );
-	        
+
 			if ( kv->GetValue().Length() > 0 ) {
-				ent->spawnArgs.Set ( kv->GetKey() ,kv->GetValue() );
+				ent->spawnArgs.Set( kv->GetKey() , kv->GetValue() );
 			} else {
-				ent->spawnArgs.Delete ( kv->GetKey() );
+				ent->spawnArgs.Delete( kv->GetKey() );
 			}
 		}
 	}
@@ -998,8 +998,8 @@ idGameEdit::MapSave
 */
 void idGameEdit::MapSave( const char *path ) const {
 	idMapFile *mapFile = gameLocal.GetLevelMap();
-	if (mapFile) {
-		mapFile->Write( (path) ? path : mapFile->GetName(), ".map");
+	if ( mapFile ) {
+		mapFile->Write( ( path ) ? path : mapFile->GetName(), ".map" );
 	}
 }
 
@@ -1103,11 +1103,11 @@ int idGameEdit::MapGetEntitiesMatchingClassWithString( const char *classname, co
 	if ( mapFile ) {
 		int entCount = mapFile->GetNumEntities();
 		for ( int i = 0 ; i < entCount; i++ ) {
-			idMapEntity *ent = mapFile->GetEntity(i);
-			if (ent) {
-				idStr work = ent->epairs.GetString("classname");
+			idMapEntity *ent = mapFile->GetEntity( i );
+			if ( ent ) {
+				idStr work = ent->epairs.GetString( "classname" );
 				if ( work.Icmp( classname ) == 0 ) {
-					if ( match && *match ) { 
+					if ( match && *match ) {
 						work = ent->epairs.GetString( "soundgroup" );
 						if ( count < max && work.Icmp( match ) == 0 ) {
 							list[count++] = ent->epairs.GetString( "name" );

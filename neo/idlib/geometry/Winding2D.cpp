@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -43,8 +43,7 @@ bool GetAxialBevel( const idVec3 &plane1, const idVec3 &plane2, const idVec2 &po
 			bevel.x = 0.0f;
 			if ( FLOATSIGNBITSET( plane1.y ) ) {
 				bevel.y = -1.0f;
-			}
-			else {
+			} else {
 				bevel.y = 1.0f;
 			}
 			bevel.z = - ( point.x * bevel.x + point.y * bevel.y );
@@ -56,8 +55,7 @@ bool GetAxialBevel( const idVec3 &plane1, const idVec3 &plane2, const idVec2 &po
 			bevel.y = 0.0f;
 			if ( FLOATSIGNBITSET( plane1.x ) ) {
 				bevel.x = -1.0f;
-			}
-			else {
+			} else {
 				bevel.x = 1.0f;
 			}
 			bevel.z = - ( point.x * bevel.x + point.y * bevel.y );
@@ -79,20 +77,20 @@ void idWinding2D::ExpandForAxialBox( const idVec2 bounds[2] ) {
 
 	// get planes for the edges and add bevels
 	for ( numPlanes = i = 0; i < numPoints; i++ ) {
-		j = (i+1) % numPoints;
+		j = ( i + 1 ) % numPoints;
 		if ( ( p[j] - p[i] ).LengthSqr() < 0.01f ) {
 			continue;
 		}
 		plane = Plane2DFromPoints( p[i], p[j], true );
 		if ( i ) {
-			if ( GetAxialBevel( planes[numPlanes-1], plane, p[i], bevel ) ) {
+			if ( GetAxialBevel( planes[numPlanes - 1], plane, p[i], bevel ) ) {
 				planes[numPlanes++] = bevel;
 			}
 		}
 		assert( numPlanes < MAX_POINTS_ON_WINDING_2D );
 		planes[numPlanes++] = plane;
 	}
-	if ( GetAxialBevel( planes[numPlanes-1], planes[0], p[0], bevel ) ) {
+	if ( GetAxialBevel( planes[numPlanes - 1], planes[0], p[0], bevel ) ) {
 		planes[numPlanes++] = bevel;
 	}
 
@@ -105,7 +103,7 @@ void idWinding2D::ExpandForAxialBox( const idVec2 bounds[2] ) {
 
 	// get intersection points of the planes
 	for ( numPoints = i = 0; i < numPlanes; i++ ) {
-		if ( Plane2DIntersection( planes[(i+numPlanes-1) % numPlanes], planes[i], p[numPoints] ) ) {
+		if ( Plane2DIntersection( planes[( i + numPlanes - 1 ) % numPlanes], planes[i], p[numPoints] ) ) {
 			numPoints++;
 		}
 	}
@@ -122,7 +120,7 @@ void idWinding2D::Expand( const float d ) {
 
 	for ( i = 0; i < numPoints; i++ ) {
 		idVec2 &start = p[i];
-		idVec2 &end = p[(i+1)%numPoints];
+		idVec2 &end = p[( i + 1 ) % numPoints];
 		edgeNormals[i].x = start.y - end.y;
 		edgeNormals[i].y = end.x - start.x;
 		edgeNormals[i].Normalize();
@@ -130,7 +128,7 @@ void idWinding2D::Expand( const float d ) {
 	}
 
 	for ( i = 0; i < numPoints; i++ ) {
-		p[i] += edgeNormals[i] + edgeNormals[(i+numPoints-1)%numPoints];
+		p[i] += edgeNormals[i] + edgeNormals[( i + numPoints - 1 ) % numPoints];
 	}
 }
 
@@ -145,10 +143,10 @@ int idWinding2D::Split( const idVec3 &plane, const float epsilon, idWinding2D **
 	int				counts[3];
 	float			dot;
 	int				i, j;
-	const idVec2 *	p1, *p2;
+	const idVec2 	*p1, *p2;
 	idVec2			mid;
-	idWinding2D *	f;
-	idWinding2D *	b;
+	idWinding2D 	*f;
+	idWinding2D 	*b;
 	int				maxpts;
 
 	counts[0] = counts[1] = counts[2] = 0;
@@ -167,7 +165,7 @@ int idWinding2D::Split( const idVec3 &plane, const float epsilon, idWinding2D **
 	}
 	sides[i] = sides[0];
 	dists[i] = dists[0];
-	
+
 	*front = *back = NULL;
 
 	// if nothing at the front of the clipping plane
@@ -181,14 +179,14 @@ int idWinding2D::Split( const idVec3 &plane, const float epsilon, idWinding2D **
 		return SIDE_FRONT;
 	}
 
-	maxpts = numPoints+4;	// cant use counts[0]+2 because of fp grouping errors
+	maxpts = numPoints + 4;	// cant use counts[0]+2 because of fp grouping errors
 
 	*front = f = new idWinding2D;
 	*back = b = new idWinding2D;
-		
+
 	for ( i = 0; i < numPoints; i++ ) {
 		p1 = &p[i];
-		
+
 		if ( sides[i] == SIDE_ON ) {
 			f->p[f->numPoints] = *p1;
 			f->numPoints++;
@@ -196,7 +194,7 @@ int idWinding2D::Split( const idVec3 &plane, const float epsilon, idWinding2D **
 			b->numPoints++;
 			continue;
 		}
-	
+
 		if ( sides[i] == SIDE_FRONT ) {
 			f->p[f->numPoints] = *p1;
 			f->numPoints++;
@@ -207,17 +205,17 @@ int idWinding2D::Split( const idVec3 &plane, const float epsilon, idWinding2D **
 			b->numPoints++;
 		}
 
-		if ( sides[i+1] == SIDE_ON || sides[i+1] == sides[i] ) {
+		if ( sides[i + 1] == SIDE_ON || sides[i + 1] == sides[i] ) {
 			continue;
 		}
-			
+
 		// generate a split point
-		p2 = &p[(i+1)%numPoints];
-		
+		p2 = &p[( i + 1 ) % numPoints];
+
 		// always calculate the split going from the same side
 		// or minor epsilon issues can happen
 		if ( sides[i] == SIDE_FRONT ) {
-			dot = dists[i] / ( dists[i] - dists[i+1] );
+			dot = dists[i] / ( dists[i] - dists[i + 1] );
 			for ( j = 0; j < 2; j++ ) {
 				// avoid round off error when possible
 				if ( plane[j] == 1.0f ) {
@@ -225,11 +223,11 @@ int idWinding2D::Split( const idVec3 &plane, const float epsilon, idWinding2D **
 				} else if ( plane[j] == -1.0f ) {
 					mid[j] = -plane.z;
 				} else {
-					mid[j] = (*p1)[j] + dot * ((*p2)[j] - (*p1)[j]);
+					mid[j] = ( *p1 )[j] + dot * ( ( *p2 )[j] - ( *p1 )[j] );
 				}
 			}
 		} else {
-			dot = dists[i+1] / ( dists[i+1] - dists[i] );
+			dot = dists[i + 1] / ( dists[i + 1] - dists[i] );
 			for ( j = 0; j < 2; j++ ) {
 				// avoid round off error when possible
 				if ( plane[j] == 1.0f ) {
@@ -237,7 +235,7 @@ int idWinding2D::Split( const idVec3 &plane, const float epsilon, idWinding2D **
 				} else if ( plane[j] == -1.0f ) {
 					mid[j] = -plane.z;
 				} else {
-					mid[j] = (*p2)[j] + dot * ( (*p1)[j] - (*p2)[j] );
+					mid[j] = ( *p2 )[j] + dot * ( ( *p1 )[j] - ( *p2 )[j] );
 				}
 			}
 		}
@@ -258,9 +256,9 @@ idWinding2D::ClipInPlace
 */
 bool idWinding2D::ClipInPlace( const idVec3 &plane, const float epsilon, const bool keepOn ) {
 	int i, j, maxpts, newNumPoints;
-	int sides[MAX_POINTS_ON_WINDING_2D+1], counts[3];
-	float dot, dists[MAX_POINTS_ON_WINDING_2D+1];
-	idVec2 *p1, *p2, mid, newPoints[MAX_POINTS_ON_WINDING_2D+4];
+	int sides[MAX_POINTS_ON_WINDING_2D + 1], counts[3];
+	float dot, dists[MAX_POINTS_ON_WINDING_2D + 1];
+	idVec2 *p1, *p2, mid, newPoints[MAX_POINTS_ON_WINDING_2D + 4];
 
 	counts[SIDE_FRONT] = counts[SIDE_BACK] = counts[SIDE_ON] = 0;
 
@@ -277,7 +275,7 @@ bool idWinding2D::ClipInPlace( const idVec3 &plane, const float epsilon, const b
 	}
 	sides[i] = sides[0];
 	dists[i] = dists[0];
-	
+
 	// if the winding is on the plane and we should keep it
 	if ( keepOn && !counts[SIDE_FRONT] && !counts[SIDE_BACK] ) {
 		return true;
@@ -296,33 +294,33 @@ bool idWinding2D::ClipInPlace( const idVec3 &plane, const float epsilon, const b
 	for ( i = 0; i < numPoints; i++ ) {
 		p1 = &p[i];
 
-		if ( newNumPoints+1 > maxpts ) {
+		if ( newNumPoints + 1 > maxpts ) {
 			return true;		// can't split -- fall back to original
 		}
-		
+
 		if ( sides[i] == SIDE_ON ) {
 			newPoints[newNumPoints] = *p1;
 			newNumPoints++;
 			continue;
 		}
-	
+
 		if ( sides[i] == SIDE_FRONT ) {
 			newPoints[newNumPoints] = *p1;
 			newNumPoints++;
 		}
 
-		if ( sides[i+1] == SIDE_ON || sides[i+1] == sides[i] ) {
+		if ( sides[i + 1] == SIDE_ON || sides[i + 1] == sides[i] ) {
 			continue;
 		}
-			
-		if ( newNumPoints+1 > maxpts ) {
+
+		if ( newNumPoints + 1 > maxpts ) {
 			return true;		// can't split -- fall back to original
 		}
 
 		// generate a split point
-		p2 = &p[(i+1)%numPoints];
-		
-		dot = dists[i] / (dists[i] - dists[i+1]);
+		p2 = &p[( i + 1 ) % numPoints];
+
+		dot = dists[i] / ( dists[i] - dists[i + 1] );
 		for ( j = 0; j < 2; j++ ) {
 			// avoid round off error when possible
 			if ( plane[j] == 1.0f ) {
@@ -330,7 +328,7 @@ bool idWinding2D::ClipInPlace( const idVec3 &plane, const float epsilon, const b
 			} else if ( plane[j] == -1.0f ) {
 				mid[j] = -plane.z;
 			} else {
-				mid[j] = (*p1)[j] + dot * ((*p2)[j] - (*p1)[j]);
+				mid[j] = ( *p1 )[j] + dot * ( ( *p2 )[j] - ( *p1 )[j] );
 			}
 		}
 
@@ -343,7 +341,7 @@ bool idWinding2D::ClipInPlace( const idVec3 &plane, const float epsilon, const b
 	}
 
 	numPoints = newNumPoints;
-	memcpy( p, newPoints, newNumPoints * sizeof(idVec2) );
+	memcpy( p, newPoints, newNumPoints * sizeof( idVec2 ) );
 
 	return true;
 }
@@ -391,7 +389,7 @@ float idWinding2D::GetArea( void ) const {
 
 	total = 0.0f;
 	for ( i = 2; i < numPoints; i++ ) {
-		d1 = p[i-1] - p[0];
+		d1 = p[i - 1] - p[0];
 		d2 = p[i] - p[0];
 		total += d1.x * d2.y - d1.y * d2.x;
 	}
@@ -479,7 +477,7 @@ bool idWinding2D::IsTiny( void ) const {
 
 	edges = 0;
 	for ( i = 0; i < numPoints; i++ ) {
-		delta = p[(i+1)%numPoints] - p[i];
+		delta = p[( i + 1 ) % numPoints] - p[i];
 		len = delta.Length();
 		if ( len > EDGE_LENGTH ) {
 			if ( ++edges == 3 ) {
@@ -576,8 +574,7 @@ int idWinding2D::PlaneSide( const idVec3 &plane, const float epsilon ) const {
 			}
 			back = true;
 			continue;
-		}
-		else if ( d > epsilon ) {
+		} else if ( d > epsilon ) {
 			if ( back ) {
 				return SIDE_CROSS;
 			}
@@ -606,7 +603,7 @@ bool idWinding2D::PointInside( const idVec2 &point, const float epsilon ) const 
 	idVec3 plane;
 
 	for ( i = 0; i < numPoints; i++ ) {
-		plane = Plane2DFromPoints( p[i], p[(i+1) % numPoints] );
+		plane = Plane2DFromPoints( p[i], p[( i + 1 ) % numPoints] );
 		d = plane.x * point.x + plane.y * point.y + plane.z;
 		if ( d > epsilon ) {
 			return false;
@@ -622,7 +619,7 @@ idWinding2D::LineIntersection
 */
 bool idWinding2D::LineIntersection( const idVec2 &start, const idVec2 &end ) const {
 	int i, numEdges;
-	int sides[MAX_POINTS_ON_WINDING_2D+1], counts[3];
+	int sides[MAX_POINTS_ON_WINDING_2D + 1], counts[3];
 	float d1, d2, epsilon = 0.1f;
 	idVec3 plane, edges[2];
 
@@ -633,11 +630,9 @@ bool idWinding2D::LineIntersection( const idVec2 &start, const idVec2 &end ) con
 		d1 = plane.x * p[i].x + plane.y * p[i].y + plane.z;
 		if ( d1 > epsilon ) {
 			sides[i] = SIDE_FRONT;
-		}
-		else if ( d1 < -epsilon ) {
+		} else if ( d1 < -epsilon ) {
 			sides[i] = SIDE_BACK;
-		}
-		else {
+		} else {
 			sides[i] = SIDE_ON;
 		}
 		counts[sides[i]]++;
@@ -653,8 +648,8 @@ bool idWinding2D::LineIntersection( const idVec2 &start, const idVec2 &end ) con
 
 	numEdges = 0;
 	for ( i = 0; i < numPoints; i++ ) {
-		if ( sides[i] != sides[i+1] && sides[i+1] != SIDE_ON ) {
-			edges[numEdges++] = Plane2DFromPoints( p[i], p[(i+1)%numPoints] );
+		if ( sides[i] != sides[i + 1] && sides[i + 1] != SIDE_ON ) {
+			edges[numEdges++] = Plane2DFromPoints( p[i], p[( i + 1 ) % numPoints] );
 			if ( numEdges >= 2 ) {
 				break;
 			}
@@ -684,7 +679,7 @@ idWinding2D::RayIntersection
 */
 bool idWinding2D::RayIntersection( const idVec2 &start, const idVec2 &dir, float &scale1, float &scale2, int *edgeNums ) const {
 	int i, numEdges, localEdgeNums[2];
-	int sides[MAX_POINTS_ON_WINDING_2D+1], counts[3];
+	int sides[MAX_POINTS_ON_WINDING_2D + 1], counts[3];
 	float d1, d2, epsilon = 0.1f;
 	idVec3 plane, edges[2];
 
@@ -696,11 +691,9 @@ bool idWinding2D::RayIntersection( const idVec2 &start, const idVec2 &dir, float
 		d1 = plane.x * p[i].x + plane.y * p[i].y + plane.z;
 		if ( d1 > epsilon ) {
 			sides[i] = SIDE_FRONT;
-		}
-		else if ( d1 < -epsilon ) {
+		} else if ( d1 < -epsilon ) {
 			sides[i] = SIDE_BACK;
-		}
-		else {
+		} else {
 			sides[i] = SIDE_ON;
 		}
 		counts[sides[i]]++;
@@ -716,9 +709,9 @@ bool idWinding2D::RayIntersection( const idVec2 &start, const idVec2 &dir, float
 
 	numEdges = 0;
 	for ( i = 0; i < numPoints; i++ ) {
-		if ( sides[i] != sides[i+1] && sides[i+1] != SIDE_ON ) {
+		if ( sides[i] != sides[i + 1] && sides[i + 1] != SIDE_ON ) {
 			localEdgeNums[numEdges] = i;
-			edges[numEdges++] = Plane2DFromPoints( p[i], p[(i+1)%numPoints] );
+			edges[numEdges++] = Plane2DFromPoints( p[i], p[( i + 1 ) % numPoints] );
 			if ( numEdges >= 2 ) {
 				break;
 			}

@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -43,18 +43,18 @@ public:
 	void	Clear();
 
 	void	WriteToDemo( idDemoFile *demo );
-	void	ReadFromDemo( idDemoFile *demo );	
-	
+	void	ReadFromDemo( idDemoFile *demo );
+
 	void	EmitToCurrentView( float modelMatrix[16], bool depthHack );
 	void	EmitFullScreen();
 
 	// these calls are forwarded from the renderer
 	void	SetColor( float r, float g, float b, float a );
 	void	DrawStretchPic( const idDrawVert *verts, const glIndex_t *indexes, int vertCount, int indexCount, const idMaterial *hShader,
-									bool clip = true, float min_x = 0.0f, float min_y = 0.0f, float max_x = 640.0f, float max_y = 480.0f );
+							bool clip = true, float min_x = 0.0f, float min_y = 0.0f, float max_x = 640.0f, float max_y = 480.0f );
 	void	DrawStretchPic( float x, float y, float w, float h,
-									float s1, float t1, float s2, float t2, const idMaterial *hShader);
-	void	DrawStretchTri ( idVec2 p1, idVec2 p2, idVec2 p3, idVec2 t1, idVec2 t2, idVec2 t3, const idMaterial *material );
+							float s1, float t1, float s2, float t2, const idMaterial *hShader );
+	void	DrawStretchTri( idVec2 p1, idVec2 p2, idVec2 p3, idVec2 t1, idVec2 t2, idVec2 t3, const idMaterial *material );
 
 	//---------------------------
 private:

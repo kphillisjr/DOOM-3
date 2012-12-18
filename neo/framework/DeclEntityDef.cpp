@@ -2,9 +2,9 @@
 ===========================================================================
 
 Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company. 
+Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).  
+This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
 
 Doom 3 Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -61,7 +61,7 @@ bool idDeclEntityDef::Parse( const char *text, const int textLength ) {
 	src.SetFlags( DECL_LEXER_FLAGS );
 	src.SkipUntilString( "{" );
 
-	while (1) {
+	while ( 1 ) {
 		if ( !src.ReadToken( &token ) ) {
 			break;
 		}
@@ -122,7 +122,7 @@ bool idDeclEntityDef::Parse( const char *text, const int textLength ) {
 
 	// precache all referenced media
 	// do this as long as we arent in modview
-	if ( !( com_editors & (EDITOR_RADIANT|EDITOR_AAS) ) ) {
+	if ( !( com_editors & ( EDITOR_RADIANT | EDITOR_AAS ) ) ) {
 		game->CacheDictionaryMedia( &dict );
 	}
 
@@ -137,7 +137,7 @@ idDeclEntityDef::DefaultDefinition
 const char *idDeclEntityDef::DefaultDefinition( void ) const {
 	return
 		"{\n"
-	"\t"	"\"DEFAULTED\"\t\"1\"\n"
+		"\t"	"\"DEFAULTED\"\t\"1\"\n"
 		"}";
 }
 
