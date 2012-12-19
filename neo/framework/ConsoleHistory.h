@@ -25,8 +25,56 @@ If you have questions concerning this license or the applicable additional terms
 
 ===========================================================================
 */
+#ifndef __CONSOLEHISTORY_H__
+#define __CONSOLEHISTORY_H__
 
-const int BUILD_NUMBER_SAVE_VERSION_CHANGE			= 1400;		// Altering saves so that the version goes in the Details file that we read in during the enumeration phase
+/*
 
-const int BUILD_NUMBER = BUILD_NUMBER_SAVE_VERSION_CHANGE;
-const int BUILD_NUMBER_MINOR = 0;
+This should behave like the windows command prompt, with the addition
+of a persistant history file.
+
+Note that commands bound to keys do not go through the console history.
+
+*/
+
+class idConsoleHistory {
+public:
+	idConsoleHistory() :
+		upPoint( 0 ),
+		downPoint( 0 ),
+		returnLine( 0 ),
+		numHistory( 0 ) {
+		ClearHistory();
+	}
+
+	void	LoadHistoryFile();
+
+	// the line should not have a \n
+	// Empty lines are never added to the history.
+	// If the command is the same as the last returned history line, nothing is changed.
+	void	AddToHistory( const char *line, bool writeHistoryFile = true );
+
+	// the string will not have a \n
+	// Returns an empty string if there is nothing to retrieve in that
+	// direction.
+	idStr	RetrieveFromHistory( bool backward );
+
+	// console commands
+	void	PrintHistory();
+	void	ClearHistory();
+
+private:
+	int		upPoint;	// command to be retrieved with next up-arrow
+	int		downPoint;	// command to be retrieved with next down-arrow
+	int		returnLine;	// last returned by RetrieveFromHistory()
+	int		numHistory;
+
+	static const int COMMAND_HISTORY = 64;
+	idArray<idStr, COMMAND_HISTORY>	historyLines;
+
+	compile_time_assert( CONST_ISPOWEROFTWO( COMMAND_HISTORY ) );	// we use the binary 'and' operator for wrapping
+};
+
+extern idConsoleHistory consoleHistory;
+
+#endif // !__CONSOLEHISTORY_H__
