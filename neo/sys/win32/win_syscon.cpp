@@ -1,33 +1,33 @@
 /*
 ===========================================================================
 
-Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
+Doom 3 BFG Edition GPL Source Code
+Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
+This file is part of the Doom 3 BFG Edition GPL Source Code ("Doom 3 BFG Edition Source Code").
 
-Doom 3 Source Code is free software: you can redistribute it and/or modify
+Doom 3 BFG Edition Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 
-Doom 3 Source Code is distributed in the hope that it will be useful,
+Doom 3 BFG Edition Source Code is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with Doom 3 Source Code.  If not, see <http://www.gnu.org/licenses/>.
+along with Doom 3 BFG Edition Source Code.  If not, see <http://www.gnu.org/licenses/>.
 
-In addition, the Doom 3 Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the Doom 3 Source Code.  If not, please request a copy in writing from id Software at the address below.
+In addition, the Doom 3 BFG Edition Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the Doom 3 BFG Edition Source Code.  If not, please request a copy in writing from id Software at the address below.
 
 If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 
 ===========================================================================
 */
 
-#include "../../idlib/precompiled.h"
 #pragma hdrstop
+#include "../../idlib/precompiled.h"
 
 #include <errno.h>
 #include <float.h>
@@ -38,7 +38,6 @@ If you have questions concerning this license or the applicable additional terms
 #include <conio.h>
 
 #include "win_local.h"
-#include "rc/AFEditor_resource.h"
 #include "rc/doom_resource.h"
 
 #define COPY_ID			1
@@ -106,10 +105,7 @@ static LONG WINAPI ConWndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 			}
 			break;
 		case WM_CLOSE:
-			if ( cvarSystem->IsInitialized() && com_skipRenderer.GetBool() ) {
-				cmdString = Mem_CopyString( "quit" );
-				Sys_QueEvent( 0, SE_CONSOLE, 0, 0, strlen( cmdString ) + 1, cmdString );
-			} else if ( s_wcd.quitOnClose ) {
+			if ( s_wcd.quitOnClose ) {
 				PostQuitMessage( 0 );
 			} else {
 				Sys_ShowConsole( 0, false );
@@ -146,7 +142,7 @@ static LONG WINAPI ConWndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 					PostQuitMessage( 0 );
 				} else {
 					cmdString = Mem_CopyString( "quit" );
-					Sys_QueEvent( 0, SE_CONSOLE, 0, 0, strlen( cmdString ) + 1, cmdString );
+					Sys_QueEvent( SE_CONSOLE, 0, 0, strlen( cmdString ) + 1, cmdString, 0 );
 				}
 			} else if ( wParam == CLEAR_ID ) {
 				SendMessage( s_wcd.hwndBuffer, EM_SETSEL, 0, -1 );
@@ -203,10 +199,10 @@ LONG WINAPI InputLineWndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 			break;
 
 		case WM_KEYDOWN:
-			key = MapKey( lParam );
+			key = ( ( lParam >> 16 ) & 0xFF ) | ( ( ( lParam >> 24 ) & 1 ) << 7 );
 
 			// command history
-			if ( ( key == K_UPARROW ) || ( key == K_KP_UPARROW ) ) {
+			if ( ( key == K_UPARROW ) || ( key == K_KP_8 ) ) {
 				if ( s_wcd.nextHistoryLine - s_wcd.historyLine < COMMAND_HISTORY && s_wcd.historyLine > 0 ) {
 					s_wcd.historyLine--;
 				}
@@ -217,7 +213,7 @@ LONG WINAPI InputLineWndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 				return 0;
 			}
 
-			if ( ( key == K_DOWNARROW ) || ( key == K_KP_DOWNARROW ) ) {
+			if ( ( key == K_DOWNARROW ) || ( key == K_KP_2 ) ) {
 				if ( s_wcd.historyLine == s_wcd.nextHistoryLine ) {
 					return 0;
 				}
@@ -231,7 +227,7 @@ LONG WINAPI InputLineWndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 			break;
 
 		case WM_CHAR:
-			key = MapKey( lParam );
+			key = ( ( lParam >> 16 ) & 0xFF ) | ( ( ( lParam >> 24 ) & 1 ) << 7 );
 
 			GetWindowText( s_wcd.hwndInputLine, s_wcd.consoleField.GetBuffer(), MAX_EDIT_LINE );
 			SendMessage( s_wcd.hwndInputLine, EM_GETSEL, ( WPARAM ) NULL, ( LPARAM ) &cursor );
@@ -280,7 +276,7 @@ LONG WINAPI InputLineWndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 /*
 ** Sys_CreateConsole
 */
-void Sys_CreateConsole( void ) {
+void Sys_CreateConsole() {
 	HDC hDC;
 	WNDCLASS wc;
 	RECT rect;
@@ -416,7 +412,7 @@ void Sys_CreateConsole( void ) {
 /*
 ** Sys_DestroyConsole
 */
-void Sys_DestroyConsole( void ) {
+void Sys_DestroyConsole() {
 	if ( s_wcd.hWnd ) {
 		ShowWindow( s_wcd.hWnd, SW_HIDE );
 		CloseWindow( s_wcd.hWnd );
@@ -456,7 +452,7 @@ void Sys_ShowConsole( int visLevel, bool quitOnClose ) {
 /*
 ** Sys_ConsoleInput
 */
-char *Sys_ConsoleInput( void ) {
+char *Sys_ConsoleInput() {
 
 	if ( s_wcd.consoleText[0] == 0 ) {
 		return NULL;

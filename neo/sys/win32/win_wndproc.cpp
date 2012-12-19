@@ -1,42 +1,49 @@
 /*
 ===========================================================================
 
-Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
+Doom 3 BFG Edition GPL Source Code
+Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
+This file is part of the Doom 3 BFG Edition GPL Source Code ("Doom 3 BFG Edition Source Code").
 
-Doom 3 Source Code is free software: you can redistribute it and/or modify
+Doom 3 BFG Edition Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 
-Doom 3 Source Code is distributed in the hope that it will be useful,
+Doom 3 BFG Edition Source Code is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with Doom 3 Source Code.  If not, see <http://www.gnu.org/licenses/>.
+along with Doom 3 BFG Edition Source Code.  If not, see <http://www.gnu.org/licenses/>.
 
-In addition, the Doom 3 Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the Doom 3 Source Code.  If not, please request a copy in writing from id Software at the address below.
+In addition, the Doom 3 BFG Edition Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the Doom 3 BFG Edition Source Code.  If not, please request a copy in writing from id Software at the address below.
 
 If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 
 ===========================================================================
 */
 
-#include "../../idlib/precompiled.h"
 #pragma hdrstop
+#include "../../idlib/precompiled.h"
 
 #include "win_local.h"
 #include "../../renderer/tr_local.h"
+
+#include <Windowsx.h>
 
 LONG WINAPI MainWndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
 
 static bool s_alttab_disabled;
 
-static void WIN_DisableAltTab( void ) {
+extern idCVar r_windowX;
+extern idCVar r_windowY;
+extern idCVar r_windowWidth;
+extern idCVar r_windowHeight;
+
+static void WIN_DisableAltTab() {
 	if ( s_alttab_disabled || win32.win_allowAltTab.GetBool() ) {
 		return;
 	}
@@ -50,7 +57,7 @@ static void WIN_DisableAltTab( void ) {
 	s_alttab_disabled = true;
 }
 
-static void WIN_EnableAltTab( void ) {
+static void WIN_EnableAltTab() {
 	if ( !s_alttab_disabled || win32.win_allowAltTab.GetBool() ) {
 		return;
 	}
@@ -66,14 +73,11 @@ static void WIN_EnableAltTab( void ) {
 }
 
 void WIN_Sizing( WORD side, RECT *rect ) {
-	if ( !glConfig.isInitialized || glConfig.vidHeight <= 0 || glConfig.vidWidth <= 0 ) {
+	if ( !R_IsInitialized() || renderSystem->GetWidth() <= 0 || renderSystem->GetHeight() <= 0 ) {
 		return;
 	}
 
-	if ( idKeyInput::IsDown( K_CTRL ) ) {
-		return;
-	}
-
+	// restrict to a standard aspect ratio
 	int width = rect->right - rect->left;
 	int height = rect->bottom - rect->top;
 
@@ -87,176 +91,49 @@ void WIN_Sizing( WORD side, RECT *rect ) {
 	height -= decoHeight;
 
 	// Clamp to a minimum size
-	int minWidth = 160;
-	int minHeight = minWidth * SCREEN_HEIGHT / SCREEN_WIDTH;
+	if ( width < SCREEN_WIDTH / 4 ) {
+		width = SCREEN_WIDTH / 4;
+	}
+	if ( height < SCREEN_HEIGHT / 4 ) {
+		height = SCREEN_HEIGHT / 4;
+	}
 
-	if ( width < minWidth ) {
-		width = minWidth;
-	}
-	if ( height < minHeight ) {
-		height = minHeight;
-	}
+	const int minWidth = height * 4 / 3;
+	const int maxHeight = width * 3 / 4;
+
+	const int maxWidth = height * 16 / 9;
+	const int minHeight = width * 9 / 16;
 
 	// Set the new size
 	switch ( side ) {
 		case WMSZ_LEFT:
 			rect->left = rect->right - width - decoWidth;
-			rect->bottom = rect->top + ( width * SCREEN_HEIGHT / SCREEN_WIDTH ) + decoHeight;
+			rect->bottom = rect->top + idMath::ClampInt( minHeight, maxHeight, height ) + decoHeight;
 			break;
 		case WMSZ_RIGHT:
 			rect->right = rect->left + width + decoWidth;
-			rect->bottom = rect->top + ( width * SCREEN_HEIGHT / SCREEN_WIDTH ) + decoHeight;
+			rect->bottom = rect->top + idMath::ClampInt( minHeight, maxHeight, height ) + decoHeight;
 			break;
 		case WMSZ_BOTTOM:
 		case WMSZ_BOTTOMRIGHT:
 			rect->bottom = rect->top + height + decoHeight;
-			rect->right = rect->left + ( height * SCREEN_WIDTH / SCREEN_HEIGHT ) + decoWidth;
+			rect->right = rect->left + idMath::ClampInt( minWidth, maxWidth, width ) + decoWidth;
 			break;
 		case WMSZ_TOP:
 		case WMSZ_TOPRIGHT:
 			rect->top = rect->bottom - height - decoHeight;
-			rect->right = rect->left + ( height * SCREEN_WIDTH / SCREEN_HEIGHT ) + decoWidth;
+			rect->right = rect->left + idMath::ClampInt( minWidth, maxWidth, width ) + decoWidth;
 			break;
 		case WMSZ_BOTTOMLEFT:
 			rect->bottom = rect->top + height + decoHeight;
-			rect->left = rect->right - ( height * SCREEN_WIDTH / SCREEN_HEIGHT ) - decoWidth;
+			rect->left = rect->right - idMath::ClampInt( minWidth, maxWidth, width ) - decoWidth;
 			break;
 		case WMSZ_TOPLEFT:
 			rect->top = rect->bottom - height - decoHeight;
-			rect->left = rect->right - ( height * SCREEN_WIDTH / SCREEN_HEIGHT ) - decoWidth;
+			rect->left = rect->right - idMath::ClampInt( minWidth, maxWidth, width ) - decoWidth;
 			break;
 	}
 }
-
-//==========================================================================
-
-// Keep this in sync with the one in win_input.cpp
-// This one is used in the menu, the other one is used in game
-
-static byte s_scantokey[128] = {
-//  0            1       2          3          4       5            6         7
-//  8            9       A          B          C       D            E         F
-	0,          27,    '1',       '2',        '3',    '4',         '5',      '6',
-	'7',        '8',    '9',       '0',        '-',    '=',          K_BACKSPACE, 9, // 0
-	'q',        'w',    'e',       'r',        't',    'y',         'u',      'i',
-	'o',        'p',    '[',       ']',        K_ENTER, K_CTRL,      'a',      's',  // 1
-	'd',        'f',    'g',       'h',        'j',    'k',         'l',      ';',
-	'\'',       '`',    K_SHIFT,   '\\',       'z',    'x',         'c',      'v',   // 2
-	'b',        'n',    'm',       ',',        '.',    '/',         K_SHIFT,  K_KP_STAR,
-	K_ALT,      ' ',    K_CAPSLOCK, K_F1,       K_F2,   K_F3,        K_F4,     K_F5, // 3
-	K_F6,       K_F7,   K_F8,      K_F9,       K_F10,  K_PAUSE,     K_SCROLL, K_HOME,
-	K_UPARROW,  K_PGUP, K_KP_MINUS, K_LEFTARROW, K_KP_5, K_RIGHTARROW, K_KP_PLUS, K_END, // 4
-	K_DOWNARROW, K_PGDN, K_INS,     K_DEL,      0,      0,           0,        K_F11,
-	K_F12,      0,      0,         K_LWIN,     K_RWIN, K_MENU,      0,        0,     // 5
-	0,          0,      0,         0,          0,      0,           0,        0,
-	0,          0,      0,         0,          0,      0,           0,        0,     // 6
-	0,          0,      0,         0,          0,      0,           0,        0,
-	0,          0,      0,         0,          0,      0,           0,        0      // 7
-};
-
-static byte s_scantoshift[128] = {
-//  0            1       2          3          4       5            6         7
-//  8            9       A          B          C       D            E         F
-	0,           27,    '!',       '@',        '#',    '$',         '%',      '^',
-	'&',        '*',    '(',       ')',        '_',    '+',         K_BACKSPACE, 9,  // 0
-	'Q',        'W',    'E',       'R',        'T',    'Y',         'U',      'I',
-	'O',        'P',    '{',       '}',        K_ENTER, K_CTRL,      'A',      'S',  // 1
-	'D',        'F',    'G',       'H',        'J',    'K',         'L',      ':',
-	'|' ,       '~',    K_SHIFT,   '\\',       'Z',    'X',         'C',      'V',   // 2
-	'B',        'N',    'M',       '<',        '>',    '?',         K_SHIFT,  K_KP_STAR,
-	K_ALT,      ' ',    K_CAPSLOCK, K_F1,       K_F2,   K_F3,        K_F4,     K_F5, // 3
-	K_F6,       K_F7,   K_F8,      K_F9,       K_F10,  K_PAUSE,     K_SCROLL, K_HOME,
-	K_UPARROW,  K_PGUP, K_KP_MINUS, K_LEFTARROW, K_KP_5, K_RIGHTARROW, K_KP_PLUS, K_END, // 4
-	K_DOWNARROW, K_PGDN, K_INS,     K_DEL,      0,      0,           0,        K_F11,
-	K_F12,      0,      0,         K_LWIN,     K_RWIN, K_MENU,      0,        0,     // 5
-	0,          0,      0,         0,          0,      0,           0,        0,
-	0,          0,      0,         0,          0,      0,           0,        0,     // 6
-	0,          0,      0,         0,          0,      0,           0,        0,
-	0,          0,      0,         0,          0,      0,           0,        0      // 7
-};
-
-
-/*
-=======
-MapKey
-
-Map from windows to Doom keynums
-=======
-*/
-int MapKey( int key ) {
-	int result;
-	int modified;
-	bool is_extended;
-
-	modified = ( key >> 16 ) & 255;
-
-	if ( modified > 127 )
-		return 0;
-
-	if ( key & ( 1 << 24 ) ) {
-		is_extended = true;
-	} else {
-		is_extended = false;
-	}
-
-	//Check for certain extended character codes.
-	//The specific case we are testing is the numpad / is not being translated
-	//properly for localized builds.
-	if ( is_extended ) {
-		switch ( modified ) {
-			case 0x35: //Numpad /
-				return K_KP_SLASH;
-		}
-	}
-
-	const unsigned char *scanToKey = Sys_GetScanTable();
-	result = scanToKey[modified];
-
-	// common->Printf( "Key: 0x%08x Modified: 0x%02x Extended: %s Result: 0x%02x\n", key, modified, (is_extended?"Y":"N"), result);
-
-	if ( is_extended ) {
-		switch ( result ) {
-			case K_PAUSE:
-				return K_KP_NUMLOCK;
-			case 0x0D:
-				return K_KP_ENTER;
-			case 0x2F:
-				return K_KP_SLASH;
-			case 0xAF:
-				return K_KP_PLUS;
-			case K_KP_STAR:
-				return K_PRINT_SCR;
-			case K_ALT:
-				return K_RIGHT_ALT;
-		}
-	} else {
-		switch ( result ) {
-			case K_HOME:
-				return K_KP_HOME;
-			case K_UPARROW:
-				return K_KP_UPARROW;
-			case K_PGUP:
-				return K_KP_PGUP;
-			case K_LEFTARROW:
-				return K_KP_LEFTARROW;
-			case K_RIGHTARROW:
-				return K_KP_RIGHTARROW;
-			case K_END:
-				return K_KP_END;
-			case K_DOWNARROW:
-				return K_KP_DOWNARROW;
-			case K_PGDN:
-				return K_KP_PGDN;
-			case K_INS:
-				return K_KP_INS;
-			case K_DEL:
-				return K_KP_DEL;
-		}
-	}
-
-	return result;
-}
-
 
 /*
 ====================
@@ -269,15 +146,46 @@ LONG WINAPI MainWndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam ) {
 	int key;
 	switch ( uMsg ) {
 		case WM_WINDOWPOSCHANGED:
-			if ( glConfig.isInitialized ) {
+			if ( R_IsInitialized() ) {
 				RECT rect;
 				if ( ::GetClientRect( win32.hWnd, &rect ) ) {
-					glConfig.vidWidth = rect.right - rect.left;
-					glConfig.vidHeight = rect.bottom - rect.top;
+
+					if ( rect.right > rect.left && rect.bottom > rect.top ) {
+						glConfig.nativeScreenWidth = rect.right - rect.left;
+						glConfig.nativeScreenHeight = rect.bottom - rect.top;
+
+						// save the window size in cvars if we aren't fullscreen
+						int style = GetWindowLong( hWnd, GWL_STYLE );
+						if ( ( style & WS_POPUP ) == 0 ) {
+							r_windowWidth.SetInteger( glConfig.nativeScreenWidth );
+							r_windowHeight.SetInteger( glConfig.nativeScreenHeight );
+						}
+					}
 				}
 			}
 			break;
+		case WM_MOVE: {
+			int		xPos, yPos;
+			RECT r;
 
+			// save the window origin in cvars if we aren't fullscreen
+			int style = GetWindowLong( hWnd, GWL_STYLE );
+			if ( ( style & WS_POPUP ) == 0 ) {
+				xPos = ( short ) LOWORD( lParam ); // horizontal position
+				yPos = ( short ) HIWORD( lParam ); // vertical position
+
+				r.left   = 0;
+				r.top    = 0;
+				r.right  = 1;
+				r.bottom = 1;
+
+				AdjustWindowRect( &r, style, FALSE );
+
+				r_windowX.SetInteger( xPos + r.left );
+				r_windowY.SetInteger( yPos + r.top );
+			}
+			break;
+		}
 		case WM_CREATE:
 
 			win32.hWnd = hWnd;
@@ -303,7 +211,8 @@ LONG WINAPI MainWndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam ) {
 			break;
 
 		case WM_CLOSE:
-			cmdSystem->BufferCommandText( CMD_EXEC_APPEND, "quit" );
+			soundSystem->SetMute( true );
+			cmdSystem->BufferCommandText( CMD_EXEC_APPEND, "quit\n" );
 			break;
 
 		case WM_ACTIVATE:
@@ -320,46 +229,26 @@ LONG WINAPI MainWndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam ) {
 			win32.activeApp = ( fActive != WA_INACTIVE );
 			if ( win32.activeApp ) {
 				idKeyInput::ClearStates();
-				com_editorActive = false;
 				Sys_GrabMouseCursor( true );
+				if ( common->IsInitialized() ) {
+					SetCursor( NULL );
+				}
 			}
 
 			if ( fActive == WA_INACTIVE ) {
 				win32.movingWindow = false;
+				if ( common->IsInitialized() ) {
+					SetCursor( LoadCursor( 0, IDC_ARROW ) );
+				}
 			}
 
 			// start playing the game sound world
-			session->SetPlayingSoundWorld();
+			soundSystem->SetMute( !win32.activeApp );
 
 			// we do not actually grab or release the mouse here,
 			// that will be done next time through the main loop
 		}
 		break;
-
-		case WM_MOVE: {
-			int		xPos, yPos;
-			RECT r;
-			int		style;
-
-			if ( !win32.cdsFullscreen ) {
-				xPos = ( short ) LOWORD( lParam ); // horizontal position
-				yPos = ( short ) HIWORD( lParam ); // vertical position
-
-				r.left   = 0;
-				r.top    = 0;
-				r.right  = 1;
-				r.bottom = 1;
-
-				style = GetWindowLong( hWnd, GWL_STYLE );
-				AdjustWindowRect( &r, style, FALSE );
-
-				win32.win_xpos.SetInteger( xPos + r.left );
-				win32.win_ypos.SetInteger( yPos + r.top );
-				win32.win_xpos.ClearModified();
-				win32.win_ypos.ClearModified();
-			}
-			break;
-		}
 		case WM_TIMER: {
 			if ( win32.win_timerUpdate.GetBool() ) {
 				common->Frame();
@@ -380,32 +269,38 @@ LONG WINAPI MainWndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam ) {
 			}
 			// fall through for other keys
 		case WM_KEYDOWN:
-			key = MapKey( lParam );
-			if ( key == K_CTRL || key == K_ALT || key == K_RIGHT_ALT ) {
+			key = ( ( lParam >> 16 ) & 0xFF ) | ( ( ( lParam >> 24 ) & 1 ) << 7 );
+			if ( key == K_LCTRL || key == K_LALT || key == K_RCTRL || key == K_RALT ) {
 				// let direct-input handle this because windows sends Alt-Gr
 				// as two events (ctrl then alt)
 				break;
 			}
-			Sys_QueEvent( win32.sysMsgTime, SE_KEY, key, true, 0, NULL );
+			// D
+			if ( key == K_NUMLOCK ) {
+				key = K_PAUSE;
+			} else if ( key == K_PAUSE ) {
+				key = K_NUMLOCK;
+			}
+			Sys_QueEvent( SE_KEY, key, true, 0, NULL, 0 );
 			break;
 
 		case WM_SYSKEYUP:
 		case WM_KEYUP:
-			key = MapKey( lParam );
-			if ( key == K_PRINT_SCR ) {
+			key = ( ( lParam >> 16 ) & 0xFF ) | ( ( ( lParam >> 24 ) & 1 ) << 7 );
+			if ( key == K_PRINTSCREEN ) {
 				// don't queue printscreen keys.  Since windows doesn't send us key
 				// down events for this, we handle queueing them with DirectInput
 				break;
-			} else if ( key == K_CTRL || key == K_ALT || key == K_RIGHT_ALT ) {
+			} else if ( key == K_LCTRL || key == K_LALT || key == K_RCTRL || key == K_RALT ) {
 				// let direct-input handle this because windows sends Alt-Gr
 				// as two events (ctrl then alt)
 				break;
 			}
-			Sys_QueEvent( win32.sysMsgTime, SE_KEY, key, false, 0, NULL );
+			Sys_QueEvent( SE_KEY, key, false, 0, NULL, 0 );
 			break;
 
 		case WM_CHAR:
-			Sys_QueEvent( win32.sysMsgTime, SE_CHAR, wParam, 0, 0, NULL );
+			Sys_QueEvent( SE_CHAR, wParam, 0, 0, NULL, 0 );
 			break;
 
 		case WM_NCLBUTTONDOWN:
@@ -423,21 +318,107 @@ LONG WINAPI MainWndProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam ) {
 		case WM_SIZING:
 			WIN_Sizing( wParam, ( RECT * )lParam );
 			break;
-
-		case WM_RBUTTONDOWN:
-		case WM_RBUTTONUP:
-		case WM_MBUTTONDOWN:
-		case WM_MBUTTONUP:
 		case WM_MOUSEMOVE: {
-			break;
+			if ( !common->IsInitialized() ) {
+				break;
+			}
+
+			const bool isShellActive = ( game && ( game->Shell_IsActive() || game->IsPDAOpen() ) );
+			const bool isConsoleActive = console->Active();
+
+			if ( win32.activeApp ) {
+				if ( isShellActive ) {
+					// If the shell is active, it will display its own cursor.
+					SetCursor( NULL );
+				} else if ( isConsoleActive ) {
+					// The console is active but the shell is not.
+					// Show the Windows cursor.
+					SetCursor( LoadCursor( 0, IDC_ARROW ) );
+				} else {
+					// The shell not active and neither is the console.
+					// This is normal gameplay, hide the cursor.
+					SetCursor( NULL );
+				}
+			} else {
+				if ( !isShellActive ) {
+					// Always show the cursor when the window is in the background
+					SetCursor( LoadCursor( 0, IDC_ARROW ) );
+				} else {
+					SetCursor( NULL );
+				}
+			}
+
+			const int x = GET_X_LPARAM( lParam );
+			const int y = GET_Y_LPARAM( lParam );
+
+			// Generate an event
+			Sys_QueEvent( SE_MOUSE_ABSOLUTE, x, y, 0, NULL, 0 );
+
+			// Get a mouse leave message
+			TRACKMOUSEEVENT tme = {
+				sizeof( TRACKMOUSEEVENT ),
+				TME_LEAVE,
+				hWnd,
+				0
+			};
+
+			TrackMouseEvent( &tme );
+
+			return 0;
+		}
+		case WM_MOUSELEAVE: {
+			Sys_QueEvent( SE_MOUSE_LEAVE, 0, 0, 0, NULL, 0 );
+			return 0;
+		}
+		case WM_LBUTTONDOWN: {
+			Sys_QueEvent( SE_KEY, K_MOUSE1, 1, 0, NULL, 0 );
+			return 0;
+		}
+		case WM_LBUTTONUP: {
+			Sys_QueEvent( SE_KEY, K_MOUSE1, 0, 0, NULL, 0 );
+			return 0;
+		}
+		case WM_RBUTTONDOWN: {
+			Sys_QueEvent( SE_KEY, K_MOUSE2, 1, 0, NULL, 0 );
+			return 0;
+		}
+		case WM_RBUTTONUP: {
+			Sys_QueEvent( SE_KEY, K_MOUSE2, 0, 0, NULL, 0 );
+			return 0;
+		}
+		case WM_MBUTTONDOWN: {
+			Sys_QueEvent( SE_KEY, K_MOUSE3, 1, 0, NULL, 0 );
+			return 0;
+		}
+		case WM_MBUTTONUP: {
+			Sys_QueEvent( SE_KEY, K_MOUSE3, 0, 0, NULL, 0 );
+			return 0;
+		}
+		case WM_XBUTTONDOWN: {
+			int button = GET_XBUTTON_WPARAM( wParam );
+			if ( button == 1 ) {
+				Sys_QueEvent( SE_KEY, K_MOUSE4, 1, 0, NULL, 0 );
+			} else if ( button == 2 ) {
+				Sys_QueEvent( SE_KEY, K_MOUSE5, 1, 0, NULL, 0 );
+			}
+			return 0;
+		}
+		case WM_XBUTTONUP: {
+			int button = GET_XBUTTON_WPARAM( wParam );
+			if ( button == 1 ) {
+				Sys_QueEvent( SE_KEY, K_MOUSE4, 0, 0, NULL, 0 );
+			} else if ( button == 2 ) {
+				Sys_QueEvent( SE_KEY, K_MOUSE5, 0, 0, NULL, 0 );
+			}
+			return 0;
 		}
 		case WM_MOUSEWHEEL: {
 			int delta = GET_WHEEL_DELTA_WPARAM( wParam ) / WHEEL_DELTA;
 			int key = delta < 0 ? K_MWHEELDOWN : K_MWHEELUP;
 			delta = abs( delta );
 			while ( delta-- > 0 ) {
-				Sys_QueEvent( win32.sysMsgTime, SE_KEY, key, true, 0, NULL );
-				Sys_QueEvent( win32.sysMsgTime, SE_KEY, key, false, 0, NULL );
+				Sys_QueEvent( SE_KEY, key, true, 0, NULL, 0 );
+				Sys_QueEvent( SE_KEY, key, false, 0, NULL, 0 );
 			}
 			break;
 		}
