@@ -1,25 +1,25 @@
 /*
 ===========================================================================
 
-Doom 3 GPL Source Code
-Copyright (C) 1999-2011 id Software LLC, a ZeniMax Media company.
+Doom 3 BFG Edition GPL Source Code
+Copyright (C) 1993-2012 id Software LLC, a ZeniMax Media company.
 
-This file is part of the Doom 3 GPL Source Code (?Doom 3 Source Code?).
+This file is part of the Doom 3 BFG Edition GPL Source Code ("Doom 3 BFG Edition Source Code").
 
-Doom 3 Source Code is free software: you can redistribute it and/or modify
+Doom 3 BFG Edition Source Code is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 
-Doom 3 Source Code is distributed in the hope that it will be useful,
+Doom 3 BFG Edition Source Code is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with Doom 3 Source Code.  If not, see <http://www.gnu.org/licenses/>.
+along with Doom 3 BFG Edition Source Code.  If not, see <http://www.gnu.org/licenses/>.
 
-In addition, the Doom 3 Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the Doom 3 Source Code.  If not, please request a copy in writing from id Software at the address below.
+In addition, the Doom 3 BFG Edition Source Code is also subject to certain additional terms. You should have received a copy of these additional terms immediately following the terms and conditions of the GNU General Public License which accompanied the Doom 3 BFG Edition Source Code.  If not, please request a copy in writing from id Software at the address below.
 
 If you have questions concerning this license or the applicable additional terms, you may contact in writing id Software LLC, c/o ZeniMax Media Inc., Suite 120, Rockville, Maryland 20850 USA.
 
@@ -93,7 +93,7 @@ int idParser::RemoveGlobalDefine( const char *name ) {
 idParser::RemoveAllGlobalDefines
 ================
 */
-void idParser::RemoveAllGlobalDefines( void ) {
+void idParser::RemoveAllGlobalDefines() {
 	define_t *define;
 
 	for ( define = globaldefines; define; define = globaldefines ) {
@@ -233,7 +233,7 @@ define_t *idParser::CopyDefine( define_t *define ) {
 	define_t *newdefine;
 	idToken *token, *newtoken, *lasttoken;
 
-	newdefine = ( define_t * ) Mem_Alloc( sizeof( define_t ) + strlen( define->name ) + 1 );
+	newdefine = ( define_t * ) Mem_Alloc( sizeof( define_t ) + strlen( define->name ) + 1, TAG_IDLIB_PARSER );
 	//copy the define name
 	newdefine->name = ( char * ) newdefine + sizeof( define_t );
 	strcpy( newdefine->name, define->name );
@@ -246,7 +246,7 @@ define_t *idParser::CopyDefine( define_t *define ) {
 	//copy the define tokens
 	newdefine->tokens = NULL;
 	for ( lasttoken = NULL, token = define->tokens; token; token = token->next ) {
-		newtoken = new idToken( token );
+		newtoken = new( TAG_IDLIB_PARSER ) idToken( token );
 		newtoken->next = NULL;
 		if ( lasttoken ) lasttoken->next = newtoken;
 		else newdefine->tokens = newtoken;
@@ -255,7 +255,7 @@ define_t *idParser::CopyDefine( define_t *define ) {
 	//copy the define parameters
 	newdefine->parms = NULL;
 	for ( lasttoken = NULL, token = define->parms; token; token = token->next ) {
-		newtoken = new idToken( token );
+		newtoken = new( TAG_IDLIB_PARSER ) idToken( token );
 		newtoken->next = NULL;
 		if ( lasttoken ) lasttoken->next = newtoken;
 		else newdefine->parms = newtoken;
@@ -351,7 +351,7 @@ idParser::PushIndent
 void idParser::PushIndent( int type, int skip ) {
 	indent_t *indent;
 
-	indent = ( indent_t * ) Mem_Alloc( sizeof( indent_t ) );
+	indent = ( indent_t * ) Mem_Alloc( sizeof( indent_t ), TAG_IDLIB_PARSER );
 	indent->type = type;
 	indent->script = idParser::scriptstack;
 	indent->skip = ( skip != 0 );
@@ -454,6 +454,7 @@ int idParser::ReadSourceToken( idToken *token ) {
 	*token = idParser::tokens;
 	// remove the token from the source
 	t = idParser::tokens;
+	assert( idParser::tokens != NULL );
 	idParser::tokens = idParser::tokens->next;
 	delete t;
 	return true;
@@ -467,7 +468,7 @@ idParser::UnreadSourceToken
 int idParser::UnreadSourceToken( idToken *token ) {
 	idToken *t;
 
-	t = new idToken( token );
+	t = new( TAG_IDLIB_PARSER ) idToken( token );
 	t->next = idParser::tokens;
 	idParser::tokens = t;
 	return true;
@@ -554,7 +555,7 @@ int idParser::ReadDefineParms( define_t *define, idToken **parms, int maxparms )
 
 			if ( numparms < define->numparms ) {
 
-				t = new idToken( token );
+				t = new( TAG_IDLIB_PARSER ) idToken( token );
 				t->next = NULL;
 				if ( last ) last->next = t;
 				else parms[numparms] = t;
@@ -616,7 +617,7 @@ int idParser::MergeTokens( idToken *t1, idToken *t2 ) {
 idParser::AddBuiltinDefines
 ================
 */
-void idParser::AddBuiltinDefines( void ) {
+void idParser::AddBuiltinDefines() {
 	int i;
 	define_t *define;
 	struct builtin {
@@ -632,7 +633,7 @@ void idParser::AddBuiltinDefines( void ) {
 	};
 
 	for ( i = 0; builtin[i].string; i++ ) {
-		define = ( define_t * ) Mem_Alloc( sizeof( define_t ) + strlen( builtin[i].string ) + 1 );
+		define = ( define_t * ) Mem_Alloc( sizeof( define_t ) + strlen( builtin[i].string ) + 1, TAG_IDLIB_PARSER );
 		define->name = ( char * ) define + sizeof( define_t );
 		strcpy( define->name, builtin[i].string );
 		define->flags = DEFINE_FIXED;
@@ -650,7 +651,7 @@ void idParser::AddBuiltinDefines( void ) {
 idParser::CopyFirstDefine
 ================
 */
-define_t *idParser::CopyFirstDefine( void ) {
+define_t *idParser::CopyFirstDefine() {
 	int i;
 
 	for ( i = 0; i < DEFINEHASHSIZE; i++ ) {
@@ -661,6 +662,45 @@ define_t *idParser::CopyFirstDefine( void ) {
 	return NULL;
 }
 
+static idStr PreProcessorDate() {
+	time_t t = time( NULL );
+	char *curtime = ctime( &t );
+	if ( idStr::Length( curtime ) < 24 ) {
+		return idStr( "*** BAD CURTIME ***" );
+	}
+	idStr	str = "\"";
+	// skip DAY, extract MMM DD
+	for ( int i = 4 ; i < 10 ; i++ ) {
+		str.Append( curtime[i] );
+	}
+	// skip time, extract space+YYYY
+	for ( int i = 19 ; i < 24 ; i++ ) {
+		str.Append( curtime[i] );
+	}
+	str.Append( "\"" );
+	return str;
+}
+
+static idStr PreProcessorTime() {
+	time_t t = time( NULL );
+	char *curtime = ctime( &t );
+	if ( idStr::Length( curtime ) < 24 ) {
+		return idStr( "*** BAD CURTIME ***" );
+	}
+
+	idStr	str = "\"";
+	for ( int i = 11 ; i < 19 ; i++ ) {
+		str.Append( curtime[i] );
+	}
+	str.Append( "\"" );
+	return str;
+}
+
+CONSOLE_COMMAND( TestPreprocessorMacros, "check analyze warning", 0 ) {
+	idLib::Printf( "%s : %s\n", __DATE__, PreProcessorDate().c_str() );
+	idLib::Printf( "%s : %s\n", __TIME__, PreProcessorTime().c_str() );
+}
+
 /*
 ================
 idParser::ExpandBuiltinDefine
@@ -668,11 +708,9 @@ idParser::ExpandBuiltinDefine
 */
 int idParser::ExpandBuiltinDefine( idToken *deftoken, define_t *define, idToken **firsttoken, idToken **lasttoken ) {
 	idToken *token;
-	ID_TIME_T t;
-	char *curtime;
 	char buf[MAX_STRING_CHARS];
 
-	token = new idToken( deftoken );
+	token = new( TAG_IDLIB_PARSER ) idToken( deftoken );
 	switch ( define->builtin ) {
 		case BUILTIN_LINE: {
 			sprintf( buf, "%d", deftoken->line );
@@ -700,15 +738,7 @@ int idParser::ExpandBuiltinDefine( idToken *deftoken, define_t *define, idToken 
 			break;
 		}
 		case BUILTIN_DATE: {
-			t = time( NULL );
-			curtime = ctime( &t );
-			( *token ) = "\"";
-			token->Append( curtime + 4 );
-			token[7] = '\0';
-			token->Append( curtime + 20 );
-			token[10] = '\0';
-			token->Append( "\"" );
-			free( curtime );
+			*token = PreProcessorDate();
 			token->type = TT_STRING;
 			token->subtype = token->Length();
 			token->line = deftoken->line;
@@ -719,13 +749,7 @@ int idParser::ExpandBuiltinDefine( idToken *deftoken, define_t *define, idToken 
 			break;
 		}
 		case BUILTIN_TIME: {
-			t = time( NULL );
-			curtime = ctime( &t );
-			( *token ) = "\"";
-			token->Append( curtime + 11 );
-			token[8] = '\0';
-			token->Append( "\"" );
-			free( curtime );
+			*token = PreProcessorTime();
 			token->type = TT_STRING;
 			token->subtype = token->Length();
 			token->line = deftoken->line;
@@ -791,7 +815,7 @@ int idParser::ExpandDefine( idToken *deftoken, define_t *define, idToken **first
 		// if it is a define parameter
 		if ( parmnum >= 0 ) {
 			for ( pt = parms[parmnum]; pt; pt = pt->next ) {
-				t = new idToken( pt );
+				t = new( TAG_IDLIB_PARSER ) idToken( pt );
 				//add the token to the list
 				t->next = NULL;
 				if ( last ) last->next = t;
@@ -816,14 +840,14 @@ int idParser::ExpandDefine( idToken *deftoken, define_t *define, idToken **first
 						idParser::Error( "can't stringize tokens" );
 						return false;
 					}
-					t = new idToken( token );
+					t = new( TAG_IDLIB_PARSER ) idToken( token );
 					t->line = deftoken->line;
 				} else {
 					idParser::Warning( "stringizing operator without define parameter" );
 					continue;
 				}
 			} else {
-				t = new idToken( dt );
+				t = new( TAG_IDLIB_PARSER ) idToken( dt );
 				t->line = deftoken->line;
 			}
 			// add the token to the list
@@ -924,7 +948,7 @@ int idParser::ReadLine( idToken *token ) {
 idParser::Directive_include
 ================
 */
-int idParser::Directive_include( void ) {
+int idParser::Directive_include() {
 	idLexer *script;
 	idToken token;
 	idStr path;
@@ -938,7 +962,7 @@ int idParser::Directive_include( void ) {
 		return false;
 	}
 	if ( token.type == TT_STRING ) {
-		script = new idLexer;
+		script = new( TAG_IDLIB_PARSER ) idLexer;
 		// try relative to the current file
 		path = scriptstack->GetFileName();
 		path.StripFilename();
@@ -978,7 +1002,7 @@ int idParser::Directive_include( void ) {
 		if ( idParser::flags & LEXFL_NOBASEINCLUDES ) {
 			return true;
 		}
-		script = new idLexer;
+		script = new( TAG_IDLIB_PARSER ) idLexer;
 		if ( !script->LoadFile( includepath + path, OSPath ) ) {
 			delete script;
 			script = NULL;
@@ -1002,7 +1026,7 @@ int idParser::Directive_include( void ) {
 idParser::Directive_undef
 ================
 */
-int idParser::Directive_undef( void ) {
+int idParser::Directive_undef() {
 	idToken token;
 	define_t *define, *lastdefine;
 	int hash;
@@ -1043,7 +1067,7 @@ int idParser::Directive_undef( void ) {
 idParser::Directive_define
 ================
 */
-int idParser::Directive_define( void ) {
+int idParser::Directive_define() {
 	idToken token, *t, *last;
 	define_t *define;
 
@@ -1072,7 +1096,7 @@ int idParser::Directive_define( void ) {
 		define = FindHashedDefine( idParser::definehash, token.c_str() );
 	}
 	// allocate define
-	define = ( define_t * ) Mem_ClearedAlloc( sizeof( define_t ) + token.Length() + 1 );
+	define = ( define_t * ) Mem_ClearedAlloc( sizeof( define_t ) + token.Length() + 1, TAG_IDLIB_PARSER );
 	define->name = ( char * ) define + sizeof( define_t );
 	strcpy( define->name, token.c_str() );
 	// add the define to the source
@@ -1102,7 +1126,7 @@ int idParser::Directive_define( void ) {
 					return false;
 				}
 				// add the define parm
-				t = new idToken( token );
+				t = new( TAG_IDLIB_PARSER ) idToken( token );
 				t->ClearTokenWhiteSpace();
 				t->next = NULL;
 				if ( last ) last->next = t;
@@ -1132,7 +1156,7 @@ int idParser::Directive_define( void ) {
 	// read the defined stuff
 	last = NULL;
 	do {
-		t = new idToken( token );
+		t = new( TAG_IDLIB_PARSER ) idToken( token );
 		if ( t->type == TT_NAME && !strcmp( t->c_str(), define->name ) ) {
 			t->flags |= TOKEN_FL_RECURSIVE_DEFINE;
 			idParser::Warning( "recursive define (removed recursion)" );
@@ -1175,7 +1199,7 @@ int idParser::AddDefine( const char *string ) {
 idParser::AddGlobalDefinesToSource
 ================
 */
-void idParser::AddGlobalDefinesToSource( void ) {
+void idParser::AddGlobalDefinesToSource() {
 	define_t *define, *newdefine;
 
 	for ( define = globaldefines; define; define = define->next ) {
@@ -1214,7 +1238,7 @@ int idParser::Directive_if_def( int type ) {
 idParser::Directive_ifdef
 ================
 */
-int idParser::Directive_ifdef( void ) {
+int idParser::Directive_ifdef() {
 	return idParser::Directive_if_def( INDENT_IFDEF );
 }
 
@@ -1223,7 +1247,7 @@ int idParser::Directive_ifdef( void ) {
 idParser::Directive_ifndef
 ================
 */
-int idParser::Directive_ifndef( void ) {
+int idParser::Directive_ifndef() {
 	return idParser::Directive_if_def( INDENT_IFNDEF );
 }
 
@@ -1232,7 +1256,7 @@ int idParser::Directive_ifndef( void ) {
 idParser::Directive_else
 ================
 */
-int idParser::Directive_else( void ) {
+int idParser::Directive_else() {
 	int type, skip;
 
 	idParser::PopIndent( &type, &skip );
@@ -1253,7 +1277,7 @@ int idParser::Directive_else( void ) {
 idParser::Directive_endif
 ================
 */
-int idParser::Directive_endif( void ) {
+int idParser::Directive_endif() {
 	int type, skip;
 
 	idParser::PopIndent( &type, &skip );
@@ -1834,14 +1858,14 @@ int idParser::Evaluate( signed long int *intvalue, double *floatvalue, int integ
 		if ( token.type == TT_NAME ) {
 			if ( defined ) {
 				defined = false;
-				t = new idToken( token );
+				t = new( TAG_IDLIB_PARSER ) idToken( token );
 				t->next = NULL;
 				if ( lasttoken ) lasttoken->next = t;
 				else firsttoken = t;
 				lasttoken = t;
 			} else if ( token == "defined" ) {
 				defined = true;
-				t = new idToken( token );
+				t = new( TAG_IDLIB_PARSER ) idToken( token );
 				t->next = NULL;
 				if ( lasttoken ) lasttoken->next = t;
 				else firsttoken = t;
@@ -1860,7 +1884,7 @@ int idParser::Evaluate( signed long int *intvalue, double *floatvalue, int integ
 		}
 		//if the token is a number or a punctuation
 		else if ( token.type == TT_NUMBER || token.type == TT_PUNCTUATION ) {
-			t = new idToken( token );
+			t = new( TAG_IDLIB_PARSER ) idToken( token );
 			t->next = NULL;
 			if ( lasttoken ) lasttoken->next = t;
 			else firsttoken = t;
@@ -1927,14 +1951,14 @@ int idParser::DollarEvaluate( signed long int *intvalue, double *floatvalue, int
 		if ( token.type == TT_NAME ) {
 			if ( defined ) {
 				defined = false;
-				t = new idToken( token );
+				t = new( TAG_IDLIB_PARSER ) idToken( token );
 				t->next = NULL;
 				if ( lasttoken ) lasttoken->next = t;
 				else firsttoken = t;
 				lasttoken = t;
 			} else if ( token == "defined" ) {
 				defined = true;
-				t = new idToken( token );
+				t = new( TAG_IDLIB_PARSER ) idToken( token );
 				t->next = NULL;
 				if ( lasttoken ) lasttoken->next = t;
 				else firsttoken = t;
@@ -1958,7 +1982,7 @@ int idParser::DollarEvaluate( signed long int *intvalue, double *floatvalue, int
 			if ( indent <= 0 ) {
 				break;
 			}
-			t = new idToken( token );
+			t = new( TAG_IDLIB_PARSER ) idToken( token );
 			t->next = NULL;
 			if ( lasttoken ) lasttoken->next = t;
 			else firsttoken = t;
@@ -1996,7 +2020,7 @@ int idParser::DollarEvaluate( signed long int *intvalue, double *floatvalue, int
 idParser::Directive_elif
 ================
 */
-int idParser::Directive_elif( void ) {
+int idParser::Directive_elif() {
 	signed long int value;
 	int type, skip;
 
@@ -2018,7 +2042,7 @@ int idParser::Directive_elif( void ) {
 idParser::Directive_if
 ================
 */
-int idParser::Directive_if( void ) {
+int idParser::Directive_if() {
 	signed long int value;
 	int skip;
 
@@ -2035,7 +2059,7 @@ int idParser::Directive_if( void ) {
 idParser::Directive_line
 ================
 */
-int idParser::Directive_line( void ) {
+int idParser::Directive_line() {
 	idToken token;
 
 	idParser::Error( "#line directive not supported" );
@@ -2049,7 +2073,7 @@ int idParser::Directive_line( void ) {
 idParser::Directive_error
 ================
 */
-int idParser::Directive_error( void ) {
+int idParser::Directive_error() {
 	idToken token;
 
 	if ( !idParser::ReadLine( &token ) || token.type != TT_STRING ) {
@@ -2065,7 +2089,7 @@ int idParser::Directive_error( void ) {
 idParser::Directive_warning
 ================
 */
-int idParser::Directive_warning( void ) {
+int idParser::Directive_warning() {
 	idToken token;
 
 	if ( !idParser::ReadLine( &token ) || token.type != TT_STRING ) {
@@ -2081,7 +2105,7 @@ int idParser::Directive_warning( void ) {
 idParser::Directive_pragma
 ================
 */
-int idParser::Directive_pragma( void ) {
+int idParser::Directive_pragma() {
 	idToken token;
 
 	idParser::Warning( "#pragma directive not supported" );
@@ -2095,7 +2119,7 @@ int idParser::Directive_pragma( void ) {
 idParser::UnreadSignToken
 ================
 */
-void idParser::UnreadSignToken( void ) {
+void idParser::UnreadSignToken() {
 	idToken token;
 
 	token.line = idParser::scriptstack->GetLineNum();
@@ -2114,7 +2138,7 @@ void idParser::UnreadSignToken( void ) {
 idParser::Directive_eval
 ================
 */
-int idParser::Directive_eval( void ) {
+int idParser::Directive_eval() {
 	signed long int value;
 	idToken token;
 	char buf[128];
@@ -2144,7 +2168,7 @@ int idParser::Directive_eval( void ) {
 idParser::Directive_evalfloat
 ================
 */
-int idParser::Directive_evalfloat( void ) {
+int idParser::Directive_evalfloat() {
 	double value;
 	idToken token;
 	char buf[128];
@@ -2174,7 +2198,7 @@ int idParser::Directive_evalfloat( void ) {
 idParser::ReadDirective
 ================
 */
-int idParser::ReadDirective( void ) {
+int idParser::ReadDirective() {
 	idToken token;
 
 	//read the directive name
@@ -2238,7 +2262,7 @@ int idParser::ReadDirective( void ) {
 idParser::DollarDirective_evalint
 ================
 */
-int idParser::DollarDirective_evalint( void ) {
+int idParser::DollarDirective_evalint() {
 	signed long int value;
 	idToken token;
 	char buf[128];
@@ -2270,7 +2294,7 @@ int idParser::DollarDirective_evalint( void ) {
 idParser::DollarDirective_evalfloat
 ================
 */
-int idParser::DollarDirective_evalfloat( void ) {
+int idParser::DollarDirective_evalfloat() {
 	double value;
 	idToken token;
 	char buf[128];
@@ -2302,7 +2326,7 @@ int idParser::DollarDirective_evalfloat( void ) {
 idParser::ReadDollarDirective
 ================
 */
-int idParser::ReadDollarDirective( void ) {
+int idParser::ReadDollarDirective() {
 	idToken token;
 
 	// read the directive name
@@ -2595,7 +2619,7 @@ int idParser::SkipUntilString( const char *string ) {
 idParser::SkipRestOfLine
 ================
 */
-int idParser::SkipRestOfLine( void ) {
+int idParser::SkipRestOfLine() {
 	idToken token;
 
 	while ( idParser::ReadToken( &token ) ) {
@@ -2650,31 +2674,34 @@ const char *idParser::ParseBracedSectionExact( idStr &out, int tabs ) {
 	return scriptstack->ParseBracedSectionExact( out, tabs );
 }
 
+
 /*
-=================
+========================
 idParser::ParseBracedSection
 
-The next token should be an open brace.
-Parses until a matching close brace is found.
-Internal brace depths are properly skipped.
-=================
+The next token should be an open brace. Parses until a matching close brace is found. Internal
+brace depths are properly skipped.
+========================
 */
-const char *idParser::ParseBracedSection( idStr &out, int tabs ) {
+const char *idParser::ParseBracedSection( idStr &out, int tabs, bool parseFirstBrace, char intro, char outro ) {
 	idToken token;
 	int i, depth;
-	bool doTabs = false;
-	if ( tabs >= 0 ) {
-		doTabs = true;
-	}
+	bool doTabs;
+
+	char temp[ 2 ] = { 0, 0 };
+	*temp = intro;
 
 	out.Empty();
-	if ( !idParser::ExpectTokenString( "{" ) ) {
-		return out.c_str();
+	if ( parseFirstBrace ) {
+		if ( !ExpectTokenString( temp ) ) {
+			return out.c_str();
+		}
+		out = temp;
 	}
-	out = "{";
 	depth = 1;
+	doTabs = ( tabs >= 0 );
 	do {
-		if ( !idParser::ReadToken( &token ) ) {
+		if ( !ReadToken( &token ) ) {
 			Error( "missing closing brace" );
 			return out.c_str();
 		}
@@ -2686,30 +2713,29 @@ const char *idParser::ParseBracedSection( idStr &out, int tabs ) {
 
 		if ( doTabs && token.linesCrossed ) {
 			i = tabs;
-			if ( token[0] == '}' && i > 0 ) {
+			if ( token[ 0 ] == outro && i > 0 ) {
 				i--;
 			}
 			while ( i-- > 0 ) {
 				out += "\t";
 			}
 		}
-		if ( token.type == TT_PUNCTUATION ) {
-			if ( token[0] == '{' ) {
+		if ( token.type == TT_STRING ) {
+			out += "\"" + token + "\"";
+		} else if ( token.type == TT_LITERAL ) {
+			out += "\'" + token + "\'";
+		} else {
+			if ( token[ 0 ] == intro ) {
 				depth++;
 				if ( doTabs ) {
 					tabs++;
 				}
-			} else if ( token[0] == '}' ) {
+			} else if ( token[ 0 ] == outro ) {
 				depth--;
 				if ( doTabs ) {
 					tabs--;
 				}
 			}
-		}
-
-		if ( token.type == TT_STRING ) {
-			out += "\"" + token + "\"";
-		} else {
 			out += token;
 		}
 		out += " ";
@@ -2777,7 +2803,7 @@ int idParser::ReadTokenOnLine( idToken *token ) {
 idParser::ParseInt
 ================
 */
-int idParser::ParseInt( void ) {
+int idParser::ParseInt() {
 	idToken token;
 
 	if ( !idParser::ReadToken( &token ) ) {
@@ -2798,7 +2824,7 @@ int idParser::ParseInt( void ) {
 idParser::ParseBool
 ================
 */
-bool idParser::ParseBool( void ) {
+bool idParser::ParseBool() {
 	idToken token;
 
 	if ( !idParser::ExpectTokenType( TT_NUMBER, 0, &token ) ) {
@@ -2813,7 +2839,7 @@ bool idParser::ParseBool( void ) {
 idParser::ParseFloat
 ================
 */
-float idParser::ParseFloat( void ) {
+float idParser::ParseFloat() {
 	idToken token;
 
 	if ( !idParser::ReadToken( &token ) ) {
@@ -2918,7 +2944,7 @@ int idParser::GetLastWhiteSpace( idStr &whiteSpace ) const {
 idParser::SetMarker
 ================
 */
-void idParser::SetMarker( void ) {
+void idParser::SetMarker() {
 	marker_p = NULL;
 }
 
@@ -2972,7 +2998,7 @@ void idParser::SetIncludePath( const char *path ) {
 	// add trailing path seperator
 	if ( idParser::includepath[idParser::includepath.Length() - 1] != '\\' &&
 			idParser::includepath[idParser::includepath.Length() - 1] != '/' ) {
-		idParser::includepath += PATHSEPERATOR_STR;
+		idParser::includepath += PATHSEPARATOR_STR;
 	}
 }
 
@@ -3004,7 +3030,7 @@ void idParser::SetFlags( int flags ) {
 idParser::GetFlags
 ================
 */
-int idParser::GetFlags( void ) const {
+int idParser::GetFlags() const {
 	return idParser::flags;
 }
 
@@ -3020,7 +3046,7 @@ int idParser::LoadFile( const char *filename, bool OSPath ) {
 		idLib::common->FatalError( "idParser::loadFile: another source already loaded" );
 		return false;
 	}
-	script = new idLexer( filename, 0, OSPath );
+	script = new( TAG_IDLIB_PARSER ) idLexer( filename, 0, OSPath );
 	if ( !script->IsLoaded() ) {
 		delete script;
 		return false;
@@ -3038,7 +3064,7 @@ int idParser::LoadFile( const char *filename, bool OSPath ) {
 
 	if ( !idParser::definehash ) {
 		idParser::defines = NULL;
-		idParser::definehash = ( define_t ** ) Mem_ClearedAlloc( DEFINEHASHSIZE * sizeof( define_t * ) );
+		idParser::definehash = ( define_t ** ) Mem_ClearedAlloc( DEFINEHASHSIZE * sizeof( define_t * ), TAG_IDLIB_PARSER );
 		idParser::AddGlobalDefinesToSource();
 	}
 	return true;
@@ -3056,7 +3082,7 @@ int idParser::LoadMemory( const char *ptr, int length, const char *name ) {
 		idLib::common->FatalError( "idParser::loadMemory: another source already loaded" );
 		return false;
 	}
-	script = new idLexer( ptr, length, name );
+	script = new( TAG_IDLIB_PARSER ) idLexer( ptr, length, name );
 	if ( !script->IsLoaded() ) {
 		delete script;
 		return false;
@@ -3073,7 +3099,7 @@ int idParser::LoadMemory( const char *ptr, int length, const char *name ) {
 
 	if ( !idParser::definehash ) {
 		idParser::defines = NULL;
-		idParser::definehash = ( define_t ** ) Mem_ClearedAlloc( DEFINEHASHSIZE * sizeof( define_t * ) );
+		idParser::definehash = ( define_t ** ) Mem_ClearedAlloc( DEFINEHASHSIZE * sizeof( define_t * ), TAG_IDLIB_PARSER );
 		idParser::AddGlobalDefinesToSource();
 	}
 	return true;
@@ -3249,7 +3275,19 @@ idParser::idParser( const char *ptr, int length, const char *name, int flags ) {
 idParser::~idParser
 ================
 */
-idParser::~idParser( void ) {
+idParser::~idParser() {
 	idParser::FreeSource( false );
+}
+
+/*
+========================
+idParser::EndOfFile
+========================
+*/
+bool idParser::EndOfFile() {
+	if ( scriptstack != NULL ) {
+		return ( bool ) scriptstack->EndOfFile();
+	}
+	return true;
 }
 
