@@ -48,9 +48,6 @@
     <ClCompile Include="game\anim\Anim_Blend.cpp">
       <Filter>Animation</Filter>
     </ClCompile>
-    <ClCompile Include="game\anim\Anim_Import.cpp">
-      <Filter>Animation</Filter>
-    </ClCompile>
     <ClCompile Include="game\anim\Anim_Testmodel.cpp">
       <Filter>Animation</Filter>
     </ClCompile>
@@ -70,9 +67,6 @@
       <Filter>GameSys</Filter>
     </ClCompile>
     <ClCompile Include="game\gamesys\SysCvar.cpp">
-      <Filter>GameSys</Filter>
-    </ClCompile>
-    <ClCompile Include="game\gamesys\TypeInfo.cpp">
       <Filter>GameSys</Filter>
     </ClCompile>
     <ClCompile Include="game\physics\Clip.cpp">
@@ -167,6 +161,7 @@
     <ClCompile Include="game\Trigger.cpp" />
     <ClCompile Include="game\Weapon.cpp" />
     <ClCompile Include="game\WorldSpawn.cpp" />
+    <ClCompile Include="game\Achievements.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game\ai\AAS.h">
@@ -191,9 +186,6 @@
       <Filter>GameSys</Filter>
     </ClInclude>
     <ClInclude Include="game\gamesys\Event.h">
-      <Filter>GameSys</Filter>
-    </ClInclude>
-    <ClInclude Include="game\gamesys\NoGameTypeInfo.h">
       <Filter>GameSys</Filter>
     </ClInclude>
     <ClInclude Include="game\gamesys\SaveGame.h">
@@ -297,6 +289,7 @@
     <ClInclude Include="game\Trigger.h" />
     <ClInclude Include="game\Weapon.h" />
     <ClInclude Include="game\WorldSpawn.h" />
+    <ClInclude Include="game\Achievements.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="game\Game.def" />

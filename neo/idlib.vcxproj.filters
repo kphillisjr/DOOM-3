@@ -19,15 +19,18 @@
     <Filter Include="Text">
       <UniqueIdentifier>{767fafaf-96d2-4d2b-b4d8-479344d8537c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sys">
+      <UniqueIdentifier>{cd4f2be2-8eb4-4a80-a0ab-0ed8d4eda2db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sys\Win32">
+      <UniqueIdentifier>{8d100526-0f7e-40c1-bd91-08a8fffad028}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="idlib\bv\Bounds.cpp">
       <Filter>BV</Filter>
     </ClCompile>
     <ClCompile Include="idlib\bv\Box.cpp">
-      <Filter>BV</Filter>
-    </ClCompile>
-    <ClCompile Include="idlib\bv\Frustum.cpp">
       <Filter>BV</Filter>
     </ClCompile>
     <ClCompile Include="idlib\bv\Sphere.cpp">
@@ -108,25 +111,10 @@
     <ClCompile Include="idlib\math\Simd.cpp">
       <Filter>Math</Filter>
     </ClCompile>
-    <ClCompile Include="idlib\math\Simd_3DNow.cpp">
-      <Filter>Math</Filter>
-    </ClCompile>
-    <ClCompile Include="idlib\math\Simd_AltiVec.cpp">
-      <Filter>Math</Filter>
-    </ClCompile>
     <ClCompile Include="idlib\math\Simd_Generic.cpp">
       <Filter>Math</Filter>
     </ClCompile>
-    <ClCompile Include="idlib\math\Simd_MMX.cpp">
-      <Filter>Math</Filter>
-    </ClCompile>
     <ClCompile Include="idlib\math\Simd_SSE.cpp">
-      <Filter>Math</Filter>
-    </ClCompile>
-    <ClCompile Include="idlib\math\Simd_SSE2.cpp">
-      <Filter>Math</Filter>
-    </ClCompile>
-    <ClCompile Include="idlib\math\Simd_SSE3.cpp">
       <Filter>Math</Filter>
     </ClCompile>
     <ClCompile Include="idlib\math\Vector.cpp">
@@ -158,15 +146,32 @@
     <ClCompile Include="idlib\MapFile.cpp" />
     <ClCompile Include="idlib\precompiled.cpp" />
     <ClCompile Include="idlib\Timer.cpp" />
+    <ClCompile Include="idlib\Thread.cpp" />
+    <ClCompile Include="idlib\sys\win32\win_thread.cpp">
+      <Filter>Sys\Win32</Filter>
+    </ClCompile>
+    <ClCompile Include="idlib\CommandLink.cpp" />
+    <ClCompile Include="idlib\sys\sys_assert.cpp">
+      <Filter>Sys</Filter>
+    </ClCompile>
+    <ClCompile Include="idlib\geometry\RenderMatrix.cpp">
+      <Filter>Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="idlib\RectAllocator.cpp" />
+    <ClCompile Include="idlib\ParallelJobList.cpp" />
+    <ClCompile Include="idlib\SoftwareCache.cpp" />
+    <ClCompile Include="idlib\math\MatX.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="idlib\math\VecX.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="idlib\bv\Bounds.h">
       <Filter>BV</Filter>
     </ClInclude>
     <ClInclude Include="idlib\bv\Box.h">
-      <Filter>BV</Filter>
-    </ClInclude>
-    <ClInclude Include="idlib\bv\Frustum.h">
       <Filter>BV</Filter>
     </ClInclude>
     <ClInclude Include="idlib\bv\Sphere.h">
@@ -298,25 +303,10 @@
     <ClInclude Include="idlib\math\Simd.h">
       <Filter>Math</Filter>
     </ClInclude>
-    <ClInclude Include="idlib\math\Simd_3DNow.h">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="idlib\math\Simd_AltiVec.h">
-      <Filter>Math</Filter>
-    </ClInclude>
     <ClInclude Include="idlib\math\Simd_Generic.h">
       <Filter>Math</Filter>
     </ClInclude>
-    <ClInclude Include="idlib\math\Simd_MMX.h">
-      <Filter>Math</Filter>
-    </ClInclude>
     <ClInclude Include="idlib\math\Simd_SSE.h">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="idlib\math\Simd_SSE2.h">
-      <Filter>Math</Filter>
-    </ClInclude>
-    <ClInclude Include="idlib\math\Simd_SSE3.h">
       <Filter>Math</Filter>
     </ClInclude>
     <ClInclude Include="idlib\math\Vector.h">
@@ -348,5 +338,60 @@
     <ClInclude Include="idlib\MapFile.h" />
     <ClInclude Include="idlib\precompiled.h" />
     <ClInclude Include="idlib\Timer.h" />
+    <ClInclude Include="idlib\sys\sys_includes.h">
+      <Filter>Sys</Filter>
+    </ClInclude>
+    <ClInclude Include="idlib\sys\sys_builddefines.h">
+      <Filter>Sys</Filter>
+    </ClInclude>
+    <ClInclude Include="idlib\sys\sys_defines.h">
+      <Filter>Sys</Filter>
+    </ClInclude>
+    <ClInclude Include="idlib\StrStatic.h">
+      <Filter>Text</Filter>
+    </ClInclude>
+    <ClInclude Include="idlib\Thread.h" />
+    <ClInclude Include="idlib\sys\sys_threading.h">
+      <Filter>Sys</Filter>
+    </ClInclude>
+    <ClInclude Include="idlib\containers\Sort.h">
+      <Filter>Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="idlib\sys\sys_assert.h">
+      <Filter>Sys</Filter>
+    </ClInclude>
+    <ClInclude Include="idlib\sys\sys_types.h">
+      <Filter>Sys</Filter>
+    </ClInclude>
+    <ClInclude Include="idlib\geometry\RenderMatrix.h">
+      <Filter>Geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="idlib\sys\sys_intrinsics.h">
+      <Filter>Sys</Filter>
+    </ClInclude>
+    <ClInclude Include="idlib\Swap.h" />
+    <ClInclude Include="idlib\containers\Array.h">
+      <Filter>Containers</Filter>
+    </ClInclude>
+    <ClInclude Include="idlib\SoftwareCache.h" />
+    <ClInclude Include="idlib\sys\sys_alloc_tags.h">
+      <Filter>Sys</Filter>
+    </ClInclude>
+    <ClInclude Include="idlib\Callback.h" />
+    <ClInclude Include="idlib\DataQueue.h" />
+    <ClInclude Include="idlib\sys\sys_filesystem.h">
+      <Filter>Sys</Filter>
+    </ClInclude>
+    <ClInclude Include="idlib\ParallelJobList.h" />
+    <ClInclude Include="idlib\ParallelJobList_JobHeaders.h" />
+    <ClInclude Include="idlib\math\MatX.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="idlib\math\VecX.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="idlib\geometry\DrawVert_intrinsics.h">
+      <Filter>Geometry</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

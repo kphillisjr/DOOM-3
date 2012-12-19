@@ -6,11 +6,12 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <PreprocessorDefinitions>__DOOM__;GAME_DLL;_D3XP;CTF;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>__DOOM__;_D3XP;CTF;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Use</PrecompiledHeader>
     </ClCompile>
     <Link>
-      <OutputFile>$(OutDir)gamex86.dll</OutputFile>
+      <OutputFile Condition="'$(Platform)'=='Win32'">$(OutDir)gamex86.dll</OutputFile>
       <ModuleDefinitionFile>.\d3xp\game.def</ModuleDefinitionFile>
     </Link>
     <PreBuildEvent>

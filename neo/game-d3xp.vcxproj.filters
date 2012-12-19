@@ -16,6 +16,9 @@
     <Filter Include="Script">
       <UniqueIdentifier>{2024018a-67e2-4afd-8499-38ccbe8fc1aa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Menus">
+      <UniqueIdentifier>{1549e84e-5718-4759-a11d-416cc73ac087}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="d3xp\ai\AAS.cpp">
@@ -48,16 +51,10 @@
     <ClCompile Include="d3xp\anim\Anim_Blend.cpp">
       <Filter>Animation</Filter>
     </ClCompile>
-    <ClCompile Include="d3xp\anim\Anim_Import.cpp">
-      <Filter>Animation</Filter>
-    </ClCompile>
     <ClCompile Include="d3xp\anim\Anim_Testmodel.cpp">
       <Filter>Animation</Filter>
     </ClCompile>
     <ClCompile Include="d3xp\gamesys\Class.cpp">
-      <Filter>GameSys</Filter>
-    </ClCompile>
-    <ClCompile Include="d3xp\gamesys\DebugGraph.cpp">
       <Filter>GameSys</Filter>
     </ClCompile>
     <ClCompile Include="d3xp\gamesys\Event.cpp">
@@ -70,9 +67,6 @@
       <Filter>GameSys</Filter>
     </ClCompile>
     <ClCompile Include="d3xp\gamesys\SysCvar.cpp">
-      <Filter>GameSys</Filter>
-    </ClCompile>
-    <ClCompile Include="d3xp\gamesys\TypeInfo.cpp">
       <Filter>GameSys</Filter>
     </ClCompile>
     <ClCompile Include="d3xp\physics\Clip.cpp">
@@ -162,7 +156,6 @@
     <ClCompile Include="d3xp\Player.cpp" />
     <ClCompile Include="d3xp\PlayerIcon.cpp" />
     <ClCompile Include="d3xp\PlayerView.cpp" />
-    <ClCompile Include="idlib\precompiled.cpp" />
     <ClCompile Include="d3xp\Projectile.cpp" />
     <ClCompile Include="d3xp\Pvs.cpp" />
     <ClCompile Include="d3xp\SecurityCamera.cpp" />
@@ -172,6 +165,184 @@
     <ClCompile Include="d3xp\Trigger.cpp" />
     <ClCompile Include="d3xp\Weapon.cpp" />
     <ClCompile Include="d3xp\WorldSpawn.cpp" />
+    <ClCompile Include="d3xp\Achievements.cpp" />
+    <ClCompile Include="d3xp\AimAssist.cpp" />
+    <ClCompile Include="d3xp\Leaderboards.cpp" />
+    <ClCompile Include="d3xp\menus\MenuHandler.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuHandler_PDA.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuHandler_Shell.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuScreen.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuScreen_PDA_Inventory.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuScreen_PDA_UserData.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuScreen_PDA_UserEmails.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuScreen_PDA_VideoDisks.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuWidget.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuWidget_Button.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuWidget_CommandBar.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuWidget_Help.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuWidget_List.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuWidget_DynamicList.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuWidget_PDA_UserData.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuWidget_Scrollbar.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuWidget_NavBar.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuWidget_NavButton.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuWidget_PDA_Objective.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuWidget_PDA_AudioFiles.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuWidget_PDA_EmailInbox.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuWidget_InfoBox.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuWidget_PDA_VideoInfo.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuWidget_Carousel.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuWidget_ItemAssignment.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuScreen_Shell_PressStart.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuScreen_Shell_Root.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuScreen_Shell_Singleplayer.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuScreen_Shell_Settings.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuScreen_Shell_Load.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuWidget_Shell_SaveInfo.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuScreen_Shell_NewGame.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuScreen_Shell_GameOptions.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuScreen_Shell_SystemOptions.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuScreen_Shell_PartyLobby.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuScreen_Shell_GameLobby.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuScreen_Shell_Pause.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuScreen_Shell_Save.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuScreen_Shell_Stereoscopics.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\precompiled.cpp" />
+    <ClCompile Include="d3xp\menus\MenuScreen_Shell_ControllerLayout.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuWidget_MenuBar.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuScreen_Shell_Controls.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuScreen_Shell_Dev.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuScreen_HUD.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuHandler_HUD.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuScreen_Shell_Bindings.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuWidget_LobbyList.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuHandler_Scoreboard.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuScreen_Scoreboard.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuScreen_Shell_Browser.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuScreen_Shell_Difficulty.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuScreen_Shell_Gamepad.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuScreen_Shell_Leaderboards.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuScreen_Shell_MatchSettings.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuScreen_Shell_ModeSelect.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuScreen_Shell_Playstation.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuScreen_Shell_Resolution.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="d3xp\menus\MenuScreen_Shell_Credits.cpp">
+      <Filter>Menus</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="d3xp\ai\AAS.h">
@@ -192,13 +363,7 @@
     <ClInclude Include="d3xp\gamesys\Class.h">
       <Filter>GameSys</Filter>
     </ClInclude>
-    <ClInclude Include="d3xp\gamesys\DebugGraph.h">
-      <Filter>GameSys</Filter>
-    </ClInclude>
     <ClInclude Include="d3xp\gamesys\Event.h">
-      <Filter>GameSys</Filter>
-    </ClInclude>
-    <ClInclude Include="d3xp\gamesys\NoGameTypeInfo.h">
       <Filter>GameSys</Filter>
     </ClInclude>
     <ClInclude Include="d3xp\gamesys\SaveGame.h">
@@ -306,6 +471,20 @@
     <ClInclude Include="d3xp\Trigger.h" />
     <ClInclude Include="d3xp\Weapon.h" />
     <ClInclude Include="d3xp\WorldSpawn.h" />
+    <ClInclude Include="d3xp\Achievements.h" />
+    <ClInclude Include="d3xp\AimAssist.h" />
+    <ClInclude Include="d3xp\Leaderboards.h" />
+    <ClInclude Include="d3xp\menus\MenuHandler.h">
+      <Filter>Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="d3xp\menus\MenuScreen.h">
+      <Filter>Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="d3xp\menus\MenuWidget.h">
+      <Filter>Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="d3xp\PredictedValue.h" />
+    <ClInclude Include="d3xp\PredictedValue_impl.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="d3xp\Game.def" />

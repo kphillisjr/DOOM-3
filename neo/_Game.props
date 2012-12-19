@@ -6,13 +6,13 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <PreprocessorDefinitions>__DOOM__;GAME_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>__DOOM__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PrecompiledHeader>
       </PrecompiledHeader>
     </ClCompile>
     <Link>
-      <OutputFile>$(OutDir)gamex86.dll</OutputFile>
+      <OutputFile Condition="'$(Platform)'=='Win32'">$(OutDir)gamex86.dll</OutputFile>
       <ModuleDefinitionFile>.\game\game.def</ModuleDefinitionFile>
     </Link>
     <PreBuildEvent>
